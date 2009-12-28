@@ -1,0 +1,14 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+ * Парсер DCM-файлов
+ * БД для хранения мета информации
+ * WEB-поисковик
+ * Репликатор DCM-файлов (на сервера подразделений)
+ * Формирование заданий на исследования WorkSCP
