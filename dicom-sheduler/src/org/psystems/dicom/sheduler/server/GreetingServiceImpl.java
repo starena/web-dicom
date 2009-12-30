@@ -28,7 +28,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	private String framework = "embedded";
 	private String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+//	private String driver = "org.apache.derby.jdbc.ClientDriver";
 	private String protocol = "jdbc:derby:ttt/";
+//	private String protocol = "dbc:derby://localhost:1527/";
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
