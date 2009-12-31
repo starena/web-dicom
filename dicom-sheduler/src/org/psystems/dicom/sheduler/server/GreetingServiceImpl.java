@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,7 +18,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.apache.derby.drda.NetworkServerControl;
 import org.psystems.dicom.sheduler.client.GreetingService;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -26,20 +30,42 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
+	// http://db.apache.org/derby/docs/dev/adminguide/adminguide-single.html#cadminov17524
+	// http://db.apache.org/derby/javadoc/publishedapi/jdbc4/org/apache/derby/drda/NetworkServerControl.html
 	private String framework = "embedded";
-	private String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-//	private String driver = "org.apache.derby.jdbc.ClientDriver";
-	private String protocol = "jdbc:derby:ttt/";
-//	private String protocol = "dbc:derby://localhost:1527/";
+	// private String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+	private String driver = "org.apache.derby.jdbc.ClientDriver";
+//	private String protocol = "jdbc:derby:ttt/";
+
+	 private String protocol = "jdbc:derby://localhost:1527/ttttt/";
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
 		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 
+		startNetworkServer();
+		loadDriver();
 		createDb();
 
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
+	}
+
+	private void startNetworkServer() {
+		// TODO Auto-generated method stub
+		NetworkServerControl server;
+		try {
+			server = new NetworkServerControl(InetAddress
+					.getByName("localhost"), 1527);
+			server.start(null);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void createDb() {
@@ -55,8 +81,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				if (s1 != null)
 					sql += s1 + "\n";
 			}
-
-			loadDriver();
 
 			createSchema(sql);
 
@@ -81,7 +105,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		 * because we want the source to support J2SE 1.4.2 environments.
 		 */
 		ArrayList statements = new ArrayList(); // list of Statements,
-												// PreparedStatements
+		// PreparedStatements
 		PreparedStatement psInsert = null;
 		PreparedStatement psUpdate = null;
 		Statement s = null;
@@ -115,8 +139,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			 * the system property derby.system.home points to, or the current
 			 * directory (user.dir) if derby.system.home is not set.
 			 */
+			
 			conn = DriverManager.getConnection(protocol + dbName
 					+ ";create=true", props);
+			
+//			conn = DriverManager.getConnection(protocol
+//					+ ";create=true", props);
 
 			System.out.println("Connected to and created database " + dbName);
 
