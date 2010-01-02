@@ -10,5 +10,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface ShedulerService extends RemoteService {
 	String greetServer(String name);
 
+	String startDB();
+	
 	String stopDB();
 }

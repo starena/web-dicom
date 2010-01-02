@@ -43,9 +43,9 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements
 		String serverInfo = getServletContext().getServerInfo();
 		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 
-		startNetworkServer();
-		loadDriver();
-		createDb();
+//		startDB();
+//		loadDriver();
+//		createDb();
 
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
@@ -54,14 +54,7 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements
 	
 
 	@Override
-	public String stopDB() {
-		return "stopped";
-	}
-
-
-
-	private void startNetworkServer() {
-		// TODO Auto-generated method stub
+	public String startDB() {
 		NetworkServerControl server;
 		try {
 			server = new NetworkServerControl(InetAddress
@@ -74,8 +67,30 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		return "STARTED";
 	}
+
+
+
+	@Override
+	public String stopDB() {
+		NetworkServerControl server;
+		try {
+			server = new NetworkServerControl(InetAddress
+					.getByName("localhost"), 1527);
+			server.shutdown();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "stopped";
+	}
+
+
+
 
 	private void createDb() {
 
