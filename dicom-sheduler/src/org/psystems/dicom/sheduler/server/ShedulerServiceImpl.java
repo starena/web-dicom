@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.derby.drda.NetworkServerControl;
-import org.psystems.dicom.sheduler.client.GreetingService;
+import org.psystems.dicom.sheduler.client.ShedulerService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -27,8 +27,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-		GreetingService {
+public class ShedulerServiceImpl extends RemoteServiceServlet implements
+		ShedulerService {
 
 	// http://db.apache.org/derby/docs/dev/adminguide/adminguide-single.html#cadminov17524
 	// http://db.apache.org/derby/javadoc/publishedapi/jdbc4/org/apache/derby/drda/NetworkServerControl.html
@@ -50,6 +50,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
 	}
+	
+	
+
+	@Override
+	public String stopDB() {
+		return "stopped";
+	}
+
+
 
 	private void startNetworkServer() {
 		// TODO Auto-generated method stub
