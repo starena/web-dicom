@@ -8,5 +8,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface ShedulerServiceAsync {
 	void greetServer(String input, AsyncCallback<String> callback);
 
+	void startDB(AsyncCallback<String> callback);
+
 	void stopDB(AsyncCallback<String> callback);
+
 }

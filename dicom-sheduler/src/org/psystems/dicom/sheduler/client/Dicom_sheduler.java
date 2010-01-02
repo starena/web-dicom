@@ -53,9 +53,38 @@ public class Dicom_sheduler implements EntryPoint {
 		nameField.setFocus(true);
 		nameField.selectAll();
 
+		
+		VerticalPanel vp = new VerticalPanel();
+		RootPanel.get("testContainer").add(vp);
+		
+		Button startDBButton = new Button("start");
+		vp.add(startDBButton);
+		startDBButton.addStyleName("sendButton");
+		
+		
+		startDBButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				shedulerService.startDB(new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+
+					}
+
+					public void onSuccess(String result) {
+						System.out.println("RESULT: " + result);
+					}
+				});
+
+			}
+
+		});
+
 		Button stopDBButton = new Button("stop");
+		vp.add(stopDBButton);
 		stopDBButton.addStyleName("sendButton");
-		RootPanel.get("testContainer").add(stopDBButton);
+		
+		
 		stopDBButton.addClickHandler(new ClickHandler() {
 
 			@Override
