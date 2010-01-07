@@ -1,8 +1,10 @@
 package org.psystems.dicom.sheduler.server;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -27,38 +29,64 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class ShedulerServiceImpl extends RemoteServiceServlet implements
-		ShedulerService {
+public class ShedulerServiceImpl extends RemoteServiceServlet implements ShedulerService {
 
 	// http://db.apache.org/derby/docs/dev/adminguide/adminguide-single.html#cadminov17524
 	// http://db.apache.org/derby/javadoc/publishedapi/jdbc4/org/apache/derby/drda/NetworkServerControl.html
 	private String framework = "embedded";
 	// private String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 	private String driver = "org.apache.derby.jdbc.ClientDriver";
-//	private String protocol = "jdbc:derby:ttt/";
+	// private String protocol = "jdbc:derby:ttt/";
 
-	 private String protocol = "jdbc:derby://localhost:1527/ttttt/";
+	private String protocol = "jdbc:derby://localhost:1527/ttttt/";
+	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/testdata/2009-12-16/2009-12-16";
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
 		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 
-//		startDB();
-//		loadDriver();
-//		createDb();
+		File f = new File(rootDicomFilesDir );
+		if (f.isDirectory()) {
+			
+			//filter files for extension *.dcm
+			FilenameFilter filter = new FilenameFilter() {
+
+				@Override
+				public boolean accept(File dir, String name) {
+					if (name.endsWith(".dcm")) {
+						return true;
+					}
+					return false;
+				}
+
+			};
+			File[] files = f.listFiles(filter);
+			for (int i = 0; i < files.length; i++) {
+				System.out.println("FILE=" + files[i]);
+				try {
+					
+//					DCMUtil.convert(files[i], new File(files[i].getAbsolutePath() + ".jpg"));
+					DCMUtil.printTags(files[i]);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		// startDB();
+		// loadDriver();
+		// createDb();
 
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
 	}
-	
-	
 
 	@Override
 	public String startDB() {
 		NetworkServerControl server;
 		try {
-			server = new NetworkServerControl(InetAddress
-					.getByName("localhost"), 1527);
+			server = new NetworkServerControl(InetAddress.getByName("localhost"), 1527);
 			server.start(null);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -70,14 +98,11 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements
 		return "STARTED";
 	}
 
-
-
 	@Override
 	public String stopDB() {
 		NetworkServerControl server;
 		try {
-			server = new NetworkServerControl(InetAddress
-					.getByName("localhost"), 1527);
+			server = new NetworkServerControl(InetAddress.getByName("localhost"), 1527);
 			server.shutdown();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -86,17 +111,14 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return "stopped";
 	}
-
-
-
 
 	private void createDb() {
 
 		try {
-			Reader reader = new InputStreamReader(
-					new FileInputStream("db.sql"), "WINDOWS-1251");
+			Reader reader = new InputStreamReader(new FileInputStream("db.sql"), "WINDOWS-1251");
 			BufferedReader d = new BufferedReader(reader);
 			String sql = "";
 			String s1 = d.readLine();
@@ -163,12 +185,11 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements
 			 * the system property derby.system.home points to, or the current
 			 * directory (user.dir) if derby.system.home is not set.
 			 */
-			
-			conn = DriverManager.getConnection(protocol + dbName
-					+ ";create=true", props);
-			
-//			conn = DriverManager.getConnection(protocol
-//					+ ";create=true", props);
+
+			conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
+
+			// conn = DriverManager.getConnection(protocol
+			// + ";create=true", props);
 
 			System.out.println("Connected to and created database " + dbName);
 
@@ -204,12 +225,10 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements
 			System.err.println("Please check your CLASSPATH.");
 			cnfe.printStackTrace(System.err);
 		} catch (InstantiationException ie) {
-			System.err.println("\nUnable to instantiate the JDBC driver "
-					+ driver);
+			System.err.println("\nUnable to instantiate the JDBC driver " + driver);
 			ie.printStackTrace(System.err);
 		} catch (IllegalAccessException iae) {
-			System.err.println("\nNot allowed to access the JDBC driver "
-					+ driver);
+			System.err.println("\nNot allowed to access the JDBC driver " + driver);
 			iae.printStackTrace(System.err);
 		}
 	}
