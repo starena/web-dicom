@@ -74,9 +74,9 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 			}
 		}
 
-		// startDB();
-		// loadDriver();
-		// createDb();
+		 startDB();
+		 loadDriver();
+		 createDb();
 
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
