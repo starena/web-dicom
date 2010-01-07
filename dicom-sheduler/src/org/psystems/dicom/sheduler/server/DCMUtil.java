@@ -112,7 +112,7 @@ public class DCMUtil {
 				}
 				
 				if( tag==1048624) {
-					System.out.println("DateBirth="+element.getValueAsString(cs, element.length()));
+					System.out.println("DateBirth="+element.getValueAsString(cs, element.length())+" == " + element.getDate(false));
 				}
 				
 				if (tag == 524416 || tag == 524417 || tag == 1048592 || tag == 1048608) {

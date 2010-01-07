@@ -39,7 +39,7 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 	// private String protocol = "jdbc:derby:ttt/";
 
 	private String protocol = "jdbc:derby://localhost:1527/ttttt/";
-	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/testdata/2009-12-16/2009-12-16";
+	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/test/testdata/2009-12-16/2009-12-16";
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
