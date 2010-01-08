@@ -32,13 +32,17 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 
 	// http://db.apache.org/derby/docs/dev/adminguide/adminguide-single.html#cadminov17524
 	// http://db.apache.org/derby/javadoc/publishedapi/jdbc4/org/apache/derby/drda/NetworkServerControl.html
-//	private String framework = "embedded";
+	// private String framework = "embedded";
 	// private String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 	private String driver = "org.apache.derby.jdbc.ClientDriver";
 	// private String protocol = "jdbc:derby:ttt/";
 
 	private String protocol = "jdbc:derby://localhost:1527/ttttt/";
-	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/test/testdata/2009-12-16/2009-12-16";//FIXME —читать из конфига
+	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/test/testdata/2009-12-16/2009-12-16";// FIXME
+
+	// —читать
+	// из
+	// конфига
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
@@ -46,45 +50,51 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 
 		startDB();
 		loadDriver();
-		createDb();
+		try {
+			createDb();
 
-		File rootDir = new File(rootDicomFilesDir);
-		if (rootDir.isDirectory()) {
+			File rootDir = new File(rootDicomFilesDir);
+			if (rootDir.isDirectory()) {
 
-			// filter files for extension *.dcm
-			FilenameFilter filter = new FilenameFilter() {
+				// filter files for extension *.dcm
+				FilenameFilter filter = new FilenameFilter() {
 
-				@Override
-				public boolean accept(File dir, String name) {
-					if (name.endsWith(".dcm")) {
-						return true;
+					@Override
+					public boolean accept(File dir, String name) {
+						if (name.endsWith(".dcm")) {
+							return true;
+						}
+						return false;
 					}
-					return false;
-				}
 
-			};
-			File[] files = rootDir.listFiles(filter);
-			for (int i = 0; i < files.length; i++) {
-				System.out.println("FILE=" + files[i]);
-				try {
+				};
+				File[] files = rootDir.listFiles(filter);
+				for (int i = 0; i < files.length; i++) {
+					System.out.println("FILE=" + files[i]);
+					try {
 
-					// DCMUtil.convert(files[i], new
-					// DCMUtil.printTags(files[i]);
+						// DCMUtil.convert(files[i], new
+						// DCMUtil.printTags(files[i]);
 
-					DicomObjectWrapper proxy = DCMUtil.getDCMObject(rootDir, files[i]);
+						DicomObjectWrapper proxy = DCMUtil.getDCMObject(rootDir, files[i]);
 
-					insertData(proxy.getDCM_FILE_NAME(), proxy.getPATIENT_NAME(), proxy
-							.getPATIENT_BIRTH_DATE(), proxy.getSTUDY_DATE());
+						insertData(proxy.getDCM_FILE_NAME(), proxy.getPATIENT_NAME(), proxy
+								.getPATIENT_BIRTH_DATE(), proxy.getSTUDY_DATE());
 
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
+
+		} catch (SQLException sqle) {
+			printSQLException(sqle);
 		}
 
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
+
 	}
 
 	@Override
@@ -120,7 +130,7 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 		return "stopped";
 	}
 
-	private void createDb() {
+	private void createDb() throws SQLException {
 
 		try {
 			Reader reader = new InputStreamReader(new FileInputStream("db.sql"), "WINDOWS-1251");
@@ -149,62 +159,48 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 	}
 
 	private void insertData(String DCM_FILE_NAME, String PATIENT_NAME, Date PATIENT_BIRTH_DATE,
-			Date STUDY_DATE) {
+			Date STUDY_DATE) throws SQLException {
 		Connection conn = null;
 		PreparedStatement psInsert = null;
-		try {
-			Properties props = new Properties(); // connection properties
-			props.put("user", "user1");
-			props.put("password", "user1");
-			String dbName = "derbyDBTEST"; // the name of the database
-			conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
-			conn.setAutoCommit(false);
 
-			psInsert = conn.prepareStatement("insert into webdicom.dcmfile"
-					+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)"
-					+ " values (?, ?, ?, ?)");
+		Properties props = new Properties(); // connection properties
+		props.put("user", "user1");
+		props.put("password", "user1");
+		String dbName = "derbyDBTEST"; // the name of the database
+		conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
+		conn.setAutoCommit(false);
 
-			psInsert.setString(1, DCM_FILE_NAME);
-			psInsert.setDate(2, PATIENT_BIRTH_DATE);
-			psInsert.setString(3, PATIENT_NAME);
-			psInsert.setDate(4, STUDY_DATE);
+		psInsert = conn.prepareStatement("insert into webdicom.dcmfile"
+				+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)" + " values (?, ?, ?, ?)");
 
-			psInsert.executeUpdate();
+		psInsert.setString(1, DCM_FILE_NAME);
+		psInsert.setDate(2, PATIENT_BIRTH_DATE);
+		psInsert.setString(3, PATIENT_NAME);
+		psInsert.setDate(4, STUDY_DATE);
 
-			conn.commit();
-		} catch (SQLException sqle) {
-			printSQLException(sqle);
-		}
+		psInsert.executeUpdate();
 
+		conn.commit();
 	}
 
-	private void createSchema(String sql) {
+	private void createSchema(String sql) throws SQLException {
 		Connection conn = null;
 		Statement s = null;
-		try {
-			Properties props = new Properties(); // connection properties
-			// providing a user name and password is optional in the embedded
-			// and derbyclient frameworks
-			props.put("user", "user1"); // FIXME —читать из конфига
-			props.put("password", "user1"); // FIXME —читать из конфига
 
-			String dbName = "derbyDBTEST"; // the name of the database
-			conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
+		Properties props = new Properties(); // connection properties
+		// providing a user name and password is optional in the embedded
+		// and derbyclient frameworks
+		props.put("user", "user1"); // FIXME —читать из конфига
+		props.put("password", "user1"); // FIXME —читать из конфига
 
-			System.out.println("Connected to and created database " + dbName);
+		String dbName = "derbyDBTEST"; // the name of the database
+		conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
 
-			conn.setAutoCommit(false);
-			s = conn.createStatement();
-			s.execute(sql);
+		conn.setAutoCommit(false);
+		s = conn.createStatement();
+		s.execute(sql);
 
-			System.out.println("SQL: " + sql);
-
-			conn.commit();
-
-		} catch (SQLException sqle) {
-			printSQLException(sqle);
-		}
-
+		conn.commit();
 	}
 
 	private void loadDriver() {
