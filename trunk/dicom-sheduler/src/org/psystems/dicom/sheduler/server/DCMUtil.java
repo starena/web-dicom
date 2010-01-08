@@ -164,7 +164,13 @@ public class DCMUtil {
 
 	}
 
-	public static DicomObjectWrapper getDCMObject(File dcmFile) throws IOException {
+	/**
+	 * @param rootDir
+	 * @param dcmFile
+	 * @return
+	 * @throws IOException
+	 */
+	public static DicomObjectWrapper getDCMObject(File rootDir, File dcmFile) throws IOException {
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		try {
@@ -178,9 +184,9 @@ public class DCMUtil {
 		String patName = element.getValueAsString(cs, element.length());
 		
 		
-			
+		
 		DicomObjectWrapper proxy = new DicomObjectWrapper();
-		proxy.setDCM_FILE_NAME(dcmFile.getName());//FIXME сделать относительный путь
+		proxy.setDCM_FILE_NAME(dcmFile.getParentFile().getName() +  File.separator + dcmFile.getName());//FIXME сделать относительный путь
 		proxy.setPATIENT_NAME(patName);
 		proxy.setPATIENT_BIRTH_DATE(new java.sql.Date(birthDate.getTime()));
 		proxy.setSTUDY_DATE(new java.sql.Date(birthDate.getTime()));

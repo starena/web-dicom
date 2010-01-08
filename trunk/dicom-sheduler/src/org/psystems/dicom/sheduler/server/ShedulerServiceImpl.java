@@ -15,10 +15,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.derby.drda.NetworkServerControl;
@@ -34,13 +32,13 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 
 	// http://db.apache.org/derby/docs/dev/adminguide/adminguide-single.html#cadminov17524
 	// http://db.apache.org/derby/javadoc/publishedapi/jdbc4/org/apache/derby/drda/NetworkServerControl.html
-	private String framework = "embedded";
+//	private String framework = "embedded";
 	// private String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 	private String driver = "org.apache.derby.jdbc.ClientDriver";
 	// private String protocol = "jdbc:derby:ttt/";
 
 	private String protocol = "jdbc:derby://localhost:1527/ttttt/";
-	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/test/testdata/2009-12-16/2009-12-16";
+	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/test/testdata/2009-12-16/2009-12-16";//FIXME —читать из конфига
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
@@ -50,8 +48,8 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 		loadDriver();
 		createDb();
 
-		File f = new File(rootDicomFilesDir);
-		if (f.isDirectory()) {
+		File rootDir = new File(rootDicomFilesDir);
+		if (rootDir.isDirectory()) {
 
 			// filter files for extension *.dcm
 			FilenameFilter filter = new FilenameFilter() {
@@ -65,21 +63,19 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 				}
 
 			};
-			File[] files = f.listFiles(filter);
+			File[] files = rootDir.listFiles(filter);
 			for (int i = 0; i < files.length; i++) {
 				System.out.println("FILE=" + files[i]);
 				try {
 
 					// DCMUtil.convert(files[i], new
-					// File(files[i].getAbsolutePath() + ".jpg"));
-//					DCMUtil.printTags(files[i]);
-					
-					
-					DicomObjectWrapper proxy = DCMUtil.getDCMObject(files[i]);
-					
-					insertData(proxy.getDCM_FILE_NAME(), proxy.getPATIENT_NAME(), 
-							proxy.getPATIENT_BIRTH_DATE(), proxy.getSTUDY_DATE());
-					
+					// DCMUtil.printTags(files[i]);
+
+					DicomObjectWrapper proxy = DCMUtil.getDCMObject(rootDir, files[i]);
+
+					insertData(proxy.getDCM_FILE_NAME(), proxy.getPATIENT_NAME(), proxy
+							.getPATIENT_BIRTH_DATE(), proxy.getSTUDY_DATE());
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -155,12 +151,6 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 	private void insertData(String DCM_FILE_NAME, String PATIENT_NAME, Date PATIENT_BIRTH_DATE,
 			Date STUDY_DATE) {
 		Connection conn = null;
-		/*
-		 * This ArrayList usage may cause a warning when compiling this class
-		 * with a compiler for J2SE 5.0 or newer. We are not using generics
-		 * because we want the source to support J2SE 1.4.2 environments.
-		 */
-		// PreparedStatements
 		PreparedStatement psInsert = null;
 		try {
 			Properties props = new Properties(); // connection properties
@@ -190,72 +180,27 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 
 	private void createSchema(String sql) {
 		Connection conn = null;
-		/*
-		 * This ArrayList usage may cause a warning when compiling this class
-		 * with a compiler for J2SE 5.0 or newer. We are not using generics
-		 * because we want the source to support J2SE 1.4.2 environments.
-		 */
-		ArrayList statements = new ArrayList(); // list of Statements,
-		// PreparedStatements
-		PreparedStatement psInsert = null;
-		PreparedStatement psUpdate = null;
 		Statement s = null;
-		ResultSet rs = null;
 		try {
 			Properties props = new Properties(); // connection properties
 			// providing a user name and password is optional in the embedded
 			// and derbyclient frameworks
-			props.put("user", "user1");
-			props.put("password", "user1");
-
-			/*
-			 * By default, the schema APP will be used when no username is
-			 * provided. Otherwise, the schema name is the same as the user name
-			 * (in this case "user1" or USER1.)
-			 * 
-			 * Note that user authentication is off by default, meaning that any
-			 * user can connect to your database using any password. To enable
-			 * authentication, see the Derby Developer's Guide.
-			 */
+			props.put("user", "user1"); // FIXME —читать из конфига
+			props.put("password", "user1"); // FIXME —читать из конфига
 
 			String dbName = "derbyDBTEST"; // the name of the database
-
-			/*
-			 * This connection specifies create=true in the connection URL to
-			 * cause the database to be created when connecting for the first
-			 * time. To remove the database, remove the directory derbyDB (the
-			 * same as the database name) and its contents.
-			 * 
-			 * The directory derbyDB will be created under the directory that
-			 * the system property derby.system.home points to, or the current
-			 * directory (user.dir) if derby.system.home is not set.
-			 */
-
 			conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
-
-			// conn = DriverManager.getConnection(protocol
-			// + ";create=true", props);
 
 			System.out.println("Connected to and created database " + dbName);
 
-			// We want to control transactions manually. Autocommit is on by
-			// default in JDBC.
 			conn.setAutoCommit(false);
-
-			/*
-			 * Creating a statement object that we can use for running various
-			 * SQL statements commands against the database.
-			 */
 			s = conn.createStatement();
-			statements.add(s);
-
-			// We create a table...
-			// s.execute("create table location(num int, addr varchar(40))");
 			s.execute(sql);
 
 			System.out.println("SQL: " + sql);
 
 			conn.commit();
+
 		} catch (SQLException sqle) {
 			printSQLException(sqle);
 		}
