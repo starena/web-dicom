@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.derby.drda.NetworkServerControl;
@@ -45,10 +46,14 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 		String serverInfo = getServletContext().getServerInfo();
 		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 
-		File f = new File(rootDicomFilesDir );
+		startDB();
+		loadDriver();
+		createDb();
+
+		File f = new File(rootDicomFilesDir);
 		if (f.isDirectory()) {
-			
-			//filter files for extension *.dcm
+
+			// filter files for extension *.dcm
 			FilenameFilter filter = new FilenameFilter() {
 
 				@Override
@@ -64,19 +69,23 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 			for (int i = 0; i < files.length; i++) {
 				System.out.println("FILE=" + files[i]);
 				try {
+
+					// DCMUtil.convert(files[i], new
+					// File(files[i].getAbsolutePath() + ".jpg"));
+//					DCMUtil.printTags(files[i]);
 					
-//					DCMUtil.convert(files[i], new File(files[i].getAbsolutePath() + ".jpg"));
-					DCMUtil.printTags(files[i]);
+					
+					DicomObjectWrapper proxy = DCMUtil.getDCMObject(files[i]);
+					
+					insertData(proxy.getDCM_FILE_NAME(), proxy.getPATIENT_NAME(), 
+							proxy.getPATIENT_BIRTH_DATE(), proxy.getSTUDY_DATE());
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-
-		 startDB();
-		 loadDriver();
-		 createDb();
 
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
@@ -111,7 +120,7 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return "stopped";
 	}
 
@@ -139,6 +148,42 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+
+	}
+
+	private void insertData(String DCM_FILE_NAME, String PATIENT_NAME, Date PATIENT_BIRTH_DATE,
+			Date STUDY_DATE) {
+		Connection conn = null;
+		/*
+		 * This ArrayList usage may cause a warning when compiling this class
+		 * with a compiler for J2SE 5.0 or newer. We are not using generics
+		 * because we want the source to support J2SE 1.4.2 environments.
+		 */
+		// PreparedStatements
+		PreparedStatement psInsert = null;
+		try {
+			Properties props = new Properties(); // connection properties
+			props.put("user", "user1");
+			props.put("password", "user1");
+			String dbName = "derbyDBTEST"; // the name of the database
+			conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
+			conn.setAutoCommit(false);
+
+			psInsert = conn.prepareStatement("insert into webdicom.dcmfile"
+					+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)"
+					+ " values (?, ?, ?, ?)");
+
+			psInsert.setString(1, DCM_FILE_NAME);
+			psInsert.setDate(2, PATIENT_BIRTH_DATE);
+			psInsert.setString(3, PATIENT_NAME);
+			psInsert.setDate(4, STUDY_DATE);
+
+			psInsert.executeUpdate();
+
+			conn.commit();
+		} catch (SQLException sqle) {
+			printSQLException(sqle);
 		}
 
 	}
@@ -207,8 +252,8 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 			// We create a table...
 			// s.execute("create table location(num int, addr varchar(40))");
 			s.execute(sql);
-			
-			System.out.println("SQL: "+sql);
+
+			System.out.println("SQL: " + sql);
 
 			conn.commit();
 		} catch (SQLException sqle) {

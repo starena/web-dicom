@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -73,9 +74,10 @@ public class DCMUtil {
 		try {
 			din = new DicomInputStream(dcmFile);
 			dcmObj = din.readDicomObject();
-//			System.out.println("dcmObj=" + dcmObj);
+			// System.out.println("dcmObj=" + dcmObj);
 
-			DicomObjectToStringParam param = DicomObjectToStringParam.getDefaultParam();
+			// DicomObjectToStringParam param =
+			// DicomObjectToStringParam.getDefaultParam();
 
 			SpecificCharacterSet cs = null;
 
@@ -94,30 +96,30 @@ public class DCMUtil {
 				// sb.append(',');
 				// Object minor = StringUtils.shortToHex(tag, sb);
 
-				
-				
-//				System.out.println("ELT="+tag+" - "+dcmObj.nameOf(tag)+" - "+element.getValueAsString(cs, 100));
-				
+				// System.out.println("ELT="+tag+" - "+dcmObj.nameOf(tag)+" - "+element.getValueAsString(cs,
+				// 100));
+
 				if (tag == Tag.SpecificCharacterSet) {
 					cs = SpecificCharacterSet.valueOf(element.getStrings(null, false));
-					System.out.println("CharSet="+element.getValueAsString(cs, 100));
+					System.out.println("CharSet=" + element.getValueAsString(cs, 100));
 					// String charset = element.getValueAsString(cs,
 					// element.length());
 					// cs = new SpecificCharacterSet("ISO-8859-5");
 				}
 
-				
-				if( tag==1048640) {
-					System.out.println("Sex="+element.getValueAsString(cs, element.length()));
+				if (tag == 1048640) {
+					System.out.println("Sex=" + element.getValueAsString(cs, element.length()));
 				}
-				
-				if( tag==1048624) {
-					System.out.println("DateBirth="+element.getValueAsString(cs, element.length())+" == " + element.getDate(false));
+
+				if (tag == 1048624) {
+					System.out.println("DateBirth=" + element.getValueAsString(cs, element.length()) + " == "
+							+ element.getDate(false));
 					System.out.println("DicomElement (" + major + "," + minor + ") {" + tag + "}  " + " ["
-							+ dcmObj.nameOf(tag) + "]  = " + element.getValueAsString(cs, element.length())+" == " + element.getDate(false));
+							+ dcmObj.nameOf(tag) + "]  = " + element.getValueAsString(cs, element.length())
+							+ " == " + element.getDate(false));
 
 				}
-				
+
 				if (tag == 524416 || tag == 524417 || tag == 1048592 || tag == 1048608) {
 
 					System.out.println("DicomElement (" + major + "," + minor + ") {" + tag + "}  " + " ["
@@ -162,10 +164,42 @@ public class DCMUtil {
 
 	}
 
+	public static DicomObjectWrapper getDCMObject(File dcmFile) throws IOException {
+		DicomObject dcmObj;
+		DicomInputStream din = null;
+		try {
+		din = new DicomInputStream(dcmFile);
+		dcmObj = din.readDicomObject();
+		
+		SpecificCharacterSet cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet).getStrings(null, false));
+		
+		Date birthDate = dcmObj.get(Tag.PatientBirthDate).getDate(false);
+		
+		DicomElement element = dcmObj.get(Tag.PatientName); 
+		String patName = element.getValueAsString(cs, element.length());
+		
+		
+			
+		DicomObjectWrapper proxy = new DicomObjectWrapper();
+		proxy.setDCM_FILE_NAME(dcmFile.getName());//FIXME сделать относительный путь
+		proxy.setPATIENT_NAME(patName);
+		proxy.setPATIENT_BIRTH_DATE(birthDate);
+		proxy.setSTUDY_DATE(birthDate);//FIXME вставитьнужную дату
+		
+		return proxy;
+		} finally {
+			try {
+				if (din != null)
+					din.close();
+			} catch (IOException ignore) {
+			}
+		}
+	}
+
 	/**
 	 * Конвертация DCM-файла в JPEG
 	 * 
-	 * TODO убрать статику из глобальных переменных. 
+	 * TODO убрать статику из глобальных переменных.
 	 * 
 	 * @param src
 	 * @param dest
