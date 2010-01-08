@@ -207,6 +207,8 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 			// We create a table...
 			// s.execute("create table location(num int, addr varchar(40))");
 			s.execute(sql);
+			
+			System.out.println("SQL: "+sql);
 
 			conn.commit();
 		} catch (SQLException sqle) {
