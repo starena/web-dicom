@@ -172,9 +172,8 @@ public class DCMUtil {
 		dcmObj = din.readDicomObject();
 		
 		SpecificCharacterSet cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet).getStrings(null, false));
-		
 		Date birthDate = dcmObj.get(Tag.PatientBirthDate).getDate(false);
-		
+		Date studyDate = dcmObj.get(Tag.StudyDate).getDate(false);
 		DicomElement element = dcmObj.get(Tag.PatientName); 
 		String patName = element.getValueAsString(cs, element.length());
 		
@@ -183,8 +182,8 @@ public class DCMUtil {
 		DicomObjectWrapper proxy = new DicomObjectWrapper();
 		proxy.setDCM_FILE_NAME(dcmFile.getName());//FIXME сделать относительный путь
 		proxy.setPATIENT_NAME(patName);
-		proxy.setPATIENT_BIRTH_DATE(birthDate);
-		proxy.setSTUDY_DATE(birthDate);//FIXME вставитьнужную дату
+		proxy.setPATIENT_BIRTH_DATE(new java.sql.Date(birthDate.getTime()));
+		proxy.setSTUDY_DATE(new java.sql.Date(birthDate.getTime()));
 		
 		return proxy;
 		} finally {

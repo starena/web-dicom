@@ -1,6 +1,8 @@
 package org.psystems.dicom.sheduler.server;
 
-import java.util.Date;
+import java.sql.Date;
+
+
 
 public class DicomObjectWrapper {
 
