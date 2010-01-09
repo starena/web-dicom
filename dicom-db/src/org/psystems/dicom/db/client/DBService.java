@@ -10,7 +10,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface DBService extends RemoteService {
 	String greetServer(String name);
 
-	String startDB();
+	String startDB() throws DefaultGWTRPCException;
 
-	String stopDB();
+	String stopDB() throws DefaultGWTRPCException;
+	
+	String createDB() throws DefaultGWTRPCException;
 }

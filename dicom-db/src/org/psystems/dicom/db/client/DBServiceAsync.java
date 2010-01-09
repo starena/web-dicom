@@ -11,4 +11,6 @@ public interface DBServiceAsync {
 	void startDB(AsyncCallback<String> callback);
 
 	void stopDB(AsyncCallback<String> callback);
+
+	void createDB(AsyncCallback<String> callback);
 }
