@@ -32,6 +32,16 @@ public class Dicom_db implements EntryPoint {
 	 */
 	private final DBServiceAsync dbService = GWT.create(DBService.class);
 
+	private DialogBox errorDialogBox;
+
+	private HTML errorResponseLabel;
+
+	private Button createDBButton;
+
+	private Button stopDBButton;
+
+	private Button startDBButton;
+
 	/**
 	 * This is the entry point method.
 	 */
@@ -56,7 +66,7 @@ public class Dicom_db implements EntryPoint {
 		VerticalPanel vp = new VerticalPanel();
 		RootPanel.get("testContainer").add(vp);
 		
-		Button startDBButton = new Button("start");
+		startDBButton = new Button("DB start");
 		vp.add(startDBButton);
 		startDBButton.addStyleName("sendButton");
 		
@@ -65,13 +75,18 @@ public class Dicom_db implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				startDBButton.setEnabled(false);
+				
 				dbService.startDB(new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
-
+						showErrorDlg((DefaultGWTRPCException) caught);
+						startDBButton.setEnabled(true);
 					}
 
 					public void onSuccess(String result) {
-						System.out.println("RESULT: " + result);
+						startDBButton.setEnabled(true);
+//						System.out.println("RESULT: " + result);
 					}
 				});
 
@@ -79,7 +94,7 @@ public class Dicom_db implements EntryPoint {
 
 		});
 
-		Button stopDBButton = new Button("stop");
+		stopDBButton = new Button("DB stop");
 		vp.add(stopDBButton);
 		stopDBButton.addStyleName("sendButton");
 		
@@ -88,13 +103,46 @@ public class Dicom_db implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				stopDBButton.setEnabled(false);
+				
 				dbService.stopDB(new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
-
+						showErrorDlg((DefaultGWTRPCException) caught);
+						stopDBButton.setEnabled(true);
 					}
 
 					public void onSuccess(String result) {
-						System.out.println("RESULT: " + result);
+//						System.out.println("RESULT: " + result);
+						stopDBButton.setEnabled(true);
+					}
+				});
+
+			}
+
+		});
+		
+		createDBButton = new Button("DB create");
+		vp.add(createDBButton);
+		createDBButton.addStyleName("sendButton");
+		
+		
+		createDBButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				createDBButton.setEnabled(false);
+				
+				dbService.createDB(new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						showErrorDlg((DefaultGWTRPCException) caught);
+						createDBButton.setEnabled(true);
+					}
+
+					public void onSuccess(String result) {
+//						System.out.println("RESULT: " + result);
+						createDBButton.setEnabled(true);
 					}
 				});
 
@@ -103,6 +151,45 @@ public class Dicom_db implements EntryPoint {
 		});
 
 		createDlg(sendButton, nameField);
+		createErorrDlg();
+		
+	}
+	
+	private void showErrorDlg(DefaultGWTRPCException e) {
+		errorResponseLabel.setHTML("Ошибка: " + e.getText());
+		errorDialogBox.show();
+		errorDialogBox.center();
+		
+	}
+	
+	/**
+	 * 
+	 */
+	private void createErorrDlg() {
+		errorDialogBox = new DialogBox();
+		errorDialogBox.setText("Ошибка!");
+		errorDialogBox.setAnimationEnabled(true);
+		final Button closeButton = new Button("Close");
+		// We can set the id of a widget by accessing its Element
+		closeButton.getElement().setId("closeButton");
+		final Label textToServerLabel = new Label();
+		errorResponseLabel = new HTML();
+		VerticalPanel dialogVPanel = new VerticalPanel();
+		dialogVPanel.addStyleName("dialogVPanel");
+	
+		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
+		dialogVPanel.add(errorResponseLabel);
+		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+		dialogVPanel.add(closeButton);
+		errorDialogBox.setWidget(dialogVPanel);
+
+		// Add a handler to close the DialogBox
+		closeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				errorDialogBox.hide();
+			}
+		});
+
 	}
 
 	private void createDlg(final Button sendButton, final TextBox nameField) {

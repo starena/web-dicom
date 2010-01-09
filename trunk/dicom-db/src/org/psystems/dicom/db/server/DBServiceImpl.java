@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import org.apache.derby.drda.NetworkServerControl;
 import org.psystems.dicom.db.client.DBService;
+import org.psystems.dicom.db.client.DefaultGWTRPCException;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -26,8 +27,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 
-	private String driver = "org.apache.derby.jdbc.ClientDriver";
-	private String protocol = "jdbc:derby://localhost:1527/ttttt/";
+//	private String driver = "org.apache.derby.jdbc.ClientDriver";
+	private String protocol = "jdbc:derby://localhost:1527//WORKDB/";
+	String dbName = "WEBDICOM"; // the name of the database
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
@@ -37,7 +39,7 @@ public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 	}
 
 	@Override
-	public String startDB() {
+	public String startDB() throws DefaultGWTRPCException {
 		NetworkServerControl server;
 		try {
 			server = new NetworkServerControl(InetAddress.getByName("localhost"), 1527);
@@ -45,15 +47,17 @@ public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
 		}
-		return "STARTED";
+		return "DB STARTED";
 	}
 
 	@Override
-	public String stopDB() {
+	public String stopDB() throws DefaultGWTRPCException {
 		NetworkServerControl server;
 		try {
 			server = new NetworkServerControl(InetAddress.getByName("localhost"), 1527);
@@ -61,16 +65,18 @@ public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
 		}
 
-		return "STOPPED";
+		return "DB STOPPED";
 	}
 
-	private void createDb() throws SQLException {
-
+	@Override
+	public String createDB() throws DefaultGWTRPCException {
 		try {
 			Reader reader = new InputStreamReader(new FileInputStream("db.sql"), "WINDOWS-1251");
 			BufferedReader d = new BufferedReader(reader);
@@ -87,14 +93,22 @@ public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			printSQLException(e);
+			throw new DefaultGWTRPCException(e.getMessage());
 		}
 
+		return "DB CREATED";
 	}
 
 	private void createSchema(String sql) throws SQLException {
@@ -104,10 +118,10 @@ public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 		Properties props = new Properties(); // connection properties
 		// providing a user name and password is optional in the embedded
 		// and derbyclient frameworks
-		props.put("user", "user1"); // FIXME —˜ËÚ‡Ú¸ ËÁ ÍÓÌÙË„‡
-		props.put("password", "user1"); // FIXME —˜ËÚ‡Ú¸ ËÁ ÍÓÌÙË„‡
+		props.put("user", "user1"); //FIXME –í–∑—è—Ç—å –∏–∑ –∫–æ–Ω—Ñ–∏–≥–∞
+		props.put("password", "user1"); // FIXME –í–∑—è—Ç—å –∏–∑ –∫–æ–Ω—Ñ–∏–≥–∞
 
-		String dbName = "derbyDBTEST"; // the name of the database
+		
 		conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
 
 		conn.setAutoCommit(false);
@@ -117,23 +131,23 @@ public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 		conn.commit();
 	}
 
-	private void loadDriver() {
-
-		try {
-			Class.forName(driver).newInstance();
-			System.out.println("Loaded the appropriate driver");
-		} catch (ClassNotFoundException cnfe) {
-			System.err.println("\nUnable to load the JDBC driver " + driver);
-			System.err.println("Please check your CLASSPATH.");
-			cnfe.printStackTrace(System.err);
-		} catch (InstantiationException ie) {
-			System.err.println("\nUnable to instantiate the JDBC driver " + driver);
-			ie.printStackTrace(System.err);
-		} catch (IllegalAccessException iae) {
-			System.err.println("\nNot allowed to access the JDBC driver " + driver);
-			iae.printStackTrace(System.err);
-		}
-	}
+//	private void loadDriver() {
+//
+//		try {
+//			Class.forName(driver).newInstance();
+//			System.out.println("Loaded the appropriate driver");
+//		} catch (ClassNotFoundException cnfe) {
+//			System.err.println("\nUnable to load the JDBC driver " + driver);
+//			System.err.println("Please check your CLASSPATH.");
+//			cnfe.printStackTrace(System.err);
+//		} catch (InstantiationException ie) {
+//			System.err.println("\nUnable to instantiate the JDBC driver " + driver);
+//			ie.printStackTrace(System.err);
+//		} catch (IllegalAccessException iae) {
+//			System.err.println("\nNot allowed to access the JDBC driver " + driver);
+//			iae.printStackTrace(System.err);
+//		}
+//	}
 
 	public static void printSQLException(SQLException e) {
 		// Unwraps the entire exception chain to unveil the real cause of the
