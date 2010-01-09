@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="sheduler" default="build" basedir=".">
+<project name="Dicom_sheduler" default="build" basedir=".">
   <!-- Configure path to GWT SDK -->
   <property name="gwt.sdk" location="C:/eclipse/3.4/plugins/com.google.gwt.eclipse.sdkbundle.2.0.0_2.0.0.v200912070510/gwt-2.0.0" />
 
@@ -39,7 +39,7 @@
       <!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
       <jvmarg value="-Xmx256M"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
-      <arg value="org.psystems.dicom.sheduler"/>
+      <arg value="org.psystems.dicom.sheduler.Dicom_sheduler"/>
     </java>
   </target>
 
@@ -51,9 +51,9 @@
       </classpath>
       <jvmarg value="-Xmx256M"/>
       <arg value="-startupUrl"/>
-      <arg value="sheduler.html"/>
+      <arg value="Dicom_sheduler.html"/>
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
-      <arg value="org.psystems.dicom.sheduler"/>
+      <arg value="org.psystems.dicom.sheduler.Dicom_sheduler"/>
     </java>
   </target>
 
@@ -124,12 +124,12 @@ Test targets suppressed because -junit argument was not specified when running w
   <target name="build" depends="gwtc" description="Build this project" />
 
   <target name="war" depends="build" description="Create a war file">
-    <zip destfile="sheduler.war" basedir="war"/>
+    <zip destfile="Dicom_sheduler.war" basedir="war"/>
   </target>
 
   <target name="clean" description="Cleans this project">
     <delete dir="war/WEB-INF/classes" failonerror="false" />
-    <delete dir="war/sheduler" failonerror="false" />
+    <delete dir="war/dicom_sheduler" failonerror="false" />
   </target>
 
 </project>
