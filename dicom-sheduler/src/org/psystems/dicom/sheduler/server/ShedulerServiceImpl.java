@@ -74,7 +74,7 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 					try {
 
 						// DCMUtil.convert(files[i], new
-						DCMUtil.printTags(files[i]);
+						// DCMUtil.printTags(files[i]);
 
 						DicomObjectWrapper proxy = DCMUtil.getDCMObject(rootDir, files[i]);
 
