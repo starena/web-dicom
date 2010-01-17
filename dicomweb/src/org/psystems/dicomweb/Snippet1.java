@@ -149,16 +149,16 @@ public class Snippet1 {
 
 		// Конвертация картинок
 
-		// try {
-		// System.out.print("converting image..." );
-		// File src = new File("demo/Im00001.dcm");
-		// File dest = new File("demo/Im00001.jpg");
-		// convert(src,dest);
-		// System.out.println("success!" );
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		 try {
+		 System.out.print("converting image..." );
+		 File src = new File("demo/Im00001.dcm");
+		 File dest = new File("demo/Im00001.jpg");
+		 convert(src,dest);
+		 System.out.println("success!" );
+		 } catch (IOException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 }
 
 	}
 
