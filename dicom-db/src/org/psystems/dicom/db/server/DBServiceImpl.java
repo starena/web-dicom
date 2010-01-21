@@ -87,6 +87,7 @@ public class DBServiceImpl extends RemoteServiceServlet implements DBService {
 				if (s1 != null)
 					sql += s1 + "\n";
 			}
+			
 
 			createSchema(sql);
 

@@ -9,6 +9,5 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/derbynet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/derbyrun.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/derbytools.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
