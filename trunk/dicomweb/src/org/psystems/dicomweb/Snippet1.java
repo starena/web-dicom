@@ -79,7 +79,9 @@ public class Snippet1 {
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		try {
-			din = new DicomInputStream(new File("demo/Im00001.dcm"));
+			 
+//			din = new DicomInputStream(new File("demo/Im00001.dcm"));
+			din = new DicomInputStream(new File("demo/6185.bin.dcm"));
 			dcmObj = din.readDicomObject();
 			System.out.println("dcmObj=" + dcmObj);
 
@@ -109,6 +111,11 @@ public class Snippet1 {
 					// String charset = element.getValueAsString(cs,
 					// element.length());
 					// cs = new SpecificCharacterSet("ISO-8859-5");
+					
+					System.out.println("DicomElement (" + major + "," + minor
+							+ ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
+							+ "]  = "
+							+ element.getValueAsString(cs, element.length()));
 				}
 
 				if (tag == 524416 || tag == 524417 || tag == 1048592
@@ -149,16 +156,20 @@ public class Snippet1 {
 
 		// Конвертация картинок
 
-		 try {
-		 System.out.print("converting image..." );
-		 File src = new File("demo/Im00001.dcm");
-		 File dest = new File("demo/Im00001.jpg");
-		 convert(src,dest);
-		 System.out.println("success!" );
-		 } catch (IOException e) {
-		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 }
+//		 try {
+//		 System.out.print("converting image..." );
+//		 
+//		 
+////		 File src = new File("demo/Im00001.dcm");
+////		 File dest = new File("demo/Im00001.jpg");
+//		 File src = new File("demo/6185.bin");
+//		 File dest = new File("demo/6185.jpg");
+//		 convert(src,dest);
+//		 System.out.println("success!" );
+//		 } catch (IOException e) {
+//		 // TODO Auto-generated catch block
+//		 e.printStackTrace();
+//		 }
 
 	}
 
