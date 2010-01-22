@@ -216,13 +216,11 @@ public class Dcm2Dcm {
             for (int i = 1; i < matchingKeys.length; i++, i++) {
                 int[] tag = Tag.toTagPath(matchingKeys[i - 1]);
                 String svalue = matchingKeys[i];
+//                System.out.println("TAG "+tag[0]+"="+svalue);
                 dcm2dcm.overwriteObject.putString(tag, null, svalue);
             }
 
-          
         }
-        
-        
 
         List<String> argList = (List<String>) cl.getArgList();
         int argc = argList.size();
@@ -238,8 +236,6 @@ public class Dcm2Dcm {
                 exit("dcm2dcm: when converting several files, "
                         + "last argument must be a directory\n");
             }
-            
-       
             count = dcm2dcm.mconvert(src, dest);
         }
         long t2 = System.currentTimeMillis();
@@ -303,13 +299,6 @@ public class Dcm2Dcm {
         DicomOutputStream dos = null;
         try {
             DicomObject fmiAttrs = dis.readFileMetaInformation();
-            
-            //TODO хак по кодировке
-            //-s SpecificCharacterSet=ISO_IR144 demo/6185.bin demo/6185.bin.dcm
-            int SpecificCharacterSet_IR_144 = 0x00080005;
-            fmiAttrs.putString(SpecificCharacterSet_IR_144, null, "ISO_IR144");
-            System.out.println("HAK ISO_IR144");
-            
             String sourceSyntaxUid = UID.ImplicitVRLittleEndian;
             if (fmiAttrs != null)
                 sourceSyntaxUid = fmiAttrs.getString(Tag.TransferSyntaxUID,
@@ -325,16 +314,21 @@ public class Dcm2Dcm {
                 return;
             }
             dos = new DicomOutputStream(dest);
+            
             if (!nofmi) {
                 FileMetaInformation fmi = fmiAttrs == null ? createFMI(src)
                         : createFMI(fmiAttrs);
                 dos.writeFileMetaInformation(fmi.getDicomObject());
             }
+            
             dos.setTransferSyntax(tsuid);
-            TranscoderInputHandler h = new TranscoderInputHandler(dos,
+            
+            TranscoderInputHandler2 h = new TranscoderInputHandler2(dos,
                     transcoderBufferSize);
+            
             dis.setHandler(h);
             dis.readDicomObject();
+            
         } finally {
             CloseUtils.safeClose(dos);
             CloseUtils.safeClose(dis);
@@ -409,6 +403,7 @@ public class Dcm2Dcm {
      * file, to the specified destination syntax.
      */
     public void recodeImages(File src, File dest) throws IOException {
+    	
         ImageReader reader = new DicomImageReaderSpi().createReaderInstance();
         ImageWriter writer = new DicomImageWriterSpi().createWriterInstance();
         FileImageInputStream input = new FileImageInputStream(src);
