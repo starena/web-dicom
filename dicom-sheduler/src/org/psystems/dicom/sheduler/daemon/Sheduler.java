@@ -42,15 +42,15 @@ public class Sheduler {
 	private short[] pval2gray;
 	private String fileExt = ".jpg";
 
-//	private static final String USAGE = "dcm2dcm [Options] SOURCE DEST\n"
-//			+ "or dcm2dcm [Options] SOURCE... DIRECTORY";
-//
-//	private static final String DESCRIPTION = "Convert DICOM file SOURCE to DEST, "
-//			+ "or multiple SOURCE(s) to DIRECTORY.\nOptions:";
-//
-//	private static final String EXAMPLE = "\nExample: dcm2dcm in.dcm out.dcm\n"
-//			+ " => Decode DICOM object from DICOM file in.dcm and encode it with"
-//			+ " Implicit VR Little Endian Transfer Syntax to DICOM file out.dcm.";
+	private static final String USAGE = "dcm2dcm [Options] SOURCE DEST\n"
+			+ "or dcm2dcm [Options] SOURCE... DIRECTORY";
+
+	private static final String DESCRIPTION = "Convert DICOM file SOURCE to DEST, "
+			+ "or multiple SOURCE(s) to DIRECTORY.\nOptions:";
+
+	private static final String EXAMPLE = "\nExample: dcm2dcm in.dcm out.dcm\n"
+			+ " => Decode DICOM object from DICOM file in.dcm and encode it with"
+			+ " Implicit VR Little Endian Transfer Syntax to DICOM file out.dcm.";
 
 	private void setFrameNumber(int frame) {
 		this.frame = frame;
@@ -203,6 +203,8 @@ public class Sheduler {
 		String[] args = new String[] { "--block-size=100" , "--source-dir=aaa/bbb/cccc" };
 //		String[] args = new String[] { "--src-dir aaa/bbb/ss"};
 		
+		HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp(USAGE, DESCRIPTION, options, EXAMPLE);
 
 
 		try {
