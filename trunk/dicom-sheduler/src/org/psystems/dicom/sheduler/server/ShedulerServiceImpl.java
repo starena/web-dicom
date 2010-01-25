@@ -40,9 +40,9 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 	private String protocol = "jdbc:derby://localhost:1527/ttttt/";
 	private String rootDicomFilesDir = "/WORK/workspace/dicom-sheduler/test/testdata/2009-12-16/2009-12-16";// FIXME
 
-	// Считать
-	// из
-	// конфига
+	// РЎС‡РёС‚Р°С‚СЊ
+	// РёР·
+	// РєРѕРЅС„РёРіР°
 
 	public String greetServer(String input) {
 		String serverInfo = getServletContext().getServerInfo();
@@ -190,8 +190,8 @@ public class ShedulerServiceImpl extends RemoteServiceServlet implements Shedule
 		Properties props = new Properties(); // connection properties
 		// providing a user name and password is optional in the embedded
 		// and derbyclient frameworks
-		props.put("user", "user1"); // FIXME Считать из конфига
-		props.put("password", "user1"); // FIXME Считать из конфига
+		props.put("user", "user1"); // FIXME РЎС‡РёС‚Р°С‚СЊ РёР· РєРѕРЅС„РёРіР°
+		props.put("password", "user1"); // FIXME РЎС‡РёС‚Р°С‚СЊ РёР· РєРѕРЅС„РёРіР°
 
 		String dbName = "derbyDBTEST"; // the name of the database
 		conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
