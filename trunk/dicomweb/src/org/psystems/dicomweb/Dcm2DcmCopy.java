@@ -304,7 +304,7 @@ public class Dcm2DcmCopy {
         try {
             DicomObject fmiAttrs = dis.readFileMetaInformation();
             
-            //TODO хак по кодировке
+          //TODO code hack
             //-s SpecificCharacterSet=ISO_IR144 demo/6185.bin demo/6185.bin.dcm
             int SpecificCharacterSet_IR_144 = 0x00080005;
             fmiAttrs.putString(SpecificCharacterSet_IR_144, null, "ISO_IR144");

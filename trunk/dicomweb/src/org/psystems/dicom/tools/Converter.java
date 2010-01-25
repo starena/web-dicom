@@ -1,4 +1,4 @@
-package org.psystems.dicomweb;
+package org.psystems.dicom.tools;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -24,7 +24,7 @@ import org.dcm4che2.util.CloseUtils;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
-public class Snippet1 {
+public class Converter {
 
 	private int frame = 1;
 	private float center;
@@ -72,16 +72,16 @@ public class Snippet1 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Snippet1();
+		new Converter();
 	}
 
-	public Snippet1() {
+	public Converter() {
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		try {
 			 
 //			din = new DicomInputStream(new File("demo/Im00001.dcm"));
-			din = new DicomInputStream(new File("demo/6185.bin.dcm"));
+			din = new DicomInputStream(new File("demo/6185.bin"));
 			dcmObj = din.readDicomObject();
 			System.out.println("dcmObj=" + dcmObj);
 
@@ -156,20 +156,20 @@ public class Snippet1 {
 
 
 
-//		 try {
-//		 System.out.print("converting image..." );
-//		 
-//		 
-////		 File src = new File("demo/Im00001.dcm");
-////		 File dest = new File("demo/Im00001.jpg");
-//		 File src = new File("demo/6185.bin");
-//		 File dest = new File("demo/6185.jpg");
-//		 convert(src,dest);
-//		 System.out.println("success!" );
-//		 } catch (IOException e) {
-//		 // TODO Auto-generated catch block
-//		 e.printStackTrace();
-//		 }
+		 try {
+		 System.out.print("converting image..." );
+		// Конвертация картинок
+		 
+//		 File src = new File("demo/Im00001.dcm");
+//		 File dest = new File("demo/Im00001.jpg");
+		 File src = new File("demo/6185.bin");
+		 File dest = new File("demo/6185.jpg");
+		 convert(src,dest);
+		 System.out.println("success!" );
+		 } catch (IOException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 }
 
 	}
 

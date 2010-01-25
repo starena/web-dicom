@@ -136,13 +136,13 @@ public class TranscoderInputHandler2 implements DicomInputHandler
             out.setTransferSyntax(prevTS);
         } else if (!TagUtils.isGroupLengthElement(tag)) {
         	
-        	String charset = "ISO_IR 144";//хак по кодировке
-        	byte[] val1 = new byte[charset.length()];//хак по кодировке
-            val1 = charset.getBytes("ISO-8859-5");//хак по кодировке
-        	int vallen1 = val1.length;//хак по кодировке
+        	String charset = "ISO_IR 144";//hack codepage
+        	byte[] val1 = new byte[charset.length()];//hack codepage
+            val1 = charset.getBytes("ISO-8859-5");//hack codepage
+        	int vallen1 = val1.length;//hack codepage
         	
 //        	out.writeHeader(tag, vr, vallen);
-            out.writeHeader(tag, vr, vallen1);//хак по кодировке
+            out.writeHeader(tag, vr, vallen1);//hack codepage
             
             if (tag == Tag.SpecificCharacterSet
                     || TagUtils.isPrivateCreatorDataElement(tag)) {
