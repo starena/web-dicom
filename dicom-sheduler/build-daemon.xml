@@ -78,9 +78,9 @@
 				<attribute name="Class-Path" value="${jar.class.path}"/>
 
 				<section name="common">
-					<attribute name="Specification-Title" value="SOI"/>
+					<attribute name="Specification-Title" value="Webdicom"/>
 					<attribute name="Specification-Version" value="${today}"/>
-					<attribute name="Specification-Vendor" value="ASUTP"/>
+					<attribute name="Specification-Vendor" value="psystems.org"/>
 				</section>
 			</manifest>
 			<exclude name="**/*Test*"/>
