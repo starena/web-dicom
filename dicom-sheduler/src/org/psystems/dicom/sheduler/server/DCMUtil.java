@@ -149,7 +149,7 @@ public class DCMUtil {
 			}
 		}
 
-		// Конвертация картинок
+		
 
 		// try {
 		// System.out.print("converting image..." );
@@ -186,7 +186,7 @@ public class DCMUtil {
 		
 		
 		DicomObjectWrapper proxy = new DicomObjectWrapper();
-		proxy.setDCM_FILE_NAME(dcmFile.getParentFile().getName() +  File.separator + dcmFile.getName());//FIXME сделать относительный путь
+		proxy.setDCM_FILE_NAME(dcmFile.getParentFile().getName() +  File.separator + dcmFile.getName());//FIXME СЃРґРµР»Р°С‚СЊ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ
 		proxy.setPATIENT_NAME(patName);
 		proxy.setPATIENT_BIRTH_DATE(new java.sql.Date(birthDate.getTime()));
 		proxy.setSTUDY_DATE(new java.sql.Date(birthDate.getTime()));
@@ -202,9 +202,9 @@ public class DCMUtil {
 	}
 
 	/**
-	 * Конвертация DCM-файла в JPEG
+	 * РљРѕРЅРІРµСЂС‚Р°С†РёСЏ DCM-С„Р°Р№Р»Р° РІ JPEG
 	 * 
-	 * TODO убрать статику из глобальных переменных.
+	 * TODO СѓР±СЂР°С‚СЊ СЃС‚Р°С‚РёРєСѓ РёР· РіР»РѕР±Р°Р»СЊРЅС‹С… РїРµСЂРµРјРµРЅРЅС‹С….
 	 * 
 	 * @param src
 	 * @param dest
