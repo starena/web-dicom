@@ -42,15 +42,16 @@ public class Sheduler {
 	private short[] pval2gray;
 	private String fileExt = ".jpg";
 
-	private static final String USAGE = "dcm2dcm [Options] SOURCE DEST\n"
-			+ "or dcm2dcm [Options] SOURCE... DIRECTORY";
+	private  final String USAGE = "sheduler [Options] SOURCE DEST\n";
 
-	private static final String DESCRIPTION = "Convert DICOM file SOURCE to DEST, "
-			+ "or multiple SOURCE(s) to DIRECTORY.\nOptions:";
+	private  final String DESCRIPTION = "Convert DICOM file SOURCE to DEST and "
+			+ " verify data in URL dababase.\nOptions:";
 
-	private static final String EXAMPLE = "\nExample: dcm2dcm in.dcm out.dcm\n"
+	private  final String EXAMPLE = "\nExample: dcm2dcm in.dcm out.dcm\n"
 			+ " => Decode DICOM object from DICOM file in.dcm and encode it with"
 			+ " Implicit VR Little Endian Transfer Syntax to DICOM file out.dcm.";
+	
+	private String VERSION = "0.1a";
 
 	private void setFrameNumber(int frame) {
 		this.frame = frame;
@@ -91,143 +92,96 @@ public class Sheduler {
 
 		new Sheduler();
 	}
-
-//	private static CommandLine parse(String[] args) {
-//		Options opts = new Options();
-//
-//		opts.addOption(null, "no-fmi", false,
-//				"Encode result without File Meta Information. At default, "
-//						+ " File Meta Information is included.");
-//		opts.addOption("e", "explicit", false,
-//				"Encode result with Explicit VR Little Endian Transfer Syntax. "
-//						+ "At default, Implicit VR Little Endian is used.");
-//		opts.addOption("b", "big-endian", false,
-//				"Encode result with Explicit VR Big Endian Transfer Syntax. "
-//						+ "At default, Implicit VR Little Endian is used.");
-//		opts.addOption("z", "deflated", false,
-//				"Encode result with Deflated Explicit VR Little Endian Syntax. "
-//						+ "At default, Implicit VR Little Endian is used.");
-//
-//		OptionBuilder.withArgName("[seq/]attr=value");
-//		OptionBuilder.hasArgs(2);
-//		OptionBuilder.withValueSeparator('=');
-//		OptionBuilder
-//				.withDescription("specify value to set in the output stream.  Currently only works when transcoding images.");
-//		opts.addOption(OptionBuilder.create("s"));
-//
-//		opts.addOption("t", "syntax", true,
-//				"Encode result with the specified transfer syntax - recodes"
-//						+ " the image typically.");
-//
-//		OptionBuilder.withArgName("KB");
-//		OptionBuilder.hasArg();
-//		OptionBuilder
-//				.withDescription("transcoder buffer size in KB, 1KB by default");
-//		OptionBuilder.withLongOpt("buffer");
-//		opts.addOption(OptionBuilder.create(null));
-//
-//		opts.addOption("h", "help", false, "print this message");
-//		opts.addOption("V", "version", false,
-//				"print the version information and exit");
-//		CommandLine cl = null;
-//		try {
-//			cl = new PosixParser().parse(opts, args);
-//		} catch (ParseException e) {
-//			exit("dcm2dcm: " + e.getMessage());
-//			throw new RuntimeException("unreachable");
-//		}
-//		if (cl.hasOption('V')) {
-//			// Package p = Dcm2Dcm.class.getPackage();
-//			// System.out.println("dcm2dcm v" + p.getImplementationVersion());
-//			System.exit(0);
-//		}
-//		if (cl.hasOption('h') || cl.getArgList().size() < 2) {
-//			HelpFormatter formatter = new HelpFormatter();
-//			formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
-//			System.exit(0);
-//		}
-//		return cl;
-//	}
-//
-//	private static void exit(String msg) {
-//		System.err.println(msg);
-//		System.err.println("Try 'sheduler -h' for more information.");
-//		System.exit(1);
-//	}
-
-	public Sheduler() {
-
+	
+	/**
+	 * Разборщик коммандной строки
+	 * @param args
+	 * @return
+	 */
+	private CommandLine parse(String[] args) {
 		// create the command line parser
 		CommandLineParser parser = new PosixParser();
 
 		// create the Options
-		Options options = new Options();
+		Options opts = new Options();
 		
-		options.addOption( OptionBuilder.withLongOpt( "source-dir" )
+		opts.addOption( OptionBuilder.withLongOpt( "source-dir" )
                 .withDescription( "use PATH source dir" )
                 .hasArg()
                 .withArgName("PATH")
-                .create() );
+                .create("s") );
 		
-		
-		options.addOption("d", "dest-dir", false,
-		"Destination directory.");
-		
-		options.addOption("c", "connect", false,
-		"URL JDBC connector.");
-		
-		options.addOption( OptionBuilder.withLongOpt( "block-size" )
-                .withDescription( "use SIZE-byte blocks" )
+		opts.addOption( OptionBuilder.withLongOpt( "dest-dir" )
+                .withDescription( "use PATH destination dir" )
                 .hasArg()
-                .withArgName("SIZE")
-                .create() );
-
+                .withArgName("PATH")
+                .create("d") );
+		
+		opts.addOption( OptionBuilder.withLongOpt( "connection" )
+                .withDescription( "use URL for JDBC connector" )
+                .hasArg()
+                .withArgName("URL")
+                .create("c") );
+		
+		opts.addOption("h", "help", false, "print this message");
+        opts.addOption("V", "version", false,
+                "print the version information and exit");
 		
 		
-//		options.addOption("A", "almost-all", false,
-//				"do not list implied . and ..");
-//		options.addOption("b", "escape", false,
-//				"print octal escapes for nongraphic " + "characters");
-//		options.addOption(OptionBuilder.withLongOpt("block-size")
-//				.withDescription("use SIZE-byte blocks").hasArg().withArgName(
-//						"SIZE").create());
-//		options.addOption("B", "ignore-backups", false,
-//				"do not list implied entried " + "ending with ~");
-//		options.addOption("c", false,
-//				"with -lt: sort by, and show, ctime (time of last "
-//						+ "modification of file status information) with "
-//						+ "-l:show ctime and sort by name otherwise: sort "
-//						+ "by ctime");
-//		options.addOption("C", false, "list entries by columns");
+		CommandLine cl = null;
+        try {
+            cl = new PosixParser().parse(opts, args);
+        } catch (ParseException e) {
+            exit("dcm2dcm: " + e.getMessage());
+            throw new RuntimeException("unreachable");
+        }
+        if (cl.hasOption('V')) {
+            System.out.println("dcm2dcm version " + VERSION); //TODO Взять нормально версию
+            System.exit(0);
+        }
+        if (cl.hasOption('h') || cl.getArgList().size() < 2) {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
+            System.exit(0);
+        }
+        return cl;
+	}
+	
+	 private void exit(String msg) {
+	        System.err.println(msg);
+	        System.err.println("Try 'sheduler -h' for more information.");
+	        System.exit(1);
+	    }
 
-		String[] args = new String[] { "--block-size=100" , "--source-dir=aaa/bbb/cccc" };
+
+
+	public Sheduler() {
+
+
+		String[] args = new String[] { "-d dst/vvv/ddd" , "--source-dir=src/bbb/cccc" };
 //		String[] args = new String[] { "--src-dir aaa/bbb/ss"};
 		
-		HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(USAGE, DESCRIPTION, options, EXAMPLE);
+//		HelpFormatter formatter = new HelpFormatter();
+//        formatter.printHelp(USAGE, DESCRIPTION, options, EXAMPLE);
 
 
-		try {
-			// parse the command line arguments
-			CommandLine line = parser.parse(options, args);
+		CommandLine cl = parse(args);
 
 			// validate that block-size has been set
-			if (line.hasOption("block-size")) {
+			if (cl.hasOption("block-size")) {
 				// print the value of block-size
-				System.out.println(line.getOptionValue("block-size"));
+				System.out.println(cl.getOptionValue("block-size"));
 			}
 			
-			if (line.hasOption("source-dir")) {
+			if (cl.hasOption("source-dir")) {
 				// print the value of block-size
-				System.out.println(line.getOptionValue("source-dir"));
+				System.out.println(cl.getOptionValue("source-dir"));
 			}
 			
-		} catch (ParseException exp) {
-			System.out.println("Unexpected exception:" + exp.getMessage());
-		}
+		
 
 		if (true)
-			return;
+			return;//FIXME Убрать !!!
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
