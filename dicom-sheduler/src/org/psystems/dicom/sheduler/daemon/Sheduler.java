@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
@@ -27,6 +28,8 @@ import org.dcm4che2.data.Tag;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.CloseUtils;
+import org.psystems.dicom.sheduler.server.DCMUtil;
+import org.psystems.dicom.sheduler.server.DicomObjectWrapper;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
@@ -42,15 +45,18 @@ public class Sheduler {
 	private short[] pval2gray;
 	private String fileExt = ".jpg";
 
-	private  final String USAGE = "sheduler [Options] SOURCE DEST\n";
+	private String srcDir;
+	private String dstDir;
 
-	private  final String DESCRIPTION = "Convert DICOM file SOURCE to DEST and "
+	private final String USAGE = "sheduler [Options] SOURCE DEST\n";
+
+	private final String DESCRIPTION = "Convert DICOM file SOURCE to DEST and "
 			+ " verify data in URL dababase.\nOptions:";
 
-	private  final String EXAMPLE = "\nExample: dcm2dcm in.dcm out.dcm\n"
+	private final String EXAMPLE = "\nExample: dcm2dcm in.dcm out.dcm\n"
 			+ " => Decode DICOM object from DICOM file in.dcm and encode it with"
 			+ " Implicit VR Little Endian Transfer Syntax to DICOM file out.dcm.";
-	
+
 	private String VERSION = "0.1a";
 
 	private void setFrameNumber(int frame) {
@@ -92,9 +98,10 @@ public class Sheduler {
 
 		new Sheduler();
 	}
-	
+
 	/**
 	 * Разборщик коммандной строки
+	 * 
 	 * @param args
 	 * @return
 	 */
@@ -104,84 +111,144 @@ public class Sheduler {
 
 		// create the Options
 		Options opts = new Options();
-		
-		opts.addOption( OptionBuilder.withLongOpt( "source-dir" )
-                .withDescription( "use PATH source dir" )
-                .hasArg()
-                .withArgName("PATH")
-                .create("s") );
-		
-		opts.addOption( OptionBuilder.withLongOpt( "dest-dir" )
-                .withDescription( "use PATH destination dir" )
-                .hasArg()
-                .withArgName("PATH")
-                .create("d") );
-		
-		opts.addOption( OptionBuilder.withLongOpt( "connection" )
-                .withDescription( "use URL for JDBC connector" )
-                .hasArg()
-                .withArgName("URL")
-                .create("c") );
-		
+
+		opts
+				.addOption(OptionBuilder.withLongOpt("source-dir")
+						.withDescription("use PATH source dir").hasArg()
+						.withArgName("PATH").create("s"));
+
+		opts.addOption(OptionBuilder.withLongOpt("dest-dir").withDescription(
+				"use PATH destination dir").hasArg().withArgName("PATH")
+				.create("d"));
+
+		opts.addOption(OptionBuilder.withLongOpt("connection").withDescription(
+				"use URL for JDBC connector").hasArg().withArgName("URL")
+				.create("c"));
+
+		opts.addOption(OptionBuilder.withLongOpt("daemon").withDescription(
+				"run sheduler as daemon").create());
+
 		opts.addOption("h", "help", false, "print this message");
-        opts.addOption("V", "version", false,
-                "print the version information and exit");
-		
-		
+		opts.addOption("V", "version", false,
+				"print the version information and exit");
+
 		CommandLine cl = null;
-        try {
-            cl = new PosixParser().parse(opts, args);
-        } catch (ParseException e) {
-            exit("dcm2dcm: " + e.getMessage());
-            throw new RuntimeException("unreachable");
-        }
-        if (cl.hasOption('V')) {
-            System.out.println("dcm2dcm version " + VERSION); //TODO Взять нормально версию
-            System.exit(0);
-        }
-        if (cl.hasOption('h') || cl.getArgList().size() < 2) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
-            System.exit(0);
-        }
-        return cl;
+		try {
+			cl = new PosixParser().parse(opts, args);
+		} catch (ParseException e) {
+			exit("sheduler: " + e.getMessage());
+			throw new RuntimeException("unreachable");
+		}
+		if (cl.hasOption('V')) {
+			System.out.println("sheduler version " + VERSION);
+			// TODO Взять нормально версию
+			System.exit(0);
+		}
+
+		if (cl.hasOption('h')) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
+			System.exit(0);
+		}
+		return cl;
+
+		// HelpFormatter formatter = new HelpFormatter();
+		// formatter.printHelp(USAGE, DESCRIPTION, options, EXAMPLE);
 	}
-	
-	 private void exit(String msg) {
-	        System.err.println(msg);
-	        System.err.println("Try 'sheduler -h' for more information.");
-	        System.exit(1);
-	    }
 
-
+	private void exit(String msg) {
+		System.err.println(msg);
+		System.err.println("Try 'sheduler -h' for more information.");
+		System.exit(1);
+	}
 
 	public Sheduler() {
 
-
-		String[] args = new String[] { "-d dst/vvv/ddd" , "--source-dir=src/bbb/cccc" };
-//		String[] args = new String[] { "--src-dir aaa/bbb/ss"};
-		
-//		HelpFormatter formatter = new HelpFormatter();
-//        formatter.printHelp(USAGE, DESCRIPTION, options, EXAMPLE);
-
+		String[] args = new String[] { "-d test\\testdata\\out",
+				"--source-dir=test\\testdata\\2009-12-16" };
 
 		CommandLine cl = parse(args);
 
-			// validate that block-size has been set
-			if (cl.hasOption("block-size")) {
-				// print the value of block-size
-				System.out.println(cl.getOptionValue("block-size"));
-			}
-			
-			if (cl.hasOption("source-dir")) {
-				// print the value of block-size
-				System.out.println(cl.getOptionValue("source-dir"));
-			}
-			
-		
+		if (cl.hasOption("source-dir")) {
+			srcDir = cl.getOptionValue("source-dir").trim();
+			System.out.println("srcDir=[" + srcDir + "]");
+		}
 
+		if (cl.hasOption("dest-dir")) {
+			dstDir = cl.getOptionValue("dest-dir").trim();
+			System.out.println("dstDir=[" + dstDir + "]");
+		}
+
+		iterateFiles(); 
+
+	}
+
+	/**
+	 * Обход папок с файлами
+	 */
+	private void iterateFiles() {
+
+		// FIXME Сделать через календарь
+		final String currentDateStr = "2009-12-16";
+		FilenameFilter filterDir = new FilenameFilter() {
+		
+			@Override
+			public boolean accept(File dir, String name) {
+				if (name.equals(currentDateStr)) {
+					return true;
+				}
+				return false;
+			}
+
+		};
+		
+		// filter files for extension *.dcm
+		FilenameFilter filter = new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String name) {
+				if (name.endsWith(".dcm")) {
+					return true;
+				}
+				return false;
+			}
+
+		};
+
+		// TODO пока 2-х уровневая организация папок, потом сделать это
+		// рекурсивно. задается через регулярное выражение
+		File rootDir = new File(srcDir);
+		if (rootDir.isDirectory()) {
+			File[] dirs = rootDir.listFiles(filterDir);
+			for (int i = 0; i < dirs.length; i++) {
+				if(dirs[i].isDirectory()) {
+					
+					File[] files = dirs[i].listFiles(filter);
+					for (int j = 0; j < files.length; j++) {
+						System.out.println("FILE:"+files[j]);
+						extractData(true, true);
+					}
+					
+				}
+			}
+			
+			
+
+		}
+	}
+
+	/**
+	 * Извлечение данных
+	 * 
+	 * @param needTags
+	 * @param needImages
+	 */
+	private void extractData(boolean needTags, boolean needImages) {
+		
+		
+		
 		if (true)
-			return;//FIXME Убрать !!!
+			return;// FIXME Убрать !!!
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
@@ -261,21 +328,20 @@ public class Sheduler {
 			}
 		}
 
-		try {
-			System.out.print("converting image...");
-			// Конвертация картинок
-
-			// File src = new File("demo/Im00001.dcm");
-			// File dest = new File("demo/Im00001.jpg");
-			File src = new File("demo/6185.bin");
-			File dest = new File("demo/6185.jpg");
-			convert(src, dest);
-			System.out.println("success!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		// try {
+		// System.out.print("converting image...");
+		// // Конвертация картинок
+		//
+		// // File src = new File("demo/Im00001.dcm");
+		// // File dest = new File("demo/Im00001.jpg");
+		// File src = new File("demo/6185.bin");
+		// File dest = new File("demo/6185.jpg");
+		// convert(src, dest);
+		// System.out.println("success!");
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	public void convert(File src, File dest) throws IOException {
