@@ -7,7 +7,14 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -28,8 +35,6 @@ import org.dcm4che2.data.Tag;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.CloseUtils;
-import org.psystems.dicom.sheduler.server.DCMUtil;
-import org.psystems.dicom.sheduler.server.DicomObjectWrapper;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
@@ -58,38 +63,12 @@ public class Sheduler {
 			+ " Implicit VR Little Endian Transfer Syntax to DICOM file out.dcm.";
 
 	private String VERSION = "0.1a";
+	
+	private String protocol = "jdbc:derby://localhost:1527//WORKDB/";
+	String dbName = "WEBDICOM"; // the name of the database
+	private Connection connection;
 
-	private void setFrameNumber(int frame) {
-		this.frame = frame;
-	}
 
-	private void setWindowCenter(float center) {
-		this.center = center;
-	}
-
-	private void setWindowWidth(float width) {
-		this.width = width;
-	}
-
-	public final void setVoiLutFunction(String vlutFct) {
-		this.vlutFct = vlutFct;
-	}
-
-	private final void setAutoWindowing(boolean autoWindowing) {
-		this.autoWindowing = autoWindowing;
-	}
-
-	private final void setPresentationState(DicomObject prState) {
-		this.prState = prState;
-	}
-
-	private final void setPValue2Gray(short[] pval2gray) {
-		this.pval2gray = pval2gray;
-	}
-
-	public final void setFileExt(String fileExt) {
-		this.fileExt = fileExt;
-	}
 
 	/**
 	 * @param args
@@ -179,14 +158,22 @@ public class Sheduler {
 			System.out.println("dstDir=[" + dstDir + "]");
 		}
 
-		iterateFiles();
+		try {
+			connection =  getConnection();
+			iterateFiles();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	/**
 	 * Обход папок с файлами
+	 * @throws SQLException 
 	 */
-	private void iterateFiles() {
+	private void iterateFiles() throws SQLException {
 
 		// FIXME Сделать через календарь
 		final String currentDateStr = "2009-12-16";
@@ -247,8 +234,9 @@ public class Sheduler {
 	 * 
 	 * @param needTags
 	 * @param needImages
+	 * @throws SQLException 
 	 */
-	private void extractData(String file, boolean needTags, boolean needImages) {
+	private void extractData(String file, boolean needTags, boolean needImages) throws SQLException {
 
 		String fileName = srcDir + File.separator + file;
 
@@ -318,6 +306,20 @@ public class Sheduler {
 				// // rlePixelData.length);
 				//
 				// }
+				
+				
+				String DCM_FILE_NAME = file;
+				cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet).getStrings(null, false));
+				java.util.Date PATIENT_BIRTH_DATE = dcmObj.get(Tag.PatientBirthDate).getDate(false);
+				java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate).getDate(false);
+				DicomElement element1 = dcmObj.get(Tag.PatientName); 
+				String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
+				
+				
+				
+				
+				insertData(DCM_FILE_NAME, PATIENT_NAME, new java.sql.Date(PATIENT_BIRTH_DATE.getTime()) ,
+						new java.sql.Date(STUDY_DATE.getTime()));
 
 			}
 		} catch (IOException e) {
@@ -382,6 +384,49 @@ public class Sheduler {
 			CloseUtils.safeClose(out);
 		}
 		System.out.print('.');
+	}
+	
+	private Connection getConnection() throws SQLException {
+		
+
+		Properties props = new Properties(); // connection properties
+		// providing a user name and password is optional in the embedded
+		// and derbyclient frameworks
+		props.put("user", "user1"); //FIXME Взять из конфига
+		props.put("password", "user1"); // FIXME Взять из конфига
+
+		
+		Connection conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
+		conn.setAutoCommit(false);
+//		s = conn.createStatement();
+//		s.execute(sql);
+//
+//		conn.commit();
+		
+		return conn;
+	}
+	
+	private void insertData(String DCM_FILE_NAME, String PATIENT_NAME, Date PATIENT_BIRTH_DATE,
+			Date STUDY_DATE) throws SQLException {
+		PreparedStatement psInsert = null;
+
+		Properties props = new Properties(); // connection properties
+		props.put("user", "user1");
+		props.put("password", "user1");
+		String dbName = "derbyDBTEST"; // the name of the database
+	
+
+		psInsert = connection.prepareStatement("insert into WIBDICOM.DCMFILES"
+				+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)" + " values (?, ?, ?, ?)");
+
+		psInsert.setString(1, DCM_FILE_NAME);
+		psInsert.setDate(2, PATIENT_BIRTH_DATE);
+		psInsert.setString(3, PATIENT_NAME);
+		psInsert.setDate(4, STUDY_DATE);
+
+		psInsert.executeUpdate();
+
+		connection.commit();
 	}
 
 }
