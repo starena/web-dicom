@@ -225,8 +225,9 @@ public class Sheduler {
 					String dirName = dirs[i].getName();
 					File[] files = dirs[i].listFiles(filter);
 					for (int j = 0; j < files.length; j++) {
-						String fileName = dirName + File.separator+ files[j].getName();
-						
+						String fileName = dirName + File.separator
+								+ files[j].getName();
+
 						System.out.println("FILE:" + fileName);
 						extractData(fileName, true, true);
 					}
@@ -245,18 +246,17 @@ public class Sheduler {
 	 */
 	private void extractData(String file, boolean needTags, boolean needImages) {
 
-	
 		String fileName = srcDir + File.separator + file;
-		
+
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		try {
 
 			// din = new DicomInputStream(new File("demo/Im00001.dcm"));
-//			din = new DicomInputStream(new File("demo/6185.bin"));
+			// din = new DicomInputStream(new File("demo/6185.bin"));
 			din = new DicomInputStream(new File(fileName));
 			dcmObj = din.readDicomObject();
-//			System.out.println("dcmObj=" + dcmObj);
+			// System.out.println("dcmObj=" + dcmObj);
 
 			DicomObjectToStringParam param = DicomObjectToStringParam
 					.getDefaultParam();
@@ -301,19 +301,19 @@ public class Sheduler {
 
 				}
 
-//				if (tag == 2145386512) {
-//
-//					System.out.println("length=" + element.length());
-//					System.out.println("DicomElement (" + major + "," + minor
-//							+ ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
-//							+ "]  = " + element.getValueAsString(cs, 100));
-//					// https://jai-imageio.dev.java.net/binary-builds.html
-//
-//					// byte[] rlePixelData = element.getFragment(1);
-//					// System.out.println("DicomElement IMAGE" +
-//					// rlePixelData.length);
-//
-//				}
+				// if (tag == 2145386512) {
+				//
+				// System.out.println("length=" + element.length());
+				// System.out.println("DicomElement (" + major + "," + minor
+				// + ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
+				// + "]  = " + element.getValueAsString(cs, 100));
+				// // https://jai-imageio.dev.java.net/binary-builds.html
+				//
+				// // byte[] rlePixelData = element.getFragment(1);
+				// // System.out.println("DicomElement IMAGE" +
+				// // rlePixelData.length);
+				//
+				// }
 
 			}
 		} catch (IOException e) {
@@ -328,21 +328,21 @@ public class Sheduler {
 		}
 
 		String srcFileName = srcDir + File.separator + file;
-		String dstFileName = dstDir + File.separator + file +fileExt;
-		
-		 try {
-		 System.out.print("converting image...");
-		
-		 // File src = new File("demo/Im00001.dcm");
-		 // File dest = new File("demo/Im00001.jpg");
-		 File src = new File(srcFileName);
-		 File dest = new File(dstFileName);
-		 convert(src, dest);
-		 System.out.println("success!");
-		 } catch (IOException e) {
-		 // TODO Auto-generated catch block
-		 e.printStackTrace();
-		 }
+		String dstFileName = dstDir + File.separator + file + fileExt;
+
+		try {
+			System.out.print("converting image...");
+
+			// File src = new File("demo/Im00001.dcm");
+			// File dest = new File("demo/Im00001.jpg");
+			File src = new File(srcFileName);
+			File dest = new File(dstFileName);
+			convert(src, dest);
+			System.out.println("success!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void convert(File src, File dest) throws IOException {
