@@ -224,6 +224,10 @@ public class Sheduler {
 				if (dirs[i].isDirectory()) {
 					String dirName = dirs[i].getName();
 					File[] files = dirs[i].listFiles(filter);
+					
+					//создаем рекурсивно директории
+					new File(dstDir + File.separator + dirs[i].getName()).mkdirs();
+					
 					for (int j = 0; j < files.length; j++) {
 						String fileName = dirName + File.separator
 								+ files[j].getName();
@@ -337,6 +341,9 @@ public class Sheduler {
 			// File dest = new File("demo/Im00001.jpg");
 			File src = new File(srcFileName);
 			File dest = new File(dstFileName);
+			
+			
+			
 			convert(src, dest);
 			System.out.println("success!");
 		} catch (IOException e) {
