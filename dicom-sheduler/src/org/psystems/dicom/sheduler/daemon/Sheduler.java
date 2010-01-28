@@ -308,20 +308,29 @@ public class Sheduler {
 				// }
 				
 				
-				String DCM_FILE_NAME = file;
-				cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet).getStrings(null, false));
-				java.util.Date PATIENT_BIRTH_DATE = dcmObj.get(Tag.PatientBirthDate).getDate(false);
-				java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate).getDate(false);
-				DicomElement element1 = dcmObj.get(Tag.PatientName); 
-				String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
 				
 				
 				
-				
-				insertData(DCM_FILE_NAME, PATIENT_NAME, new java.sql.Date(PATIENT_BIRTH_DATE.getTime()) ,
-						new java.sql.Date(STUDY_DATE.getTime()));
+			
 
 			}
+			
+			String DCM_FILE_NAME = file;
+			cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet).getStrings(null, false));
+			java.util.Date PATIENT_BIRTH_DATE = dcmObj.get(Tag.PatientBirthDate).getDate(false);
+			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate).getDate(false);
+			DicomElement element1 = dcmObj.get(Tag.PatientName); 
+			String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
+			
+			
+			connection.setAutoCommit(false);
+			
+			
+			insertData(DCM_FILE_NAME, PATIENT_NAME, new java.sql.Date(PATIENT_BIRTH_DATE.getTime()) ,
+					new java.sql.Date(STUDY_DATE.getTime()));
+			
+			connection.commit();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
@@ -397,7 +406,7 @@ public class Sheduler {
 
 		
 		Connection conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
-		conn.setAutoCommit(false);
+//		conn.setAutoCommit(false);
 //		s = conn.createStatement();
 //		s.execute(sql);
 //
@@ -409,6 +418,8 @@ public class Sheduler {
 	private void insertData(String DCM_FILE_NAME, String PATIENT_NAME, Date PATIENT_BIRTH_DATE,
 			Date STUDY_DATE) throws SQLException {
 		PreparedStatement psInsert = null;
+		
+		System.out.println("!!! ["+DCM_FILE_NAME + "]["+PATIENT_NAME+"]");
 
 		Properties props = new Properties(); // connection properties
 		props.put("user", "user1");
@@ -416,7 +427,7 @@ public class Sheduler {
 		String dbName = "derbyDBTEST"; // the name of the database
 	
 
-		psInsert = connection.prepareStatement("insert into WIBDICOM.DCMFILES"
+		psInsert = connection.prepareStatement("insert into WEBDICOM.DCMFILES"
 				+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)" + " values (?, ?, ?, ?)");
 
 		psInsert.setString(1, DCM_FILE_NAME);
@@ -426,7 +437,7 @@ public class Sheduler {
 
 		psInsert.executeUpdate();
 
-		connection.commit();
+		
 	}
 
 }
