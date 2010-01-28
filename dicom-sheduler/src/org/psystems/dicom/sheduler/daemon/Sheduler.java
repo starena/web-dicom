@@ -179,7 +179,7 @@ public class Sheduler {
 			System.out.println("dstDir=[" + dstDir + "]");
 		}
 
-		iterateFiles(); 
+		iterateFiles();
 
 	}
 
@@ -191,7 +191,7 @@ public class Sheduler {
 		// FIXME Сделать через календарь
 		final String currentDateStr = "2009-12-16";
 		FilenameFilter filterDir = new FilenameFilter() {
-		
+
 			@Override
 			public boolean accept(File dir, String name) {
 				if (name.equals(currentDateStr)) {
@@ -201,7 +201,7 @@ public class Sheduler {
 			}
 
 		};
-		
+
 		// filter files for extension *.dcm
 		FilenameFilter filter = new FilenameFilter() {
 
@@ -221,18 +221,18 @@ public class Sheduler {
 		if (rootDir.isDirectory()) {
 			File[] dirs = rootDir.listFiles(filterDir);
 			for (int i = 0; i < dirs.length; i++) {
-				if(dirs[i].isDirectory()) {
-					
+				if (dirs[i].isDirectory()) {
+					String dirName = dirs[i].getName();
 					File[] files = dirs[i].listFiles(filter);
 					for (int j = 0; j < files.length; j++) {
-						System.out.println("FILE:"+files[j]);
-						extractData(true, true);
+						String fileName = dirName + File.separator+ files[j].getName();
+						
+						System.out.println("FILE:" + fileName);
+						extractData(fileName, true, true);
 					}
-					
+
 				}
 			}
-			
-			
 
 		}
 	}
@@ -243,21 +243,20 @@ public class Sheduler {
 	 * @param needTags
 	 * @param needImages
 	 */
-	private void extractData(boolean needTags, boolean needImages) {
-		
-		
-		
-		if (true)
-			return;// FIXME Убрать !!!
+	private void extractData(String file, boolean needTags, boolean needImages) {
 
+	
+		String fileName = srcDir + File.separator + file;
+		
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		try {
 
 			// din = new DicomInputStream(new File("demo/Im00001.dcm"));
-			din = new DicomInputStream(new File("demo/6185.bin"));
+//			din = new DicomInputStream(new File("demo/6185.bin"));
+			din = new DicomInputStream(new File(fileName));
 			dcmObj = din.readDicomObject();
-			System.out.println("dcmObj=" + dcmObj);
+//			System.out.println("dcmObj=" + dcmObj);
 
 			DicomObjectToStringParam param = DicomObjectToStringParam
 					.getDefaultParam();
@@ -302,19 +301,19 @@ public class Sheduler {
 
 				}
 
-				if (tag == 2145386512) {
-
-					System.out.println("length=" + element.length());
-					System.out.println("DicomElement (" + major + "," + minor
-							+ ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
-							+ "]  = " + element.getValueAsString(cs, 100));
-					// https://jai-imageio.dev.java.net/binary-builds.html
-
-					// byte[] rlePixelData = element.getFragment(1);
-					// System.out.println("DicomElement IMAGE" +
-					// rlePixelData.length);
-
-				}
+//				if (tag == 2145386512) {
+//
+//					System.out.println("length=" + element.length());
+//					System.out.println("DicomElement (" + major + "," + minor
+//							+ ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
+//							+ "]  = " + element.getValueAsString(cs, 100));
+//					// https://jai-imageio.dev.java.net/binary-builds.html
+//
+//					// byte[] rlePixelData = element.getFragment(1);
+//					// System.out.println("DicomElement IMAGE" +
+//					// rlePixelData.length);
+//
+//				}
 
 			}
 		} catch (IOException e) {
@@ -328,20 +327,22 @@ public class Sheduler {
 			}
 		}
 
-		// try {
-		// System.out.print("converting image...");
-		// // Конвертация картинок
-		//
-		// // File src = new File("demo/Im00001.dcm");
-		// // File dest = new File("demo/Im00001.jpg");
-		// File src = new File("demo/6185.bin");
-		// File dest = new File("demo/6185.jpg");
-		// convert(src, dest);
-		// System.out.println("success!");
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		String srcFileName = srcDir + File.separator + file;
+		String dstFileName = dstDir + File.separator + file +fileExt;
+		
+		 try {
+		 System.out.print("converting image...");
+		
+		 // File src = new File("demo/Im00001.dcm");
+		 // File dest = new File("demo/Im00001.jpg");
+		 File src = new File(srcFileName);
+		 File dest = new File(dstFileName);
+		 convert(src, dest);
+		 System.out.println("success!");
+		 } catch (IOException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 }
 	}
 
 	public void convert(File src, File dest) throws IOException {
