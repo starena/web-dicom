@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
@@ -63,12 +64,10 @@ public class Sheduler {
 			+ " Implicit VR Little Endian Transfer Syntax to DICOM file out.dcm.";
 
 	private String VERSION = "0.1a";
-	
+
 	private String protocol = "jdbc:derby://localhost:1527//WORKDB/";
 	String dbName = "WEBDICOM"; // the name of the database
 	private Connection connection;
-
-
 
 	/**
 	 * @param args
@@ -159,19 +158,19 @@ public class Sheduler {
 		}
 
 		try {
-			connection =  getConnection();
+			connection = getConnection();
 			iterateFiles();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
 	/**
 	 * Обход папок с файлами
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	private void iterateFiles() throws SQLException {
 
@@ -211,10 +210,11 @@ public class Sheduler {
 				if (dirs[i].isDirectory()) {
 					String dirName = dirs[i].getName();
 					File[] files = dirs[i].listFiles(filter);
-					
-					//создаем рекурсивно директории
-					new File(dstDir + File.separator + dirs[i].getName()).mkdirs();
-					
+
+					// создаем рекурсивно директории
+					new File(dstDir + File.separator + dirs[i].getName())
+							.mkdirs();
+
 					for (int j = 0; j < files.length; j++) {
 						String fileName = dirName + File.separator
 								+ files[j].getName();
@@ -234,9 +234,10 @@ public class Sheduler {
 	 * 
 	 * @param needTags
 	 * @param needImages
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
-	private void extractData(String file, boolean needTags, boolean needImages) throws SQLException {
+	private void extractData(String file, boolean needTags, boolean needImages)
+			throws SQLException {
 
 		String fileName = srcDir + File.separator + file;
 
@@ -306,31 +307,46 @@ public class Sheduler {
 				// // rlePixelData.length);
 				//
 				// }
-				
-				
-				
-				
-				
-			
 
 			}
-			
+
 			String DCM_FILE_NAME = file;
-			cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet).getStrings(null, false));
-			java.util.Date PATIENT_BIRTH_DATE = dcmObj.get(Tag.PatientBirthDate).getDate(false);
-			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate).getDate(false);
-			DicomElement element1 = dcmObj.get(Tag.PatientName); 
-			String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
-			
-			
+			cs = SpecificCharacterSet.valueOf(dcmObj.get(
+					Tag.SpecificCharacterSet).getStrings(null, false));
+			java.util.Date PATIENT_BIRTH_DATE = dcmObj
+					.get(Tag.PatientBirthDate).getDate(false);
+			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate)
+					.getDate(false);
+			DicomElement element1 = dcmObj.get(Tag.PatientName);
+			String PATIENT_NAME = element1.getValueAsString(cs, element1
+					.length());
+
 			connection.setAutoCommit(false);
-			
-			
-			insertData(DCM_FILE_NAME, PATIENT_NAME, new java.sql.Date(PATIENT_BIRTH_DATE.getTime()) ,
-					new java.sql.Date(STUDY_DATE.getTime()));
-			
+			insertCommonData(DCM_FILE_NAME, PATIENT_NAME, new java.sql.Date(
+					PATIENT_BIRTH_DATE.getTime()), new java.sql.Date(STUDY_DATE
+					.getTime()));
 			connection.commit();
 			
+			String srcFileName = srcDir + File.separator + file;
+			String dstFileName = dstDir + File.separator + file + fileExt;
+			String IMAGE_FILE_NAME = file + fileExt;
+
+			try {
+				System.out.print("converting image...");
+
+				// File src = new File("demo/Im00001.dcm");
+				// File dest = new File("demo/Im00001.jpg");
+				File src = new File(srcFileName);
+				File dest = new File(dstFileName);
+
+				
+				convert(DCM_FILE_NAME, IMAGE_FILE_NAME, src, dest);
+				System.out.println("success!");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
@@ -342,28 +358,11 @@ public class Sheduler {
 			}
 		}
 
-		String srcFileName = srcDir + File.separator + file;
-		String dstFileName = dstDir + File.separator + file + fileExt;
-
-		try {
-			System.out.print("converting image...");
-
-			// File src = new File("demo/Im00001.dcm");
-			// File dest = new File("demo/Im00001.jpg");
-			File src = new File(srcFileName);
-			File dest = new File(dstFileName);
-			
-			
-			
-			convert(src, dest);
-			System.out.println("success!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
-	public void convert(File src, File dest) throws IOException {
+	public void convert(String DCM_FILE_NAME, String IMAGE_FILE_NAME, File src, File dest)
+			throws IOException, SQLException {
 		Iterator<ImageReader> iter = ImageIO
 				.getImageReadersByFormatName("DICOM");
 		ImageReader reader = iter.next();
@@ -391,44 +390,50 @@ public class Sheduler {
 		} finally {
 			CloseUtils.safeClose(iis);
 			CloseUtils.safeClose(out);
+
+			connection.setAutoCommit(false);
+			insertImageData(DCM_FILE_NAME,"image/jpeg",IMAGE_FILE_NAME);
+			connection.commit();
 		}
 		System.out.print('.');
 	}
-	
+
 	private Connection getConnection() throws SQLException {
-		
 
 		Properties props = new Properties(); // connection properties
 		// providing a user name and password is optional in the embedded
 		// and derbyclient frameworks
-		props.put("user", "user1"); //FIXME Взять из конфига
+		props.put("user", "user1"); // FIXME Взять из конфига
 		props.put("password", "user1"); // FIXME Взять из конфига
 
-		
-		Connection conn = DriverManager.getConnection(protocol + dbName + ";create=true", props);
-//		conn.setAutoCommit(false);
-//		s = conn.createStatement();
-//		s.execute(sql);
-//
-//		conn.commit();
-		
+		Connection conn = DriverManager.getConnection(protocol + dbName
+				+ ";create=true", props);
+		// conn.setAutoCommit(false);
+		// s = conn.createStatement();
+		// s.execute(sql);
+		//
+		// conn.commit();
+
 		return conn;
 	}
-	
-	private void insertData(String DCM_FILE_NAME, String PATIENT_NAME, Date PATIENT_BIRTH_DATE,
-			Date STUDY_DATE) throws SQLException {
+
+	/**
+	 * @param DCM_FILE_NAME
+	 * @param PATIENT_NAME
+	 * @param PATIENT_BIRTH_DATE
+	 * @param STUDY_DATE
+	 * @throws SQLException
+	 */
+	private void insertCommonData(String DCM_FILE_NAME, String PATIENT_NAME,
+			Date PATIENT_BIRTH_DATE, Date STUDY_DATE) throws SQLException {
 		PreparedStatement psInsert = null;
-		
-		System.out.println("!!! ["+DCM_FILE_NAME + "]["+PATIENT_NAME+"]");
 
-		Properties props = new Properties(); // connection properties
-		props.put("user", "user1");
-		props.put("password", "user1");
-		String dbName = "derbyDBTEST"; // the name of the database
-	
+		System.out.println("!!! [" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]");
 
-		psInsert = connection.prepareStatement("insert into WEBDICOM.DCMFILES"
-				+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)" + " values (?, ?, ?, ?)");
+		psInsert = connection
+				.prepareStatement("insert into WEBDICOM.DCMFILE"
+						+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)"
+						+ " values (?, ?, ?, ?)");
 
 		psInsert.setString(1, DCM_FILE_NAME);
 		psInsert.setDate(2, PATIENT_BIRTH_DATE);
@@ -436,8 +441,50 @@ public class Sheduler {
 		psInsert.setDate(4, STUDY_DATE);
 
 		psInsert.executeUpdate();
+	}
 
-		
+	/**
+	 * @param FID_DCMFILE
+	 * @param CONTENT_TYPE
+	 * @param IMAGE_FILE_NAME
+	 * @throws SQLException
+	 */
+	private void insertImageData(String dcm_file, String CONTENT_TYPE,
+			String IMAGE_FILE_NAME) throws SQLException {
+
+		Integer FID_DCMFILE = 0;
+
+		PreparedStatement psSelect = connection
+				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
+
+		try {
+			psSelect.setString(1, dcm_file);
+
+			ResultSet rs = psSelect.executeQuery();
+
+			while (rs.next()) {
+				FID_DCMFILE = rs.getInt("ID");
+			}
+
+			System.out.println("!!! DCM FILE  [" + dcm_file + "] ID = " + FID_DCMFILE);
+		} finally {
+			psSelect.close();
+		}
+
+		PreparedStatement psInsert = null;
+
+		System.out
+				.println("!!! [" + FID_DCMFILE + "][" + IMAGE_FILE_NAME + "]");
+
+		psInsert = connection.prepareStatement("insert into WEBDICOM.IMAGES"
+				+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME)"
+				+ " values (?, ?, ?)");
+
+		psInsert.setInt(1, FID_DCMFILE);
+		psInsert.setString(2, CONTENT_TYPE);
+		psInsert.setString(3, IMAGE_FILE_NAME);
+
+		psInsert.executeUpdate();
 	}
 
 }
