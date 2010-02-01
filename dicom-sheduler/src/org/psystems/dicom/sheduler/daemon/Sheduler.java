@@ -3,10 +3,12 @@ package org.psystems.dicom.sheduler.daemon;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -54,9 +56,8 @@ public class Sheduler {
 	private String fileExt = ".jpg";
 
 	public static Logger logger = Logger.getLogger(Sheduler.class);
-//	public static Logger logger = Logger.getRootLogger();
+	// public static Logger logger = Logger.getRootLogger();
 
-	
 	private String srcDir;
 	private String dstDir;
 
@@ -74,6 +75,7 @@ public class Sheduler {
 	private String protocol = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 	private Connection connection;
 	private String srcDate;
+	private String charsetStr;
 
 	/**
 	 * @param args
@@ -96,24 +98,32 @@ public class Sheduler {
 		// create the Options
 		Options opts = new Options();
 
-		opts.addOption(OptionBuilder.withLongOpt("source-dir").withDescription("use PATH source dir")
-				.hasArg().withArgName("PATH").isRequired().create("s"));
+		opts.addOption(OptionBuilder.withLongOpt("source-dir").withDescription(
+				"use PATH source dir").hasArg().withArgName("PATH")
+				.isRequired().create("s"));
 
-		opts.addOption(OptionBuilder.withLongOpt("dest-dir").withDescription("use PATH destination dir")
-				.hasArg().withArgName("PATH").isRequired().create("d"));
+		opts.addOption(OptionBuilder.withLongOpt("dest-dir").withDescription(
+				"use PATH destination dir").hasArg().withArgName("PATH")
+				.isRequired().create("d"));
 
-		opts.addOption(OptionBuilder.withLongOpt("connection").withDescription("use URL for JDBC connector")
-				.hasArg().withArgName("URL").create("c"));
+		opts.addOption(OptionBuilder.withLongOpt("connection").withDescription(
+				"use URL for JDBC connector").hasArg().withArgName("URL")
+				.create("c"));
 
-		opts.addOption(OptionBuilder.withLongOpt("date").withDescription("use DATE for check").hasArg()
-				.withArgName("DATE").isRequired().create("dd"));
+		opts.addOption(OptionBuilder.withLongOpt("date").withDescription(
+				"use DATE for check").hasArg().withArgName("DATE").isRequired()
+				.create("dd"));
 
-		opts
-				.addOption(OptionBuilder.withLongOpt("daemon").withDescription("run sheduler as daemon")
-						.create());
+		opts.addOption(OptionBuilder.withLongOpt("charset").withDescription(
+				"use CHARSET for parsing").hasArg().withArgName("CHARSET")
+				.create("cs"));
+
+		opts.addOption(OptionBuilder.withLongOpt("daemon").withDescription(
+				"run sheduler as daemon").create());
 
 		opts.addOption("h", "help", false, "print this message");
-		opts.addOption("V", "version", false, "print the version information and exit");
+		opts.addOption("V", "version", false,
+				"print the version information and exit");
 
 		CommandLine cl = null;
 		try {
@@ -153,31 +163,39 @@ public class Sheduler {
 		// String[] args = new String[] { "-d test\\testdata\\out",
 		// "--source-dir=test\\testdata\\2009-12-16" };
 
-		//TODO убрать!!!
+		// TODO убрать!!!
 		PropertyConfigurator.configure("log4j.properties");
-		
+
 		CommandLine cl = parse(args);
 
 		if (cl.hasOption("source-dir")) {
 			srcDir = cl.getOptionValue("source-dir").trim();
-			logger.debug("srcDir=[" + srcDir + "]");
+			logger.info("srcDir=[" + srcDir + "]");
 		}
 
 		if (cl.hasOption("dest-dir")) {
 			dstDir = cl.getOptionValue("dest-dir").trim();
-			logger.debug("dstDir=[" + dstDir + "]");
+			logger.info("dstDir=[" + dstDir + "]");
 		}
 
 		if (cl.hasOption("date")) {
 			srcDate = cl.getOptionValue("date").trim();
-			logger.debug("srcDate=[" + srcDate + "]");
+			logger.info("srcDate=[" + srcDate + "]");
 		}
-		
+
+		if (cl.hasOption("charset")) {
+			charsetStr = cl.getOptionValue("charset").trim();
+			logger.info("Character Set=[" + charsetStr + "]");
+		}
+
 		try {
 			connection = getConnection();
 			iterateFiles();
 		} catch (SQLException e) {
-			logger.fatal(""+e);
+			logger.fatal("" + e);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			logger.fatal("" + e);
 		}
 
 	}
@@ -186,14 +204,12 @@ public class Sheduler {
 	 * Обход папок с файлами
 	 * 
 	 * @throws SQLException
+	 * @throws FileNotFoundException
 	 */
-	private void iterateFiles() throws SQLException {
+	private void iterateFiles() throws SQLException, FileNotFoundException {
 
-		// FIXME Сделать через календарь
-		// или через аогумент коммандной строки
-//		final String currentDateStr = "2009-12-16";
 		final String currentDateStr = srcDate;
-		
+
 		FilenameFilter filterDir = new FilenameFilter() {
 
 			@Override
@@ -222,6 +238,16 @@ public class Sheduler {
 		// TODO пока 2-х уровневая организация папок, потом сделать это
 		// рекурсивно. задается через регулярное выражение
 		File rootDir = new File(srcDir);
+
+		if (!rootDir.exists()) {
+			throw new FileNotFoundException(" No source directory found! "
+					+ srcDir);
+		}
+		if (!rootDir.canRead()) {
+			throw new FileNotFoundException(" No access for source directory! "
+					+ srcDir);
+		}
+
 		if (rootDir.isDirectory()) {
 			File[] dirs = rootDir.listFiles(filterDir);
 			for (int i = 0; i < dirs.length; i++) {
@@ -230,12 +256,21 @@ public class Sheduler {
 					File[] files = dirs[i].listFiles(filter);
 
 					// создаем рекурсивно директории
-					new File(dstDir + File.separator + dirs[i].getName()).mkdirs();
+					File f = new File(dstDir + File.separator
+							+ dirs[i].getName());
+					if (!rootDir.canWrite()) {
+						throw new FileNotFoundException(
+								" No write access for destination directory! "
+										+ dstDir);
+					}
+
+					f.mkdirs();
 
 					for (int j = 0; j < files.length; j++) {
-						String fileName = dirName + File.separator + files[j].getName();
+						String fileName = dirName + File.separator
+								+ files[j].getName();
 
-						System.out.println("FILE:" + fileName);
+						logger.info("parsing dicom file " + fileName);
 						extractData(fileName, true, true);
 					}
 
@@ -252,106 +287,100 @@ public class Sheduler {
 	 * @param needImages
 	 * @throws SQLException
 	 */
-	private void extractData(String file, boolean needTags, boolean needImages) throws SQLException {
+	private void extractData(String file, boolean needTags, boolean needImages)
+			throws SQLException {
 
 		String fileName = srcDir + File.separator + file;
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
+		SpecificCharacterSet cs = null;
+
 		try {
 
-			// din = new DicomInputStream(new File("demo/Im00001.dcm"));
-			// din = new DicomInputStream(new File("demo/6185.bin"));
 			din = new DicomInputStream(new File(fileName));
 			dcmObj = din.readDicomObject();
 			// System.out.println("dcmObj=" + dcmObj);
 
-			DicomObjectToStringParam param = DicomObjectToStringParam.getDefaultParam();
-
-			SpecificCharacterSet cs = null;
-
-			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
-				DicomElement element = it.next();
-
-				int tag = element.tag();
-
-				short ma = (short) (tag >> 16);
-				String major = Integer.toHexString(ma);
-
-				short mi = (short) (tag);
-				String minor = Integer.toHexString(mi);
-
-				// Object major = StringUtils.shortToHex(tag >> 16, sb);
-				// sb.append(',');
-				// Object minor = StringUtils.shortToHex(tag, sb);
-
-				if (tag == 524293 && tag == Tag.SpecificCharacterSet) {
-					cs = SpecificCharacterSet.valueOf(element.getStrings(null, false));
-					// String charset = element.getValueAsString(cs,
-					// element.length());
-					// cs = new SpecificCharacterSet("ISO-8859-5");
-
-					System.out.println("DicomElement (" + major + "," + minor + ") {" + tag + "}  " + " ["
-							+ dcmObj.nameOf(tag) + "]  = " + element.getValueAsString(cs, element.length()));
-				}
-
-				if (tag == 524416 || tag == 524417 || tag == 1048592 || tag == 1048608) {
-
-					System.out.println("DicomElement (" + major + "," + minor + ") {" + tag + "}  " + " ["
-							+ dcmObj.nameOf(tag) + "]  = " + element.getValueAsString(cs, element.length()));
-
-				}
-
-				// if (tag == 2145386512) {
-				//
-				// System.out.println("length=" + element.length());
-				// System.out.println("DicomElement (" + major + "," + minor
-				// + ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
-				// + "]  = " + element.getValueAsString(cs, 100));
-				// // https://jai-imageio.dev.java.net/binary-builds.html
-				//
-				// // byte[] rlePixelData = element.getFragment(1);
-				// // System.out.println("DicomElement IMAGE" +
-				// // rlePixelData.length);
-				//
-				// }
-
+			if (charsetStr != null) {
+				cs = new SpecificCharacterSet(charsetStr);
+			}
+			// читаем кодировку из dcm-файла
+			if (charsetStr == null) {
+				cs = SpecificCharacterSet.valueOf(dcmObj.get(
+						Tag.SpecificCharacterSet).getStrings(null, false));
 			}
 
+			// for (Iterator<DicomElement> it = dcmObj.iterator();
+			// it.hasNext();) {
+			// DicomElement element = it.next();
+			//
+			// int tag = element.tag();
+			//
+			// short ma = (short) (tag >> 16);
+			// String major = Integer.toHexString(ma);
+			//
+			// short mi = (short) (tag);
+			// String minor = Integer.toHexString(mi);
+			//
+			// // Object major = StringUtils.shortToHex(tag >> 16, sb);
+			// // sb.append(',');
+			// // Object minor = StringUtils.shortToHex(tag, sb);
+			//
+			// // if (tag == 524293 && tag == Tag.SpecificCharacterSet) {
+			// // cs = SpecificCharacterSet.valueOf(element.getStrings(null,
+			// // false));
+			// // // String charset = element.getValueAsString(cs,
+			// // // element.length());
+			// // // cs = new SpecificCharacterSet("ISO-8859-5");
+			// //
+			// // System.out.println("DicomElement (" + major + "," + minor
+			// // + ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
+			// // + "]  = "
+			// // + element.getValueAsString(cs, element.length()));
+			// // }
+			//
+			// if (tag == 524416 || tag == 524417 || tag == 1048592
+			// || tag == 1048608) {
+			//
+			// System.out.println("DicomElement (" + major + "," + minor
+			// + ") {" + tag + "}  " + " [" + dcmObj.nameOf(tag)
+			// + "]  = "
+			// + element.getValueAsString(cs, element.length()));
+			//
+			// }
+			//
+			// }
+
 			String DCM_FILE_NAME = file;
-			cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet).getStrings(null, false));
-			java.util.Date PATIENT_BIRTH_DATE = dcmObj.get(Tag.PatientBirthDate).getDate(false);
-			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate).getDate(false);
+
+			java.util.Date PATIENT_BIRTH_DATE = dcmObj
+					.get(Tag.PatientBirthDate).getDate(false);
+			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate)
+					.getDate(false);
+
 			DicomElement element1 = dcmObj.get(Tag.PatientName);
-			String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
+			String PATIENT_NAME = element1.getValueAsString(cs, element1
+					.length());
 
 			connection.setAutoCommit(false);
-			insertCommonData(DCM_FILE_NAME, PATIENT_NAME, new java.sql.Date(PATIENT_BIRTH_DATE.getTime()),
+			insertUpdateCommonData(file, DCM_FILE_NAME, PATIENT_NAME,
+					new java.sql.Date(PATIENT_BIRTH_DATE.getTime()),
 					new java.sql.Date(STUDY_DATE.getTime()));
 			connection.commit();
 
-			String srcFileName = srcDir + File.separator + file;
-			String dstFileName = dstDir + File.separator + file + fileExt;
-			String IMAGE_FILE_NAME = file + fileExt;
+			
 
-			try {
-				System.out.print("converting image...");
-
-				// File src = new File("demo/Im00001.dcm");
-				// File dest = new File("demo/Im00001.jpg");
-				File src = new File(srcFileName);
-				File dest = new File(dstFileName);
-
-				convert(DCM_FILE_NAME, IMAGE_FILE_NAME, src, dest);
-				System.out.println("success!");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		} catch (org.dcm4che2.data.ConfigurationError e) {
+			if (e.getCause() instanceof UnsupportedEncodingException) {
+				logger
+						.fatal("Unsupported character set" + charsetStr + " "
+								+ e);
 			}
-
+			logger.fatal("" + e);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return;
+			logger.fatal("" + e);
 		} finally {
 			try {
 				if (din != null)
@@ -362,11 +391,13 @@ public class Sheduler {
 
 	}
 
-	public void convert(String DCM_FILE_NAME, String IMAGE_FILE_NAME, File src, File dest)
-			throws IOException, SQLException {
-		Iterator<ImageReader> iter = ImageIO.getImageReadersByFormatName("DICOM");
+	public void convert(String DCM_FILE_NAME, String IMAGE_FILE_NAME, File src,
+			File dest) throws IOException, SQLException {
+		Iterator<ImageReader> iter = ImageIO
+				.getImageReadersByFormatName("DICOM");
 		ImageReader reader = iter.next();
-		DicomImageReadParam param = (DicomImageReadParam) reader.getDefaultReadParam();
+		DicomImageReadParam param = (DicomImageReadParam) reader
+				.getDefaultReadParam();
 		param.setWindowCenter(center);
 		param.setWindowWidth(width);
 		param.setVoiLutFunction(vlutFct);
@@ -405,7 +436,8 @@ public class Sheduler {
 		props.put("user", "user1"); // FIXME Взять из конфига
 		props.put("password", "user1"); // FIXME Взять из конфига
 
-		Connection conn = DriverManager.getConnection(protocol + ";create=true", props);
+		Connection conn = DriverManager.getConnection(
+				protocol + ";create=true", props);
 		// conn.setAutoCommit(false);
 		// s = conn.createStatement();
 		// s.execute(sql);
@@ -422,57 +454,137 @@ public class Sheduler {
 	 * @param STUDY_DATE
 	 * @throws SQLException
 	 */
-	private void insertCommonData(String DCM_FILE_NAME, String PATIENT_NAME, Date PATIENT_BIRTH_DATE,
-			Date STUDY_DATE) throws SQLException {
-		PreparedStatement psInsert = null;
+	/**
+	 * @param file - короткое имя файла (без корневой диретокрии)
+	 * @param DCM_FILE_NAME
+	 * @param PATIENT_NAME
+	 * @param PATIENT_BIRTH_DATE
+	 * @param STUDY_DATE
+	 * @throws SQLException
+	 * @throws IOException 
+	 */
+	private void insertUpdateCommonData(String file, String DCM_FILE_NAME,
+			String PATIENT_NAME, Date PATIENT_BIRTH_DATE, Date STUDY_DATE)
+			throws SQLException, IOException {
+		
+		PreparedStatement stmt = null;
 
-		System.out.println("!!! [" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]");
+		logger.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]["
+				+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
 
-		psInsert = connection.prepareStatement("insert into WEBDICOM.DCMFILE"
-				+ " (DCM_FILE_NAME, PATIENT_BIRTH_DATE, PATIENT_NAME, STUDY_DATE)" + " values (?, ?, ?, ?)");
+		// Проверка на наличии этого файла в БД
+		try {
+			int id = checkDbDCMFile(DCM_FILE_NAME);
+			logger.info("File already in database [" + id + "] ["
+					+ DCM_FILE_NAME + "]");
+			logger.info("update data in database [" + DCM_FILE_NAME + "]");
 
-		psInsert.setString(1, DCM_FILE_NAME);
-		psInsert.setDate(2, PATIENT_BIRTH_DATE);
-		psInsert.setString(3, PATIENT_NAME);
-		psInsert.setDate(4, STUDY_DATE);
+			stmt = connection
+					.prepareStatement("update WEBDICOM.DCMFILE"
+							+ " SET PATIENT_NAME = ?, PATIENT_BIRTH_DATE = ?, STUDY_DATE = ?"
+							+ " where ID = ?");
 
-		psInsert.executeUpdate();
+			stmt.setString(1, PATIENT_NAME);
+			stmt.setDate(2, PATIENT_BIRTH_DATE);
+			stmt.setDate(3, STUDY_DATE);
+			stmt.setInt(4, id);
+
+			stmt.executeUpdate();
+			
+			logger.info("skip converting image.");
+
+		} catch (NoDataFoundEsception ex) {
+			// Делаем вставку
+			logger.info("insert data in database [" + DCM_FILE_NAME + "]");
+			stmt = connection
+					.prepareStatement("insert into WEBDICOM.DCMFILE"
+							+ " (DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, STUDY_DATE)"
+							+ " values (?, ?, ?, ?)");
+
+			stmt.setString(1, DCM_FILE_NAME);
+			stmt.setString(2, PATIENT_NAME);
+			stmt.setDate(3, PATIENT_BIRTH_DATE);
+			stmt.setDate(4, STUDY_DATE);
+
+			stmt.executeUpdate();
+			
+			String srcFileName = srcDir + File.separator + file;
+			String dstFileName = dstDir + File.separator + file + fileExt;
+			String IMAGE_FILE_NAME = file + fileExt;
+
+			logger.info("converting image(s)... " + srcFileName + "][" + dstFileName + "]");
+			
+
+			File src = new File(srcFileName);
+			File dest = new File(dstFileName);
+
+			convert(DCM_FILE_NAME, IMAGE_FILE_NAME, src, dest);
+			logger.info("converting image(s) success!");
+		}
+
 	}
 
 	/**
-	 * @param FID_DCMFILE
+	 * Проверка на наличии этого файла в БД
+	 * 
+	 * @param dcm_file_name
+	 * @return
+	 * @throws SQLException
+	 */
+	private int checkDbDCMFile(String dcm_file_name) throws SQLException {
+		PreparedStatement psSelect = connection
+				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
+		try {
+			psSelect.setString(1, dcm_file_name);
+			ResultSet rs = psSelect.executeQuery();
+			while (rs.next()) {
+				return rs.getInt("ID");
+			}
+
+		} finally {
+			psSelect.close();
+		}
+		throw new NoDataFoundEsception("No data");
+	}
+
+	
+	/**
+	 * Вставка информации о картинках в БД
+	 * @param dcm_file
 	 * @param CONTENT_TYPE
 	 * @param IMAGE_FILE_NAME
 	 * @throws SQLException
 	 */
-	private void insertImageData(String dcm_file, String CONTENT_TYPE, String IMAGE_FILE_NAME)
-			throws SQLException {
+	private void insertImageData(String dcm_file, String CONTENT_TYPE,
+			String IMAGE_FILE_NAME) throws SQLException {
 
-		Integer FID_DCMFILE = 0;
+//		Integer FID_DCMFILE = 0;
+//
+//		PreparedStatement psSelect = connection
+//				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
+//
+//		try {
+//			psSelect.setString(1, dcm_file);
+//			ResultSet rs = psSelect.executeQuery();
+//			while (rs.next()) {
+//				FID_DCMFILE = rs.getInt("ID");
+//			}
+//
+//			logger.info("insert data in database  [" + dcm_file + "] ID = "
+//					+ FID_DCMFILE);
+//		} finally {
+//			psSelect.close();
+//		}
 
-		PreparedStatement psSelect = connection
-				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
-
-		try {
-			psSelect.setString(1, dcm_file);
-
-			ResultSet rs = psSelect.executeQuery();
-
-			while (rs.next()) {
-				FID_DCMFILE = rs.getInt("ID");
-			}
-
-			System.out.println("!!! DCM FILE  [" + dcm_file + "] ID = " + FID_DCMFILE);
-		} finally {
-			psSelect.close();
-		}
-
+		Integer FID_DCMFILE = checkDbDCMFile(dcm_file);
+		
 		PreparedStatement psInsert = null;
 
-		System.out.println("!!! [" + FID_DCMFILE + "][" + IMAGE_FILE_NAME + "]");
+		logger.info("insert data in database [" + FID_DCMFILE + "] image [" + IMAGE_FILE_NAME + "]");
 
 		psInsert = connection.prepareStatement("insert into WEBDICOM.IMAGES"
-				+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME)" + " values (?, ?, ?)");
+				+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME)"
+				+ " values (?, ?, ?)");
 
 		psInsert.setInt(1, FID_DCMFILE);
 		psInsert.setString(2, CONTENT_TYPE);
