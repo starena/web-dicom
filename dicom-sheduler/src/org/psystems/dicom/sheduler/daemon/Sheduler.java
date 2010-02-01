@@ -493,7 +493,7 @@ public class Sheduler {
 			
 			logger.info("skip converting image.");
 
-		} catch (NoDataFoundEsception ex) {
+		} catch (NoDataFoundException ex) {
 			// Делаем вставку
 			logger.info("insert data in database [" + DCM_FILE_NAME + "]");
 			stmt = connection
@@ -544,7 +544,7 @@ public class Sheduler {
 		} finally {
 			psSelect.close();
 		}
-		throw new NoDataFoundEsception("No data");
+		throw new NoDataFoundException("No data");
 	}
 
 	
