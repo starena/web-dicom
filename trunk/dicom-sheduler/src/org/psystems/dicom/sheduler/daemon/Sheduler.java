@@ -28,6 +28,8 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.DicomObjectToStringParam;
@@ -51,6 +53,10 @@ public class Sheduler {
 	private short[] pval2gray;
 	private String fileExt = ".jpg";
 
+	public static Logger logger = Logger.getLogger(Sheduler.class);
+//	public static Logger logger = Logger.getRootLogger();
+
+	
 	private String srcDir;
 	private String dstDir;
 
@@ -66,7 +72,6 @@ public class Sheduler {
 	private String VERSION = "0.1a";
 
 	private String protocol = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
-	// String dbName = "WEBDICOM"; // the name of the database
 	private Connection connection;
 	private String srcDate;
 
@@ -92,16 +97,16 @@ public class Sheduler {
 		Options opts = new Options();
 
 		opts.addOption(OptionBuilder.withLongOpt("source-dir").withDescription("use PATH source dir")
-				.hasArg().withArgName("PATH").create("s"));
+				.hasArg().withArgName("PATH").isRequired().create("s"));
 
 		opts.addOption(OptionBuilder.withLongOpt("dest-dir").withDescription("use PATH destination dir")
-				.hasArg().withArgName("PATH").create("d"));
+				.hasArg().withArgName("PATH").isRequired().create("d"));
 
 		opts.addOption(OptionBuilder.withLongOpt("connection").withDescription("use URL for JDBC connector")
 				.hasArg().withArgName("URL").create("c"));
 
 		opts.addOption(OptionBuilder.withLongOpt("date").withDescription("use DATE for check").hasArg()
-				.withArgName("DATE").create("dd"));
+				.withArgName("DATE").isRequired().create("dd"));
 
 		opts
 				.addOption(OptionBuilder.withLongOpt("daemon").withDescription("run sheduler as daemon")
@@ -148,29 +153,31 @@ public class Sheduler {
 		// String[] args = new String[] { "-d test\\testdata\\out",
 		// "--source-dir=test\\testdata\\2009-12-16" };
 
+		//TODO убрать!!!
+		PropertyConfigurator.configure("log4j.properties");
+		
 		CommandLine cl = parse(args);
 
 		if (cl.hasOption("source-dir")) {
 			srcDir = cl.getOptionValue("source-dir").trim();
-			System.out.println("srcDir=[" + srcDir + "]");
+			logger.debug("srcDir=[" + srcDir + "]");
 		}
 
 		if (cl.hasOption("dest-dir")) {
 			dstDir = cl.getOptionValue("dest-dir").trim();
-			System.out.println("dstDir=[" + dstDir + "]");
+			logger.debug("dstDir=[" + dstDir + "]");
 		}
 
 		if (cl.hasOption("date")) {
 			srcDate = cl.getOptionValue("date").trim();
-			System.out.println("srcDate=[" + srcDate + "]");
+			logger.debug("srcDate=[" + srcDate + "]");
 		}
 		
 		try {
 			connection = getConnection();
 			iterateFiles();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.fatal(""+e);
 		}
 
 	}
