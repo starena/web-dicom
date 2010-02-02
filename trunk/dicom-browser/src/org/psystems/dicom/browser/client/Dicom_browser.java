@@ -31,8 +31,8 @@ public class Dicom_browser implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final BrowserServiceAsync browserService = GWT
+			.create(BrowserService.class);
 
 	/**
 	 * This is the entry point method.
@@ -108,7 +108,7 @@ public class Dicom_browser implements EntryPoint {
 				String textToServer = nameField.getText();
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
+				browserService.test(textToServer,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
