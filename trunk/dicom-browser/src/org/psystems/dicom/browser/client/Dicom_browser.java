@@ -1,5 +1,9 @@
 package org.psystems.dicom.browser.client;
 
+
+
+import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,6 +24,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Dicom_browser implements EntryPoint {
+	
+	private DialogBox errorDialogBox;
+	private HTML errorResponseLabel;
+	
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -119,6 +127,8 @@ public class Dicom_browser implements EntryPoint {
 								serverResponseLabel.setHTML(SERVER_ERROR);
 								dialogBox.center();
 								closeButton.setFocus(true);
+								
+								showErrorDlg((DefaultGWTRPCException) caught);
 							}
 
 							public void onSuccess(String result) {
@@ -137,5 +147,76 @@ public class Dicom_browser implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+		
+		createErorrDlg();
+		
+		Button b = new Button("!!!");
+		RootPanel.get("resultContainer").add(b);
+		b.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				browserService.findStudy("!!!!!!!!!!", new AsyncCallback<DcmFileProxy[]>() {
+					
+							public void onFailure(Throwable caught) {
+								showErrorDlg((DefaultGWTRPCException) caught);
+							}
+
+							public void onSuccess(DcmFileProxy[] result) {
+//								dialogBox.setText("Remote Procedure Call");
+//								serverResponseLabel
+//										.removeStyleName("serverResponseLabelError");
+//								serverResponseLabel.setHTML(result);
+//								dialogBox.center();
+//								closeButton.setFocus(true);
+								for(int i=0; i<result.length; i++) {
+									DcmFileProxy proxy = result[i];
+									Label l = new Label(proxy.getPatientName());
+									RootPanel.get("resultContainer").add(l);
+								}
+								
+							}
+						});
+			}
+			
+		});
+	}
+	
+	private void showErrorDlg(DefaultGWTRPCException e) {
+		errorResponseLabel.setHTML("Ошибка: " + e.getText());
+		errorDialogBox.show();
+		errorDialogBox.center();
+		
+	}
+	
+	/**
+	 * 
+	 */
+	private void createErorrDlg() {
+		errorDialogBox = new DialogBox();
+		errorDialogBox.setText("Ошибка!");
+		errorDialogBox.setAnimationEnabled(true);
+		final Button closeButton = new Button("Close");
+		// We can set the id of a widget by accessing its Element
+		closeButton.getElement().setId("closeButton");
+		final Label textToServerLabel = new Label();
+		errorResponseLabel = new HTML();
+		VerticalPanel dialogVPanel = new VerticalPanel();
+		dialogVPanel.addStyleName("dialogVPanel");
+	
+		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
+		dialogVPanel.add(errorResponseLabel);
+		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+		dialogVPanel.add(closeButton);
+		errorDialogBox.setWidget(dialogVPanel);
+
+		// Add a handler to close the DialogBox
+		closeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				errorDialogBox.hide();
+			}
+		});
+
 	}
 }
