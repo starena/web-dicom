@@ -27,6 +27,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 	private String connectionStr = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 	private Connection connection;
+	private int maxReturnRecords = 20; //Максимальное количество возвращаемых записей
 	
 	private static Logger logger =Logger.getLogger(BrowserServiceImpl.class);
 	static { PropertyConfigurator.configure("WEB-INF/log4j.properties");}//TODO Убрать !!!
@@ -75,17 +76,19 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		psSelect = connection
 				.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, " +
-						" STUDY_DATE FROM WEBDICOM.DCMFILE");
+						" STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
 		
-			// psSelect.setString(1, dcm_file_name);
+			 psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmFileProxy> data = new ArrayList<DcmFileProxy>();
+			int index = 0;
 			while (rs.next()) {
 				DcmFileProxy proxy = new DcmFileProxy();
 				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), 
 						rs.getString("PATIENT_NAME"), rs.getDate("PATIENT_BIRTH_DATE"),
 						 rs.getDate("STUDY_DATE"));
 				data.add(proxy);
+				if(index++ > maxReturnRecords) { break; }
 				
 			}
 			

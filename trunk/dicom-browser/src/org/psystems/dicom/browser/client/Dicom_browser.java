@@ -1,7 +1,5 @@
 package org.psystems.dicom.browser.client;
 
-
-
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -24,10 +22,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Dicom_browser implements EntryPoint {
-	
+
 	private DialogBox errorDialogBox;
 	private HTML errorResponseLabel;
-	
+
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -37,7 +35,8 @@ public class Dicom_browser implements EntryPoint {
 			+ "connection and try again.";
 
 	/**
-	 * Create a remote service proxy to talk to the server-side Greeting service.
+	 * Create a remote service proxy to talk to the server-side Greeting
+	 * service.
 	 */
 	private final BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);
@@ -48,13 +47,11 @@ public class Dicom_browser implements EntryPoint {
 	public void onModuleLoad() {
 		final Button sendButton = new Button("Send");
 		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
+		createErorrDlg();
 
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("nameFieldContainer").add(nameField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
 
@@ -62,33 +59,7 @@ public class Dicom_browser implements EntryPoint {
 		nameField.setFocus(true);
 		nameField.selectAll();
 
-		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
-		dialogBox.setText("Remote Procedure Call");
-		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
-		// We can set the id of a widget by accessing its Element
-		closeButton.getElement().setId("closeButton");
-		final Label textToServerLabel = new Label();
-		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		dialogVPanel.add(textToServerLabel);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		dialogVPanel.add(serverResponseLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
-
-		// Add a handler to close the DialogBox
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
-			}
-		});
+	
 
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
@@ -109,87 +80,52 @@ public class Dicom_browser implements EntryPoint {
 			}
 
 			/**
-			 * Send the name from the nameField to the server and wait for a response.
+			 * Send the name from the nameField to the server and wait for a
+			 * response.
 			 */
 			private void sendNameToServer() {
 				sendButton.setEnabled(false);
 				String textToServer = nameField.getText();
-				textToServerLabel.setText(textToServer);
-				serverResponseLabel.setText("");
-				browserService.test(textToServer,
-						new AsyncCallback<String>() {
+				RootPanel.get("resultContainer").clear();
+
+				browserService.findStudy(textToServer,
+						new AsyncCallback<DcmFileProxy[]>() {
+
 							public void onFailure(Throwable caught) {
-								// Show the RPC error message to the user
-								dialogBox
-										.setText("Remote Procedure Call - Failure");
-								serverResponseLabel
-										.addStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(SERVER_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
-								
 								showErrorDlg((DefaultGWTRPCException) caught);
+								sendButton.setEnabled(true);
+								nameField.setFocus(true);
+								nameField.selectAll();
 							}
 
-							public void onSuccess(String result) {
-								dialogBox.setText("Remote Procedure Call");
-								serverResponseLabel
-										.removeStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(result);
-								dialogBox.center();
-								closeButton.setFocus(true);
+							public void onSuccess(DcmFileProxy[] result) {
+								
+								for (int i = 0; i < result.length; i++) {
+									DcmFileProxy proxy = result[i];
+									Label l = new Label(proxy.getPatientName());
+									RootPanel.get("resultContainer").add(l);
+								}
+								sendButton.setEnabled(true);
+								nameField.setFocus(true);
+								nameField.selectAll();
 							}
 						});
 			}
 		}
 
-		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
 		
-		createErorrDlg();
-		
-		Button b = new Button("!!!");
-		RootPanel.get("resultContainer").add(b);
-		b.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				browserService.findStudy("!!!!!!!!!!", new AsyncCallback<DcmFileProxy[]>() {
-					
-							public void onFailure(Throwable caught) {
-								showErrorDlg((DefaultGWTRPCException) caught);
-							}
-
-							public void onSuccess(DcmFileProxy[] result) {
-//								dialogBox.setText("Remote Procedure Call");
-//								serverResponseLabel
-//										.removeStyleName("serverResponseLabelError");
-//								serverResponseLabel.setHTML(result);
-//								dialogBox.center();
-//								closeButton.setFocus(true);
-								for(int i=0; i<result.length; i++) {
-									DcmFileProxy proxy = result[i];
-									Label l = new Label(proxy.getPatientName());
-									RootPanel.get("resultContainer").add(l);
-								}
-								
-							}
-						});
-			}
-			
-		});
 	}
-	
+
 	private void showErrorDlg(DefaultGWTRPCException e) {
 		errorResponseLabel.setHTML("Ошибка: " + e.getText());
 		errorDialogBox.show();
 		errorDialogBox.center();
-		
+
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -204,7 +140,7 @@ public class Dicom_browser implements EntryPoint {
 		errorResponseLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
-	
+
 		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
 		dialogVPanel.add(errorResponseLabel);
 		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
