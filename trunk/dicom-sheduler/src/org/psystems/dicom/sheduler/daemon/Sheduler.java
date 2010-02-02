@@ -72,10 +72,12 @@ public class Sheduler {
 
 	private String VERSION = "0.1a";
 
-	private String protocol = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
+//	private String protocol = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 	private Connection connection;
 	private String srcDate;
 	private String charsetStr;
+	private String cStr;
+	private String connectionStr = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 
 	/**
 	 * @param args
@@ -108,7 +110,7 @@ public class Sheduler {
 
 		opts.addOption(OptionBuilder.withLongOpt("connection").withDescription(
 				"use URL for JDBC connector").hasArg().withArgName("URL")
-				.create("c"));
+				.isRequired().create("c"));
 
 		opts.addOption(OptionBuilder.withLongOpt("date").withDescription(
 				"use DATE for check").hasArg().withArgName("DATE").isRequired()
@@ -185,7 +187,12 @@ public class Sheduler {
 
 		if (cl.hasOption("charset")) {
 			charsetStr = cl.getOptionValue("charset").trim();
-			logger.info("Character Set=[" + charsetStr + "]");
+			logger.info("CharacterSet=[" + charsetStr + "]");
+		}
+		
+		if (cl.hasOption("connection")) {
+			connectionStr = cl.getOptionValue("connection").trim();
+			logger.info("connectionURL=[" + connectionStr + "]");
 		}
 
 		try {
@@ -437,7 +444,7 @@ public class Sheduler {
 		props.put("password", "user1"); // FIXME Взять из конфига
 
 		Connection conn = DriverManager.getConnection(
-				protocol + ";create=true", props);
+				connectionStr + ";create=true", props);
 		// conn.setAutoCommit(false);
 		// s = conn.createStatement();
 		// s.execute(sql);
