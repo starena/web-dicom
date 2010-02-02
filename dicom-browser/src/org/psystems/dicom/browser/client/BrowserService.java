@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * The client side stub for the RPC service.
  */
-@RemoteServiceRelativePath("greet")
-public interface GreetingService extends RemoteService {
-	String greetServer(String name);
+@RemoteServiceRelativePath("browser")
+public interface BrowserService extends RemoteService {
+	String test(String name) throws DefaultGWTRPCException;
 }
