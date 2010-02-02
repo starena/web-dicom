@@ -25,8 +25,7 @@ import org.apache.log4j.PropertyConfigurator;
 public class BrowserServiceImpl extends RemoteServiceServlet implements
 		BrowserService {
 
-	private String connectionStr = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
-	private Connection connection;
+	
 	private int maxReturnRecords = 20; //Максимальное количество возвращаемых записей
 	
 	private static Logger logger =Logger.getLogger(BrowserServiceImpl.class);
@@ -37,7 +36,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 		Connection conn;
 		try {
-			conn = getConnection();
+			conn = Util.getConnection();
 			return "Hello, " + input + "!<br><br>I am running " + serverInfo
 					+ " conn=" + conn
 					+ ".<br><br>It looks like you are using:<br>" + userAgent;
@@ -49,17 +48,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 	}
 
-	private Connection getConnection() throws SQLException {
 
-		Properties props = new Properties(); // connection properties
-		props.put("user", "user1"); // FIXME взять из конфига
-		props.put("password", "user1"); // FIXME взять из конфига
-
-		connection = DriverManager.getConnection(
-				connectionStr + ";create=true", props);
-
-		return connection;
-	}
 
 	@Override
 	public DcmFileProxy[] findStudy(String queryStr)
@@ -71,10 +60,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		
 		try {
 			
-		if (connection == null)
-			getConnection();// FIXME Сделать получение соединения через pool
+		if (Util.connection == null)
+			Util.getConnection();// FIXME Сделать получение соединения через pool
 
-		psSelect = connection
+		psSelect = Util.connection
 				.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, " +
 						" STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
 		
