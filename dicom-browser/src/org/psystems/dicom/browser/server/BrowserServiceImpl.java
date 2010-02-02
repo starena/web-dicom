@@ -14,6 +14,10 @@ import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+
 /**
  * The server side implementation of the RPC service.
  */
@@ -23,6 +27,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 	private String connectionStr = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 	private Connection connection;
+	
+	private static Logger logger =Logger.getLogger(BrowserServiceImpl.class);
+	static { PropertyConfigurator.configure("WEB-INF/log4j.properties");}//TODO Убрать !!!
 
 	public String test(String input) throws DefaultGWTRPCException {
 		String serverInfo = getServletContext().getServerInfo();
@@ -57,6 +64,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	public DcmFileProxy[] findStudy(String queryStr)
 			throws DefaultGWTRPCException {
 
+		
+		
 		PreparedStatement psSelect = null;
 		
 		try {
@@ -84,13 +93,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			return result;
 
 		} catch (SQLException e) {
+			logger.error(e);
 			throw new DefaultGWTRPCException(e.getMessage());
 		} finally {
 			
 			try {
 				if(psSelect!=null) psSelect.close();
 			} catch (SQLException e) {
-				//FIXME Выдать сообщение в logger !!!!
+				logger.error(e);
 				throw new DefaultGWTRPCException(e.getMessage());
 			}
 		}
