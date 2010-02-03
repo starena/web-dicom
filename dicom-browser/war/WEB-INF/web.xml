@@ -5,43 +5,58 @@
 
 <web-app>
 
- <system-properties>
-        <property name="myapp.maximum-message-length" value="140" />
-        <property name="myapp.notify-every-n-signups" value="1000" />
-        <property name="myapp.notify-url" value="http://www.example.com/signupnotify" />
-    </system-properties>
 
-    <env-variables>
-        <env-var name="DEFAULT_ENCODING_DDV" value="UTF-8" />
-    </env-variables>
+	<context-param>
+		<param-name>dbconnection</param-name>
+		<param-value>jdbc:derby://localhost:1527//WORKDB/WEBDICOM</param-value>
+		<description> URL for Database connection </description>
+	</context-param>
 
-  
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>browserServlet</servlet-name>
-    <servlet-class>org.psystems.dicom.browser.server.BrowserServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>browserServlet</servlet-name>
-    <url-pattern>/dicom_browser/browser</url-pattern>
-  </servlet-mapping>
-  
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>Dicom_browser.html</welcome-file>
-  </welcome-file-list>
-  
-  <servlet>
+
+	<resource-ref>
+		<res-ref-name>jdbc/webdicom</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+
+	<system-properties>
+		<property name="myapp.maximum-message-length" value="140" />
+		<property name="myapp.notify-every-n-signups" value="1000" />
+		<property name="myapp.notify-url" value="http://www.example.com/signupnotify" />
+	</system-properties>
+
+	<env-variables>
+		<env-var name="DEFAULT_ENCODING_DDV" value="UTF-8" />
+	</env-variables>
+
+
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>browserServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.BrowserServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>browserServlet</servlet-name>
+		<url-pattern>/dicom_browser/browser</url-pattern>
+	</servlet-mapping>
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Dicom_browser.html</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
 		<servlet-name>attachementServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.AttachementServlet
 		</servlet-class>
-		
+
 		<init-param>
-            <param-name>teamColor</param-name>
-            <param-value>red</param-value>
-        </init-param>
-		
+			<param-name>teamColor</param-name>
+			<param-value>red</param-value>
+		</init-param>
+
 	</servlet>
 
 	<servlet-mapping>
