@@ -4,6 +4,17 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
+
+ <system-properties>
+        <property name="myapp.maximum-message-length" value="140" />
+        <property name="myapp.notify-every-n-signups" value="1000" />
+        <property name="myapp.notify-url" value="http://www.example.com/signupnotify" />
+    </system-properties>
+
+    <env-variables>
+        <env-var name="DEFAULT_ENCODING_DDV" value="UTF-8" />
+    </env-variables>
+
   
   <!-- Servlets -->
   <servlet>
@@ -25,6 +36,12 @@
 		<servlet-name>attachementServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.AttachementServlet
 		</servlet-class>
+		
+		<init-param>
+            <param-name>teamColor</param-name>
+            <param-value>red</param-value>
+        </init-param>
+		
 	</servlet>
 
 	<servlet-mapping>
