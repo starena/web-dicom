@@ -13,6 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -104,6 +105,14 @@ public class Dicom_browser implements EntryPoint {
 									DcmFileProxy proxy = result[i];
 									Label l = new Label(proxy.getPatientName());
 									RootPanel.get("resultContainer").add(l);
+									
+									Image image = new Image("/images/" + 1);
+									image.setWidth("200px");
+//									 image.setSize("150px", "150px");
+									System.out.println("!!! image SIZE: " + image.getWidth()
+											+ ";" + image.getHeight());
+									
+									RootPanel.get("resultContainer").add(image);
 								}
 								sendButton.setEnabled(true);
 								nameField.setFocus(true);
