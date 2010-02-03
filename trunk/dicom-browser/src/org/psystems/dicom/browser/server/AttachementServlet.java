@@ -5,14 +5,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -22,7 +27,7 @@ public class AttachementServlet extends HttpServlet {
 	private static Logger logger = Logger.getLogger(AttachementServlet.class
 			.getName());
 	static {
-		PropertyConfigurator.configure("WEB-INF/log4j.properties");
+//		PropertyConfigurator.configure("WEB-INF/log4j.properties");
 	}// TODO Убрать !!!
 	// FIXME Взять imagesRootDir из конфига
 	private String imagesRootDir = "C:\\WORK\\workspace\\dicom-sheduler\\test\\testdata\\out";
@@ -37,6 +42,9 @@ public class AttachementServlet extends HttpServlet {
 
 		String teamColor = getServletConfig().getInitParameter("teamColor");
 		System.out.println("!!! teamColor "+teamColor);
+		
+		String value = getServletContext().getInitParameter("name_of_context_initialization_parameter");
+		System.out.println("!!! value "+value);
 		
 		String osVersion = System.getProperty("myapp.notify-url");
 		System.out.println("!!! prop "+System.getenv("DEFAULT_ENCODING_DDV"));
@@ -58,17 +66,29 @@ public class AttachementServlet extends HttpServlet {
 		PreparedStatement psSelect = null;
 		try {
 			// FIXME Сделать получение соединения через pool
-			if (Util.connection == null)
-				Util.getConnection();
+//			if (Util.connection == null)
+//				Util.getConnection();
+			
+			//for Tomcat
+			Context initCtx = new InitialContext();
+		    Context envCtx = (Context) initCtx.lookup("java:comp/env");
+		    DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom"); 
+		    Connection connection = ds.getConnection(); 
+		    
+//		    InitialContext ic = new InitialContext();
+//		    DataSource myDS = (DataSource)ic.lookup("java:comp/env/jdbc/webdicom");
+//		    Connection connection = myDS.getConnection();
+
+
 
 			if (fileName == null) {
 				//ищем по ID
-				psSelect = Util.connection
+				psSelect = connection
 				.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME "
 						+ " FROM WEBDICOM.IMAGES WHERE ID = ? ");
 				psSelect.setInt(1, imageId);
 			} else {
-				psSelect = Util.connection
+				psSelect = connection
 					.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME "
 							+ " FROM WEBDICOM.IMAGES WHERE IMAGE_FILE_NAME = ? ");
 				psSelect.setString(1, path);
@@ -91,14 +111,20 @@ public class AttachementServlet extends HttpServlet {
 				return;
 			}
 
-		} catch (SQLException e) {
+		} catch (NamingException e) {
 			logger.error(e);
+			e.printStackTrace();
+		}
+		catch (SQLException e) {
+			logger.error(e);
+			e.printStackTrace();
 		} finally {
 			try {
 				if (psSelect != null)
 					psSelect.close();
 			} catch (SQLException e) {
 				logger.error(e);
+				e.printStackTrace();
 			}
 		}
 
@@ -109,6 +135,7 @@ public class AttachementServlet extends HttpServlet {
 			resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Image no found! "
 					+ fileName);
+			ex.printStackTrace();
 			return;
 		}
 		BufferedOutputStream out = new BufferedOutputStream(resp

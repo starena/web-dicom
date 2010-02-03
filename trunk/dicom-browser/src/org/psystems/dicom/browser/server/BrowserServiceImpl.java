@@ -29,7 +29,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	private int maxReturnRecords = 20; //Максимальное количество возвращаемых записей
 	
 	private static Logger logger =Logger.getLogger(BrowserServiceImpl.class);
-	static { PropertyConfigurator.configure("WEB-INF/log4j.properties");}//TODO Убрать !!!
+//	static { PropertyConfigurator.configure("WEB-INF/log4j.properties");}//TODO Убрать !!!
 
 	public String test(String input) throws DefaultGWTRPCException {
 		String serverInfo = getServletContext().getServerInfo();

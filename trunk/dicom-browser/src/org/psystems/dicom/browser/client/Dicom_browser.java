@@ -106,7 +106,7 @@ public class Dicom_browser implements EntryPoint {
 									Label l = new Label(proxy.getPatientName());
 									RootPanel.get("resultContainer").add(l);
 									
-									Image image = new Image("/images/" + 1);
+									Image image = new Image("images/" + 1);
 									image.setWidth("200px");
 //									 image.setSize("150px", "150px");
 									System.out.println("!!! image SIZE: " + image.getWidth()
