@@ -60,10 +60,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		
 		try {
 			
-		if (Util.connection == null)
-			Util.getConnection();// FIXME Сделать получение соединения через pool
+			Connection connection = Util.getConnection();
+			
 
-		psSelect = Util.connection
+		psSelect = connection
 				.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, " +
 						" STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
 		

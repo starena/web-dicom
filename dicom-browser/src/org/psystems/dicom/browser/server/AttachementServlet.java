@@ -69,17 +69,14 @@ public class AttachementServlet extends HttpServlet {
 //			if (Util.connection == null)
 //				Util.getConnection();
 			
-			//for Tomcat
-			Context initCtx = new InitialContext();
-		    Context envCtx = (Context) initCtx.lookup("java:comp/env");
-		    DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom"); 
-		    Connection connection = ds.getConnection(); 
+			
 		    
 //		    InitialContext ic = new InitialContext();
 //		    DataSource myDS = (DataSource)ic.lookup("java:comp/env/jdbc/webdicom");
 //		    Connection connection = myDS.getConnection();
 
 
+			Connection connection = Util.getConnection();
 
 			if (fileName == null) {
 				//ищем по ID
@@ -111,10 +108,7 @@ public class AttachementServlet extends HttpServlet {
 				return;
 			}
 
-		} catch (NamingException e) {
-			logger.error(e);
-			e.printStackTrace();
-		}
+		} 
 		catch (SQLException e) {
 			logger.error(e);
 			e.printStackTrace();
