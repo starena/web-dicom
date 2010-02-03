@@ -35,6 +35,13 @@ public class AttachementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		String teamColor = getServletConfig().getInitParameter("teamColor");
+		System.out.println("!!! teamColor "+teamColor);
+		
+		String osVersion = System.getProperty("myapp.notify-url");
+		System.out.println("!!! prop "+System.getenv("DEFAULT_ENCODING_DDV"));
+
+		
 		String path = req.getPathInfo().replaceFirst("/", "");
 		String fileName = null;
 		resp.setCharacterEncoding("utf-8");
