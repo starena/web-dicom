@@ -20,5 +20,21 @@
   <welcome-file-list>
     <welcome-file>Dicom_browser.html</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+		<servlet-name>attachementServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.AttachementServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>attachementServlet</servlet-name>
+		<url-pattern>/fs/attachement</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>attachementServlet</servlet-name>
+		<url-pattern>/images/*</url-pattern>
+	</servlet-mapping>
 
 </web-app>
