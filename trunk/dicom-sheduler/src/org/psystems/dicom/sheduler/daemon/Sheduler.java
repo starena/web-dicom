@@ -274,7 +274,8 @@ public class Sheduler {
 					f.mkdirs();
 
 					for (int j = 0; j < files.length; j++) {
-						String fileName = dirName + File.separator
+						//TODO Делаем UNIX-сепаратор
+						String fileName = dirName + "/" /*File.separator*/ 
 								+ files[j].getName();
 
 						logger.info("parsing dicom file " + fileName);
