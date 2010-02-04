@@ -8,7 +8,10 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
 
 /**
  * Утилитный класс
@@ -22,26 +25,39 @@ public class Util {
 	// static String connectionStr =
 	// "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 
-	public static Connection getConnection() throws SQLException {
+	private static Logger logger = Logger.getLogger(AttachementServlet.class
+			.getName());
+	/**
+	 * @param servletContext
+	 * @return
+	 * @throws SQLException
+	 */
+	public static Connection getConnection(ServletContext servletContext)
+			throws SQLException {
 
-		// Properties props = new Properties(); // connection properties
-		// props.put("user", "user1"); // FIXME взять из конфига
-		// props.put("password", "user1"); // FIXME взять из конфига
-		//
-		// connection = DriverManager.getConnection(
-		// connectionStr + ";create=true", props);
-		//
-
-		// for Tomcat
 		Connection connection = null;
 
-		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
-			connection = ds.getConnection();
-		} catch (NamingException e) {
-			throw new SQLException("JNDI error " + e);
+	
+		//
+		String connectionUrl = servletContext
+				.getInitParameter("webdicom.connection.url");
+		if (connectionUrl != null) {
+			 Properties props = new Properties(); // connection properties
+			 props.put("user", "user1"); // FIXME взять из конфига
+			 props.put("password", "user1"); // FIXME взять из конфига
+			
+			 connection = DriverManager.getConnection(
+					 connectionUrl + ";create=true", props);
+		} else {
+			// for Tomcat
+			try {
+				Context initCtx = new InitialContext();
+				Context envCtx = (Context) initCtx.lookup("java:comp/env");
+				DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
+				connection = ds.getConnection();
+			} catch (NamingException e) {
+				throw new SQLException("JNDI error " + e);
+			}
 		}
 
 		return connection;

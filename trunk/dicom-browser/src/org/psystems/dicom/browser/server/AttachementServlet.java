@@ -40,14 +40,13 @@ public class AttachementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		String teamColor = getServletConfig().getInitParameter("teamColor");
-		System.out.println("!!! teamColor "+teamColor);
+//		String teamColor = getServletConfig().getInitParameter("teamColor");
+//		System.out.println("!!! teamColor "+teamColor);
 		
-		String value = getServletContext().getInitParameter("name_of_context_initialization_parameter");
-		System.out.println("!!! value "+value);
 		
-		String osVersion = System.getProperty("myapp.notify-url");
-		System.out.println("!!! prop "+System.getenv("DEFAULT_ENCODING_DDV"));
+		
+//		System.out.println("!!! prop "+System.getProperty("myapp.notify-url"));
+//		System.out.println("!!! end "+System.getenv("DEFAULT_ENCODING_DDV"));
 
 		
 		String path = req.getPathInfo().replaceFirst("/", "");
@@ -76,7 +75,7 @@ public class AttachementServlet extends HttpServlet {
 //		    Connection connection = myDS.getConnection();
 
 
-			Connection connection = Util.getConnection();
+			Connection connection = Util.getConnection(getServletContext());
 
 			if (fileName == null) {
 				//ищем по ID

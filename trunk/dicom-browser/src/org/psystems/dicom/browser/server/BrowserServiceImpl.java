@@ -36,7 +36,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
 		Connection conn;
 		try {
-			conn = Util.getConnection();
+			conn = Util.getConnection(getServletContext());
 			return "Hello, " + input + "!<br><br>I am running " + serverInfo
 					+ " conn=" + conn
 					+ ".<br><br>It looks like you are using:<br>" + userAgent;
@@ -60,7 +60,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		
 		try {
 			
-			Connection connection = Util.getConnection();
+			Connection connection = Util.getConnection(getServletContext());
 			
 
 		psSelect = connection
