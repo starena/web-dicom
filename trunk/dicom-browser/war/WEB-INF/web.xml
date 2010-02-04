@@ -20,7 +20,7 @@
 
 	<context-param>
 		<param-name>webdicom.dir.src</param-name>
-		<param-value>jdbc:derby://localhost:1527//WORKDB/WEBDICOM</param-value>
+		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\2009-12-16</param-value>
 	</context-param>
 	
 	<context-param>
@@ -56,14 +56,27 @@
 
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>attachementServlet</servlet-name>
-		<url-pattern>/fs/attachement</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>attachementServlet</servlet-name>
 		<url-pattern>/images/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>dcmAttachementServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.DcmAttachementServlet
+		</servlet-class>
+
+		<init-param>
+			<param-name>teamColor</param-name>
+			<param-value>red</param-value>
+		</init-param>
+
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dcmAttachementServlet</servlet-name>
+		<url-pattern>/dcm/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>
