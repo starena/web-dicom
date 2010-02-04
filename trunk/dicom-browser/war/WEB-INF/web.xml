@@ -38,6 +38,18 @@
 		<servlet-name>browserServlet</servlet-name>
 		<url-pattern>/dicom_browser/browser</url-pattern>
 	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>suggestServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.ItemSuggestServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>suggestServlet</servlet-name>
+		<url-pattern>/dicom_browser/services/itemsuggestservice</url-pattern>
+	</servlet-mapping>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>
