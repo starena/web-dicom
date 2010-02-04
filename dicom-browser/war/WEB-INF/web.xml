@@ -18,7 +18,15 @@
 		<param-value>jdbc:derby://localhost:1527//WORKDB/WEBDICOM</param-value>
 	</context-param>
 
-
+	<context-param>
+		<param-name>webdicom.dir.src</param-name>
+		<param-value>jdbc:derby://localhost:1527//WORKDB/WEBDICOM</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>webdicom.dir.dst</param-name>
+		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\out</param-value>
+	</context-param>
 
 	<!-- Servlets -->
 	<servlet>
