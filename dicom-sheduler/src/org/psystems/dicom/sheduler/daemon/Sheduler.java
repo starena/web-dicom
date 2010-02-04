@@ -234,10 +234,11 @@ public class Sheduler {
 
 			@Override
 			public boolean accept(File dir, String name) {
-				if (name.endsWith(".dcm")) {
-					return true;
-				}
-				return false;
+//				if (name.endsWith(".dcm")) {
+//					return true;
+//				}
+//				return false;
+				return true; //FIXME Сделать передачу расширения через коммандную строку !!!
 			}
 
 		};
