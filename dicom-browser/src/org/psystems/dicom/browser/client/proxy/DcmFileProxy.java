@@ -1,6 +1,7 @@
 package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -17,6 +18,7 @@ public class DcmFileProxy implements Serializable {
 	private String patientName; // ФИО пациента
 	private Date patientBirthDate; // Дата рождения пациента
 	private Date studyDate; // Дата исследования
+	private ArrayList<Integer> imagesIds = new ArrayList<Integer>();
 
 	/**
 	 * Инициализация класса
@@ -51,11 +53,20 @@ public class DcmFileProxy implements Serializable {
 	public Date getPatientBirthDate() {
 		return patientBirthDate;
 	}
+	
+
+	public ArrayList<Integer> getImagesIds() {
+		return imagesIds;
+	}
+
+	public void setImagesIds(ArrayList<Integer> imagesIds) {
+		this.imagesIds = imagesIds;
+	}
 
 	@Override
 	public String toString() {
 		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName
-				+ ";" + patientBirthDate + ";" + studyDate;
+				+ ";" + patientBirthDate + ";" + studyDate + ";images count:"+imagesIds.size();
 	}
 
 }
