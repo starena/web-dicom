@@ -22,7 +22,7 @@
 		<param-name>webdicom.dir.src</param-name>
 		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\2009-12-16</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>webdicom.dir.dst</param-name>
 		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\out</param-value>
@@ -32,18 +32,20 @@
 	<servlet>
 		<servlet-name>browserServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.BrowserServiceImpl</servlet-class>
+		<load-on-startup>true</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>browserServlet</servlet-name>
 		<url-pattern>/dicom_browser/browser</url-pattern>
 	</servlet-mapping>
-	
-	
-	
+
+
+
 	<servlet>
 		<servlet-name>suggestServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.ItemSuggestServiceImpl</servlet-class>
+		<load-on-startup>true</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
@@ -58,8 +60,8 @@
 
 	<servlet>
 		<servlet-name>attachementServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.AttachementServlet
-		</servlet-class>
+		<servlet-class>org.psystems.dicom.browser.server.AttachementServlet</servlet-class>
+		<load-on-startup>true</load-on-startup>
 
 		<init-param>
 			<param-name>teamColor</param-name>
@@ -73,11 +75,12 @@
 		<servlet-name>attachementServlet</servlet-name>
 		<url-pattern>/images/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>dcmAttachementServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.DcmAttachementServlet
 		</servlet-class>
+		<load-on-startup>true</load-on-startup>
 
 		<init-param>
 			<param-name>teamColor</param-name>
