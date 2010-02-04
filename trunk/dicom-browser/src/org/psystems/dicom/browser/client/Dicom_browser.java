@@ -1,5 +1,7 @@
 package org.psystems.dicom.browser.client;
 
+import java.util.Iterator;
+
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -60,8 +62,6 @@ public class Dicom_browser implements EntryPoint {
 		nameField.setFocus(true);
 		nameField.selectAll();
 
-	
-
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
 			/**
@@ -100,19 +100,29 @@ public class Dicom_browser implements EntryPoint {
 							}
 
 							public void onSuccess(DcmFileProxy[] result) {
-								
+
 								for (int i = 0; i < result.length; i++) {
 									DcmFileProxy proxy = result[i];
 									Label l = new Label(proxy.getPatientName());
 									RootPanel.get("resultContainer").add(l);
+
+									for (Iterator<Integer> it = proxy
+											.getImagesIds().iterator(); it
+											.hasNext();) {
+										Integer id = it.next();
+										
+										Image image = new Image("images/" + id);
+										image.setWidth("200px");
+										// image.setSize("150px", "150px");
+										System.out.println("!!! image SIZE: "
+												+ image.getWidth() + ";"
+												+ image.getHeight());
+
+										RootPanel.get("resultContainer").add(image);
+										
+									}
 									
-									Image image = new Image("images/" + 1);
-									image.setWidth("200px");
-//									 image.setSize("150px", "150px");
-									System.out.println("!!! image SIZE: " + image.getWidth()
-											+ ";" + image.getHeight());
-									
-									RootPanel.get("resultContainer").add(image);
+
 								}
 								sendButton.setEnabled(true);
 								nameField.setFocus(true);
@@ -125,7 +135,7 @@ public class Dicom_browser implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
-		
+
 	}
 
 	private void showErrorDlg(DefaultGWTRPCException e) {

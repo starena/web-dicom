@@ -83,7 +83,7 @@ public class AttachementServlet extends HttpServlet {
 			if (index == 0) {
 				resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
 				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
-						"Image no found! id=" + imageId + " file=" + fileName);
+						"Image not found! id=" + imageId + " file=" + fileName);
 				return;
 			}
 
@@ -105,7 +105,7 @@ public class AttachementServlet extends HttpServlet {
 			in = new FileInputStream(fileName);
 		} catch (FileNotFoundException ex) {
 			resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
-			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Image no found! "
+			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found! "
 					+ fileName);
 			ex.printStackTrace();
 			return;

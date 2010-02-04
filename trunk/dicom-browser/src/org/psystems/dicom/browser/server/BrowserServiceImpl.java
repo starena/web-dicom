@@ -1,5 +1,6 @@
 package org.psystems.dicom.browser.server;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,7 +18,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-
 /**
  * The server side implementation of the RPC service.
  */
@@ -25,11 +25,14 @@ import org.apache.log4j.PropertyConfigurator;
 public class BrowserServiceImpl extends RemoteServiceServlet implements
 		BrowserService {
 
-	
-	private int maxReturnRecords = 20; //Максимальное количество возвращаемых записей
-	
-	private static Logger logger =Logger.getLogger(BrowserServiceImpl.class);
-//	static { PropertyConfigurator.configure("WEB-INF/log4j.properties");}//TODO Убрать !!!
+	private int maxReturnRecords = 20; // Максимальное количество возвращаемых
+										// записей
+
+	private static Logger logger = Logger.getLogger(BrowserServiceImpl.class);
+
+	// static {
+	// PropertyConfigurator.configure("WEB-INF/log4j.properties");}//TODO Убрать
+	// !!!
 
 	public String test(String input) throws DefaultGWTRPCException {
 		String serverInfo = getServletContext().getServerInfo();
@@ -48,49 +51,75 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 	}
 
-
-
 	@Override
 	public DcmFileProxy[] findStudy(String queryStr)
 			throws DefaultGWTRPCException {
 
-		
-		
 		PreparedStatement psSelect = null;
-		
-		try {
-			
-			Connection connection = Util.getConnection(getServletContext());
-			
+		PreparedStatement psImages = null;
 
-		psSelect = connection
-				.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, " +
-						" STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
-		
-			 psSelect.setString(1, queryStr);
+		try {
+
+			Connection connection = Util.getConnection(getServletContext());
+			//
+
+			psImages = connection
+					.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME "
+							+ " FROM WEBDICOM.IMAGES WHERE FID_DCMFILE = ? ");
+
+			//
+			psSelect = connection
+					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, "
+							+ " STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
+
+			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmFileProxy> data = new ArrayList<DcmFileProxy>();
 			int index = 0;
 			while (rs.next()) {
 				DcmFileProxy proxy = new DcmFileProxy();
-				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), 
-						rs.getString("PATIENT_NAME"), rs.getDate("PATIENT_BIRTH_DATE"),
-						 rs.getDate("STUDY_DATE"));
-				data.add(proxy);
-				if(index++ > maxReturnRecords) { break; }
+				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), rs
+						.getString("PATIENT_NAME"), rs
+						.getDate("PATIENT_BIRTH_DATE"), rs
+						.getDate("STUDY_DATE"));
+
+				//Получаем список картинок
+				psImages.setInt(1, rs.getInt("ID"));
+				ResultSet rsImages = psImages.executeQuery();
 				
+				ArrayList<Integer> images = new ArrayList<Integer>();
+				while (rsImages.next()) {
+//					String contentType = rsImages.getString("CONTENT_TYPE");
+//					String file = rsImages.getString("IMAGE_FILE_NAME");
+					int imageId = rsImages.getInt("ID");
+					images.add(imageId);
+				}
+				rsImages.close();
+				proxy.setImagesIds(images);
+				
+				data.add(proxy);
+				if (index++ > maxReturnRecords) {
+					break;
+				}
+				
+
 			}
-			
+			rs.close();
+
 			DcmFileProxy[] result = data.toArray(new DcmFileProxy[data.size()]);
 			return result;
 
 		} catch (SQLException e) {
 			logger.error(e);
+			e.printStackTrace();
 			throw new DefaultGWTRPCException(e.getMessage());
 		} finally {
-			
+
 			try {
-				if(psSelect!=null) psSelect.close();
+				if (psSelect != null)
+					psSelect.close();
+				if (psImages != null)
+					psImages.close();
 			} catch (SQLException e) {
 				logger.error(e);
 				throw new DefaultGWTRPCException(e.getMessage());
