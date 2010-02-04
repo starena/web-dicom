@@ -43,5 +43,8 @@
 			maxIdle="4" />
 
 
+<Parameter name="webdicom.connection.url" value="jdbc:derby://localhost:1527//WORKDB/WEBDICOM"
+         override="false"/>
+
 
 </Context>
