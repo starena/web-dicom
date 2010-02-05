@@ -11,32 +11,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
-import com.google.gwt.user.client.ui.SuggestOracle.Callback;
-import com.google.gwt.user.client.ui.SuggestOracle.Request;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -60,182 +45,173 @@ public class Dicom_browser implements EntryPoint {
 	 */
 	private final BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);
+	private Button sendButton;
+	private SuggestBox nameField;
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Send");
-//		final TextBox nameField = new TextBox();
 		
-		  ItemSuggestOracle oracle = new ItemSuggestOracle();
-		  
-//	        
-//		  final MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();  
-//		   oracle.add("Cat");
-//		   oracle.add("Dog");
-//		   oracle.add("Horse");
-//		   oracle.add("Canary");
-		   
-// http://groups.google.com/group/google-web-toolkit/browse_frm/thread/56942afe0c404d86/e2860187517c4a6c?lnk=gst&q=SuggestBox+oracle+event#e2860187517c4a6c
-
-		final SuggestBox nameField = new SuggestBox(oracle);
+		sendButton = new Button("Поиск");
+		ItemSuggestOracle oracle = new ItemSuggestOracle();
+		nameField = new SuggestBox(oracle);
 		nameField.setLimit(10);
-		
-	
-
 		
 		createErorrDlg();
 
-		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
 
 		RootPanel.get("nameFieldContainer").add(nameField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
 
 		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
+//		nameField.setFocus(true);
 //		nameField.selectAll();
+		
+		
+		nameField.addKeyUpHandler(new KeyUpHandler() {
 
-		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					//TODO Странно, но при нажатии [ENTER] генерируется два эвента !!!
+//					System.out.println("!!!! onKeyUp="+event.getSource());
+//					sendNameToServer();
+				}
+			}
+			
+		});
+
+		
+		sendButton.addClickHandler(new ClickHandler() {
+
+			@Override
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
 			}
+			
+		});
+		
+		
 
-			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendNameToServer();
-				}
-			}
+	}
+	
+	
+	
+	/**
+	 * Send the name from the nameField to the server and wait for a
+	 * response.
+	 */
+	private void sendNameToServer() {
+		sendButton.setEnabled(false);
+		String textToServer = nameField.getText();
+		RootPanel.get("resultContainer").clear();
 
-			/**
-			 * Send the name from the nameField to the server and wait for a
-			 * response.
-			 */
-			private void sendNameToServer() {
-				sendButton.setEnabled(false);
-				String textToServer = nameField.getText();
-				RootPanel.get("resultContainer").clear();
+		browserService.findStudy(textToServer,
+				new AsyncCallback<DcmFileProxy[]>() {
 
-				browserService.findStudy(textToServer,
-						new AsyncCallback<DcmFileProxy[]>() {
+					public void onFailure(Throwable caught) {
+						showErrorDlg((DefaultGWTRPCException) caught);
+						sendButton.setEnabled(true);
+						nameField.setFocus(true);
+//						nameField.selectAll();
+					}
 
-							public void onFailure(Throwable caught) {
-								showErrorDlg((DefaultGWTRPCException) caught);
-								sendButton.setEnabled(true);
-								nameField.setFocus(true);
-//								nameField.selectAll();
-							}
+					public void onSuccess(DcmFileProxy[] result) {
 
-							public void onSuccess(DcmFileProxy[] result) {
+//						System.out.println("!!! result="+result.length);
+						for (int i = 0; i < result.length; i++) {
+							DcmFileProxy proxy = result[i];
+//							System.out.println("!!! proxy="+proxy);
+							Label l = new Label(proxy.getPatientName());
+							RootPanel.get("resultContainer").add(l);
 
-								for (int i = 0; i < result.length; i++) {
-									DcmFileProxy proxy = result[i];
-									Label l = new Label(proxy.getPatientName());
-									RootPanel.get("resultContainer").add(l);
+							for (Iterator<Integer> it = proxy.getImagesIds().iterator(); it.hasNext();) {
+								Integer id = it.next();
+								
+								Image image = new Image("images/" + id);
+								image.addStyleName("Image");
+								image.setTitle("Щелкните здесь чтобы увеличить изображение");
+								image.setWidth("200px");
+								// image.setSize("150px", "150px");
+//								System.out.println("!!! image SIZE: "
+//										+ image.getWidth() + ";"
+//										+ image.getHeight());
 
-									for (Iterator<Integer> it = proxy
-											.getImagesIds().iterator(); it
-											.hasNext();) {
-										Integer id = it.next();
-										
-										Image image = new Image("images/" + id);
-										image.addStyleName("Image");
-										image.setTitle("Щелкните здесь чтобы увеличить изображение");
-										image.setWidth("200px");
-										// image.setSize("150px", "150px");
-										System.out.println("!!! image SIZE: "
-												+ image.getWidth() + ";"
-												+ image.getHeight());
+								RootPanel.get("resultContainer").add(image);
+								
+								
+								final Image imageFull = new Image("images/" + id);
+								imageFull.addStyleName("Image");
+								imageFull.setTitle("Щелкните здесь чтобы закрыть изображение");
+								imageFull.setWidth("600px");
+								
+//								Hyperlink link = new Hyperlink();
+//								link.setText("Открыть в новом окне");
+								
+								HTML link = new HTML();
+								link.setHTML("<a href='"+"images/" + id+"' target='new'> Открыть в новом окне </a>");
+								RootPanel.get("resultContainer").add(link);
+								//
+								
+								Button b = new Button("Увеличить...");
+								RootPanel.get("resultContainer").add(b);
+								
+								
+								
+								ClickHandler clickOpenHandler = new ClickHandler() {
 
-										RootPanel.get("resultContainer").add(image);
+									@Override
+									public void onClick(ClickEvent event) {
+
+										final PopupPanel pGlass = new PopupPanel();
+										pGlass.setStyleName("GlassPanel");
+										pGlass.setModal(true);
+										pGlass.show();
 										
+										final DialogBox db = new DialogBox();
+										db.setModal(true);
+										db.setTitle("Увеличенное изображение");
 										
-										final Image imageFull = new Image("images/" + id);
-										imageFull.addStyleName("Image");
-										imageFull.setTitle("Щелкните здесь чтобы закрыть изображение");
-										imageFull.setWidth("600px");
-										
-//										Hyperlink link = new Hyperlink();
-//										link.setText("Открыть в новом окне");
-										
-										HTML link = new HTML();
-										link.setHTML("<a href='"+"images/" + id+"' target='new'> Открыть в новом окне </a>");
-										RootPanel.get("resultContainer").add(link);
-										//
-										
-										Button b = new Button("Увеличить...");
-										RootPanel.get("resultContainer").add(b);
-										
-										
-										
-										ClickHandler clickOpenHandler = new ClickHandler() {
+										VerticalPanel vp = new VerticalPanel();
+										db.add(vp);
+										vp.add(imageFull);
+										Button b = new Button("Закрыть");
+										vp.add(b);
+
+										ClickHandler clickCloseHandler = new ClickHandler() {
 
 											@Override
 											public void onClick(ClickEvent event) {
-
-												final PopupPanel pGlass = new PopupPanel();
-												pGlass.setStyleName("GlassPanel");
-												pGlass.setModal(true);
-												pGlass.show();
-												
-												final DialogBox db = new DialogBox();
-												db.setModal(true);
-												db.setTitle("Увеличенное изображение");
-												
-												VerticalPanel vp = new VerticalPanel();
-												db.add(vp);
-												vp.add(imageFull);
-												Button b = new Button("Закрыть");
-												vp.add(b);
-
-												ClickHandler clickCloseHandler = new ClickHandler() {
-
-													@Override
-													public void onClick(ClickEvent event) {
-														pGlass.hide();
-														db.hide();
-													}
-
-												};
-												b.addClickHandler(clickCloseHandler);
-												imageFull.addClickHandler(clickCloseHandler);
-
-												
-
-												db.show();
-												db.center();
+												pGlass.hide();
+												db.hide();
 											}
 
 										};
+										b.addClickHandler(clickCloseHandler);
+										imageFull.addClickHandler(clickCloseHandler);
+
 										
-										b.addClickHandler(clickOpenHandler);
-										image.addClickHandler(clickOpenHandler);
-										
-										//
+
+										db.show();
+										db.center();
 									}
-									
 
-								}
-								sendButton.setEnabled(true);
-								nameField.setFocus(true);
-//								nameField.selectAll();
+								};
+								
+								b.addClickHandler(clickOpenHandler);
+								image.addClickHandler(clickOpenHandler);
+								
+								//
 							}
-						});
-			}
-		}
+							
 
-		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
-
+						}
+						sendButton.setEnabled(true);
+						nameField.setFocus(true);
+					}
+				});
 	}
 
 	private void showErrorDlg(DefaultGWTRPCException e) {
