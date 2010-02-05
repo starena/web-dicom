@@ -6,6 +6,7 @@
 <web-app>
 
 
+	<!-- config params -->
 
 	<resource-ref>
 		<res-ref-name>jdbc/webdicom</res-ref-name>
@@ -27,12 +28,19 @@
 		<param-name>webdicom.dir.dst</param-name>
 		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\out</param-value>
 	</context-param>
+	
+	<!-- Default page to serve -->
+	
+	<welcome-file-list>
+		<welcome-file>Dicom_browser.html</welcome-file>
+	</welcome-file-list>
 
 	<!-- Servlets -->
+
 	<servlet>
 		<servlet-name>browserServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.BrowserServiceImpl</servlet-class>
-		<load-on-startup>true</load-on-startup>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
@@ -45,7 +53,7 @@
 	<servlet>
 		<servlet-name>suggestServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.ItemSuggestServiceImpl</servlet-class>
-		<load-on-startup>true</load-on-startup>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
@@ -53,15 +61,11 @@
 		<url-pattern>/dicom_browser/services/itemsuggestservice</url-pattern>
 	</servlet-mapping>
 
-	<!-- Default page to serve -->
-	<welcome-file-list>
-		<welcome-file>Dicom_browser.html</welcome-file>
-	</welcome-file-list>
 
 	<servlet>
 		<servlet-name>attachementServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.AttachementServlet</servlet-class>
-		<load-on-startup>true</load-on-startup>
+		<load-on-startup>1</load-on-startup>
 
 		<init-param>
 			<param-name>teamColor</param-name>
@@ -80,7 +84,7 @@
 		<servlet-name>dcmAttachementServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.DcmAttachementServlet
 		</servlet-class>
-		<load-on-startup>true</load-on-startup>
+		<load-on-startup>1</load-on-startup>
 
 		<init-param>
 			<param-name>teamColor</param-name>
