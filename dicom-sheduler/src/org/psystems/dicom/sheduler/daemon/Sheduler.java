@@ -72,18 +72,22 @@ public class Sheduler {
 
 	private String VERSION = "0.1a";
 
-//	private String protocol = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
+	// private String protocol = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 	private Connection connection;
 	private String srcDate;
 	private String charsetStr;
 	private String cStr;
 	private String connectionStr = "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
+	private String extensionStr = ".dcm";// Расширение входных файлов
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
+//		for(int i=0; i<args.length; i++) {
+//			System.out.println("ARG ["+i+"]["+args[i]+"]");
+//		}
 		new Sheduler(args);
 	}
 
@@ -100,32 +104,30 @@ public class Sheduler {
 		// create the Options
 		Options opts = new Options();
 
-		opts.addOption(OptionBuilder.withLongOpt("source-dir").withDescription(
-				"use PATH source dir").hasArg().withArgName("PATH")
-				.isRequired().create("s"));
+		opts.addOption(OptionBuilder.withLongOpt("extension").withDescription("use file PREFIX for input files")
+				.withArgName("PREFIX").create("e"));
 
-		opts.addOption(OptionBuilder.withLongOpt("dest-dir").withDescription(
-				"use PATH destination dir").hasArg().withArgName("PATH")
-				.isRequired().create("d"));
+		opts.addOption(OptionBuilder.withLongOpt("source-dir").withDescription("use PATH source dir")
+				.hasArg().withArgName("PATH").isRequired().create("s"));
 
-		opts.addOption(OptionBuilder.withLongOpt("connection").withDescription(
-				"use URL for JDBC connector").hasArg().withArgName("URL")
-				.isRequired().create("c"));
+		opts.addOption(OptionBuilder.withLongOpt("dest-dir").withDescription("use PATH destination dir")
+				.hasArg().withArgName("PATH").isRequired().create("d"));
 
-		opts.addOption(OptionBuilder.withLongOpt("date").withDescription(
-				"use DATE for check").hasArg().withArgName("DATE").isRequired()
-				.create("dd"));
+		opts.addOption(OptionBuilder.withLongOpt("connection").withDescription("use URL for JDBC connector")
+				.hasArg().withArgName("URL").isRequired().create("c"));
 
-		opts.addOption(OptionBuilder.withLongOpt("charset").withDescription(
-				"use CHARSET for parsing").hasArg().withArgName("CHARSET")
-				.create("cs"));
+		opts.addOption(OptionBuilder.withLongOpt("date").withDescription("use DATE for check").hasArg()
+				.withArgName("DATE").isRequired().create("dd"));
 
-		opts.addOption(OptionBuilder.withLongOpt("daemon").withDescription(
-				"run sheduler as daemon").create());
+		opts.addOption(OptionBuilder.withLongOpt("charset").withDescription("use CHARSET for parsing")
+				.hasArg().withArgName("CHARSET").create("cs"));
+
+		opts
+				.addOption(OptionBuilder.withLongOpt("daemon").withDescription("run sheduler as daemon")
+						.create());
 
 		opts.addOption("h", "help", false, "print this message");
-		opts.addOption("V", "version", false,
-				"print the version information and exit");
+		opts.addOption("V", "version", false, "print the version information and exit");
 
 		CommandLine cl = null;
 		try {
@@ -145,7 +147,7 @@ public class Sheduler {
 			formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
 			System.exit(0);
 		}
-		
+
 		System.out.println("!!!");
 		return cl;
 
@@ -191,10 +193,16 @@ public class Sheduler {
 			charsetStr = cl.getOptionValue("charset").trim();
 			logger.info("CharacterSet=[" + charsetStr + "]");
 		}
-		
+
 		if (cl.hasOption("connection")) {
 			connectionStr = cl.getOptionValue("connection").trim();
 			logger.info("connectionURL=[" + connectionStr + "]");
+		}
+
+		if (cl.hasOption("extension")) {
+			System.out.println("!!! " + cl.getOptionValue("extension"));
+			extensionStr = cl.getOptionValue("extension").trim();
+			logger.info("extensionStr=[" + extensionStr + "]");
 		}
 
 		try {
@@ -236,11 +244,13 @@ public class Sheduler {
 
 			@Override
 			public boolean accept(File dir, String name) {
-				if (name.endsWith(".dcm")) {
-					return true;
-				}
-				return false;
-//				return true; //FIXME Сделать передачу расширения через коммандную строку !!!
+				
+				if(name.endsWith(".svn")) return false; else return true; 
+//				if (name.endsWith(extensionStr)) { // .dcm
+//					return true;
+//				}
+//				return false;
+				//FIXME Сделать через командную строку!!!
 			}
 
 		};
@@ -250,12 +260,10 @@ public class Sheduler {
 		File rootDir = new File(srcDir);
 
 		if (!rootDir.exists()) {
-			throw new FileNotFoundException(" No source directory found! "
-					+ srcDir);
+			throw new FileNotFoundException(" No source directory found! " + srcDir);
 		}
 		if (!rootDir.canRead()) {
-			throw new FileNotFoundException(" No access for source directory! "
-					+ srcDir);
+			throw new FileNotFoundException(" No access for source directory! " + srcDir);
 		}
 
 		if (rootDir.isDirectory()) {
@@ -266,19 +274,17 @@ public class Sheduler {
 					File[] files = dirs[i].listFiles(filter);
 
 					// создаем рекурсивно директории
-					File f = new File(dstDir + File.separator
-							+ dirs[i].getName());
+					File f = new File(dstDir + File.separator + dirs[i].getName());
 					if (!rootDir.canWrite()) {
-						throw new FileNotFoundException(
-								" No write access for destination directory! "
-										+ dstDir);
+						throw new FileNotFoundException(" No write access for destination directory! "
+								+ dstDir);
 					}
 
 					f.mkdirs();
 
 					for (int j = 0; j < files.length; j++) {
-						//TODO Делаем UNIX-сепаратор
-						String fileName = dirName + "/" /*File.separator*/ 
+						// TODO Делаем UNIX-сепаратор
+						String fileName = dirName + "/" /* File.separator */
 								+ files[j].getName();
 
 						logger.info("parsing dicom file " + fileName);
@@ -298,8 +304,7 @@ public class Sheduler {
 	 * @param needImages
 	 * @throws SQLException
 	 */
-	private void extractData(String file, boolean needTags, boolean needImages)
-			throws SQLException {
+	private void extractData(String file, boolean needTags, boolean needImages) throws SQLException {
 
 		String fileName = srcDir + File.separator + file;
 
@@ -318,8 +323,8 @@ public class Sheduler {
 			}
 			// читаем кодировку из dcm-файла
 			if (charsetStr == null) {
-				cs = SpecificCharacterSet.valueOf(dcmObj.get(
-						Tag.SpecificCharacterSet).getStrings(null, false));
+				cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet)
+						.getStrings(null, false));
 			}
 
 			// for (Iterator<DicomElement> it = dcmObj.iterator();
@@ -365,56 +370,60 @@ public class Sheduler {
 
 			String DCM_FILE_NAME = file;
 
-			java.util.Date PATIENT_BIRTH_DATE = dcmObj
-					.get(Tag.PatientBirthDate).getDate(false);
-	
+			java.util.Date PATIENT_BIRTH_DATE = dcmObj.get(Tag.PatientBirthDate).getDate(false);
 
 			DicomElement element1 = dcmObj.get(Tag.PatientName);
-			String PATIENT_NAME = element1.getValueAsString(cs, element1
-					.length());
-			
+			String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
+
 			element1 = dcmObj.get(Tag.PatientID);
-			String PATIENT_ID = element1.getValueAsString(cs, element1
-					.length());
+			String PATIENT_ID = element1.getValueAsString(cs, element1.length());
+
+			if (PATIENT_ID == null || PATIENT_ID.length() == 0) {
+				PATIENT_ID = "не указан";
+			}
 
 			element1 = dcmObj.get(Tag.PatientSex);
-			String PATIENT_SEX = element1.getValueAsString(cs, element1
-					.length());
+			String PATIENT_SEX = element1.getValueAsString(cs, element1.length());
+			if (PATIENT_SEX.length() > 1) {
+				logger.warn("PATIENT_SEX to long ["+PATIENT_SEX+"]");
+				PATIENT_SEX = PATIENT_SEX.substring(0, 1);
+			}
 
 			element1 = dcmObj.get(Tag.StudyID);
-			String STUDY_ID = element1.getValueAsString(cs, element1
-					.length());
-			
-			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate)
-			.getDate(false);
-			
+			String STUDY_ID = element1.getValueAsString(cs, element1.length());
+
+			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate).getDate(false);
+
+			String STUDY_DOCTOR = "не указан";
 			element1 = dcmObj.get(Tag.ReferringPhysicianName);
-			String STUDY_DOCTOR = element1.getValueAsString(cs, element1
-					.length());
-			
+			if (element1 != null) {
+				STUDY_DOCTOR = element1.getValueAsString(cs, element1.length());
+				if (STUDY_DOCTOR == null || STUDY_DOCTOR.length() == 0) {
+					STUDY_DOCTOR = "не указан";
+				}
+			}
+
+			String STUDY_OPERATOR = "не указан";
 			element1 = dcmObj.get(Tag.OperatorsName);
-			String STUDY_OPERATOR = element1.getValueAsString(cs, element1
-					.length());
-			
+			if (element1 != null) {
+				STUDY_OPERATOR = element1.getValueAsString(cs, element1.length());
+				if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
+					STUDY_OPERATOR = "не указан";
+				}
+			}
+
 			int HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
 			int WIDTH = dcmObj.get(Tag.Columns).getInt(false);
-			
-			connection.setAutoCommit(false);
-			insertUpdateCommonData(file, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME,
-					PATIENT_SEX,
-					new java.sql.Date(PATIENT_BIRTH_DATE.getTime()),
-					STUDY_ID,
-					new java.sql.Date(STUDY_DATE.getTime()),
-			STUDY_DOCTOR, STUDY_OPERATOR, WIDTH, HEIGHT);
-			connection.commit();
 
-			
+			connection.setAutoCommit(false);
+			insertUpdateCommonData(file, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, PATIENT_SEX,
+					new java.sql.Date(PATIENT_BIRTH_DATE.getTime()), STUDY_ID, new java.sql.Date(STUDY_DATE
+							.getTime()), STUDY_DOCTOR, STUDY_OPERATOR, WIDTH, HEIGHT);
+			connection.commit();
 
 		} catch (org.dcm4che2.data.ConfigurationError e) {
 			if (e.getCause() instanceof UnsupportedEncodingException) {
-				logger
-						.fatal("Unsupported character set" + charsetStr + " "
-								+ e);
+				logger.fatal("Unsupported character set" + charsetStr + " " + e);
 			}
 			logger.fatal("" + e);
 		} catch (IOException e) {
@@ -432,11 +441,9 @@ public class Sheduler {
 
 	public void convert(String DCM_FILE_NAME, String IMAGE_FILE_NAME, int WIDTH, int HEIGHT, File src,
 			File dest) throws IOException, SQLException {
-		Iterator<ImageReader> iter = ImageIO
-				.getImageReadersByFormatName("DICOM");
+		Iterator<ImageReader> iter = ImageIO.getImageReadersByFormatName("DICOM");
 		ImageReader reader = iter.next();
-		DicomImageReadParam param = (DicomImageReadParam) reader
-				.getDefaultReadParam();
+		DicomImageReadParam param = (DicomImageReadParam) reader.getDefaultReadParam();
 		param.setWindowCenter(center);
 		param.setWindowWidth(width);
 		param.setVoiLutFunction(vlutFct);
@@ -475,8 +482,7 @@ public class Sheduler {
 		props.put("user", "user1"); // FIXME Взять из конфига
 		props.put("password", "user1"); // FIXME Взять из конфига
 
-		Connection conn = DriverManager.getConnection(
-				connectionStr + ";create=true", props);
+		Connection conn = DriverManager.getConnection(connectionStr + ";create=true", props);
 		// conn.setAutoCommit(false);
 		// s = conn.createStatement();
 		// s.execute(sql);
@@ -494,36 +500,35 @@ public class Sheduler {
 	 * @throws SQLException
 	 */
 	/**
-	 * @param file - короткое имя файла (без корневой диретокрии)
+	 * @param file
+	 *            - короткое имя файла (без корневой диретокрии)
 	 * @param DCM_FILE_NAME
 	 * @param PATIENT_NAME
 	 * @param PATIENT_BIRTH_DATE
 	 * @param STUDY_DATE
 	 * @throws SQLException
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	private void insertUpdateCommonData(String file, String DCM_FILE_NAME,
-			String PATIENT_ID, String PATIENT_NAME, String PATIENT_SEX,  Date PATIENT_BIRTH_DATE,
-			String STUDY_ID,
+	private void insertUpdateCommonData(String file, String DCM_FILE_NAME, String PATIENT_ID,
+			String PATIENT_NAME, String PATIENT_SEX, Date PATIENT_BIRTH_DATE, String STUDY_ID,
 			Date STUDY_DATE, String STUDY_DOCTOR, String STUDY_OPERATOR, int WIDTH, int HEIGHT)
 			throws SQLException, IOException {
-		
+
 		PreparedStatement stmt = null;
 
-		logger.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]["
-				+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
+		logger.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "][" + PATIENT_BIRTH_DATE + "][" + STUDY_DATE
+				+ "]");
 
 		// Проверка на наличии этого файла в БД
 		try {
 			int id = checkDbDCMFile(DCM_FILE_NAME);
-			logger.info("File already in database [" + id + "] ["
-					+ DCM_FILE_NAME + "]");
+			logger.info("File already in database [" + id + "] [" + DCM_FILE_NAME + "]");
 			logger.info("update data in database [" + DCM_FILE_NAME + "]");
 
 			stmt = connection
 					.prepareStatement("update WEBDICOM.DCMFILE"
-							+ " SET PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, " +
-									" STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?"
+							+ " SET PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
+							+ " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?"
 							+ " where ID = ?");
 
 			stmt.setString(1, PATIENT_NAME);
@@ -533,21 +538,20 @@ public class Sheduler {
 			stmt.setDate(5, STUDY_DATE);
 			stmt.setString(6, STUDY_DOCTOR);
 			stmt.setString(7, STUDY_OPERATOR);
-			
+
 			stmt.setInt(8, id);
 
 			stmt.executeUpdate();
-			
+
 			logger.info("skip converting image.");
 
 		} catch (NoDataFoundException ex) {
 			// Делаем вставку
 			logger.info("insert data in database [" + DCM_FILE_NAME + "]");
-			stmt = connection
-					.prepareStatement("insert into WEBDICOM.DCMFILE"
-							+ " (DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE," +
-									" STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR)"
-							+ " values (?, ?, ?, ?, ?, ?, ?, ? ,?)");
+			stmt = connection.prepareStatement("insert into WEBDICOM.DCMFILE"
+					+ " (DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE,"
+					+ " STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR)"
+					+ " values (?, ?, ?, ?, ?, ?, ?, ? ,?)");
 
 			stmt.setString(1, DCM_FILE_NAME);
 			stmt.setString(2, PATIENT_ID);
@@ -560,13 +564,12 @@ public class Sheduler {
 			stmt.setString(9, STUDY_OPERATOR);
 
 			stmt.executeUpdate();
-			
+
 			String srcFileName = srcDir + File.separator + file;
 			String dstFileName = dstDir + File.separator + file + fileExt;
 			String IMAGE_FILE_NAME = file + fileExt;
 
 			logger.info("converting image(s)... " + srcFileName + "][" + dstFileName + "]");
-			
 
 			File src = new File(srcFileName);
 			File dest = new File(dstFileName);
@@ -600,44 +603,43 @@ public class Sheduler {
 		throw new NoDataFoundException("No data");
 	}
 
-	
 	/**
 	 * Вставка информации о картинках в БД
+	 * 
 	 * @param dcm_file
 	 * @param CONTENT_TYPE
 	 * @param IMAGE_FILE_NAME
 	 * @throws SQLException
 	 */
-	private void insertImageData(String dcm_file, String CONTENT_TYPE,
-			String IMAGE_FILE_NAME, int WIDTH, int HEIGHT) throws SQLException {
+	private void insertImageData(String dcm_file, String CONTENT_TYPE, String IMAGE_FILE_NAME, int WIDTH,
+			int HEIGHT) throws SQLException {
 
-//		Integer FID_DCMFILE = 0;
-//
-//		PreparedStatement psSelect = connection
-//				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
-//
-//		try {
-//			psSelect.setString(1, dcm_file);
-//			ResultSet rs = psSelect.executeQuery();
-//			while (rs.next()) {
-//				FID_DCMFILE = rs.getInt("ID");
-//			}
-//
-//			logger.info("insert data in database  [" + dcm_file + "] ID = "
-//					+ FID_DCMFILE);
-//		} finally {
-//			psSelect.close();
-//		}
+		// Integer FID_DCMFILE = 0;
+		//
+		// PreparedStatement psSelect = connection
+		// .prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
+		//
+		// try {
+		// psSelect.setString(1, dcm_file);
+		// ResultSet rs = psSelect.executeQuery();
+		// while (rs.next()) {
+		// FID_DCMFILE = rs.getInt("ID");
+		// }
+		//
+		// logger.info("insert data in database  [" + dcm_file + "] ID = "
+		// + FID_DCMFILE);
+		// } finally {
+		// psSelect.close();
+		// }
 
 		Integer FID_DCMFILE = checkDbDCMFile(dcm_file);
-		
+
 		PreparedStatement psInsert = null;
 
 		logger.info("insert data in database [" + FID_DCMFILE + "] image [" + IMAGE_FILE_NAME + "]");
 
 		psInsert = connection.prepareStatement("insert into WEBDICOM.IMAGES"
-				+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, WIDTH, HEIGHT)"
-				+ " values (?, ?, ?, ?, ?)");
+				+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, WIDTH, HEIGHT)" + " values (?, ?, ?, ?, ?)");
 
 		psInsert.setInt(1, FID_DCMFILE);
 		psInsert.setString(2, CONTENT_TYPE);
