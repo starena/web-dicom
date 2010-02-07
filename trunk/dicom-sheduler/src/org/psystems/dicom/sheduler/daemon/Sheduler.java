@@ -145,6 +145,8 @@ public class Sheduler {
 			formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
 			System.exit(0);
 		}
+		
+		System.out.println("!!!");
 		return cl;
 
 		// HelpFormatter formatter = new HelpFormatter();
@@ -234,11 +236,11 @@ public class Sheduler {
 
 			@Override
 			public boolean accept(File dir, String name) {
-//				if (name.endsWith(".dcm")) {
-//					return true;
-//				}
-//				return false;
-				return true; //FIXME Сделать передачу расширения через коммандную строку !!!
+				if (name.endsWith(".dcm")) {
+					return true;
+				}
+				return false;
+//				return true; //FIXME Сделать передачу расширения через коммандную строку !!!
 			}
 
 		};
@@ -365,17 +367,45 @@ public class Sheduler {
 
 			java.util.Date PATIENT_BIRTH_DATE = dcmObj
 					.get(Tag.PatientBirthDate).getDate(false);
-			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate)
-					.getDate(false);
+	
 
 			DicomElement element1 = dcmObj.get(Tag.PatientName);
 			String PATIENT_NAME = element1.getValueAsString(cs, element1
 					.length());
+			
+			element1 = dcmObj.get(Tag.PatientID);
+			String PATIENT_ID = element1.getValueAsString(cs, element1
+					.length());
 
+			element1 = dcmObj.get(Tag.PatientSex);
+			String PATIENT_SEX = element1.getValueAsString(cs, element1
+					.length());
+
+			element1 = dcmObj.get(Tag.StudyID);
+			String STUDY_ID = element1.getValueAsString(cs, element1
+					.length());
+			
+			java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate)
+			.getDate(false);
+			
+			element1 = dcmObj.get(Tag.ReferringPhysicianName);
+			String STUDY_DOCTOR = element1.getValueAsString(cs, element1
+					.length());
+			
+			element1 = dcmObj.get(Tag.OperatorsName);
+			String STUDY_OPERATOR = element1.getValueAsString(cs, element1
+					.length());
+			
+			int HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
+			int WIDTH = dcmObj.get(Tag.Columns).getInt(false);
+			
 			connection.setAutoCommit(false);
-			insertUpdateCommonData(file, DCM_FILE_NAME, PATIENT_NAME,
+			insertUpdateCommonData(file, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME,
+					PATIENT_SEX,
 					new java.sql.Date(PATIENT_BIRTH_DATE.getTime()),
-					new java.sql.Date(STUDY_DATE.getTime()));
+					STUDY_ID,
+					new java.sql.Date(STUDY_DATE.getTime()),
+			STUDY_DOCTOR, STUDY_OPERATOR, WIDTH, HEIGHT);
 			connection.commit();
 
 			
@@ -400,7 +430,7 @@ public class Sheduler {
 
 	}
 
-	public void convert(String DCM_FILE_NAME, String IMAGE_FILE_NAME, File src,
+	public void convert(String DCM_FILE_NAME, String IMAGE_FILE_NAME, int WIDTH, int HEIGHT, File src,
 			File dest) throws IOException, SQLException {
 		Iterator<ImageReader> iter = ImageIO
 				.getImageReadersByFormatName("DICOM");
@@ -431,7 +461,7 @@ public class Sheduler {
 			CloseUtils.safeClose(out);
 
 			connection.setAutoCommit(false);
-			insertImageData(DCM_FILE_NAME, "image/jpeg", IMAGE_FILE_NAME);
+			insertImageData(DCM_FILE_NAME, "image/jpeg", IMAGE_FILE_NAME, WIDTH, HEIGHT);
 			connection.commit();
 		}
 		System.out.print('.');
@@ -473,7 +503,9 @@ public class Sheduler {
 	 * @throws IOException 
 	 */
 	private void insertUpdateCommonData(String file, String DCM_FILE_NAME,
-			String PATIENT_NAME, Date PATIENT_BIRTH_DATE, Date STUDY_DATE)
+			String PATIENT_ID, String PATIENT_NAME, String PATIENT_SEX,  Date PATIENT_BIRTH_DATE,
+			String STUDY_ID,
+			Date STUDY_DATE, String STUDY_DOCTOR, String STUDY_OPERATOR, int WIDTH, int HEIGHT)
 			throws SQLException, IOException {
 		
 		PreparedStatement stmt = null;
@@ -490,13 +522,19 @@ public class Sheduler {
 
 			stmt = connection
 					.prepareStatement("update WEBDICOM.DCMFILE"
-							+ " SET PATIENT_NAME = ?, PATIENT_BIRTH_DATE = ?, STUDY_DATE = ?"
+							+ " SET PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, " +
+									" STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?"
 							+ " where ID = ?");
 
 			stmt.setString(1, PATIENT_NAME);
-			stmt.setDate(2, PATIENT_BIRTH_DATE);
-			stmt.setDate(3, STUDY_DATE);
-			stmt.setInt(4, id);
+			stmt.setString(2, PATIENT_SEX);
+			stmt.setDate(3, PATIENT_BIRTH_DATE);
+			stmt.setString(4, STUDY_ID);
+			stmt.setDate(5, STUDY_DATE);
+			stmt.setString(6, STUDY_DOCTOR);
+			stmt.setString(7, STUDY_OPERATOR);
+			
+			stmt.setInt(8, id);
 
 			stmt.executeUpdate();
 			
@@ -507,13 +545,19 @@ public class Sheduler {
 			logger.info("insert data in database [" + DCM_FILE_NAME + "]");
 			stmt = connection
 					.prepareStatement("insert into WEBDICOM.DCMFILE"
-							+ " (DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, STUDY_DATE)"
-							+ " values (?, ?, ?, ?)");
+							+ " (DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE," +
+									" STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR)"
+							+ " values (?, ?, ?, ?, ?, ?, ?, ? ,?)");
 
 			stmt.setString(1, DCM_FILE_NAME);
-			stmt.setString(2, PATIENT_NAME);
-			stmt.setDate(3, PATIENT_BIRTH_DATE);
-			stmt.setDate(4, STUDY_DATE);
+			stmt.setString(2, PATIENT_ID);
+			stmt.setString(3, PATIENT_NAME);
+			stmt.setString(4, PATIENT_SEX);
+			stmt.setDate(5, PATIENT_BIRTH_DATE);
+			stmt.setString(6, STUDY_ID);
+			stmt.setDate(7, STUDY_DATE);
+			stmt.setString(8, STUDY_DOCTOR);
+			stmt.setString(9, STUDY_OPERATOR);
 
 			stmt.executeUpdate();
 			
@@ -527,7 +571,7 @@ public class Sheduler {
 			File src = new File(srcFileName);
 			File dest = new File(dstFileName);
 
-			convert(DCM_FILE_NAME, IMAGE_FILE_NAME, src, dest);
+			convert(DCM_FILE_NAME, IMAGE_FILE_NAME, WIDTH, HEIGHT, src, dest);
 			logger.info("converting image(s) success!");
 		}
 
@@ -565,7 +609,7 @@ public class Sheduler {
 	 * @throws SQLException
 	 */
 	private void insertImageData(String dcm_file, String CONTENT_TYPE,
-			String IMAGE_FILE_NAME) throws SQLException {
+			String IMAGE_FILE_NAME, int WIDTH, int HEIGHT) throws SQLException {
 
 //		Integer FID_DCMFILE = 0;
 //
@@ -592,13 +636,14 @@ public class Sheduler {
 		logger.info("insert data in database [" + FID_DCMFILE + "] image [" + IMAGE_FILE_NAME + "]");
 
 		psInsert = connection.prepareStatement("insert into WEBDICOM.IMAGES"
-				+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME)"
-				+ " values (?, ?, ?)");
+				+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, WIDTH, HEIGHT)"
+				+ " values (?, ?, ?, ?, ?)");
 
 		psInsert.setInt(1, FID_DCMFILE);
 		psInsert.setString(2, CONTENT_TYPE);
 		psInsert.setString(3, IMAGE_FILE_NAME);
-
+		psInsert.setInt(4, WIDTH);
+		psInsert.setInt(5, HEIGHT);
 		psInsert.executeUpdate();
 	}
 
