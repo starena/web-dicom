@@ -12,6 +12,7 @@ import java.util.Properties;
 import org.psystems.dicom.browser.client.BrowserService;
 import org.psystems.dicom.browser.client.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -26,7 +27,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		BrowserService {
 
 	private int maxReturnRecords = 20; // Максимальное количество возвращаемых
-										// записей
+	// записей
 
 	private static Logger logger = Logger.getLogger(BrowserServiceImpl.class);
 
@@ -64,13 +65,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			//
 
 			psImages = connection
-					.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME "
+					.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME, WIDTH, HEIGHT "
 							+ " FROM WEBDICOM.IMAGES WHERE FID_DCMFILE = ? ");
 
 			//
 			psSelect = connection
-					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, "
-							+ " STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
+					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, "
+							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
+							+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR  FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
@@ -79,29 +81,39 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			while (rs.next()) {
 				DcmFileProxy proxy = new DcmFileProxy();
 				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), rs
-						.getString("PATIENT_NAME"), rs
-						.getDate("PATIENT_BIRTH_DATE"), rs
-						.getDate("STUDY_DATE"));
+						.getString("PATIENT_NAME"),
+						rs.getString("PATIENT_SEX"),
+						rs.getString("PATIENT_ID"), rs
+								.getDate("PATIENT_BIRTH_DATE"), rs
+								.getString("STUDY_ID"), rs
+								.getDate("STUDY_DATE"), rs
+								.getString("STUDY_DOCTOR"), rs
+								.getString("STUDY_OPERATOR"));
 
-				//Получаем список картинок
+				// Получаем список картинок
 				psImages.setInt(1, rs.getInt("ID"));
 				ResultSet rsImages = psImages.executeQuery();
-				
-				ArrayList<Integer> images = new ArrayList<Integer>();
+
+				ArrayList<DcmImageProxy> images = new ArrayList<DcmImageProxy>();
 				while (rsImages.next()) {
-//					String contentType = rsImages.getString("CONTENT_TYPE");
-//					String file = rsImages.getString("IMAGE_FILE_NAME");
 					int imageId = rsImages.getInt("ID");
-					images.add(imageId);
+					String contentType = rsImages.getString("CONTENT_TYPE");
+					String imFileName = rsImages.getString("IMAGE_FILE_NAME");
+					int width = rsImages.getInt("WIDTH");
+					int height = rsImages.getInt("HEIGHT");
+
+					DcmImageProxy imageProxy = new DcmImageProxy();
+					imageProxy.init(imageId, imFileName, contentType, width,
+							height);
+					images.add(imageProxy);
 				}
 				rsImages.close();
 				proxy.setImagesIds(images);
-				
+
 				data.add(proxy);
 				if (index++ > maxReturnRecords) {
 					break;
 				}
-				
 
 			}
 			rs.close();
