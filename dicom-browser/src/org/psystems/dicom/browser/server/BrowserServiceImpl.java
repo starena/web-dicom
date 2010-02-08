@@ -1,23 +1,20 @@
 package org.psystems.dicom.browser.server;
 
-import java.io.File;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Properties;
+import java.util.Calendar;
+import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.BrowserService;
 import org.psystems.dicom.browser.client.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 /**
  * The server side implementation of the RPC service.
@@ -80,6 +77,11 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			int index = 0;
 			while (rs.next()) {
 				DcmFileProxy proxy = new DcmFileProxy();
+
+				Calendar now = Calendar.getInstance();
+				Locale loc_ru = new Locale("ru", "RU");
+				now.setTime(rs.getDate("PATIENT_BIRTH_DATE"));
+
 				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), rs
 						.getString("PATIENT_NAME"),
 						rs.getString("PATIENT_SEX"),

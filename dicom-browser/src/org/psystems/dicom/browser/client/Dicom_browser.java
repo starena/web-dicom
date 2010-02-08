@@ -9,9 +9,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -27,7 +24,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
@@ -62,10 +58,13 @@ public class Dicom_browser implements EntryPoint {
 
 		HorizontalPanel hp = new HorizontalPanel();
 		RootPanel.get("searchContainer").add(hp);
+		hp.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 
 		sendButton = new Button("Поиск");
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
 		nameField = new SuggestBox(oracle);
+		nameField.addStyleName("DicomSuggestion");
+		
 		nameField.setLimit(10);
 		nameField.setWidth("600px");
 
@@ -164,8 +163,17 @@ public class Dicom_browser implements EntryPoint {
 							t.setStyleName("SearchItem");
 //							t.setBorderWidth(2);
 
+							String sex = proxy.getPatientSex();
+							if("M".equalsIgnoreCase(sex)) {
+								sex = "Муж.";
+							}else if("F".equalsIgnoreCase(sex)) {
+								sex = "Жен.";
+							}
+							
+						
+							    
 							Label l = new Label(proxy.getPatientName()
-									+ " ?? (М) 01.03.1974");
+									+ " (" + sex + ") " + proxy.getPatientBirthDate());
 							l.setStyleName("DicomItem");
 
 							t.setWidget(0, 0, l);
@@ -183,52 +191,67 @@ public class Dicom_browser implements EntryPoint {
 							l = new Label("Дата исследования:");
 							l.setStyleName("DicomItemName");
 							t.setWidget(1, 0, l);
-							l = new Label("01.01.2001");
+							l = new Label(""+proxy.getStudyDate());
 							l.setStyleName("DicomItemValue");
 							t.setWidget(1, 1, l);
 
 							l = new Label("ID исследования:");
 							l.setStyleName("DicomItemName");
 							t.setWidget(1, 2, l);
-							l = new Label("LAB_XXXX");
+							l = new Label(proxy.getStudyId());
 							l.setStyleName("DicomItemValue");
 							t.setWidget(1, 3, l);
 
 							l = new Label("ID пациента:");
 							l.setStyleName("DicomItemName");
 							t.setWidget(1, 4, l);
-							l = new Label("ID_PATI");
+							l = new Label(proxy.getPatientId());
 							l.setStyleName("DicomItemValue");
 							t.setWidget(1, 5, l);
 
-							l = new Label("Результаты:");
-							l.setStyleName("DicomItemName");
-							t.setWidget(2, 0, l);
-							l = new Label("Не выявлено отклонений");
-							l.setStyleName("DicomItemValue");
-							t.setWidget(2, 1, l);
-							t.getFlexCellFormatter().setColSpan(2, 1, 5);
+							
 
 							l = new Label("Врач:");
 							l.setStyleName("DicomItemName");
-							t.setWidget(3, 0, l);
-							l = new Label("врач иванов");
+							t.setWidget(2, 0, l);
+							t.getFlexCellFormatter().setAlignment(2, 0,
+									HorizontalPanel.ALIGN_RIGHT,
+									HorizontalPanel.ALIGN_MIDDLE);
+							l = new Label(proxy.getStudyDoctor());
 							l.setStyleName("DicomItemValue");
-							t.setWidget(3, 1, l);
+							t.setWidget(2, 1, l);
 
 							l = new Label("Оператор:");
 							l.setStyleName("DicomItemName");
-							t.setWidget(3, 2, l);
-							l = new Label("Оператор сидоров");
+							t.setWidget(2, 2, l);
+							t.getFlexCellFormatter().setAlignment(2, 2,
+									HorizontalPanel.ALIGN_RIGHT,
+									HorizontalPanel.ALIGN_MIDDLE);
+							l = new Label(proxy.getStudyOperator());
 							l.setStyleName("DicomItemValue");
-							t.setWidget(3, 3, l);
+							t.setWidget(2, 3, l);
 
 							l = new Label("Аппарат:");
 							l.setStyleName("DicomItemName");
-							t.setWidget(3, 4, l);
-							l = new Label("Рентген ХХХ");
+							t.setWidget(2, 4, l);
+							t.getFlexCellFormatter().setAlignment(2, 4,
+									HorizontalPanel.ALIGN_RIGHT,
+									HorizontalPanel.ALIGN_MIDDLE);
+							l = new Label("неизвестен");
 							l.setStyleName("DicomItemValue");
-							t.setWidget(3, 5, l);
+							t.setWidget(2, 5, l);
+							
+							l = new Label("Результаты:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(3, 0, l);
+							t.getFlexCellFormatter().setAlignment(3, 0,
+									HorizontalPanel.ALIGN_RIGHT,
+									HorizontalPanel.ALIGN_MIDDLE);
+							
+							l = new Label("нет данных");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(3, 1, l);
+							t.getFlexCellFormatter().setColSpan(3, 1, 5);
 
 							HTML linkDcm = new HTML();
 							linkDcm
@@ -255,7 +278,7 @@ public class Dicom_browser implements EntryPoint {
 								image.addStyleName("Image");
 								image
 										.setTitle("Щелкните здесь чтобы увеличить изображение");
-								image.setWidth("150px");
+								image.setWidth("100px");
 								// image.setSize("150px", "150px");
 								// System.out.println("!!! image SIZE: "
 								// + image.getWidth() + ";"
