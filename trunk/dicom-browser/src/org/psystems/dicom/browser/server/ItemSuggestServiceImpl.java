@@ -60,7 +60,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 			
 			psSelect = connection
 					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, "
-							+ " STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
+							+ " STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
