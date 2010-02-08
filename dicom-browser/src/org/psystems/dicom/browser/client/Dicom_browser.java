@@ -11,10 +11,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -22,6 +25,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -52,56 +56,81 @@ public class Dicom_browser implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		
+
 		sendButton = new Button("Поиск");
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
 		nameField = new SuggestBox(oracle);
 		nameField.setLimit(10);
-		
+		nameField.setWidth("600px");
+
 		createErorrDlg();
 
 		sendButton.addStyleName("sendButton");
 
 		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
 
-		// Focus the cursor on the name field when the app loads
-//		nameField.setFocus(true);
-//		nameField.selectAll();
-		
-		
-		nameField.addKeyUpHandler(new KeyUpHandler() {
+		HorizontalPanel hp = new HorizontalPanel();
+		RootPanel.get("sendButtonContainer").add(hp);
+
+		hp.add(sendButton);
+
+		Button b = new Button("Сброс");
+		hp.add(b);
+
+		b.addClickHandler(new ClickHandler() {
 
 			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					//TODO Странно, но при нажатии [ENTER] генерируется два эвента !!!
-//					System.out.println("!!!! onKeyUp="+event.getSource());
-//					sendNameToServer();
-				}
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				nameField.setText("");
+				RootPanel.get("resultContainer").clear();
+			}
+
+		});
+
+		// Focus the cursor on the name field when the app loads
+		// nameField.setFocus(true);
+		// nameField.selectAll();
+
+		// nameField.addKeyUpHandler(new KeyUpHandler() {
+		//
+		// @Override
+		// public void onKeyUp(KeyUpEvent event) {
+		// if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+		//					
+		// if(nameField.isSuggestionListShowing()) {
+		// //TODO Странно, но при нажатии [ENTER] генерируется два эвента !!!
+		// System.out.println("!!!! onKeyUp="+event.getSource());
+		// sendNameToServer();
+		// }
+		// }
+		// }
+		//			
+		// });
+		
+		nameField.addSelectionHandler(new SelectionHandler<Suggestion>() {
+
+			@Override
+			public void onSelection(SelectionEvent<Suggestion> event) {
+//				System.out.println("addSelectionHandler "+event);
+				sendNameToServer();
 			}
 			
 		});
 
-		
 		sendButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
 			}
-			
+
 		});
-		
-		
 
 	}
-	
-	
-	
+
 	/**
-	 * Send the name from the nameField to the server and wait for a
-	 * response.
+	 * Send the name from the nameField to the server and wait for a response.
 	 */
 	private void sendNameToServer() {
 		sendButton.setEnabled(false);
@@ -115,51 +144,56 @@ public class Dicom_browser implements EntryPoint {
 						showErrorDlg((DefaultGWTRPCException) caught);
 						sendButton.setEnabled(true);
 						nameField.setFocus(true);
-//						nameField.selectAll();
+						// nameField.selectAll();
 					}
 
 					public void onSuccess(DcmFileProxy[] result) {
 
-//						System.out.println("!!! result="+result.length);
+						// System.out.println("!!! result="+result.length);
 						for (int i = 0; i < result.length; i++) {
 							DcmFileProxy proxy = result[i];
-//							System.out.println("!!! proxy="+proxy);
+							// System.out.println("!!! proxy="+proxy);
 							Label l = new Label(proxy.getPatientName());
 							RootPanel.get("resultContainer").add(l);
 
-							for (Iterator<Integer> it = proxy.getImagesIds().iterator(); it.hasNext();) {
+							for (Iterator<Integer> it = proxy.getImagesIds()
+									.iterator(); it.hasNext();) {
 								Integer id = it.next();
-								
+
 								Image image = new Image("images/" + id);
 								image.addStyleName("Image");
-								image.setTitle("Щелкните здесь чтобы увеличить изображение");
+								image
+										.setTitle("Щелкните здесь чтобы увеличить изображение");
 								image.setWidth("200px");
 								// image.setSize("150px", "150px");
-//								System.out.println("!!! image SIZE: "
-//										+ image.getWidth() + ";"
-//										+ image.getHeight());
+								// System.out.println("!!! image SIZE: "
+								// + image.getWidth() + ";"
+								// + image.getHeight());
 
 								RootPanel.get("resultContainer").add(image);
-								
-								
-								final Image imageFull = new Image("images/" + id);
+
+								final Image imageFull = new Image("images/"
+										+ id);
 								imageFull.addStyleName("Image");
-								imageFull.setTitle("Щелкните здесь чтобы закрыть изображение");
+								imageFull
+										.setTitle("Щелкните здесь чтобы закрыть изображение");
 								imageFull.setWidth("600px");
-								
-//								Hyperlink link = new Hyperlink();
-//								link.setText("Открыть в новом окне");
-								
+
+								// Hyperlink link = new Hyperlink();
+								// link.setText("Открыть в новом окне");
+
 								HTML link = new HTML();
-								link.setHTML("<a href='"+"images/" + id+"' target='new'> Открыть в новом окне </a>");
+								link
+										.setHTML("<a href='"
+												+ "images/"
+												+ id
+												+ "' target='new'> Открыть в новом окне </a>");
 								RootPanel.get("resultContainer").add(link);
 								//
-								
+
 								Button b = new Button("Увеличить...");
 								RootPanel.get("resultContainer").add(b);
-								
-								
-								
+
 								ClickHandler clickOpenHandler = new ClickHandler() {
 
 									@Override
@@ -169,11 +203,11 @@ public class Dicom_browser implements EntryPoint {
 										pGlass.setStyleName("GlassPanel");
 										pGlass.setModal(true);
 										pGlass.show();
-										
+
 										final DialogBox db = new DialogBox();
 										db.setModal(true);
 										db.setTitle("Увеличенное изображение");
-										
+
 										VerticalPanel vp = new VerticalPanel();
 										db.add(vp);
 										vp.add(imageFull);
@@ -190,22 +224,20 @@ public class Dicom_browser implements EntryPoint {
 
 										};
 										b.addClickHandler(clickCloseHandler);
-										imageFull.addClickHandler(clickCloseHandler);
-
-										
+										imageFull
+												.addClickHandler(clickCloseHandler);
 
 										db.show();
 										db.center();
 									}
 
 								};
-								
+
 								b.addClickHandler(clickOpenHandler);
 								image.addClickHandler(clickOpenHandler);
-								
+
 								//
 							}
-							
 
 						}
 						sendButton.setEnabled(true);
@@ -250,36 +282,37 @@ public class Dicom_browser implements EntryPoint {
 		});
 
 	}
-	
+
 	public class ItemSuggestOracle extends SuggestOracle {
-	    public boolean isDisplayStringHTML() { return true; }
+		public boolean isDisplayStringHTML() {
+			return true;
+		}
 
-	    public void requestSuggestions(SuggestOracle.Request req,
-	SuggestOracle.Callback callback) {
-	        ItemSuggestService.Util.getInstance().getSuggestions(req, new
-	ItemSuggestCallback(req, callback));
-	    }
+		public void requestSuggestions(SuggestOracle.Request req,
+				SuggestOracle.Callback callback) {
+			ItemSuggestService.Util.getInstance().getSuggestions(req,
+					new ItemSuggestCallback(req, callback));
+		}
 
-	    class ItemSuggestCallback implements AsyncCallback {
-	        private SuggestOracle.Request req;
-	        private SuggestOracle.Callback callback;
+		class ItemSuggestCallback implements AsyncCallback {
+			private SuggestOracle.Request req;
+			private SuggestOracle.Callback callback;
 
-	        public ItemSuggestCallback(SuggestOracle.Request _req,
-	SuggestOracle.Callback _callback) {
-	            req = _req;
-	            callback = _callback;
-	        }
+			public ItemSuggestCallback(SuggestOracle.Request _req,
+					SuggestOracle.Callback _callback) {
+				req = _req;
+				callback = _callback;
+			}
 
-	        public void onFailure(Throwable error) {
-	            callback.onSuggestionsReady(req, new
-	SuggestOracle.Response());
-	        }
+			public void onFailure(Throwable error) {
+				callback.onSuggestionsReady(req, new SuggestOracle.Response());
+			}
 
-	        public void onSuccess(Object retValue) {
-	            callback.onSuggestionsReady(req,
-	(SuggestOracle.Response)retValue);
-	        }
-	    }
+			public void onSuccess(Object retValue) {
+				callback.onSuggestionsReady(req,
+						(SuggestOracle.Response) retValue);
+			}
+		}
 
-	} 
+	}
 }
