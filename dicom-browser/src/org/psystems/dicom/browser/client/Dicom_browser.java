@@ -16,6 +16,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -25,6 +26,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
@@ -57,6 +59,9 @@ public class Dicom_browser implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 
+		HorizontalPanel hp = new HorizontalPanel();
+		RootPanel.get("searchContainer").add(hp);
+
 		sendButton = new Button("Поиск");
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
 		nameField = new SuggestBox(oracle);
@@ -67,10 +72,7 @@ public class Dicom_browser implements EntryPoint {
 
 		sendButton.addStyleName("sendButton");
 
-		RootPanel.get("nameFieldContainer").add(nameField);
-
-		HorizontalPanel hp = new HorizontalPanel();
-		RootPanel.get("sendButtonContainer").add(hp);
+		hp.add(nameField);
 
 		hp.add(sendButton);
 
@@ -107,15 +109,15 @@ public class Dicom_browser implements EntryPoint {
 		// }
 		//			
 		// });
-		
+
 		nameField.addSelectionHandler(new SelectionHandler<Suggestion>() {
 
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
-//				System.out.println("addSelectionHandler "+event);
+				// System.out.println("addSelectionHandler "+event);
 				sendNameToServer();
 			}
-			
+
 		});
 
 		sendButton.addClickHandler(new ClickHandler() {
@@ -152,9 +154,97 @@ public class Dicom_browser implements EntryPoint {
 						// System.out.println("!!! result="+result.length);
 						for (int i = 0; i < result.length; i++) {
 							DcmFileProxy proxy = result[i];
-							// System.out.println("!!! proxy="+proxy);
-							Label l = new Label(proxy.getPatientName());
-							RootPanel.get("resultContainer").add(l);
+
+							HorizontalPanel dcmImage = new HorizontalPanel();
+							HorizontalPanel dcmItem = new HorizontalPanel();
+							RootPanel.get("resultContainer").add(dcmItem);
+
+							FlexTable t = new FlexTable();
+							t.setStyleName("SearchItem");
+//							t.setBorderWidth(2);
+
+							Label l = new Label(proxy.getPatientName()
+									+ " ?? (М) 01.03.1974");
+							l.setStyleName("DicomItem");
+
+							t.setWidget(0, 0, l);
+							t.getFlexCellFormatter().setColSpan(0, 0, 6);
+							t.getFlexCellFormatter().setAlignment(0, 0,
+									HorizontalPanel.ALIGN_CENTER,
+									HorizontalPanel.ALIGN_MIDDLE);
+
+							t.setWidget(0, 1, dcmImage);
+							t.getFlexCellFormatter().setAlignment(0, 0,
+									HorizontalPanel.ALIGN_CENTER,
+									HorizontalPanel.ALIGN_MIDDLE);
+							t.getFlexCellFormatter().setRowSpan(0, 1, 5);
+
+							l = new Label("Дата исследования:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(1, 0, l);
+							l = new Label("01.01.2001");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(1, 1, l);
+
+							l = new Label("ID исследования:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(1, 2, l);
+							l = new Label("LAB_XXXX");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(1, 3, l);
+
+							l = new Label("ID пациента:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(1, 4, l);
+							l = new Label("ID_PATI");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(1, 5, l);
+
+							l = new Label("Результаты:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(2, 0, l);
+							l = new Label("Не выявлено отклонений");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(2, 1, l);
+							t.getFlexCellFormatter().setColSpan(2, 1, 5);
+
+							l = new Label("Врач:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(3, 0, l);
+							l = new Label("врач иванов");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(3, 1, l);
+
+							l = new Label("Оператор:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(3, 2, l);
+							l = new Label("Оператор сидоров");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(3, 3, l);
+
+							l = new Label("Аппарат:");
+							l.setStyleName("DicomItemName");
+							t.setWidget(3, 4, l);
+							l = new Label("Рентген ХХХ");
+							l.setStyleName("DicomItemValue");
+							t.setWidget(3, 5, l);
+
+							HTML linkDcm = new HTML();
+							linkDcm
+									.setHTML("<a href='"
+											+ "dcm/"
+											+ proxy.getId()
+											+ "' target='new'> получить оригнальный DCM-файл </a>"
+											+ "<a href='help.html'> Инструкция (не реализовано) </a>");
+							linkDcm.setStyleName("DicomItemName");
+
+							t.setWidget(4, 0, linkDcm);
+							t.getFlexCellFormatter().setColSpan(4, 0, 6);
+
+							// t.setText(2, 2, "bottom-right corner");
+							// t.setWidget(1, 0, new Button("Wide Button"));
+							// t.getFlexCellFormatter().setColSpan(1, 0, 3);
+							dcmItem.add(t);
 
 							for (Iterator<Integer> it = proxy.getImagesIds()
 									.iterator(); it.hasNext();) {
@@ -164,13 +254,16 @@ public class Dicom_browser implements EntryPoint {
 								image.addStyleName("Image");
 								image
 										.setTitle("Щелкните здесь чтобы увеличить изображение");
-								image.setWidth("200px");
+								image.setWidth("150px");
 								// image.setSize("150px", "150px");
 								// System.out.println("!!! image SIZE: "
 								// + image.getWidth() + ";"
 								// + image.getHeight());
 
-								RootPanel.get("resultContainer").add(image);
+								VerticalPanel vp = new VerticalPanel();
+								dcmImage.add(vp);
+
+								vp.add(image);
 
 								final Image imageFull = new Image("images/"
 										+ id);
@@ -179,8 +272,8 @@ public class Dicom_browser implements EntryPoint {
 										.setTitle("Щелкните здесь чтобы закрыть изображение");
 								imageFull.setWidth("600px");
 
-								// Hyperlink link = new Hyperlink();
-								// link.setText("Открыть в новом окне");
+								HorizontalPanel hp = new HorizontalPanel();
+								vp.add(hp);
 
 								HTML link = new HTML();
 								link
@@ -188,11 +281,12 @@ public class Dicom_browser implements EntryPoint {
 												+ "images/"
 												+ id
 												+ "' target='new'> Открыть в новом окне </a>");
-								RootPanel.get("resultContainer").add(link);
+								link.setStyleName("DicomItemName");
+								hp.add(link);
 								//
 
 								Button b = new Button("Увеличить...");
-								RootPanel.get("resultContainer").add(b);
+								hp.add(b);
 
 								ClickHandler clickOpenHandler = new ClickHandler() {
 

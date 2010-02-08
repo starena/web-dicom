@@ -6,7 +6,7 @@ h1 {
   font-size: 2em;
   font-weight: bold;
   color: #777777;
-  margin: 40px 0px 70px;
+  margin: 20px;
   text-align: center;
 }
 
@@ -48,3 +48,47 @@ h1 {
   cursor: hand;
 
 }
+
+
+.SearchItem {
+	margin: 25px;
+}
+
+.DicomItem {
+	font: 2.167em/ 118% normal Verdana, Tahoma, sans-serif;
+	margin: 5px;
+	color: #000000;
+	/*color: #44639C;*/	
+}
+
+.DicomItemName {
+	font: 1.5em/ 78% normal Verdana, Tahoma, sans-serif;
+	margin: 2px;
+	color: #B0CAFA;	
+}
+
+.DicomItemValue {
+	font: 1.7em/ 78% normal Verdana, Tahoma, sans-serif;
+	margin: 2px;
+	color: #44639C;
+}
+
+/* ссылки */
+.DicomItemName A {
+	font: 1.2em/ 78% normal Verdana, Tahoma, sans-serif;
+	margin-bottom: 20px;
+	color: #44639C;
+	text-decoration: none;
+}
+
+
+.DicomItemName A:VISITED {
+	color: #B0CAFA;
+}
+
+.DicomItemName A:HOVER {
+	color: #44639C;
+	text-decoration: underline;
+}
+
+
