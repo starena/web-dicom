@@ -23,13 +23,9 @@ public class DcmFileProxy implements Serializable {
 	private Date studyDate; // Дата исследования
 	private String studyDoctor; // Врач исследования
 	private String studyOperator; // Оператор исследования
-	
-		
+
 	private ArrayList<DcmImageProxy> images = new ArrayList<DcmImageProxy>();
 
-	
-	
-	
 	/**
 	 * Инициализация класса
 	 * 
@@ -45,11 +41,11 @@ public class DcmFileProxy implements Serializable {
 	 * @param studyOperator
 	 * @param imagesIds
 	 */
-	public void init (Integer id, String dcmFileName, String patientName,
+	public void init(Integer id, String dcmFileName, String patientName,
 			String patientSex, String patientId, Date patientBirthDate,
 			String studyId, Date studyDate, String studyDoctor,
 			String studyOperator) {
-		
+
 		this.id = id;
 		this.dcmFileName = dcmFileName;
 		this.patientName = patientName;
@@ -60,10 +56,8 @@ public class DcmFileProxy implements Serializable {
 		this.studyDate = studyDate;
 		this.studyDoctor = studyDoctor;
 		this.studyOperator = studyOperator;
-		
+
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -80,7 +74,34 @@ public class DcmFileProxy implements Serializable {
 	public Date getPatientBirthDate() {
 		return patientBirthDate;
 	}
-	
+
+	public String getPatientSex() {
+		return patientSex;
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public String getStudyId() {
+		return studyId;
+	}
+
+	public Date getStudyDate() {
+		return studyDate;
+	}
+
+	public String getStudyDoctor() {
+		return studyDoctor;
+	}
+
+	public String getStudyOperator() {
+		return studyOperator;
+	}
+
+	public ArrayList<DcmImageProxy> getImages() {
+		return images;
+	}
 
 	public ArrayList<DcmImageProxy> getImagesIds() {
 		return images;
@@ -93,7 +114,8 @@ public class DcmFileProxy implements Serializable {
 	@Override
 	public String toString() {
 		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName
-				+ ";" + patientBirthDate + ";" + studyDate + ";images count:"+images.size();
+				+ ";" + patientBirthDate + ";" + studyDate + ";images count:"
+				+ images.size();
 	}
 
 }
