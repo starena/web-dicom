@@ -16,7 +16,7 @@
 
 	<context-param>
 		<param-name>webdicom.connection.url</param-name>
-		<param-value>jdbc:derby://localhost:1527//WORKDB/WEBDICOM</param-value>
+		<param-value>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</param-value>
 	</context-param>
 
 	<context-param>
