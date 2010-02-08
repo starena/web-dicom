@@ -31,6 +31,8 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		
 		int limit = req.getLimit();
 		String queryStr = req.getQuery();
+		
+//		System.out.println("!!! queryStr=["+queryStr+"]");
 		List<Suggestion> suggestions = new ArrayList<Suggestion>(req.getLimit());
 
 		// Replace the code below with something to create and popular
