@@ -16,27 +16,54 @@ public class DcmFileProxy implements Serializable {
 	private Integer id; // ID
 	private String dcmFileName; // Имя DCM файла
 	private String patientName; // ФИО пациента
+	private String patientSex; // Пол пациента
+	private String patientId; // ID пациента
 	private Date patientBirthDate; // Дата рождения пациента
+	private String studyId; // ID исследования
 	private Date studyDate; // Дата исследования
-	private ArrayList<Integer> imagesIds = new ArrayList<Integer>();
+	private String studyDoctor; // Врач исследования
+	private String studyOperator; // Оператор исследования
+	
+		
+	private ArrayList<DcmImageProxy> images = new ArrayList<DcmImageProxy>();
 
+	
+	
+	
 	/**
 	 * Инициализация класса
 	 * 
 	 * @param id
 	 * @param dcmFileName
 	 * @param patientName
+	 * @param patientSex
+	 * @param patientId
 	 * @param patientBirthDate
+	 * @param studyId
 	 * @param studyDate
+	 * @param studyDoctor
+	 * @param studyOperator
+	 * @param imagesIds
 	 */
-	public void init(Integer id, String dcmFileName, String patientName,
-			Date patientBirthDate, Date studyDate) {
+	public void init (Integer id, String dcmFileName, String patientName,
+			String patientSex, String patientId, Date patientBirthDate,
+			String studyId, Date studyDate, String studyDoctor,
+			String studyOperator) {
+		
 		this.id = id;
 		this.dcmFileName = dcmFileName;
 		this.patientName = patientName;
+		this.patientSex = patientSex;
+		this.patientId = patientId;
 		this.patientBirthDate = patientBirthDate;
+		this.studyId = studyId;
 		this.studyDate = studyDate;
+		this.studyDoctor = studyDoctor;
+		this.studyOperator = studyOperator;
+		
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -55,18 +82,18 @@ public class DcmFileProxy implements Serializable {
 	}
 	
 
-	public ArrayList<Integer> getImagesIds() {
-		return imagesIds;
+	public ArrayList<DcmImageProxy> getImagesIds() {
+		return images;
 	}
 
-	public void setImagesIds(ArrayList<Integer> imagesIds) {
-		this.imagesIds = imagesIds;
+	public void setImagesIds(ArrayList<DcmImageProxy> images) {
+		this.images = images;
 	}
 
 	@Override
 	public String toString() {
 		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName
-				+ ";" + patientBirthDate + ";" + studyDate + ";images count:"+imagesIds.size();
+				+ ";" + patientBirthDate + ";" + studyDate + ";images count:"+images.size();
 	}
 
 }

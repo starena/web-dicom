@@ -3,6 +3,7 @@ package org.psystems.dicom.browser.client;
 import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -246,11 +247,11 @@ public class Dicom_browser implements EntryPoint {
 							// t.getFlexCellFormatter().setColSpan(1, 0, 3);
 							dcmItem.add(t);
 
-							for (Iterator<Integer> it = proxy.getImagesIds()
+							for (Iterator<DcmImageProxy> it = proxy.getImagesIds()
 									.iterator(); it.hasNext();) {
-								Integer id = it.next();
+								DcmImageProxy imageProxy = it.next();
 
-								Image image = new Image("images/" + id);
+								Image image = new Image("images/" + imageProxy.getId());
 								image.addStyleName("Image");
 								image
 										.setTitle("Щелкните здесь чтобы увеличить изображение");
@@ -266,7 +267,7 @@ public class Dicom_browser implements EntryPoint {
 								vp.add(image);
 
 								final Image imageFull = new Image("images/"
-										+ id);
+										+ imageProxy.getId());
 								imageFull.addStyleName("Image");
 								imageFull
 										.setTitle("Щелкните здесь чтобы закрыть изображение");
@@ -279,7 +280,7 @@ public class Dicom_browser implements EntryPoint {
 								link
 										.setHTML("<a href='"
 												+ "images/"
-												+ id
+												+ imageProxy.getId()
 												+ "' target='new'> Открыть в новом окне </a>");
 								link.setStyleName("DicomItemName");
 								hp.add(link);
