@@ -49,6 +49,15 @@ h1 {
 
 }
 
+.ImageGlassPanel {
+	background: black;
+	opacity: 0.2;
+	filter: alpha(opacity = 20);
+	cursor: not-allowed;
+	width: 100px;
+	height: 100px;
+}
+
 
 .DicomSuggestion {
 	font: 2.167em/ 118% normal Verdana, Tahoma, sans-serif;
