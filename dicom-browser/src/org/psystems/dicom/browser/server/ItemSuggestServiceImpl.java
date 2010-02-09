@@ -66,6 +66,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmFileProxy> data = new ArrayList<DcmFileProxy>();
 			int index = 0;
+			suggestions.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
 			while (rs.next()) {
 				
 				String name = rs.getString("PATIENT_NAME");
