@@ -42,7 +42,7 @@ public class SearchedItem extends Composite {
 
 		FlexTable t = new FlexTable();
 		t.setStyleName("SearchItem");
-//		t.setBorderWidth(1);
+		// t.setBorderWidth(1);
 
 		String sex = proxy.getPatientSex();
 		if ("M".equalsIgnoreCase(sex)) {
@@ -57,15 +57,14 @@ public class SearchedItem extends Composite {
 
 		t.setWidget(0, 0, l);
 		t.getFlexCellFormatter().setColSpan(0, 0, 6);
-		t.getFlexCellFormatter().setAlignment(0, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+		t.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
+				HorizontalPanel.ALIGN_MIDDLE);
 
 		t.setWidget(0, 1, dcmImage);
-		t.getFlexCellFormatter().setAlignment(0, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+		t.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
+				HorizontalPanel.ALIGN_MIDDLE);
 		t.getFlexCellFormatter().setRowSpan(0, 1, 5);
 
-		
 		createItemName(t, 1, 0, "дата:");
 		createItemValue(t, 1, 1, proxy.getStudyDateAsString(datePattern));
 
@@ -74,23 +73,20 @@ public class SearchedItem extends Composite {
 
 		createItemName(t, 1, 4, "код пациента:");
 		createItemValue(t, 1, 5, proxy.getPatientId());
-		
+
 		createItemName(t, 2, 0, "аппарат:");
 		createItemValue(t, 2, 1, "неизвестен");
-		
+
 		createItemName(t, 2, 2, "врач:");
 		createItemValue(t, 2, 3, proxy.getStudyDoctor());
 
 		createItemName(t, 2, 4, "оператор:");
 		createItemValue(t, 2, 5, proxy.getStudyOperator());
-		
-	
-		
+
 		createItemName(t, 3, 0, "результат:");
 		createItemValue(t, 3, 1, "неизвестен");
 		t.getFlexCellFormatter().setColSpan(3, 1, 5);
 
-	
 		HTML linkDcm = new HTML();
 		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
 				+ "' target='new'> получить оригнальный DICOM-файл </a>");
@@ -98,16 +94,15 @@ public class SearchedItem extends Composite {
 
 		t.setWidget(4, 0, linkDcm);
 		t.getFlexCellFormatter().setColSpan(4, 0, 6);
-		t.getFlexCellFormatter().setAlignment(4, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+		t.getFlexCellFormatter().setAlignment(4, 0, HorizontalPanel.ALIGN_CENTER,
+				HorizontalPanel.ALIGN_MIDDLE);
 
 		// t.setText(2, 2, "bottom-right corner");
 		// t.setWidget(1, 0, new Button("Wide Button"));
 		// t.getFlexCellFormatter().setColSpan(1, 0, 3);
 		dcmItem.add(t);
 
-		for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it
-				.hasNext();) {
+		for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it.hasNext();) {
 			final DcmImageProxy imageProxy = it.next();
 
 			Image image = new Image("images/" + imageProxy.getId());
@@ -123,22 +118,7 @@ public class SearchedItem extends Composite {
 
 			image.setHeight(hNew + "px");
 			image.setWidth(wNew + "px");
-
-			// PopupPanel pGlass1 = new PopupPanel();
-			// pGlass1.setStyleName("ImageGlassPanel");
-			// pGlass1.setModal(true);
-			// pGlass1.setPopupPosition(100 , 100);
-			// pGlass1.show();
-
-			// image.setSize("150px", "150px");
-			// System.out.println("!!! image SIZE: "
-			// + image.getWidth() + ";"
-			// + image.getHeight());
-
-			// VerticalPanel vp = new VerticalPanel();
 			dcmImage.add(image);
-
-			// vp.add(image);
 
 			final Image imageFull = new Image("images/" + imageProxy.getId());
 			imageFull.addStyleName("Image");
@@ -150,40 +130,27 @@ public class SearchedItem extends Composite {
 			imageFull.setHeight(hNew + "px");
 			imageFull.setWidth(wNew + "px");
 
-			// HorizontalPanel hp = new HorizontalPanel();
-			// vp.add(hp);
-
 			ClickHandler clickOpenHandler = new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
 
 					final PopupPanel pGlass = new PopupPanel();
-					pGlass.setStyleName("GlassPanel");
-					pGlass.setModal(true);
-					pGlass.show();
-
-					final DialogBox db = new DialogBox();
-					db.setModal(true);
-					db.setAutoHideEnabled(true);
-					db.setTitle("Увеличенное изображение");
-
-					db.setText(proxy.getPatientName() + " ["
-							+ proxy.getPatientBirthDateAsString(datePattern)
-							+ "]" + " исследование от "
-							+ proxy.getStudyDateAsString(datePattern));
-
-					db.addCloseHandler(new CloseHandler<PopupPanel>() {
-
-						@Override
-						public void onClose(CloseEvent<PopupPanel> event) {
-							pGlass.hide();
-						}
-
-					});
+					// pGlass.setModal(true);
+					pGlass.setGlassEnabled(true);
+					pGlass.setAutoHideEnabled(true);
 
 					VerticalPanel vp = new VerticalPanel();
-					db.add(vp);
+					pGlass.add(vp);
+					vp.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+
+					Label lTitle = new Label(proxy.getPatientName() + " ["
+							+ proxy.getPatientBirthDateAsString(datePattern) + "]" + " исследование от "
+							+ proxy.getStudyDateAsString(datePattern));
+
+					lTitle.setStyleName("DicomItemValue");
+
+					vp.add(lTitle);
 					vp.add(imageFull);
 
 					imageFull.addClickHandler(new ClickHandler() {
@@ -191,20 +158,18 @@ public class SearchedItem extends Composite {
 						@Override
 						public void onClick(ClickEvent event) {
 							pGlass.hide();
-							db.hide();
 						}
 
 					});
 
 					HTML link = new HTML();
-					link.setHTML("&nbsp;&nbsp;<a href='" + "images/"
-							+ imageProxy.getId()
+					link.setHTML("&nbsp;&nbsp;<a href='" + "images/" + imageProxy.getId()
 							+ "' target='new'> Открыть в новом окне </a>");
 					link.setStyleName("DicomItemName");
 					vp.add(link);
 
-					db.show();
-					db.center();
+					pGlass.show();
+					pGlass.center();
 				}
 
 			};
@@ -228,8 +193,8 @@ public class SearchedItem extends Composite {
 		Label l = new Label(title);
 		l.setStyleName("DicomItemName");
 		t.setWidget(row, col, l);
-		t.getFlexCellFormatter().setAlignment(row, col,
-				HorizontalPanel.ALIGN_RIGHT, HorizontalPanel.ALIGN_MIDDLE);
+		t.getFlexCellFormatter().setAlignment(row, col, HorizontalPanel.ALIGN_RIGHT,
+				HorizontalPanel.ALIGN_MIDDLE);
 	}
 
 	/**
@@ -242,8 +207,8 @@ public class SearchedItem extends Composite {
 		Label l = new Label(title);
 		l.setStyleName("DicomItemValue");
 		t.setWidget(row, col, l);
-		t.getFlexCellFormatter().setAlignment(row, col,
-				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
+		t.getFlexCellFormatter().setAlignment(row, col, HorizontalPanel.ALIGN_LEFT,
+				HorizontalPanel.ALIGN_MIDDLE);
 	}
 
 }
