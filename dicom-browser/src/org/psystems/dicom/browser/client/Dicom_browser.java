@@ -6,8 +6,12 @@ import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -41,6 +45,8 @@ public class Dicom_browser implements EntryPoint {
 	private SuggestBox nameField;
 
 	long lastRequestTime; // Время последнего запроса
+
+	private String searchTitle = "...введите фамилию (% - любой символ)...";
 	private static PopupPanel workStatusPanel;//панель состояния работы запросов
 	private static HTML workMsg;
 
@@ -58,10 +64,52 @@ public class Dicom_browser implements EntryPoint {
 		sendButton = new Button("Поиск");
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
 		nameField = new SuggestBox(oracle);
-		nameField.addStyleName("DicomSuggestion");
+		nameField.addStyleName("DicomSuggestionEmpty");
 
 		nameField.setLimit(10);
 		nameField.setWidth("600px");
+		nameField.setTitle(searchTitle);
+		nameField.setText(searchTitle);
+		
+		nameField.getTextBox().addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+				
+				nameField.removeStyleName("DicomSuggestionEmpty");
+				nameField.addStyleName("DicomSuggestion");
+				
+//				System.out.println("!!!!! focus ["+nameField.getText()+"][" +nameField.getTitle() + "]");
+				if(nameField.getText().equals(nameField.getTitle())) {
+					nameField.setValue("");
+				}else {
+					nameField.setValue(nameField.getValue());
+				}
+			}
+			
+		});
+		
+		nameField.getTextBox().addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				
+				
+				
+				if(nameField.getText().equals("")) {
+					nameField.setValue(nameField.getTitle());
+					nameField.removeStyleName("DicomSuggestion");
+					nameField.addStyleName("DicomSuggestionEmpty");
+				}else {
+					nameField.setValue(nameField.getValue());					
+				}
+				
+			}
+			
+		});
+		
+//		onblur="this.value=(this.value=='')?this.title:this.value;"
+//			onfocus="this.value=(this.value==this.title)?'':this.value;"
 
 		createErorrDlg();
 
@@ -79,7 +127,9 @@ public class Dicom_browser implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				nameField.setText("");
+				nameField.setText(searchTitle);
+				nameField.removeStyleName("DicomSuggestion");
+				nameField.addStyleName("DicomSuggestionEmpty");
 				RootPanel.get("resultContainer").clear();
 			}
 
