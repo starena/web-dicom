@@ -3,7 +3,8 @@ package org.psystems.dicom.browser.client.proxy;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * @author dima_d
@@ -75,6 +76,11 @@ public class DcmFileProxy implements Serializable {
 		return patientBirthDate;
 	}
 
+	public String getPatientBirthDateAsString(String pattern) {
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
+		return dateFormat.format(patientBirthDate);
+	}
+
 	public String getPatientSex() {
 		return patientSex;
 	}
@@ -89,6 +95,11 @@ public class DcmFileProxy implements Serializable {
 
 	public Date getStudyDate() {
 		return studyDate;
+	}
+
+	public String getStudyDateAsString(String pattern) {
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
+		return dateFormat.format(studyDate);
 	}
 
 	public String getStudyDoctor() {
