@@ -33,6 +33,22 @@ h1 {
   margin: 15px 6px 6px;
 }
 
+
+
+.msgPopupPanel {
+	/*border: 1px dotted yellow;*/
+	background: yellow;
+	color: black;
+	position: fixed;
+	opacity: 0.6;
+	filter: alpha(opacity = 60);
+	cursor: not-allowed;	
+}
+
+.msgPopupPanelItem {
+	margin: 2px;	
+}
+
 .GlassPanel {
 	background: black;
 	opacity: 0.2;
