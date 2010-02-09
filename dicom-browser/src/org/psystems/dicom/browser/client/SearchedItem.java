@@ -19,11 +19,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Виджет отображающий результат поиска исследования
+ * 
  * @author dima_d
- *
+ * 
  */
 public class SearchedItem extends Composite {
 
@@ -38,16 +40,15 @@ public class SearchedItem extends Composite {
 		//
 		HorizontalPanel dcmImage = new HorizontalPanel();
 
-
 		FlexTable t = new FlexTable();
 		t.setStyleName("SearchItem");
-		// t.setBorderWidth(2);
+//		t.setBorderWidth(1);
 
 		String sex = proxy.getPatientSex();
 		if ("M".equalsIgnoreCase(sex)) {
-			sex = "Муж.";
+			sex = "М";
 		} else if ("F".equalsIgnoreCase(sex)) {
-			sex = "Жен.";
+			sex = "Ж";
 		}
 
 		Label l = new Label(proxy.getPatientName() + " (" + sex + ") "
@@ -64,72 +65,41 @@ public class SearchedItem extends Composite {
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 		t.getFlexCellFormatter().setRowSpan(0, 1, 5);
 
-		l = new Label("Дата исследования:");
-		l.setStyleName("DicomItemName");
-		t.setWidget(1, 0, l);
-		l = new Label("" + proxy.getStudyDateAsString(datePattern));
-		l.setStyleName("DicomItemValue");
-		t.setWidget(1, 1, l);
+		
+		createItemName(t, 1, 0, "дата:");
+		createItemValue(t, 1, 1, proxy.getStudyDateAsString(datePattern));
 
-		l = new Label("ID исследования:");
-		l.setStyleName("DicomItemName");
-		t.setWidget(1, 2, l);
-		l = new Label(proxy.getStudyId());
-		l.setStyleName("DicomItemValue");
-		t.setWidget(1, 3, l);
+		createItemName(t, 1, 2, "исследование:");
+		createItemValue(t, 1, 3, proxy.getStudyDateAsString(datePattern));
 
-		l = new Label("ID пациента:");
-		l.setStyleName("DicomItemName");
-		t.setWidget(1, 4, l);
-		l = new Label(proxy.getPatientId());
-		l.setStyleName("DicomItemValue");
-		t.setWidget(1, 5, l);
+		createItemName(t, 1, 4, "код пациента:");
+		createItemValue(t, 1, 5, proxy.getPatientId());
+		
+		createItemName(t, 2, 0, "аппарат:");
+		createItemValue(t, 2, 1, "неизвестен");
+		
+		createItemName(t, 2, 2, "врач:");
+		createItemValue(t, 2, 3, proxy.getStudyDoctor());
 
-		l = new Label("Врач:");
-		l.setStyleName("DicomItemName");
-		t.setWidget(2, 0, l);
-		t.getFlexCellFormatter().setAlignment(2, 0,
-				HorizontalPanel.ALIGN_RIGHT, HorizontalPanel.ALIGN_MIDDLE);
-		l = new Label(proxy.getStudyDoctor());
-		l.setStyleName("DicomItemValue");
-		t.setWidget(2, 1, l);
-
-		l = new Label("Оператор:");
-		l.setStyleName("DicomItemName");
-		t.setWidget(2, 2, l);
-		t.getFlexCellFormatter().setAlignment(2, 2,
-				HorizontalPanel.ALIGN_RIGHT, HorizontalPanel.ALIGN_MIDDLE);
-		l = new Label(proxy.getStudyOperator());
-		l.setStyleName("DicomItemValue");
-		t.setWidget(2, 3, l);
-
-		l = new Label("Аппарат:");
-		l.setStyleName("DicomItemName");
-		t.setWidget(2, 4, l);
-		t.getFlexCellFormatter().setAlignment(2, 4,
-				HorizontalPanel.ALIGN_RIGHT, HorizontalPanel.ALIGN_MIDDLE);
-		l = new Label("неизвестен");
-		l.setStyleName("DicomItemValue");
-		t.setWidget(2, 5, l);
-
-		l = new Label("Результаты:");
-		l.setStyleName("DicomItemName");
-		t.setWidget(3, 0, l);
-		t.getFlexCellFormatter().setAlignment(3, 0,
-				HorizontalPanel.ALIGN_RIGHT, HorizontalPanel.ALIGN_MIDDLE);
-
-		l = new Label("нет данных");
-		l.setStyleName("DicomItemValue");
-		t.setWidget(3, 1, l);
+		createItemName(t, 2, 4, "оператор:");
+		createItemValue(t, 2, 5, proxy.getStudyOperator());
+		
+	
+		
+		createItemName(t, 3, 0, "результат:");
+		createItemValue(t, 3, 1, "неизвестен");
 		t.getFlexCellFormatter().setColSpan(3, 1, 5);
 
+	
 		HTML linkDcm = new HTML();
 		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
-				+ "' target='new'> получить оригнальный DCM-файл </a>");
+				+ "' target='new'> получить оригнальный DICOM-файл </a>");
 		linkDcm.setStyleName("DicomItemName");
 
 		t.setWidget(4, 0, linkDcm);
 		t.getFlexCellFormatter().setColSpan(4, 0, 6);
+		t.getFlexCellFormatter().setAlignment(4, 0,
+				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 
 		// t.setText(2, 2, "bottom-right corner");
 		// t.setWidget(1, 0, new Button("Wide Button"));
@@ -246,6 +216,34 @@ public class SearchedItem extends Composite {
 		// All composites must call initWidget() in their constructors.
 		initWidget(dcmItem);
 
+	}
+
+	/**
+	 * @param t
+	 * @param row
+	 * @param col
+	 * @param title
+	 */
+	private void createItemName(FlexTable t, int row, int col, String title) {
+		Label l = new Label(title);
+		l.setStyleName("DicomItemName");
+		t.setWidget(row, col, l);
+		t.getFlexCellFormatter().setAlignment(row, col,
+				HorizontalPanel.ALIGN_RIGHT, HorizontalPanel.ALIGN_MIDDLE);
+	}
+
+	/**
+	 * @param t
+	 * @param row
+	 * @param col
+	 * @param title
+	 */
+	private void createItemValue(FlexTable t, int row, int col, String title) {
+		Label l = new Label(title);
+		l.setStyleName("DicomItemValue");
+		t.setWidget(row, col, l);
+		t.getFlexCellFormatter().setAlignment(row, col,
+				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
 	}
 
 }
