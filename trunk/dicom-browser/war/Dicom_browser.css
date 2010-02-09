@@ -82,6 +82,13 @@ h1 {
 	color: #44639C;	
 }
 
+.DicomSuggestionEmpty {
+	font: 2.167em/ 118% normal Verdana, Tahoma, sans-serif;
+	margin: 5px;
+	/*color: #000000;*/
+	color: #B0CAFA;	
+}
+
 
 .SearchItem {
 	margin: 15px;
