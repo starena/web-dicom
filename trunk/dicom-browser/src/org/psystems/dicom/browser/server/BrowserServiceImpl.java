@@ -69,7 +69,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			psSelect = connection
 					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, "
 							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
-							+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR  FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( '%' || ? || '%')");
+							+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR  FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
