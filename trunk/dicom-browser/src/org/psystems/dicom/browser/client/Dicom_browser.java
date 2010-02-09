@@ -164,7 +164,7 @@ public class Dicom_browser implements EntryPoint {
 
 							FlexTable t = new FlexTable();
 							t.setStyleName("SearchItem");
-//							t.setBorderWidth(2);
+							// t.setBorderWidth(2);
 
 							String sex = proxy.getPatientSex();
 							if ("M".equalsIgnoreCase(sex)) {
@@ -173,10 +173,13 @@ public class Dicom_browser implements EntryPoint {
 								sex = "Жен.";
 							}
 
-
-							
-							Label l = new Label(proxy.getPatientName() + " ("
-									+ sex + ") " + proxy.getPatientBirthDateAsString(datePattern));
+							Label l = new Label(
+									proxy.getPatientName()
+											+ " ("
+											+ sex
+											+ ") "
+											+ proxy
+													.getPatientBirthDateAsString(datePattern));
 							l.setStyleName("DicomItem");
 
 							t.setWidget(0, 0, l);
@@ -194,7 +197,8 @@ public class Dicom_browser implements EntryPoint {
 							l = new Label("Дата исследования:");
 							l.setStyleName("DicomItemName");
 							t.setWidget(1, 0, l);
-							l = new Label("" + proxy.getStudyDateAsString(datePattern));
+							l = new Label(""
+									+ proxy.getStudyDateAsString(datePattern));
 							l.setStyleName("DicomItemValue");
 							t.setWidget(1, 1, l);
 
@@ -259,8 +263,7 @@ public class Dicom_browser implements EntryPoint {
 									.setHTML("<a href='"
 											+ "dcm/"
 											+ proxy.getId()
-											+ "' target='new'> получить оригнальный DCM-файл </a>"
-											);
+											+ "' target='new'> получить оригнальный DCM-файл </a>");
 							linkDcm.setStyleName("DicomItemName");
 
 							t.setWidget(4, 0, linkDcm);
@@ -280,36 +283,47 @@ public class Dicom_browser implements EntryPoint {
 								image.addStyleName("Image");
 								image
 										.setTitle("Щелкните здесь чтобы увеличить изображение");
-								image.setWidth("100px");
-								
-//								PopupPanel pGlass1 = new PopupPanel();
-//								pGlass1.setStyleName("ImageGlassPanel");
-//								pGlass1.setModal(true);
-//								pGlass1.setPopupPosition(100	, 100);
-//								pGlass1.show();
-								
+
+								Integer w = imageProxy.getWidth();
+								Integer h = imageProxy.getHeight();
+
+								float k = w / h;
+								int hNew = 100;
+								int wNew = (int) (hNew / k);
+
+								image.setHeight(hNew + "px");
+								image.setWidth(wNew + "px");
+
+								// PopupPanel pGlass1 = new PopupPanel();
+								// pGlass1.setStyleName("ImageGlassPanel");
+								// pGlass1.setModal(true);
+								// pGlass1.setPopupPosition(100 , 100);
+								// pGlass1.show();
+
 								// image.setSize("150px", "150px");
 								// System.out.println("!!! image SIZE: "
 								// + image.getWidth() + ";"
 								// + image.getHeight());
 
-								
-//								VerticalPanel vp = new VerticalPanel();
+								// VerticalPanel vp = new VerticalPanel();
 								dcmImage.add(image);
 
-//								vp.add(image);
+								// vp.add(image);
 
 								final Image imageFull = new Image("images/"
 										+ imageProxy.getId());
 								imageFull.addStyleName("Image");
 								imageFull
 										.setTitle("Щелкните здесь чтобы закрыть изображение");
-								imageFull.setWidth("600px");
 
-//								HorizontalPanel hp = new HorizontalPanel();
-//								vp.add(hp);
+								hNew = 600;
+								wNew = (int) (hNew / k);
 
-								
+								imageFull.setHeight(hNew + "px");
+								imageFull.setWidth(wNew + "px");
+
+								// HorizontalPanel hp = new HorizontalPanel();
+								// vp.add(hp);
 
 								ClickHandler clickOpenHandler = new ClickHandler() {
 
@@ -326,11 +340,15 @@ public class Dicom_browser implements EntryPoint {
 										db.setAutoHideEnabled(true);
 										db.setTitle("Увеличенное изображение");
 
-										db.setText(proxy.getPatientName()
-												+ " ["
-												+ proxy.getPatientBirthDateAsString(datePattern)
-												+ "]" + " исследование от "
-												+ proxy.getStudyDateAsString(datePattern));
+										db
+												.setText(proxy.getPatientName()
+														+ " ["
+														+ proxy
+																.getPatientBirthDateAsString(datePattern)
+														+ "]"
+														+ " исследование от "
+														+ proxy
+																.getStudyDateAsString(datePattern));
 
 										db
 												.addCloseHandler(new CloseHandler<PopupPanel>() {
@@ -346,17 +364,18 @@ public class Dicom_browser implements EntryPoint {
 										VerticalPanel vp = new VerticalPanel();
 										db.add(vp);
 										vp.add(imageFull);
-										
-										imageFull.addClickHandler(new ClickHandler() {
 
-											@Override
-											public void onClick(ClickEvent event) {
-												pGlass.hide();
-												db.hide();
-											}
-											
-										});
+										imageFull
+												.addClickHandler(new ClickHandler() {
 
+													@Override
+													public void onClick(
+															ClickEvent event) {
+														pGlass.hide();
+														db.hide();
+													}
+
+												});
 
 										HTML link = new HTML();
 										link
