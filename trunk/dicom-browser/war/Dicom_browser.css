@@ -79,13 +79,13 @@ h1 {
 }
 
 .DicomItemName {
-	font: 1.5em/ 78% normal Verdana, Tahoma, sans-serif;
+	font: 1.2em/ 78% normal Verdana, Tahoma, sans-serif;
 	margin: 2px;
 	color: #B0CAFA;	
 }
 
 .DicomItemValue {
-	font: 1.7em/ 78% normal Verdana, Tahoma, sans-serif;
+	font: 1.3em/ 78% normal Verdana, Tahoma, sans-serif;
 	margin: 2px;
 	color: #44639C;
 }

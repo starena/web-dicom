@@ -164,7 +164,7 @@ public class Dicom_browser implements EntryPoint {
 
 							FlexTable t = new FlexTable();
 							t.setStyleName("SearchItem");
-							t.setBorderWidth(2);
+//							t.setBorderWidth(2);
 
 							String sex = proxy.getPatientSex();
 							if ("M".equalsIgnoreCase(sex)) {
@@ -260,7 +260,7 @@ public class Dicom_browser implements EntryPoint {
 											+ "dcm/"
 											+ proxy.getId()
 											+ "' target='new'> получить оригнальный DCM-файл </a>"
-											+ "<a href='help.html'> Инструкция (не реализовано) </a>");
+											);
 							linkDcm.setStyleName("DicomItemName");
 
 							t.setWidget(4, 0, linkDcm);
@@ -280,7 +280,7 @@ public class Dicom_browser implements EntryPoint {
 								image.addStyleName("Image");
 								image
 										.setTitle("Щелкните здесь чтобы увеличить изображение");
-								image.setWidth("150px");
+								image.setWidth("100px");
 								
 //								PopupPanel pGlass1 = new PopupPanel();
 //								pGlass1.setStyleName("ImageGlassPanel");
@@ -294,10 +294,10 @@ public class Dicom_browser implements EntryPoint {
 								// + image.getHeight());
 
 								
-								VerticalPanel vp = new VerticalPanel();
-								dcmImage.add(vp);
+//								VerticalPanel vp = new VerticalPanel();
+								dcmImage.add(image);
 
-								vp.add(image);
+//								vp.add(image);
 
 								final Image imageFull = new Image("images/"
 										+ imageProxy.getId());
@@ -306,8 +306,8 @@ public class Dicom_browser implements EntryPoint {
 										.setTitle("Щелкните здесь чтобы закрыть изображение");
 								imageFull.setWidth("600px");
 
-								HorizontalPanel hp = new HorizontalPanel();
-								vp.add(hp);
+//								HorizontalPanel hp = new HorizontalPanel();
+//								vp.add(hp);
 
 								
 
