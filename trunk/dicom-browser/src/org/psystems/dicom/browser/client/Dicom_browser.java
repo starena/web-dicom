@@ -47,7 +47,8 @@ public class Dicom_browser implements EntryPoint {
 	long lastRequestTime; // Время последнего запроса
 
 	private String searchTitle = "...введите фамилию (% - любой символ)...";
-	private static PopupPanel workStatusPanel;//панель состояния работы запросов
+	private static PopupPanel workStatusPanel;// панель состояния работы
+												// запросов
 	private static HTML workMsg;
 
 	/**
@@ -56,7 +57,7 @@ public class Dicom_browser implements EntryPoint {
 	public void onModuleLoad() {
 
 		_workStatusDlg();
-		
+
 		HorizontalPanel hp = new HorizontalPanel();
 		RootPanel.get("searchContainer").add(hp);
 		hp.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
@@ -70,46 +71,43 @@ public class Dicom_browser implements EntryPoint {
 		nameField.setWidth("600px");
 		nameField.setTitle(searchTitle);
 		nameField.setText(searchTitle);
-		
+
 		nameField.getTextBox().addFocusHandler(new FocusHandler() {
 
 			@Override
 			public void onFocus(FocusEvent event) {
-				
+
 				nameField.removeStyleName("DicomSuggestionEmpty");
 				nameField.addStyleName("DicomSuggestion");
-				
-//				System.out.println("!!!!! focus ["+nameField.getText()+"][" +nameField.getTitle() + "]");
-				if(nameField.getText().equals(nameField.getTitle())) {
+
+				if (nameField.getText().equals(nameField.getTitle())) {
 					nameField.setValue("");
-				}else {
+				} else {
 					nameField.setValue(nameField.getValue());
 				}
 			}
-			
+
 		});
-		
+
 		nameField.getTextBox().addBlurHandler(new BlurHandler() {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				
-				
-				
-				if(nameField.getText().equals("")) {
+
+				if (nameField.getText().equals("")) {
 					nameField.setValue(nameField.getTitle());
 					nameField.removeStyleName("DicomSuggestion");
 					nameField.addStyleName("DicomSuggestionEmpty");
-				}else {
-					nameField.setValue(nameField.getValue());					
+				} else {
+					nameField.setValue(nameField.getValue());
 				}
-				
+
 			}
-			
+
 		});
-		
-//		onblur="this.value=(this.value=='')?this.title:this.value;"
-//			onfocus="this.value=(this.value==this.title)?'':this.value;"
+
+		// onblur="this.value=(this.value=='')?this.title:this.value;"
+		// onfocus="this.value=(this.value==this.title)?'':this.value;"
 
 		createErorrDlg();
 
@@ -158,13 +156,15 @@ public class Dicom_browser implements EntryPoint {
 	 * Send the name from the nameField to the server and wait for a response.
 	 */
 	private void sendNameToServer() {
-		
+
 		Date d = new Date();
 		lastRequestTime = d.getTime();
-		
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd.MM.YYY H:m:s S");
-		showWorkStatusMsg("идет <b> получение данных </b> ... " + dateFormat.format(d));
-		
+
+		DateTimeFormat dateFormat = DateTimeFormat
+				.getFormat("dd.MM.YYY H:m:s S");
+		showWorkStatusMsg("идет <b> получение данных </b> ... "
+				+ dateFormat.format(d));
+
 		sendButton.setEnabled(false);
 		String textToServer = nameField.getText();
 		RootPanel.get("resultContainer").clear();
@@ -180,7 +180,7 @@ public class Dicom_browser implements EntryPoint {
 					}
 
 					public void onSuccess(DcmFileProxy[] result) {
-						
+
 						hideWorkStatusMsg();
 
 						for (int i = 0; i < result.length; i++) {
@@ -264,29 +264,29 @@ public class Dicom_browser implements EntryPoint {
 		}
 
 	}
-	
+
 	/**
 	 * создание диалога состояния поцесса работы
 	 */
 	private void _workStatusDlg() {
-		
+
 		workStatusPanel = new PopupPanel();
 		workStatusPanel.hide();
 		workStatusPanel.setStyleName("msgPopupPanel");
-//		workStatusPanel.setAnimationEnabled(false);
+		// workStatusPanel.setAnimationEnabled(false);
 		workMsg = new HTML("");
 		workMsg.addStyleName("msgPopupPanelItem");
-		
+
 		workStatusPanel.add(workMsg);
 	}
-	
+
 	/**
 	 * Показ панели состояния процесса
 	 * 
 	 * @param msg
 	 */
 	public static void showWorkStatusMsg(String msg) {
-		
+
 		workMsg.setHTML(msg);
 		workStatusPanel.setPopupPositionAndShow(new PositionCallback() {
 
@@ -303,7 +303,7 @@ public class Dicom_browser implements EntryPoint {
 
 		});
 	}
-	
+
 	/**
 	 * Скрытие панели состояния процесса
 	 */
