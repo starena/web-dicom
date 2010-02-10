@@ -179,7 +179,7 @@ public class Dicom_browser implements EntryPoint {
 
 		RootPanel.get("resultContainer").add(intro);
 
-		Image image = new Image("/chart/usagestorage");
+		Image image = new Image("chart/usagestorage");
 		image.setTitle("Диаграмма");
 		RootPanel.get("resultContainer").add(image);
 		
