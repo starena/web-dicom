@@ -24,6 +24,9 @@ public class Util {
 	// static Connection connection;
 	// static String connectionStr =
 	// "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
+	
+	// Версия ПО (используется для проверки на стороне сервере при обновлении клиента)
+	public static String version = "0.1a"; //TODO Взять из конфига?
 
 	private static Logger logger = Logger.getLogger(AttachementServlet.class
 			.getName());
@@ -61,5 +64,14 @@ public class Util {
 		}
 
 		return connection;
+	}
+	
+	/**
+	 * Проверка версии клиентског запроса
+	 * @param v
+	 * @return
+	 */
+	public static boolean checkClentkVersion(String v) {
+		return version.equalsIgnoreCase(v);
 	}
 }

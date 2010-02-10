@@ -1,6 +1,6 @@
 package org.psystems.dicom.browser.client.service;
 
-import org.psystems.dicom.browser.client.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -11,15 +11,14 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("browser")
 public interface BrowserService extends RemoteService {
-	
-	String test(String name) throws DefaultGWTRPCException;
-	
+
 	/**
 	 * Поиск исследований
-	 * 
+	 * @param version TODO
 	 * @param queryStr
+	 * 
 	 * @return
 	 * @throws DefaultGWTRPCException
 	 */
-	DcmFileProxy[] findStudy(String queryStr) throws DefaultGWTRPCException;
+	DcmFileProxy[] findStudy(String version, String queryStr) throws DefaultGWTRPCException;
 }
