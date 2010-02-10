@@ -9,7 +9,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
-import org.psystems.dicom.browser.client.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
@@ -32,27 +33,16 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	// PropertyConfigurator.configure("WEB-INF/log4j.properties");}//TODO Убрать
 	// !!!
 
-	public String test(String input) throws DefaultGWTRPCException {
-		String serverInfo = getServletContext().getServerInfo();
-		String userAgent = getThreadLocalRequest().getHeader("User-Agent");
-		Connection conn;
-		try {
-			conn = Util.getConnection(getServletContext());
-			return "Hello, " + input + "!<br><br>I am running " + serverInfo
-					+ " conn=" + conn
-					+ ".<br><br>It looks like you are using:<br>" + userAgent;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(e.getMessage());
-		}
-
-	}
-
 	@Override
-	public DcmFileProxy[] findStudy(String queryStr)
+	public DcmFileProxy[] findStudy(String version, String queryStr)
 			throws DefaultGWTRPCException {
 
+		//проверка версии клиента
+		if (!Util.checkClentkVersion(version)) {
+			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! " + version 
+					+ " != " + Util.version);
+		}
+		
 		PreparedStatement psSelect = null;
 		PreparedStatement psImages = null;
 

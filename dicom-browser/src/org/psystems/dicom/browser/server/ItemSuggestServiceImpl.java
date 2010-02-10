@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.psystems.dicom.browser.client.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.ItemSuggestion;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.service.ItemSuggestService;
 
@@ -23,9 +24,15 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 	private static Logger logger = Logger.getLogger(ItemSuggestServiceImpl.class
 			.getName());
 	
-	public SuggestOracle.Response getSuggestions(SuggestOracle.Request req) throws DefaultGWTRPCException  {
+	public SuggestOracle.Response getSuggestions(String version, SuggestOracle.Request req) throws DefaultGWTRPCException  {
 		SuggestOracle.Response resp = new SuggestOracle.Response();
 
+		
+		//проверка версии клиента
+		if (!org.psystems.dicom.browser.server.Util.checkClentkVersion(version)) {
+			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! " + version 
+					+ " != " + org.psystems.dicom.browser.server.Util.version);
+		}
 		// Create a list to hold our suggestions (pre-set the lengthto the limit
 		// specified by the request)
 		

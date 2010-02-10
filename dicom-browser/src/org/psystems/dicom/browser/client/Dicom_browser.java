@@ -2,6 +2,7 @@ package org.psystems.dicom.browser.client;
 
 import java.util.Date;
 
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
@@ -38,10 +39,10 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
  */
 public class Dicom_browser implements EntryPoint {
 
-	
-	// Версия ПО (используется для проверки на стороне сервере при обновлении клиента)
+	// Версия ПО (используется для проверки на стороне сервере при обновлении
+	// клиента)
 	public static String version = "0.1a";
-	
+
 	// Create a remote service proxy
 	private final BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);
@@ -55,7 +56,7 @@ public class Dicom_browser implements EntryPoint {
 
 	private String searchTitle = "...введите фамилию (% - любой символ)...";
 	private static PopupPanel workStatusPanel;// панель состояния работы
-												// запросов
+	// запросов
 	private static HTML workMsg;
 
 	/**
@@ -176,7 +177,7 @@ public class Dicom_browser implements EntryPoint {
 		String textToServer = nameField.getText();
 		RootPanel.get("resultContainer").clear();
 
-		browserService.findStudy(textToServer,
+		browserService.findStudy(version, textToServer,
 				new AsyncCallback<DcmFileProxy[]>() {
 
 					public void onFailure(Throwable caught) {
@@ -247,8 +248,8 @@ public class Dicom_browser implements EntryPoint {
 		public void requestSuggestions(SuggestOracle.Request req,
 				SuggestOracle.Callback callback) {
 			try {
-				ItemSuggestService.Util.getInstance().getSuggestions(req,
-						new ItemSuggestCallback(req, callback));
+				ItemSuggestService.Util.getInstance().getSuggestions(version,
+						req, new ItemSuggestCallback(req, callback));
 			} catch (DefaultGWTRPCException e) {
 				showErrorDlg(e);
 				e.printStackTrace();

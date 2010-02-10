@@ -1,4 +1,4 @@
-package org.psystems.dicom.browser.client;
+package org.psystems.dicom.browser.client.exception;
 
 import java.io.Serializable;
 

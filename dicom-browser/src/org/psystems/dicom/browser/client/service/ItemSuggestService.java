@@ -1,6 +1,6 @@
 package org.psystems.dicom.browser.client.service;
 
-import org.psystems.dicom.browser.client.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -13,7 +13,8 @@ public interface ItemSuggestService extends RemoteService {
 
 	public static class Util {
 
-		public static ItemSuggestServiceAsync getInstance() throws DefaultGWTRPCException {
+		public static ItemSuggestServiceAsync getInstance()
+				throws DefaultGWTRPCException {
 
 			ItemSuggestServiceAsync instance = (ItemSuggestServiceAsync) GWT
 					.create(ItemSuggestService.class);
@@ -23,6 +24,7 @@ public interface ItemSuggestService extends RemoteService {
 		}
 	}
 
-	public SuggestOracle.Response getSuggestions(SuggestOracle.Request req) throws DefaultGWTRPCException;
+	public SuggestOracle.Response getSuggestions(String version,
+			SuggestOracle.Request req) throws DefaultGWTRPCException;
 
 }

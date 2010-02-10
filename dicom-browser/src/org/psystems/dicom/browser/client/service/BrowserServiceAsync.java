@@ -6,8 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface BrowserServiceAsync {
 
-	void test(String name, AsyncCallback<String> callback);
-
-	void findStudy(String queryStr, AsyncCallback<DcmFileProxy[]> callback);
+	void findStudy(String version, String queryStr,
+			AsyncCallback<DcmFileProxy[]> callback);
 
 }
