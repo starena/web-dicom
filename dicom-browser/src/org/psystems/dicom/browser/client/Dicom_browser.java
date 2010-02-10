@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -58,6 +59,8 @@ public class Dicom_browser implements EntryPoint {
 	private static PopupPanel workStatusPanel;// панель состояния работы
 	// запросов
 	private static HTML workMsg;
+	
+	private boolean showPageIntro = true;//Показ страницы с приглашением
 
 	/**
 	 * This is the entry point method.
@@ -85,6 +88,11 @@ public class Dicom_browser implements EntryPoint {
 			@Override
 			public void onFocus(FocusEvent event) {
 
+				if(showPageIntro) {
+					showPageIntro = false;
+					RootPanel.get("resultContainer").clear();
+				}
+				
 				nameField.removeStyleName("DicomSuggestionEmpty");
 				nameField.addStyleName("DicomSuggestion");
 
@@ -157,6 +165,10 @@ public class Dicom_browser implements EntryPoint {
 				sendNameToServer();
 			}
 		});
+		
+		Image image = new Image("/chart/usagestorage");
+		image.setTitle("Диаграмма");
+		RootPanel.get("resultContainer").add(image);
 
 	}
 
