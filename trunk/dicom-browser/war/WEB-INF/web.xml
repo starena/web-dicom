@@ -97,5 +97,16 @@
 		<servlet-name>dcmAttachementServlet</servlet-name>
 		<url-pattern>/dcm/*</url-pattern>
 	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>ChartServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.ChartServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChartServlet</servlet-name>
+		<url-pattern>/chart/*</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>
