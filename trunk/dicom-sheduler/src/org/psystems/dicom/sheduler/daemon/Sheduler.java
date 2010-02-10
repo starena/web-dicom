@@ -467,7 +467,19 @@ public class Sheduler {
 
 	}
 
-	public void convert(String DCM_FILE_NAME, String IMAGE_FILE_NAME,
+	/**
+	 * @param STUDY_DATE
+	 * @param DCM_FILE_NAME
+	 * @param IMAGE_FILE_NAME
+	 * @param IMAGE_FILE_SIZE
+	 * @param WIDTH
+	 * @param HEIGHT
+	 * @param src
+	 * @param dest
+	 * @throws IOException
+	 * @throws SQLException
+	 */
+	public void convert(Date STUDY_DATE, String DCM_FILE_NAME, String IMAGE_FILE_NAME,
 			long IMAGE_FILE_SIZE, int WIDTH, int HEIGHT, File src, File dest)
 			throws IOException, SQLException {
 		Iterator<ImageReader> iter = ImageIO
@@ -501,7 +513,7 @@ public class Sheduler {
 			connection.setAutoCommit(false);
 			insertImageData(DCM_FILE_NAME, "image/jpeg", IMAGE_FILE_NAME,
 					IMAGE_FILE_SIZE, WIDTH, HEIGHT);
-			updateDayStatInc("ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
+			updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
 			connection.commit();
 		}
 		System.out.print('.');
@@ -616,9 +628,9 @@ public class Sheduler {
 			File dest = new File(dstFileName);
 			long imageFileSize = dest.length();
 			
-			updateDayStatInc("ALL_DCM_SIZE", DCM_FILE_SIZE);
+			updateDayStatInc(STUDY_DATE, "ALL_DCM_SIZE", DCM_FILE_SIZE);
 
-			convert(DCM_FILE_NAME, IMAGE_FILE_NAME, imageFileSize, WIDTH,
+			convert(STUDY_DATE, DCM_FILE_NAME, IMAGE_FILE_NAME, imageFileSize, WIDTH,
 					HEIGHT, src, dest);
 			logger.info("converting image(s) success!");
 		}
@@ -700,22 +712,28 @@ public class Sheduler {
 
 	}
 
+
 	/**
 	 * Обновление метрики дневной статистики (инкремент)
 	 * 
+	 * @param date
 	 * @param metric
 	 * @param value
 	 * @throws SQLException
 	 */
-	private void updateDayStatInc(String metric, long value)
+	private void updateDayStatInc(Date date, String metric, long value)
 			throws SQLException {
 
 		PreparedStatement stmt = null;
-		Calendar calendar = Calendar.getInstance();
-		long time = calendar.getTimeInMillis();
+		
+//		Calendar calendar = Calendar.getInstance();
+//		long time = calendar.getTimeInMillis();
+//		time = time - (time % (60 * 60 * 24 * 1000));
+//		// calendar.setTimeInMillis(time);
+		
+		long time = date.getTime();
 		time = time - (time % (60 * 60 * 24 * 1000));
-		// calendar.setTimeInMillis(time);
-		Date date = new Date(time);
+		date = new Date(time);
 
 		logger.info(metric + "=" + value + " of " + date);
 
@@ -729,10 +747,13 @@ public class Sheduler {
 					+ " SET METRIC_VALUE_LONG = ? "
 					+ " where METRIC_NAME = ? AND METRIC_DATE = ?");
 
-			stmt.setLong(1, value + valueOld);
+			long sumVal = value + valueOld;
+			stmt.setLong(1, sumVal);
 			stmt.setString(2, metric);
 			stmt.setDate(3, date);
 			stmt.executeUpdate();
+			
+//			System.out.println("!!!! [U] [" + date + "][" + metric + "]="+ sumVal + " valueOld="+valueOld);
 
 		} catch (NoDataFoundException ex) {
 			// Делаем вставку
@@ -746,6 +767,8 @@ public class Sheduler {
 			stmt.setDate(2, date);
 			stmt.setLong(3, value);
 			stmt.executeUpdate();
+			
+//			System.out.println("!!!! [I]  [" + date + "][" + metric + "]="+ value);
 		}
 
 	}
@@ -759,13 +782,13 @@ public class Sheduler {
 	 */
 	private long checkDayMetric(String metric, Date date) throws SQLException {
 		PreparedStatement psSelect = connection
-				.prepareStatement("SELECT ID FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
+				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
 		try {
 			psSelect.setString(1, metric);
 			psSelect.setDate(2, date);
 			ResultSet rs = psSelect.executeQuery();
 			while (rs.next()) {
-				return rs.getLong("ID");
+				return rs.getLong("METRIC_VALUE_LONG");
 			}
 
 		} finally {
