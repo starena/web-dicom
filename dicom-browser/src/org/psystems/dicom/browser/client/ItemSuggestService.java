@@ -11,7 +11,7 @@ public interface ItemSuggestService extends RemoteService {
 
 	public static class Util {
 
-		public static ItemSuggestServiceAsync getInstance() {
+		public static ItemSuggestServiceAsync getInstance() throws DefaultGWTRPCException {
 
 			ItemSuggestServiceAsync instance = (ItemSuggestServiceAsync) GWT
 					.create(ItemSuggestService.class);
@@ -21,6 +21,6 @@ public interface ItemSuggestService extends RemoteService {
 		}
 	}
 
-	public SuggestOracle.Response getSuggestions(SuggestOracle.Request req);
+	public SuggestOracle.Response getSuggestions(SuggestOracle.Request req) throws DefaultGWTRPCException;
 
 }
