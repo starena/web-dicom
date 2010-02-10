@@ -37,12 +37,13 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	public DcmFileProxy[] findStudy(String version, String queryStr)
 			throws DefaultGWTRPCException {
 
-		//проверка версии клиента
+		// проверка версии клиента
 		if (!Util.checkClentkVersion(version)) {
-			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! " + version 
-					+ " != " + Util.version);
+			throw new VersionGWTRPCException(
+					"Версия клиента не совпадает с версией сервера! " + version
+							+ " != " + Util.version);
 		}
-		
+
 		PreparedStatement psSelect = null;
 		PreparedStatement psImages = null;
 
@@ -59,7 +60,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			psSelect = connection
 					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, "
 							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
-							+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR  FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')");
+							+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR  FROM WEBDICOM.DCMFILE"
+							+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
+							+ " order by PATIENT_NAME ");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();

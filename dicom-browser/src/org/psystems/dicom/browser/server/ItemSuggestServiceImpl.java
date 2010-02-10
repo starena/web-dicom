@@ -20,26 +20,28 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		ItemSuggestService {
-	
-	private static Logger logger = Logger.getLogger(ItemSuggestServiceImpl.class
-			.getName());
-	
-	public SuggestOracle.Response getSuggestions(String version, SuggestOracle.Request req) throws DefaultGWTRPCException  {
+
+	private static Logger logger = Logger
+			.getLogger(ItemSuggestServiceImpl.class.getName());
+
+	public SuggestOracle.Response getSuggestions(String version,
+			SuggestOracle.Request req) throws DefaultGWTRPCException {
 		SuggestOracle.Response resp = new SuggestOracle.Response();
 
-		
-		//проверка версии клиента
+		// проверка версии клиента
 		if (!org.psystems.dicom.browser.server.Util.checkClentkVersion(version)) {
-			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! " + version 
-					+ " != " + org.psystems.dicom.browser.server.Util.version);
+			throw new VersionGWTRPCException(
+					"Версия клиента не совпадает с версией сервера! " + version
+							+ " != "
+							+ org.psystems.dicom.browser.server.Util.version);
 		}
 		// Create a list to hold our suggestions (pre-set the lengthto the limit
 		// specified by the request)
-		
+
 		int limit = req.getLimit();
 		String queryStr = req.getQuery();
-		
-//		System.out.println("!!! queryStr=["+queryStr+"]");
+
+		// System.out.println("!!! queryStr=["+queryStr+"]");
 		List<Suggestion> suggestions = new ArrayList<Suggestion>(req.getLimit());
 
 		// Replace the code below with something to create and popular
@@ -48,45 +50,48 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		// the suggestion list, usually from a database
 		// The dummy code below creates bogus suggestions "Suggestion1",
 		// "Suggestion 2", etc..
-		
-//		System.out.println("!!!!! " + req.getQuery());
-		
-//		for (int i = 1; i < 11; i++) {
-//			suggestions.add(new ItemSuggestion("Suggestion " + i, "Suggestion "
-//					+ i));
-//		}
-//		
-		
+
+		// System.out.println("!!!!! " + req.getQuery());
+
+		// for (int i = 1; i < 11; i++) {
+		// suggestions.add(new ItemSuggestion("Suggestion " + i, "Suggestion "
+		// + i));
+		// }
+		//		
+
 		PreparedStatement psSelect = null;
 
 		try {
 
-			Connection connection = org.psystems.dicom.browser.server.Util.getConnection(getServletContext());
+			Connection connection = org.psystems.dicom.browser.server.Util
+					.getConnection(getServletContext());
 			//
 
-			
 			psSelect = connection
 					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, "
-							+ " STUDY_DATE FROM WEBDICOM.DCMFILE WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')");
+							+ " STUDY_DATE FROM WEBDICOM.DCMFILE "
+							+ "WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')"
+							+ " order by PATIENT_NAME ");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmFileProxy> data = new ArrayList<DcmFileProxy>();
 			int index = 0;
-			suggestions.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
+			suggestions
+					.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
 			while (rs.next()) {
-				
+
 				String name = rs.getString("PATIENT_NAME");
-				String date = ""+rs.getDate("PATIENT_BIRTH_DATE");
-				suggestions.add(new ItemSuggestion(name + " [" + date + "]", name));
-			
+				String date = "" + rs.getDate("PATIENT_BIRTH_DATE");
+				suggestions.add(new ItemSuggestion(name + " [" + date + "]",
+						name));
+
 				if (index++ > limit) {
 					break;
 				}
 
 			}
 			rs.close();
-
 
 		} catch (SQLException e) {
 			logger.error(e);
@@ -99,7 +104,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 					psSelect.close();
 			} catch (SQLException e) {
 				logger.error(e);
-//				throw new DefaultGWTRPCException(e.getMessage());
+				// throw new DefaultGWTRPCException(e.getMessage());
 			}
 		}
 
