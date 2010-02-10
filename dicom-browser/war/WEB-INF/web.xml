@@ -109,11 +109,11 @@
 	</servlet-mapping>
 	
 		<servlet>
-		<servlet-name>ChartServlet</servlet-name>
+		<servlet-name>StatDailyLoadChartServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.StatDailyLoadChartServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ChartServlet</servlet-name>
+		<servlet-name>StatDailyLoadChartServlet</servlet-name>
 		<url-pattern>/stat/dailyload/*</url-pattern>
 	</servlet-mapping>
 	
