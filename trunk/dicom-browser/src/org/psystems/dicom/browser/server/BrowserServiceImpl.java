@@ -9,10 +9,10 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
-import org.psystems.dicom.browser.client.BrowserService;
 import org.psystems.dicom.browser.client.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
+import org.psystems.dicom.browser.client.service.BrowserService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

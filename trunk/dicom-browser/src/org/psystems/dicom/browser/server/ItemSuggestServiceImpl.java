@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.ItemSuggestService;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.service.ItemSuggestService;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;

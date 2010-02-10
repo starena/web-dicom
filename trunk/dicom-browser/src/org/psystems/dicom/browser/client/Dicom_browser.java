@@ -3,6 +3,9 @@ package org.psystems.dicom.browser.client;
 import java.util.Date;
 
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.service.BrowserService;
+import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
+import org.psystems.dicom.browser.client.service.ItemSuggestService;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -35,6 +38,10 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
  */
 public class Dicom_browser implements EntryPoint {
 
+	
+	// Версия ПО (используется для проверки на стороне сервере при обновлении клиента)
+	public static String version = "0.1a";
+	
 	// Create a remote service proxy
 	private final BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);

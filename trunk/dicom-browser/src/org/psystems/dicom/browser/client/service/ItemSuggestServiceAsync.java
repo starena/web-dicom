@@ -1,4 +1,4 @@
-package org.psystems.dicom.browser.client;
+package org.psystems.dicom.browser.client.service;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SuggestOracle;
