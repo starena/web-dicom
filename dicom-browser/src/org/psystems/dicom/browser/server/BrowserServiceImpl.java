@@ -1,6 +1,7 @@
 package org.psystems.dicom.browser.server;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -114,6 +115,21 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			rs.close();
 
 			DcmFileProxy[] result = data.toArray(new DcmFileProxy[data.size()]);
+			
+			
+			Calendar calendar = Calendar.getInstance();
+	        
+	        int tzoffset = calendar.getTimeZone().getOffset(calendar.getTimeInMillis());
+//			System.out.println("!!!!! "+tzoffset );
+	        
+	        long time = calendar.getTimeInMillis();
+			time = time - (time % (60 * 60 * 24 * 1000))- tzoffset;
+			calendar.setTimeInMillis(time);
+			
+			Date sqlDate = new java.sql.Date(time);
+			updateDayStatInc(sqlDate,"CLIENT_CONNECTIONS",(long)1);
+//			System.out.println("!!! sqlDate="+sqlDate);
+			
 			return result;
 
 		} catch (SQLException e) {
@@ -133,6 +149,95 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			}
 		}
 
+	}
+	
+	/**
+	 * Обновление метрики дневной статистики (инкремент)
+	 * 
+	 * @param date
+	 * @param metric
+	 * @param value
+	 * @throws SQLException
+	 */
+	private void updateDayStatInc(Date date, String metric, long value)
+			throws SQLException {
+
+		Connection connection = Util.getConnection(getServletContext());
+		
+		PreparedStatement stmt = null;
+		
+//		Calendar calendar = Calendar.getInstance();
+//		long time = calendar.getTimeInMillis();
+//		time = time - (time % (60 * 60 * 24 * 1000));
+//		// calendar.setTimeInMillis(time);
+		
+		long time = date.getTime();
+		time = time - (time % (60 * 60 * 24 * 1000));
+		date = new Date(time);
+
+		logger.info(metric + "=" + value + " of " + date);
+
+		// Проверка на наличии этого файла в БД
+		try {
+			long valueOld = checkDayMetric(metric, date);
+			logger.info("metric already in database [" + metric + "][" + date
+					+ "][" + valueOld + "]");
+
+			stmt = connection.prepareStatement("update WEBDICOM.DAYSTAT "
+					+ " SET METRIC_VALUE_LONG = ? "
+					+ " where METRIC_NAME = ? AND METRIC_DATE = ?");
+
+			long sumVal = value + valueOld;
+			stmt.setLong(1, sumVal);
+			stmt.setString(2, metric);
+			stmt.setDate(3, date);
+			stmt.executeUpdate();
+			
+//			System.out.println("!!!! [U] [" + date + "][" + metric + "]="+ sumVal + " valueOld="+valueOld);
+
+		} catch (NoDataFoundException ex) {
+			// Делаем вставку
+			logger.info("insert data in database [" + metric + "][" + date
+					+ "][" + value + "]");
+			stmt = connection.prepareStatement("insert into WEBDICOM.DAYSTAT "
+					+ " (METRIC_NAME, METRIC_DATE, METRIC_VALUE_LONG)"
+					+ " values (?, ?, ?)");
+
+			stmt.setString(1, metric);
+			stmt.setDate(2, date);
+			stmt.setLong(3, value);
+			stmt.executeUpdate();
+			
+//			System.out.println("!!!! [I]  [" + date + "][" + metric + "]="+ value);
+		}
+
+	}
+
+	/**
+	 * Проверка на наличии этого файла в БД
+	 * 
+	 * @param dcm_file_name
+	 * @return
+	 * @throws SQLException
+	 */
+	private long checkDayMetric(String metric, Date date) throws SQLException {
+		
+		Connection connection = Util.getConnection(getServletContext());
+		
+		PreparedStatement psSelect = connection
+				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
+		try {
+			psSelect.setString(1, metric);
+			psSelect.setDate(2, date);
+			ResultSet rs = psSelect.executeQuery();
+			while (rs.next()) {
+				return rs.getLong("METRIC_VALUE_LONG");
+			}
+
+		} finally {
+			psSelect.close();
+		}
+		throw new NoDataFoundException("No data");
 	}
 
 }
