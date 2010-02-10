@@ -1,4 +1,4 @@
-package org.psystems.dicom.browser.client;
+package org.psystems.dicom.browser.client.service;
 
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 

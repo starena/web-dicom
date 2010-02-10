@@ -1,4 +1,6 @@
-package org.psystems.dicom.browser.client;
+package org.psystems.dicom.browser.client.service;
+
+import org.psystems.dicom.browser.client.DefaultGWTRPCException;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
