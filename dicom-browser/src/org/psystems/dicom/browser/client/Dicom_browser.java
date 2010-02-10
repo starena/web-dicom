@@ -59,8 +59,8 @@ public class Dicom_browser implements EntryPoint {
 	private static PopupPanel workStatusPanel;// панель состояния работы
 	// запросов
 	private static HTML workMsg;
-	
-	private boolean showPageIntro = true;//Показ страницы с приглашением
+
+	private boolean showPageIntro = true;// Показ страницы с приглашением
 
 	/**
 	 * This is the entry point method.
@@ -88,11 +88,11 @@ public class Dicom_browser implements EntryPoint {
 			@Override
 			public void onFocus(FocusEvent event) {
 
-				if(showPageIntro) {
+				if (showPageIntro) {
 					showPageIntro = false;
 					RootPanel.get("resultContainer").clear();
 				}
-				
+
 				nameField.removeStyleName("DicomSuggestionEmpty");
 				nameField.addStyleName("DicomSuggestion");
 
@@ -165,10 +165,31 @@ public class Dicom_browser implements EntryPoint {
 				sendNameToServer();
 			}
 		});
-		
+
+		HTML intro = new HTML();
+		intro.setWidth("800px");
+		intro.setStyleName("DicomItemValue");
+		intro
+				.setHTML(" <br><p> Добро пожаловать в экспериментальную версию проекта"
+						+ " по работе с исследованиями полученных с аппаратов поддерживающих стандарт DICOM </p>" +
+								" <p> Начните свою работу с .... в поисковой строке .... </p>"
+						+ " Всю информацию по данному проекту вы можете получить"
+						+ " <a href='http://code.google.com/p/web-dicom/'> [здесь] (необходимо подключение к глобальной сети internet) </a>"
+						+ "<br><br>");
+
+		RootPanel.get("resultContainer").add(intro);
+
 		Image image = new Image("/chart/usagestorage");
 		image.setTitle("Диаграмма");
 		RootPanel.get("resultContainer").add(image);
+		
+		HTML introFooter = new HTML();
+		introFooter.setWidth("800px");
+		introFooter.setStyleName("DicomItemValue");
+		introFooter
+				.setHTML(" <br><br> psystems.org");
+
+		RootPanel.get("resultContainer").add(introFooter);
 
 	}
 
