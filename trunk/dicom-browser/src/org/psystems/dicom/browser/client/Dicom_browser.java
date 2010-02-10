@@ -239,8 +239,13 @@ public class Dicom_browser implements EntryPoint {
 
 		public void requestSuggestions(SuggestOracle.Request req,
 				SuggestOracle.Callback callback) {
-			ItemSuggestService.Util.getInstance().getSuggestions(req,
-					new ItemSuggestCallback(req, callback));
+			try {
+				ItemSuggestService.Util.getInstance().getSuggestions(req,
+						new ItemSuggestCallback(req, callback));
+			} catch (DefaultGWTRPCException e) {
+				showErrorDlg(e);
+				e.printStackTrace();
+			}
 		}
 
 		class ItemSuggestCallback implements AsyncCallback {
@@ -254,7 +259,9 @@ public class Dicom_browser implements EntryPoint {
 			}
 
 			public void onFailure(Throwable error) {
+				showErrorDlg((DefaultGWTRPCException) error);
 				callback.onSuggestionsReady(req, new SuggestOracle.Response());
+				showErrorDlg((DefaultGWTRPCException) error);
 			}
 
 			public void onSuccess(Object retValue) {

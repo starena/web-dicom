@@ -23,7 +23,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 	private static Logger logger = Logger.getLogger(ItemSuggestServiceImpl.class
 			.getName());
 	
-	public SuggestOracle.Response getSuggestions(SuggestOracle.Request req) {
+	public SuggestOracle.Response getSuggestions(SuggestOracle.Request req) throws DefaultGWTRPCException  {
 		SuggestOracle.Response resp = new SuggestOracle.Response();
 
 		// Create a list to hold our suggestions (pre-set the lengthto the limit
@@ -84,7 +84,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		} catch (SQLException e) {
 			logger.error(e);
 			e.printStackTrace();
-//			throw new DefaultGWTRPCException(e.getMessage());
+			throw new DefaultGWTRPCException(e.getMessage());
 		} finally {
 
 			try {
