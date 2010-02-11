@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -178,13 +177,20 @@ public class Dicom_browser implements EntryPoint {
 
 		HTML intro = new HTML();
 		intro.setWidth("800px");
-		intro.setStyleName("DicomItemValue");
+//		intro.setStyleName("DicomItemValue");
 		intro
 				.setHTML(" <br><p> Добро пожаловать в экспериментальную версию проекта"
 						+ " по работе с исследованиями полученных с аппаратов поддерживающих стандарт DICOM </p>"
-						+ " <p> Начните свою работу с .... в поисковой строке .... </p>"
-						+ " Всю информацию по данному проекту вы можете получить"
-						+ " <a href='http://code.google.com/p/web-dicom/'> [здесь] (необходимо подключение к глобальной сети internet) </a>"
+						+ " <p> Начните свою работу с поиска необходимого вам исследования." +
+						" Просто начните в поисковой строке набирать фамилию пациента и нажмите [enter]." +
+						" В качестве дополнения можно использовать маску 'группа символов' - это символ '%'." +
+						" Например набрав: пе%в получите результаты пациентов с фамилиями" +
+						" Петров, Переладов. " +
+						" для начала поиска можно также нажать кнопу 'Поиск'  </p>"
+						+ " <p> Дополнительная информация по проекту"
+						+ " <a href='http://code.google.com/p/web-dicom/'>" +
+								" http://code.google.com/p/web-dicom/</a>" +
+								" (необходимо подключение к глобальной сети internet) </p>"
 						+ "<br><br>");
 
 		RootPanel.get("resultContainer").add(intro);
@@ -193,12 +199,6 @@ public class Dicom_browser implements EntryPoint {
 		image.setTitle("Диаграмма");
 		RootPanel.get("resultContainer").add(image);
 
-		HTML introFooter = new HTML();
-		introFooter.setWidth("800px");
-		introFooter.setStyleName("DicomItemValue");
-		introFooter.setHTML(" <br><br> psystems.org");
-
-		RootPanel.get("resultContainer").add(introFooter);
 
 	}
 

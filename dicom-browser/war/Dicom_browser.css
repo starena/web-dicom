@@ -1,7 +1,7 @@
 /** Add css rules here for your application. */
 
+/* Заголовки */
 
-/** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;
   font-weight: bold;
@@ -10,28 +10,88 @@ h1 {
   text-align: center;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
+
+/*h1 {
+	font-size: 16px;
+	font-weight: bold;
+	color: #08245b;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+*/
+
+h2 {
+	font-size: 15px;
+	font-weight: bold;
+	color: black;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
 
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
+
+
+
+/*
+ стили для блогов
+*/
+BODY { /*background-color: #F0F0F0;*/
+	background-color: #FFFFFF;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	font-family: verdana, Sans-Serif;
+	font-size: 10pt;
 }
 
-.dialogVPanel {
-  margin: 5px;
+
+P { /*background-color: #F0F0F0;*/
+	background-color: #FFFFFF;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	font-family: verdana, Sans-Serif;
+	font-size: 10pt;
 }
 
-.serverResponseLabelError {
-  color: red;
+.copyright {
+  font-size: 1em;
+  /*font-weight: bold;*/
+  color: #777777;
+  margin: 20px;
+  text-align: center;
 }
 
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-  margin: 15px 6px 6px;
+
+
+/* ссылки */
+A:link {
+	color: #08245b;
+	text-decoration: none;
 }
+
+A:visited {
+	color: #08245b;
+	text-decoration: none;
+}
+
+A:active {
+	color: red;
+	text-decoration: none;
+}
+
+A:hover {
+	color: #666666;
+	text-decoration: underline;
+}
+
+A.selected {
+	color: blue;
+	text-decoration: none;
+}
+
+
 
 
 
