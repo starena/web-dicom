@@ -1,6 +1,7 @@
 package org.psystems.dicom.browser.client.service;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -24,7 +25,7 @@ public interface ItemSuggestService extends RemoteService {
 		}
 	}
 
-	public SuggestOracle.Response getSuggestions(String version,
-			SuggestOracle.Request req) throws DefaultGWTRPCException;
+	public SuggestTransactedResponse getSuggestions(long transactionId,
+			String version, SuggestOracle.Request req) throws DefaultGWTRPCException;
 
 }

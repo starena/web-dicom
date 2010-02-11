@@ -5,6 +5,7 @@ import java.util.Date;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
+import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 import org.psystems.dicom.browser.client.service.ItemSuggestService;
@@ -322,7 +323,7 @@ public class Dicom_browser implements EntryPoint {
 		public void requestSuggestions(SuggestOracle.Request req,
 				SuggestOracle.Callback callback) {
 			try {
-				ItemSuggestService.Util.getInstance().getSuggestions(version,
+				ItemSuggestService.Util.getInstance().getSuggestions(searchItemsStransactionID,version,
 						req, new ItemSuggestCallback(req, callback));
 			} catch (DefaultGWTRPCException e) {
 				showErrorDlg(e);
@@ -347,6 +348,17 @@ public class Dicom_browser implements EntryPoint {
 			}
 
 			public void onSuccess(Object retValue) {
+				
+				// TODO попробовать сделать нормлаьный interrupt (дабы
+				// не качать все данные)
+				// Если сменился идентификатор транзакции, то ничего не
+				// принимаем
+				
+				if (searchItemsStransactionID != ((SuggestTransactedResponse)retValue)
+						.getTransactionId()) {
+					return;
+				}
+				
 				callback.onSuggestionsReady(req,
 						(SuggestOracle.Response) retValue);
 			}

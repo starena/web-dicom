@@ -12,6 +12,7 @@ import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.ItemSuggestService;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -24,9 +25,9 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 	private static Logger logger = Logger
 			.getLogger(ItemSuggestServiceImpl.class.getName());
 
-	public SuggestOracle.Response getSuggestions(String version,
-			SuggestOracle.Request req) throws DefaultGWTRPCException {
-		SuggestOracle.Response resp = new SuggestOracle.Response();
+	public SuggestTransactedResponse getSuggestions(long transactionId,
+			String version, SuggestOracle.Request req) throws DefaultGWTRPCException {
+		SuggestTransactedResponse resp = new SuggestTransactedResponse();
 
 //		System.out.println("BEGIN SLEEP");
 //		try { //TODO Убрать!!!
