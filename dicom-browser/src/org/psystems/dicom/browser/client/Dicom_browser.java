@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 import org.psystems.dicom.browser.client.service.ItemSuggestService;
@@ -19,10 +20,13 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -32,6 +36,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
@@ -51,23 +56,27 @@ public class Dicom_browser implements EntryPoint {
 	private DialogBox errorDialogBox;
 	private HTML errorResponseLabel;
 	private Button sendButton;
+	private Button clearButton;
 	private SuggestBox nameField;
 
-	long lastRequestTime; // Время последнего запроса
+	// Идентификатор транзакции (Время последнего запроса)
+	long searchItemsStransactionID;
 
 	private String searchTitle = "...введите фамилию (% - любой символ)...";
-	private static PopupPanel workStatusPanel;// панель состояния работы
-	// запросов
-	private static HTML workMsg;
+	// панель состояния работы запросов
+	private PopupPanel workStatusPopup;
+	private FlowPanel workStatusPanel;
 
 	private boolean showPageIntro = true;// Показ страницы с приглашением
+
+	
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 
-		_workStatusDlg();
+		_workStatusPopup();
 
 		HorizontalPanel hp = new HorizontalPanel();
 		RootPanel.get("searchContainer").add(hp);
@@ -133,10 +142,10 @@ public class Dicom_browser implements EntryPoint {
 
 		hp.add(sendButton);
 
-		Button b = new Button("Сброс");
-		hp.add(b);
+		clearButton = new Button("Сброс");
+		hp.add(clearButton);
 
-		b.addClickHandler(new ClickHandler() {
+		clearButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -154,7 +163,7 @@ public class Dicom_browser implements EntryPoint {
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				// System.out.println("addSelectionHandler "+event);
-				sendNameToServer();
+				searchItems();
 			}
 		});
 
@@ -162,7 +171,7 @@ public class Dicom_browser implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				sendNameToServer();
+				searchItems();
 			}
 		});
 
@@ -171,8 +180,8 @@ public class Dicom_browser implements EntryPoint {
 		intro.setStyleName("DicomItemValue");
 		intro
 				.setHTML(" <br><p> Добро пожаловать в экспериментальную версию проекта"
-						+ " по работе с исследованиями полученных с аппаратов поддерживающих стандарт DICOM </p>" +
-								" <p> Начните свою работу с .... в поисковой строке .... </p>"
+						+ " по работе с исследованиями полученных с аппаратов поддерживающих стандарт DICOM </p>"
+						+ " <p> Начните свою работу с .... в поисковой строке .... </p>"
 						+ " Всю информацию по данному проекту вы можете получить"
 						+ " <a href='http://code.google.com/p/web-dicom/'> [здесь] (необходимо подключение к глобальной сети internet) </a>"
 						+ "<br><br>");
@@ -182,12 +191,11 @@ public class Dicom_browser implements EntryPoint {
 		Image image = new Image("chart/usagestorage");
 		image.setTitle("Диаграмма");
 		RootPanel.get("resultContainer").add(image);
-		
+
 		HTML introFooter = new HTML();
 		introFooter.setWidth("800px");
 		introFooter.setStyleName("DicomItemValue");
-		introFooter
-				.setHTML(" <br><br> psystems.org");
+		introFooter.setHTML(" <br><br> psystems.org");
 
 		RootPanel.get("resultContainer").add(introFooter);
 
@@ -196,41 +204,74 @@ public class Dicom_browser implements EntryPoint {
 	/**
 	 * Send the name from the nameField to the server and wait for a response.
 	 */
-	private void sendNameToServer() {
+	private void searchItems() {
 
 		Date d = new Date();
-		lastRequestTime = d.getTime();
+		searchItemsStransactionID = d.getTime();
 
 		DateTimeFormat dateFormat = DateTimeFormat
-				.getFormat("dd.MM.YYY H:m:s S");
+				.getFormat("dd.MM.yyyy. G 'at' HH:mm:ss vvvv");
 		showWorkStatusMsg("идет <b> получение данных </b> ... "
 				+ dateFormat.format(d));
 
-		sendButton.setEnabled(false);
-		String textToServer = nameField.getText();
-		RootPanel.get("resultContainer").clear();
+		Timer t = new Timer() {
+			public void run() {
+				addToWorkStatusMsg("Еще работаем...");
+				// HTML l = new HTML("<a href=''>[Остановить]</a>");
+				// DOM.setStyleAttribute(l.getElement(), "cursor", "pointer");
 
-		browserService.findStudy(version, textToServer,
-				new AsyncCallback<DcmFileProxy[]>() {
+				Button b = new Button("Остановить");
+				b.addClickHandler(new ClickHandler() {
 
-					public void onFailure(Throwable caught) {
-						hideWorkStatusMsg();
-						showErrorDlg((DefaultGWTRPCException) caught);
-						sendButton.setEnabled(true);
-						nameField.setFocus(true);
+					@Override
+					public void onClick(ClickEvent event) {
+						transactionInterrupt();
+						
 					}
 
-					public void onSuccess(DcmFileProxy[] result) {
+				});
 
+				addToWorkStatusWidget(b);
+			}
+		};
+		t.schedule(2000);
+
+		
+		String textToServer = nameField.getText();
+		transactionStarted();
+
+		browserService.findStudy(searchItemsStransactionID, version,
+				textToServer, new AsyncCallback<RPCDcmFileProxyEvent>() {
+
+					public void onFailure(Throwable caught) {
+
+						transactionFinished();
+						showErrorDlg((DefaultGWTRPCException) caught);
+						
+					}
+
+					public void onSuccess(RPCDcmFileProxyEvent result) {
+
+						// TODO попробовать сделать нормлаьный interrupt (дабы
+						// не качать все данные)
+						// Если сменился идентификатор транзакции, то ничего не
+						// принимаем
+						if (searchItemsStransactionID != result
+								.getTransactionId()) {
+							return;
+						}
+
+						DcmFileProxy[] data = result.getData();
 						hideWorkStatusMsg();
 
-						for (int i = 0; i < result.length; i++) {
-							DcmFileProxy proxy = result[i];
+						for (int i = 0; i < data.length; i++) {
+							DcmFileProxy proxy = data[i];
 							SearchedItem s = new SearchedItem(proxy);
 							RootPanel.get("resultContainer").add(s);
 						}
-						sendButton.setEnabled(true);
-						nameField.setFocus(true);
+						
+						transactionFinished();
+						
 					}
 
 				});
@@ -316,36 +357,37 @@ public class Dicom_browser implements EntryPoint {
 	/**
 	 * создание диалога состояния поцесса работы
 	 */
-	private void _workStatusDlg() {
+	private void _workStatusPopup() {
 
-		workStatusPanel = new PopupPanel();
-		workStatusPanel.hide();
-		workStatusPanel.setStyleName("msgPopupPanel");
+		workStatusPopup = new PopupPanel();
+		workStatusPopup.hide();
+		workStatusPopup.setStyleName("msgPopupPanel");
 		// workStatusPanel.setAnimationEnabled(false);
-		workMsg = new HTML("");
-		workMsg.addStyleName("msgPopupPanelItem");
-
-		workStatusPanel.add(workMsg);
+		workStatusPanel = new FlowPanel();
+		// workMsg = new HTML("");
+		workStatusPanel.addStyleName("msgPopupPanelItem");
+		workStatusPopup.add(workStatusPanel);
 	}
 
 	/**
 	 * Показ панели состояния процесса
 	 * 
-	 * @param msg
+	 * @param html
+	 *            HTML сообщение
 	 */
-	public static void showWorkStatusMsg(String msg) {
+	private void showWorkStatusMsg(String html) {
 
-		workMsg.setHTML(msg);
-		workStatusPanel.setPopupPositionAndShow(new PositionCallback() {
+		workStatusPanel.add(new HTML(html));
+		workStatusPopup.setPopupPositionAndShow(new PositionCallback() {
 
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
 
-				workStatusPanel.setPopupPosition(offsetWidth, offsetHeight);
+				workStatusPopup.setPopupPosition(offsetWidth, offsetHeight);
 				int left = (Window.getClientWidth() - offsetWidth) >> 1;
 				int top = 0;
 
-				workStatusPanel.setPopupPosition(Window.getScrollLeft() + left,
+				workStatusPopup.setPopupPosition(Window.getScrollLeft() + left,
 						Window.getScrollTop() + top);
 			}
 
@@ -353,9 +395,53 @@ public class Dicom_browser implements EntryPoint {
 	}
 
 	/**
+	 * Добавление в сообщение строки
+	 * 
+	 * @param html
+	 */
+	private void addToWorkStatusMsg(String html) {
+		workStatusPanel.add(new HTML(html));
+	}
+
+	/**
+	 * Добавление в сообщение виджета
+	 * 
+	 * @param html
+	 */
+	private void addToWorkStatusWidget(Widget widget) {
+		workStatusPanel.add(widget);
+	}
+
+	/**
 	 * Скрытие панели состояния процесса
 	 */
-	public static void hideWorkStatusMsg() {
-		workStatusPanel.hide();
+	public void hideWorkStatusMsg() {
+		workStatusPanel.clear();
+		workStatusPopup.hide();
+	}
+
+	/**
+	 * Завершение транзакции
+	 */
+	private void transactionFinished() {
+		hideWorkStatusMsg();
+		sendButton.setEnabled(true);
+		clearButton.setEnabled(true);
+		nameField.setFocus(true);
+	}
+	
+	/**
+	 * Завершение транзакции
+	 */
+	private void transactionStarted() {
+		RootPanel.get("resultContainer").clear();
+		sendButton.setEnabled(false);
+		clearButton.setEnabled(false);
+	}
+	
+	
+	private void transactionInterrupt() {
+		searchItemsStransactionID = new Date().getTime();
+		transactionFinished() ;
 	}
 }

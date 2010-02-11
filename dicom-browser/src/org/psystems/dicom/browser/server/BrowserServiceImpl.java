@@ -14,6 +14,7 @@ import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
+import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
 import org.psystems.dicom.browser.client.service.BrowserService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -35,9 +36,12 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	// !!!
 
 	@Override
-	public DcmFileProxy[] findStudy(String version, String queryStr)
+	public RPCDcmFileProxyEvent findStudy(long transactionId, String version, String queryStr)
 			throws DefaultGWTRPCException {
 
+		
+
+		
 		// проверка версии клиента
 		if (!Util.checkClentkVersion(version)) {
 			throw new VersionGWTRPCException(
@@ -130,7 +134,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			updateDayStatInc(sqlDate,"CLIENT_CONNECTIONS",(long)1);
 //			System.out.println("!!! sqlDate="+sqlDate);
 			
-			return result;
+			RPCDcmFileProxyEvent event = new RPCDcmFileProxyEvent();
+			event.init(transactionId, result);
+			return event;
 
 		} catch (SQLException e) {
 			logger.error(e);
