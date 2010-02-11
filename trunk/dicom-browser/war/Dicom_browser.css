@@ -42,7 +42,7 @@ h1 {
 	position: fixed;
 	opacity: 0.6;
 	filter: alpha(opacity = 60);
-	cursor: not-allowed;	
+	/*cursor: not-allowed;*/	
 }
 
 .msgPopupPanelItem {

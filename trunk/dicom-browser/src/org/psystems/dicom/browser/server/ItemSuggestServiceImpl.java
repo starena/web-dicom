@@ -28,6 +28,15 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 			SuggestOracle.Request req) throws DefaultGWTRPCException {
 		SuggestOracle.Response resp = new SuggestOracle.Response();
 
+//		System.out.println("BEGIN SLEEP");
+//		try { //TODO Убрать!!!
+//			Thread.sleep(10*1000);
+//		} catch (InterruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		System.out.println("END SLEEP");
+		
 		// проверка версии клиента
 		if (!org.psystems.dicom.browser.server.Util.checkClentkVersion(version)) {
 			throw new VersionGWTRPCException(
