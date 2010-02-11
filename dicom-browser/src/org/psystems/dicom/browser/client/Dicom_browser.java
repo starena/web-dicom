@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -60,7 +59,7 @@ public class Dicom_browser implements EntryPoint {
 	private SuggestBox nameField;
 
 	// Идентификатор транзакции (Время последнего запроса)
-	long searchItemsStransactionID;
+	long searchTransactionID;
 
 	private String searchTitle = "...введите фамилию (% - любой символ)...";
 	// панель состояния работы запросов
@@ -68,8 +67,6 @@ public class Dicom_browser implements EntryPoint {
 	private FlowPanel workStatusPanel;
 
 	private boolean showPageIntro = true;// Показ страницы с приглашением
-
-	
 
 	/**
 	 * This is the entry point method.
@@ -154,6 +151,7 @@ public class Dicom_browser implements EntryPoint {
 				nameField.removeStyleName("DicomSuggestion");
 				nameField.addStyleName("DicomSuggestionEmpty");
 				RootPanel.get("resultContainer").clear();
+				transactionFinished();
 			}
 
 		});
@@ -177,20 +175,18 @@ public class Dicom_browser implements EntryPoint {
 
 		HTML intro = new HTML();
 		intro.setWidth("800px");
-//		intro.setStyleName("DicomItemValue");
+		// intro.setStyleName("DicomItemValue");
 		intro
 				.setHTML(" <br><p> Добро пожаловать в экспериментальную версию проекта"
 						+ " по работе с исследованиями полученных с аппаратов поддерживающих стандарт DICOM </p>"
-						+ " <p> Начните свою работу с поиска необходимого вам исследования." +
-						" Просто начните в поисковой строке набирать фамилию пациента и нажмите [enter]." +
-						" В качестве дополнения можно использовать маску 'группа символов' - это символ '%'." +
-						" Например набрав: пе%в получите результаты пациентов с фамилиями" +
-						" Петров, Переладов. " +
-						" для начала поиска можно также нажать кнопу 'Поиск'  </p>"
+						+ " <p> Начните свою работу с поиска необходимого вам исследования."
+						+ " Просто начните в поисковой строке набирать фамилию пациента и нажмите [enter]."
+						+ " В качестве дополнения можно использовать маску 'групповой символ' процент (%) или подчеркивание (_)"
+						+ " Для начала поиска можно также нажать кнопу 'Поиск'  </p>"
 						+ " <p> Дополнительная информация по проекту"
-						+ " <a href='http://code.google.com/p/web-dicom/'>" +
-								" http://code.google.com/p/web-dicom/</a>" +
-								" (необходимо подключение к глобальной сети internet) </p>"
+						+ " <a href='http://code.google.com/p/web-dicom/'>"
+						+ " http://code.google.com/p/web-dicom/</a>"
+						+ " (необходимо подключение к глобальной сети internet) </p>"
 						+ "<br><br>");
 
 		RootPanel.get("resultContainer").add(intro);
@@ -198,7 +194,6 @@ public class Dicom_browser implements EntryPoint {
 		Image image = new Image("chart/usagestorage");
 		image.setTitle("Диаграмма");
 		RootPanel.get("resultContainer").add(image);
-
 
 	}
 
@@ -208,47 +203,66 @@ public class Dicom_browser implements EntryPoint {
 	private void searchItems() {
 
 		Date d = new Date();
-		searchItemsStransactionID = d.getTime();
+		searchTransactionID = d.getTime();
 
 		DateTimeFormat dateFormat = DateTimeFormat
 				.getFormat("dd.MM.yyyy. G 'at' HH:mm:ss vvvv");
-		showWorkStatusMsg("идет <b> получение данных </b> ... "
-				+ dateFormat.format(d));
+//		showWorkStatusMsg("Послан <b> запрос данных </b> по пациенту ... "
+//				+ dateFormat.format(d));
+		showWorkStatusMsg("");
 
-		Timer t = new Timer() {
+		TransactionTimer t = new TransactionTimer() {
+
+			private int counter = 0;
+
 			public void run() {
-				addToWorkStatusMsg("Еще работаем...");
+
+				// System.out.println("!!!!!!!!!!!! " + getTransactionId() + "="
+				// + searchTransactionID);
+				if (getTransactionId() != searchTransactionID) {
+					cancel();
+					return;
+				}
+
+				if (counter == 0) {
+
+					Button b = new Button("Остановить поиск");
+					b.addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							transactionInterrupt();
+						}
+					});
+
+					addToWorkStatusWidget(b);
+					addToWorkStatusMsg(" Возможно имеется <i>проблема</i> со связью. Вы <b>всегда</b> можете остановить поиск...");
+				}
+				counter++;
+
+				
+				addToWorkStatusMsg(" Поиск продолжается " + counter*2 + " сек.");
 				// HTML l = new HTML("<a href=''>[Остановить]</a>");
-				// DOM.setStyleAttribute(l.getElement(), "cursor", "pointer");
+				// DOM.setStyleAttribute(l.getElement(), "cursor",
+				// "pointer");
 
-				Button b = new Button("Остановить");
-				b.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						transactionInterrupt();
-						
-					}
-
-				});
-
-				addToWorkStatusWidget(b);
 			}
 		};
-		t.schedule(2000);
+		t.setTransactionId(searchTransactionID);
+//		t.schedule(2000);
+		t.scheduleRepeating(3000);
 
-		
 		String textToServer = nameField.getText();
 		transactionStarted();
 
-		browserService.findStudy(searchItemsStransactionID, version,
-				textToServer, new AsyncCallback<RPCDcmFileProxyEvent>() {
+		browserService.findStudy(searchTransactionID, version, textToServer,
+				new AsyncCallback<RPCDcmFileProxyEvent>() {
 
 					public void onFailure(Throwable caught) {
 
 						transactionFinished();
 						showErrorDlg((DefaultGWTRPCException) caught);
-						
+
 					}
 
 					public void onSuccess(RPCDcmFileProxyEvent result) {
@@ -257,8 +271,7 @@ public class Dicom_browser implements EntryPoint {
 						// не качать все данные)
 						// Если сменился идентификатор транзакции, то ничего не
 						// принимаем
-						if (searchItemsStransactionID != result
-								.getTransactionId()) {
+						if (searchTransactionID != result.getTransactionId()) {
 							return;
 						}
 
@@ -270,12 +283,40 @@ public class Dicom_browser implements EntryPoint {
 							SearchedItem s = new SearchedItem(proxy);
 							RootPanel.get("resultContainer").add(s);
 						}
-						
+
+						if (data.length == 0) {
+							showNotFound();
+						}
+
 						transactionFinished();
-						
+
 					}
 
 				});
+	}
+
+	protected void showNotFound() {
+		HTML emptyStr = new HTML();
+		emptyStr.setWidth("400px");
+		emptyStr.setStyleName("DicomItemValue");
+		emptyStr.setHTML("Ничего не найдено...");
+
+		RootPanel.get("resultContainer").add(emptyStr);
+
+		emptyStr = new HTML();
+		emptyStr.setWidth("800px");
+		emptyStr
+				.setHTML(
+
+				" <p> Попробуйте сузить поиск используя 'групповой символ' (англ. wildcard). "
+						+ " <br><br>Групповой символ (заменяющий один или несколько символов:"
+						+ " знак 'подчеркивание' (_) может представлять любой одиночный символ; "
+						+ " процент (%) используется для представления любого символа или группы символов) "
+						+ " Например набрав: пе%в получите результаты пациентов с фамилиями"
+						+ " Петров, Переладов. А набрав  пе___в - получите результат: Петров"
+						+ " </p>");
+
+		RootPanel.get("resultContainer").add(emptyStr);
 	}
 
 	private void showErrorDlg(DefaultGWTRPCException e) {
@@ -323,8 +364,9 @@ public class Dicom_browser implements EntryPoint {
 		public void requestSuggestions(SuggestOracle.Request req,
 				SuggestOracle.Callback callback) {
 			try {
-				ItemSuggestService.Util.getInstance().getSuggestions(searchItemsStransactionID,version,
-						req, new ItemSuggestCallback(req, callback));
+				ItemSuggestService.Util.getInstance().getSuggestions(
+						searchTransactionID, version, req,
+						new ItemSuggestCallback(req, callback));
 			} catch (DefaultGWTRPCException e) {
 				showErrorDlg(e);
 				e.printStackTrace();
@@ -348,17 +390,16 @@ public class Dicom_browser implements EntryPoint {
 			}
 
 			public void onSuccess(Object retValue) {
-				
+
 				// TODO попробовать сделать нормлаьный interrupt (дабы
 				// не качать все данные)
 				// Если сменился идентификатор транзакции, то ничего не
 				// принимаем
-				
-				if (searchItemsStransactionID != ((SuggestTransactedResponse)retValue)
+				if (searchTransactionID != ((SuggestTransactedResponse) retValue)
 						.getTransactionId()) {
 					return;
 				}
-				
+
 				callback.onSuggestionsReady(req,
 						(SuggestOracle.Response) retValue);
 			}
@@ -390,6 +431,13 @@ public class Dicom_browser implements EntryPoint {
 	private void showWorkStatusMsg(String html) {
 
 		workStatusPanel.add(new HTML(html));
+		workStatusPopuppopupCentering();
+	}
+
+	/**
+	 * Центровка сообщения
+	 */
+	private void workStatusPopuppopupCentering() {
 		workStatusPopup.setPopupPositionAndShow(new PositionCallback() {
 
 			@Override
@@ -404,6 +452,7 @@ public class Dicom_browser implements EntryPoint {
 			}
 
 		});
+		
 	}
 
 	/**
@@ -413,6 +462,7 @@ public class Dicom_browser implements EntryPoint {
 	 */
 	private void addToWorkStatusMsg(String html) {
 		workStatusPanel.add(new HTML(html));
+		workStatusPopuppopupCentering();
 	}
 
 	/**
@@ -422,6 +472,7 @@ public class Dicom_browser implements EntryPoint {
 	 */
 	private void addToWorkStatusWidget(Widget widget) {
 		workStatusPanel.add(widget);
+		workStatusPopuppopupCentering();
 	}
 
 	/**
@@ -433,27 +484,30 @@ public class Dicom_browser implements EntryPoint {
 	}
 
 	/**
-	 * Завершение транзакции
-	 */
-	private void transactionFinished() {
-		hideWorkStatusMsg();
-		sendButton.setEnabled(true);
-		clearButton.setEnabled(true);
-		nameField.setFocus(true);
-	}
-	
-	/**
-	 * Завершение транзакции
+	 * старт транзакции
 	 */
 	private void transactionStarted() {
 		RootPanel.get("resultContainer").clear();
 		sendButton.setEnabled(false);
 		clearButton.setEnabled(false);
 	}
-	
-	
+
+	/**
+	 * Завершение транзакции
+	 */
+	private void transactionFinished() {
+
+		hideWorkStatusMsg();
+		sendButton.setEnabled(true);
+		clearButton.setEnabled(true);
+		nameField.setFocus(true);
+		searchTransactionID = new Date().getTime();
+	}
+
+	/**
+	 * Прерывание транзакции
+	 */
 	private void transactionInterrupt() {
-		searchItemsStransactionID = new Date().getTime();
-		transactionFinished() ;
+		transactionFinished();
 	}
 }

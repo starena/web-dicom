@@ -39,7 +39,13 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	public RPCDcmFileProxyEvent findStudy(long transactionId, String version, String queryStr)
 			throws DefaultGWTRPCException {
 
-		
+//		System.out.println("BEGIN SLEEP");
+//		try { //TODO Убрать!!!
+//			Thread.sleep(25*1000);
+//		} catch (InterruptedException e1) {
+//			e1.printStackTrace();
+//		}
+//		System.out.println("END SLEEP");
 
 		
 		// проверка версии клиента
