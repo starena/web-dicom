@@ -100,13 +100,13 @@ A.selected {
 	background: yellow;
 	color: black;
 	position: fixed;
-	opacity: 0.6;
-	filter: alpha(opacity = 60);
+	opacity: 0.8;
+	filter: alpha(opacity = 80);
 	/*cursor: not-allowed;*/	
 }
 
 .msgPopupPanelItem {
-	margin: 2px;	
+	margin: 5px;	
 }
 
 .GlassPanel {

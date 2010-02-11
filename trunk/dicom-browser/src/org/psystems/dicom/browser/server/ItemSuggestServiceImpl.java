@@ -28,10 +28,11 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 	public SuggestTransactedResponse getSuggestions(long transactionId,
 			String version, SuggestOracle.Request req) throws DefaultGWTRPCException {
 		SuggestTransactedResponse resp = new SuggestTransactedResponse();
+		resp.setTransactionId(transactionId);
 
 //		System.out.println("BEGIN SLEEP");
 //		try { //TODO Убрать!!!
-//			Thread.sleep(10*1000);
+//			Thread.sleep(5*1000);
 //		} catch (InterruptedException e1) {
 //			// TODO Auto-generated catch block
 //			e1.printStackTrace();
