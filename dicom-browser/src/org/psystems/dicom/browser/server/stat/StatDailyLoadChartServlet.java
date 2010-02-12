@@ -112,7 +112,7 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 
 		final CategoryAxis domainAxis = plot.getDomainAxis();
 		domainAxis.setCategoryLabelPositions(CategoryLabelPositions
-				.createUpRotationLabelPositions(0)
+				.createUpRotationLabelPositions(Math.PI / 4.0)
 		// CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
 				);
 		// OPTIONAL CUSTOMISATION COMPLETED.
