@@ -35,8 +35,8 @@ public class UseagStoreChartServlet extends HttpServlet {
 		OutputStream outputStream = response.getOutputStream();
 
 		JFreeChart chart = getChart();
-		int width = 700;
-		int height = 450;
+		int width = 800;
+		int height = 400;
 		ChartUtilities.writeChartAsPNG(outputStream, chart, width, height);
 
 	}
