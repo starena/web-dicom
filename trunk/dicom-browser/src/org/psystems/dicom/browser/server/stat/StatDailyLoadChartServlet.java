@@ -62,7 +62,7 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 		final JFreeChart chart = ChartFactory.createBarChart(
 				"Динамика загрузки даннных", // chart title
 				"Дата", // domain axis label
-				"Значение", // range axis label
+				"Значение (кб.)", // range axis label
 				dataset, // data
 				PlotOrientation.VERTICAL, // orientation
 				true, // include legend
@@ -81,13 +81,14 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 		plot.setDomainGridlinePaint(Color.white);
 		plot.setRangeGridlinePaint(Color.white);
 
-		final IntervalMarker target = new IntervalMarker(4.5, 7.5);
-		target.setLabel("Ожидаемый диапазон");
-		target.setLabelFont(new Font("SansSerif", Font.ITALIC, 11));
-		target.setLabelAnchor(RectangleAnchor.LEFT);
-		target.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-		target.setPaint(new Color(222, 222, 255, 128));
-		plot.addRangeMarker(target, Layer.BACKGROUND);
+		
+//		final IntervalMarker target = new IntervalMarker(2000000, 3000000);
+//		target.setLabel("Ожидаемый диапазон");
+//		target.setLabelFont(new Font("SansSerif", Font.ITALIC, 11));
+//		target.setLabelAnchor(RectangleAnchor.LEFT);
+//		target.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+//		target.setPaint(new Color(222, 222, 255, 128));
+//		plot.addRangeMarker(target, Layer.BACKGROUND);
 
 		// set the range axis to display integers only...
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
@@ -160,7 +161,7 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 
 				
 				String dateStr = format.format(calendar.getTime());
-				 System.out.println("!!! " + dateStr);
+//				 System.out.println("!!! " + dateStr);
 				
 				psSelect.setString(1, "ALL_DCM_SIZE");//ALL_DCM_SIZE ALL_IMAGE_SIZE CLIENT_CONNECTIONS
 				psSelect.setDate(2, new java.sql.Date(calendar1.getTimeInMillis()));
@@ -168,12 +169,12 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 				ResultSet rs = psSelect.executeQuery();
 				
 				while (rs.next()) {
-					long value = rs.getLong("METRIC_VALUE_LONG");
+					long value = rs.getLong("METRIC_VALUE_LONG") / 1000;
 					Date date = rs.getDate("METRIC_DATE");
 					dateStr = format.format(date.getTime());
 					String category = dateStr;
 					dataset.addValue(value, series1, category);
-					System.out.println("!!!! ALL_DCM_SIZE="+dateStr+"="+value);
+//					System.out.println("!!!! ALL_DCM_SIZE="+dateStr+"="+value);
 				}
 				rs.close();
 				
@@ -183,12 +184,12 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 				rs = psSelect.executeQuery();
 				
 				while (rs.next()) {
-					long value = rs.getLong("METRIC_VALUE_LONG");
+					long value = rs.getLong("METRIC_VALUE_LONG") / 1000;
 					Date date = rs.getDate("METRIC_DATE");
 					dateStr = format.format(date.getTime());
 					String category = dateStr;
 					dataset.addValue(value, series2, category);
-					System.out.println("!!!! ALL_IMAGE_SIZE= "+dateStr+"="+value);
+//					System.out.println("!!!! ALL_IMAGE_SIZE= "+dateStr+"="+value);
 				}
 				rs.close();
 				
