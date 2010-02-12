@@ -8,7 +8,7 @@
 		<property name="doc_dir" value="doc" />
 		<property name="doc_dir_api" value="${doc_dir}/api" />
 		<property name="dist_dir" value="distrib" />
-		<property name="dist_jar" value="dicom.jar" />
+		<property name="dist_jar" value="sheduler.jar" />
 
 		<property name="dist_lib_dir" value="lib" />
 		
