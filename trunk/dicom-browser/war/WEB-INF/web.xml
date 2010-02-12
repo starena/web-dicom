@@ -28,9 +28,9 @@
 		<param-name>webdicom.dir.dst</param-name>
 		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\out</param-value>
 	</context-param>
-	
+
 	<!-- Default page to serve -->
-	
+
 	<welcome-file-list>
 		<welcome-file>Dicom_browser.html</welcome-file>
 	</welcome-file-list>
@@ -97,25 +97,25 @@
 		<servlet-name>dcmAttachementServlet</servlet-name>
 		<url-pattern>/dcm/*</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 	<servlet>
-		<servlet-name>ChartServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.ChartServlet</servlet-class>
+		<servlet-name>UseagStoreChartServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.stat.UseagStoreChartServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ChartServlet</servlet-name>
-		<url-pattern>/chart/*</url-pattern>
+		<servlet-name>UseagStoreChartServlet</servlet-name>
+		<url-pattern>/stat/chart/usagestore/*</url-pattern>
 	</servlet-mapping>
-	
-		<servlet>
+
+	<servlet>
 		<servlet-name>StatDailyLoadChartServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.StatDailyLoadChartServlet</servlet-class>
+		<servlet-class>org.psystems.dicom.browser.server.stat.StatDailyLoadChartServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>StatDailyLoadChartServlet</servlet-name>
-		<url-pattern>/stat/dailyload/*</url-pattern>
+		<url-pattern>/stat/chart/dailyload/*</url-pattern>
 	</servlet-mapping>
-	
+
 
 </web-app>

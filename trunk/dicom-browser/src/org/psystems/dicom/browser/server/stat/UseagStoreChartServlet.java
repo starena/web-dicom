@@ -1,4 +1,4 @@
-package org.psystems.dicom.browser.server;
+package org.psystems.dicom.browser.server.stat;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -19,12 +19,13 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+import org.psystems.dicom.browser.server.Util;
 
-public class ChartServlet extends HttpServlet {
+public class UseagStoreChartServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger logger = Logger.getLogger(ChartServlet.class);
+	private static Logger logger = Logger.getLogger(UseagStoreChartServlet.class);
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
