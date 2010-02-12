@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<project name="Dicom_browser" default="build" basedir=".">
+<project name="Dicom_browser" default="war" basedir=".">
   <!-- Configure path to GWT SDK -->
   <property name="gwt.sdk" location="C:/eclipse/3.4/plugins/com.google.gwt.eclipse.sdkbundle.2.0.0_2.0.0.v200912070510/gwt-2.0.0" />
+	<property name="version" value="01a"/>
 
   <path id="project.class.path">
     <pathelement location="war/WEB-INF/classes"/>
@@ -124,7 +125,7 @@ Test targets suppressed because -junit argument was not specified when running w
   <target name="build" depends="gwtc" description="Build this project" />
 
   <target name="war" depends="build" description="Create a war file">
-    <zip destfile="Dicom_browser.war" basedir="war"/>
+    <zip destfile="Dicom_browser_${version}.war" basedir="war"/>
   </target>
 
   <target name="clean" description="Cleans this project">
