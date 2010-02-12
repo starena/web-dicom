@@ -25,6 +25,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -190,10 +191,24 @@ public class Dicom_browser implements EntryPoint {
 						+ "<br><br>");
 
 		RootPanel.get("resultContainer").add(intro);
+		
+		FlexTable statanel = new FlexTable();
+		RootPanel.get("resultContainer").add(statanel);
 
-		Image image = new Image("stat/chart/usagestore/");
-		image.setTitle("Диаграмма");
-		RootPanel.get("resultContainer").add(image);
+	
+		
+		Image image = new Image("stat/chart/clientreqs/");
+		image.setTitle("Поисковые запросы");
+		statanel.setWidget(0,0,image);
+		
+		image = new Image("stat/chart/dailyload/");
+		image.setTitle("Загрузка данных");
+		statanel.setWidget(0,1,image);
+		
+		image = new Image("stat/chart/usagestore/");
+		image.setTitle("Использование дискового пространства");
+		statanel.setWidget(1,0,image);
+		statanel.getFlexCellFormatter().setColSpan(1, 0, 2);
 
 	}
 

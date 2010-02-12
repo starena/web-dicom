@@ -116,6 +116,17 @@
 		<servlet-name>StatDailyLoadChartServlet</servlet-name>
 		<url-pattern>/stat/chart/dailyload/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StatClientRequestsChartServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.stat.StatClientRequestsChartServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StatClientRequestsChartServlet</servlet-name>
+		<url-pattern>/stat/chart/clientreqs/*</url-pattern>
+	</servlet-mapping>
+
+
 
 
 </web-app>

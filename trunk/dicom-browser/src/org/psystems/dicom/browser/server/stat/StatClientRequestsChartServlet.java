@@ -30,12 +30,12 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.psystems.dicom.browser.server.Util;
 
-public class StatDailyLoadChartServlet extends HttpServlet {
+public class StatClientRequestsChartServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	private static Logger logger = Logger
-			.getLogger(StatDailyLoadChartServlet.class);
+			.getLogger(StatClientRequestsChartServlet.class);
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -55,9 +55,9 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 	public JFreeChart getChart(CategoryDataset dataset) {
 		// create the chart...
 		final JFreeChart chart = ChartFactory.createBarChart(
-				"Загрузка данных", // chart title
+				"Поисковые запросы", // chart title
 				"Дата", // domain axis label
-				"Значение (кб.)", // range axis label
+				"Количество (шт.)", // range axis label
 				dataset, // data
 				PlotOrientation.VERTICAL, // orientation
 				true, // include legend
@@ -137,11 +137,7 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 			Calendar calendarBegin = (Calendar) calendarEnd.clone();
 			calendarBegin.add(Calendar.DAY_OF_MONTH, -7);
 
-			getMetrics(connection, "Исследования (DCM-файлы)", "ALL_DCM_SIZE",
-					calendarBegin.getTimeInMillis(), calendarEnd
-							.getTimeInMillis(), dataset);
-
-			getMetrics(connection, "Изображения (JPG-файлы)", "ALL_IMAGE_SIZE",
+			getMetrics(connection, "Общее количество", "CLIENT_CONNECTIONS",
 					calendarBegin.getTimeInMillis(), calendarEnd
 							.getTimeInMillis(), dataset);
 
@@ -182,12 +178,13 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				long value = rs.getLong("METRIC_VALUE_LONG") / 1000;
+				long value = rs.getLong("METRIC_VALUE_LONG");
 				Date date = rs.getDate("METRIC_DATE");
 				String dateStr = format.format(date.getTime());
 				String category = dateStr;
 				dataset.addValue(value, series, category);
-				// System.out.println("!!!! ALL_DCM_SIZE="+dateStr+"="+value);
+//				System.out.println("!!!! " + metrica + "=" + dateStr + "="
+//						+ value);
 			}
 			rs.close();
 
