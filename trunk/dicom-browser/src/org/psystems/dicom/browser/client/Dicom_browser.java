@@ -185,9 +185,9 @@ public class Dicom_browser implements EntryPoint {
 						+ " В качестве дополнения можно использовать маску 'групповой символ' процент (%) или подчеркивание (_)"
 						+ " Для начала поиска можно также нажать кнопу 'Поиск'  </p>"
 						+ " <p> Дополнительная информация по проекту"
-						+ " <a href='http://code.google.com/p/web-dicom/'>"
+						+ " <a href='http://code.google.com/p/web-dicom/' target='new'>"
 						+ " http://code.google.com/p/web-dicom/</a>"
-						+ " (необходимо подключение к глобальной сети internet) </p>"
+						+ " (откроетя в новом окне) </p>"
 						+ "<br><br>");
 
 		RootPanel.get("resultContainer").add(intro);
