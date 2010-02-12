@@ -1,4 +1,4 @@
-package org.psystems.dicom.browser.server;
+package org.psystems.dicom.browser.server.stat;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
