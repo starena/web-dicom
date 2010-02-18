@@ -110,7 +110,7 @@
 
 	<servlet>
 		<servlet-name>StatDailyLoadChartServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.stat.StatDailyLoadChartServlet</servlet-class>
+		<servlet-class>org.psystems.dicom.browser.server.stat.StatDailyLoadChartServlet2</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>StatDailyLoadChartServlet</servlet-name>

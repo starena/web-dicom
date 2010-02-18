@@ -1,7 +1,15 @@
 package org.psystems.dicom.browser.server.stat;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
+import java.awt.Paint;
+import java.awt.PaintContext;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.ColorModel;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -26,6 +34,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.psystems.dicom.browser.server.Util;
@@ -34,8 +43,12 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	private static Font labelFont = new Font("Helvetica", Font.PLAIN, 20);
+	
 	private static Logger logger = Logger
 			.getLogger(StatDailyLoadChartServlet.class);
+	
+	
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -54,7 +67,7 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 
 	public JFreeChart getChart(CategoryDataset dataset) {
 		// create the chart...
-		final JFreeChart chart = ChartFactory.createBarChart(
+		final JFreeChart chart = ChartFactory.createBarChart3D(
 				"Загрузка данных", // chart title
 				"Дата", // domain axis label
 				"Значение (кб.)", // range axis label
@@ -64,6 +77,15 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 				true, // tooltips?
 				false // URLs?
 				);
+		
+		
+//		#44639C;
+		
+		TextTitle title =  new TextTitle("Динамика загрузки данных",labelFont);
+//		Paint paint = title.getPaint();
+		title.setPaint(new Color(68,99,156));
+		chart.setTitle(title);
+		
 
 		// NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
 
@@ -87,6 +109,7 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 		// set the range axis to display integers only...
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		rangeAxis.setTickLabelFont(labelFont);
 
 		// disable bar outlines...
 		final BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -95,14 +118,14 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 
 		// set up gradient paints for series...
 		final GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue,
-				0.0f, 0.0f, Color.lightGray);
+				0.0f, 0.0f, Color.blue);
 		final GradientPaint gp1 = new GradientPaint(0.0f, 0.0f, Color.green,
 				0.0f, 0.0f, Color.lightGray);
 		final GradientPaint gp2 = new GradientPaint(0.0f, 0.0f, Color.red,
 				0.0f, 0.0f, Color.lightGray);
-		// renderer.setSeriesPaint(0, gp0);
-		// renderer.setSeriesPaint(1, gp1);
-		// renderer.setSeriesPaint(2, gp2);
+		 renderer.setSeriesPaint(0, gp0);
+		 renderer.setSeriesPaint(1, gp1);
+		 renderer.setSeriesPaint(2, gp2);
 
 		final CategoryAxis domainAxis = plot.getDomainAxis();
 		domainAxis.setCategoryLabelPositions(CategoryLabelPositions
