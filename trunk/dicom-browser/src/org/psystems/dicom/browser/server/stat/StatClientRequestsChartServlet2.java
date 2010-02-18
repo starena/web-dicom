@@ -243,7 +243,7 @@ public class StatClientRequestsChartServlet2 extends HttpServlet {
 				dateStr = format.format(date.getTime());
 				String category = dateStr;
 				dataset.addValue(value, series, category);
-				System.out.println(value + " = " + series + " = "+ category);
+//				System.out.println(value + " = " + series + " = "+ category);
 			}
 			rs.close();
 
