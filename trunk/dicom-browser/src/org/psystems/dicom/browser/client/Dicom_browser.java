@@ -199,16 +199,18 @@ public class Dicom_browser implements EntryPoint {
 		
 		Image image = new Image("stat/chart/clientreqs/");
 		image.setTitle("Поисковые запросы");
-		statanel.setWidget(0,0,image);
+		statanel.setWidget(1,0,image);
+		statanel.getFlexCellFormatter().setColSpan(0, 0, 2);
 		
 		image = new Image("stat/chart/dailyload/");
 		image.setTitle("Загрузка данных");
-		statanel.setWidget(0,1,image);
-		
-		image = new Image("stat/chart/usagestore/");
-		image.setTitle("Использование дискового пространства");
-		statanel.setWidget(1,0,image);
+		statanel.setWidget(2,0,image);
 		statanel.getFlexCellFormatter().setColSpan(1, 0, 2);
+		
+//		image = new Image("stat/chart/usagestore/");
+//		image.setTitle("Использование дискового пространства");
+//		statanel.setWidget(3,0,image);
+//		statanel.getFlexCellFormatter().setColSpan(2, 0, 2);
 
 	}
 
