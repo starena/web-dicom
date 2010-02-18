@@ -36,7 +36,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.psystems.dicom.browser.server.Util;
 
-public class StatDailyLoadChartServlet2 extends HttpServlet {
+public class StatClientRequestsChartServlet2 extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class StatDailyLoadChartServlet2 extends HttpServlet {
 	private static Font dateFont = new Font("Verdana", Font.PLAIN, 9);
 	
 	private static Logger logger = Logger
-			.getLogger(StatDailyLoadChartServlet2.class);
+			.getLogger(StatClientRequestsChartServlet2.class);
 
 	private Paint color1 = new Color(68,99,156);
 	private Paint color2 = new Color(176,202,250);
@@ -82,7 +82,7 @@ public class StatDailyLoadChartServlet2 extends HttpServlet {
         );
         
         
-        TextTitle title =  new TextTitle("Динамика загрузки данных (кб)",labelFont);
+        TextTitle title =  new TextTitle("Количество поисковых запросов (шт.)",labelFont);
 		title.setPaint(new Color(68,99,156));
 		chart.setTitle(title);
 		
@@ -106,7 +106,7 @@ public class StatDailyLoadChartServlet2 extends HttpServlet {
         
        
         
-        SubCategoryAxis domainAxis = new SubCategoryAxis("DCM файлы / JPG файлы");
+        SubCategoryAxis domainAxis = new SubCategoryAxis("Внутренние / Внешние");
         domainAxis.setCategoryMargin(0.05);
         domainAxis.setTickLabelFont(dateFont);
 //        domainAxis.addSubCategory("Product 1");
@@ -155,10 +155,10 @@ public class StatDailyLoadChartServlet2 extends HttpServlet {
 			Calendar calendarBegin = (Calendar) calendarEnd.clone();
 			calendarBegin.add(Calendar.DAY_OF_MONTH, -7);
 
-			getMetrics(connection, "Исследования (DCM-файлы)", "ALL_DCM_SIZE",
+			getMetrics(connection, "Внутренние", "CLIENT_CONNECTIONS",
 					calendarBegin, calendarEnd, dataset);
 
-			getMetrics(connection, "Изображения (JPG-файлы)", "ALL_IMAGE_SIZE",
+			getMetrics(connection, "Внешние", "CLIENT_CONNECTIONS",
 					calendarBegin, calendarEnd, dataset);
 
 		} catch (SQLException e) {
@@ -190,8 +190,8 @@ public class StatDailyLoadChartServlet2 extends HttpServlet {
 	
 	private LegendItemCollection createLegendItems() {
         LegendItemCollection result = new LegendItemCollection();
-        LegendItem item1 = new LegendItem("DCM файлы", color1);
-        LegendItem item2 = new LegendItem("JPG файлы", color2);
+        LegendItem item1 = new LegendItem("Внутренние", color1);
+        LegendItem item2 = new LegendItem("Внешние", color2);
 
         result.add(item1);
         result.add(item2);
@@ -238,12 +238,12 @@ public class StatDailyLoadChartServlet2 extends HttpServlet {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				long value = rs.getLong("METRIC_VALUE_LONG") / 1000;
+				long value = rs.getLong("METRIC_VALUE_LONG");
 				Date date = rs.getDate("METRIC_DATE");
 				dateStr = format.format(date.getTime());
 				String category = dateStr;
 				dataset.addValue(value, series, category);
-//				System.out.println(value + " = " + series + " = "+ category);
+				System.out.println(value + " = " + series + " = "+ category);
 			}
 			rs.close();
 

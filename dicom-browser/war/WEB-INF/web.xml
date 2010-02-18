@@ -119,7 +119,7 @@
 	
 	<servlet>
 		<servlet-name>StatClientRequestsChartServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.stat.StatClientRequestsChartServlet</servlet-class>
+		<servlet-class>org.psystems.dicom.browser.server.stat.StatClientRequestsChartServlet2</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>StatClientRequestsChartServlet</servlet-name>
