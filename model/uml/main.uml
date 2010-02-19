@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmi:id="_h5LjMR0aEd-qqPeZ1l9oTw">
+  <elementImport xmi:id="_h7Hc4B0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_h7RN4B0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_h7RN4R0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_h7RN4h0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_j4SUMB0aEd-qqPeZ1l9oTw" name="Узский специалист"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_lOkKoB0aEd-qqPeZ1l9oTw" name="Оператор"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_mcMbYB0aEd-qqPeZ1l9oTw" name="Терапевт"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_271BIB0bEd-izY3W2mLslw" name="система"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_Oth7wB0cEd-izY3W2mLslw" name="СОздание направления на анализ"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UWJKEB0cEd-izY3W2mLslw" memberEnd="_UWJKER0cEd-izY3W2mLslw _UWJKFB0cEd-izY3W2mLslw" navigableOwnedEnd="_UWJKER0cEd-izY3W2mLslw _UWJKFB0cEd-izY3W2mLslw">
+    <ownedEnd xmi:id="_UWJKER0cEd-izY3W2mLslw" name="src" type="_mcMbYB0aEd-qqPeZ1l9oTw" association="_UWJKEB0cEd-izY3W2mLslw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UWJKEx0cEd-izY3W2mLslw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UWJKEh0cEd-izY3W2mLslw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UWJKFB0cEd-izY3W2mLslw" name="dst" type="_Oth7wB0cEd-izY3W2mLslw" association="_UWJKEB0cEd-izY3W2mLslw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UWJKFh0cEd-izY3W2mLslw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UWJKFR0cEd-izY3W2mLslw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_WhdyIB0cEd-izY3W2mLslw" name="Пациент"/>
+</uml:Package>
