@@ -1,9 +1,5 @@
 #summary Архитектура.
 #labels Featured
 
-= архитектура =
-
- * Сбор
- * Хранение
- * Визуализация
- * Интеграция
+= Основная UseCase Диаграмма =
+[http://web-dicom.googlecode.com/svn/trunk/model/uml/main.gif]
