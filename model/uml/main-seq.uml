@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_ipjdUB_lEd-mkbhMtD1fdA">
+  <packagedElement xmi:type="uml:Interaction" xmi:id="_tcYGsB_lEd-mkbhMtD1fdA" name="Взаимодействие Пациент-Терапевт">
+    <lifeline xmi:id="_uLKfUB_lEd-mkbhMtD1fdA" name="Пациент" coveredBy="_EEne4h_mEd-mkbhMtD1fdA _EEne4B_mEd-mkbhMtD1fdA _EEne5R_mEd-mkbhMtD1fdA"/>
+    <lifeline xmi:id="_wtvJwB_lEd-mkbhMtD1fdA" name="Терапевт" coveredBy="_EEne4x_mEd-mkbhMtD1fdA _EEne4R_mEd-mkbhMtD1fdA _EEne5B_mEd-mkbhMtD1fdA"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_EEne4B_mEd-mkbhMtD1fdA" name="invocation-1-start" covered="_uLKfUB_lEd-mkbhMtD1fdA" message="_EEne5h_mEd-mkbhMtD1fdA"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_EEne4R_mEd-mkbhMtD1fdA" name="execution-1-start" covered="_wtvJwB_lEd-mkbhMtD1fdA" message="_EEne5h_mEd-mkbhMtD1fdA"/>
+    <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_EEne4h_mEd-mkbhMtD1fdA" name="invocation-1-body" covered="_uLKfUB_lEd-mkbhMtD1fdA" start="_EEne4B_mEd-mkbhMtD1fdA" finish="_EEne5R_mEd-mkbhMtD1fdA"/>
+    <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_EEne4x_mEd-mkbhMtD1fdA" name="execution-1-body" covered="_wtvJwB_lEd-mkbhMtD1fdA" start="_EEne4R_mEd-mkbhMtD1fdA" finish="_EEne5B_mEd-mkbhMtD1fdA"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_EEne5B_mEd-mkbhMtD1fdA" name="execution-1-finish" covered="_wtvJwB_lEd-mkbhMtD1fdA"/>
+    <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_EEne5R_mEd-mkbhMtD1fdA" name="invocation-1-finish" covered="_uLKfUB_lEd-mkbhMtD1fdA"/>
+    <message xmi:id="_EEne5h_mEd-mkbhMtD1fdA" name="Пришел на прием" receiveEvent="_EEne4R_mEd-mkbhMtD1fdA" sendEvent="_EEne4B_mEd-mkbhMtD1fdA"/>
+  </packagedElement>
+</uml:Package>
