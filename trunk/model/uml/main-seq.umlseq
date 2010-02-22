@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:uml2t.seqd.notation="http://www.eclipse.org/mdt/uml2tools/sequence-diagram/notation/2008" xmi:id="_ipjdUR_lEd-mkbhMtD1fdA" type="UMLSequence" name="main-seq.umlseq" measurementUnit="Pixel">
+  <children xmi:type="notation:Shape" xmi:id="_tdQ3gB_lEd-mkbhMtD1fdA" type="2001">
+    <children xmi:type="notation:DecorationNode" xmi:id="_tdQ3gx_lEd-mkbhMtD1fdA" type="5002"/>
+    <children xmi:type="notation:Shape" xmi:id="_uLUQUB_lEd-mkbhMtD1fdA" type="3001">
+      <children xmi:type="notation:DecorationNode" xmi:id="_uLUQUh_lEd-mkbhMtD1fdA" type="5001"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_uLUQUx_lEd-mkbhMtD1fdA" type="5005"/>
+      <children xmi:type="notation:Shape" xmi:id="_EExP4B_mEd-mkbhMtD1fdA" type="3004">
+        <element xmi:type="uml:BehaviorExecutionSpecification" href="main-seq.uml#_EEne4h_mEd-mkbhMtD1fdA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EExP4R_mEd-mkbhMtD1fdA" x="20" y="89" width="20" height="24"/>
+      </children>
+      <element xmi:type="uml:Lifeline" href="main-seq.uml#_uLKfUB_lEd-mkbhMtD1fdA"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_uLUQUR_lEd-mkbhMtD1fdA" x="131" y="28" width="60" height="300"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_wt4TsB_lEd-mkbhMtD1fdA" type="3001">
+      <children xmi:type="notation:DecorationNode" xmi:id="_wt4Tsh_lEd-mkbhMtD1fdA" type="5001"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_wt4Tsx_lEd-mkbhMtD1fdA" type="5005"/>
+      <children xmi:type="notation:Shape" xmi:id="_EExP4h_mEd-mkbhMtD1fdA" type="3004">
+        <element xmi:type="uml:BehaviorExecutionSpecification" href="main-seq.uml#_EEne4x_mEd-mkbhMtD1fdA"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EExP4x_mEd-mkbhMtD1fdA" x="22" y="89" width="20" height="24"/>
+      </children>
+      <element xmi:type="uml:Lifeline" href="main-seq.uml#_wtvJwB_lEd-mkbhMtD1fdA"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_wt4TsR_lEd-mkbhMtD1fdA" x="444" y="28" width="64" height="300"/>
+    </children>
+    <styles xmi:type="uml2t.seqd.notation:SDModelStorageStyle" xmi:id="_tdQ3gR_lEd-mkbhMtD1fdA"/>
+    <element xmi:type="uml:Interaction" href="main-seq.uml#_tcYGsB_lEd-mkbhMtD1fdA"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tdQ3gh_lEd-mkbhMtD1fdA" x="55" y="25" width="661" height="466"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_ipjdUh_lEd-mkbhMtD1fdA"/>
+  <element xmi:type="uml:Package" href="main-seq.uml#_ipjdUB_lEd-mkbhMtD1fdA"/>
+  <edges xmi:type="notation:Edge" xmi:id="_EFXFwB_mEd-mkbhMtD1fdA" type="4001" source="_EExP4B_mEd-mkbhMtD1fdA" target="_EExP4h_mEd-mkbhMtD1fdA">
+    <children xmi:type="notation:DecorationNode" xmi:id="_EFXFxB_mEd-mkbhMtD1fdA" type="6001">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_EFXFxR_mEd-mkbhMtD1fdA" y="-10"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_EFXFwR_mEd-mkbhMtD1fdA"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_EFXFwh_mEd-mkbhMtD1fdA"/>
+    <styles xmi:type="notation:IntListValueStyle" xmi:id="_EGGsoB_mEd-mkbhMtD1fdA" name="SourceAnchor">
+      <intListValue>226</intListValue>
+      <intListValue>142</intListValue>
+    </styles>
+    <styles xmi:type="notation:IntListValueStyle" xmi:id="_EGGsoh_mEd-mkbhMtD1fdA" name="TargetAnchor">
+      <intListValue>521</intListValue>
+      <intListValue>142</intListValue>
+    </styles>
+    <element xmi:type="uml:Message" href="main-seq.uml#_EEne5h_mEd-mkbhMtD1fdA"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EFXFwx_mEd-mkbhMtD1fdA" points="[30, -6, -285, -6]$[316, -150, 1, -150]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EF9isB_mEd-mkbhMtD1fdA" id="(1.0,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_EGGsoR_mEd-mkbhMtD1fdA" id="(0.0,0.0)"/>
+  </edges>
+</notation:Diagram>
