@@ -2,4 +2,4 @@
 #labels Featured
 
 = Основная UseCase Диаграмма =
-http://web-dicom.googlecode.com/svn/trunk/model/uml/main.gif
+http://web-dicom.googlecode.com/svn/trunk/model/uml/main.png
