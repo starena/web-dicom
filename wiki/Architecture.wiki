@@ -1,5 +1,8 @@
 #summary Архитектура.
-#labels Featured
+#labels Featured,Phase-Requirements
 
-= Основная UseCase Диаграмма =
+= Основная диаграмма выбора =
 http://web-dicom.googlecode.com/svn/trunk/model/out/usecase-main.png
+
+= Основная диаграмма взаимодействия =
+http://web-dicom.googlecode.com/svn/trunk/model/out/seq-main.png
