@@ -4,17 +4,55 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	- _myState = 8192;
 	- _name = "webdicom";
 	- _displayName = "webdicom";
-	- _lastID = 26;
-	- Declaratives = { IRPYRawContainer 
+	- Annotations = { IRPYRawContainer 
 		- size = 1;
+		- value = 
+		{ IComment 
+			- _id = GUID 5b5794b3-15c6-4858-9c08-742bfb2ea8fe;
+			- _myState = 2048;
+			- _name = "comment_27";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20\\'e0\\'eb\\'fc\\'f2\\'e5\\'f0\\'ed\\'e0\\'f2\\'e8\\'e2\\'ed\\'fb\\'e9 \\'f1\\'ef\\'ee\\'f1\\'ee\\'e1 \\'ef\\'ee\\'e8\\'f1\\'ea\\'e0 \\'e8\\'ed\\'f4\\'ee\\'f0\\'ec\\'e0\\'f6\\'e8\\'e8\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID 632e4492-cbe3-4221-91f3-36c30f90a49a;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "ICombinedFragment";
+						- _filename = "";
+						- _subsystem = "";
+						- _class = "";
+						- _name = "interactionOperator_0";
+						- _id = GUID a33e8d7d-4520-49a0-a86a-40af31469267;
+					}
+				}
+			}
+		}
+	}
+	- _lastID = 28;
+	- Declaratives = { IRPYRawContainer 
+		- size = 2;
 		- value = 
 		{ IUCDiagram 
 			- fileName = "usecase-main";
 			- _id = GUID 5ddf46c9-3e6f-4d33-b7fa-73e0ffe79a81;
 		}
+		{ IMSC 
+			- fileName = "seq-main";
+			- _id = GUID 360fb704-bafe-4c1f-a767-67972309afea;
+		}
 	}
-	- weakCGTime = 2.24.2010::4:59:57;
-	- strongCGTime = 2.24.2010::4:24:47;
+	- weakCGTime = 2.24.2010::5:56:52;
+	- strongCGTime = 2.24.2010::5:56:6;
 	- AssociationElements = { IRPYRawContainer 
 		- size = 3;
 		- value = 
@@ -1027,8 +1065,8 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _myState = 8192;
 			- _name = "DICOM-\А\р\хи\в";
 			- _displayName = "DICOM-\А\р\хи\в";
-			- weakCGTime = 2.24.2010::4:52:9;
-			- strongCGTime = 2.24.2010::4:52:9;
+			- weakCGTime = 2.24.2010::5:36:6;
+			- strongCGTime = 2.24.2010::5:36:6;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
@@ -1039,7 +1077,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IAssociationEnd 
 					- _id = GUID 84b5dcf4-5553-4518-be4c-282846c3f434;
 					- _myState = 10240;
-					- _name = "its\Б\аз\а \д\а\н\н\ы\х";
+					- _name = "itsDICOM-\Б\Д";
 					- _multiplicity = "1";
 					- _otherClass = { IClassifierHandle 
 						- _m2Class = "IActor";
@@ -1076,10 +1114,10 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 		{ IActor 
 			- _id = GUID 0c770993-c977-484d-a633-852f258fb010;
 			- _myState = 8192;
-			- _name = "\Б\аз\а \д\а\н\н\ы\х";
-			- _displayName = "\Б\аз\а \д\а\н\н\ы\х";
-			- weakCGTime = 2.24.2010::4:51:15;
-			- strongCGTime = 2.24.2010::4:51:15;
+			- _name = "DICOM-\Б\Д";
+			- _displayName = "DICOM-\Б\Д";
+			- weakCGTime = 2.24.2010::5:36:6;
+			- strongCGTime = 2.24.2010::5:36:6;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
@@ -1107,7 +1145,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IAssociationEnd 
 					- _id = GUID 1dc233e3-0101-41fe-9f31-21c50e6b1dd6;
 					- _myState = 10240;
-					- _name = "itsWEB-и\н\т\е\р\ф\ей\с";
+					- _name = "itsDICOM-WEB-и\н\т\е\р\ф\ей\с";
 					- _multiplicity = "1";
 					- _otherClass = { IClassifierHandle 
 						- _m2Class = "IActor";
@@ -1124,7 +1162,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IAssociationEnd 
 					- _id = GUID cd1010a5-b25a-43e1-8c30-bca4a1a4deae;
 					- _myState = 10240;
-					- _name = "itsWEB-\с\е\р\ви\с";
+					- _name = "itsDICOM-WEB-\с\е\р\ви\с";
 					- _multiplicity = "1";
 					- _otherClass = { IClassifierHandle 
 						- _m2Class = "IActor";
@@ -1144,15 +1182,15 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 		{ IActor 
 			- _id = GUID 1a057b77-9e91-4bcf-ab43-62319c99e18a;
 			- _myState = 8192;
-			- _name = "WEB-\с\е\р\ви\с";
-			- _displayName = "WEB-\с\е\р\ви\с";
+			- _name = "DICOM-WEB-\с\е\р\ви\с";
+			- _displayName = "DICOM-WEB-\с\е\р\ви\с";
 			- Dependencies = { IRPYRawContainer 
 				- size = 2;
 				- value = 
 				{ IDependency 
 					- _id = GUID 27253ded-eaa4-4b97-9277-743e94fb2ab9;
 					- _myState = 2048;
-					- _name = "_\аз\а \д\а____";
+					- _name = "DICOM__\Д";
 					- _dependsOn = { INObjectHandle 
 						- _m2Class = "IActor";
 						- _id = GUID 0c770993-c977-484d-a633-852f258fb010;
@@ -1169,8 +1207,8 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				}
 			}
 			- _lastID = 2;
-			- weakCGTime = 2.24.2010::4:58:48;
-			- strongCGTime = 2.24.2010::4:58:27;
+			- weakCGTime = 2.24.2010::5:36:6;
+			- strongCGTime = 2.24.2010::5:36:6;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
@@ -1181,7 +1219,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IAssociationEnd 
 					- _id = GUID 4c3ce21e-845e-48d2-97f3-3e73c7f7adb4;
 					- _myState = 10240;
-					- _name = "its\Б\аз\а \д\а\н\н\ы\х";
+					- _name = "itsDICOM-\Б\Д";
 					- _multiplicity = "1";
 					- _otherClass = { IClassifierHandle 
 						- _m2Class = "IActor";
@@ -1218,8 +1256,8 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 		{ IActor 
 			- _id = GUID 576b4e48-34c4-43a8-85cc-38961d89d9ae;
 			- _myState = 8192;
-			- _name = "WEB-и\н\т\е\р\ф\ей\с";
-			- _displayName = "WEB-и\н\т\е\р\ф\ей\с";
+			- _name = "DICOM-WEB-и\н\т\е\р\ф\ей\с";
+			- _displayName = "DICOM-WEB-и\н\т\е\р\ф\ей\с";
 			- Dependencies = { IRPYRawContainer 
 				- size = 2;
 				- value = 
@@ -1235,7 +1273,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IDependency 
 					- _id = GUID fef9a9aa-5b8e-4aea-a079-c173c5e1e561;
 					- _myState = 2048;
-					- _name = "_\аз\а \д\а____";
+					- _name = "DICOM__\Д";
 					- _dependsOn = { INObjectHandle 
 						- _m2Class = "IActor";
 						- _id = GUID 0c770993-c977-484d-a633-852f258fb010;
@@ -1243,8 +1281,8 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				}
 			}
 			- _lastID = 2;
-			- weakCGTime = 2.24.2010::4:57:42;
-			- strongCGTime = 2.24.2010::4:57:42;
+			- weakCGTime = 2.24.2010::5:36:6;
+			- strongCGTime = 2.24.2010::5:36:6;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
@@ -1255,7 +1293,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IAssociationEnd 
 					- _id = GUID 2e421770-9f16-43c1-831a-e536bebe7342;
 					- _myState = 10240;
-					- _name = "its\Б\аз\а \д\а\н\н\ы\х";
+					- _name = "itsDICOM-\Б\Д";
 					- _multiplicity = "1";
 					- _otherClass = { IClassifierHandle 
 						- _m2Class = "IActor";
@@ -1300,7 +1338,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IDependency 
 					- _id = GUID 13013e76-ed3f-4e01-b3d0-6523c18fe0a1;
 					- _myState = 2048;
-					- _name = "WEB___\р_и_";
+					- _name = "DICOM_WEB___\р_и_";
 					- _dependsOn = { INObjectHandle 
 						- _m2Class = "IActor";
 						- _id = GUID 1a057b77-9e91-4bcf-ab43-62319c99e18a;
@@ -1308,8 +1346,8 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				}
 			}
 			- _lastID = 1;
-			- weakCGTime = 2.24.2010::4:59:27;
-			- strongCGTime = 2.24.2010::4:58:53;
+			- weakCGTime = 2.24.2010::5:26:28;
+			- strongCGTime = 2.24.2010::5:26:28;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
@@ -1342,8 +1380,8 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _myState = 8192;
 			- _name = "DICOM-filestore";
 			- _displayName = "DICOM-filestore";
-			- weakCGTime = 2.24.2010::4:53:39;
-			- strongCGTime = 2.24.2010::4:53:39;
+			- weakCGTime = 2.24.2010::5:26:28;
+			- strongCGTime = 2.24.2010::5:26:28;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
@@ -1354,7 +1392,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IAssociationEnd 
 					- _id = GUID e81e94e4-1941-46bb-a9cb-8060c34a83fa;
 					- _myState = 10240;
-					- _name = "itsWEB-и\н\т\е\р\ф\ей\с";
+					- _name = "itsDICOM-WEB-и\н\т\е\р\ф\ей\с";
 					- _multiplicity = "1";
 					- _otherClass = { IClassifierHandle 
 						- _m2Class = "IActor";
@@ -1388,7 +1426,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				{ IAssociationEnd 
 					- _id = GUID cde4812a-d1ee-46bd-8a92-606ecc5f61d8;
 					- _myState = 10240;
-					- _name = "itsWEB-\с\е\р\ви\с";
+					- _name = "itsDICOM-WEB-\с\е\р\ви\с";
 					- _multiplicity = "1";
 					- _otherClass = { IClassifierHandle 
 						- _m2Class = "IActor";
