@@ -447,7 +447,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	}
 	- _name = "seq-main";
 	- _displayName = "seq-main";
-	- _lastModifiedTime = "2.24.2010::5:56:54";
+	- _lastModifiedTime = "2.25.2010::4:40:44";
 	- _graphicChart = { CGIMscChart 
 		- vLadderMargin = 20;
 		- m_usingActivationBar = 0;

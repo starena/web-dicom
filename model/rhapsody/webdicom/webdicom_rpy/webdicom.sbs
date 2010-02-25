@@ -5,7 +5,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	- _name = "webdicom";
 	- _displayName = "webdicom";
 	- Annotations = { IRPYRawContainer 
-		- size = 1;
+		- size = 2;
 		- value = 
 		{ IComment 
 			- _id = GUID 5b5794b3-15c6-4858-9c08-742bfb2ea8fe;
@@ -37,10 +37,23 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				}
 			}
 		}
+		{ IComment 
+			- _id = GUID 81979a03-b225-4eb0-bb91-95642c3c656d;
+			- _myState = 2048;
+			- _name = "comment_33";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}{\\f1\\fnil\\fcharset0 Arial;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20\\'d1\\'f3\\'f9\\'ed\\'ee\\'f1\\'f2\\'e8 (\\lang1033\\f1 Persistent layer\\lang1049\\f0 )\\par
+}
+";
+			}
+			- _body = "";
+		}
 	}
-	- _lastID = 28;
+	- _lastID = 35;
 	- Declaratives = { IRPYRawContainer 
-		- size = 2;
+		- size = 4;
 		- value = 
 		{ IUCDiagram 
 			- fileName = "usecase-main";
@@ -50,9 +63,17 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- fileName = "seq-main";
 			- _id = GUID 360fb704-bafe-4c1f-a767-67972309afea;
 		}
+		{ IDiagram 
+			- fileName = "obj-main";
+			- _id = GUID 09b13d32-7d9a-4e61-96f2-b6ef8f8e6192;
+		}
+		{ ISubsystem 
+			- fileName = "class_0";
+			- _id = GUID 3e1116f4-0151-4032-8d25-d0964c249820;
+		}
 	}
-	- weakCGTime = 2.24.2010::5:56:52;
-	- strongCGTime = 2.24.2010::5:56:6;
+	- weakCGTime = 2.25.2010::4:55:53;
+	- strongCGTime = 2.25.2010::4:39:50;
 	- AssociationElements = { IRPYRawContainer 
 		- size = 3;
 		- value = 
@@ -132,11 +153,14 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _id = GUID 7d6e047a-9159-499b-a317-720efd3d6602;
 			- _myState = 40960;
 			- _name = "TopLevel";
-			- weakCGTime = 1.1.1970::5:0:0;
+			- weakCGTime = 2.25.2010::4:55:29;
 			- strongCGTime = 1.1.1970::5:0:0;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 0;
 			}
 			- _classModifier = Unspecified;
 		}
@@ -1461,6 +1485,6 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _classModifier = Unspecified;
 		}
 	}
-	- _configurationRelatedTime = 1.1.1970::5:0:0;
+	- _configurationRelatedTime = 2.25.2010::4:55:53;
 }
 

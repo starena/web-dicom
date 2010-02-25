@@ -71,7 +71,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 		}
 	}
 	- HandlesInMe = { IRPYRawContainer 
-		- size = 2;
+		- size = 5;
 		- value = 
 		{ IHandle 
 			- _m2Class = "ISubsystem";
@@ -88,6 +88,30 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _class = "";
 			- _name = "webdicom";
 			- _id = GUID 521d3a46-1337-4062-9390-ad4f82175e2c;
+		}
+		{ IHandle 
+			- _m2Class = "ISubsystem";
+			- _filename = "class_0.sbs";
+			- _subsystem = "webdicom";
+			- _class = "";
+			- _name = "class_0";
+			- _id = GUID 3e1116f4-0151-4032-8d25-d0964c249820;
+		}
+		{ IHandle 
+			- _m2Class = "ISubsystem";
+			- _filename = "java.sbs";
+			- _subsystem = "";
+			- _class = "";
+			- _name = "java";
+			- _id = GUID 64848a76-2ea1-4483-9656-7a57a3975c17;
+		}
+		{ IHandle 
+			- _m2Class = "ISubsystem";
+			- _filename = "sql.sbs";
+			- _subsystem = "java";
+			- _class = "";
+			- _name = "sql";
+			- _id = GUID 7b5a75b4-7396-4fcc-a0f8-d8ef014ec512;
 		}
 	}
 	- weakCGTime = 2.24.2010::4:21:8;

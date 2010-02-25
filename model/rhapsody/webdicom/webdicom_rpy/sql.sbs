@@ -1,0 +1,51 @@
+I-Logix-RPY-Archive version 8.0.9 Java 893629
+{ ISubsystem 
+	- _ownerHandle = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "java.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "java";
+		- _id = GUID 64848a76-2ea1-4483-9656-7a57a3975c17;
+	}
+	- _id = GUID 7b5a75b4-7396-4fcc-a0f8-d8ef014ec512;
+	- _myState = 8192;
+	- _name = "sql";
+	- _displayName = "sql";
+	- _lastID = 1;
+	- weakCGTime = 2.25.2010::4:30:17;
+	- strongCGTime = 2.25.2010::4:30:9;
+	- _defaultComposite = GUID 470d3f3e-498a-4ca3-9b1e-7dc725aedc3e;
+	- _eventsBaseID = -1;
+	- Classes = { IRPYRawContainer 
+		- size = 2;
+		- value = 
+		{ IClass 
+			- _id = GUID 470d3f3e-498a-4ca3-9b1e-7dc725aedc3e;
+			- _myState = 40960;
+			- _name = "TopLevel";
+			- weakCGTime = 1.1.1970::5:0:0;
+			- strongCGTime = 1.1.1970::5:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID cd6a9449-dd22-4eb2-9a2a-efa3a7d27228;
+			- _myState = 8192;
+			- _name = "Date";
+			- _displayName = "Date";
+			- weakCGTime = 2.25.2010::4:30:20;
+			- strongCGTime = 2.25.2010::4:30:20;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+	}
+	- _configurationRelatedTime = 1.1.1970::5:0:0;
+}
+
