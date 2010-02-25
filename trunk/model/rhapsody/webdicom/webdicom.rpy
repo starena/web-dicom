@@ -3,7 +3,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	- _id = GUID e975e2d4-7c0c-4ebd-b42f-45a8f164c21d;
 	- _myState = 8192;
 	- _name = "webdicom";
-	- _lastID = 1;
+	- _lastID = 2;
 	- _UserColors = { IRPYRawContainer 
 		- size = 16;
 		- value = 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 16777215; 
@@ -45,7 +45,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 		}
 	}
 	- Subsystems = { IRPYRawContainer 
-		- size = 2;
+		- size = 3;
 		- value = 
 		{ ISubsystem 
 			- fileName = "Default";
@@ -54,6 +54,10 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 		{ ISubsystem 
 			- fileName = "webdicom";
 			- _id = GUID 521d3a46-1337-4062-9390-ad4f82175e2c;
+		}
+		{ ISubsystem 
+			- fileName = "java";
+			- _id = GUID 64848a76-2ea1-4483-9656-7a57a3975c17;
 		}
 	}
 	- Diagrams = { IRPYRawContainer 
