@@ -1419,6 +1419,9 @@ public class DcmRcv extends StorageService {
 	 * @throws SQLException
 	 */
 	private int checkDbDCMFile(String dcm_file_name) throws SQLException {
+		
+		Искать по относительному пути (появляются дубликаты) 
+		
 		PreparedStatement psSelect = connection
 				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
 		try {
@@ -1443,6 +1446,9 @@ public class DcmRcv extends StorageService {
 	 * @throws SQLException
 	 */
 	private int checkDbImageFile(String image_file_name) throws SQLException {
+		
+		Искать по относительному пути (появляются дубликаты)
+		
 		PreparedStatement psSelect = connection
 				.prepareStatement("SELECT ID FROM WEBDICOM.IMAGES WHERE IMAGE_FILE_NAME = ?");
 		try {
