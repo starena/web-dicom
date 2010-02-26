@@ -269,9 +269,6 @@ public class DcmRcv extends StorageService {
 
 	private Connection connection;
 
-	// TODO как-то коряво... глобальная переменная
-	// private String relativePath;// Путь внутри архива
-
 	private int frame = 1;
 	private float center;
 	private float width;
@@ -1011,7 +1008,7 @@ public class DcmRcv extends StorageService {
 
 			// Rename the file after it has been written. See DCM-279
 			if (devnull == null && file != null) {
-				// Добавляем расширение
+				// Р”РѕР±Р°РІР»СЏРµРј СЂР°СЃС€РёСЂРµРЅРёРµ
 				File rename = new File(file.getParent(), iuid + dcmFileExt);
 				LOG.info("M-RENAME {} to {}", file, rename);
 				file.renameTo(rename);
@@ -1033,7 +1030,7 @@ public class DcmRcv extends StorageService {
 							LOG.info("M-DELETE {}", rename);
 						}
 
-						// Удаляем извлеченные картинки
+						// РЈРґР°Р»СЏРµРј РёР·РІР»РµС‡РµРЅРЅС‹Рµ РєР°СЂС‚РёРЅРєРё
 						File imageDir = new File(rename.getPath()
 								+ imageDirPrefix);
 
@@ -1067,7 +1064,7 @@ public class DcmRcv extends StorageService {
 	private File mkDir(Association as) {
 		File dir = cache.getCacheRootDir();
 		if (called2dir == null && calling2dir == null) {
-			// относительный путь к папке
+			// РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹Р№ РїСѓС‚СЊ Рє РїР°РїРєРµ
 			String relativePath = getRelativeIternalDirPath();
 			File dirAddon = new File(dir, relativePath);
 			if (dirAddon.mkdirs()) {
@@ -1091,7 +1088,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Получение пути к файлу относительно корня архива
+	 * РџРѕР»СѓС‡РµРЅРёРµ РїСѓС‚Рё Рє С„Р°Р№Р»Сѓ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РєРѕСЂРЅСЏ Р°СЂС…РёРІР°
 	 * 
 	 * @param file
 	 * @return
@@ -1104,7 +1101,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Получение папки относительного пути папки внутри архива
+	 * РџРѕР»СѓС‡РµРЅРёРµ РїР°РїРєРё РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРіРѕ РїСѓС‚Рё РїР°РїРєРё РІРЅСѓС‚СЂРё Р°СЂС…РёРІР°
 	 * 
 	 * @return
 	 */
@@ -1118,7 +1115,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Проверка-установка соединения
+	 * РџСЂРѕРІРµСЂРєР°-СѓСЃС‚Р°РЅРѕРІРєР° СЃРѕРµРґРёРЅРµРЅРёСЏ
 	 * 
 	 * @throws SQLException
 	 */
@@ -1131,8 +1128,8 @@ public class DcmRcv extends StorageService {
 		Properties props = new Properties(); // connection properties
 		// providing a user name and password is optional in the embedded
 		// and derbyclient frameworks
-		props.put("user", "user1"); // FIXME Взять из конфига
-		props.put("password", "user1"); // FIXME Взять из конфига
+		props.put("user", "user1"); // FIXME Р’Р·СЏС‚СЊ РёР· РєРѕРЅС„РёРіР°
+		props.put("password", "user1"); // FIXME Р’Р·СЏС‚СЊ РёР· РєРѕРЅС„РёРіР°
 
 		Connection conn = DriverManager.getConnection(connectionStr
 				+ ";create=true", props);
@@ -1147,7 +1144,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Извлечение картинок и запись в БД
+	 * РР·РІР»РµС‡РµРЅРёРµ РєР°СЂС‚РёРЅРѕРє Рё Р·Р°РїРёСЃСЊ РІ Р‘Р”
 	 * 
 	 * @param file
 	 * @throws SQLException
@@ -1171,7 +1168,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Извлечение картинок
+	 * РР·РІР»РµС‡РµРЅРёРµ РєР°СЂС‚РёРЅРѕРє
 	 * 
 	 * @param dcmFile
 	 * @throws IOException
@@ -1185,7 +1182,7 @@ public class DcmRcv extends StorageService {
 		dest.mkdirs();
 
 		dest = new File(dest, "1" + imageFileExt);
-		// TODO Тут может быть наверное несколько картинок !!!
+		// TODO РўСѓС‚ РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅР°РІРµСЂРЅРѕРµ РЅРµСЃРєРѕР»СЊРєРѕ РєР°СЂС‚РёРЅРѕРє !!!
 
 		Iterator<ImageReader> iter = ImageIO
 				.getImageReadersByFormatName("DICOM");
@@ -1237,15 +1234,15 @@ public class DcmRcv extends StorageService {
 			din = new DicomInputStream(dcmFile);
 			dcmObj = din.readDicomObject();
 
-			// проверки
+			// РїСЂРѕРІРµСЂРєРё
 
-			// TODO Дать возможность задания с коммандной строки
+			// TODO Р”Р°С‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ Р·Р°РґР°РЅРёСЏ СЃ РєРѕРјРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 			String charsetStr = null;
 			if (charsetStr != null) {
 				cs = new SpecificCharacterSet(charsetStr);
 			}
 
-			// читаем кодировку из dcm-файла
+			// С‡РёС‚Р°РµРј РєРѕРґРёСЂРѕРІРєСѓ РёР· dcm-С„Р°Р№Р»Р°
 			if (charsetStr == null) {
 				cs = SpecificCharacterSet.valueOf(dcmObj.get(
 						Tag.SpecificCharacterSet).getStrings(null, false));
@@ -1273,7 +1270,7 @@ public class DcmRcv extends StorageService {
 					.getValueAsString(cs, element1.length());
 
 			if (PATIENT_ID == null || PATIENT_ID.length() == 0) {
-				PATIENT_ID = "не указан";
+				PATIENT_ID = "РЅРµ СѓРєР°Р·Р°РЅ";
 			}
 
 			element1 = dcmObj.get(Tag.PatientSex);
@@ -1299,36 +1296,36 @@ public class DcmRcv extends StorageService {
 			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(
 					Tag.StudyDate).getDate(false).getTime());
 
-			String STUDY_DOCTOR = "не указан";
+			String STUDY_DOCTOR = "РЅРµ СѓРєР°Р·Р°РЅ";
 			element1 = dcmObj.get(Tag.ReferringPhysicianName);
 			if (element1 != null) {
 				STUDY_DOCTOR = element1.getValueAsString(cs, element1.length());
 				if (STUDY_DOCTOR == null || STUDY_DOCTOR.length() == 0) {
-					STUDY_DOCTOR = "не указан";
+					STUDY_DOCTOR = "РЅРµ СѓРєР°Р·Р°РЅ";
 				}
 			}
 
-			String STUDY_OPERATOR = "не указан";
+			String STUDY_OPERATOR = "РЅРµ СѓРєР°Р·Р°РЅ";
 			element1 = dcmObj.get(Tag.OperatorsName);
 			if (element1 != null) {
 				STUDY_OPERATOR = element1.getValueAsString(cs, element1
 						.length());
 				if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
-					STUDY_OPERATOR = "не указан";
+					STUDY_OPERATOR = "РЅРµ СѓРєР°Р·Р°РЅ";
 				}
 			}
 
 			int HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
 			int WIDTH = dcmObj.get(Tag.Columns).getInt(false);
 
-			// Вставка в БД
+			// Р’СЃС‚Р°РІРєР° РІ Р‘Р”
 
 			PreparedStatement stmt = null;
 
 			LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]["
 					+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
 
-			// Проверка на наличии этого файла в БД
+			// РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРё СЌС‚РѕРіРѕ С„Р°Р№Р»Р° РІ Р‘Р”
 			try {
 				int id = checkDbDCMFile(DCM_FILE_NAME);
 				LOG.info("File already in database [" + id + "] ["
@@ -1355,7 +1352,7 @@ public class DcmRcv extends StorageService {
 				LOG.info("skip converting image.");
 
 			} catch (NoDataFoundException ex) {
-				// Делаем вставку
+				// Р”РµР»Р°РµРј РІСЃС‚Р°РІРєСѓ
 				LOG.info("insert data in database [" + DCM_FILE_NAME + "]");
 				stmt = connection
 						.prepareStatement("insert into WEBDICOM.DCMFILE"
@@ -1375,14 +1372,14 @@ public class DcmRcv extends StorageService {
 				stmt.setString(10, STUDY_OPERATOR);
 
 				stmt.executeUpdate();
-				// Обновляем статистику
+				// РћР±РЅРѕРІР»СЏРµРј СЃС‚Р°С‚РёСЃС‚РёРєСѓ
 				updateDayStatInc(STUDY_DATE, "ALL_DCM_SIZE", DCM_FILE_SIZE);
 			} finally {
 				if (stmt != null)
 					stmt.close();
 			}
 
-			// Вставка в БД информации о картинках
+			// Р’СЃС‚Р°РІРєР° РІ Р‘Р” РёРЅС„РѕСЂРјР°С†РёРё Рѕ РєР°СЂС‚РёРЅРєР°С…
 
 			for (Iterator<String> it = images.iterator(); it.hasNext();) {
 				String fileImage = it.next();
@@ -1392,8 +1389,8 @@ public class DcmRcv extends StorageService {
 
 		} catch (org.dcm4che2.data.ConfigurationError e) {
 			if (e.getCause() instanceof UnsupportedEncodingException) {
-				// TODO Дать возможность получения кодировки из коммандной
-				// строки
+				// TODO Р”Р°С‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРґРёСЂРѕРІРєРё РёР· РєРѕРјРјР°РЅРґРЅРѕР№
+				// СЃС‚СЂРѕРєРё
 				LOG.error("Unsupported character set " + e);
 				// LOG.fatal("Unsupported character set" + charsetStr + " " +
 				// e);
@@ -1415,7 +1412,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Проверка на наличии информации о DCM-файле в БД
+	 * РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ DCM-С„Р°Р№Р»Рµ РІ Р‘Р”
 	 * 
 	 * @param dcm_file_name
 	 * @return
@@ -1439,7 +1436,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Проверка на наличии информации о Картинке-файле в БД
+	 * РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ РљР°СЂС‚РёРЅРєРµ-С„Р°Р№Р»Рµ РІ Р‘Р”
 	 * 
 	 * @param image_file_name
 	 * @return
@@ -1463,7 +1460,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	/**
-	 * Вставка информации о картинках в БД
+	 * Р’СЃС‚Р°РІРєР° РёРЅС„РѕСЂРјР°С†РёРё Рѕ РєР°СЂС‚РёРЅРєР°С… РІ Р‘Р”
 	 * 
 	 * @param dcmFile
 	 * @param imageFile
@@ -1523,14 +1520,14 @@ public class DcmRcv extends StorageService {
 
 		}
 
-		// Обновление статистики
+		// РћР±РЅРѕРІР»РµРЅРёРµ СЃС‚Р°С‚РёСЃС‚РёРєРё
 		updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
 
 	}
 
 
 	/**
-	 * Обновление метрики дневной статистики (инкремент)
+	 * РћР±РЅРѕРІР»РµРЅРёРµ РјРµС‚СЂРёРєРё РґРЅРµРІРЅРѕР№ СЃС‚Р°С‚РёСЃС‚РёРєРё (РёРЅРєСЂРµРјРµРЅС‚)
 	 * 
 	 * @param date
 	 * @param metric
@@ -1553,7 +1550,7 @@ public class DcmRcv extends StorageService {
 
 		LOG.info(metric + "=" + value + " of " + date);
 
-		// Проверка на наличии этого файла в БД
+		// РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРё СЌС‚РѕРіРѕ С„Р°Р№Р»Р° РІ Р‘Р”
 		try {
 			long valueOld = checkDayMetric(metric, new java.sql.Date(time));
 			LOG.info("metric already in database [" + metric + "][" + date
@@ -1570,7 +1567,7 @@ public class DcmRcv extends StorageService {
 			stmt.executeUpdate();
 
 		} catch (NoDataFoundException ex) {
-			// Делаем вставку
+			// Р”РµР»Р°РµРј РІСЃС‚Р°РІРєСѓ
 			LOG.info("insert data in database [" + metric + "][" + date + "]["
 					+ value + "]");
 			stmt = connection.prepareStatement("insert into WEBDICOM.DAYSTAT "
