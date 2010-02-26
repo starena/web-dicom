@@ -265,7 +265,7 @@ public class DcmRcv extends StorageService {
 
 	private char[] trustStorePassword = SECRET;
 
-	private String connectionStr = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
+	private static String connectionStr = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
 
 	private Connection connection;
 
@@ -468,6 +468,12 @@ public class DcmRcv extends StorageService {
 				.withDescription("store received objects into files in specified directory <dir>."
 						+ " Do not store received objects by default.");
 		opts.addOption(OptionBuilder.create("dest"));
+		
+		OptionBuilder.withArgName("URL");
+		OptionBuilder.hasArg();
+		OptionBuilder
+				.withDescription("jdbc connect  <URL>.\n example: "+connectionStr);
+		opts.addOption(OptionBuilder.create("jdbcconnect"));
 
 		OptionBuilder.withArgName("file|url");
 		OptionBuilder.hasArg();
@@ -647,6 +653,10 @@ public class DcmRcv extends StorageService {
 			}
 		}
 
+		if (cl.hasOption("jdbcconnect"))
+			connectionStr = cl.getOptionValue("jdbcconnect");
+			
+		
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));
 		if (cl.hasOption("calling2dir"))
@@ -1518,274 +1528,6 @@ public class DcmRcv extends StorageService {
 
 	}
 
-	// /**
-	// * @param file
-	// * @param fileName
-	// * только имя файла (без префикса *.path)
-	// * @throws SQLException
-	// */
-	// private void saveToDB(String fileName) throws SQLException {
-	// // TODO Auto-generated method stub
-	// checkMakeConnection();
-	// fileName = relativePath + File.separator + fileName;
-	// File rootDir = cache.getCacheRootDir();
-	// System.out.println("!! FILE=" + rootDir + " = " + fileName);
-	//
-	// DicomObject dcmObj;
-	// DicomInputStream din = null;
-	// SpecificCharacterSet cs = null;
-	//
-	// try {
-	// File f = new File(rootDir, fileName);
-	// long fileSize = f.length();
-	// din = new DicomInputStream(f);
-	// dcmObj = din.readDicomObject();
-	//
-	// // System.out.println("dcmObj=" + dcmObj);
-	//
-	// // TODO Дать возможность задания с коммандной строки
-	// String charsetStr = null;
-	// if (charsetStr != null) {
-	// cs = new SpecificCharacterSet(charsetStr);
-	// }
-	//
-	// // читаем кодировку из dcm-файла
-	// if (charsetStr == null) {
-	// cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet)
-	// .getStrings(null, false));
-	// }
-	//
-	// String DCM_FILE_NAME = fileName;
-	//
-	// java.util.Date PATIENT_BIRTH_DATE;
-	//
-	// if (dcmObj.get(Tag.PatientBirthDate) != null) {
-	// PATIENT_BIRTH_DATE = dcmObj.get(Tag.PatientBirthDate).getDate(false);
-	// } else {
-	// PATIENT_BIRTH_DATE = new Date(0);
-	// LOG.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
-	// }
-	//
-	// DicomElement element1 = dcmObj.get(Tag.PatientName);
-	// String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
-	//
-	// element1 = dcmObj.get(Tag.PatientID);
-	// String PATIENT_ID = element1.getValueAsString(cs, element1.length());
-	//
-	// if (PATIENT_ID == null || PATIENT_ID.length() == 0) {
-	// PATIENT_ID = "не указан";
-	// }
-	//
-	// element1 = dcmObj.get(Tag.PatientSex);
-	// String PATIENT_SEX = "";
-	// if (element1 == null) {
-	// LOG.warn("Patient sex (tag: PatientSex) is empty!");
-	// } else {
-	// PATIENT_SEX = element1.getValueAsString(cs, element1.length());
-	// if (PATIENT_SEX.length() > 1) {
-	// LOG.warn("PATIENT_SEX to long [" + PATIENT_SEX + "]");
-	// PATIENT_SEX = PATIENT_SEX.substring(0, 1);
-	// }
-	// }
-	//
-	// element1 = dcmObj.get(Tag.StudyID);
-	// String STUDY_ID = "";
-	// if (element1 == null) {
-	// LOG.warn("Study ID (tag: StudyID) is empty!");
-	// } else {
-	// STUDY_ID = element1.getValueAsString(cs, element1.length());
-	// }
-	//
-	// java.util.Date STUDY_DATE = dcmObj.get(Tag.StudyDate).getDate(false);
-	//
-	// String STUDY_DOCTOR = "не указан";
-	// element1 = dcmObj.get(Tag.ReferringPhysicianName);
-	// if (element1 != null) {
-	// STUDY_DOCTOR = element1.getValueAsString(cs, element1.length());
-	// if (STUDY_DOCTOR == null || STUDY_DOCTOR.length() == 0) {
-	// STUDY_DOCTOR = "не указан";
-	// }
-	// }
-	//
-	// String STUDY_OPERATOR = "не указан";
-	// element1 = dcmObj.get(Tag.OperatorsName);
-	// if (element1 != null) {
-	// STUDY_OPERATOR = element1.getValueAsString(cs, element1.length());
-	// if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
-	// STUDY_OPERATOR = "не указан";
-	// }
-	// }
-	//
-	// int HEIGHT = 1000;
-	// if (dcmObj.get(Tag.Rows) == null) {
-	// LOG.warn("tag Rows is empty.");
-	// } else {
-	// HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
-	// }
-	//
-	// int WIDTH = 1000;
-	// if (dcmObj.get(Tag.Columns) == null) {
-	// LOG.warn("tag Columns is empty!");
-	// } else {
-	// WIDTH = dcmObj.get(Tag.Columns).getInt(false);
-	// }
-	//
-	// connection.setAutoCommit(false);
-	// insertUpdateCommonData(fileName, DCM_FILE_NAME, fileSize, PATIENT_ID,
-	// PATIENT_NAME, PATIENT_SEX,
-	// new java.sql.Date(PATIENT_BIRTH_DATE.getTime()), STUDY_ID, new
-	// java.sql.Date(STUDY_DATE
-	// .getTime()), STUDY_DOCTOR, STUDY_OPERATOR, WIDTH, HEIGHT);
-	//
-	// connection.commit();
-	//
-	// } catch (org.dcm4che2.data.ConfigurationError e) {
-	// if (e.getCause() instanceof UnsupportedEncodingException) {
-	// // TODO Дать возможность получения кодировки из коммандной
-	// // строки
-	// LOG.error("Unsupported character set " + e);
-	// // LOG.fatal("Unsupported character set" + charsetStr + " " +
-	// // e);
-	// }
-	// LOG.error("" + e);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// LOG.error("" + e);
-	// } finally {
-	// try {
-	// if (din != null)
-	// din.close();
-	// } catch (IOException ignore) {
-	// }
-	// }
-	//
-	// }
-	//
-	// /**
-	// * @param file
-	// * - короткое имя файла (без корневой диретокрии)
-	// * @param DCM_FILE_NAME
-	// * @param DCM_FILE_SIZE
-	// * @param PATIENT_ID
-	// * @param PATIENT_NAME
-	// * @param PATIENT_SEX
-	// * @param PATIENT_BIRTH_DATE
-	// * @param STUDY_ID_AS_STRING
-	// * TODO Воздвращается другим типом (не int)
-	// * @param STUDY_DATE
-	// * @param STUDY_DOCTOR
-	// * @param STUDY_OPERATOR
-	// * @param WIDTH
-	// * @param HEIGHT
-	// * @throws SQLException
-	// * @throws IOException
-	// */
-	// private void insertUpdateCommonData(String file, String DCM_FILE_NAME,
-	// long DCM_FILE_SIZE,
-	// String PATIENT_ID, String PATIENT_NAME, String PATIENT_SEX, java.sql.Date
-	// PATIENT_BIRTH_DATE,
-	// String STUDY_ID_AS_STRING, java.sql.Date STUDY_DATE, String STUDY_DOCTOR,
-	// String STUDY_OPERATOR,
-	// int WIDTH, int HEIGHT) throws SQLException, IOException {
-	//
-	// PreparedStatement stmt = null;
-	//
-	// LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "][" +
-	// PATIENT_BIRTH_DATE + "][" + STUDY_DATE
-	// + "]");
-	//
-	// int STUDY_ID = -1;
-	// try {
-	// STUDY_ID = Integer.valueOf(STUDY_ID_AS_STRING);
-	// } catch (NumberFormatException e) {
-	// LOG.warn("STUDY_ID not valid format (not integer) = [" + STUDY_ID + "]");
-	// }
-	//
-	// // Проверка на наличии этого файла в БД
-	// try {
-	// int id = checkDbDCMFile(DCM_FILE_NAME);
-	// LOG.info("File already in database [" + id + "] [" + DCM_FILE_NAME +
-	// "]");
-	// LOG.info("update data in database [" + DCM_FILE_NAME + "]");
-	//
-	// stmt = connection
-	// .prepareStatement("update WEBDICOM.DCMFILE"
-	// +
-	// " SET DCM_FILE_SIZE = ? , PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
-	// + " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?"
-	// + " where ID = ?");
-	//
-	// stmt.setLong(1, DCM_FILE_SIZE);
-	// stmt.setString(2, PATIENT_NAME);
-	// stmt.setString(3, PATIENT_SEX);
-	// stmt.setDate(4, PATIENT_BIRTH_DATE);
-	// stmt.setInt(5, STUDY_ID);
-	// stmt.setDate(6, STUDY_DATE);
-	// stmt.setString(7, STUDY_DOCTOR);
-	// stmt.setString(8, STUDY_OPERATOR);
-	//
-	// stmt.setInt(9, id);
-	//
-	// stmt.executeUpdate();
-	//
-	// LOG.info("skip converting image.");
-	//
-	// } catch (NoDataFoundException ex) {
-	// // Делаем вставку
-	// LOG.info("insert data in database [" + DCM_FILE_NAME + "]");
-	// stmt = connection
-	// .prepareStatement("insert into WEBDICOM.DCMFILE"
-	// +
-	// " (DCM_FILE_NAME, DCM_FILE_SIZE, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE,"
-	// + " STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR)"
-	// + " values (?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
-	//
-	// stmt.setString(1, DCM_FILE_NAME);
-	// stmt.setLong(2, DCM_FILE_SIZE);
-	// stmt.setString(3, PATIENT_ID);
-	// stmt.setString(4, PATIENT_NAME);
-	// stmt.setString(5, PATIENT_SEX);
-	// stmt.setDate(6, PATIENT_BIRTH_DATE);
-	// stmt.setInt(7, STUDY_ID);
-	// stmt.setDate(8, STUDY_DATE);
-	// stmt.setString(9, STUDY_DOCTOR);
-	// stmt.setString(10, STUDY_OPERATOR);
-	//
-	// stmt.executeUpdate();
-	//
-	// String srcFileName = cache.getCacheRootDir() + File.separator + file;
-	// String relativePathImages = relativePath + File.separator + "images";
-	//			
-	// File outImageDir = new File(relativePathImages);
-	// if (outImageDir.mkdirs()) {
-	// LOG.info("M-WRITE MAKE IMAGE DIR {}", outImageDir);
-	// }
-	// String dstFileName = outImageDir.getPath() + File.separator + file +
-	// fileExt;
-	// String IMAGE_FILE_NAME = file + fileExt;
-	//
-	// LOG.info("converting image(s)... " + srcFileName + "][" + dstFileName +
-	// "]");
-	//
-	// File src = new File(srcFileName);
-	// File dest = new File(dstFileName);
-	// long imageFileSize = dest.length();
-	//
-	// updateDayStatInc(STUDY_DATE, "ALL_DCM_SIZE", DCM_FILE_SIZE);
-	//
-	// try {
-	// convert(STUDY_DATE, DCM_FILE_NAME, IMAGE_FILE_NAME, imageFileSize, WIDTH,
-	// HEIGHT, src, dest);
-	// } catch (Exception e) {
-	// LOG.warn("Image not converted! " + e);
-	// return;
-	// }
-	// LOG.info("converting image(s) success!");
-	//
-	// }
-	//
-	// }
-	//
 
 	/**
 	 * Обновление метрики дневной статистики (инкремент)
@@ -1871,58 +1613,5 @@ public class DcmRcv extends StorageService {
 		throw new NoDataFoundException("No data");
 	}
 
-	// /**
-	// * @param STUDY_DATE
-	// * @param DCM_FILE_NAME
-	// * @param IMAGE_FILE_NAME
-	// * @param IMAGE_FILE_SIZE
-	// * @param WIDTH
-	// * @param HEIGHT
-	// * @param src
-	// * @param dest
-	// * @throws IOException
-	// * @throws SQLException
-	// */
-	// public void convert(Date STUDY_DATE, String DCM_FILE_NAME, String
-	// IMAGE_FILE_NAME, long IMAGE_FILE_SIZE,
-	// int WIDTH, int HEIGHT, File src, File dest) throws IOException,
-	// SQLException {
-	// Iterator<ImageReader> iter =
-	// ImageIO.getImageReadersByFormatName("DICOM");
-	// ImageReader reader = iter.next();
-	// DicomImageReadParam param = (DicomImageReadParam)
-	// reader.getDefaultReadParam();
-	// param.setWindowCenter(center);
-	// param.setWindowWidth(width);
-	// param.setVoiLutFunction(vlutFct);
-	// param.setPresentationState(prState);
-	// param.setPValue2Gray(pval2gray);
-	// param.setAutoWindowing(autoWindowing);
-	// ImageInputStream iis = ImageIO.createImageInputStream(src);
-	// BufferedImage bi;
-	// OutputStream out = null;
-	// try {
-	// reader.setInput(iis, false);
-	// bi = reader.read(frame - 1, param);
-	// if (bi == null) {
-	// System.out.println("\nError: " + src + " - couldn't read!");
-	// return;
-	// }
-	// out = new BufferedOutputStream(new FileOutputStream(dest));
-	// JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out);
-	// enc.encode(bi);
-	// } finally {
-	// CloseUtils.safeClose(iis);
-	// CloseUtils.safeClose(out);
-	//
-	// connection.setAutoCommit(false);
-	// insertImageData(DCM_FILE_NAME, "image/jpeg", IMAGE_FILE_NAME,
-	// IMAGE_FILE_SIZE, WIDTH, HEIGHT);
-	// updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
-	// connection.commit();
-	// }
-	// System.out.print('.');
-	// }
-	//
 
 }
