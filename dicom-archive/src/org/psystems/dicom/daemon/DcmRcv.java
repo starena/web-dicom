@@ -65,6 +65,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -465,11 +466,11 @@ public class DcmRcv extends StorageService {
 				.withDescription("store received objects into files in specified directory <dir>."
 						+ " Do not store received objects by default.");
 		opts.addOption(OptionBuilder.create("dest"));
-		
+
 		OptionBuilder.withArgName("URL");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("jdbc connect  <URL>.\n example: "+connectionStr);
+		OptionBuilder.withDescription("jdbc connect  <URL>.\n example: "
+				+ connectionStr);
 		opts.addOption(OptionBuilder.create("jdbcconnect"));
 
 		OptionBuilder.withArgName("file|url");
@@ -652,8 +653,7 @@ public class DcmRcv extends StorageService {
 
 		if (cl.hasOption("jdbcconnect"))
 			connectionStr = cl.getOptionValue("jdbcconnect");
-			
-		
+
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));
 		if (cl.hasOption("calling2dir"))
@@ -980,10 +980,52 @@ public class DcmRcv extends StorageService {
 		} else {
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
 			String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
-			File file = devnull != null ? devnull : new File(mkDir(as), iuid
-					+ ".part");
-			LOG.info("M-WRITE {}", file);
+
+			File file = null;
+
 			try {
+
+				// проверяем, есть ли уже запись о файле в БД и берем его путь.
+				String findName;
+				try {
+
+					checkMakeConnection();
+
+					 
+					String f = iuid + dcmFileExt;
+					System.out.println("[0]!!!! finded in DB " + f);
+					findName = getDCMFileNamefromDB(f);
+					System.out.println("[1]!!!! finded in DB " + findName);
+
+					if (findName != null) {
+
+						findName = cache.getCacheRootDir() + File.separator
+								+ findName;
+						System.out.println("[2]!!!! finded in DB " + findName);
+
+						Matcher matcher = Pattern.compile("^(.*).dcm$")
+								.matcher(findName);
+						if (matcher.matches()) {
+							findName = matcher.group(1) + ".part";
+						}
+
+						System.out.println("[3]!!!! finded in DB " + findName);
+						file = new File(findName);
+					}
+
+				} catch (SQLException e) {
+					throw new IOException("SQL Exception! " + e);
+				}
+
+				if (findName == null) {
+					file = devnull != null ? devnull : new File(mkDir(as), iuid
+							+ ".part");
+
+				} else {
+
+				}
+				LOG.info("M-WRITE {}", file);
+
 				DicomOutputStream dos = new DicomOutputStream(
 						new BufferedOutputStream(new FileOutputStream(file),
 								fileBufferSize));
@@ -1067,6 +1109,7 @@ public class DcmRcv extends StorageService {
 			// относительный путь к папке
 			String relativePath = getRelativeIternalDirPath();
 			File dirAddon = new File(dir, relativePath);
+
 			if (dirAddon.mkdirs()) {
 				LOG.info("M-WRITE MAKEDIR ADDON {}", dirAddon);
 			}
@@ -1098,6 +1141,38 @@ public class DcmRcv extends StorageService {
 		String s = file.getPath().replaceFirst(
 				Matcher.quoteReplacement(dir.getPath() + File.separator), "");
 		return s;
+	}
+
+	/**
+	 * Получение имени DCM-файла в архиве
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public String getRelativeDcmFileName(File file) {
+		// TODO Учесть File.separator
+		Matcher matcher = Pattern.compile(".*\\\\(.*)$")
+				.matcher(file.getPath());
+		if (matcher.matches()) {
+			return matcher.group(1);
+		}
+		return null;
+	}
+
+	/**
+	 * Получение имени JPEG-файла в архиве
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public String getRelativeImageFileName(File file) {
+		// TODO Учесть File.separator
+		Matcher matcher = Pattern.compile(".*\\\\(.*)\\\\(.*)$").matcher(
+				file.getPath());
+		if (matcher.matches()) {
+			return matcher.group(1) + File.separator + matcher.group(2);
+		}
+		return null;
 	}
 
 	/**
@@ -1154,8 +1229,6 @@ public class DcmRcv extends StorageService {
 			IOException {
 
 		ArrayList<String> images = extractImages(file);
-
-		checkMakeConnection();
 
 		connection.setAutoCommit(false);
 		insertUpdateCommonData(file, images);
@@ -1249,6 +1322,7 @@ public class DcmRcv extends StorageService {
 			}
 
 			String DCM_FILE_NAME = getRelativeFilePath(dcmFile);
+			String NAME = getRelativeDcmFileName(dcmFile);
 
 			java.sql.Date PATIENT_BIRTH_DATE;
 
@@ -1334,19 +1408,20 @@ public class DcmRcv extends StorageService {
 
 				stmt = connection
 						.prepareStatement("update WEBDICOM.DCMFILE"
-								+ " SET DCM_FILE_SIZE = ? , PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
+								+ " SET NAME = ? , DCM_FILE_SIZE = ? , PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
 								+ " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?"
 								+ " where ID = ?");
 
-				stmt.setLong(1, DCM_FILE_SIZE);
-				stmt.setString(2, PATIENT_NAME);
-				stmt.setString(3, PATIENT_SEX);
-				stmt.setDate(4, PATIENT_BIRTH_DATE);
-				stmt.setString(5, STUDY_ID);
-				stmt.setDate(6, STUDY_DATE);
-				stmt.setString(7, STUDY_DOCTOR);
-				stmt.setString(8, STUDY_OPERATOR);
-				stmt.setInt(9, id);
+				stmt.setString(1, NAME);
+				stmt.setLong(2, DCM_FILE_SIZE);
+				stmt.setString(3, PATIENT_NAME);
+				stmt.setString(4, PATIENT_SEX);
+				stmt.setDate(5, PATIENT_BIRTH_DATE);
+				stmt.setString(6, STUDY_ID);
+				stmt.setDate(7, STUDY_DATE);
+				stmt.setString(8, STUDY_DOCTOR);
+				stmt.setString(9, STUDY_OPERATOR);
+				stmt.setInt(10, id);
 				stmt.executeUpdate();
 
 				LOG.info("skip converting image.");
@@ -1356,20 +1431,21 @@ public class DcmRcv extends StorageService {
 				LOG.info("insert data in database [" + DCM_FILE_NAME + "]");
 				stmt = connection
 						.prepareStatement("insert into WEBDICOM.DCMFILE"
-								+ " (DCM_FILE_NAME, DCM_FILE_SIZE, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE,"
+								+ " (DCM_FILE_NAME, NAME, DCM_FILE_SIZE, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE,"
 								+ " STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR)"
-								+ " values (?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
+								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
 
 				stmt.setString(1, DCM_FILE_NAME);
-				stmt.setLong(2, DCM_FILE_SIZE);
-				stmt.setString(3, PATIENT_ID);
-				stmt.setString(4, PATIENT_NAME);
-				stmt.setString(5, PATIENT_SEX);
-				stmt.setDate(6, PATIENT_BIRTH_DATE);
-				stmt.setString(7, STUDY_ID);
-				stmt.setDate(8, STUDY_DATE);
-				stmt.setString(9, STUDY_DOCTOR);
-				stmt.setString(10, STUDY_OPERATOR);
+				stmt.setString(2, NAME);
+				stmt.setLong(3, DCM_FILE_SIZE);
+				stmt.setString(4, PATIENT_ID);
+				stmt.setString(5, PATIENT_NAME);
+				stmt.setString(6, PATIENT_SEX);
+				stmt.setDate(7, PATIENT_BIRTH_DATE);
+				stmt.setString(8, STUDY_ID);
+				stmt.setDate(9, STUDY_DATE);
+				stmt.setString(10, STUDY_DOCTOR);
+				stmt.setString(11, STUDY_OPERATOR);
 
 				stmt.executeUpdate();
 				// Обновляем статистику
@@ -1414,18 +1490,47 @@ public class DcmRcv extends StorageService {
 	/**
 	 * Проверка на наличии информации о DCM-файле в БД
 	 * 
-	 * @param dcm_file_name
+	 * @param fileName
+	 * @return старое местоположение
+	 * @throws SQLException
+	 */
+	private String getDCMFileNamefromDB(String fileName) throws SQLException {
+
+//		String name = getRelativeDcmFileName(new File(fileName));
+		// String rerativeName = getRelativeFilePath(new File(fileName));
+
+		PreparedStatement psSelect = connection
+				.prepareStatement("SELECT DCM_FILE_NAME FROM WEBDICOM.DCMFILE WHERE NAME = ?");
+		try {
+			psSelect.setString(1, fileName);
+			ResultSet rs = psSelect.executeQuery();
+			while (rs.next()) {
+				return rs.getString("DCM_FILE_NAME");
+			}
+
+		} finally {
+			if (psSelect != null)
+				psSelect.close();
+		}
+		return null;
+	}
+
+	/**
+	 * Проверка на наличии информации о DCM-файле в БД
+	 * 
+	 * @param fileName
 	 * @return
 	 * @throws SQLException
 	 */
-	private int checkDbDCMFile(String dcm_file_name) throws SQLException {
-		
-		Искать по относительному пути (появляются дубликаты) 
-		
+	private int checkDbDCMFile(String fileName) throws SQLException {
+
+		String name = getRelativeDcmFileName(new File(fileName));
+		// String rerativeName = getRelativeFilePath(new File(fileName));
+
 		PreparedStatement psSelect = connection
-				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ?");
+				.prepareStatement("SELECT ID FROM WEBDICOM.DCMFILE WHERE NAME = ?");
 		try {
-			psSelect.setString(1, dcm_file_name);
+			psSelect.setString(1, name);
 			ResultSet rs = psSelect.executeQuery();
 			while (rs.next()) {
 				return rs.getInt("ID");
@@ -1441,18 +1546,19 @@ public class DcmRcv extends StorageService {
 	/**
 	 * Проверка на наличии информации о Картинке-файле в БД
 	 * 
-	 * @param image_file_name
+	 * @param fileName
 	 * @return
 	 * @throws SQLException
 	 */
-	private int checkDbImageFile(String image_file_name) throws SQLException {
-		
-		Искать по относительному пути (появляются дубликаты)
-		
+	private int checkDbImageFile(String fileName) throws SQLException {
+
+		String name = getRelativeImageFileName(new File(fileName));
+		// String rerativeName = getRelativeFilePath(new File(fileName));
+
 		PreparedStatement psSelect = connection
-				.prepareStatement("SELECT ID FROM WEBDICOM.IMAGES WHERE IMAGE_FILE_NAME = ?");
+				.prepareStatement("SELECT ID FROM WEBDICOM.IMAGES WHERE NAME = ?");
 		try {
-			psSelect.setString(1, image_file_name);
+			psSelect.setString(1, name);
 			ResultSet rs = psSelect.executeQuery();
 			while (rs.next()) {
 				return rs.getInt("ID");
@@ -1478,6 +1584,7 @@ public class DcmRcv extends StorageService {
 
 		Integer FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
 		String IMAGE_FILE_NAME = getRelativeFilePath(imageFile);
+		String NAME = getRelativeImageFileName(imageFile);
 		long IMAGE_FILE_SIZE = imageFile.length();
 		String CONTENT_TYPE = imageContentType;
 
@@ -1490,17 +1597,18 @@ public class DcmRcv extends StorageService {
 					+ IMAGE_FILE_NAME + "]");
 			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES"
 					+ " set FID_DCMFILE = ? ,"
-					+ " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? ,"
+					+ " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? , NAME = ?, "
 					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
 					+ " where ID = ?");
 
 			psUpdate.setInt(1, FID_DCMFILE);
 			psUpdate.setString(2, CONTENT_TYPE);
 			psUpdate.setString(3, IMAGE_FILE_NAME);
-			psUpdate.setLong(4, IMAGE_FILE_SIZE);
-			psUpdate.setInt(5, WIDTH);
-			psUpdate.setInt(6, HEIGHT);
-			psUpdate.setInt(7, idImage);
+			psUpdate.setString(4, NAME);
+			psUpdate.setLong(5, IMAGE_FILE_SIZE);
+			psUpdate.setInt(6, WIDTH);
+			psUpdate.setInt(7, HEIGHT);
+			psUpdate.setInt(8, idImage);
 			psUpdate.executeUpdate();
 			psUpdate.close();
 
@@ -1512,15 +1620,16 @@ public class DcmRcv extends StorageService {
 
 			psInsert = connection
 					.prepareStatement("insert into WEBDICOM.IMAGES"
-							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
-							+ " values (?, ?, ?, ?, ?, ?)");
+							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
+							+ " values (?, ?, ?, ?, ?, ?, ?)");
 
 			psInsert.setInt(1, FID_DCMFILE);
 			psInsert.setString(2, CONTENT_TYPE);
 			psInsert.setString(3, IMAGE_FILE_NAME);
-			psInsert.setLong(4, IMAGE_FILE_SIZE);
-			psInsert.setInt(5, WIDTH);
-			psInsert.setInt(6, HEIGHT);
+			psInsert.setString(4, NAME);
+			psInsert.setLong(5, IMAGE_FILE_SIZE);
+			psInsert.setInt(6, WIDTH);
+			psInsert.setInt(7, HEIGHT);
 			psInsert.executeUpdate();
 			psInsert.close();
 
@@ -1530,7 +1639,6 @@ public class DcmRcv extends StorageService {
 		updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
 
 	}
-
 
 	/**
 	 * Обновление метрики дневной статистики (инкремент)
@@ -1615,6 +1723,5 @@ public class DcmRcv extends StorageService {
 		}
 		throw new NoDataFoundException("No data");
 	}
-
 
 }
