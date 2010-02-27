@@ -84,7 +84,7 @@ public class SearchedItem extends Composite {
 
 		HTML linkDcm = new HTML();
 		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
-				+ "' target='new'> получить оригнальный DICOM-файл </a>");
+				+ ".dcm' target='new'> получить оригнальный DICOM-файл </a>");
 		linkDcm.setStyleName("DicomItemName");
 
 		t.setWidget(4, 0, linkDcm);
