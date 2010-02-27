@@ -447,7 +447,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	}
 	- _name = "seq-fluro";
 	- _displayName = "seq-fluro";
-	- _lastModifiedTime = "2.27.2010::3:32:59";
+	- _lastModifiedTime = "2.27.2010::3:49:3";
 	- _graphicChart = { CGIMscChart 
 		- vLadderMargin = 6;
 		- m_usingActivationBar = 0;
@@ -2044,7 +2044,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			}
 			- m_pParent = GUID 0df95e0f-0b97-4d04-9711-b30d3c4278f1;
 			- m_name = { CGIText 
-				- m_str = "\Ѕиз\н\е\с-\п\р\о\ц\е\с\с \п\р\о\х\о\ж\д\е\ни\€ \ф\л\ю\р\о\г\р\а\фии
+				- m_str = "\Ѕиз\н\е\с-\п\р\о\ц\е\с\с \п\р\о\х\о\ж\д\е\ни\€ \ф\л\ю\о\р\о\г\р\а\фии
 (\п\о \н\а\п\р\а\в\л\е\ни\ю \о\т \т\е\р\а\п\е\в\т\а)";
 				- m_style = "Arial" 10 0 0 0 1 ;
 				- m_color = { IColor 
