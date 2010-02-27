@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +32,13 @@ public class DcmAttachementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-
 		String path = req.getPathInfo().replaceFirst("/", "");
+
+		Matcher matcher = Pattern.compile("^(.*).dcm$").matcher(path);
+		if (matcher.matches()) {
+			path = matcher.group(1);
+		}
+
 		String fileName = null;
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("application/dicom");
@@ -75,8 +82,10 @@ public class DcmAttachementServlet extends HttpServlet {
 			}
 			if (index == 0) {
 				resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
-				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
-						"Dcm file not found! id=" + dcmId + " file=" + fileName);
+				resp
+						.sendError(HttpServletResponse.SC_NOT_FOUND,
+								"Dcm file not found! id=" + dcmId + " file="
+										+ fileName);
 				return;
 			}
 
