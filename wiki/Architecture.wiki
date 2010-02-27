@@ -4,8 +4,11 @@
 = Основная диаграмма выбора =
 http://web-dicom.googlecode.com/svn/trunk/model/out/usecase-main.png
 
-= Основная диаграмма взаимодействия =
-http://web-dicom.googlecode.com/svn/trunk/model/out/seq-main.png
-
 = Основная диаграмма классов =
 http://web-dicom.googlecode.com/svn/trunk/model/out/obj-main.png
+
+= Диаграмма взаимодействия "прохождение флюрографии" =
+http://web-dicom.googlecode.com/svn/trunk/model/out/seq-fluro.png
+
+= Основная диаграмма взаимодействия =
+http://web-dicom.googlecode.com/svn/trunk/model/out/seq-main.png
