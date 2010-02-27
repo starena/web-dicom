@@ -1,7 +1,7 @@
 I-Logix-RPY-Archive version 8.0.9 * 893629
 
 - filesTable = { IRPYRawContainer 
-	- size = 12;
+	- size = 13;
 	- value = "Projects.rpl" ""
 	"webdicom.rpy" ""
 	"webdicom_rpy\\Default.sbs" "Default"
@@ -10,6 +10,7 @@ I-Logix-RPY-Archive version 8.0.9 * 893629
 	"webdicom_rpy\\class_0.sbs" "webdicom::class_0"
 	"webdicom_rpy\\java.sbs" "java"
 	"webdicom_rpy\\obj-main.omd" "webdicom::obj-main"
+	"webdicom_rpy\\seq-fluro.msc" "webdicom::seq-fluro"
 	"webdicom_rpy\\seq-main.msc" "webdicom::seq-main"
 	"webdicom_rpy\\sql.sbs" "java::sql"
 	"webdicom_rpy\\usecase-main.ucd" "webdicom::usecase-main"

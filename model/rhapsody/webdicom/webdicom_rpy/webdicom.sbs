@@ -5,7 +5,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	- _name = "webdicom";
 	- _displayName = "webdicom";
 	- Annotations = { IRPYRawContainer 
-		- size = 2;
+		- size = 3;
 		- value = 
 		{ IComment 
 			- _id = GUID 5b5794b3-15c6-4858-9c08-742bfb2ea8fe;
@@ -20,21 +20,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			}
 			- _body = "";
 			- Anchors = { IRPYRawContainer 
-				- size = 1;
-				- value = 
-				{ IAnchor 
-					- _id = GUID 632e4492-cbe3-4221-91f3-36c30f90a49a;
-					- _myState = 2048;
-					- _name = "anchor_1";
-					- _dependsOn = { INObjectHandle 
-						- _m2Class = "ICombinedFragment";
-						- _filename = "";
-						- _subsystem = "";
-						- _class = "";
-						- _name = "interactionOperator_0";
-						- _id = GUID a33e8d7d-4520-49a0-a86a-40af31469267;
-					}
-				}
+				- size = 0;
 			}
 		}
 		{ IComment 
@@ -50,10 +36,40 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			}
 			- _body = "";
 		}
+		{ IComment 
+			- _id = GUID f731afa1-8e74-40e6-8156-c8c7b19fdcee;
+			- _myState = 2048;
+			- _name = "comment_38";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20\\'ca\\'f2\\'ee \\'e4\\'e5\\'eb\\'e0\\'e5\\'f2 \\'fd\\'f2\\'f3 \\'e1\\'f3\\'ec\\'e0\\'e3\\'f3? \\'eb\\'e0\\'e1\\'ee\\'f0\\'e0\\'ed\\'f2 \\'e8\\'eb\\'e8 \\'f3\\'e7\\'ea\\'e8\\'e9 \\'f1\\'ef\\'e5\\'f6\\'e8\\'e0\\'eb\\'e8\\'f1\\'f2?\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID 5aea3236-13e9-4fd0-be4d-e92915f6a375;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IMessage";
+						- _filename = "";
+						- _subsystem = "";
+						- _class = "";
+						- _name = "Tm___________________________________________";
+						- _id = GUID 08e08674-c71a-49fe-9ea8-bd89d1632c22;
+					}
+				}
+			}
+		}
 	}
-	- _lastID = 35;
+	- _lastID = 39;
 	- Declaratives = { IRPYRawContainer 
-		- size = 4;
+		- size = 5;
 		- value = 
 		{ IUCDiagram 
 			- fileName = "usecase-main";
@@ -71,9 +87,13 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- fileName = "class_0";
 			- _id = GUID 3e1116f4-0151-4032-8d25-d0964c249820;
 		}
+		{ IMSC 
+			- fileName = "seq-fluro";
+			- _id = GUID 67a7d91a-58dc-4669-bc5b-fda0ebcb3f2f;
+		}
 	}
-	- weakCGTime = 2.25.2010::4:55:53;
-	- strongCGTime = 2.25.2010::4:39:50;
+	- weakCGTime = 2.27.2010::3:32:44;
+	- strongCGTime = 2.27.2010::3:29:50;
 	- AssociationElements = { IRPYRawContainer 
 		- size = 3;
 		- value = 
