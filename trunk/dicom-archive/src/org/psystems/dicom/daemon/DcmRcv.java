@@ -993,15 +993,15 @@ public class DcmRcv extends StorageService {
 
 					 
 					String f = iuid + dcmFileExt;
-					System.out.println("[0]!!!! finded in DB " + f);
+//					System.out.println("[0]!!!! finded in DB " + f);
 					findName = getDCMFileNamefromDB(f);
-					System.out.println("[1]!!!! finded in DB " + findName);
+//					System.out.println("[1]!!!! finded in DB " + findName);
 
 					if (findName != null) {
 
 						findName = cache.getCacheRootDir() + File.separator
 								+ findName;
-						System.out.println("[2]!!!! finded in DB " + findName);
+//						System.out.println("[2]!!!! finded in DB " + findName);
 
 						Matcher matcher = Pattern.compile("^(.*).dcm$")
 								.matcher(findName);
@@ -1009,7 +1009,7 @@ public class DcmRcv extends StorageService {
 							findName = matcher.group(1) + ".part";
 						}
 
-						System.out.println("[3]!!!! finded in DB " + findName);
+//						System.out.println("[3]!!!! finded in DB " + findName);
 						file = new File(findName);
 					}
 
