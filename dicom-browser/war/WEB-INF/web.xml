@@ -21,12 +21,12 @@
 
 	<context-param>
 		<param-name>webdicom.dir.src</param-name>
-		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\2009-12-16</param-value>
+		<param-value>C:\temp\data</param-value>
 	</context-param>
 
 	<context-param>
 		<param-name>webdicom.dir.dst</param-name>
-		<param-value>C:\WORK\workspace\dicom-sheduler\test\testdata\out</param-value>
+		<param-value>C:\temp\data</param-value>
 	</context-param>
 
 	<!-- Default page to serve -->
