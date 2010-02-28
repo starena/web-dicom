@@ -125,13 +125,11 @@ public class DcmRcv extends StorageService {
 	private static final String DESCRIPTION = "DICOM Server listening on specified <port> for incoming association "
 			+ "requests. If no local IP address of the network interface is specified "
 			+ "connections on any/all local addresses are accepted. If <aet> is "
-			+ "specified, only requests with matching called AE title will be "
-			+ "accepted.\n" + "Options:";
+			+ "specified, only requests with matching called AE title will be " + "accepted.\n" + "Options:";
 
 	private static final String EXAMPLE = "\nExample: dcmrcv DCMRCV:11112 -dest /tmp \n"
 			+ "=> Starts server listening on port 11112, accepting association "
-			+ "requests with DCMRCV as called AE title. Received objects "
-			+ "are stored to /tmp.";
+			+ "requests with DCMRCV as called AE title. Received objects " + "are stored to /tmp.";
 
 	private static String[] TLS1 = { "TLSv1" };
 
@@ -147,87 +145,60 @@ public class DcmRcv extends StorageService {
 
 	private static final String[] ONLY_DEF_TS = { UID.ImplicitVRLittleEndian };
 
-	private static final String[] NATIVE_TS = { UID.ExplicitVRLittleEndian,
-			UID.ExplicitVRBigEndian, UID.ImplicitVRLittleEndian };
-
-	private static final String[] NATIVE_LE_TS = { UID.ExplicitVRLittleEndian,
+	private static final String[] NATIVE_TS = { UID.ExplicitVRLittleEndian, UID.ExplicitVRBigEndian,
 			UID.ImplicitVRLittleEndian };
 
-	private static final String[] NON_RETIRED_TS = { UID.JPEGLSLossless,
-			UID.JPEGLossless, UID.JPEGLosslessNonHierarchical14,
-			UID.JPEG2000LosslessOnly, UID.DeflatedExplicitVRLittleEndian,
-			UID.RLELossless, UID.ExplicitVRLittleEndian,
-			UID.ExplicitVRBigEndian, UID.ImplicitVRLittleEndian,
-			UID.JPEGBaseline1, UID.JPEGExtended24, UID.JPEGLSLossyNearLossless,
-			UID.JPEG2000, UID.MPEG2, };
+	private static final String[] NATIVE_LE_TS = { UID.ExplicitVRLittleEndian, UID.ImplicitVRLittleEndian };
 
-	private static final String[] NON_RETIRED_LE_TS = { UID.JPEGLSLossless,
-			UID.JPEGLossless, UID.JPEGLosslessNonHierarchical14,
-			UID.JPEG2000LosslessOnly, UID.DeflatedExplicitVRLittleEndian,
-			UID.RLELossless, UID.ExplicitVRLittleEndian,
-			UID.ImplicitVRLittleEndian, UID.JPEGBaseline1, UID.JPEGExtended24,
-			UID.JPEGLSLossyNearLossless, UID.JPEG2000, UID.MPEG2, };
+	private static final String[] NON_RETIRED_TS = { UID.JPEGLSLossless, UID.JPEGLossless,
+			UID.JPEGLosslessNonHierarchical14, UID.JPEG2000LosslessOnly, UID.DeflatedExplicitVRLittleEndian,
+			UID.RLELossless, UID.ExplicitVRLittleEndian, UID.ExplicitVRBigEndian, UID.ImplicitVRLittleEndian,
+			UID.JPEGBaseline1, UID.JPEGExtended24, UID.JPEGLSLossyNearLossless, UID.JPEG2000, UID.MPEG2, };
 
-	private static final String[] CUIDS = {
-			UID.BasicStudyContentNotificationSOPClassRetired,
-			UID.StoredPrintStorageSOPClassRetired,
-			UID.HardcopyGrayscaleImageStorageSOPClassRetired,
-			UID.HardcopyColorImageStorageSOPClassRetired,
-			UID.ComputedRadiographyImageStorage,
-			UID.DigitalXRayImageStorageForPresentation,
-			UID.DigitalXRayImageStorageForProcessing,
+	private static final String[] NON_RETIRED_LE_TS = { UID.JPEGLSLossless, UID.JPEGLossless,
+			UID.JPEGLosslessNonHierarchical14, UID.JPEG2000LosslessOnly, UID.DeflatedExplicitVRLittleEndian,
+			UID.RLELossless, UID.ExplicitVRLittleEndian, UID.ImplicitVRLittleEndian, UID.JPEGBaseline1,
+			UID.JPEGExtended24, UID.JPEGLSLossyNearLossless, UID.JPEG2000, UID.MPEG2, };
+
+	private static final String[] CUIDS = { UID.BasicStudyContentNotificationSOPClassRetired,
+			UID.StoredPrintStorageSOPClassRetired, UID.HardcopyGrayscaleImageStorageSOPClassRetired,
+			UID.HardcopyColorImageStorageSOPClassRetired, UID.ComputedRadiographyImageStorage,
+			UID.DigitalXRayImageStorageForPresentation, UID.DigitalXRayImageStorageForProcessing,
 			UID.DigitalMammographyXRayImageStorageForPresentation,
 			UID.DigitalMammographyXRayImageStorageForProcessing,
 			UID.DigitalIntraoralXRayImageStorageForPresentation,
-			UID.DigitalIntraoralXRayImageStorageForProcessing,
-			UID.StandaloneModalityLUTStorageRetired,
+			UID.DigitalIntraoralXRayImageStorageForProcessing, UID.StandaloneModalityLUTStorageRetired,
 			UID.EncapsulatedPDFStorage, UID.StandaloneVOILUTStorageRetired,
 			UID.GrayscaleSoftcopyPresentationStateStorageSOPClass,
 			UID.ColorSoftcopyPresentationStateStorageSOPClass,
 			UID.PseudoColorSoftcopyPresentationStateStorageSOPClass,
-			UID.BlendingSoftcopyPresentationStateStorageSOPClass,
-			UID.XRayAngiographicImageStorage, UID.EnhancedXAImageStorage,
-			UID.XRayRadiofluoroscopicImageStorage, UID.EnhancedXRFImageStorage,
-			UID.XRayAngiographicBiPlaneImageStorageRetired,
-			UID.PositronEmissionTomographyImageStorage,
-			UID.StandalonePETCurveStorageRetired, UID.CTImageStorage,
-			UID.EnhancedCTImageStorage, UID.NuclearMedicineImageStorage,
-			UID.UltrasoundMultiframeImageStorageRetired,
-			UID.UltrasoundMultiframeImageStorage, UID.MRImageStorage,
-			UID.EnhancedMRImageStorage, UID.MRSpectroscopyStorage,
-			UID.RTImageStorage, UID.RTDoseStorage, UID.RTStructureSetStorage,
-			UID.RTBeamsTreatmentRecordStorage, UID.RTPlanStorage,
-			UID.RTBrachyTreatmentRecordStorage,
-			UID.RTTreatmentSummaryRecordStorage,
-			UID.NuclearMedicineImageStorageRetired,
-			UID.UltrasoundImageStorageRetired, UID.UltrasoundImageStorage,
-			UID.RawDataStorage, UID.SpatialRegistrationStorage,
-			UID.SpatialFiducialsStorage, UID.RealWorldValueMappingStorage,
-			UID.SecondaryCaptureImageStorage,
-			UID.MultiframeSingleBitSecondaryCaptureImageStorage,
+			UID.BlendingSoftcopyPresentationStateStorageSOPClass, UID.XRayAngiographicImageStorage,
+			UID.EnhancedXAImageStorage, UID.XRayRadiofluoroscopicImageStorage, UID.EnhancedXRFImageStorage,
+			UID.XRayAngiographicBiPlaneImageStorageRetired, UID.PositronEmissionTomographyImageStorage,
+			UID.StandalonePETCurveStorageRetired, UID.CTImageStorage, UID.EnhancedCTImageStorage,
+			UID.NuclearMedicineImageStorage, UID.UltrasoundMultiframeImageStorageRetired,
+			UID.UltrasoundMultiframeImageStorage, UID.MRImageStorage, UID.EnhancedMRImageStorage,
+			UID.MRSpectroscopyStorage, UID.RTImageStorage, UID.RTDoseStorage, UID.RTStructureSetStorage,
+			UID.RTBeamsTreatmentRecordStorage, UID.RTPlanStorage, UID.RTBrachyTreatmentRecordStorage,
+			UID.RTTreatmentSummaryRecordStorage, UID.NuclearMedicineImageStorageRetired,
+			UID.UltrasoundImageStorageRetired, UID.UltrasoundImageStorage, UID.RawDataStorage,
+			UID.SpatialRegistrationStorage, UID.SpatialFiducialsStorage, UID.RealWorldValueMappingStorage,
+			UID.SecondaryCaptureImageStorage, UID.MultiframeSingleBitSecondaryCaptureImageStorage,
 			UID.MultiframeGrayscaleByteSecondaryCaptureImageStorage,
 			UID.MultiframeGrayscaleWordSecondaryCaptureImageStorage,
-			UID.MultiframeTrueColorSecondaryCaptureImageStorage,
-			UID.VLImageStorageTrialRetired, UID.VLEndoscopicImageStorage,
-			UID.VideoEndoscopicImageStorage, UID.VLMicroscopicImageStorage,
-			UID.VideoMicroscopicImageStorage,
-			UID.VLSlideCoordinatesMicroscopicImageStorage,
+			UID.MultiframeTrueColorSecondaryCaptureImageStorage, UID.VLImageStorageTrialRetired,
+			UID.VLEndoscopicImageStorage, UID.VideoEndoscopicImageStorage, UID.VLMicroscopicImageStorage,
+			UID.VideoMicroscopicImageStorage, UID.VLSlideCoordinatesMicroscopicImageStorage,
 			UID.VLPhotographicImageStorage, UID.VideoPhotographicImageStorage,
-			UID.OphthalmicPhotography8BitImageStorage,
-			UID.OphthalmicPhotography16BitImageStorage,
-			UID.StereometricRelationshipStorage,
-			UID.VLMultiframeImageStorageTrialRetired,
-			UID.StandaloneOverlayStorageRetired, UID.BasicTextSRStorage,
-			UID.EnhancedSRStorage, UID.ComprehensiveSRStorage,
-			UID.ProcedureLogStorage, UID.MammographyCADSRStorage,
-			UID.KeyObjectSelectionDocumentStorage, UID.ChestCADSRStorage,
-			UID.XRayRadiationDoseSRStorage, UID.EncapsulatedPDFStorage,
-			UID.EncapsulatedCDAStorage, UID.StandaloneCurveStorageRetired,
-			UID._12leadECGWaveformStorage, UID.GeneralECGWaveformStorage,
-			UID.AmbulatoryECGWaveformStorage, UID.HemodynamicWaveformStorage,
-			UID.CardiacElectrophysiologyWaveformStorage,
-			UID.BasicVoiceAudioWaveformStorage, UID.HangingProtocolStorage,
-			UID.SiemensCSANonImageStorage,
+			UID.OphthalmicPhotography8BitImageStorage, UID.OphthalmicPhotography16BitImageStorage,
+			UID.StereometricRelationshipStorage, UID.VLMultiframeImageStorageTrialRetired,
+			UID.StandaloneOverlayStorageRetired, UID.BasicTextSRStorage, UID.EnhancedSRStorage,
+			UID.ComprehensiveSRStorage, UID.ProcedureLogStorage, UID.MammographyCADSRStorage,
+			UID.KeyObjectSelectionDocumentStorage, UID.ChestCADSRStorage, UID.XRayRadiationDoseSRStorage,
+			UID.EncapsulatedPDFStorage, UID.EncapsulatedCDAStorage, UID.StandaloneCurveStorageRetired,
+			UID._12leadECGWaveformStorage, UID.GeneralECGWaveformStorage, UID.AmbulatoryECGWaveformStorage,
+			UID.HemodynamicWaveformStorage, UID.CardiacElectrophysiologyWaveformStorage,
+			UID.BasicVoiceAudioWaveformStorage, UID.HangingProtocolStorage, UID.SiemensCSANonImageStorage,
 			UID.Dcm4cheAttributesModificationNotificationSOPClass };
 
 	private final Executor executor;
@@ -410,25 +381,18 @@ public class DcmRcv extends StorageService {
 
 		OptionBuilder.withArgName("NULL|3DES|AES");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("enable TLS connection without, 3DES or AES encryption");
+		OptionBuilder.withDescription("enable TLS connection without, 3DES or AES encryption");
 		opts.addOption(OptionBuilder.create("tls"));
 
 		OptionGroup tlsProtocol = new OptionGroup();
-		tlsProtocol.addOption(new Option("tls1",
-				"disable the use of SSLv3 and SSLv2 for TLS connections"));
-		tlsProtocol.addOption(new Option("ssl3",
-				"disable the use of TLSv1 and SSLv2 for TLS connections"));
-		tlsProtocol.addOption(new Option("no_tls1",
-				"disable the use of TLSv1 for TLS connections"));
-		tlsProtocol.addOption(new Option("no_ssl3",
-				"disable the use of SSLv3 for TLS connections"));
-		tlsProtocol.addOption(new Option("no_ssl2",
-				"disable the use of SSLv2 for TLS connections"));
+		tlsProtocol.addOption(new Option("tls1", "disable the use of SSLv3 and SSLv2 for TLS connections"));
+		tlsProtocol.addOption(new Option("ssl3", "disable the use of TLSv1 and SSLv2 for TLS connections"));
+		tlsProtocol.addOption(new Option("no_tls1", "disable the use of TLSv1 for TLS connections"));
+		tlsProtocol.addOption(new Option("no_ssl3", "disable the use of SSLv3 for TLS connections"));
+		tlsProtocol.addOption(new Option("no_ssl2", "disable the use of SSLv2 for TLS connections"));
 		opts.addOptionGroup(tlsProtocol);
 
-		opts.addOption("noclientauth", false,
-				"disable client authentification for TLS");
+		opts.addOption("noclientauth", false, "disable client authentification for TLS");
 
 		OptionBuilder.withArgName("file|url");
 		OptionBuilder.hasArg();
@@ -438,8 +402,7 @@ public class DcmRcv extends StorageService {
 
 		OptionBuilder.withArgName("password");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("password for keystore file, 'secret' by default");
+		OptionBuilder.withDescription("password for keystore file, 'secret' by default");
 		opts.addOption(OptionBuilder.create("keystorepw"));
 
 		OptionBuilder.withArgName("password");
@@ -456,55 +419,44 @@ public class DcmRcv extends StorageService {
 
 		OptionBuilder.withArgName("password");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("password for truststore file, 'secret' by default");
+		OptionBuilder.withDescription("password for truststore file, 'secret' by default");
 		opts.addOption(OptionBuilder.create("truststorepw"));
 
 		OptionBuilder.withArgName("dir");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("store received objects into files in specified directory <dir>."
-						+ " Do not store received objects by default.");
+		OptionBuilder.withDescription("store received objects into files in specified directory <dir>."
+				+ " Do not store received objects by default.");
 		opts.addOption(OptionBuilder.create("dest"));
 
 		OptionBuilder.withArgName("URL");
 		OptionBuilder.hasArg();
-		OptionBuilder.withDescription("jdbc connect  <URL>.\n example: "
-				+ connectionStr);
+		OptionBuilder.withDescription("jdbc connect  <URL>.\n example: " + connectionStr);
 		opts.addOption(OptionBuilder.create("jdbcconnect"));
 
 		OptionBuilder.withArgName("file|url");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("file path or URL of properties for mapping Calling AETs to "
-						+ "sub-directories of the storage directory specified by "
-						+ "-dest, to separate the storage location dependend on "
-						+ "Calling AETs.");
+		OptionBuilder.withDescription("file path or URL of properties for mapping Calling AETs to "
+				+ "sub-directories of the storage directory specified by "
+				+ "-dest, to separate the storage location dependend on " + "Calling AETs.");
 		opts.addOption(OptionBuilder.create("calling2dir"));
 
 		OptionBuilder.withArgName("file|url");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("file path or URL of properties for mapping Called AETs to "
-						+ "sub-directories of the storage directory specified by "
-						+ "-dest, to separate the storage location dependend on "
-						+ "Called AETs.");
+		OptionBuilder.withDescription("file path or URL of properties for mapping Called AETs to "
+				+ "sub-directories of the storage directory specified by "
+				+ "-dest, to separate the storage location dependend on " + "Called AETs.");
 		opts.addOption(OptionBuilder.create("called2dir"));
 
 		OptionBuilder.withArgName("sub-dir");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("storage sub-directory used for Calling AETs for which no "
-						+ " mapping is defined by properties specified by "
-						+ "-calling2dir, 'OTHER' by default.");
+		OptionBuilder.withDescription("storage sub-directory used for Calling AETs for which no "
+				+ " mapping is defined by properties specified by " + "-calling2dir, 'OTHER' by default.");
 		opts.addOption(OptionBuilder.create("callingdefdir"));
 
 		OptionBuilder.withArgName("sub-dir");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("storage sub-directory used for Called AETs for which no "
-						+ " mapping is defined by properties specified by "
-						+ "-called2dir, 'OTHER' by default.");
+		OptionBuilder.withDescription("storage sub-directory used for Called AETs for which no "
+				+ " mapping is defined by properties specified by " + "-called2dir, 'OTHER' by default.");
 		opts.addOption(OptionBuilder.create("calleddefdir"));
 
 		OptionBuilder.withArgName("dir");
@@ -524,96 +476,76 @@ public class DcmRcv extends StorageService {
 		opts.addOption(OptionBuilder.create("journalfilepath"));
 
 		opts.addOption("defts", false, "accept only default transfer syntax.");
-		opts.addOption("bigendian", false,
-				"accept also Explict VR Big Endian transfer syntax.");
-		opts.addOption("native", false,
-				"accept only transfer syntax with uncompressed pixel data.");
+		opts.addOption("bigendian", false, "accept also Explict VR Big Endian transfer syntax.");
+		opts.addOption("native", false, "accept only transfer syntax with uncompressed pixel data.");
 
 		OptionBuilder.withArgName("maxops");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("maximum number of outstanding operations performed "
-						+ "asynchronously, unlimited by default.");
+		OptionBuilder.withDescription("maximum number of outstanding operations performed "
+				+ "asynchronously, unlimited by default.");
 		opts.addOption(OptionBuilder.create("async"));
 
-		opts
-				.addOption(
-						"pdv1",
-						false,
-						"send only one PDV in one P-Data-TF PDU, "
-								+ "pack command and data PDV in one P-DATA-TF PDU by default.");
-		opts.addOption("tcpdelay", false,
-				"set TCP_NODELAY socket option to false, true by default");
+		opts.addOption("pdv1", false, "send only one PDV in one P-Data-TF PDU, "
+				+ "pack command and data PDV in one P-DATA-TF PDU by default.");
+		opts.addOption("tcpdelay", false, "set TCP_NODELAY socket option to false, true by default");
 
 		OptionBuilder.withArgName("ms");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("delay in ms for Socket close after sending A-ABORT, 50ms by default");
+		OptionBuilder.withDescription("delay in ms for Socket close after sending A-ABORT, 50ms by default");
 		opts.addOption(OptionBuilder.create("soclosedelay"));
 
 		OptionBuilder.withArgName("ms");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("delay in ms for DIMSE-RSP; useful for testing asynchronous mode");
+		OptionBuilder.withDescription("delay in ms for DIMSE-RSP; useful for testing asynchronous mode");
 		opts.addOption(OptionBuilder.create("rspdelay"));
 
 		OptionBuilder.withArgName("ms");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("timeout in ms for receiving -ASSOCIATE-RQ, 5s by default");
+		OptionBuilder.withDescription("timeout in ms for receiving -ASSOCIATE-RQ, 5s by default");
 		opts.addOption(OptionBuilder.create("requestTO"));
 
 		OptionBuilder.withArgName("ms");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("timeout in ms for receiving A-RELEASE-RP, 5s by default");
+		OptionBuilder.withDescription("timeout in ms for receiving A-RELEASE-RP, 5s by default");
 		opts.addOption(OptionBuilder.create("releaseTO"));
 
 		OptionBuilder.withArgName("ms");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("period in ms to check for outstanding DIMSE-RSP, 10s by default");
+		OptionBuilder.withDescription("period in ms to check for outstanding DIMSE-RSP, 10s by default");
 		opts.addOption(OptionBuilder.create("reaper"));
 
 		OptionBuilder.withArgName("ms");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("timeout in ms for receiving DIMSE-RQ, 60s by default");
+		OptionBuilder.withDescription("timeout in ms for receiving DIMSE-RQ, 60s by default");
 		opts.addOption(OptionBuilder.create("idleTO"));
 
 		OptionBuilder.withArgName("KB");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("maximal length in KB of received P-DATA-TF PDUs, 16KB by default");
+		OptionBuilder.withDescription("maximal length in KB of received P-DATA-TF PDUs, 16KB by default");
 		opts.addOption(OptionBuilder.create("rcvpdulen"));
 
 		OptionBuilder.withArgName("KB");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("maximal length in KB of sent P-DATA-TF PDUs, 16KB by default");
+		OptionBuilder.withDescription("maximal length in KB of sent P-DATA-TF PDUs, 16KB by default");
 		opts.addOption(OptionBuilder.create("sndpdulen"));
 
 		OptionBuilder.withArgName("KB");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("set SO_RCVBUF socket option to specified value in KB");
+		OptionBuilder.withDescription("set SO_RCVBUF socket option to specified value in KB");
 		opts.addOption(OptionBuilder.create("sorcvbuf"));
 
 		OptionBuilder.withArgName("KB");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("set SO_SNDBUF socket option to specified value in KB");
+		OptionBuilder.withDescription("set SO_SNDBUF socket option to specified value in KB");
 		opts.addOption(OptionBuilder.create("sosndbuf"));
 
 		OptionBuilder.withArgName("KB");
 		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("minimal buffer size to write received object to file, 1KB by default");
+		OptionBuilder.withDescription("minimal buffer size to write received object to file, 1KB by default");
 		opts.addOption(OptionBuilder.create("bufsize"));
 
 		opts.addOption("h", "help", false, "print this message");
-		opts.addOption("V", "version", false,
-				"print the version information and exit");
+		opts.addOption("V", "version", false, "print the version information and exit");
 		CommandLine cl = null;
 		try {
 			cl = new GnuParser().parse(opts, args);
@@ -637,8 +569,7 @@ public class DcmRcv extends StorageService {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		CommandLine cl = parse(args);
-		DcmRcv dcmrcv = new DcmRcv(cl.hasOption("device") ? cl
-				.getOptionValue("device") : "DCMRCV");
+		DcmRcv dcmrcv = new DcmRcv(cl.hasOption("device") ? cl.getOptionValue("device") : "DCMRCV");
 		final List<String> argList = cl.getArgList();
 		String port = argList.get(0);
 		String[] aetPort = split(port, ':', 1);
@@ -657,12 +588,9 @@ public class DcmRcv extends StorageService {
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));
 		if (cl.hasOption("calling2dir"))
-			dcmrcv.setCalling2Dir(loadProperties(cl
-					.getOptionValue("calling2dir")));
+			dcmrcv.setCalling2Dir(loadProperties(cl.getOptionValue("calling2dir")));
 		if (cl.hasOption("called2dir"))
-			dcmrcv
-					.setCalled2Dir(loadProperties(cl
-							.getOptionValue("called2dir")));
+			dcmrcv.setCalled2Dir(loadProperties(cl.getOptionValue("called2dir")));
 		if (cl.hasOption("callingdefdir"))
 			dcmrcv.setCallingDefDir(cl.getOptionValue("callingdefdir"));
 		if (cl.hasOption("calleddefdir"))
@@ -670,45 +598,34 @@ public class DcmRcv extends StorageService {
 		if (cl.hasOption("journal"))
 			dcmrcv.setJournal(cl.getOptionValue("journal"));
 		if (cl.hasOption("journalfilepath"))
-			dcmrcv.setJournalFilePathFormat(cl
-					.getOptionValue("journalfilepath"));
+			dcmrcv.setJournalFilePathFormat(cl.getOptionValue("journalfilepath"));
 
 		if (cl.hasOption("defts"))
 			dcmrcv.setTransferSyntax(ONLY_DEF_TS);
 		else if (cl.hasOption("native"))
-			dcmrcv.setTransferSyntax(cl.hasOption("bigendian") ? NATIVE_TS
-					: NATIVE_LE_TS);
+			dcmrcv.setTransferSyntax(cl.hasOption("bigendian") ? NATIVE_TS : NATIVE_LE_TS);
 		else if (cl.hasOption("bigendian"))
 			dcmrcv.setTransferSyntax(NON_RETIRED_TS);
 		if (cl.hasOption("reaper"))
-			dcmrcv
-					.setAssociationReaperPeriod(parseInt(cl
-							.getOptionValue("reaper"),
-							"illegal argument of option -reaper", 1,
-							Integer.MAX_VALUE));
+			dcmrcv.setAssociationReaperPeriod(parseInt(cl.getOptionValue("reaper"),
+					"illegal argument of option -reaper", 1, Integer.MAX_VALUE));
 		if (cl.hasOption("idleTO"))
-			dcmrcv
-					.setIdleTimeout(parseInt(cl.getOptionValue("idleTO"),
-							"illegal argument of option -idleTO", 1,
-							Integer.MAX_VALUE));
+			dcmrcv.setIdleTimeout(parseInt(cl.getOptionValue("idleTO"), "illegal argument of option -idleTO",
+					1, Integer.MAX_VALUE));
 		if (cl.hasOption("requestTO"))
 			dcmrcv.setRequestTimeout(parseInt(cl.getOptionValue("requestTO"),
-					"illegal argument of option -requestTO", 1,
-					Integer.MAX_VALUE));
+					"illegal argument of option -requestTO", 1, Integer.MAX_VALUE));
 		if (cl.hasOption("releaseTO"))
 			dcmrcv.setReleaseTimeout(parseInt(cl.getOptionValue("releaseTO"),
-					"illegal argument of option -releaseTO", 1,
-					Integer.MAX_VALUE));
+					"illegal argument of option -releaseTO", 1, Integer.MAX_VALUE));
 		if (cl.hasOption("soclosedelay"))
-			dcmrcv.setSocketCloseDelay(parseInt(cl
-					.getOptionValue("soclosedelay"),
+			dcmrcv.setSocketCloseDelay(parseInt(cl.getOptionValue("soclosedelay"),
 					"illegal argument of option -soclosedelay", 1, 10000));
 		if (cl.hasOption("rspdelay"))
 			dcmrcv.setDimseRspDelay(parseInt(cl.getOptionValue("rspdelay"),
 					"illegal argument of option -rspdelay", 0, 10000));
 		if (cl.hasOption("rcvpdulen"))
-			dcmrcv.setMaxPDULengthReceive(parseInt(cl
-					.getOptionValue("rcvpdulen"),
+			dcmrcv.setMaxPDULengthReceive(parseInt(cl.getOptionValue("rcvpdulen"),
 					"illegal argument of option -rcvpdulen", 1, 10000)
 					* KB);
 		if (cl.hasOption("sndpdulen"))
@@ -776,8 +693,7 @@ public class DcmRcv extends StorageService {
 			try {
 				dcmrcv.initTLS();
 			} catch (Exception e) {
-				System.err.println("ERROR: Failed to initialize TLS context:"
-						+ e.getMessage());
+				System.err.println("ERROR: Failed to initialize TLS context:" + e.getMessage());
 				System.exit(2);
 			}
 		}
@@ -794,11 +710,9 @@ public class DcmRcv extends StorageService {
 
 	public void initTransferCapability() {
 		TransferCapability[] tc = new TransferCapability[CUIDS.length + 1];
-		tc[0] = new TransferCapability(UID.VerificationSOPClass, ONLY_DEF_TS,
-				TransferCapability.SCP);
+		tc[0] = new TransferCapability(UID.VerificationSOPClass, ONLY_DEF_TS, TransferCapability.SCP);
 		for (int i = 0; i < CUIDS.length; i++)
-			tc[i + 1] = new TransferCapability(CUIDS[i], tsuids,
-					TransferCapability.SCP);
+			tc[i + 1] = new TransferCapability(CUIDS[i], tsuids, TransferCapability.SCP);
 		ae.setTransferCapability(tc);
 	}
 
@@ -866,12 +780,11 @@ public class DcmRcv extends StorageService {
 	public void initTLS() throws GeneralSecurityException, IOException {
 		KeyStore keyStore = loadKeyStore(keyStoreURL, keyStorePassword);
 		KeyStore trustStore = loadKeyStore(trustStoreURL, trustStorePassword);
-		device.initTLS(keyStore, keyPassword != null ? keyPassword
-				: keyStorePassword, trustStore);
+		device.initTLS(keyStore, keyPassword != null ? keyPassword : keyStorePassword, trustStore);
 	}
 
-	private static KeyStore loadKeyStore(String url, char[] password)
-			throws GeneralSecurityException, IOException {
+	private static KeyStore loadKeyStore(String url, char[] password) throws GeneralSecurityException,
+			IOException {
 		KeyStore key = KeyStore.getInstance(toKeyStoreType(url));
 		InputStream in = openFileOrURL(url);
 		try {
@@ -884,8 +797,7 @@ public class DcmRcv extends StorageService {
 
 	private static InputStream openFileOrURL(String url) throws IOException {
 		if (url.startsWith("resource:")) {
-			return DcmRcv.class.getClassLoader().getResourceAsStream(
-					url.substring(9));
+			return DcmRcv.class.getClassLoader().getResourceAsStream(url.substring(9));
 		}
 		try {
 			return new URL(url).openStream();
@@ -895,8 +807,7 @@ public class DcmRcv extends StorageService {
 	}
 
 	private static String toKeyStoreType(String fname) {
-		return fname.endsWith(".p12") || fname.endsWith(".P12") ? "PKCS12"
-				: "JKS";
+		return fname.endsWith(".p12") || fname.endsWith(".P12") ? "PKCS12" : "JKS";
 	}
 
 	public void start() throws IOException {
@@ -949,9 +860,8 @@ public class DcmRcv extends StorageService {
 	 * open association is not blocked.
 	 */
 	@Override
-	public void cstore(final Association as, final int pcid, DicomObject rq,
-			PDVInputStream dataStream, String tsuid)
-			throws DicomServiceException, IOException {
+	public void cstore(final Association as, final int pcid, DicomObject rq, PDVInputStream dataStream,
+			String tsuid) throws DicomServiceException, IOException {
 		final DicomObject rsp = CommandUtils.mkRSP(rq, CommandUtils.SUCCESS);
 		onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
 		if (rspdelay > 0) {
@@ -972,9 +882,8 @@ public class DcmRcv extends StorageService {
 	}
 
 	@Override
-	protected void onCStoreRQ(Association as, int pcid, DicomObject rq,
-			PDVInputStream dataStream, String tsuid, DicomObject rsp)
-			throws IOException, DicomServiceException {
+	protected void onCStoreRQ(Association as, int pcid, DicomObject rq, PDVInputStream dataStream,
+			String tsuid, DicomObject rsp) throws IOException, DicomServiceException {
 		if (devnull == null && cache.getCacheRootDir() == null) {
 			super.onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
 		} else {
@@ -991,25 +900,24 @@ public class DcmRcv extends StorageService {
 
 					checkMakeConnection();
 
-					 
 					String f = iuid + dcmFileExt;
-//					System.out.println("[0]!!!! finded in DB " + f);
+					// System.out.println("[0]!!!! finded in DB " + f);
 					findName = getDCMFileNamefromDB(f);
-//					System.out.println("[1]!!!! finded in DB " + findName);
+					// System.out.println("[1]!!!! finded in DB " + findName);
 
 					if (findName != null) {
 
-						findName = cache.getCacheRootDir() + File.separator
-								+ findName;
-//						System.out.println("[2]!!!! finded in DB " + findName);
+						findName = cache.getCacheRootDir() + File.separator + findName;
+						// System.out.println("[2]!!!! finded in DB " +
+						// findName);
 
-						Matcher matcher = Pattern.compile("^(.*).dcm$")
-								.matcher(findName);
+						Matcher matcher = Pattern.compile("^(.*).dcm$").matcher(findName);
 						if (matcher.matches()) {
 							findName = matcher.group(1) + ".part";
 						}
 
-//						System.out.println("[3]!!!! finded in DB " + findName);
+						// System.out.println("[3]!!!! finded in DB " +
+						// findName);
 						file = new File(findName);
 					}
 
@@ -1018,17 +926,15 @@ public class DcmRcv extends StorageService {
 				}
 
 				if (findName == null) {
-					file = devnull != null ? devnull : new File(mkDir(as), iuid
-							+ ".part");
+					file = devnull != null ? devnull : new File(mkDir(as), iuid + ".part");
 
 				} else {
 
 				}
 				LOG.info("M-WRITE {}", file);
 
-				DicomOutputStream dos = new DicomOutputStream(
-						new BufferedOutputStream(new FileOutputStream(file),
-								fileBufferSize));
+				DicomOutputStream dos = new DicomOutputStream(new BufferedOutputStream(new FileOutputStream(
+						file), fileBufferSize));
 				try {
 					BasicDicomObject fmi = new BasicDicomObject();
 					fmi.initFileMetaInformation(cuid, iuid, tsuid);
@@ -1044,8 +950,7 @@ public class DcmRcv extends StorageService {
 						LOG.info("M-DELETE {}", file);
 					}
 				}
-				throw new DicomServiceException(rq, Status.ProcessingFailure, e
-						.getMessage());
+				throw new DicomServiceException(rq, Status.ProcessingFailure, e.getMessage());
 			}
 
 			// Rename the file after it has been written. See DCM-279
@@ -1062,8 +967,7 @@ public class DcmRcv extends StorageService {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					String errid = "DcmRcv" + "_" + new Date().getTime();
-					LOG.error("******** DATABASE SQL Error ********** ERRID=["
-							+ errid + "] " + e);
+					LOG.error("******** DATABASE SQL Error ********** ERRID=[" + errid + "] " + e);
 
 					// throw new IOException("DATABASE Error ERRID=[" + errid
 					// + "]" + e.getMessage());
@@ -1073,8 +977,7 @@ public class DcmRcv extends StorageService {
 						}
 
 						// Удаляем извлеченные картинки
-						File imageDir = new File(rename.getPath()
-								+ imageDirPrefix);
+						File imageDir = new File(rename.getPath() + imageDirPrefix);
 
 						File[] files = imageDir.listFiles();
 						for (int i = 0; i < files.length; i++) {
@@ -1091,8 +994,7 @@ public class DcmRcv extends StorageService {
 						}
 
 					}
-					throw new DicomServiceException(rq,
-							Status.ProcessingFailure, e.getMessage());
+					throw new DicomServiceException(rq, Status.ProcessingFailure, e.getMessage());
 
 				}
 
@@ -1116,12 +1018,10 @@ public class DcmRcv extends StorageService {
 			return dirAddon;
 		}
 		if (called2dir != null) {
-			dir = new File(dir, called2dir.getProperty(as.getCalledAET(),
-					calleddefdir));
+			dir = new File(dir, called2dir.getProperty(as.getCalledAET(), calleddefdir));
 		}
 		if (calling2dir != null) {
-			dir = new File(dir, calling2dir.getProperty(as.getCallingAET(),
-					callingdefdir));
+			dir = new File(dir, calling2dir.getProperty(as.getCallingAET(), callingdefdir));
 		}
 
 		if (dir.mkdirs()) {
@@ -1138,8 +1038,7 @@ public class DcmRcv extends StorageService {
 	 */
 	public String getRelativeFilePath(File file) {
 		File dir = cache.getCacheRootDir();
-		String s = file.getPath().replaceFirst(
-				Matcher.quoteReplacement(dir.getPath() + File.separator), "");
+		String s = file.getPath().replaceFirst(Matcher.quoteReplacement(dir.getPath() + File.separator), "");
 		return s;
 	}
 
@@ -1150,11 +1049,24 @@ public class DcmRcv extends StorageService {
 	 * @return
 	 */
 	public String getRelativeDcmFileName(File file) {
-		// TODO Учесть File.separator
-		Matcher matcher = Pattern.compile(".*\\\\(.*)$")
-				.matcher(file.getPath());
+		Matcher matcher = Pattern.compile(".*" + getFileSeparatorPattern() + "(.*)$").matcher(file.getPath());
 		if (matcher.matches()) {
 			return matcher.group(1);
+		}
+		return null;
+	}
+
+	/**
+	 * Получение разделителя директорий для регулярного выражения
+	 * 
+	 * @return
+	 */
+	private String getFileSeparatorPattern() {
+		if (File.separator.equals("\\")) {// windows
+			return "\\\\";
+		}
+		if (File.separator.equals("/")) {// unix
+			return "/";
 		}
 		return null;
 	}
@@ -1166,8 +1078,8 @@ public class DcmRcv extends StorageService {
 	 * @return
 	 */
 	public String getRelativeImageFileName(File file) {
-		// TODO Учесть File.separator
-		Matcher matcher = Pattern.compile(".*\\\\(.*)\\\\(.*)$").matcher(
+		Matcher matcher = Pattern.compile(
+				".*" + getFileSeparatorPattern() + "(.*)" + getFileSeparatorPattern() + "(.*)$").matcher(
 				file.getPath());
 		if (matcher.matches()) {
 			return matcher.group(1) + File.separator + matcher.group(2);
@@ -1206,8 +1118,7 @@ public class DcmRcv extends StorageService {
 		props.put("user", "user1"); // FIXME Взять из конфига
 		props.put("password", "user1"); // FIXME Взять из конфига
 
-		Connection conn = DriverManager.getConnection(connectionStr
-				+ ";create=true", props);
+		Connection conn = DriverManager.getConnection(connectionStr + ";create=true", props);
 		// conn.setAutoCommit(false);
 		// s = conn.createStatement();
 		// s.execute(sql);
@@ -1225,19 +1136,12 @@ public class DcmRcv extends StorageService {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	private void extractImagesAndSaveDB(File file) throws SQLException,
-			IOException {
+	private void extractImagesAndSaveDB(File file) throws SQLException, IOException {
 
 		ArrayList<String> images = extractImages(file);
-
 		connection.setAutoCommit(false);
 		insertUpdateCommonData(file, images);
-
-		// insertImageData(DCM_FILE_NAME, "image/jpeg", IMAGE_FILE_NAME,
-		// IMAGE_FILE_SIZE, WIDTH, HEIGHT);
-		// updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
 		connection.commit();
-
 	}
 
 	/**
@@ -1247,8 +1151,7 @@ public class DcmRcv extends StorageService {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public ArrayList<String> extractImages(File dcmFile) throws IOException,
-			SQLException {
+	public ArrayList<String> extractImages(File dcmFile) throws IOException, SQLException {
 
 		ArrayList<String> resultImages = new ArrayList<String>();
 		File dest = new File(dcmFile.getPath() + imageDirPrefix);
@@ -1257,12 +1160,10 @@ public class DcmRcv extends StorageService {
 		dest = new File(dest, "1" + imageFileExt);
 		// TODO Тут может быть наверное несколько картинок !!!
 
-		Iterator<ImageReader> iter = ImageIO
-				.getImageReadersByFormatName("DICOM");
+		Iterator<ImageReader> iter = ImageIO.getImageReadersByFormatName("DICOM");
 
 		ImageReader reader = iter.next();
-		DicomImageReadParam param = (DicomImageReadParam) reader
-				.getDefaultReadParam();
+		DicomImageReadParam param = (DicomImageReadParam) reader.getDefaultReadParam();
 		param.setWindowCenter(center);
 		param.setWindowWidth(width);
 		param.setVoiLutFunction(vlutFct);
@@ -1295,8 +1196,8 @@ public class DcmRcv extends StorageService {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	private void insertUpdateCommonData(File dcmFile, ArrayList<String> images)
-			throws SQLException, IOException {
+	private void insertUpdateCommonData(File dcmFile, ArrayList<String> images) throws SQLException,
+			IOException {
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
@@ -1317,8 +1218,14 @@ public class DcmRcv extends StorageService {
 
 			// читаем кодировку из dcm-файла
 			if (charsetStr == null) {
-				cs = SpecificCharacterSet.valueOf(dcmObj.get(
-						Tag.SpecificCharacterSet).getStrings(null, false));
+				
+				if(dcmObj.get(Tag.SpecificCharacterSet)!=null) {
+				cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet)
+						.getStrings(null, false));
+				}else {
+					cs = new SpecificCharacterSet("ISO-8859-5");
+					LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
+				}
 			}
 
 			String DCM_FILE_NAME = getRelativeFilePath(dcmFile);
@@ -1327,21 +1234,18 @@ public class DcmRcv extends StorageService {
 			java.sql.Date PATIENT_BIRTH_DATE;
 
 			if (dcmObj.get(Tag.PatientBirthDate) != null) {
-				PATIENT_BIRTH_DATE = new java.sql.Date(dcmObj.get(
-						Tag.PatientBirthDate).getDate(false).getTime());
+				PATIENT_BIRTH_DATE = new java.sql.Date(dcmObj.get(Tag.PatientBirthDate).getDate(false)
+						.getTime());
 			} else {
 				PATIENT_BIRTH_DATE = new java.sql.Date(0);
-				LOG
-						.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
+				LOG.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
 			}
 
 			DicomElement element1 = dcmObj.get(Tag.PatientName);
-			String PATIENT_NAME = element1.getValueAsString(cs, element1
-					.length());
+			String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
 
 			element1 = dcmObj.get(Tag.PatientID);
-			String PATIENT_ID = element1
-					.getValueAsString(cs, element1.length());
+			String PATIENT_ID = element1.getValueAsString(cs, element1.length());
 
 			if (PATIENT_ID == null || PATIENT_ID.length() == 0) {
 				PATIENT_ID = "не указан";
@@ -1367,8 +1271,7 @@ public class DcmRcv extends StorageService {
 				STUDY_ID = element1.getValueAsString(cs, element1.length());
 			}
 
-			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(
-					Tag.StudyDate).getDate(false).getTime());
+			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(Tag.StudyDate).getDate(false).getTime());
 
 			String STUDY_DOCTOR = "не указан";
 			element1 = dcmObj.get(Tag.ReferringPhysicianName);
@@ -1382,10 +1285,18 @@ public class DcmRcv extends StorageService {
 			String STUDY_OPERATOR = "не указан";
 			element1 = dcmObj.get(Tag.OperatorsName);
 			if (element1 != null) {
-				STUDY_OPERATOR = element1.getValueAsString(cs, element1
-						.length());
+				STUDY_OPERATOR = element1.getValueAsString(cs, element1.length());
 				if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
 					STUDY_OPERATOR = "не указан";
+				}
+			}
+			
+			String STUDY_DESCRIPTION = "";
+			element1 = dcmObj.get(Tag.MedicalAlerts);
+			if (element1 != null) {
+				STUDY_DESCRIPTION = element1.getValueAsString(cs, element1.length());
+				if (STUDY_DESCRIPTION == null || STUDY_DESCRIPTION.length() == 0) {
+					STUDY_DESCRIPTION = "нет";
 				}
 			}
 
@@ -1396,20 +1307,19 @@ public class DcmRcv extends StorageService {
 
 			PreparedStatement stmt = null;
 
-			LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]["
-					+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
+			LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "][" + PATIENT_BIRTH_DATE + "]["
+					+ STUDY_DATE + "]");
 
 			// Проверка на наличии этого файла в БД
 			try {
 				int id = checkDbDCMFile(DCM_FILE_NAME);
-				LOG.info("File already in database [" + id + "] ["
-						+ DCM_FILE_NAME + "]");
+				LOG.info("File already in database [" + id + "] [" + DCM_FILE_NAME + "]");
 				LOG.info("update data in database [" + DCM_FILE_NAME + "]");
 
 				stmt = connection
 						.prepareStatement("update WEBDICOM.DCMFILE"
 								+ " SET NAME = ? , DCM_FILE_SIZE = ? , PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
-								+ " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?"
+								+ " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?, STUDY_DESCRIPTION =?"
 								+ " where ID = ?");
 
 				stmt.setString(1, NAME);
@@ -1421,7 +1331,8 @@ public class DcmRcv extends StorageService {
 				stmt.setDate(7, STUDY_DATE);
 				stmt.setString(8, STUDY_DOCTOR);
 				stmt.setString(9, STUDY_OPERATOR);
-				stmt.setInt(10, id);
+				stmt.setString(10, STUDY_DESCRIPTION);
+				stmt.setInt(11, id);
 				stmt.executeUpdate();
 
 				LOG.info("skip converting image.");
@@ -1432,8 +1343,8 @@ public class DcmRcv extends StorageService {
 				stmt = connection
 						.prepareStatement("insert into WEBDICOM.DCMFILE"
 								+ " (DCM_FILE_NAME, NAME, DCM_FILE_SIZE, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE,"
-								+ " STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR)"
-								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
+								+ " STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR, STUDY_DESCRIPTION)"
+								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)");
 
 				stmt.setString(1, DCM_FILE_NAME);
 				stmt.setString(2, NAME);
@@ -1446,6 +1357,7 @@ public class DcmRcv extends StorageService {
 				stmt.setDate(9, STUDY_DATE);
 				stmt.setString(10, STUDY_DOCTOR);
 				stmt.setString(11, STUDY_OPERATOR);
+				stmt.setString(12, STUDY_DESCRIPTION);
 
 				stmt.executeUpdate();
 				// Обновляем статистику
@@ -1459,8 +1371,7 @@ public class DcmRcv extends StorageService {
 
 			for (Iterator<String> it = images.iterator(); it.hasNext();) {
 				String fileImage = it.next();
-				insertImageData(dcmFile, new File(fileImage), STUDY_DATE,
-						WIDTH, HEIGHT);
+				insertImageData(dcmFile, new File(fileImage), STUDY_DATE, WIDTH, HEIGHT);
 			}
 
 		} catch (org.dcm4che2.data.ConfigurationError e) {
@@ -1496,7 +1407,7 @@ public class DcmRcv extends StorageService {
 	 */
 	private String getDCMFileNamefromDB(String fileName) throws SQLException {
 
-//		String name = getRelativeDcmFileName(new File(fileName));
+		// String name = getRelativeDcmFileName(new File(fileName));
 		// String rerativeName = getRelativeFilePath(new File(fileName));
 
 		PreparedStatement psSelect = connection
@@ -1578,8 +1489,7 @@ public class DcmRcv extends StorageService {
 	 * @param imageFile
 	 * @throws SQLException
 	 */
-	private void insertImageData(File dcmFile, File imageFile,
-			java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
+	private void insertImageData(File dcmFile, File imageFile, java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
 			throws SQLException {
 
 		Integer FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
@@ -1593,13 +1503,10 @@ public class DcmRcv extends StorageService {
 
 			PreparedStatement psUpdate = null;
 
-			LOG.info("update data in database [" + FID_DCMFILE + "] image ["
-					+ IMAGE_FILE_NAME + "]");
-			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES"
-					+ " set FID_DCMFILE = ? ,"
+			LOG.info("update data in database [" + FID_DCMFILE + "] image [" + IMAGE_FILE_NAME + "]");
+			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES" + " set FID_DCMFILE = ? ,"
 					+ " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? , NAME = ?, "
-					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
-					+ " where ID = ?");
+					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?" + " where ID = ?");
 
 			psUpdate.setInt(1, FID_DCMFILE);
 			psUpdate.setString(2, CONTENT_TYPE);
@@ -1615,13 +1522,11 @@ public class DcmRcv extends StorageService {
 		} catch (NoDataFoundException ex) {
 			PreparedStatement psInsert = null;
 
-			LOG.info("insert data in database [" + FID_DCMFILE + "] image ["
-					+ IMAGE_FILE_NAME + "]");
+			LOG.info("insert data in database [" + FID_DCMFILE + "] image [" + IMAGE_FILE_NAME + "]");
 
-			psInsert = connection
-					.prepareStatement("insert into WEBDICOM.IMAGES"
-							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
-							+ " values (?, ?, ?, ?, ?, ?, ?)");
+			psInsert = connection.prepareStatement("insert into WEBDICOM.IMAGES"
+					+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
+					+ " values (?, ?, ?, ?, ?, ?, ?)");
 
 			psInsert.setInt(1, FID_DCMFILE);
 			psInsert.setString(2, CONTENT_TYPE);
@@ -1648,8 +1553,7 @@ public class DcmRcv extends StorageService {
 	 * @param value
 	 * @throws SQLException
 	 */
-	private void updateDayStatInc(java.util.Date date, String metric, long value)
-			throws SQLException {
+	private void updateDayStatInc(java.util.Date date, String metric, long value) throws SQLException {
 
 		PreparedStatement stmt = null;
 
@@ -1667,11 +1571,9 @@ public class DcmRcv extends StorageService {
 		// Проверка на наличии этого файла в БД
 		try {
 			long valueOld = checkDayMetric(metric, new java.sql.Date(time));
-			LOG.info("metric already in database [" + metric + "][" + date
-					+ "][" + valueOld + "]");
+			LOG.info("metric already in database [" + metric + "][" + date + "][" + valueOld + "]");
 
-			stmt = connection.prepareStatement("update WEBDICOM.DAYSTAT "
-					+ " SET METRIC_VALUE_LONG = ? "
+			stmt = connection.prepareStatement("update WEBDICOM.DAYSTAT " + " SET METRIC_VALUE_LONG = ? "
 					+ " where METRIC_NAME = ? AND METRIC_DATE = ?");
 
 			long sumVal = value + valueOld;
@@ -1682,11 +1584,9 @@ public class DcmRcv extends StorageService {
 
 		} catch (NoDataFoundException ex) {
 			// Делаем вставку
-			LOG.info("insert data in database [" + metric + "][" + date + "]["
-					+ value + "]");
+			LOG.info("insert data in database [" + metric + "][" + date + "][" + value + "]");
 			stmt = connection.prepareStatement("insert into WEBDICOM.DAYSTAT "
-					+ " (METRIC_NAME, METRIC_DATE, METRIC_VALUE_LONG)"
-					+ " values (?, ?, ?)");
+					+ " (METRIC_NAME, METRIC_DATE, METRIC_VALUE_LONG)" + " values (?, ?, ?)");
 
 			stmt.setString(1, metric);
 			stmt.setDate(2, new java.sql.Date(time));
@@ -1706,8 +1606,7 @@ public class DcmRcv extends StorageService {
 	 * @return
 	 * @throws SQLException
 	 */
-	private long checkDayMetric(String metric, java.sql.Date date)
-			throws SQLException {
+	private long checkDayMetric(String metric, java.sql.Date date) throws SQLException {
 		PreparedStatement psSelect = connection
 				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
 		try {
