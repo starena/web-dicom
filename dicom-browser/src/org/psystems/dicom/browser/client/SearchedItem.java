@@ -79,7 +79,7 @@ public class SearchedItem extends Composite {
 		createItemValue(t, 2, 5, proxy.getStudyOperator());
 
 		createItemName(t, 3, 0, "результат:");
-		createItemValue(t, 3, 1, "неизвестен");
+		createItemValue(t, 3, 1, proxy.getStudyDescription());
 		t.getFlexCellFormatter().setColSpan(3, 1, 5);
 
 		HTML linkDcm = new HTML();
