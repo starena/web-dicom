@@ -24,6 +24,8 @@ public class DcmFileProxy implements Serializable {
 	private Date studyDate; // Дата исследования
 	private String studyDoctor; // Врач исследования
 	private String studyOperator; // Оператор исследования
+	private String studyDescription;// Описание исследования.
+	// TODO нужны еще поля
 
 	private ArrayList<DcmImageProxy> images = new ArrayList<DcmImageProxy>();
 
@@ -40,12 +42,11 @@ public class DcmFileProxy implements Serializable {
 	 * @param studyDate
 	 * @param studyDoctor
 	 * @param studyOperator
-	 * @param imagesIds
+	 * @param studyDescription
 	 */
-	public void init(Integer id, String dcmFileName, String patientName,
-			String patientSex, String patientId, Date patientBirthDate,
-			String studyId, Date studyDate, String studyDoctor,
-			String studyOperator) {
+	public void init(Integer id, String dcmFileName, String patientName, String patientSex, String patientId,
+			Date patientBirthDate, String studyId, Date studyDate, String studyDoctor, String studyOperator,
+			String studyDescription) {
 
 		this.id = id;
 		this.dcmFileName = dcmFileName;
@@ -57,6 +58,7 @@ public class DcmFileProxy implements Serializable {
 		this.studyDate = studyDate;
 		this.studyDoctor = studyDoctor;
 		this.studyOperator = studyOperator;
+		this.studyDescription = studyDescription;
 
 	}
 
@@ -110,6 +112,10 @@ public class DcmFileProxy implements Serializable {
 		return studyOperator;
 	}
 
+	public String getStudyDescription() {
+		return studyDescription;
+	}
+
 	public ArrayList<DcmImageProxy> getImages() {
 		return images;
 	}
@@ -124,9 +130,8 @@ public class DcmFileProxy implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName
-				+ ";" + patientBirthDate + ";" + studyDate + ";images count:"
-				+ images.size();
+		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName + ";" + patientBirthDate + ";"
+				+ studyDate + ";images count:" + images.size();
 	}
 
 }
