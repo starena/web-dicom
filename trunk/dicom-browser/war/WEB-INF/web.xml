@@ -100,6 +100,20 @@
 
 
 	<servlet>
+		<servlet-name>DcmViewTagsServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.DcmViewTagsServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DcmViewTagsServlet</servlet-name>
+		<url-pattern>/dcmtags/*</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
 		<servlet-name>UseagStoreChartServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.stat.UseagStoreChartServlet</servlet-class>
 	</servlet>
