@@ -17,7 +17,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			{ IPropertySubject 
 				- _Name = "Format";
 				- Metaclasses = { IRPYRawContainer 
-					- size = 5;
+					- size = 6;
 					- value = 
 					{ IPropertyMetaclass 
 						- _Name = "Actor";
@@ -85,6 +85,53 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 								- _Name = "Line.LineColor";
 								- _Value = "221,0,0";
 								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Class";
+						- Properties = { IRPYRawContainer 
+							- size = 8;
+							- value = 
+							{ IProperty 
+								- _Name = "DefaultSize";
+								- _Value = "0,34,84,148";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "121,122,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineStyle";
+								- _Value = "0";
+								- _Type = Int;
 							}
 							{ IProperty 
 								- _Name = "Line.LineWidth";
@@ -220,7 +267,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	}
 	- _name = "usecase-main";
 	- _displayName = "usecase-main";
-	- _lastModifiedTime = "2.24.2010::5:41:35";
+	- _lastModifiedTime = "3.2.2010::5:7:46";
 	- _graphicChart = { CGIClassChart 
 		- _id = GUID e7e7ea5f-816d-41fb-92ac-dc0a4e8685bc;
 		- m_type = 0;
