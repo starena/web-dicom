@@ -5,7 +5,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	- _name = "webdicom";
 	- _displayName = "webdicom";
 	- Annotations = { IRPYRawContainer 
-		- size = 3;
+		- size = 4;
 		- value = 
 		{ IComment 
 			- _id = GUID 5b5794b3-15c6-4858-9c08-742bfb2ea8fe;
@@ -66,10 +66,37 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				}
 			}
 		}
+		{ IComment 
+			- _id = GUID 9d898766-f0c1-446c-b5c7-3d71e126d4b6;
+			- _myState = 2048;
+			- _name = "comment_51";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}{\\f1\\fnil\\fcharset0 Arial;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20 1) \\'cf\\'e5\\'f0\\'e5\\'e4\\'e0\\'f7\\'e0 \\'e8\\'f1\\'f1\\'eb\\'e5\\'e4\\'ee\\'e2\\'e0\\'ed\\'e8\\'e9 \\'e2 \\'e0\\'f0\\'f5\\'e8\\'e2\\par
+2) \\'cf\\'f0\\'e8\\'e5\\'ec \\'e7\\'e0\\'ef\\'f0\\'ee\\'f1\\'ee\\'e2 \\'ed\\'e0 \\'f4\\'ee\\'f0\\'ec\\'e8\\'f0\\'ee\\'e2\\'e0\\'ed\\'e8\\'ff \\lang1033\\f1 Modality Worklist\\lang1049\\f0\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID 3f6c29ae-b881-4e72-b22b-ea0d2774c934;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 568147b9-de17-4234-b2a3-4b17748bfb65;
+					}
+				}
+			}
+		}
 	}
-	- _lastID = 39;
+	- _lastID = 58;
 	- Declaratives = { IRPYRawContainer 
-		- size = 5;
+		- size = 6;
 		- value = 
 		{ IUCDiagram 
 			- fileName = "usecase-main";
@@ -91,11 +118,15 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- fileName = "seq-fluro";
 			- _id = GUID 67a7d91a-58dc-4669-bc5b-fda0ebcb3f2f;
 		}
+		{ IDiagram 
+			- fileName = "obj-arch";
+			- _id = GUID 760f8ebf-82d9-4443-a56a-fa00902d1715;
+		}
 	}
-	- weakCGTime = 2.27.2010::3:32:44;
-	- strongCGTime = 2.27.2010::3:29:50;
+	- weakCGTime = 3.2.2010::5:56:11;
+	- strongCGTime = 3.2.2010::5:9:19;
 	- AssociationElements = { IRPYRawContainer 
-		- size = 3;
+		- size = 9;
 		- value = 
 		{ IAssociationClass 
 			- _id = GUID bc576e94-f9f9-43de-959b-1b9fbdaa62e8;
@@ -163,17 +194,149 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				- _id = GUID 57f778b8-8163-4a1a-9846-710876cacfb8;
 			}
 		}
+		{ IAssociationClass 
+			- _id = GUID aa9012af-2a9d-4532-bb93-f1a12be36b79;
+			- _myState = 8192;
+			- _name = "__________________________DCM_______";
+			- _displayName = "\Х\р\а\ни\т \м\е\т\а-и\н\о\ф\о\р\м\а\ци\ю \о DCM-\ф\ай\л\а\х";
+			- weakCGTime = 1.1.1970::5:0:0;
+			- strongCGTime = 1.1.1970::5:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+			- _isClass = 0;
+			- m_end1 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 1980438a-ef5d-4d99-831b-320935facbcf;
+			}
+			- m_end2 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 7e7e7924-e382-4980-8284-0b49754a085c;
+			}
+		}
+		{ IAssociationClass 
+			- _id = GUID 0141e727-2976-4e1a-b670-ba441f47e46d;
+			- _myState = 8192;
+			- _name = "get_metainforation";
+			- _displayName = "\П\о\л\у\ч\е\ни\е \м\е\т\аи\н\ф\о\р\м\а\ции + \п\ои\с\к";
+			- weakCGTime = 1.1.1970::5:0:0;
+			- strongCGTime = 1.1.1970::5:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+			- _isClass = 0;
+			- m_end1 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 6eb21e68-f139-4922-824a-db8940bc9924;
+			}
+			- m_end2 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 22a5bdec-4060-44c6-bc9d-adb625631946;
+			}
+		}
+		{ IAssociationClass 
+			- _id = GUID 37487c84-897f-4c94-9c11-1e6969d5be04;
+			- _myState = 8192;
+			- _name = "__________________DCM_JPG_";
+			- _displayName = "\П\о\л\у\ч\е\ни\е \ф\ай\л\о\в (DCM,JPG)";
+			- weakCGTime = 1.1.1970::5:0:0;
+			- strongCGTime = 1.1.1970::5:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+			- _isClass = 0;
+			- m_end1 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 070e34a0-ac14-4477-b8f3-a14cfe601202;
+			}
+			- m_end2 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID b9f32b8b-a77a-4770-9f46-a484571b0b4e;
+			}
+		}
+		{ IAssociationClass 
+			- _id = GUID f157b82e-1f7d-4169-8cff-ae0cfeca4f23;
+			- _myState = 8192;
+			- _name = "exchenge_information";
+			- _displayName = "\О\б\м\е\н и\н\ф\о\р\м\а\ци\ей";
+			- weakCGTime = 1.1.1970::5:0:0;
+			- strongCGTime = 1.1.1970::5:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+			- _isClass = 0;
+			- m_end1 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 568147b9-de17-4234-b2a3-4b17748bfb65;
+			}
+			- m_end2 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID eea99d57-a5d1-484b-9e19-c450102f960a;
+			}
+		}
+		{ IAssociationClass 
+			- _id = GUID 814f2aa3-2a89-4c1d-9670-584ba4318896;
+			- _myState = 8192;
+			- _name = "___________________DCM_JPG_______";
+			- _displayName = "\С\о\х\р\а\н\я\е\т \к\о\н\т\е\н\т (DCM,JPG) \ф\ай\л\ы";
+			- weakCGTime = 1.1.1970::5:0:0;
+			- strongCGTime = 1.1.1970::5:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+			- _isClass = 0;
+			- m_end1 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 07923145-8cb1-4e58-a7b1-2133eb3b0f8f;
+			}
+			- m_end2 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID f688854a-fac9-4d6b-830a-414d900f968a;
+			}
+		}
+		{ IAssociationClass 
+			- _id = GUID ddc65470-f2bc-4eb7-9da1-c41e48e697e6;
+			- _myState = 8192;
+			- _name = "work";
+			- _displayName = "\Вз\аи\м\о\д\ей\с\т\в\у\е\т";
+			- weakCGTime = 1.1.1970::5:0:0;
+			- strongCGTime = 1.1.1970::5:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+			- _isClass = 0;
+			- m_end1 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID 10ab9737-f1bb-41c2-b14a-e69568fa73fb;
+			}
+			- m_end2 = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _id = GUID df2cf23b-7832-4017-ab16-f0896f7b0fa3;
+			}
+		}
 	}
 	- _defaultComposite = GUID 7d6e047a-9159-499b-a317-720efd3d6602;
 	- _eventsBaseID = -1;
 	- Classes = { IRPYRawContainer 
-		- size = 1;
+		- size = 7;
 		- value = 
 		{ IClass 
 			- _id = GUID 7d6e047a-9159-499b-a317-720efd3d6602;
 			- _myState = 40960;
 			- _name = "TopLevel";
-			- weakCGTime = 2.25.2010::4:55:29;
+			- weakCGTime = 3.2.2010::5:55:19;
 			- strongCGTime = 1.1.1970::5:0:0;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
@@ -181,6 +344,326 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			}
 			- Associations = { IRPYRawContainer 
 				- size = 0;
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID edc43932-5531-4f9c-b5fc-c69d9e6b1fb2;
+			- _myState = 8192;
+			- _name = "DICOM_STORE";
+			- _displayName = "DICOM_STORE";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "PredefinedTypes.sbs";
+					- _subsystem = "PredefinedTypes";
+					- _class = "";
+					- _name = "Interface";
+					- _id = GUID 2a7b8a63-f54f-4379-bab0-02800a5084e1;
+				}
+			}
+			- _theMainDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "obj-arch.omd";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "obj-arch";
+				- _id = GUID 760f8ebf-82d9-4443-a56a-fa00902d1715;
+			}
+			- weakCGTime = 3.2.2010::5:56:27;
+			- strongCGTime = 3.2.2010::5:56:27;
+			- Inheritances = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IGeneralization 
+					- _id = GUID 82ed01fb-1c70-4d25-aea5-901c5633cfa3;
+					- Stereotypes = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IHandle 
+							- _m2Class = "IStereotype";
+							- _filename = "PredefinedTypes.sbs";
+							- _subsystem = "PredefinedTypes";
+							- _class = "";
+							- _name = "Realization";
+							- _id = GUID 122837c0-ef70-11d4-a08b-00d0b780aafd;
+						}
+					}
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 94e349b2-39df-4977-89b8-5c7ad264509c;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID 58ca5c33-7dc3-455e-8c42-52818a99903a;
+			- _myState = 8192;
+			- _name = "DICOM_SCU";
+			- _displayName = "DICOM_SCU";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "PredefinedTypes.sbs";
+					- _subsystem = "PredefinedTypes";
+					- _class = "";
+					- _name = "Interface";
+					- _id = GUID 2a7b8a63-f54f-4379-bab0-02800a5084e1;
+				}
+			}
+			- _theMainDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "obj-arch.omd";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "obj-arch";
+				- _id = GUID 760f8ebf-82d9-4443-a56a-fa00902d1715;
+			}
+			- _lastID = 1;
+			- weakCGTime = 3.2.2010::5:55:34;
+			- strongCGTime = 3.2.2010::5:55:34;
+			- Ports = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Inheritances = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IGeneralization 
+					- _id = GUID b7a6fe9c-b3ce-43df-96c6-0b2a1fb1b57d;
+					- Stereotypes = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IHandle 
+							- _m2Class = "IStereotype";
+							- _filename = "PredefinedTypes.sbs";
+							- _subsystem = "PredefinedTypes";
+							- _class = "";
+							- _name = "Realization";
+							- _id = GUID 122837c0-ef70-11d4-a08b-00d0b780aafd;
+						}
+					}
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID d1ecd4a0-a26b-4587-b196-6426088ec534;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID 8cf99e78-0c8d-4386-9bc4-5bd05d82ce42;
+			- _myState = 8192;
+			- _name = "DICOM_SCP";
+			- _displayName = "DICOM_SCP";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "PredefinedTypes.sbs";
+					- _subsystem = "PredefinedTypes";
+					- _class = "";
+					- _name = "Interface";
+					- _id = GUID 2a7b8a63-f54f-4379-bab0-02800a5084e1;
+				}
+			}
+			- _theMainDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "obj-arch.omd";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "obj-arch";
+				- _id = GUID 760f8ebf-82d9-4443-a56a-fa00902d1715;
+			}
+			- weakCGTime = 3.2.2010::5:56:35;
+			- strongCGTime = 3.2.2010::5:56:35;
+			- Inheritances = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IGeneralization 
+					- _id = GUID 9d45a36d-bccd-41a1-aa08-5ceb395fe855;
+					- Stereotypes = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IHandle 
+							- _m2Class = "IStereotype";
+							- _filename = "PredefinedTypes.sbs";
+							- _subsystem = "PredefinedTypes";
+							- _class = "";
+							- _name = "Realization";
+							- _id = GUID 122837c0-ef70-11d4-a08b-00d0b780aafd;
+						}
+					}
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 94e349b2-39df-4977-89b8-5c7ad264509c;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID ea009984-0d89-4855-9b69-f67dc0eab093;
+			- _myState = 8192;
+			- _name = "DICOM_Modality_Worklist";
+			- _displayName = "DICOM_Modality_Worklist";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "PredefinedTypes.sbs";
+					- _subsystem = "PredefinedTypes";
+					- _class = "";
+					- _name = "Interface";
+					- _id = GUID 2a7b8a63-f54f-4379-bab0-02800a5084e1;
+				}
+			}
+			- _theMainDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "obj-arch.omd";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "obj-arch";
+				- _id = GUID 760f8ebf-82d9-4443-a56a-fa00902d1715;
+			}
+			- weakCGTime = 3.2.2010::5:56:41;
+			- strongCGTime = 3.2.2010::5:56:41;
+			- Inheritances = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IGeneralization 
+					- _id = GUID 8554af4c-6359-49f3-adb4-68c833c0609e;
+					- Stereotypes = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IHandle 
+							- _m2Class = "IStereotype";
+							- _filename = "PredefinedTypes.sbs";
+							- _subsystem = "PredefinedTypes";
+							- _class = "";
+							- _name = "Realization";
+							- _id = GUID 122837c0-ef70-11d4-a08b-00d0b780aafd;
+						}
+					}
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID d1ecd4a0-a26b-4587-b196-6426088ec534;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+				{ IGeneralization 
+					- _id = GUID ca53fd2a-2231-4553-9fd1-53914c594430;
+					- Stereotypes = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IHandle 
+							- _m2Class = "IStereotype";
+							- _filename = "PredefinedTypes.sbs";
+							- _subsystem = "PredefinedTypes";
+							- _class = "";
+							- _name = "Realization";
+							- _id = GUID 122837c0-ef70-11d4-a08b-00d0b780aafd;
+						}
+					}
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 94e349b2-39df-4977-89b8-5c7ad264509c;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID d1ecd4a0-a26b-4587-b196-6426088ec534;
+			- _myState = 8192;
+			- _name = "DICOM_Workstation";
+			- _displayName = "DICOM Workstation";
+			- _theMainDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "obj-arch.omd";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "obj-arch";
+				- _id = GUID 760f8ebf-82d9-4443-a56a-fa00902d1715;
+			}
+			- weakCGTime = 3.2.2010::5:57:44;
+			- strongCGTime = 3.2.2010::5:57:44;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAssociationEnd 
+					- _id = GUID da1fe883-9dd8-47e4-a10f-23da80a7e1fd;
+					- _myState = 10240;
+					- _name = "itsDICOM_workstation";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 376cdd31-fabc-4cc3-a5ed-5e01a55872ea;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 71f6b080-1ff7-4caa-9d3c-7bee603d11de;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID 94e349b2-39df-4977-89b8-5c7ad264509c;
+			- _myState = 8192;
+			- _name = "DICOM______";
+			- _displayName = "DICOM \А\р\хи\в";
+			- _theMainDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "obj-arch.omd";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "obj-arch";
+				- _id = GUID 760f8ebf-82d9-4443-a56a-fa00902d1715;
+			}
+			- weakCGTime = 3.2.2010::5:57:19;
+			- strongCGTime = 3.2.2010::5:57:19;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
 			}
 			- _classModifier = Unspecified;
 		}
@@ -763,14 +1246,14 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _myState = 8192;
 			- _name = "\Т\е\р\а\п\е\в\т";
 			- _displayName = "\Т\е\р\а\п\е\в\т";
-			- weakCGTime = 2.24.2010::4:44:50;
-			- strongCGTime = 2.24.2010::4:25:28;
+			- weakCGTime = 3.2.2010::5:8:31;
+			- strongCGTime = 3.2.2010::5:8:25;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
 			}
 			- Associations = { IRPYRawContainer 
-				- size = 4;
+				- size = 5;
 				- value = 
 				{ IAssociationEnd 
 					- _id = GUID 54711737-f13f-4fa8-9de2-fd3bcb8602e2;
@@ -846,6 +1329,27 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 					- m_associationClass = { IHandle 
 						- _m2Class = "IAssociationClass";
 						- _id = GUID e541bcea-6981-42cf-b446-98459781fd18;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID 10ab9737-f1bb-41c2-b14a-e69568fa73fb;
+					- _myState = 10240;
+					- _name = "itsDICOM-WEB-и\н\т\е\р\ф\ей\с";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 576b4e48-34c4-43a8-85cc-38961d89d9ae;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID df2cf23b-7832-4017-ab16-f0896f7b0fa3;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID ddc65470-f2bc-4eb7-9da1-c41e48e697e6;
 					}
 				}
 			}
@@ -1109,14 +1613,14 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _myState = 8192;
 			- _name = "DICOM-\А\р\хи\в";
 			- _displayName = "DICOM-\А\р\хи\в";
-			- weakCGTime = 2.24.2010::5:36:6;
-			- strongCGTime = 2.24.2010::5:36:6;
+			- weakCGTime = 3.2.2010::5:53:22;
+			- strongCGTime = 3.2.2010::5:53:22;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
 			}
 			- Associations = { IRPYRawContainer 
-				- size = 2;
+				- size = 5;
 				- value = 
 				{ IAssociationEnd 
 					- _id = GUID 84b5dcf4-5553-4518-be4c-282846c3f434;
@@ -1152,6 +1656,69 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 					- _linkType = Assoc;
 					- _navigability = Navigable;
 				}
+				{ IAssociationEnd 
+					- _id = GUID 1980438a-ef5d-4d99-831b-320935facbcf;
+					- _myState = 10240;
+					- _name = "itsDICOM-\Б\Д_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 0c770993-c977-484d-a633-852f258fb010;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 7e7e7924-e382-4980-8284-0b49754a085c;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID aa9012af-2a9d-4532-bb93-f1a12be36b79;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID 568147b9-de17-4234-b2a3-4b17748bfb65;
+					- _myState = 10240;
+					- _name = "itsDICOM_workstation";
+					- _multiplicity = "1..*";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 376cdd31-fabc-4cc3-a5ed-5e01a55872ea;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID eea99d57-a5d1-484b-9e19-c450102f960a;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID f157b82e-1f7d-4169-8cff-ae0cfeca4f23;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID 07923145-8cb1-4e58-a7b1-2133eb3b0f8f;
+					- _myState = 10240;
+					- _name = "itsDICOM-filestore_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID eb3576df-012a-4d3f-82ea-a8d8943c7d73;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID f688854a-fac9-4d6b-830a-414d900f968a;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID 814f2aa3-2a89-4c1d-9670-584ba4318896;
+					}
+				}
 			}
 			- _classModifier = Unspecified;
 		}
@@ -1160,14 +1727,14 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _myState = 8192;
 			- _name = "DICOM-\Б\Д";
 			- _displayName = "DICOM-\Б\Д";
-			- weakCGTime = 2.24.2010::5:36:6;
-			- strongCGTime = 2.24.2010::5:36:6;
+			- weakCGTime = 3.2.2010::4:55:18;
+			- strongCGTime = 3.2.2010::4:55:18;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
 			}
 			- Associations = { IRPYRawContainer 
-				- size = 3;
+				- size = 5;
 				- value = 
 				{ IAssociationEnd 
 					- _id = GUID 26b0bbca-8d84-40a6-bbf2-5a630dcc9d69;
@@ -1219,6 +1786,48 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 					- _linkName = "";
 					- _linkType = Assoc;
 					- _navigability = Navigable;
+				}
+				{ IAssociationEnd 
+					- _id = GUID 7e7e7924-e382-4980-8284-0b49754a085c;
+					- _myState = 10240;
+					- _name = "itsDICOM-\А\р\хи\в_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 42512bb8-5da5-4119-9639-47d4148ed3c9;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 1980438a-ef5d-4d99-831b-320935facbcf;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = NonNavigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID aa9012af-2a9d-4532-bb93-f1a12be36b79;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID 22a5bdec-4060-44c6-bc9d-adb625631946;
+					- _myState = 10240;
+					- _name = "itsDICOM-WEB-и\н\т\е\р\ф\ей\с_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 576b4e48-34c4-43a8-85cc-38961d89d9ae;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 6eb21e68-f139-4922-824a-db8940bc9924;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = NonNavigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID 0141e727-2976-4e1a-b670-ba441f47e46d;
+					}
 				}
 			}
 			- _classModifier = Unspecified;
@@ -1325,14 +1934,14 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 				}
 			}
 			- _lastID = 2;
-			- weakCGTime = 2.24.2010::5:36:6;
-			- strongCGTime = 2.24.2010::5:36:6;
+			- weakCGTime = 3.2.2010::5:8:31;
+			- strongCGTime = 3.2.2010::5:8:25;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
 			}
 			- Associations = { IRPYRawContainer 
-				- size = 2;
+				- size = 5;
 				- value = 
 				{ IAssociationEnd 
 					- _id = GUID 2e421770-9f16-43c1-831a-e536bebe7342;
@@ -1367,6 +1976,69 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 					- _linkName = "";
 					- _linkType = Assoc;
 					- _navigability = Navigable;
+				}
+				{ IAssociationEnd 
+					- _id = GUID 6eb21e68-f139-4922-824a-db8940bc9924;
+					- _myState = 10240;
+					- _name = "itsDICOM-\Б\Д_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 0c770993-c977-484d-a633-852f258fb010;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 22a5bdec-4060-44c6-bc9d-adb625631946;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID 0141e727-2976-4e1a-b670-ba441f47e46d;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID 070e34a0-ac14-4477-b8f3-a14cfe601202;
+					- _myState = 10240;
+					- _name = "itsDICOM-filestore_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID eb3576df-012a-4d3f-82ea-a8d8943c7d73;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID b9f32b8b-a77a-4770-9f46-a484571b0b4e;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID 37487c84-897f-4c94-9c11-1e6969d5be04;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID df2cf23b-7832-4017-ab16-f0896f7b0fa3;
+					- _myState = 10240;
+					- _name = "its\Т\е\р\а\п\е\в\т";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 589abb65-3598-4179-81c0-41cbbc4f61f3;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 10ab9737-f1bb-41c2-b14a-e69568fa73fb;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID ddc65470-f2bc-4eb7-9da1-c41e48e697e6;
+					}
 				}
 			}
 			- _classModifier = Unspecified;
@@ -1424,14 +2096,14 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _myState = 8192;
 			- _name = "DICOM-filestore";
 			- _displayName = "DICOM-filestore";
-			- weakCGTime = 2.24.2010::5:26:28;
-			- strongCGTime = 2.24.2010::5:26:28;
+			- weakCGTime = 3.2.2010::5:4:8;
+			- strongCGTime = 3.2.2010::5:4:8;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
 			}
 			- Associations = { IRPYRawContainer 
-				- size = 3;
+				- size = 5;
 				- value = 
 				{ IAssociationEnd 
 					- _id = GUID e81e94e4-1941-46bb-a9cb-8060c34a83fa;
@@ -1484,6 +2156,48 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 					- _linkType = Assoc;
 					- _navigability = Navigable;
 				}
+				{ IAssociationEnd 
+					- _id = GUID b9f32b8b-a77a-4770-9f46-a484571b0b4e;
+					- _myState = 10240;
+					- _name = "itsDICOM-WEB-и\н\т\е\р\ф\ей\с_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 576b4e48-34c4-43a8-85cc-38961d89d9ae;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 070e34a0-ac14-4477-b8f3-a14cfe601202;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = NonNavigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID 37487c84-897f-4c94-9c11-1e6969d5be04;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID f688854a-fac9-4d6b-830a-414d900f968a;
+					- _myState = 10240;
+					- _name = "itsDICOM-\А\р\хи\в_1";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 42512bb8-5da5-4119-9639-47d4148ed3c9;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 07923145-8cb1-4e58-a7b1-2133eb3b0f8f;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = NonNavigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID 814f2aa3-2a89-4c1d-9670-584ba4318896;
+					}
+				}
 			}
 			- _classModifier = Unspecified;
 		}
@@ -1493,18 +2207,57 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 			- _name = "DICOM_workstation";
 			- _displayName = "DICOM_workstation";
 			- _lastID = 2;
-			- weakCGTime = 2.24.2010::4:56:39;
-			- strongCGTime = 2.24.2010::4:54:11;
+			- weakCGTime = 3.2.2010::5:57:44;
+			- strongCGTime = 3.2.2010::5:57:44;
 			- _multiplicity = "";
 			- _itsStateChart = { IHandle 
 				- _m2Class = "";
 			}
 			- Associations = { IRPYRawContainer 
-				- size = 0;
+				- size = 2;
+				- value = 
+				{ IAssociationEnd 
+					- _id = GUID eea99d57-a5d1-484b-9e19-c450102f960a;
+					- _myState = 10240;
+					- _name = "itsDICOM-\А\р\хи\в";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IActor";
+						- _id = GUID 42512bb8-5da5-4119-9639-47d4148ed3c9;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 568147b9-de17-4234-b2a3-4b17748bfb65;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+					- m_associationClass = { IHandle 
+						- _m2Class = "IAssociationClass";
+						- _id = GUID f157b82e-1f7d-4169-8cff-ae0cfeca4f23;
+					}
+				}
+				{ IAssociationEnd 
+					- _id = GUID 71f6b080-1ff7-4caa-9d3c-7bee603d11de;
+					- _myState = 10240;
+					- _name = "itsDICOM_Workstation";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _id = GUID d1ecd4a0-a26b-4587-b196-6426088ec534;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID da1fe883-9dd8-47e4-a10f-23da80a7e1fd;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
 			}
 			- _classModifier = Unspecified;
 		}
 	}
-	- _configurationRelatedTime = 2.25.2010::4:55:53;
+	- _configurationRelatedTime = 3.2.2010::5:55:28;
 }
 

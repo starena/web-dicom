@@ -447,7 +447,7 @@ I-Logix-RPY-Archive version 8.0.9 Java 893629
 	}
 	- _name = "seq-fluro";
 	- _displayName = "seq-fluro";
-	- _lastModifiedTime = "2.27.2010::3:49:3";
+	- _lastModifiedTime = "3.2.2010::4:17:59";
 	- _graphicChart = { CGIMscChart 
 		- vLadderMargin = 6;
 		- m_usingActivationBar = 0;
