@@ -31,10 +31,12 @@ import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
+import org.dcm4che2.data.VR;
 import org.dcm4che2.filecache.FileCache;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.CloseUtils;
+import org.dcm4che2.util.TagUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -498,17 +500,31 @@ public class Extractor {
 
 		psInsert = connection
 				.prepareStatement("insert into WEBDICOM.DCMFILE_TAGS "
-						+ " (FID_DCMFILE, TAG, VALUE_STRING)"
-						+ " values (?, ?, ?)");
+						+ " (FID_DCMFILE, TAG, TAG_TYPE, VALUE_STRING)"
+						+ " values (?, ?, ?,  ?)");
 
 		int maxLength = 1000;
 
 		DecimalFormat format = new DecimalFormat("0000");
 		
+//		System.out.println("!!! " + dcmObj);
+		
 		// Раскручиваем теги
 		for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
 			DicomElement element = it.next();
 			int tag = element.tag();
+//			System.out.println("!!! " + element);
+			
+			//не пишем бинарные данные
+			if(element.vr().equals(VR.OW)) {
+				continue;
+			}
+			
+//			String type = TagUtils.toString(tag);
+			String type = "" + element.vr().toString();
+			if(type.length()>2) {
+				type = type.substring(0, 2);
+			}
 			
 			
 			short ma = (short) (tag >> 16);
@@ -525,12 +541,13 @@ public class Extractor {
 			if(value==null) continue;
 			psInsert.setInt(1, dcmId);
 			psInsert.setInt(2, tag);
-			psInsert.setString(3, value);
+			psInsert.setString(3, type);
+			psInsert.setString(4, value);
 
 			psInsert.executeUpdate();
 			
-			LOG.info("insert tag [" + major + " , "+minor+"] (" + name + ")" + value);
-			System.out.println("insert tag [" + major + " , "+minor+"] (" + name + ")" + value);
+			LOG.info("insert tag (" + major + ","+minor+") ["+ type+"] [" + name + "] " + value);
+//			System.out.println("insert tag (" + major + ","+minor+") ["+ type+"] [" + name + "] " + value);
 		}
 		psInsert.close();
 
