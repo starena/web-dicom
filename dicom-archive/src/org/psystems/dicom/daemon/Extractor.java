@@ -12,10 +12,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,18 +42,18 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class Extractor {
-	
-	
+
 	private static Logger LOG = LoggerFactory.getLogger(Extractor.class);
-	
+
 	private FileCache cache;
-	
-	public static String dcmFileExt = ".dcm"; // Расширение для сохраняемых файлов
+
+	public static String dcmFileExt = ".dcm"; // Расширение для сохраняемых
+	// файлов
 	public static String imageDirPrefix = ".images";
-	
+
 	static String connectionStr = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
-	private Connection connection;//соединение с БД
-	
+	private Connection connection;// соединение с БД
+
 	private int frame = 1;
 	private float center;
 	private float width;
@@ -59,12 +62,9 @@ public class Extractor {
 	private DicomObject prState;
 	private short[] pval2gray;
 	private String imageFileExt = ".jpg";
-	
-
-	
 
 	private String imageContentType = "image/jpeg";
-	
+
 	public Extractor(FileCache cache) {
 		super();
 		this.cache = cache;
@@ -79,7 +79,8 @@ public class Extractor {
 	 */
 	public String getRelativeFilePath(File file) {
 		File dir = cache.getCacheRootDir();
-		String s = file.getPath().replaceFirst(Matcher.quoteReplacement(dir.getPath() + File.separator), "");
+		String s = file.getPath().replaceFirst(
+				Matcher.quoteReplacement(dir.getPath() + File.separator), "");
 		return s;
 	}
 
@@ -90,7 +91,9 @@ public class Extractor {
 	 * @return
 	 */
 	public String getRelativeDcmFileName(File file) {
-		Matcher matcher = Pattern.compile(".*" + getFileSeparatorPattern() + "(.*)$").matcher(file.getPath());
+		Matcher matcher = Pattern.compile(
+				".*" + getFileSeparatorPattern() + "(.*)$").matcher(
+				file.getPath());
 		if (matcher.matches()) {
 			return matcher.group(1);
 		}
@@ -120,7 +123,8 @@ public class Extractor {
 	 */
 	public String getRelativeImageFileName(File file) {
 		Matcher matcher = Pattern.compile(
-				".*" + getFileSeparatorPattern() + "(.*)" + getFileSeparatorPattern() + "(.*)$").matcher(
+				".*" + getFileSeparatorPattern() + "(.*)"
+						+ getFileSeparatorPattern() + "(.*)$").matcher(
 				file.getPath());
 		if (matcher.matches()) {
 			return matcher.group(1) + File.separator + matcher.group(2);
@@ -159,7 +163,8 @@ public class Extractor {
 		props.put("user", "user1"); // FIXME Взять из конфига
 		props.put("password", "user1"); // FIXME Взять из конфига
 
-		Connection conn = DriverManager.getConnection(connectionStr + ";create=true", props);
+		Connection conn = DriverManager.getConnection(connectionStr
+				+ ";create=true", props);
 		// conn.setAutoCommit(false);
 		// s = conn.createStatement();
 		// s.execute(sql);
@@ -192,7 +197,8 @@ public class Extractor {
 	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public ArrayList<String> extractImages(File dcmFile) throws IOException, SQLException {
+	public ArrayList<String> extractImages(File dcmFile) throws IOException,
+			SQLException {
 
 		ArrayList<String> resultImages = new ArrayList<String>();
 		File dest = new File(dcmFile.getPath() + imageDirPrefix);
@@ -201,10 +207,12 @@ public class Extractor {
 		dest = new File(dest, "1" + imageFileExt);
 		// TODO Тут может быть наверное несколько картинок !!!
 
-		Iterator<ImageReader> iter = ImageIO.getImageReadersByFormatName("DICOM");
+		Iterator<ImageReader> iter = ImageIO
+				.getImageReadersByFormatName("DICOM");
 
 		ImageReader reader = iter.next();
-		DicomImageReadParam param = (DicomImageReadParam) reader.getDefaultReadParam();
+		DicomImageReadParam param = (DicomImageReadParam) reader
+				.getDefaultReadParam();
 		param.setWindowCenter(center);
 		param.setWindowWidth(width);
 		param.setVoiLutFunction(vlutFct);
@@ -237,8 +245,8 @@ public class Extractor {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	private void insertUpdateCommonData(File dcmFile, ArrayList<String> images) throws SQLException,
-			IOException {
+	private void insertUpdateCommonData(File dcmFile, ArrayList<String> images)
+			throws SQLException, IOException {
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
@@ -259,13 +267,14 @@ public class Extractor {
 
 			// читаем кодировку из dcm-файла
 			if (charsetStr == null) {
-				
-				if(dcmObj.get(Tag.SpecificCharacterSet)!=null) {
-				cs = SpecificCharacterSet.valueOf(dcmObj.get(Tag.SpecificCharacterSet)
-						.getStrings(null, false));
-				}else {
+
+				if (dcmObj.get(Tag.SpecificCharacterSet) != null) {
+					cs = SpecificCharacterSet.valueOf(dcmObj.get(
+							Tag.SpecificCharacterSet).getStrings(null, false));
+				} else {
 					cs = new SpecificCharacterSet("ISO-8859-5");
-					LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
+					LOG
+							.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
 				}
 			}
 
@@ -275,18 +284,21 @@ public class Extractor {
 			java.sql.Date PATIENT_BIRTH_DATE;
 
 			if (dcmObj.get(Tag.PatientBirthDate) != null) {
-				PATIENT_BIRTH_DATE = new java.sql.Date(dcmObj.get(Tag.PatientBirthDate).getDate(false)
-						.getTime());
+				PATIENT_BIRTH_DATE = new java.sql.Date(dcmObj.get(
+						Tag.PatientBirthDate).getDate(false).getTime());
 			} else {
 				PATIENT_BIRTH_DATE = new java.sql.Date(0);
-				LOG.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
+				LOG
+						.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
 			}
 
 			DicomElement element1 = dcmObj.get(Tag.PatientName);
-			String PATIENT_NAME = element1.getValueAsString(cs, element1.length());
+			String PATIENT_NAME = element1.getValueAsString(cs, element1
+					.length());
 
 			element1 = dcmObj.get(Tag.PatientID);
-			String PATIENT_ID = element1.getValueAsString(cs, element1.length());
+			String PATIENT_ID = element1
+					.getValueAsString(cs, element1.length());
 
 			if (PATIENT_ID == null || PATIENT_ID.length() == 0) {
 				PATIENT_ID = "не указан";
@@ -312,7 +324,8 @@ public class Extractor {
 				STUDY_ID = element1.getValueAsString(cs, element1.length());
 			}
 
-			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(Tag.StudyDate).getDate(false).getTime());
+			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(
+					Tag.StudyDate).getDate(false).getTime());
 
 			String STUDY_DOCTOR = "не указан";
 			element1 = dcmObj.get(Tag.ReferringPhysicianName);
@@ -326,17 +339,20 @@ public class Extractor {
 			String STUDY_OPERATOR = "не указан";
 			element1 = dcmObj.get(Tag.OperatorsName);
 			if (element1 != null) {
-				STUDY_OPERATOR = element1.getValueAsString(cs, element1.length());
+				STUDY_OPERATOR = element1.getValueAsString(cs, element1
+						.length());
 				if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
 					STUDY_OPERATOR = "не указан";
 				}
 			}
-			
+
 			String STUDY_DESCRIPTION = "";
 			element1 = dcmObj.get(Tag.MedicalAlerts);
 			if (element1 != null) {
-				STUDY_DESCRIPTION = element1.getValueAsString(cs, element1.length());
-				if (STUDY_DESCRIPTION == null || STUDY_DESCRIPTION.length() == 0) {
+				STUDY_DESCRIPTION = element1.getValueAsString(cs, element1
+						.length());
+				if (STUDY_DESCRIPTION == null
+						|| STUDY_DESCRIPTION.length() == 0) {
 					STUDY_DESCRIPTION = "нет";
 				}
 			}
@@ -348,13 +364,14 @@ public class Extractor {
 
 			PreparedStatement stmt = null;
 
-			LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "][" + PATIENT_BIRTH_DATE + "]["
-					+ STUDY_DATE + "]");
+			LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]["
+					+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
 
 			// Проверка на наличии этого файла в БД
 			try {
 				int id = checkDbDCMFile(DCM_FILE_NAME);
-				LOG.info("File already in database [" + id + "] [" + DCM_FILE_NAME + "]");
+				LOG.info("File already in database [" + id + "] ["
+						+ DCM_FILE_NAME + "]");
 				LOG.info("update data in database [" + DCM_FILE_NAME + "]");
 
 				stmt = connection
@@ -401,18 +418,27 @@ public class Extractor {
 				stmt.setString(12, STUDY_DESCRIPTION);
 
 				stmt.executeUpdate();
+				
+				
+				
+				
+				
 				// Обновляем статистику
 				updateDayStatInc(STUDY_DATE, "ALL_DCM_SIZE", DCM_FILE_SIZE);
 			} finally {
 				if (stmt != null)
 					stmt.close();
 			}
+			
+			int dcmId = checkDbDCMFile(DCM_FILE_NAME);
+			insertTags(dcmObj, dcmId);
 
 			// Вставка в БД информации о картинках
 
 			for (Iterator<String> it = images.iterator(); it.hasNext();) {
 				String fileImage = it.next();
-				insertImageData(dcmFile, new File(fileImage), STUDY_DATE, WIDTH, HEIGHT);
+				insertImageData(dcmFile, new File(fileImage), STUDY_DATE,
+						WIDTH, HEIGHT);
 			}
 
 		} catch (org.dcm4che2.data.ConfigurationError e) {
@@ -436,6 +462,77 @@ public class Extractor {
 			} catch (IOException ignore) {
 			}
 		}
+
+	}
+
+	/**
+	 * Вставка информации о тегах
+	 * 
+	 * @param dcmObj
+	 * @param dcmId
+	 * @throws SQLException
+	 */
+	private void insertTags(DicomObject dcmObj, int dcmId) throws SQLException {
+
+		// TODO Удаляем старые теги!!!
+
+		PreparedStatement psDelete = connection
+		.prepareStatement("delete from WEBDICOM.DCMFILE_TAGS where FID_DCMFILE = ?");
+		psDelete.setInt(1, dcmId);
+		psDelete.executeUpdate();
+		psDelete.close();
+			
+		
+		// FIXME Задаем жестко кодировку
+		SpecificCharacterSet cs = new SpecificCharacterSet("ISO-8859-5");
+
+		// читаем кодировку из dcm-файла
+		if (dcmObj.get(Tag.SpecificCharacterSet) != null) {
+			SpecificCharacterSet cs1 = SpecificCharacterSet.valueOf(dcmObj.get(
+					Tag.SpecificCharacterSet).getStrings(null, false));
+		}
+
+		PreparedStatement psInsert = null;
+
+		
+
+		psInsert = connection
+				.prepareStatement("insert into WEBDICOM.DCMFILE_TAGS "
+						+ " (FID_DCMFILE, TAG, VALUE_STRING)"
+						+ " values (?, ?, ?)");
+
+		int maxLength = 1000;
+
+		DecimalFormat format = new DecimalFormat("0000");
+		
+		// Раскручиваем теги
+		for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
+			DicomElement element = it.next();
+			int tag = element.tag();
+			
+			
+			short ma = (short) (tag >> 16);
+			String major = format.format(ma);
+			short mi = (short) (tag);
+			String minor = format.format(mi);
+			
+			String name = dcmObj.nameOf(tag);
+			int length = element.length();
+			if (length > maxLength)
+				length = maxLength;
+
+			String value = element.getValueAsString(cs, length);
+			if(value==null) continue;
+			psInsert.setInt(1, dcmId);
+			psInsert.setInt(2, tag);
+			psInsert.setString(3, value);
+
+			psInsert.executeUpdate();
+			
+			LOG.info("insert tag [" + major + " , "+minor+"] (" + name + ")" + value);
+			System.out.println("insert tag [" + major + " , "+minor+"] (" + name + ")" + value);
+		}
+		psInsert.close();
 
 	}
 
@@ -530,7 +627,8 @@ public class Extractor {
 	 * @param imageFile
 	 * @throws SQLException
 	 */
-	private void insertImageData(File dcmFile, File imageFile, java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
+	private void insertImageData(File dcmFile, File imageFile,
+			java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
 			throws SQLException {
 
 		Integer FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
@@ -544,10 +642,13 @@ public class Extractor {
 
 			PreparedStatement psUpdate = null;
 
-			LOG.info("update data in database [" + FID_DCMFILE + "] image [" + IMAGE_FILE_NAME + "]");
-			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES" + " set FID_DCMFILE = ? ,"
+			LOG.info("update data in database [" + FID_DCMFILE + "] image ["
+					+ IMAGE_FILE_NAME + "]");
+			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES"
+					+ " set FID_DCMFILE = ? ,"
 					+ " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? , NAME = ?, "
-					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?" + " where ID = ?");
+					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
+					+ " where ID = ?");
 
 			psUpdate.setInt(1, FID_DCMFILE);
 			psUpdate.setString(2, CONTENT_TYPE);
@@ -563,11 +664,13 @@ public class Extractor {
 		} catch (NoDataFoundException ex) {
 			PreparedStatement psInsert = null;
 
-			LOG.info("insert data in database [" + FID_DCMFILE + "] image [" + IMAGE_FILE_NAME + "]");
+			LOG.info("insert data in database [" + FID_DCMFILE + "] image ["
+					+ IMAGE_FILE_NAME + "]");
 
-			psInsert = connection.prepareStatement("insert into WEBDICOM.IMAGES"
-					+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
-					+ " values (?, ?, ?, ?, ?, ?, ?)");
+			psInsert = connection
+					.prepareStatement("insert into WEBDICOM.IMAGES"
+							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
+							+ " values (?, ?, ?, ?, ?, ?, ?)");
 
 			psInsert.setInt(1, FID_DCMFILE);
 			psInsert.setString(2, CONTENT_TYPE);
@@ -594,7 +697,8 @@ public class Extractor {
 	 * @param value
 	 * @throws SQLException
 	 */
-	private void updateDayStatInc(java.util.Date date, String metric, long value) throws SQLException {
+	private void updateDayStatInc(java.util.Date date, String metric, long value)
+			throws SQLException {
 
 		PreparedStatement stmt = null;
 
@@ -612,9 +716,11 @@ public class Extractor {
 		// Проверка на наличии этого файла в БД
 		try {
 			long valueOld = checkDayMetric(metric, new java.sql.Date(time));
-			LOG.info("metric already in database [" + metric + "][" + date + "][" + valueOld + "]");
+			LOG.info("metric already in database [" + metric + "][" + date
+					+ "][" + valueOld + "]");
 
-			stmt = connection.prepareStatement("update WEBDICOM.DAYSTAT " + " SET METRIC_VALUE_LONG = ? "
+			stmt = connection.prepareStatement("update WEBDICOM.DAYSTAT "
+					+ " SET METRIC_VALUE_LONG = ? "
 					+ " where METRIC_NAME = ? AND METRIC_DATE = ?");
 
 			long sumVal = value + valueOld;
@@ -625,9 +731,11 @@ public class Extractor {
 
 		} catch (NoDataFoundException ex) {
 			// Делаем вставку
-			LOG.info("insert data in database [" + metric + "][" + date + "][" + value + "]");
+			LOG.info("insert data in database [" + metric + "][" + date + "]["
+					+ value + "]");
 			stmt = connection.prepareStatement("insert into WEBDICOM.DAYSTAT "
-					+ " (METRIC_NAME, METRIC_DATE, METRIC_VALUE_LONG)" + " values (?, ?, ?)");
+					+ " (METRIC_NAME, METRIC_DATE, METRIC_VALUE_LONG)"
+					+ " values (?, ?, ?)");
 
 			stmt.setString(1, metric);
 			stmt.setDate(2, new java.sql.Date(time));
@@ -647,7 +755,8 @@ public class Extractor {
 	 * @return
 	 * @throws SQLException
 	 */
-	private long checkDayMetric(String metric, java.sql.Date date) throws SQLException {
+	private long checkDayMetric(String metric, java.sql.Date date)
+			throws SQLException {
 		PreparedStatement psSelect = connection
 				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
 		try {
