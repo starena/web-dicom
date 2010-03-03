@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -143,23 +144,28 @@ public class DcmViewTagsServlet extends HttpServlet {
 			resp.getWriter().write("<h1> Теги: </h1>");
 
 			resp.getWriter().write("<table border=1>");
+			
+			DecimalFormat format = new DecimalFormat("0000");
+			
 			// Раскручиваем теги
 			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
 				DicomElement element = it.next();
 
 				int tag = element.tag();
 				short ma = (short) (tag >> 16);
-				String major = Integer.toHexString(ma);
+				String major = format.format(ma);
 				short mi = (short) (tag);
-				String minor = Integer.toHexString(mi);
+				String minor = format.format(mi);
 
+				String type = element.vr().toString();
+				
 				int length = element.length();
 				int maxLength = 200;
 				if (length > maxLength)
 					length = maxLength;
 
 				resp.getWriter().write(
-						"<tr> " + " <td>" + major + " <td>" + minor +  "<td>" + dcmObj.nameOf(tag)
+						"<tr> " + " <td>" + major + " <td>" + minor + "<td>" + type +  "<td>" + dcmObj.nameOf(tag)
 								+ " <td> "
 								+ element.getValueAsString(cs, length)
 								+ "</tr>");
