@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="maashaack contributor" />
-  <Content type="url" href="http://spreadsheets.google.com/
-embeddedform?key=pGIxRmvuySOU22XjoDy-HYg" />
+  <ModulePrefs title="web-dicom calendar" />
+  <Content type="url" href="http://www.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=qae1v2ur2gcjbr3u1gag6corvg%40group.calendar.google.com&amp;color=%232952A3&amp;ctz=Asia%2FYekaterinburg" />
 </Module> 
