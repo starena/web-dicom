@@ -297,7 +297,7 @@ public class Dicom_browser implements EntryPoint {
 
 						for (int i = 0; i < data.length; i++) {
 							DcmFileProxy proxy = data[i];
-							SearchedItem s = new SearchedItem(proxy);
+							SearchedItem s = new SearchedItem(browserService,proxy);
 							RootPanel.get("resultContainer").add(s);
 						}
 

@@ -1,7 +1,12 @@
 package org.psystems.dicom.browser.client.service;
 
+import java.util.ArrayList;
+
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
+import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
+import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -12,7 +17,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("browser")
 public interface BrowserService extends RemoteService {
 
-
 	/**
 	 * Поиск исследований
 	 * 
@@ -22,5 +26,8 @@ public interface BrowserService extends RemoteService {
 	 * @return
 	 * @throws DefaultGWTRPCException
 	 */
-	RPCDcmFileProxyEvent findStudy(long transactionId, String version, String queryStr) throws DefaultGWTRPCException;
+	RPCDcmFileProxyEvent findStudy(long transactionId, String version,
+			String queryStr) throws DefaultGWTRPCException;
+
+	RPCResponceEvent getDcmTags(RPCRequestEvent event) throws DefaultGWTRPCException;
 }

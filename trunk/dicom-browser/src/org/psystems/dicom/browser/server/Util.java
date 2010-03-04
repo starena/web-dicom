@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
 
 /**
  * Утилитный класс
@@ -67,11 +68,21 @@ public class Util {
 	}
 	
 	/**
+	 * TODO !!! Убрать !!!
 	 * Проверка версии клиентског запроса
 	 * @param v
 	 * @return
 	 */
-	public static boolean checkClentkVersion(String v) {
+	public static boolean checkClentVersion(String v) {
 		return version.equalsIgnoreCase(v);
+	}
+	
+	/**
+	 * Проверка версии клиентског запроса
+	 * @param v
+	 * @return
+	 */
+	public static boolean checkClentVersion(RPCRequestEvent event) {
+		return version.equalsIgnoreCase(event.getVersion());
 	}
 }

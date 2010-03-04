@@ -40,7 +40,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 //		System.out.println("END SLEEP");
 		
 		// проверка версии клиента
-		if (!org.psystems.dicom.browser.server.Util.checkClentkVersion(version)) {
+		if (!org.psystems.dicom.browser.server.Util.checkClentVersion(version)) {
 			throw new VersionGWTRPCException(
 					"Версия клиента не совпадает с версией сервера! " + version
 							+ " != "

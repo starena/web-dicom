@@ -10,11 +10,17 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import org.apache.log4j.Logger;
+import org.dcm4che2.util.TagUtils;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
+import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponce;
 import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
+import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
+import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
 import org.psystems.dicom.browser.client.service.BrowserService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -23,7 +29,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserService {
+public class BrowserServiceImpl extends RemoteServiceServlet implements
+		BrowserService {
 
 	private int maxReturnRecords = 20; // Максимальное количество возвращаемых
 	// записей
@@ -35,8 +42,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	// !!!
 
 	@Override
-	public RPCDcmFileProxyEvent findStudy(long transactionId, String version, String queryStr)
-			throws DefaultGWTRPCException {
+	public RPCDcmFileProxyEvent findStudy(long transactionId, String version,
+			String queryStr) throws DefaultGWTRPCException {
 
 		// System.out.println("BEGIN SLEEP");
 		// try { //TODO Убрать!!!
@@ -47,9 +54,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		// System.out.println("END SLEEP");
 
 		// проверка версии клиента
-		if (!Util.checkClentkVersion(version)) {
-			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! " + version
-					+ " != " + Util.version);
+		if (!Util.checkClentVersion(version)) {
+			throw new VersionGWTRPCException(
+					"Версия клиента не совпадает с версией сервера! " + version
+							+ " != " + Util.version);
 		}
 
 		PreparedStatement psSelect = null;
@@ -60,14 +68,17 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 			Connection connection = Util.getConnection(getServletContext());
 			//
 
-			psImages = connection.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME, WIDTH, HEIGHT "
-					+ " FROM WEBDICOM.IMAGES WHERE FID_DCMFILE = ? ");
+			psImages = connection
+					.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME, WIDTH, HEIGHT "
+							+ " FROM WEBDICOM.IMAGES WHERE FID_DCMFILE = ? ");
 
 			//
-			psSelect = connection.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, "
-					+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
-					+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR, STUDY_DESCRIPTION  FROM WEBDICOM.DCMFILE"
-					+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')" + " order by PATIENT_NAME ");
+			psSelect = connection
+					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_ID, PATIENT_NAME, "
+							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
+							+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR, STUDY_DESCRIPTION  FROM WEBDICOM.DCMFILE"
+							+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
+							+ " order by PATIENT_NAME ");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
@@ -80,10 +91,15 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 				Locale loc_ru = new Locale("ru", "RU");
 				now.setTime(rs.getDate("PATIENT_BIRTH_DATE"));
 
-				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), rs.getString("PATIENT_NAME"), rs
-						.getString("PATIENT_SEX"), rs.getString("PATIENT_ID"), rs
-						.getDate("PATIENT_BIRTH_DATE"), rs.getString("STUDY_ID"), rs.getDate("STUDY_DATE"),
-						rs.getString("STUDY_DOCTOR"), rs.getString("STUDY_OPERATOR"), rs
+				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), rs
+						.getString("PATIENT_NAME"),
+						rs.getString("PATIENT_SEX"),
+						rs.getString("PATIENT_ID"), rs
+								.getDate("PATIENT_BIRTH_DATE"), rs
+								.getString("STUDY_ID"), rs
+								.getDate("STUDY_DATE"), rs
+								.getString("STUDY_DOCTOR"), rs
+								.getString("STUDY_OPERATOR"), rs
 								.getString("STUDY_DESCRIPTION"));
 
 				// Получаем список картинок
@@ -99,7 +115,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 					int height = rsImages.getInt("HEIGHT");
 
 					DcmImageProxy imageProxy = new DcmImageProxy();
-					imageProxy.init(imageId, imFileName, contentType, width, height);
+					imageProxy.init(imageId, imFileName, contentType, width,
+							height);
 					images.add(imageProxy);
 				}
 				rsImages.close();
@@ -117,7 +134,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 			Calendar calendar = Calendar.getInstance();
 
-			int tzoffset = calendar.getTimeZone().getOffset(calendar.getTimeInMillis());
+			int tzoffset = calendar.getTimeZone().getOffset(
+					calendar.getTimeInMillis());
 			// System.out.println("!!!!! "+tzoffset );
 
 			long time = calendar.getTimeInMillis();
@@ -159,7 +177,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	 * @param value
 	 * @throws SQLException
 	 */
-	private void updateDayStatInc(Date date, String metric, long value) throws SQLException {
+	private void updateDayStatInc(Date date, String metric, long value)
+			throws SQLException {
 
 		Connection connection = Util.getConnection(getServletContext());
 
@@ -179,9 +198,11 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		// Проверка на наличии этого файла в БД
 		try {
 			long valueOld = checkDayMetric(metric, date);
-			logger.info("metric already in database [" + metric + "][" + date + "][" + valueOld + "]");
+			logger.info("metric already in database [" + metric + "][" + date
+					+ "][" + valueOld + "]");
 
-			stmt = connection.prepareStatement("update WEBDICOM.DAYSTAT " + " SET METRIC_VALUE_LONG = ? "
+			stmt = connection.prepareStatement("update WEBDICOM.DAYSTAT "
+					+ " SET METRIC_VALUE_LONG = ? "
 					+ " where METRIC_NAME = ? AND METRIC_DATE = ?");
 
 			long sumVal = value + valueOld;
@@ -195,9 +216,11 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 		} catch (NoDataFoundException ex) {
 			// Делаем вставку
-			logger.info("insert data in database [" + metric + "][" + date + "][" + value + "]");
+			logger.info("insert data in database [" + metric + "][" + date
+					+ "][" + value + "]");
 			stmt = connection.prepareStatement("insert into WEBDICOM.DAYSTAT "
-					+ " (METRIC_NAME, METRIC_DATE, METRIC_VALUE_LONG)" + " values (?, ?, ?)");
+					+ " (METRIC_NAME, METRIC_DATE, METRIC_VALUE_LONG)"
+					+ " values (?, ?, ?)");
 
 			stmt.setString(1, metric);
 			stmt.setDate(2, date);
@@ -212,6 +235,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	/**
 	 * Проверка на наличии этого файла в БД
+	 * TODO Как-то заморочено получилось....
 	 * 
 	 * @param dcm_file_name
 	 * @return
@@ -237,4 +261,58 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		throw new NoDataFoundException("No data");
 	}
 
+	@Override
+	public RPCResponceEvent getDcmTags(RPCRequestEvent reqEvent)
+			throws DefaultGWTRPCException {
+
+		// проверка версии клиента
+		if (!Util.checkClentVersion(reqEvent)) {
+			throw new VersionGWTRPCException(
+					"Версия клиента не совпадает с версией сервера! "
+							+ reqEvent.getVersion() + " != " + Util.version);
+		}
+
+		int idDcm = ((DcmTagsRPCRequest)reqEvent.getData()).getIdDcm();
+
+		PreparedStatement psSelect = null;
+
+		try {
+			Connection connection = Util.getConnection(getServletContext());
+			psSelect = connection
+					.prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAGS WHERE FID_DCMFILE = ?");
+
+			psSelect.setInt(1, idDcm);
+			ResultSet rs = psSelect.executeQuery();
+			ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
+			while (rs.next()) {
+				DcmTagProxy proxy = new DcmTagProxy();
+				proxy.init(idDcm, rs.getInt("TAG"), rs.getString("TAG_TYPE"),
+						TagUtils.toString(rs.getInt("TAG")), rs.getString("VALUE_STRING"));
+				data.add(proxy);
+
+			}
+			rs.close();
+			DcmTagsRPCResponce responce = new DcmTagsRPCResponce();
+			responce.setTagList(data);
+			
+			RPCResponceEvent respEvent = new RPCResponceEvent();
+			respEvent.init(reqEvent.getTransactionId(), reqEvent.getVersion(), responce);
+			return respEvent;
+
+		} catch (SQLException e) {
+			logger.error(e);
+			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				throw new DefaultGWTRPCException(e.getMessage());
+			}
+		}
+
+	}
 }

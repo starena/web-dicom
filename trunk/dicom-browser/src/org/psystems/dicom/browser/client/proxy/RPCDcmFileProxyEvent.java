@@ -3,6 +3,7 @@ package org.psystems.dicom.browser.client.proxy;
 import java.io.Serializable;
 
 /**
+ * TODO Передалеть на интерфейс RPCResponce
  * @author dima_d
  * 
  */
