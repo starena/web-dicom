@@ -16,6 +16,7 @@ import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -38,21 +39,21 @@ public class SearchedItem extends Composite {
 	private String datePattern = "dd.MM.yyyy";
 	private BrowserServiceAsync service;
 	DcmFileProxy proxy = null;
-	
 
 	public SearchedItem(BrowserServiceAsync service, final DcmFileProxy proxy) {
 		super();
 		this.service = service;
 		this.proxy = proxy;
-		
+
 		HorizontalPanel dcmItem = new HorizontalPanel();
 
 		//
 		HorizontalPanel dcmImage = new HorizontalPanel();
+		dcmImage.setVerticalAlignment(HorizontalPanel.ALIGN_TOP);
 
 		final FlexTable table = new FlexTable();
 		table.setStyleName("SearchItem");
-		// t.setBorderWidth(1);
+//		table.setBorderWidth(1);
 
 		String sex = proxy.getPatientSex();
 		if ("M".equalsIgnoreCase(sex)) {
@@ -67,12 +68,12 @@ public class SearchedItem extends Composite {
 
 		table.setWidget(0, 0, l);
 		table.getFlexCellFormatter().setColSpan(0, 0, 6);
-		table.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
-				HorizontalPanel.ALIGN_MIDDLE);
+		table.getFlexCellFormatter().setAlignment(0, 0,
+				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 
 		table.setWidget(0, 1, dcmImage);
-		table.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
-				HorizontalPanel.ALIGN_MIDDLE);
+		table.getFlexCellFormatter().setAlignment(0, 0,
+				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
 		table.getFlexCellFormatter().setRowSpan(0, 1, 5);
 
 		createItemName(table, 1, 0, "дата:");
@@ -99,23 +100,24 @@ public class SearchedItem extends Composite {
 
 		HTML linkDcm = new HTML();
 		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
-				+ ".dcm' target='new'> получить оригнальный DICOM-файл </a>" +
-				"<a href='" + "dcmtags/" + proxy.getId()
-					+ ".dcm' target='new'> показать тэги </a>");
-		
+				+ ".dcm' target='new'> получить оригнальный DICOM-файл </a>"
+				+ "<a href='" + "dcmtags/" + proxy.getId()
+				+ ".dcm' target='new'> показать тэги </a>");
+
 		linkDcm.setStyleName("DicomItemName");
 
 		table.setWidget(4, 0, linkDcm);
 		table.getFlexCellFormatter().setColSpan(4, 0, 6);
-		table.getFlexCellFormatter().setAlignment(4, 0, HorizontalPanel.ALIGN_CENTER,
-				HorizontalPanel.ALIGN_MIDDLE);
+		table.getFlexCellFormatter().setAlignment(4, 0,
+				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 
 		// t.setText(2, 2, "bottom-right corner");
 		// t.setWidget(1, 0, new Button("Wide Button"));
 		// t.getFlexCellFormatter().setColSpan(1, 0, 3);
 		dcmItem.add(table);
 
-		for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it.hasNext();) {
+		for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it
+				.hasNext();) {
 			final DcmImageProxy imageProxy = it.next();
 
 			Image image = new Image("images/" + imageProxy.getId());
@@ -158,7 +160,8 @@ public class SearchedItem extends Composite {
 					vp.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 
 					Label lTitle = new Label(proxy.getPatientName() + " ["
-							+ proxy.getPatientBirthDateAsString(datePattern) + "]" + " исследование от "
+							+ proxy.getPatientBirthDateAsString(datePattern)
+							+ "]" + " исследование от "
 							+ proxy.getStudyDateAsString(datePattern));
 
 					lTitle.setStyleName("DicomItemValue");
@@ -176,7 +179,8 @@ public class SearchedItem extends Composite {
 					});
 
 					HTML link = new HTML();
-					link.setHTML("&nbsp;&nbsp;<a href='" + "images/" + imageProxy.getId()
+					link.setHTML("&nbsp;&nbsp;<a href='" + "images/"
+							+ imageProxy.getId()
 							+ "' target='new'> Открыть в новом окне </a>");
 					link.setStyleName("DicomItemName");
 					vp.add(link);
@@ -191,53 +195,27 @@ public class SearchedItem extends Composite {
 
 		}
 
+		final VerticalPanel vp = new VerticalPanel();
 
-		//
-		
-		RPCRequestEvent requestEvent = new RPCRequestEvent();
-		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
-		req.setIdDcm(proxy.getId());
-		
-		requestEvent.init(0, Dicom_browser.version, req);
-		service.getDcmTags(requestEvent, new AsyncCallback<RPCResponceEvent> () {
+		table.setWidget(4, 0, vp);
+		table.getFlexCellFormatter().setColSpan(4, 0, 6);
+		table.getFlexCellFormatter().setAlignment(4, 0,
+				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+
+		Label showTagsLabel = new Label("Показать теги");
+		showTagsLabel.setStyleName("DicomItemValue");
+		DOM.setStyleAttribute(showTagsLabel.getElement(), "cursor", "pointer");
+		vp.add(showTagsLabel);
+
+		showTagsLabel.addClickHandler(new ClickHandler() {
 
 			@Override
-			public void onFailure(Throwable caught) {
+			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				//TODO Вывести сообщени еоб ошибке !!!
-				System.out.println("!!!! error: " + caught);
+				showTags(vp);
 			}
 
-			public void onSuccess(RPCResponceEvent result) {
-				// TODO Auto-generated method stub
-				DcmTagsRPCResponce data = (DcmTagsRPCResponce)result.getData();
-				ArrayList<DcmTagProxy> a = data.getTagList();
-				
-				VerticalPanel vp = new VerticalPanel();
-				
-				table.setWidget(4, 0, vp);
-				table.getFlexCellFormatter().setColSpan(4, 0, 6);
-				table.getFlexCellFormatter().setAlignment(4, 0, HorizontalPanel.ALIGN_CENTER,
-						HorizontalPanel.ALIGN_MIDDLE);
-				
-				for (Iterator<DcmTagProxy> it = a.iterator(); it.hasNext();) {
-					DcmTagProxy proxy = it.next();
-//					System.out.println(proxy);
-					vp.add(new Label(""+proxy));
-					
-					
-
-				}
-				
-				
-
-				
-				
-			}
-			
 		});
-		
-		
 
 		// All composites must call initWidget() in their constructors.
 		initWidget(dcmItem);
@@ -254,8 +232,8 @@ public class SearchedItem extends Composite {
 		Label l = new Label(title);
 		l.setStyleName("DicomItemName");
 		t.setWidget(row, col, l);
-		t.getFlexCellFormatter().setAlignment(row, col, HorizontalPanel.ALIGN_RIGHT,
-				HorizontalPanel.ALIGN_MIDDLE);
+		t.getFlexCellFormatter().setAlignment(row, col,
+				HorizontalPanel.ALIGN_RIGHT, HorizontalPanel.ALIGN_MIDDLE);
 	}
 
 	/**
@@ -268,8 +246,47 @@ public class SearchedItem extends Composite {
 		Label l = new Label(title);
 		l.setStyleName("DicomItemValue");
 		t.setWidget(row, col, l);
-		t.getFlexCellFormatter().setAlignment(row, col, HorizontalPanel.ALIGN_LEFT,
-				HorizontalPanel.ALIGN_MIDDLE);
+		t.getFlexCellFormatter().setAlignment(row, col,
+				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
+	}
+
+	/**
+	 * @param vp
+	 */
+	private void showTags(final VerticalPanel vp) {
+
+		RPCRequestEvent requestEvent = new RPCRequestEvent();
+		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
+		req.setIdDcm(proxy.getId());
+
+		requestEvent.init(0, Dicom_browser.version, req);
+		
+		vp.clear();
+		vp.add(new Label("Загрузка..."));
+		
+		service.getDcmTags(requestEvent, new AsyncCallback<RPCResponceEvent>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				// TODO Вывести сообщени еоб ошибке !!!
+				System.out.println("!!!! error: " + caught);
+			}
+
+			public void onSuccess(RPCResponceEvent result) {
+				// TODO Auto-generated method stub
+				DcmTagsRPCResponce data = (DcmTagsRPCResponce) result.getData();
+				ArrayList<DcmTagProxy> a = data.getTagList();
+				vp.clear();
+				for (Iterator<DcmTagProxy> it = a.iterator(); it.hasNext();) {
+					DcmTagProxy proxy = it.next();
+					// System.out.println(proxy);
+					vp.add(new Label("" + proxy));
+				}
+			}
+
+		});
+
 	}
 
 }
