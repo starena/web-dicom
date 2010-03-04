@@ -1,12 +1,22 @@
 package org.psystems.dicom.browser.client;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
+import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponce;
+import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
+import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
+import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
+import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -14,6 +24,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -25,18 +36,22 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SearchedItem extends Composite {
 
 	private String datePattern = "dd.MM.yyyy";
+	private BrowserServiceAsync service;
 	DcmFileProxy proxy = null;
+	
 
-	public SearchedItem(final DcmFileProxy proxy) {
+	public SearchedItem(BrowserServiceAsync service, final DcmFileProxy proxy) {
 		super();
+		this.service = service;
 		this.proxy = proxy;
+		
 		HorizontalPanel dcmItem = new HorizontalPanel();
 
 		//
 		HorizontalPanel dcmImage = new HorizontalPanel();
 
-		FlexTable t = new FlexTable();
-		t.setStyleName("SearchItem");
+		final FlexTable table = new FlexTable();
+		table.setStyleName("SearchItem");
 		// t.setBorderWidth(1);
 
 		String sex = proxy.getPatientSex();
@@ -50,37 +65,37 @@ public class SearchedItem extends Composite {
 				+ proxy.getPatientBirthDateAsString(datePattern));
 		l.setStyleName("DicomItem");
 
-		t.setWidget(0, 0, l);
-		t.getFlexCellFormatter().setColSpan(0, 0, 6);
-		t.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
+		table.setWidget(0, 0, l);
+		table.getFlexCellFormatter().setColSpan(0, 0, 6);
+		table.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
 				HorizontalPanel.ALIGN_MIDDLE);
 
-		t.setWidget(0, 1, dcmImage);
-		t.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
+		table.setWidget(0, 1, dcmImage);
+		table.getFlexCellFormatter().setAlignment(0, 0, HorizontalPanel.ALIGN_CENTER,
 				HorizontalPanel.ALIGN_MIDDLE);
-		t.getFlexCellFormatter().setRowSpan(0, 1, 5);
+		table.getFlexCellFormatter().setRowSpan(0, 1, 5);
 
-		createItemName(t, 1, 0, "дата:");
-		createItemValue(t, 1, 1, proxy.getStudyDateAsString(datePattern));
+		createItemName(table, 1, 0, "дата:");
+		createItemValue(table, 1, 1, proxy.getStudyDateAsString(datePattern));
 
-		createItemName(t, 1, 2, "исследование:");
-		createItemValue(t, 1, 3, proxy.getStudyDateAsString(datePattern));
+		createItemName(table, 1, 2, "исследование:");
+		createItemValue(table, 1, 3, proxy.getStudyDateAsString(datePattern));
 
-		createItemName(t, 1, 4, "код пациента:");
-		createItemValue(t, 1, 5, proxy.getPatientId());
+		createItemName(table, 1, 4, "код пациента:");
+		createItemValue(table, 1, 5, proxy.getPatientId());
 
-		createItemName(t, 2, 0, "аппарат:");
-		createItemValue(t, 2, 1, "неизвестен");
+		createItemName(table, 2, 0, "аппарат:");
+		createItemValue(table, 2, 1, "неизвестен");
 
-		createItemName(t, 2, 2, "врач:");
-		createItemValue(t, 2, 3, proxy.getStudyDoctor());
+		createItemName(table, 2, 2, "врач:");
+		createItemValue(table, 2, 3, proxy.getStudyDoctor());
 
-		createItemName(t, 2, 4, "оператор:");
-		createItemValue(t, 2, 5, proxy.getStudyOperator());
+		createItemName(table, 2, 4, "оператор:");
+		createItemValue(table, 2, 5, proxy.getStudyOperator());
 
-		createItemName(t, 3, 0, "результат:");
-		createItemValue(t, 3, 1, proxy.getStudyDescription());
-		t.getFlexCellFormatter().setColSpan(3, 1, 5);
+		createItemName(table, 3, 0, "результат:");
+		createItemValue(table, 3, 1, proxy.getStudyDescription());
+		table.getFlexCellFormatter().setColSpan(3, 1, 5);
 
 		HTML linkDcm = new HTML();
 		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
@@ -90,15 +105,15 @@ public class SearchedItem extends Composite {
 		
 		linkDcm.setStyleName("DicomItemName");
 
-		t.setWidget(4, 0, linkDcm);
-		t.getFlexCellFormatter().setColSpan(4, 0, 6);
-		t.getFlexCellFormatter().setAlignment(4, 0, HorizontalPanel.ALIGN_CENTER,
+		table.setWidget(4, 0, linkDcm);
+		table.getFlexCellFormatter().setColSpan(4, 0, 6);
+		table.getFlexCellFormatter().setAlignment(4, 0, HorizontalPanel.ALIGN_CENTER,
 				HorizontalPanel.ALIGN_MIDDLE);
 
 		// t.setText(2, 2, "bottom-right corner");
 		// t.setWidget(1, 0, new Button("Wide Button"));
 		// t.getFlexCellFormatter().setColSpan(1, 0, 3);
-		dcmItem.add(t);
+		dcmItem.add(table);
 
 		for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it.hasNext();) {
 			final DcmImageProxy imageProxy = it.next();
@@ -175,6 +190,54 @@ public class SearchedItem extends Composite {
 			image.addClickHandler(clickOpenHandler);
 
 		}
+
+
+		//
+		
+		RPCRequestEvent requestEvent = new RPCRequestEvent();
+		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
+		req.setIdDcm(proxy.getId());
+		
+		requestEvent.init(0, Dicom_browser.version, req);
+		service.getDcmTags(requestEvent, new AsyncCallback<RPCResponceEvent> () {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				//TODO Вывести сообщени еоб ошибке !!!
+				System.out.println("!!!! error: " + caught);
+			}
+
+			public void onSuccess(RPCResponceEvent result) {
+				// TODO Auto-generated method stub
+				DcmTagsRPCResponce data = (DcmTagsRPCResponce)result.getData();
+				ArrayList<DcmTagProxy> a = data.getTagList();
+				
+				VerticalPanel vp = new VerticalPanel();
+				
+				table.setWidget(4, 0, vp);
+				table.getFlexCellFormatter().setColSpan(4, 0, 6);
+				table.getFlexCellFormatter().setAlignment(4, 0, HorizontalPanel.ALIGN_CENTER,
+						HorizontalPanel.ALIGN_MIDDLE);
+				
+				for (Iterator<DcmTagProxy> it = a.iterator(); it.hasNext();) {
+					DcmTagProxy proxy = it.next();
+//					System.out.println(proxy);
+					vp.add(new Label(""+proxy));
+					
+					
+
+				}
+				
+				
+
+				
+				
+			}
+			
+		});
+		
+		
 
 		// All composites must call initWidget() in their constructors.
 		initWidget(dcmItem);
