@@ -86,15 +86,36 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
 							+ " STUDY_DATE, STUDY_DOCTOR,STUDY_OPERATOR, STUDY_DESCRIPTION  FROM WEBDICOM.DCMFILE"
 							+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
-							+ " order by PATIENT_NAME ");
+							+ " order by PATIENT_NAME, STUDY_ID ");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
 			
 			ArrayList<DcmFileProxyCortege> data = new ArrayList<DcmFileProxyCortege>();
 			int index = 0;
+			String lastStudyId = null;
+			DcmFileProxyCortege cortege = null;
 			while (rs.next()) {
+				
 				DcmFileProxy proxy = new DcmFileProxy();
+				
+				if(lastStudyId == null ||
+						( rs.getString("STUDY_ID") !=null && !rs.getString("STUDY_ID").equals(lastStudyId))) {
+					
+					if (index++ > maxReturnRecords) {
+						break;
+					}
+					
+					cortege = new DcmFileProxyCortege();
+					cortege.init(proxy.getStudyId());
+					data.add(cortege);
+				}
+				lastStudyId = rs.getString("STUDY_ID");
+				
+				ArrayList<DcmFileProxy> r = cortege.getDcmProxies();
+				r.add(proxy);
+				cortege.setDcmProxies(r);
+				System.out.println("!!! cortege="+cortege);
 
 				Calendar now = Calendar.getInstance();
 				Locale loc_ru = new Locale("ru", "RU");
@@ -131,18 +152,13 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				rsImages.close();
 				proxy.setImagesIds(images);
 
-				DcmFileProxyCortege cortege = new DcmFileProxyCortege();
-				cortege.init(proxy.getStudyId());
-				
-				ArrayList<DcmFileProxy> r = new ArrayList<DcmFileProxy>();
-				r.add(proxy);
-				cortege.setDcmProxies(r);
 				
 				
-				data.add(cortege);
-				if (index++ > maxReturnRecords) {
-					break;
-				}
+				
+				
+				
+				
+				
 
 			}
 			rs.close();

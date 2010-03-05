@@ -33,5 +33,6 @@ public class DcmFileProxyCortege implements Serializable {
 	public String getStudyId() {
 		return studyId;
 	}
+	
 
 }

@@ -301,12 +301,18 @@ public class Dicom_browser implements EntryPoint {
 								.iterator(); it.hasNext();) {
 
 							DcmFileProxyCortege cortege = it.next();
+							
+							VerticalPanel table = new VerticalPanel();
+							table.setStyleName("SearchItem");
+							table.setBorderWidth(1);
+							RootPanel.get("resultContainer").add(table);
+							
 							for (Iterator<DcmFileProxy> iter = cortege
 									.getDcmProxies().iterator(); iter.hasNext();) {
 								DcmFileProxy proxy = iter.next();
 								SearchedItem s = new SearchedItem(
 										browserService, proxy);
-								RootPanel.get("resultContainer").add(s);
+								table.add(s);
 							}
 						}
 
