@@ -1,6 +1,5 @@
 #summary Архитектура.
 #labels Featured,Phase-Requirements
-#sidebar TableOfContents
 
 
 
