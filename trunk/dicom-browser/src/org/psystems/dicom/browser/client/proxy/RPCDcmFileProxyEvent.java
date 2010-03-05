@@ -1,6 +1,7 @@
 package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * TODO Передалеть на интерфейс RPCResponce
@@ -13,7 +14,7 @@ public class RPCDcmFileProxyEvent implements Serializable {
 	//идентификатор траназкции
 	private long transactionId;
 	//данные (Object не поддерживается...)
-	private DcmFileProxy[] data;//TODO Сделать УНИВЕРСАЛЬНО !!!
+	private ArrayList<DcmFileProxyCortege> data = new ArrayList<DcmFileProxyCortege>();
 
 	/**
 	 * Инициализация класса
@@ -21,7 +22,7 @@ public class RPCDcmFileProxyEvent implements Serializable {
 	 * @param transactionId
 	 * @param data
 	 */
-	public void init(long transactionId, DcmFileProxy[] data) {
+	public void init(long transactionId, ArrayList<DcmFileProxyCortege> data) {
 		this.transactionId = transactionId;
 		this.data = data;
 	}
@@ -30,7 +31,7 @@ public class RPCDcmFileProxyEvent implements Serializable {
 		return transactionId;
 	}
 
-	public DcmFileProxy[] getData() {
+	public ArrayList<DcmFileProxyCortege> getData() {
 		return data;
 	}
 

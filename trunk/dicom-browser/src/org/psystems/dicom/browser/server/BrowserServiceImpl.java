@@ -26,6 +26,7 @@ import org.dcm4che2.util.TagUtils;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.DcmFileProxyCortege;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
@@ -89,7 +90,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
-			ArrayList<DcmFileProxy> data = new ArrayList<DcmFileProxy>();
+			
+			ArrayList<DcmFileProxyCortege> data = new ArrayList<DcmFileProxyCortege>();
 			int index = 0;
 			while (rs.next()) {
 				DcmFileProxy proxy = new DcmFileProxy();
@@ -129,7 +131,15 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				rsImages.close();
 				proxy.setImagesIds(images);
 
-				data.add(proxy);
+				DcmFileProxyCortege cortege = new DcmFileProxyCortege();
+				cortege.init(proxy.getStudyId());
+				
+				ArrayList<DcmFileProxy> r = new ArrayList<DcmFileProxy>();
+				r.add(proxy);
+				cortege.setDcmProxies(r);
+				
+				
+				data.add(cortege);
 				if (index++ > maxReturnRecords) {
 					break;
 				}
@@ -137,7 +147,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			}
 			rs.close();
 
-			DcmFileProxy[] result = data.toArray(new DcmFileProxy[data.size()]);
+//			DcmFileProxyCortege[] result = data.toArray(new DcmFileProxy[data.size()]);
 
 			Calendar calendar = Calendar.getInstance();
 
@@ -154,7 +164,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			// System.out.println("!!! sqlDate="+sqlDate);
 
 			RPCDcmFileProxyEvent event = new RPCDcmFileProxyEvent();
-			event.init(transactionId, result);
+			event.init(transactionId, data);
 			return event;
 
 		} catch (SQLException e) {
