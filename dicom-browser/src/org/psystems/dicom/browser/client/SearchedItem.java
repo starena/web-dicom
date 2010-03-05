@@ -197,7 +197,7 @@ public class SearchedItem extends Composite {
 
 		final VerticalPanel vp = new VerticalPanel();
 
-		table.setWidget(4, 0, vp);
+		table.setWidget(5, 0, vp);
 		table.getFlexCellFormatter().setColSpan(4, 0, 6);
 		table.getFlexCellFormatter().setAlignment(4, 0,
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
