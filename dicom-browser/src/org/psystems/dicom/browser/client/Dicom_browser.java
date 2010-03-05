@@ -1,9 +1,13 @@
 package org.psystems.dicom.browser.client;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
+import org.dcm4che2.data.DicomElement;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.DcmFileProxyCortege;
 import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.BrowserService;
@@ -187,30 +191,27 @@ public class Dicom_browser implements EntryPoint {
 						+ " <p> Дополнительная информация по проекту"
 						+ " <a href='http://code.google.com/p/web-dicom/' target='new'>"
 						+ " http://code.google.com/p/web-dicom/</a>"
-						+ " (откроетя в новом окне) </p>"
-						+ "<br><br>");
+						+ " (откроетя в новом окне) </p>" + "<br><br>");
 
 		RootPanel.get("resultContainer").add(intro);
-		
+
 		FlexTable statanel = new FlexTable();
 		RootPanel.get("resultContainer").add(statanel);
 
-	
-		
 		Image image = new Image("stat/chart/clientreqs/");
 		image.setTitle("Поисковые запросы");
-		statanel.setWidget(1,0,image);
+		statanel.setWidget(1, 0, image);
 		statanel.getFlexCellFormatter().setColSpan(0, 0, 2);
-		
+
 		image = new Image("stat/chart/dailyload/");
 		image.setTitle("Загрузка данных");
-		statanel.setWidget(2,0,image);
+		statanel.setWidget(2, 0, image);
 		statanel.getFlexCellFormatter().setColSpan(1, 0, 2);
-		
-//		image = new Image("stat/chart/usagestore/");
-//		image.setTitle("Использование дискового пространства");
-//		statanel.setWidget(3,0,image);
-//		statanel.getFlexCellFormatter().setColSpan(2, 0, 2);
+
+		// image = new Image("stat/chart/usagestore/");
+		// image.setTitle("Использование дискового пространства");
+		// statanel.setWidget(3,0,image);
+		// statanel.getFlexCellFormatter().setColSpan(2, 0, 2);
 
 	}
 
@@ -224,8 +225,8 @@ public class Dicom_browser implements EntryPoint {
 
 		DateTimeFormat dateFormat = DateTimeFormat
 				.getFormat("dd.MM.yyyy. G 'at' HH:mm:ss vvvv");
-//		showWorkStatusMsg("Послан <b> запрос данных </b> по пациенту ... "
-//				+ dateFormat.format(d));
+		// showWorkStatusMsg("Послан <b> запрос данных </b> по пациенту ... "
+		// + dateFormat.format(d));
 		showWorkStatusMsg("");
 
 		TransactionTimer t = new TransactionTimer() {
@@ -257,8 +258,8 @@ public class Dicom_browser implements EntryPoint {
 				}
 				counter++;
 
-				
-				addToWorkStatusMsg(" Поиск продолжается " + counter*2 + " сек.");
+				addToWorkStatusMsg(" Поиск продолжается " + counter * 2
+						+ " сек.");
 				// HTML l = new HTML("<a href=''>[Остановить]</a>");
 				// DOM.setStyleAttribute(l.getElement(), "cursor",
 				// "pointer");
@@ -266,7 +267,7 @@ public class Dicom_browser implements EntryPoint {
 			}
 		};
 		t.setTransactionId(searchTransactionID);
-//		t.schedule(2000);
+		// t.schedule(2000);
 		t.scheduleRepeating(3000);
 
 		String textToServer = nameField.getText();
@@ -292,16 +293,24 @@ public class Dicom_browser implements EntryPoint {
 							return;
 						}
 
-						DcmFileProxy[] data = result.getData();
 						hideWorkStatusMsg();
 
-						for (int i = 0; i < data.length; i++) {
-							DcmFileProxy proxy = data[i];
-							SearchedItem s = new SearchedItem(browserService,proxy);
-							RootPanel.get("resultContainer").add(s);
+						ArrayList<DcmFileProxyCortege> cortegeList = result
+								.getData();
+						for (Iterator<DcmFileProxyCortege> it = cortegeList
+								.iterator(); it.hasNext();) {
+
+							DcmFileProxyCortege cortege = it.next();
+							for (Iterator<DcmFileProxy> iter = cortege
+									.getDcmProxies().iterator(); iter.hasNext();) {
+								DcmFileProxy proxy = iter.next();
+								SearchedItem s = new SearchedItem(
+										browserService, proxy);
+								RootPanel.get("resultContainer").add(s);
+							}
 						}
 
-						if (data.length == 0) {
+						if (cortegeList.size() == 0) {
 							showNotFound();
 						}
 
@@ -469,7 +478,7 @@ public class Dicom_browser implements EntryPoint {
 			}
 
 		});
-		
+
 	}
 
 	/**
