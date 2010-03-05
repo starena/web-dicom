@@ -1,15 +1,27 @@
 package org.psystems.dicom.browser.server;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
+import org.dcm4che2.data.DicomElement;
+import org.dcm4che2.data.DicomObject;
+import org.dcm4che2.data.SpecificCharacterSet;
+import org.dcm4che2.data.Tag;
+import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.TagUtils;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
@@ -45,6 +57,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	public RPCDcmFileProxyEvent findStudy(long transactionId, String version,
 			String queryStr) throws DefaultGWTRPCException {
 
+		checkVersion(version);// проверка версии клиента
+
 		// System.out.println("BEGIN SLEEP");
 		// try { //TODO Убрать!!!
 		// Thread.sleep(25*1000);
@@ -52,13 +66,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		// e1.printStackTrace();
 		// }
 		// System.out.println("END SLEEP");
-
-		// проверка версии клиента
-		if (!Util.checkClentVersion(version)) {
-			throw new VersionGWTRPCException(
-					"Версия клиента не совпадает с версией сервера! " + version
-							+ " != " + Util.version);
-		}
 
 		PreparedStatement psSelect = null;
 		PreparedStatement psImages = null;
@@ -170,6 +177,20 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	}
 
 	/**
+	 * Метод проверки версии клиента
+	 * 
+	 * @param version
+	 * @throws VersionGWTRPCException
+	 */
+	private void checkVersion(String version) throws VersionGWTRPCException {
+		if (!Util.checkClentVersion(version)) {
+			throw new VersionGWTRPCException(
+					"Версия клиента не совпадает с версией сервера! " + version
+							+ " != " + Util.version);
+		}
+	}
+
+	/**
 	 * Обновление метрики дневной статистики (инкремент)
 	 * 
 	 * @param date
@@ -234,8 +255,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Проверка на наличии этого файла в БД
-	 * TODO Как-то заморочено получилось....
+	 * Проверка на наличии этого файла в БД TODO Как-то заморочено
+	 * получилось....
 	 * 
 	 * @param dcm_file_name
 	 * @return
@@ -272,7 +293,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 							+ reqEvent.getVersion() + " != " + Util.version);
 		}
 
-		int idDcm = ((DcmTagsRPCRequest)reqEvent.getData()).getIdDcm();
+		int idDcm = ((DcmTagsRPCRequest) reqEvent.getData()).getIdDcm();
 
 		PreparedStatement psSelect = null;
 
@@ -284,19 +305,29 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			psSelect.setInt(1, idDcm);
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
+			DecimalFormat format = new DecimalFormat("0000");
 			while (rs.next()) {
 				DcmTagProxy proxy = new DcmTagProxy();
-				proxy.init(idDcm, rs.getInt("TAG"), rs.getString("TAG_TYPE"),
-						TagUtils.toString(rs.getInt("TAG")), rs.getString("VALUE_STRING"));
+
+				int tag = rs.getInt("TAG");
+				short ma = (short) (tag >> 16);
+				short mi = (short) (tag);
+				String major = format.format(ma);
+				String minor = format.format(mi);
+
+				proxy.init(idDcm, tag, major, minor, rs.getString("TAG_TYPE"),
+						TagUtils.toString(rs.getInt("TAG")), rs
+								.getString("VALUE_STRING"));
 				data.add(proxy);
 
 			}
 			rs.close();
 			DcmTagsRPCResponce responce = new DcmTagsRPCResponce();
 			responce.setTagList(data);
-			
+
 			RPCResponceEvent respEvent = new RPCResponceEvent();
-			respEvent.init(reqEvent.getTransactionId(), reqEvent.getVersion(), responce);
+			respEvent.init(reqEvent.getTransactionId(), reqEvent.getVersion(),
+					responce);
 			return respEvent;
 
 		} catch (SQLException e) {
@@ -315,4 +346,132 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		}
 
 	}
+
+	@Override
+	public ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
+			String version, int idDcmFile) throws DefaultGWTRPCException {
+
+		checkVersion(version);// проверка версии клиента
+
+		String dcmRootDir = getServletContext().getInitParameter(
+				"webdicom.dir.src");
+		PreparedStatement psSelect = null;
+
+		try {
+			String fileName = null;
+			Connection connection = Util.getConnection(getServletContext());
+			psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
+					+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
+			psSelect.setInt(1, idDcmFile);
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
+			while (rs.next()) {
+				String file = rs.getString("DCM_FILE_NAME");
+				fileName = dcmRootDir + File.separator + file;
+				index++;
+				break;
+			}
+			rs.close();
+			if (index == 0) {
+				throw new DefaultGWTRPCException("Dcm file not found! id="
+						+ idDcmFile);
+			}
+			try {
+				return getTagsFromFile(idDcmFile, fileName);
+			} catch (IOException e) {
+				throw new DefaultGWTRPCException("IOException ! id="
+						+ idDcmFile + " file=" + fileName + " " + e);
+			}
+
+			//
+
+			//
+		} catch (SQLException e) {
+			logger.error(e);
+			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				throw new DefaultGWTRPCException(e.getMessage());
+			}
+		}
+
+	}
+
+	/**
+	 * @param idDcm
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
+	private ArrayList<DcmTagProxy> getTagsFromFile(int idDcm, String fileName)
+			throws IOException {
+		DicomObject dcmObj;
+		DicomInputStream din = null;
+		SpecificCharacterSet cs = new SpecificCharacterSet("ISO-8859-5");
+		ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
+
+		try {
+
+			File f = new File(fileName);
+			long fileSize = f.length();
+			din = new DicomInputStream(f);
+			dcmObj = din.readDicomObject();
+			// System.out.println("dcmObj=" + dcmObj);
+
+			// читаем кодировку из dcm-файла
+			if (dcmObj.get(Tag.SpecificCharacterSet) != null) {
+				SpecificCharacterSet cs1 = SpecificCharacterSet.valueOf(dcmObj
+						.get(Tag.SpecificCharacterSet).getStrings(null, false));
+			}
+
+			DecimalFormat format = new DecimalFormat("0000");
+
+			// Раскручиваем теги
+			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
+				DicomElement element = it.next();
+
+				int tag = element.tag();
+				short ma = (short) (tag >> 16);
+				String major = format.format(ma);
+				short mi = (short) (tag);
+				String minor = format.format(mi);
+
+				String type = element.vr().toString();
+
+				int length = element.length();
+				int maxLength = 200;
+				if (length > maxLength)
+					length = maxLength;
+
+				DcmTagProxy proxy = new DcmTagProxy();
+				proxy.init(idDcm, tag, major, minor, type, dcmObj.nameOf(tag),
+						element.getValueAsString(cs, length));
+				data.add(proxy);
+
+			}
+
+		} catch (org.dcm4che2.data.ConfigurationError e) {
+			if (e.getCause() instanceof UnsupportedEncodingException) {
+				logger.fatal("Unsupported character set" + cs + " " + e);
+			}
+			logger.fatal("" + e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.fatal("" + e);
+		} finally {
+			try {
+				if (din != null)
+					din.close();
+			} catch (IOException ignore) {
+			}
+		}
+		return data;
+	}
+
 }

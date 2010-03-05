@@ -122,7 +122,6 @@ public class DcmViewTagsServlet extends HttpServlet {
 
 	private void showTags(String fileName, HttpServletResponse resp)
 			throws IOException {
-		// TODO Auto-generated method stub
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		SpecificCharacterSet cs = new SpecificCharacterSet("ISO-8859-5");
