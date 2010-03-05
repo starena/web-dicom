@@ -115,7 +115,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				ArrayList<DcmFileProxy> r = cortege.getDcmProxies();
 				r.add(proxy);
 				cortege.setDcmProxies(r);
-				System.out.println("!!! cortege="+cortege);
 
 				Calendar now = Calendar.getInstance();
 				Locale loc_ru = new Locale("ru", "RU");
