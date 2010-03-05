@@ -25,9 +25,11 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -301,12 +303,16 @@ public class Dicom_browser implements EntryPoint {
 								.iterator(); it.hasNext();) {
 
 							DcmFileProxyCortege cortege = it.next();
-							
+
 							VerticalPanel table = new VerticalPanel();
-							table.setStyleName("SearchItem");
-							table.setBorderWidth(1);
-							RootPanel.get("resultContainer").add(table);
-							
+
+							DecoratorPanel item = new DecoratorPanel();
+							DOM.setStyleAttribute(item.getElement(), "margin",
+									"5px");
+
+							RootPanel.get("resultContainer").add(item);
+							item.setWidget(table);
+
 							for (Iterator<DcmFileProxy> iter = cortege
 									.getDcmProxies().iterator(); iter.hasNext();) {
 								DcmFileProxy proxy = iter.next();
