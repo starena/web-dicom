@@ -1,5 +1,8 @@
 #summary Архитектура.
 #labels Featured,Phase-Requirements
+#sidebar TableOfContents
+
+
 
 = Основная диаграмма выбора =
 http://web-dicom.googlecode.com/svn/trunk/model/out/usecase-main.png
