@@ -53,7 +53,7 @@ public class SearchedItem extends Composite {
 
 		final FlexTable table = new FlexTable();
 		table.setStyleName("SearchItem");
-//		table.setBorderWidth(1);
+		 table.setBorderWidth(1);
 
 		String sex = proxy.getPatientSex();
 		if ("M".equalsIgnoreCase(sex)) {
@@ -194,25 +194,51 @@ public class SearchedItem extends Composite {
 			image.addClickHandler(clickOpenHandler);
 
 		}
-
-		final VerticalPanel vp = new VerticalPanel();
-
-		table.setWidget(5, 0, vp);
+		
+		
+		HorizontalPanel tagsPanel = new HorizontalPanel();
+		table.setWidget(5, 0, tagsPanel);
+		table.getFlexCellFormatter().setColSpan(5, 0, 6);
 		table.getFlexCellFormatter().setColSpan(4, 0, 6);
 		table.getFlexCellFormatter().setAlignment(4, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
 
-		Label showTagsLabel = new Label("Показать теги");
-		showTagsLabel.setStyleName("DicomItemValue");
-		DOM.setStyleAttribute(showTagsLabel.getElement(), "cursor", "pointer");
-		vp.add(showTagsLabel);
+		final VerticalPanel vp = new VerticalPanel();
+		tagsPanel.add(vp);
+		
 
-		showTagsLabel.addClickHandler(new ClickHandler() {
+		Label showTagsLabelfromDB = new Label("Показать теги из БД");
+		showTagsLabelfromDB.setStyleName("DicomItemValue");
+		DOM.setStyleAttribute(showTagsLabelfromDB.getElement(), "cursor",
+				"pointer");
+		vp.add(showTagsLabelfromDB);
+
+		final VerticalPanel vp1 = new VerticalPanel();
+		tagsPanel.add(vp1);
+		
+
+		showTagsLabelfromDB.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				showTags(vp);
+				showTagsFromDb(vp);
+			}
+
+		});
+
+		Label showTagsLabelFromFile = new Label("Показать теги из файла");
+		showTagsLabelFromFile.setStyleName("DicomItemValue");
+		DOM.setStyleAttribute(showTagsLabelFromFile.getElement(), "cursor",
+				"pointer");
+		vp1.add(showTagsLabelFromFile);
+
+		showTagsLabelFromFile.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				showTagsFromFile(vp1);
 			}
 
 		});
@@ -253,24 +279,23 @@ public class SearchedItem extends Composite {
 	/**
 	 * @param vp
 	 */
-	private void showTags(final VerticalPanel vp) {
+	private void showTagsFromDb(final VerticalPanel vp) {
 
 		RPCRequestEvent requestEvent = new RPCRequestEvent();
 		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
 		req.setIdDcm(proxy.getId());
 
 		requestEvent.init(0, Dicom_browser.version, req);
-		
+
 		vp.clear();
 		vp.add(new Label("Загрузка..."));
-		
+
 		service.getDcmTags(requestEvent, new AsyncCallback<RPCResponceEvent>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				// TODO Вывести сообщени еоб ошибке !!!
-				System.out.println("!!!! error: " + caught);
+				vp.clear();
+				vp.add(new Label("Ошибка полчения данных! " + caught));
 			}
 
 			public void onSuccess(RPCResponceEvent result) {
@@ -286,6 +311,39 @@ public class SearchedItem extends Composite {
 			}
 
 		});
+
+	}
+
+	protected void showTagsFromFile(final VerticalPanel vp) {
+
+		RPCRequestEvent requestEvent = new RPCRequestEvent();
+		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
+		req.setIdDcm(proxy.getId());
+
+		requestEvent.init(0, Dicom_browser.version, req);
+
+		vp.clear();
+		vp.add(new Label("Загрузка..."));
+
+		service.getDcmTagsFromFile(0, Dicom_browser.version, proxy.getId(),
+				new AsyncCallback<ArrayList<DcmTagProxy>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						vp.clear();
+						vp.add(new Label("Ошибка полчения данных! " + caught));
+					}
+
+					@Override
+					public void onSuccess(ArrayList<DcmTagProxy> result) {
+						vp.clear();
+						for (Iterator<DcmTagProxy> it = result.iterator(); it
+								.hasNext();) {
+							DcmTagProxy proxy = it.next();
+							vp.add(new Label("" + proxy));
+						}
+					}
+				});
 
 	}
 

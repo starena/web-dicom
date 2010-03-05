@@ -29,5 +29,9 @@ public interface BrowserService extends RemoteService {
 	RPCDcmFileProxyEvent findStudy(long transactionId, String version,
 			String queryStr) throws DefaultGWTRPCException;
 
-	RPCResponceEvent getDcmTags(RPCRequestEvent event) throws DefaultGWTRPCException;
+	RPCResponceEvent getDcmTags(RPCRequestEvent event)
+			throws DefaultGWTRPCException;
+
+	ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
+			String version, int idDcmFile) throws DefaultGWTRPCException;
 }
