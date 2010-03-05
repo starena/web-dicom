@@ -53,7 +53,7 @@ public class SearchedItem extends Composite {
 
 		final FlexTable table = new FlexTable();
 		table.setStyleName("SearchItem");
-		 table.setBorderWidth(1);
+//		 table.setBorderWidth(1);
 
 		String sex = proxy.getPatientSex();
 		if ("M".equalsIgnoreCase(sex)) {
