@@ -303,15 +303,19 @@ public class Dicom_browser implements EntryPoint {
 								.iterator(); it.hasNext();) {
 
 							DcmFileProxyCortege cortege = it.next();
-
 							VerticalPanel table = new VerticalPanel();
+							if(cortege.getDcmProxies().size()>1) {
+								DecoratorPanel item = new DecoratorPanel();
+								DOM.setStyleAttribute(item.getElement(), "margin",
+										"5px");
+								RootPanel.get("resultContainer").add(item);
+								item.setWidget(table);
+							} else {
+								RootPanel.get("resultContainer").add(table);
+							}
 
-							DecoratorPanel item = new DecoratorPanel();
-							DOM.setStyleAttribute(item.getElement(), "margin",
-									"5px");
-
-							RootPanel.get("resultContainer").add(item);
-							item.setWidget(table);
+							
+							
 
 							for (Iterator<DcmFileProxy> iter = cortege
 									.getDcmProxies().iterator(); iter.hasNext();) {
