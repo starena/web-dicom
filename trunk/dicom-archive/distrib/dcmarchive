@@ -7,8 +7,9 @@
 
 ### $Id: dcmrcv 11988 2009-07-24 13:13:57Z gunterze $ ###
 
-MAIN_CLASS=org.dcm4che2.tool.dcmrcv.DcmRcv
-MAIN_JAR=dcm4che-tool-dcmrcv-2.0.21.jar
+MAIN_CLASS=org.psystems.dicom.daemon.Archive
+MAIN_JAR=dcmarchive.jar
+
 
 DIRNAME="`dirname "$0"`"
 
@@ -48,8 +49,22 @@ CP="$CP:$DCM4CHE_HOME/lib/dcm4che-filecache-2.0.21.jar"
 CP="$CP:$DCM4CHE_HOME/lib/dcm4che-net-2.0.21.jar"
 CP="$CP:$DCM4CHE_HOME/lib/slf4j-log4j12-1.5.0.jar"
 CP="$CP:$DCM4CHE_HOME/lib/slf4j-api-1.5.0.jar"
-CP="$CP:$DCM4CHE_HOME/lib/log4j-1.2.13.jar"
 CP="$CP:$DCM4CHE_HOME/lib/commons-cli-1.2.jar"
+CP="$CP:$DCM4CHE_HOME/lib/derby.jar"
+CP="$CP:$DCM4CHE_HOME/lib/derbyclient.jar "
+CP="$CP:$DCM4CHE_HOME/lib/derbynet.jar"
+CP="$CP:$DCM4CHE_HOME/lib/dcm4che-core-2.0.21.jar"
+CP="$CP:$DCM4CHE_HOME/lib/dcm4che-imageio-2.0.21.jar"
+CP="$CP:$DCM4CHE_HOME/lib/dcm4che-image-2.0.21.jar"
+CP="$CP:$DCM4CHE_HOME/lib/dcm4che-filecache-2.0.21.jar"
+CP="$CP:$DCM4CHE_HOME/lib/dcm4che-net-2.0.21.jar"
+CP="$CP:$DCM4CHE_HOME/lib/commons-cli-1.2.jar"
+CP="$CP:$DCM4CHE_HOME/lib/dcm4che-imageio-rle-2.0.21.jar"
+CP="$CP:$DCM4CHE_HOME/lib/slf4j-api-1.5.0.jar"
+CP="$CP:$DCM4CHE_HOME/lib/slf4j-log4j12-1.5.0.jar"
+CP="$CP:$DCM4CHE_HOME/lib/org.apache.log4j_1.2.13.v200806030600.jar"
+CP="$CP:$DCM4CHE_HOME/lib/jai_imageio.jar lib/slf4j-log4j12-1.5.0.jar"
+
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
