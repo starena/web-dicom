@@ -1,0 +1,129 @@
+#!/bin/sh
+pidfile="/export/home/soi/soiserver/soiserver.pid"
+exec="/export/home/soi/soiserver-start "
+
+
+#Это что б если че пойдет не так можно было найти процесс по полной строке запуска
+debugName=TESTPID   
+
+#author Akintsev_VA
+#date 2009-01-26
+#ver 2.0
+#solaris 8/9
+
+
+case "$1" in
+  start)
+	echo "Starting SOI server: "
+	$0 status  
+
+	#if SOI already started - exit
+	if [ $? -eq 0 ]
+	   then
+	     echo "->SOI already started!"
+	     exit 1
+
+	   else
+	        rm -f $pidfile #del pidfile
+		
+		os=`uname -s`
+
+		if [ $os = Linux ]
+		then 
+                   su - soi -c "$exec $pidfile $debugName &" >>/dev/null 
+
+	        else
+		   su soi -c "$exec $pidfile $debugName &" > /dev/null
+	        fi
+		##move 
+		echo "SOI started!"
+	
+	 fi  
+	
+		
+	;;
+  stop)
+	echo "Shutting down SOI server: "
+	$0 status > /dev/null
+	
+	#if SOI is working. Stop it!
+	if [ $? -eq 0 ]
+	then 
+		
+		#get pid
+		mypid=`cat $pidfile`
+	    #try goodexit
+		kill $mypid
+		echo "Sleeping 20 seconds"
+		sleep 20
+			
+		#if not. Finish him! >:-)))
+		proc=`ps -p $mypid |wc -l`	
+	    if [ $proc -ne 1 ]
+	     then 
+	      kill -9 $mypid
+	    fi                  
+
+    	
+    	#del pidfile
+    	rm -f $pidfile
+    else
+    	#if soi not started 
+    	echo "->Can't stop SOI, because it's not work"    	
+	fi
+	;;
+  status)
+ 	     
+		 ls $pidfile  >>/dev/null 2>&1
+		 if [ $? -eq 2 ]
+		   then
+		     echo "Status: SOI not started. No pidfile."
+		     exit 1
+		   else
+		    ########read pid from file	
+		    	  mypid=`cat $pidfile`
+		    	  if [ $mypid ]
+					   then 
+					       proc=`ps -p $mypid |wc -l`	
+	
+							if [ $proc -ne 1 ] 
+							  then 
+								echo "Status: SOI is working. pid="$mypid 
+								exit 0
+				  		       else
+						               echo "Status: Bad pid "$mypid
+						               exit 1
+				  			fi
+					  	   else 
+						       echo "Status: Bad pidfile="$pidfile
+						       exit 1		
+				
+			 		 fi
+		    	  
+		    	  
+		 fi	 
+		 ;;
+ 
+  # restart)
+  #	$0 stop
+  #	sleep 10
+  #	$0 start
+  #	echo
+  #	;;
+  *)
+	echo "Usage: $0 {start|stop|status}"
+	exit 1
+esac
+
+
+
+
+exit 0
+
+
+
+
+
+
+
+  
