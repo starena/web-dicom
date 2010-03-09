@@ -114,20 +114,20 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  *          2009) $
  * @since Oct 13, 2005
  */
-public class DcmRcv extends StorageService {
+public class Archive extends StorageService {
 
-	private static Logger LOG = LoggerFactory.getLogger(DcmRcv.class);
+	private static Logger LOG = LoggerFactory.getLogger(Archive.class);
 
 	private static final int KB = 1024;
 
-	private static final String USAGE = "dcmrcv [Options] [<aet>[@<ip>]:]<port>";
+	private static final String USAGE = "dcmarhive [Options] [<aet>[@<ip>]:]<port>";
 
 	private static final String DESCRIPTION = "DICOM Server listening on specified <port> for incoming association "
 			+ "requests. If no local IP address of the network interface is specified "
 			+ "connections on any/all local addresses are accepted. If <aet> is "
 			+ "specified, only requests with matching called AE title will be " + "accepted.\n" + "Options:";
 
-	private static final String EXAMPLE = "\nExample: dcmrcv DCMRCV:11112 -dest /tmp \n"
+	private static final String EXAMPLE = "\nExample: dcmarchive DCMRCV:11112 -dest /tmp \n"
 			+ "=> Starts server listening on port 11112, accepting association "
 			+ "requests with DCMRCV as called AE title. Received objects " + "are stored to /tmp.";
 
@@ -239,7 +239,7 @@ public class DcmRcv extends StorageService {
 
 	private static Extractor extractor;
 
-	public DcmRcv(String name) {
+	public Archive(String name) {
 		super(CUIDS);
 		device = new Device(name);
 		executor = new NewThreadExecutor(name);
@@ -534,12 +534,12 @@ public class DcmRcv extends StorageService {
 		try {
 			cl = new GnuParser().parse(opts, args);
 		} catch (ParseException e) {
-			exit("dcmrcv: " + e.getMessage());
+			exit("dcmarchive: " + e.getMessage());
 			throw new RuntimeException("unreachable");
 		}
 		if (cl.hasOption("V")) {
-			Package p = DcmRcv.class.getPackage();
-			System.out.println("dcmrcv v" + p.getImplementationVersion());
+			Package p = Archive.class.getPackage();
+			System.out.println("dcmarchive v" + p.getImplementationVersion());
 			System.exit(0);
 		}
 		if (cl.hasOption("h") || cl.getArgList().size() == 0) {
@@ -553,7 +553,7 @@ public class DcmRcv extends StorageService {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		CommandLine cl = parse(args);
-		DcmRcv dcmrcv = new DcmRcv(cl.hasOption("device") ? cl.getOptionValue("device") : "DCMRCV");
+		Archive dcmrcv = new Archive(cl.hasOption("device") ? cl.getOptionValue("device") : "DCMRCV");
 		final List<String> argList = cl.getArgList();
 		String port = argList.get(0);
 		String[] aetPort = split(port, ':', 1);
@@ -781,7 +781,7 @@ public class DcmRcv extends StorageService {
 
 	private static InputStream openFileOrURL(String url) throws IOException {
 		if (url.startsWith("resource:")) {
-			return DcmRcv.class.getClassLoader().getResourceAsStream(url.substring(9));
+			return Archive.class.getClassLoader().getResourceAsStream(url.substring(9));
 		}
 		try {
 			return new URL(url).openStream();
@@ -823,7 +823,7 @@ public class DcmRcv extends StorageService {
 
 	private static void exit(String msg) {
 		System.err.println(msg);
-		System.err.println("Try 'dcmrcv -h' for more information.");
+		System.err.println("Try 'dcmrchive -h' for more information.");
 		System.exit(1);
 	}
 

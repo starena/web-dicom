@@ -28,10 +28,6 @@
 		<property name="jai_imageio" value="${extlib_dir}/jai_imageio.jar"/>
 		<property name="clibwrapper_jiio" value="${extlib_dir}/clibwrapper_jiio.jar"/>
 		
-		
-		
-		<property name="jar.class.path" value="${dist_lib_dir} ${dist_lib_dir}/derby.jar ${dist_lib_dir}/derbyclient.jar ${dist_lib_dir}/derbynet.jar ${dist_lib_dir}/dcm4che-core-2.0.21.jar ${dist_lib_dir}/dcm4che-imageio-2.0.21.jar ${dist_lib_dir}/dcm4che-image-2.0.21.jar ${dist_lib_dir}/dcm4che-filecache-2.0.21.jar ${dist_lib_dir}/dcm4che-net-2.0.21.jar ${dist_lib_dir}/commons-cli-1.2.jar ${dist_lib_dir}/dcm4che-imageio-rle-2.0.21.jar ${dist_lib_dir}/slf4j-api-1.5.0.jar ${dist_lib_dir}/slf4j-log4j12-1.5.0.jar ${dist_lib_dir}/org.apache.log4j_1.2.13.v200806030600.jar ${dist_lib_dir}/jai_imageio.jar ${dist_lib_dir}/slf4j-log4j12-1.5.0.jar"/>
-
 
 		<path id="build.classpath">
 			<pathelement location="${log4j}"/>
@@ -92,8 +88,6 @@
 			<manifest>
 				<attribute name="Build-By" value="${user.name}"/>
 				<attribute name="Build-Number" value="${revision.max}"/>
-				<attribute name="Main-Class" value="org.psystems.dicom.daemon.DcmRcv"/>
-				<attribute name="Class-Path" value="${jar.class.path}"/>
 
 				<section name="common">
 					<attribute name="Specification-Title" value="Webdicom Archive"/>
