@@ -90,28 +90,29 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
-			
+
 			ArrayList<DcmFileProxyCortege> data = new ArrayList<DcmFileProxyCortege>();
 			int index = 0;
 			String lastStudyId = null;
 			DcmFileProxyCortege cortege = null;
 			while (rs.next()) {
-				
+
 				DcmFileProxy proxy = new DcmFileProxy();
-				
-				if(lastStudyId == null ||
-						( rs.getString("STUDY_ID") !=null && !rs.getString("STUDY_ID").equals(lastStudyId))) {
-					
+
+				if (lastStudyId == null
+						|| (rs.getString("STUDY_ID") != null && !rs.getString(
+								"STUDY_ID").equals(lastStudyId))) {
+
 					if (index++ > maxReturnRecords) {
 						break;
 					}
-					
+
 					cortege = new DcmFileProxyCortege();
 					cortege.init(proxy.getStudyId());
 					data.add(cortege);
 				}
 				lastStudyId = rs.getString("STUDY_ID");
-				
+
 				ArrayList<DcmFileProxy> r = cortege.getDcmProxies();
 				r.add(proxy);
 				cortege.setDcmProxies(r);
@@ -119,6 +120,22 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				Calendar now = Calendar.getInstance();
 				Locale loc_ru = new Locale("ru", "RU");
 				now.setTime(rs.getDate("PATIENT_BIRTH_DATE"));
+
+				ArrayList<DcmTagProxy> tags = getTags(rs.getInt("ID"));
+				StringBuffer sb = new StringBuffer();
+				for (Iterator<DcmTagProxy> iter = tags.iterator(); iter
+						.hasNext();) {
+					DcmTagProxy tag = iter.next();
+
+					
+					if (tag.getMajor() == 9 || tag.getMajor() == 33) {
+						if (sb.length() != 0) {
+							sb.append(",");
+						}
+						sb.append(tag.getTagValue());
+					}
+				}
+				String tagsStr = sb.toString();
 
 				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), rs
 						.getString("PATIENT_NAME"),
@@ -129,7 +146,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 								.getDate("STUDY_DATE"), rs
 								.getString("STUDY_DOCTOR"), rs
 								.getString("STUDY_OPERATOR"), rs
-								.getString("STUDY_DESCRIPTION"));
+								.getString("STUDY_DESCRIPTION"), tagsStr);
 
 				// Получаем список картинок
 				psImages.setInt(1, rs.getInt("ID"));
@@ -151,18 +168,11 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				rsImages.close();
 				proxy.setImagesIds(images);
 
-				
-				
-				
-				
-				
-				
-				
-
 			}
 			rs.close();
 
-//			DcmFileProxyCortege[] result = data.toArray(new DcmFileProxy[data.size()]);
+			// DcmFileProxyCortege[] result = data.toArray(new
+			// DcmFileProxy[data.size()]);
 
 			Calendar calendar = Calendar.getInstance();
 
@@ -323,30 +333,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		PreparedStatement psSelect = null;
 
 		try {
-			Connection connection = Util.getConnection(getServletContext());
-			psSelect = connection
-					.prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAGS WHERE FID_DCMFILE = ?");
-
-			psSelect.setInt(1, idDcm);
-			ResultSet rs = psSelect.executeQuery();
-			ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
-			DecimalFormat format = new DecimalFormat("0000");
-			while (rs.next()) {
-				DcmTagProxy proxy = new DcmTagProxy();
-
-				int tag = rs.getInt("TAG");
-				short ma = (short) (tag >> 16);
-				short mi = (short) (tag);
-				String major = format.format(ma);
-				String minor = format.format(mi);
-
-				proxy.init(idDcm, tag, major, minor, rs.getString("TAG_TYPE"),
-						TagUtils.toString(rs.getInt("TAG")), rs
-								.getString("VALUE_STRING"));
-				data.add(proxy);
-
-			}
-			rs.close();
+			ArrayList<DcmTagProxy> data = getTags(idDcm);
 			DcmTagsRPCResponce responce = new DcmTagsRPCResponce();
 			responce.setTagList(data);
 
@@ -462,10 +449,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				DicomElement element = it.next();
 
 				int tag = element.tag();
-				short ma = (short) (tag >> 16);
-				String major = format.format(ma);
-				short mi = (short) (tag);
-				String minor = format.format(mi);
+				short major = (short) (tag >> 16);
+				String majorStr = format.format(major);
+				short minor = (short) (tag);
+				String minorStr = format.format(minor);
 
 				String type = element.vr().toString();
 
@@ -475,8 +462,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					length = maxLength;
 
 				DcmTagProxy proxy = new DcmTagProxy();
-				proxy.init(idDcm, tag, major, minor, type, dcmObj.nameOf(tag),
-						element.getValueAsString(cs, length));
+				proxy.init(idDcm, tag, major, majorStr, minor, minorStr, type,
+						dcmObj.nameOf(tag), element
+								.getValueAsString(cs, length));
 				data.add(proxy);
 
 			}
@@ -497,6 +485,50 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			}
 		}
 		return data;
+	}
+
+	/**
+	 * Получение тегов
+	 * 
+	 * @param idDcm
+	 * @return
+	 * @throws SQLException
+	 */
+	private ArrayList<DcmTagProxy> getTags(int idDcm) throws SQLException {
+
+		PreparedStatement psSelect = null;
+
+		try {
+			Connection connection = Util.getConnection(getServletContext());
+			psSelect = connection
+					.prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAGS WHERE FID_DCMFILE = ?");
+
+			psSelect.setInt(1, idDcm);
+			ResultSet rs = psSelect.executeQuery();
+			ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
+			DecimalFormat format = new DecimalFormat("0000");
+			while (rs.next()) {
+				DcmTagProxy proxy = new DcmTagProxy();
+
+				int tag = rs.getInt("TAG");
+				short major = (short) (tag >> 16);
+				short minor = (short) (tag);
+				String majorStr = format.format(major);
+				String minorStr = format.format(minor);
+
+				proxy.init(idDcm, tag, major, majorStr, minor, minorStr, rs
+						.getString("TAG_TYPE"), TagUtils.toString(rs
+						.getInt("TAG")), rs.getString("VALUE_STRING"));
+				data.add(proxy);
+			}
+			rs.close();
+			return data;
+
+		} finally {
+			if (psSelect != null)
+				psSelect.close();
+		}
+
 	}
 
 }

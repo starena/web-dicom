@@ -25,6 +25,7 @@ public class DcmFileProxy implements Serializable {
 	private String studyDoctor; // Врач исследования
 	private String studyOperator; // Оператор исследования
 	private String studyDescription;// Описание исследования.
+	private String studyResult;// Результат исследования.
 	// TODO нужны еще поля
 
 	private ArrayList<DcmImageProxy> images = new ArrayList<DcmImageProxy>();
@@ -43,10 +44,12 @@ public class DcmFileProxy implements Serializable {
 	 * @param studyDoctor
 	 * @param studyOperator
 	 * @param studyDescription
+	 * @param studyResult
 	 */
-	public void init(Integer id, String dcmFileName, String patientName, String patientSex, String patientId,
-			Date patientBirthDate, String studyId, Date studyDate, String studyDoctor, String studyOperator,
-			String studyDescription) {
+	public void init(Integer id, String dcmFileName, String patientName,
+			String patientSex, String patientId, Date patientBirthDate,
+			String studyId, Date studyDate, String studyDoctor,
+			String studyOperator, String studyDescription, String studyResult) {
 
 		this.id = id;
 		this.dcmFileName = dcmFileName;
@@ -59,6 +62,7 @@ public class DcmFileProxy implements Serializable {
 		this.studyDoctor = studyDoctor;
 		this.studyOperator = studyOperator;
 		this.studyDescription = studyDescription;
+		this.studyResult = studyResult;
 
 	}
 
@@ -116,6 +120,10 @@ public class DcmFileProxy implements Serializable {
 		return studyDescription;
 	}
 
+	public String getStudyResult() {
+		return studyResult;
+	}
+
 	public ArrayList<DcmImageProxy> getImages() {
 		return images;
 	}
@@ -130,8 +138,9 @@ public class DcmFileProxy implements Serializable {
 
 	@Override
 	public String toString() {
-		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName + ";" + patientBirthDate + ";"
-				+ studyDate + ";images count:" + images.size();
+		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName
+				+ ";" + patientBirthDate + ";" + studyDate + " [" + getStudyResult() + "] images count:"
+				+ images.size();
 	}
 
 }
