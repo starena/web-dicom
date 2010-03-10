@@ -12,8 +12,10 @@ public class DcmTagProxy implements Serializable {
 
 	private Integer idDcm; // ID файла в БД
 	private Integer idTag; // ID
-	private String major = null;
-	private String minor = null;
+	private String majorStr = null;
+	private String minorStr = null;
+	private short major;
+	private short minor;
 	private String tagType; // Тип
 	private String tagName; // Имя
 	private String tagValue; // Значение
@@ -24,15 +26,21 @@ public class DcmTagProxy implements Serializable {
 	 * @param idDcm
 	 * @param idTag
 	 * @param major
+	 * @param majorStr
 	 * @param minor
+	 * @param minorStr
 	 * @param tagType
 	 * @param tagName
 	 * @param tagValue
 	 */
-	public void init(Integer idDcm, Integer idTag, String major, String minor,
-			String tagType, String tagName, String tagValue) {
+	public void init(Integer idDcm, Integer idTag, short major,
+			String majorStr, short minor, String minorStr, String tagType,
+			String tagName, String tagValue) {
 		this.idDcm = idDcm;
 		this.major = major;
+		this.minor = minor;
+		this.majorStr = majorStr;
+		this.minorStr = minorStr;
 		this.idTag = idTag;
 		this.tagType = tagType;
 		this.tagName = tagName;
@@ -54,19 +62,30 @@ public class DcmTagProxy implements Serializable {
 	public String getTagValue() {
 		return tagValue;
 	}
+	
+	
 
-	public String getMajor() {
+	public short getMajor() {
 		return major;
 	}
 
-	public String getMinor() {
+	public short getMinor() {
 		return minor;
+	}
+
+	public String getMajorStr() {
+		return majorStr;
+	}
+
+	public String getMinorStr() {
+		return minorStr;
 	}
 
 	@Override
 	public String toString() {
-		return "DcmTagProxy " + idDcm + ";" + idTag + ";" + tagType + ";"
-				+ tagName + ";" + tagValue;
+		return "DcmTagProxy id: " + idDcm + " (" + getMajorStr() + ","
+				+ getMinorStr() + ") " + tagType + ";" + tagName + ";"
+				+ tagValue;
 	}
 
 }

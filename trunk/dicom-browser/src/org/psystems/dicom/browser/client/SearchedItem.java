@@ -95,7 +95,7 @@ public class SearchedItem extends Composite {
 		createItemValue(table, 2, 5, proxy.getStudyOperator());
 
 		createItemName(table, 3, 0, "результат:");
-		createItemValue(table, 3, 1, proxy.getStudyDescription());
+		createItemHTML(table, 3, 1, proxy.getStudyResult());
 		table.getFlexCellFormatter().setColSpan(3, 1, 5);
 
 		HTML linkDcm = new HTML();
@@ -252,10 +252,10 @@ public class SearchedItem extends Composite {
 	 * @param t
 	 * @param row
 	 * @param col
-	 * @param title
+	 * @param text
 	 */
-	private void createItemName(FlexTable t, int row, int col, String title) {
-		Label l = new Label(title);
+	private void createItemName(FlexTable t, int row, int col, String text) {
+		Label l = new Label(text);
 		l.setStyleName("DicomItemName");
 		t.setWidget(row, col, l);
 		t.getFlexCellFormatter().setAlignment(row, col,
@@ -266,12 +266,26 @@ public class SearchedItem extends Composite {
 	 * @param t
 	 * @param row
 	 * @param col
-	 * @param title
+	 * @param text
 	 */
-	private void createItemValue(FlexTable t, int row, int col, String title) {
-		Label l = new Label(title);
+	private void createItemValue(FlexTable t, int row, int col, String text) {
+		Label l = new Label(text);
 		l.setStyleName("DicomItemValue");
 		t.setWidget(row, col, l);
+		t.getFlexCellFormatter().setAlignment(row, col,
+				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
+	}
+	
+	/**
+	 * @param t
+	 * @param row
+	 * @param col
+	 * @param html
+	 */
+	private void createItemHTML(FlexTable t, int row, int col, String html) {
+		HTML h = new HTML(html);
+//		h.setStyleName("DicomItemValue");
+		t.setWidget(row, col, h);
 		t.getFlexCellFormatter().setAlignment(row, col,
 				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
 	}
