@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://ws.dicom.psystems.org" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://ws.dicom.psystems.org/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://ws.dicom.psystems.org">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.dicom.psystems.org/xsd">
+            <xs:complexType name="Study">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="ID" type="xs:int"/>
+                    <xs:element minOccurs="0" name="description" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:ax22="http://ws.dicom.psystems.org/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.dicom.psystems.org">
+            <xs:import namespace="http://ws.dicom.psystems.org/xsd"/>
+            <xs:element name="getStudy">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="args0" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getStudyResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="ax22:Study"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getStudyRequest">
+        <wsdl:part name="parameters" element="ns:getStudy"/>
+    </wsdl:message>
+    <wsdl:message name="getStudyResponse">
+        <wsdl:part name="parameters" element="ns:getStudyResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="WEBDICOMPortType">
+        <wsdl:operation name="getStudy">
+            <wsdl:input message="ns:getStudyRequest" wsaw:Action="urn:getStudy"/>
+            <wsdl:output message="ns:getStudyResponse" wsaw:Action="urn:getStudyResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="WEBDICOMSoap11Binding" type="ns:WEBDICOMPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getStudy">
+            <soap:operation soapAction="urn:getStudy" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="WEBDICOMSoap12Binding" type="ns:WEBDICOMPortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getStudy">
+            <soap12:operation soapAction="urn:getStudy" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="WEBDICOMHttpBinding" type="ns:WEBDICOMPortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="getStudy">
+            <http:operation location="WEBDICOM/getStudy"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getStudy"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getStudy"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="WEBDICOM">
+        <wsdl:port name="WEBDICOMHttpSoap11Endpoint" binding="ns:WEBDICOMSoap11Binding">
+            <soap:address location="http://localhost:8080/axis2/services/WEBDICOM"/>
+        </wsdl:port>
+        <wsdl:port name="WEBDICOMHttpSoap12Endpoint" binding="ns:WEBDICOMSoap12Binding">
+            <soap12:address location="http://localhost:8080/axis2/services/WEBDICOM"/>
+        </wsdl:port>
+        <wsdl:port name="WEBDICOMHttpEndpoint" binding="ns:WEBDICOMHttpBinding">
+            <http:address location="http://localhost:8080/axis2/services/WEBDICOM"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
