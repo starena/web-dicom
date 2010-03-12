@@ -15,4 +15,7 @@
  * Проверить работу сервисов по ссылке [http://localhost:8080/dicom-webservice] (если контейнер обслуживает порт 8080)
  * WSDL описание сервиса можно получить по ссылке [http://localhost:8080/dicom-webservice/services/DicomArchive?wsdl] (если контейнер обслуживает порт 8080)
 
+Для понимания структур передаваемых объектов вот ссылки на исходный код:
+ * http://web-dicom.googlecode.com/svn/trunk/dicom-webservice/src/org/psystems/dicom/webservice/DicomArchive.java
 
+ * http://web-dicom.googlecode.com/svn/trunk/dicom-webservice/src/org/psystems/dicom/webservice/Study.java
