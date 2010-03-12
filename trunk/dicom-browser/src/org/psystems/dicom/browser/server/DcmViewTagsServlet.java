@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +23,7 @@ import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
 import org.dcm4che2.io.DicomInputStream;
+import org.dcm4che2.util.StringUtils;
 
 public class DcmViewTagsServlet extends HttpServlet {
 
@@ -143,29 +143,48 @@ public class DcmViewTagsServlet extends HttpServlet {
 			resp.getWriter().write("<h1> Теги: </h1>");
 
 			resp.getWriter().write("<table border=1>");
-			
-			DecimalFormat format = new DecimalFormat("0000");
-			
+
+//			DecimalFormat format = new DecimalFormat("0000");
+
 			// Раскручиваем теги
 			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
 				DicomElement element = it.next();
 
 				int tag = element.tag();
-				short ma = (short) (tag >> 16);
-				String major = format.format(ma);
-				short mi = (short) (tag);
-				String minor = format.format(mi);
+
+//				Short ma = (short) (tag >> 16);
+				// String major = format.format(ma);
+//				 Short mi = (short) (tag);
+				//String minor = format.format(mi);
+				//Integer.toHexString(ma)
+
+				
+				StringBuffer sb = new StringBuffer();
+				StringUtils.shortToHex(tag >> 16, sb);
+				String major = sb.toString();
+
+				sb = new StringBuffer();
+				StringUtils.shortToHex(tag, sb);
+				String minor = sb.toString();
+
+				// sb.append('(');
+				// StringUtils.shortToHex(tag >> 16, sb);
+				// sb.append(',');
+				// StringUtils.shortToHex(tag, sb);
+				// sb.append(')');
+				
+				
 
 				String type = element.vr().toString();
-				
+
 				int length = element.length();
 				int maxLength = 200;
 				if (length > maxLength)
 					length = maxLength;
 
 				resp.getWriter().write(
-						"<tr> " + " <td>" + major + " <td>" + minor + "<td>" + type +  "<td>" + dcmObj.nameOf(tag)
-								+ " <td> "
+						"<tr> " + " <td>" + major + " <td> " + minor + "<td>"
+								+ type + "<td>" + dcmObj.nameOf(tag) + " <td> "
 								+ element.getValueAsString(cs, length)
 								+ "</tr>");
 			}

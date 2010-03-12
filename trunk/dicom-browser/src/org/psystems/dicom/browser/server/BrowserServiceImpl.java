@@ -14,14 +14,13 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
 import org.dcm4che2.io.DicomInputStream;
+import org.dcm4che2.util.StringUtils;
 import org.dcm4che2.util.TagUtils;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
@@ -442,7 +441,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 						.get(Tag.SpecificCharacterSet).getStrings(null, false));
 			}
 
-			DecimalFormat format = new DecimalFormat("0000");
+//			DecimalFormat format = new DecimalFormat("0000");
 
 			// Раскручиваем теги
 			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
@@ -450,9 +449,15 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 				int tag = element.tag();
 				short major = (short) (tag >> 16);
-				String majorStr = format.format(major);
 				short minor = (short) (tag);
-				String minorStr = format.format(minor);
+				
+				StringBuffer sb = new StringBuffer();
+				StringUtils.shortToHex(tag >> 16, sb);
+				String majorStr = sb.toString();
+
+				sb = new StringBuffer();
+				StringUtils.shortToHex(tag, sb);
+				String minorStr = sb.toString();
 
 				String type = element.vr().toString();
 
@@ -506,15 +511,31 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			psSelect.setInt(1, idDcm);
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
-			DecimalFormat format = new DecimalFormat("0000");
+//			DecimalFormat format = new DecimalFormat("0000");
 			while (rs.next()) {
 				DcmTagProxy proxy = new DcmTagProxy();
 
 				int tag = rs.getInt("TAG");
 				short major = (short) (tag >> 16);
 				short minor = (short) (tag);
-				String majorStr = format.format(major);
-				String minorStr = format.format(minor);
+				
+				
+				StringBuffer sb = new StringBuffer();
+				StringUtils.shortToHex(tag >> 16, sb);
+				String majorStr = sb.toString();
+
+				sb = new StringBuffer();
+				StringUtils.shortToHex(tag, sb);
+				String minorStr = sb.toString();
+				
+//				StringBuffer sb = new StringBuffer();
+//				StringUtils.shortToHex(tag >> 16, sb);
+//				String major = sb.toString();
+//
+//				sb = new StringBuffer();
+//				StringUtils.shortToHex(tag, sb);
+//				String minor = sb.toString();
+				
 
 				proxy.init(idDcm, tag, major, majorStr, minor, minorStr, rs
 						.getString("TAG_TYPE"), TagUtils.toString(rs
