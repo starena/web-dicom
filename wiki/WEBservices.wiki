@@ -1,0 +1,18 @@
+#summary Работа с WEB-сервисами
+
+= Introduction =
+
+Данный раздел документации описывает работу с WEB-сервисами проекта
+
+
+= Details =
+
+Необходимо:
+
+ * Скачать Apache Tomcat http://tomcat.apache.org/ (вот версия 5.5 под windows http://www.sai.msu.su/apache/tomcat/tomcat-5/v5.5.28/bin/apache-tomcat-5.5.28.exe)
+ * Скачать архив с тестовыми сермисами [http://code.google.com/p/web-dicom/downloads/list]
+ * Загрузить архив в контейнер
+ * Проверить работу сервисов по ссылке [http://localhost:8080/dicom-webservice] (если контейнер обслуживает порт 8080)
+ * WSDL описание сервиса можно получить по ссылке [http://localhost:8080/dicom-webservice/services/DicomArchive?wsdl] (если контейнер обслуживает порт 8080)
+
+
