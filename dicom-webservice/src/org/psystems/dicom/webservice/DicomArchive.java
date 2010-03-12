@@ -39,6 +39,7 @@ public class DicomArchive {
 			study.setStudyResult("Результат 'норма'");
 			study.setStudyType("флюорография");
 			study.setStudyUrl("http://localhost/" + i + ".dcm");
+			data.add(study);
 		}
 
 		Study[] result = new Study[data.size()];
