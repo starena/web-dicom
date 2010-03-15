@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/derbynet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/derbyrun.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/derbytools.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (3)"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-audit-2.0.21.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-core-2.0.21.jar" sourcepath="/dicomweb/docs/dcm4che-2.0.21-src.zip"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-filecache-2.0.21.jar"/>
@@ -22,5 +21,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-log4j12-1.5.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.apache.log4j_1.2.13.v200806030600.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
