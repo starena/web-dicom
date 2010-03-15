@@ -163,7 +163,7 @@ public class DcmViewTagsServlet extends HttpServlet {
 				StringUtils.shortToHex(tag >> 16, sb);
 				String major = sb.toString();
 
-				sb = new StringBuffer();
+				sb = new StringBuffer();	
 				StringUtils.shortToHex(tag, sb);
 				String minor = sb.toString();
 
@@ -183,7 +183,7 @@ public class DcmViewTagsServlet extends HttpServlet {
 					length = maxLength;
 
 				resp.getWriter().write(
-						"<tr> " + " <td>" + major + " <td> " + minor + "<td>"
+						"<tr> " + " <td>" + major + " <td> " + minor + " <td> short=" + (short) (tag) + "<td>"
 								+ type + "<td>" + dcmObj.nameOf(tag) + " <td> "
 								+ element.getValueAsString(cs, length)
 								+ "</tr>");

@@ -24,8 +24,12 @@ public class DcmFileProxy implements Serializable {
 	private Date studyDate; // Дата исследования
 	private String studyDoctor; // Врач исследования
 	private String studyOperator; // Оператор исследования
+	private String studyDescriptionDate;// Дата описания исследования.
+	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
+	private String studyViewprotocol;// Протокол осмотра
 	private String studyResult;// Результат исследования.
+	private String ManufacturerModelName; // Аппарат
 	// TODO нужны еще поля
 
 	private ArrayList<DcmImageProxy> images = new ArrayList<DcmImageProxy>();
@@ -35,33 +39,44 @@ public class DcmFileProxy implements Serializable {
 	 * 
 	 * @param id
 	 * @param dcmFileName
+	 * @param ManufacturerModelName
 	 * @param patientName
 	 * @param patientSex
 	 * @param patientId
 	 * @param patientBirthDate
 	 * @param studyId
+	 * @param studyType
 	 * @param studyDate
+	 * @param studyDescriptionDate
 	 * @param studyDoctor
 	 * @param studyOperator
 	 * @param studyDescription
+	 * @param studyViewprotocol
 	 * @param studyResult
 	 */
-	public void init(Integer id, String dcmFileName, String patientName,
+	public void init(Integer id, String dcmFileName,
+			String ManufacturerModelName, String patientName,
 			String patientSex, String patientId, Date patientBirthDate,
-			String studyId, Date studyDate, String studyDoctor,
-			String studyOperator, String studyDescription, String studyResult) {
+			String studyId, String studyType, Date studyDate,
+			String studyDescriptionDate, String studyDoctor,
+			String studyOperator, String studyDescription,
+			String studyViewprotocol, String studyResult) {
 
 		this.id = id;
 		this.dcmFileName = dcmFileName;
+		this.ManufacturerModelName = ManufacturerModelName;
 		this.patientName = patientName;
 		this.patientSex = patientSex;
 		this.patientId = patientId;
 		this.patientBirthDate = patientBirthDate;
 		this.studyId = studyId;
+		this.studyType = studyType;
 		this.studyDate = studyDate;
+		this.studyDescriptionDate = studyDescriptionDate;
 		this.studyDoctor = studyDoctor;
 		this.studyOperator = studyOperator;
 		this.studyDescription = studyDescription;
+		this.studyViewprotocol = studyViewprotocol;
 		this.studyResult = studyResult;
 
 	}
@@ -124,6 +139,22 @@ public class DcmFileProxy implements Serializable {
 		return studyResult;
 	}
 
+	public String getStudyDescriptionDate() {
+		return studyDescriptionDate;
+	}
+
+	public String getStudyType() {
+		return studyType;
+	}
+
+	public String getManufacturerModelName() {
+		return ManufacturerModelName;
+	}
+
+	public String getStudyViewprotocol() {
+		return studyViewprotocol;
+	}
+
 	public ArrayList<DcmImageProxy> getImages() {
 		return images;
 	}
@@ -139,8 +170,8 @@ public class DcmFileProxy implements Serializable {
 	@Override
 	public String toString() {
 		return "DcmFileProxy " + id + ";" + dcmFileName + ";" + patientName
-				+ ";" + patientBirthDate + ";" + studyDate + " [" + getStudyResult() + "] images count:"
-				+ images.size();
+				+ ";" + patientBirthDate + ";" + studyDate + " ["
+				+ getStudyResult() + "] images count:" + images.size();
 	}
 
 }

@@ -86,17 +86,25 @@ public class SearchedItem extends Composite {
 		createItemValue(table, 1, 5, proxy.getPatientId());
 
 		createItemName(table, 2, 0, "аппарат:");
-		createItemValue(table, 2, 1, "неизвестен");
+		createItemValue(table, 2, 1,  proxy.getManufacturerModelName());
 
 		createItemName(table, 2, 2, "врач:");
 		createItemValue(table, 2, 3, proxy.getStudyDoctor());
 
-		createItemName(table, 2, 4, "оператор:");
+		createItemName(table, 2, 4, "лаборант:");
 		createItemValue(table, 2, 5, proxy.getStudyOperator());
 
-		createItemName(table, 3, 0, "результат:");
-		createItemHTML(table, 3, 1, proxy.getStudyResult());
+		createItemName(table, 3, 0, "Тип исследования:");
+		createItemValue(table, 3, 1, proxy.getStudyType());
 		table.getFlexCellFormatter().setColSpan(3, 1, 5);
+		
+		createItemName(table, 4, 0, "результат:");
+		createItemValue(table, 4, 1, proxy.getStudyDescriptionDate() +" , " + proxy.getStudyResult());
+		table.getFlexCellFormatter().setColSpan(4, 1, 5);
+		
+		createItemName(table, 5, 0, "Протокол осмотра:");
+		createItemValue(table, 5, 1, proxy.getStudyViewprotocol());
+		table.getFlexCellFormatter().setColSpan(5, 1, 5);
 
 		HTML linkDcm = new HTML();
 		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
@@ -106,9 +114,9 @@ public class SearchedItem extends Composite {
 
 		linkDcm.setStyleName("DicomItemName");
 
-		table.setWidget(4, 0, linkDcm);
-		table.getFlexCellFormatter().setColSpan(4, 0, 6);
-		table.getFlexCellFormatter().setAlignment(4, 0,
+		table.setWidget(6, 0, linkDcm);
+		table.getFlexCellFormatter().setColSpan(6, 0, 6);
+		table.getFlexCellFormatter().setAlignment(6, 0,
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 
 		// t.setText(2, 2, "bottom-right corner");
@@ -195,53 +203,53 @@ public class SearchedItem extends Composite {
 
 		}
 		
-		
-		HorizontalPanel tagsPanel = new HorizontalPanel();
-		table.setWidget(5, 0, tagsPanel);
-		table.getFlexCellFormatter().setColSpan(5, 0, 6);
-		table.getFlexCellFormatter().setColSpan(4, 0, 6);
-		table.getFlexCellFormatter().setAlignment(4, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
-
-		final VerticalPanel vp = new VerticalPanel();
-		tagsPanel.add(vp);
-		
-
-		Label showTagsLabelfromDB = new Label("Показать теги из БД");
-		showTagsLabelfromDB.setStyleName("DicomItemValue");
-		DOM.setStyleAttribute(showTagsLabelfromDB.getElement(), "cursor",
-				"pointer");
-		vp.add(showTagsLabelfromDB);
-
-		final VerticalPanel vp1 = new VerticalPanel();
-		tagsPanel.add(vp1);
-		
-
-		showTagsLabelfromDB.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				showTagsFromDb(vp);
-			}
-
-		});
-
-		Label showTagsLabelFromFile = new Label("Показать теги из файла");
-		showTagsLabelFromFile.setStyleName("DicomItemValue");
-		DOM.setStyleAttribute(showTagsLabelFromFile.getElement(), "cursor",
-				"pointer");
-		vp1.add(showTagsLabelFromFile);
-
-		showTagsLabelFromFile.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				showTagsFromFile(vp1);
-			}
-
-		});
+//		
+//		HorizontalPanel tagsPanel = new HorizontalPanel();
+//		table.setWidget(5, 0, tagsPanel);
+//		table.getFlexCellFormatter().setColSpan(5, 0, 6);
+//		table.getFlexCellFormatter().setColSpan(4, 0, 6);
+//		table.getFlexCellFormatter().setAlignment(4, 0,
+//				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
+//
+//		final VerticalPanel vp = new VerticalPanel();
+//		tagsPanel.add(vp);
+//		
+//
+//		Label showTagsLabelfromDB = new Label("Показать теги из БД");
+//		showTagsLabelfromDB.setStyleName("DicomItemValue");
+//		DOM.setStyleAttribute(showTagsLabelfromDB.getElement(), "cursor",
+//				"pointer");
+//		vp.add(showTagsLabelfromDB);
+//
+//		final VerticalPanel vp1 = new VerticalPanel();
+//		tagsPanel.add(vp1);
+//		
+//
+//		showTagsLabelfromDB.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				showTagsFromDb(vp);
+//			}
+//
+//		});
+//
+//		Label showTagsLabelFromFile = new Label("Показать теги из файла");
+//		showTagsLabelFromFile.setStyleName("DicomItemValue");
+//		DOM.setStyleAttribute(showTagsLabelFromFile.getElement(), "cursor",
+//				"pointer");
+//		vp1.add(showTagsLabelFromFile);
+//
+//		showTagsLabelFromFile.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				showTagsFromFile(vp1);
+//			}
+//
+//		});
 
 		// All composites must call initWidget() in their constructors.
 		initWidget(dcmItem);

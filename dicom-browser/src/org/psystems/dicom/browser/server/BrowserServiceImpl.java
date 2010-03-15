@@ -122,30 +122,76 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 				ArrayList<DcmTagProxy> tags = getTags(rs.getInt("ID"));
 				StringBuffer sb = new StringBuffer();
+				String ManufacturerModelName = null;
+				String studyType = null;
+				String studyDescriptionDate = null;
+				String studyViewprotocol = null;
+				String studyResult = null;
+
+				// Собираем теги
 				for (Iterator<DcmTagProxy> iter = tags.iterator(); iter
 						.hasNext();) {
 					DcmTagProxy tag = iter.next();
 
+					// TODO Это только для КРТ Электрон !!!!
+					// Дата описания снимка
+					if (tag.getMajor() == 21
+							|| Integer.toHexString(tag.getMinor()).equals(
+									"1110")) {
+						studyDescriptionDate = tag.getTagValue();
+					}
+
+					// «Вид исследования» - 0029 1106+0029 1107
+					if (tag.getMajor() == 29
+							|| Integer.toHexString(tag.getMinor()).equals(
+									"1106")) {
+						studyType = tag.getTagValue();
+					}
+
+					if (tag.getMajor() == 29
+							|| Integer.toHexString(tag.getMinor()).equals(
+									"1107")) {
+						studyType += " , " + tag.getTagValue();
+					}
+
+					if (tag.getMajor() == 21
+							|| Integer.toHexString(tag.getMinor()).equals(
+									"1103")) {
+						studyResult = tag.getTagValue();
+					}
 					
-					if (tag.getMajor() == 9 || tag.getMajor() == 33) {
-						if (sb.length() != 0) {
-							sb.append(",");
-						}
-						sb.append(tag.getTagValue());
+					if (tag.getMajor() == 21
+							|| Integer.toHexString(tag.getMinor()).equals(
+									"1118")) {
+						studyViewprotocol = tag.getTagValue();
+					}
+
+					// if (tag.getMajor() == 9 || tag.getMajor() == 33) {
+					// if (sb.length() != 0) {
+					// sb.append(",");
+					// }
+					// sb.append(tag.getTagValue());
+					// }
+					//					
+					if (tag.getIdTag() == Tag.ManufacturerModelName) {
+						ManufacturerModelName = tag.getTagValue();
+
+						// System.out.println("!!! " +tag.getMajor() +
+						// "="+Integer.toHexString(tag.getMinor()));
 					}
 				}
-				String tagsStr = sb.toString();
 
-				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"), rs
-						.getString("PATIENT_NAME"),
-						rs.getString("PATIENT_SEX"),
-						rs.getString("PATIENT_ID"), rs
+				proxy.init(rs.getInt("ID"), rs.getString("DCM_FILE_NAME"),
+						ManufacturerModelName, rs.getString("PATIENT_NAME"), rs
+								.getString("PATIENT_SEX"), rs
+								.getString("PATIENT_ID"), rs
 								.getDate("PATIENT_BIRTH_DATE"), rs
-								.getString("STUDY_ID"), rs
-								.getDate("STUDY_DATE"), rs
-								.getString("STUDY_DOCTOR"), rs
+								.getString("STUDY_ID"), studyType, rs
+								.getDate("STUDY_DATE"), studyDescriptionDate,
+						rs.getString("STUDY_DOCTOR"), rs
 								.getString("STUDY_OPERATOR"), rs
-								.getString("STUDY_DESCRIPTION"), tagsStr);
+								.getString("STUDY_DESCRIPTION"),
+						studyViewprotocol, studyResult);
 
 				// Получаем список картинок
 				psImages.setInt(1, rs.getInt("ID"));
@@ -441,7 +487,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 						.get(Tag.SpecificCharacterSet).getStrings(null, false));
 			}
 
-//			DecimalFormat format = new DecimalFormat("0000");
+			// DecimalFormat format = new DecimalFormat("0000");
 
 			// Раскручиваем теги
 			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
@@ -450,7 +496,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				int tag = element.tag();
 				short major = (short) (tag >> 16);
 				short minor = (short) (tag);
-				
+
 				StringBuffer sb = new StringBuffer();
 				StringUtils.shortToHex(tag >> 16, sb);
 				String majorStr = sb.toString();
@@ -511,15 +557,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			psSelect.setInt(1, idDcm);
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
-//			DecimalFormat format = new DecimalFormat("0000");
+			// DecimalFormat format = new DecimalFormat("0000");
 			while (rs.next()) {
 				DcmTagProxy proxy = new DcmTagProxy();
 
 				int tag = rs.getInt("TAG");
 				short major = (short) (tag >> 16);
 				short minor = (short) (tag);
-				
-				
+
 				StringBuffer sb = new StringBuffer();
 				StringUtils.shortToHex(tag >> 16, sb);
 				String majorStr = sb.toString();
@@ -527,15 +572,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				sb = new StringBuffer();
 				StringUtils.shortToHex(tag, sb);
 				String minorStr = sb.toString();
-				
-//				StringBuffer sb = new StringBuffer();
-//				StringUtils.shortToHex(tag >> 16, sb);
-//				String major = sb.toString();
-//
-//				sb = new StringBuffer();
-//				StringUtils.shortToHex(tag, sb);
-//				String minor = sb.toString();
-				
+
+				// StringBuffer sb = new StringBuffer();
+				// StringUtils.shortToHex(tag >> 16, sb);
+				// String major = sb.toString();
+				//
+				// sb = new StringBuffer();
+				// StringUtils.shortToHex(tag, sb);
+				// String minor = sb.toString();
 
 				proxy.init(idDcm, tag, major, majorStr, minor, minorStr, rs
 						.getString("TAG_TYPE"), TagUtils.toString(rs
