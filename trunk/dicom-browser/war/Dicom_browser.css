@@ -59,10 +59,29 @@ P { /*background-color: #F0F0F0;*/
   font-size: 1em;
   /*font-weight: bold;*/
   color: #777777;
-  margin: 20px;
+  margin-top: 20px;
   text-align: center;
 }
 
+
+
+.copyright A:visited {
+  font-size: 1em;
+  /*font-weight: bold;*/
+  /*color: #B0CAFA;*/
+  color: #777777;
+  /*margin: 20px;*/
+  text-align: center;
+}
+
+.copyright A:link {
+  font-size: 1em;
+  /*font-weight: bold;*/
+  /*color: #44639C;*/
+  color: #44639C;
+  /*margin: 20px;*/
+  text-align: center;
+}
 
 
 /* ссылки */
