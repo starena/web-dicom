@@ -1,57 +1,4 @@
-/*
-    WEB-DICOM - preserving and providing information to the DICOM devices
-	
-    Copyright (C) 2009-2010 psystems.org
-    Copyright (C) 2009-2010 Dmitry Derenok 
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>
-    
-    The Original Code is part of WEB-DICOM, an implementation hosted at 
-    <http://code.google.com/p/web-dicom/>
-    
-    In the project WEB-DICOM used the library open source project dcm4che
-    The Original Code is part of dcm4che, an implementation of DICOM(TM) in
-    Java(TM), hosted at http://sourceforge.net/projects/dcm4che.
-    
-    =======================================================================
-    
-    WEB-DICOM - Сохранение и предоставление информации с DICOM устройств
-
-    Copyright (C) 2009-2010 psystems.org 
-    Copyright (C) 2009-2010 Dmitry Derenok 
-
-    Это программа является свободным программным обеспечением. Вы можете 
-    распространять и/или модифицировать её согласно условиям Стандартной 
-    Общественной Лицензии GNU, опубликованной Фондом Свободного Программного 
-    Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии. 
-    Эта программа распространяется в надежде, что она будет полезной, но
-    БЕЗ ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ 
-    ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную 
-    Общественную Лицензию GNU для получения дополнительной информации. 
-    Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе 
-    с программой. В случае её отсутствия, посмотрите <http://www.gnu.org/licenses/>
-    Русский перевод <http://code.google.com/p/gpl3rus/wiki/LatestRelease>
-    
-    Оригинальный исходный код WEB-DICOM можно получить на
-    <http://code.google.com/p/web-dicom/>
-    
-    В проекте WEB-DICOM использованы библиотеки открытого проекта dcm4che/
-    Оригинальный исходный код проекта dcm4che, и его имплементация DICOM(TM) in
-    Java(TM), находится здесь http://sourceforge.net/projects/dcm4che.
-    
-    
- */
 /**
  * DicomArchiveStub.java
  *
@@ -140,6 +87,18 @@
     //populates the faults
     private void populateFaults(){
          
+              faultExceptionNameMap.put( new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomWebServiceExceptionException0");
+              faultExceptionClassNameMap.put(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomWebServiceExceptionException0");
+              faultMessageMap.put( new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomArchiveStub$DicomWebServiceExceptionE");
+           
+              faultExceptionNameMap.put( new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomWebServiceExceptionException0");
+              faultExceptionClassNameMap.put(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomWebServiceExceptionException0");
+              faultMessageMap.put( new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomArchiveStub$DicomWebServiceExceptionE");
+           
+              faultExceptionNameMap.put( new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomWebServiceExceptionException0");
+              faultExceptionClassNameMap.put(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomWebServiceExceptionException0");
+              faultMessageMap.put( new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),"org.psystems.dicom.webservice.DicomArchiveStub$DicomWebServiceExceptionE");
+           
 
 
     }
@@ -214,6 +173,7 @@
                      * @see org.psystems.dicom.webservice.DicomArchive#getStudy
                      * @param getStudy0
                     
+                     * @throws org.psystems.dicom.webservice.DicomWebServiceExceptionException0 : 
                      */
 
                     
@@ -225,7 +185,8 @@
 
                     throws java.rmi.RemoteException
                     
-                    {
+                    
+                        ,org.psystems.dicom.webservice.DicomWebServiceExceptionException0{
               org.apache.axis2.context.MessageContext _messageContext = null;
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
@@ -294,6 +255,10 @@
                         java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
+                        
+                        if (ex instanceof org.psystems.dicom.webservice.DicomWebServiceExceptionException0){
+                          throw (org.psystems.dicom.webservice.DicomWebServiceExceptionException0)ex;
+                        }
                         
 
                         throw new java.rmi.RemoteException(ex.getMessage(), ex);
@@ -411,6 +376,11 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
+													if (ex instanceof org.psystems.dicom.webservice.DicomWebServiceExceptionException0){
+														callback.receiveErrorgetStudy((org.psystems.dicom.webservice.DicomWebServiceExceptionException0)ex);
+											            return;
+										            }
+										            
 					
 										            callback.receiveErrorgetStudy(new java.rmi.RemoteException(ex.getMessage(), ex));
                                             } catch(java.lang.ClassCastException e){
@@ -479,6 +449,7 @@
                      * @see org.psystems.dicom.webservice.DicomArchive#findStudies
                      * @param findStudies2
                     
+                     * @throws org.psystems.dicom.webservice.DicomWebServiceExceptionException0 : 
                      */
 
                     
@@ -490,7 +461,8 @@
 
                     throws java.rmi.RemoteException
                     
-                    {
+                    
+                        ,org.psystems.dicom.webservice.DicomWebServiceExceptionException0{
               org.apache.axis2.context.MessageContext _messageContext = null;
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
@@ -559,6 +531,10 @@
                         java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
+                        
+                        if (ex instanceof org.psystems.dicom.webservice.DicomWebServiceExceptionException0){
+                          throw (org.psystems.dicom.webservice.DicomWebServiceExceptionException0)ex;
+                        }
                         
 
                         throw new java.rmi.RemoteException(ex.getMessage(), ex);
@@ -676,6 +652,11 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
+													if (ex instanceof org.psystems.dicom.webservice.DicomWebServiceExceptionException0){
+														callback.receiveErrorfindStudies((org.psystems.dicom.webservice.DicomWebServiceExceptionException0)ex);
+											            return;
+										            }
+										            
 					
 										            callback.receiveErrorfindStudies(new java.rmi.RemoteException(ex.getMessage(), ex));
                                             } catch(java.lang.ClassCastException e){
@@ -744,6 +725,7 @@
                      * @see org.psystems.dicom.webservice.DicomArchive#newStudy
                      * @param newStudy4
                     
+                     * @throws org.psystems.dicom.webservice.DicomWebServiceExceptionException0 : 
                      */
 
                     
@@ -755,7 +737,8 @@
 
                     throws java.rmi.RemoteException
                     
-                    {
+                    
+                        ,org.psystems.dicom.webservice.DicomWebServiceExceptionException0{
               org.apache.axis2.context.MessageContext _messageContext = null;
               try{
                org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[2].getName());
@@ -824,6 +807,10 @@
                         java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
                                    new java.lang.Class[]{messageClass});
                         m.invoke(ex,new java.lang.Object[]{messageObject});
+                        
+                        if (ex instanceof org.psystems.dicom.webservice.DicomWebServiceExceptionException0){
+                          throw (org.psystems.dicom.webservice.DicomWebServiceExceptionException0)ex;
+                        }
                         
 
                         throw new java.rmi.RemoteException(ex.getMessage(), ex);
@@ -941,6 +928,11 @@
 															new java.lang.Class[]{messageClass});
 													m.invoke(ex,new java.lang.Object[]{messageObject});
 													
+													if (ex instanceof org.psystems.dicom.webservice.DicomWebServiceExceptionException0){
+														callback.receiveErrornewStudy((org.psystems.dicom.webservice.DicomWebServiceExceptionException0)ex);
+											            return;
+										            }
+										            
 					
 										            callback.receiveErrornewStudy(new java.rmi.RemoteException(ex.getMessage(), ex));
                                             } catch(java.lang.ClassCastException e){
@@ -1523,6 +1515,500 @@
         }
            
           
+        public static class DicomWebServiceExceptionE
+        implements org.apache.axis2.databinding.ADBBean{
+        
+                public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
+                "http://webservice.dicom.psystems.org",
+                "DicomWebServiceException",
+                "ns2");
+
+            
+
+        private static java.lang.String generatePrefix(java.lang.String namespace) {
+            if(namespace.equals("http://webservice.dicom.psystems.org")){
+                return "ns2";
+            }
+            return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+        }
+
+        
+
+                        /**
+                        * field for DicomWebServiceException
+                        */
+
+                        
+                                    protected DicomWebServiceException localDicomWebServiceException ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDicomWebServiceExceptionTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return DicomWebServiceException
+                           */
+                           public  DicomWebServiceException getDicomWebServiceException(){
+                               return localDicomWebServiceException;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DicomWebServiceException
+                               */
+                               public void setDicomWebServiceException(DicomWebServiceException param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDicomWebServiceExceptionTracker = true;
+                                       } else {
+                                          localDicomWebServiceExceptionTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDicomWebServiceException=param;
+                                    
+
+                               }
+                            
+
+     /**
+     * isReaderMTOMAware
+     * @return true if the reader supports MTOM
+     */
+   public static boolean isReaderMTOMAware(javax.xml.stream.XMLStreamReader reader) {
+        boolean isReaderMTOMAware = false;
+        
+        try{
+          isReaderMTOMAware = java.lang.Boolean.TRUE.equals(reader.getProperty(org.apache.axiom.om.OMConstants.IS_DATA_HANDLERS_AWARE));
+        }catch(java.lang.IllegalArgumentException e){
+          isReaderMTOMAware = false;
+        }
+        return isReaderMTOMAware;
+   }
+     
+     
+        /**
+        *
+        * @param parentQName
+        * @param factory
+        * @return org.apache.axiom.om.OMElement
+        */
+       public org.apache.axiom.om.OMElement getOMElement (
+               final javax.xml.namespace.QName parentQName,
+               final org.apache.axiom.om.OMFactory factory) throws org.apache.axis2.databinding.ADBException{
+
+
+        
+                org.apache.axiom.om.OMDataSource dataSource =
+                       new org.apache.axis2.databinding.ADBDataSource(this,MY_QNAME){
+
+                 public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+                       DicomWebServiceExceptionE.this.serialize(MY_QNAME,factory,xmlWriter);
+                 }
+               };
+               return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
+               MY_QNAME,factory,dataSource);
+            
+       }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                                       final org.apache.axiom.om.OMFactory factory,
+                                       org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter)
+                                throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+                           serialize(parentQName,factory,xmlWriter,false);
+         }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                               final org.apache.axiom.om.OMFactory factory,
+                               org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter,
+                               boolean serializeType)
+            throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+            
+                
+
+
+                java.lang.String prefix = null;
+                java.lang.String namespace = null;
+                
+
+                    prefix = parentQName.getPrefix();
+                    namespace = parentQName.getNamespaceURI();
+
+                    if ((namespace != null) && (namespace.trim().length() > 0)) {
+                        java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+                        if (writerPrefix != null) {
+                            xmlWriter.writeStartElement(namespace, parentQName.getLocalPart());
+                        } else {
+                            if (prefix == null) {
+                                prefix = generatePrefix(namespace);
+                            }
+
+                            xmlWriter.writeStartElement(prefix, parentQName.getLocalPart(), namespace);
+                            xmlWriter.writeNamespace(prefix, namespace);
+                            xmlWriter.setPrefix(prefix, namespace);
+                        }
+                    } else {
+                        xmlWriter.writeStartElement(parentQName.getLocalPart());
+                    }
+                
+                  if (serializeType){
+               
+
+                   java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://webservice.dicom.psystems.org");
+                   if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           namespacePrefix+":DicomWebServiceException",
+                           xmlWriter);
+                   } else {
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           "DicomWebServiceException",
+                           xmlWriter);
+                   }
+
+               
+                   }
+                if (localDicomWebServiceExceptionTracker){
+                                    if (localDicomWebServiceException==null){
+
+                                            java.lang.String namespace2 = "http://webservice.dicom.psystems.org";
+
+                                        if (! namespace2.equals("")) {
+                                            java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                            if (prefix2 == null) {
+                                                prefix2 = generatePrefix(namespace2);
+
+                                                xmlWriter.writeStartElement(prefix2,"DicomWebServiceException", namespace2);
+                                                xmlWriter.writeNamespace(prefix2, namespace2);
+                                                xmlWriter.setPrefix(prefix2, namespace2);
+
+                                            } else {
+                                                xmlWriter.writeStartElement(namespace2,"DicomWebServiceException");
+                                            }
+
+                                        } else {
+                                            xmlWriter.writeStartElement("DicomWebServiceException");
+                                        }
+
+
+                                       // write the nil attribute
+                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                      xmlWriter.writeEndElement();
+                                    }else{
+                                     localDicomWebServiceException.serialize(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException"),
+                                        factory,xmlWriter);
+                                    }
+                                }
+                    xmlWriter.writeEndElement();
+               
+
+        }
+
+         /**
+          * Util method to write an attribute with the ns prefix
+          */
+          private void writeAttribute(java.lang.String prefix,java.lang.String namespace,java.lang.String attName,
+                                      java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+              if (xmlWriter.getPrefix(namespace) == null) {
+                       xmlWriter.writeNamespace(prefix, namespace);
+                       xmlWriter.setPrefix(prefix, namespace);
+
+              }
+
+              xmlWriter.writeAttribute(namespace,attName,attValue);
+
+         }
+
+        /**
+          * Util method to write an attribute without the ns prefix
+          */
+          private void writeAttribute(java.lang.String namespace,java.lang.String attName,
+                                      java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+                if (namespace.equals(""))
+              {
+                  xmlWriter.writeAttribute(attName,attValue);
+              }
+              else
+              {
+                  registerPrefix(xmlWriter, namespace);
+                  xmlWriter.writeAttribute(namespace,attName,attValue);
+              }
+          }
+
+
+           /**
+             * Util method to write an attribute without the ns prefix
+             */
+            private void writeQNameAttribute(java.lang.String namespace, java.lang.String attName,
+                                             javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+                java.lang.String attributeNamespace = qname.getNamespaceURI();
+                java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
+                if (attributePrefix == null) {
+                    attributePrefix = registerPrefix(xmlWriter, attributeNamespace);
+                }
+                java.lang.String attributeValue;
+                if (attributePrefix.trim().length() > 0) {
+                    attributeValue = attributePrefix + ":" + qname.getLocalPart();
+                } else {
+                    attributeValue = qname.getLocalPart();
+                }
+
+                if (namespace.equals("")) {
+                    xmlWriter.writeAttribute(attName, attributeValue);
+                } else {
+                    registerPrefix(xmlWriter, namespace);
+                    xmlWriter.writeAttribute(namespace, attName, attributeValue);
+                }
+            }
+        /**
+         *  method to handle Qnames
+         */
+
+        private void writeQName(javax.xml.namespace.QName qname,
+                                javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+            java.lang.String namespaceURI = qname.getNamespaceURI();
+            if (namespaceURI != null) {
+                java.lang.String prefix = xmlWriter.getPrefix(namespaceURI);
+                if (prefix == null) {
+                    prefix = generatePrefix(namespaceURI);
+                    xmlWriter.writeNamespace(prefix, namespaceURI);
+                    xmlWriter.setPrefix(prefix,namespaceURI);
+                }
+
+                if (prefix.trim().length() > 0){
+                    xmlWriter.writeCharacters(prefix + ":" + org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                } else {
+                    // i.e this is the default namespace
+                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                }
+
+            } else {
+                xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+            }
+        }
+
+        private void writeQNames(javax.xml.namespace.QName[] qnames,
+                                 javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+            if (qnames != null) {
+                // we have to store this data until last moment since it is not possible to write any
+                // namespace data after writing the charactor data
+                java.lang.StringBuffer stringToWrite = new java.lang.StringBuffer();
+                java.lang.String namespaceURI = null;
+                java.lang.String prefix = null;
+
+                for (int i = 0; i < qnames.length; i++) {
+                    if (i > 0) {
+                        stringToWrite.append(" ");
+                    }
+                    namespaceURI = qnames[i].getNamespaceURI();
+                    if (namespaceURI != null) {
+                        prefix = xmlWriter.getPrefix(namespaceURI);
+                        if ((prefix == null) || (prefix.length() == 0)) {
+                            prefix = generatePrefix(namespaceURI);
+                            xmlWriter.writeNamespace(prefix, namespaceURI);
+                            xmlWriter.setPrefix(prefix,namespaceURI);
+                        }
+
+                        if (prefix.trim().length() > 0){
+                            stringToWrite.append(prefix).append(":").append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        } else {
+                            stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        }
+                    } else {
+                        stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                    }
+                }
+                xmlWriter.writeCharacters(stringToWrite.toString());
+            }
+
+        }
+
+
+         /**
+         * Register a namespace prefix
+         */
+         private java.lang.String registerPrefix(javax.xml.stream.XMLStreamWriter xmlWriter, java.lang.String namespace) throws javax.xml.stream.XMLStreamException {
+                java.lang.String prefix = xmlWriter.getPrefix(namespace);
+
+                if (prefix == null) {
+                    prefix = generatePrefix(namespace);
+
+                    while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
+                        prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+                    }
+
+                    xmlWriter.writeNamespace(prefix, namespace);
+                    xmlWriter.setPrefix(prefix, namespace);
+                }
+
+                return prefix;
+            }
+
+
+  
+        /**
+        * databinding method to get an XML representation of this object
+        *
+        */
+        public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName)
+                    throws org.apache.axis2.databinding.ADBException{
+
+
+        
+                 java.util.ArrayList elementList = new java.util.ArrayList();
+                 java.util.ArrayList attribList = new java.util.ArrayList();
+
+                 if (localDicomWebServiceExceptionTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
+                                                                      "DicomWebServiceException"));
+                            
+                            
+                                    elementList.add(localDicomWebServiceException==null?null:
+                                    localDicomWebServiceException);
+                                }
+
+                return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
+            
+            
+
+        }
+
+  
+
+     /**
+      *  Factory class that keeps the parse method
+      */
+    public static class Factory{
+
+        
+        
+
+        /**
+        * static method to create the object
+        * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
+        *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+        * Postcondition: If this object is an element, the reader is positioned at its end element
+        *                If this object is a complex type, the reader is positioned at the end element of its outer element
+        */
+        public static DicomWebServiceExceptionE parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            DicomWebServiceExceptionE object =
+                new DicomWebServiceExceptionE();
+
+            int event;
+            java.lang.String nillableValue = null;
+            java.lang.String prefix ="";
+            java.lang.String namespaceuri ="";
+            try {
+                
+                while (!reader.isStartElement() && !reader.isEndElement())
+                    reader.next();
+
+                
+                   nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                   if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                         // Skip the element and report the null value.  It cannot have subelements.
+                         while (!reader.isEndElement())
+                             reader.next();
+                         
+                                 return null;
+                             
+
+                   }
+                
+                if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
+                  java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                        "type");
+                  if (fullTypeName!=null){
+                    java.lang.String nsPrefix = null;
+                    if (fullTypeName.indexOf(":") > -1){
+                        nsPrefix = fullTypeName.substring(0,fullTypeName.indexOf(":"));
+                    }
+                    nsPrefix = nsPrefix==null?"":nsPrefix;
+
+                    java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
+                    
+                            if (!"DicomWebServiceException".equals(type)){
+                                //find namespace for the prefix
+                                java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
+                                return (DicomWebServiceExceptionE)ExtensionMapper.getTypeObject(
+                                     nsUri,type,reader);
+                              }
+                        
+
+                  }
+                
+
+                }
+
+                
+
+                
+                // Note all attributes that were handled. Used to differ normal attributes
+                // from anyAttributes.
+                java.util.Vector handledAttributes = new java.util.Vector();
+                
+
+                 
+                    
+                    reader.next();
+                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","DicomWebServiceException").equals(reader.getName())){
+                                
+                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                          object.setDicomWebServiceException(null);
+                                          reader.next();
+                                            
+                                            reader.next();
+                                          
+                                      }else{
+                                    
+                                                object.setDicomWebServiceException(DicomWebServiceException.Factory.parse(reader));
+                                              
+                                        reader.next();
+                                    }
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                  
+                            while (!reader.isStartElement() && !reader.isEndElement())
+                                reader.next();
+                            
+                                if (reader.isStartElement())
+                                // A start element we are not expecting indicates a trailing invalid property
+                                throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getLocalName());
+                            
+
+
+
+            } catch (javax.xml.stream.XMLStreamException e) {
+                throw new java.lang.Exception(e);
+            }
+
+            return object;
+        }
+
+        }//end of factory class
+
+        
+
+        }
+           
+          
         public static class Study
         implements org.apache.axis2.databinding.ADBBean{
         /* This type was generated from the piece of schema that had
@@ -1540,6 +2026,50 @@
         }
 
         
+
+                        /**
+                        * field for DcmFileName
+                        */
+
+                        
+                                    protected java.lang.String localDcmFileName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDcmFileNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDcmFileName(){
+                               return localDcmFileName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DcmFileName
+                               */
+                               public void setDcmFileName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDcmFileNameTracker = true;
+                                       } else {
+                                          localDcmFileNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDcmFileName=param;
+                                    
+
+                               }
+                            
 
                         /**
                         * field for Id
@@ -1574,13 +2104,277 @@
                                        // setting primitive attribute tracker to true
                                        
                                                if (param==java.lang.Integer.MIN_VALUE) {
-                                           localIdTracker = false;
+                                           localIdTracker = true;
                                               
                                        } else {
                                           localIdTracker = true;
                                        }
                                    
                                             this.localId=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for ManufacturerModelName
+                        */
+
+                        
+                                    protected java.lang.String localManufacturerModelName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localManufacturerModelNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getManufacturerModelName(){
+                               return localManufacturerModelName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ManufacturerModelName
+                               */
+                               public void setManufacturerModelName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localManufacturerModelNameTracker = true;
+                                       } else {
+                                          localManufacturerModelNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localManufacturerModelName=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for ManufacturerModelUID
+                        */
+
+                        
+                                    protected java.lang.String localManufacturerModelUID ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localManufacturerModelUIDTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getManufacturerModelUID(){
+                               return localManufacturerModelUID;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ManufacturerModelUID
+                               */
+                               public void setManufacturerModelUID(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localManufacturerModelUIDTracker = true;
+                                       } else {
+                                          localManufacturerModelUIDTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localManufacturerModelUID=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for PatientBirthDate
+                        */
+
+                        
+                                    protected java.util.Calendar localPatientBirthDate ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localPatientBirthDateTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.util.Calendar
+                           */
+                           public  java.util.Calendar getPatientBirthDate(){
+                               return localPatientBirthDate;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param PatientBirthDate
+                               */
+                               public void setPatientBirthDate(java.util.Calendar param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localPatientBirthDateTracker = true;
+                                       } else {
+                                          localPatientBirthDateTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localPatientBirthDate=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for PatientId
+                        */
+
+                        
+                                    protected java.lang.String localPatientId ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localPatientIdTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getPatientId(){
+                               return localPatientId;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param PatientId
+                               */
+                               public void setPatientId(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localPatientIdTracker = true;
+                                       } else {
+                                          localPatientIdTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localPatientId=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for PatientName
+                        */
+
+                        
+                                    protected java.lang.String localPatientName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localPatientNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getPatientName(){
+                               return localPatientName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param PatientName
+                               */
+                               public void setPatientName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localPatientNameTracker = true;
+                                       } else {
+                                          localPatientNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localPatientName=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for PatientSex
+                        */
+
+                        
+                                    protected java.lang.String localPatientSex ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localPatientSexTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getPatientSex(){
+                               return localPatientSex;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param PatientSex
+                               */
+                               public void setPatientSex(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localPatientSexTracker = true;
+                                       } else {
+                                          localPatientSexTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localPatientSex=param;
                                     
 
                                }
@@ -1631,88 +2425,44 @@
                             
 
                         /**
-                        * field for StudyDescription
+                        * field for StudyDescriptionDate
                         */
 
                         
-                                    protected java.lang.String localStudyDescription ;
+                                    protected java.util.Calendar localStudyDescriptionDate ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localStudyDescriptionTracker = false ;
+                           protected boolean localStudyDescriptionDateTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
-                           * @return java.lang.String
+                           * @return java.util.Calendar
                            */
-                           public  java.lang.String getStudyDescription(){
-                               return localStudyDescription;
+                           public  java.util.Calendar getStudyDescriptionDate(){
+                               return localStudyDescriptionDate;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param StudyDescription
+                               * @param param StudyDescriptionDate
                                */
-                               public void setStudyDescription(java.lang.String param){
+                               public void setStudyDescriptionDate(java.util.Calendar param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localStudyDescriptionTracker = true;
+                                          localStudyDescriptionDateTracker = true;
                                        } else {
-                                          localStudyDescriptionTracker = true;
+                                          localStudyDescriptionDateTracker = true;
                                               
                                        }
                                    
-                                            this.localStudyDescription=param;
-                                    
-
-                               }
-                            
-
-                        /**
-                        * field for StudyDevice
-                        */
-
-                        
-                                    protected java.lang.String localStudyDevice ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localStudyDeviceTracker = false ;
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return java.lang.String
-                           */
-                           public  java.lang.String getStudyDevice(){
-                               return localStudyDevice;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param StudyDevice
-                               */
-                               public void setStudyDevice(java.lang.String param){
-                            
-                                       if (param != null){
-                                          //update the setting tracker
-                                          localStudyDeviceTracker = true;
-                                       } else {
-                                          localStudyDeviceTracker = true;
-                                              
-                                       }
-                                   
-                                            this.localStudyDevice=param;
+                                            this.localStudyDescriptionDate=param;
                                     
 
                                }
@@ -1807,88 +2557,88 @@
                             
 
                         /**
-                        * field for StudyPatient
+                        * field for StudyInstanceUID
                         */
 
                         
-                                    protected java.lang.String localStudyPatient ;
+                                    protected java.lang.String localStudyInstanceUID ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localStudyPatientTracker = false ;
+                           protected boolean localStudyInstanceUIDTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getStudyPatient(){
-                               return localStudyPatient;
+                           public  java.lang.String getStudyInstanceUID(){
+                               return localStudyInstanceUID;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param StudyPatient
+                               * @param param StudyInstanceUID
                                */
-                               public void setStudyPatient(java.lang.String param){
+                               public void setStudyInstanceUID(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localStudyPatientTracker = true;
+                                          localStudyInstanceUIDTracker = true;
                                        } else {
-                                          localStudyPatientTracker = true;
+                                          localStudyInstanceUIDTracker = true;
                                               
                                        }
                                    
-                                            this.localStudyPatient=param;
+                                            this.localStudyInstanceUID=param;
                                     
 
                                }
                             
 
                         /**
-                        * field for StudyPatientId
+                        * field for StudyOperator
                         */
 
                         
-                                    protected java.lang.String localStudyPatientId ;
+                                    protected java.lang.String localStudyOperator ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localStudyPatientIdTracker = false ;
+                           protected boolean localStudyOperatorTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getStudyPatientId(){
-                               return localStudyPatientId;
+                           public  java.lang.String getStudyOperator(){
+                               return localStudyOperator;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param StudyPatientId
+                               * @param param StudyOperator
                                */
-                               public void setStudyPatientId(java.lang.String param){
+                               public void setStudyOperator(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localStudyPatientIdTracker = true;
+                                          localStudyOperatorTracker = true;
                                        } else {
-                                          localStudyPatientIdTracker = true;
+                                          localStudyOperatorTracker = true;
                                               
                                        }
                                    
-                                            this.localStudyPatientId=param;
+                                            this.localStudyOperator=param;
                                     
 
                                }
@@ -2026,6 +2776,50 @@
                                }
                             
 
+                        /**
+                        * field for StudyViewprotocol
+                        */
+
+                        
+                                    protected java.lang.String localStudyViewprotocol ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localStudyViewprotocolTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getStudyViewprotocol(){
+                               return localStudyViewprotocol;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param StudyViewprotocol
+                               */
+                               public void setStudyViewprotocol(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localStudyViewprotocolTracker = true;
+                                       } else {
+                                          localStudyViewprotocolTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localStudyViewprotocol=param;
+                                    
+
+                               }
+                            
+
      /**
      * isReaderMTOMAware
      * @return true if the reader supports MTOM
@@ -2122,7 +2916,41 @@
 
                
                    }
-                if (localIdTracker){
+                if (localDcmFileNameTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"dcmFileName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"dcmFileName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("dcmFileName");
+                                    }
+                                
+
+                                          if (localDcmFileName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDcmFileName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localIdTracker){
                                     namespace = "http://webservice.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -2144,11 +2972,215 @@
                                 
                                                if (localId==java.lang.Integer.MIN_VALUE) {
                                            
-                                                         throw new org.apache.axis2.databinding.ADBException("id cannot be null!!");
+                                                         writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
                                                       
                                                } else {
                                                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
                                                }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localManufacturerModelNameTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"manufacturerModelName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"manufacturerModelName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("manufacturerModelName");
+                                    }
+                                
+
+                                          if (localManufacturerModelName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localManufacturerModelName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localManufacturerModelUIDTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"manufacturerModelUID", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"manufacturerModelUID");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("manufacturerModelUID");
+                                    }
+                                
+
+                                          if (localManufacturerModelUID==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localManufacturerModelUID);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localPatientBirthDateTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"patientBirthDate", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"patientBirthDate");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("patientBirthDate");
+                                    }
+                                
+
+                                          if (localPatientBirthDate==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientBirthDate));
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localPatientIdTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"patientId", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"patientId");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("patientId");
+                                    }
+                                
+
+                                          if (localPatientId==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localPatientId);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localPatientNameTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"patientName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"patientName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("patientName");
+                                    }
+                                
+
+                                          if (localPatientName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localPatientName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localPatientSexTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"patientSex", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"patientSex");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("patientSex");
+                                    }
+                                
+
+                                          if (localPatientSex==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localPatientSex);
+                                            
+                                          }
                                     
                                    xmlWriter.writeEndElement();
                              } if (localStudyDateTracker){
@@ -2185,7 +3217,7 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localStudyDescriptionTracker){
+                             } if (localStudyDescriptionDateTracker){
                                     namespace = "http://webservice.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -2193,20 +3225,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"studyDescription", namespace);
+                                            xmlWriter.writeStartElement(prefix,"studyDescriptionDate", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"studyDescription");
+                                            xmlWriter.writeStartElement(namespace,"studyDescriptionDate");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("studyDescription");
+                                        xmlWriter.writeStartElement("studyDescriptionDate");
                                     }
                                 
 
-                                          if (localStudyDescription==null){
+                                          if (localStudyDescriptionDate==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -2214,41 +3246,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localStudyDescription);
-                                            
-                                          }
-                                    
-                                   xmlWriter.writeEndElement();
-                             } if (localStudyDeviceTracker){
-                                    namespace = "http://webservice.dicom.psystems.org/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
-
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
-
-                                            xmlWriter.writeStartElement(prefix,"studyDevice", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
-
-                                        } else {
-                                            xmlWriter.writeStartElement(namespace,"studyDevice");
-                                        }
-
-                                    } else {
-                                        xmlWriter.writeStartElement("studyDevice");
-                                    }
-                                
-
-                                          if (localStudyDevice==null){
-                                              // write the nil attribute
-                                              
-                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localStudyDevice);
+                                                   xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDescriptionDate));
                                             
                                           }
                                     
@@ -2321,7 +3319,7 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localStudyPatientTracker){
+                             } if (localStudyInstanceUIDTracker){
                                     namespace = "http://webservice.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -2329,20 +3327,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"studyPatient", namespace);
+                                            xmlWriter.writeStartElement(prefix,"studyInstanceUID", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"studyPatient");
+                                            xmlWriter.writeStartElement(namespace,"studyInstanceUID");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("studyPatient");
+                                        xmlWriter.writeStartElement("studyInstanceUID");
                                     }
                                 
 
-                                          if (localStudyPatient==null){
+                                          if (localStudyInstanceUID==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -2350,12 +3348,12 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localStudyPatient);
+                                                   xmlWriter.writeCharacters(localStudyInstanceUID);
                                             
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localStudyPatientIdTracker){
+                             } if (localStudyOperatorTracker){
                                     namespace = "http://webservice.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -2363,20 +3361,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"studyPatientId", namespace);
+                                            xmlWriter.writeStartElement(prefix,"studyOperator", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"studyPatientId");
+                                            xmlWriter.writeStartElement(namespace,"studyOperator");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("studyPatientId");
+                                        xmlWriter.writeStartElement("studyOperator");
                                     }
                                 
 
-                                          if (localStudyPatientId==null){
+                                          if (localStudyOperator==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -2384,7 +3382,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localStudyPatientId);
+                                                   xmlWriter.writeCharacters(localStudyOperator);
                                             
                                           }
                                     
@@ -2487,6 +3485,40 @@
 
                                         
                                                    xmlWriter.writeCharacters(localStudyUrl);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localStudyViewprotocolTracker){
+                                    namespace = "http://webservice.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"studyViewprotocol", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"studyViewprotocol");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("studyViewprotocol");
+                                    }
+                                
+
+                                          if (localStudyViewprotocol==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localStudyViewprotocol);
                                             
                                           }
                                     
@@ -2653,30 +3685,66 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localIdTracker){
+                 if (localDcmFileNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "dcmFileName"));
+                                 
+                                         elementList.add(localDcmFileName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDcmFileName));
+                                    } if (localIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
                                                                       "id"));
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
-                            } if (localStudyDateTracker){
+                            } if (localManufacturerModelNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "manufacturerModelName"));
+                                 
+                                         elementList.add(localManufacturerModelName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localManufacturerModelName));
+                                    } if (localManufacturerModelUIDTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "manufacturerModelUID"));
+                                 
+                                         elementList.add(localManufacturerModelUID==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localManufacturerModelUID));
+                                    } if (localPatientBirthDateTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "patientBirthDate"));
+                                 
+                                         elementList.add(localPatientBirthDate==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientBirthDate));
+                                    } if (localPatientIdTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "patientId"));
+                                 
+                                         elementList.add(localPatientId==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientId));
+                                    } if (localPatientNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "patientName"));
+                                 
+                                         elementList.add(localPatientName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientName));
+                                    } if (localPatientSexTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "patientSex"));
+                                 
+                                         elementList.add(localPatientSex==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientSex));
+                                    } if (localStudyDateTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
                                                                       "studyDate"));
                                  
                                          elementList.add(localStudyDate==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDate));
-                                    } if (localStudyDescriptionTracker){
+                                    } if (localStudyDescriptionDateTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
-                                                                      "studyDescription"));
+                                                                      "studyDescriptionDate"));
                                  
-                                         elementList.add(localStudyDescription==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDescription));
-                                    } if (localStudyDeviceTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
-                                                                      "studyDevice"));
-                                 
-                                         elementList.add(localStudyDevice==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDevice));
+                                         elementList.add(localStudyDescriptionDate==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDescriptionDate));
                                     } if (localStudyDoctorTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
                                                                       "studyDoctor"));
@@ -2689,18 +3757,18 @@
                                  
                                          elementList.add(localStudyId==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyId));
-                                    } if (localStudyPatientTracker){
+                                    } if (localStudyInstanceUIDTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
-                                                                      "studyPatient"));
+                                                                      "studyInstanceUID"));
                                  
-                                         elementList.add(localStudyPatient==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyPatient));
-                                    } if (localStudyPatientIdTracker){
+                                         elementList.add(localStudyInstanceUID==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyInstanceUID));
+                                    } if (localStudyOperatorTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
-                                                                      "studyPatientId"));
+                                                                      "studyOperator"));
                                  
-                                         elementList.add(localStudyPatientId==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyPatientId));
+                                         elementList.add(localStudyOperator==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyOperator));
                                     } if (localStudyResultTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
                                                                       "studyResult"));
@@ -2719,6 +3787,12 @@
                                  
                                          elementList.add(localStudyUrl==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyUrl));
+                                    } if (localStudyViewprotocolTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd",
+                                                                      "studyViewprotocol"));
+                                 
+                                         elementList.add(localStudyViewprotocol==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyViewprotocol));
                                     }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
@@ -2798,13 +3872,51 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","dcmFileName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDcmFileName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","id").equals(reader.getName())){
                                 
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
-                                              
+                                            
+                                       } else {
+                                           
+                                           
+                                                   object.setId(java.lang.Integer.MIN_VALUE);
+                                               
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
                                         reader.next();
                                     
                               }  // End of if for expected property start element
@@ -2813,6 +3925,168 @@
                                         
                                                object.setId(java.lang.Integer.MIN_VALUE);
                                            
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","manufacturerModelName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setManufacturerModelName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","manufacturerModelUID").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setManufacturerModelUID(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","patientBirthDate").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setPatientBirthDate(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDateTime(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","patientId").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setPatientId(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","patientName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setPatientName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","patientSex").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setPatientSex(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
                                     }
                                 
                                     
@@ -2845,42 +4119,15 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyDescription").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyDescriptionDate").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setStudyDescription(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
-                                            
-                                       } else {
-                                           
-                                           
-                                           reader.getElementText(); // throw away text nodes if any.
-                                       }
-                                      
-                                        reader.next();
-                                    
-                              }  // End of if for expected property start element
-                                
-                                    else {
-                                        
-                                    }
-                                
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyDevice").equals(reader.getName())){
-                                
-                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
-                                    
-                                    java.lang.String content = reader.getElementText();
-                                    
-                                              object.setStudyDevice(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                              object.setStudyDescriptionDate(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDateTime(content));
                                             
                                        } else {
                                            
@@ -2953,14 +4200,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyPatient").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyInstanceUID").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setStudyPatient(
+                                              object.setStudyInstanceUID(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -2980,14 +4227,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyPatientId").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyOperator").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setStudyPatientId(
+                                              object.setStudyOperator(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -3084,6 +4331,489 @@
                                     else {
                                         
                                     }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","studyViewprotocol").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setStudyViewprotocol(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                  
+                            while (!reader.isStartElement() && !reader.isEndElement())
+                                reader.next();
+                            
+                                if (reader.isStartElement())
+                                // A start element we are not expecting indicates a trailing invalid property
+                                throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getLocalName());
+                            
+
+
+
+            } catch (javax.xml.stream.XMLStreamException e) {
+                throw new java.lang.Exception(e);
+            }
+
+            return object;
+        }
+
+        }//end of factory class
+
+        
+
+        }
+           
+          
+        public static class DicomWebServiceException extends Exception
+        implements org.apache.axis2.databinding.ADBBean{
+        /* This type was generated from the piece of schema that had
+                name = DicomWebServiceException
+                Namespace URI = http://webservice.dicom.psystems.org/xsd
+                Namespace Prefix = ns1
+                */
+            
+
+        private static java.lang.String generatePrefix(java.lang.String namespace) {
+            if(namespace.equals("http://webservice.dicom.psystems.org/xsd")){
+                return "ns1";
+            }
+            return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+        }
+
+        
+
+     /**
+     * isReaderMTOMAware
+     * @return true if the reader supports MTOM
+     */
+   public static boolean isReaderMTOMAware(javax.xml.stream.XMLStreamReader reader) {
+        boolean isReaderMTOMAware = false;
+        
+        try{
+          isReaderMTOMAware = java.lang.Boolean.TRUE.equals(reader.getProperty(org.apache.axiom.om.OMConstants.IS_DATA_HANDLERS_AWARE));
+        }catch(java.lang.IllegalArgumentException e){
+          isReaderMTOMAware = false;
+        }
+        return isReaderMTOMAware;
+   }
+     
+     
+        /**
+        *
+        * @param parentQName
+        * @param factory
+        * @return org.apache.axiom.om.OMElement
+        */
+       public org.apache.axiom.om.OMElement getOMElement (
+               final javax.xml.namespace.QName parentQName,
+               final org.apache.axiom.om.OMFactory factory) throws org.apache.axis2.databinding.ADBException{
+
+
+        
+               org.apache.axiom.om.OMDataSource dataSource =
+                       new org.apache.axis2.databinding.ADBDataSource(this,parentQName){
+
+                 public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+                       DicomWebServiceException.this.serialize(parentQName,factory,xmlWriter);
+                 }
+               };
+               return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
+               parentQName,factory,dataSource);
+            
+       }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                                       final org.apache.axiom.om.OMFactory factory,
+                                       org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter)
+                                throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+                           serialize(parentQName,factory,xmlWriter,false);
+         }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                               final org.apache.axiom.om.OMFactory factory,
+                               org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter,
+                               boolean serializeType)
+            throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+            
+                
+
+
+                java.lang.String prefix = null;
+                java.lang.String namespace = null;
+                
+
+                    prefix = parentQName.getPrefix();
+                    namespace = parentQName.getNamespaceURI();
+
+                    if ((namespace != null) && (namespace.trim().length() > 0)) {
+                        java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+                        if (writerPrefix != null) {
+                            xmlWriter.writeStartElement(namespace, parentQName.getLocalPart());
+                        } else {
+                            if (prefix == null) {
+                                prefix = generatePrefix(namespace);
+                            }
+
+                            xmlWriter.writeStartElement(prefix, parentQName.getLocalPart(), namespace);
+                            xmlWriter.writeNamespace(prefix, namespace);
+                            xmlWriter.setPrefix(prefix, namespace);
+                        }
+                    } else {
+                        xmlWriter.writeStartElement(parentQName.getLocalPart());
+                    }
+                
+
+                   java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://webservice.dicom.psystems.org/xsd");
+                   if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           namespacePrefix+":DicomWebServiceException",
+                           xmlWriter);
+                   } else {
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           "DicomWebServiceException",
+                           xmlWriter);
+                   }
+
+                if (localExceptionTracker){
+                            
+                            if (localException!=null){
+                                if (localException instanceof org.apache.axis2.databinding.ADBBean){
+                                    ((org.apache.axis2.databinding.ADBBean)localException).serialize(
+                                               new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","Exception"),
+                                               factory,xmlWriter,true);
+                                 } else {
+                                    java.lang.String namespace2 = "http://webservice.dicom.psystems.org";
+                                    if (! namespace2.equals("")) {
+                                        java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                        if (prefix2 == null) {
+                                            prefix2 = generatePrefix(namespace2);
+
+                                            xmlWriter.writeStartElement(prefix2,"Exception", namespace2);
+                                            xmlWriter.writeNamespace(prefix2, namespace2);
+                                            xmlWriter.setPrefix(prefix2, namespace2);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace2,"Exception");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("Exception");
+                                    }
+                                    org.apache.axis2.databinding.utils.ConverterUtil.serializeAnyType(localException, xmlWriter);
+                                    xmlWriter.writeEndElement();
+                                 }
+                            } else {
+                                
+                                        // write null attribute
+                                            java.lang.String namespace2 = "http://webservice.dicom.psystems.org";
+                                            if (! namespace2.equals("")) {
+                                                java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                                if (prefix2 == null) {
+                                                    prefix2 = generatePrefix(namespace2);
+
+                                                    xmlWriter.writeStartElement(prefix2,"Exception", namespace2);
+                                                    xmlWriter.writeNamespace(prefix2, namespace2);
+                                                    xmlWriter.setPrefix(prefix2, namespace2);
+
+                                                } else {
+                                                    xmlWriter.writeStartElement(namespace2,"Exception");
+                                                }
+
+                                            } else {
+                                                xmlWriter.writeStartElement("Exception");
+                                            }
+
+                                           // write the nil attribute
+                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                           xmlWriter.writeEndElement();
+                                    
+                            }
+
+
+                        }
+                    xmlWriter.writeEndElement();
+               
+
+        }
+
+         /**
+          * Util method to write an attribute with the ns prefix
+          */
+          private void writeAttribute(java.lang.String prefix,java.lang.String namespace,java.lang.String attName,
+                                      java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+              if (xmlWriter.getPrefix(namespace) == null) {
+                       xmlWriter.writeNamespace(prefix, namespace);
+                       xmlWriter.setPrefix(prefix, namespace);
+
+              }
+
+              xmlWriter.writeAttribute(namespace,attName,attValue);
+
+         }
+
+        /**
+          * Util method to write an attribute without the ns prefix
+          */
+          private void writeAttribute(java.lang.String namespace,java.lang.String attName,
+                                      java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+                if (namespace.equals(""))
+              {
+                  xmlWriter.writeAttribute(attName,attValue);
+              }
+              else
+              {
+                  registerPrefix(xmlWriter, namespace);
+                  xmlWriter.writeAttribute(namespace,attName,attValue);
+              }
+          }
+
+
+           /**
+             * Util method to write an attribute without the ns prefix
+             */
+            private void writeQNameAttribute(java.lang.String namespace, java.lang.String attName,
+                                             javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+                java.lang.String attributeNamespace = qname.getNamespaceURI();
+                java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
+                if (attributePrefix == null) {
+                    attributePrefix = registerPrefix(xmlWriter, attributeNamespace);
+                }
+                java.lang.String attributeValue;
+                if (attributePrefix.trim().length() > 0) {
+                    attributeValue = attributePrefix + ":" + qname.getLocalPart();
+                } else {
+                    attributeValue = qname.getLocalPart();
+                }
+
+                if (namespace.equals("")) {
+                    xmlWriter.writeAttribute(attName, attributeValue);
+                } else {
+                    registerPrefix(xmlWriter, namespace);
+                    xmlWriter.writeAttribute(namespace, attName, attributeValue);
+                }
+            }
+        /**
+         *  method to handle Qnames
+         */
+
+        private void writeQName(javax.xml.namespace.QName qname,
+                                javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+            java.lang.String namespaceURI = qname.getNamespaceURI();
+            if (namespaceURI != null) {
+                java.lang.String prefix = xmlWriter.getPrefix(namespaceURI);
+                if (prefix == null) {
+                    prefix = generatePrefix(namespaceURI);
+                    xmlWriter.writeNamespace(prefix, namespaceURI);
+                    xmlWriter.setPrefix(prefix,namespaceURI);
+                }
+
+                if (prefix.trim().length() > 0){
+                    xmlWriter.writeCharacters(prefix + ":" + org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                } else {
+                    // i.e this is the default namespace
+                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                }
+
+            } else {
+                xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+            }
+        }
+
+        private void writeQNames(javax.xml.namespace.QName[] qnames,
+                                 javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+            if (qnames != null) {
+                // we have to store this data until last moment since it is not possible to write any
+                // namespace data after writing the charactor data
+                java.lang.StringBuffer stringToWrite = new java.lang.StringBuffer();
+                java.lang.String namespaceURI = null;
+                java.lang.String prefix = null;
+
+                for (int i = 0; i < qnames.length; i++) {
+                    if (i > 0) {
+                        stringToWrite.append(" ");
+                    }
+                    namespaceURI = qnames[i].getNamespaceURI();
+                    if (namespaceURI != null) {
+                        prefix = xmlWriter.getPrefix(namespaceURI);
+                        if ((prefix == null) || (prefix.length() == 0)) {
+                            prefix = generatePrefix(namespaceURI);
+                            xmlWriter.writeNamespace(prefix, namespaceURI);
+                            xmlWriter.setPrefix(prefix,namespaceURI);
+                        }
+
+                        if (prefix.trim().length() > 0){
+                            stringToWrite.append(prefix).append(":").append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        } else {
+                            stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        }
+                    } else {
+                        stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                    }
+                }
+                xmlWriter.writeCharacters(stringToWrite.toString());
+            }
+
+        }
+
+
+         /**
+         * Register a namespace prefix
+         */
+         private java.lang.String registerPrefix(javax.xml.stream.XMLStreamWriter xmlWriter, java.lang.String namespace) throws javax.xml.stream.XMLStreamException {
+                java.lang.String prefix = xmlWriter.getPrefix(namespace);
+
+                if (prefix == null) {
+                    prefix = generatePrefix(namespace);
+
+                    while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
+                        prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+                    }
+
+                    xmlWriter.writeNamespace(prefix, namespace);
+                    xmlWriter.setPrefix(prefix, namespace);
+                }
+
+                return prefix;
+            }
+
+
+  
+        /**
+        * databinding method to get an XML representation of this object
+        *
+        */
+        public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName)
+                    throws org.apache.axis2.databinding.ADBException{
+
+
+        
+                 java.util.ArrayList elementList = new java.util.ArrayList();
+                 java.util.ArrayList attribList = new java.util.ArrayList();
+
+                
+                    attribList.add(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema-instance","type"));
+                    attribList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org/xsd","DicomWebServiceException"));
+                 if (localExceptionTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
+                                                                      "Exception"));
+                            
+                            
+                                    elementList.add(localException==null?null:
+                                    localException);
+                                }
+
+                return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
+            
+            
+
+        }
+
+  
+
+     /**
+      *  Factory class that keeps the parse method
+      */
+    public static class Factory{
+
+        
+        
+
+        /**
+        * static method to create the object
+        * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
+        *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+        * Postcondition: If this object is an element, the reader is positioned at its end element
+        *                If this object is a complex type, the reader is positioned at the end element of its outer element
+        */
+        public static DicomWebServiceException parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            DicomWebServiceException object =
+                new DicomWebServiceException();
+
+            int event;
+            java.lang.String nillableValue = null;
+            java.lang.String prefix ="";
+            java.lang.String namespaceuri ="";
+            try {
+                
+                while (!reader.isStartElement() && !reader.isEndElement())
+                    reader.next();
+
+                
+                if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
+                  java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                        "type");
+                  if (fullTypeName!=null){
+                    java.lang.String nsPrefix = null;
+                    if (fullTypeName.indexOf(":") > -1){
+                        nsPrefix = fullTypeName.substring(0,fullTypeName.indexOf(":"));
+                    }
+                    nsPrefix = nsPrefix==null?"":nsPrefix;
+
+                    java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
+                    
+                            if (!"DicomWebServiceException".equals(type)){
+                                //find namespace for the prefix
+                                java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
+                                return (DicomWebServiceException)ExtensionMapper.getTypeObject(
+                                     nsUri,type,reader);
+                              }
+                        
+
+                  }
+                
+
+                }
+
+                
+
+                
+                // Note all attributes that were handled. Used to differ normal attributes
+                // from anyAttributes.
+                java.util.Vector handledAttributes = new java.util.Vector();
+                
+
+                 
+                    
+                    reader.next();
+                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","Exception").equals(reader.getName())){
+                                
+                                     object.setException(org.apache.axis2.databinding.utils.ConverterUtil.getAnyTypeObject(reader,
+                                                ExtensionMapper.class));
+                                       
+                                         reader.next();
+                                     
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
                                   
                             while (!reader.isStartElement() && !reader.isEndElement())
                                 reader.next();
@@ -3121,6 +4851,26 @@
                   "Study".equals(typeName)){
                    
                             return  Study.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://webservice.dicom.psystems.org/xsd".equals(namespaceURI) &&
+                  "DicomWebServiceException".equals(typeName)){
+                   
+                            return  DicomWebServiceException.Factory.parse(reader);
+                        
+
+                  }
+
+              
+                  if (
+                  "http://webservice.dicom.psystems.org".equals(namespaceURI) &&
+                  "Exception".equals(typeName)){
+                   
+                            return  Exception.Factory.parse(reader);
                         
 
                   }
@@ -3737,6 +5487,507 @@
         }
            
           
+        public static class Exception
+        implements org.apache.axis2.databinding.ADBBean{
+        /* This type was generated from the piece of schema that had
+                name = Exception
+                Namespace URI = http://webservice.dicom.psystems.org
+                Namespace Prefix = ns2
+                */
+            
+
+        private static java.lang.String generatePrefix(java.lang.String namespace) {
+            if(namespace.equals("http://webservice.dicom.psystems.org")){
+                return "ns2";
+            }
+            return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+        }
+
+        
+
+                        /**
+                        * field for Exception
+                        */
+
+                        
+                                    protected java.lang.Object localException ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localExceptionTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.Object
+                           */
+                           public  java.lang.Object getException(){
+                               return localException;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Exception
+                               */
+                               public void setException(java.lang.Object param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localExceptionTracker = true;
+                                       } else {
+                                          localExceptionTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localException=param;
+                                    
+
+                               }
+                            
+
+     /**
+     * isReaderMTOMAware
+     * @return true if the reader supports MTOM
+     */
+   public static boolean isReaderMTOMAware(javax.xml.stream.XMLStreamReader reader) {
+        boolean isReaderMTOMAware = false;
+        
+        try{
+          isReaderMTOMAware = java.lang.Boolean.TRUE.equals(reader.getProperty(org.apache.axiom.om.OMConstants.IS_DATA_HANDLERS_AWARE));
+        }catch(java.lang.IllegalArgumentException e){
+          isReaderMTOMAware = false;
+        }
+        return isReaderMTOMAware;
+   }
+     
+     
+        /**
+        *
+        * @param parentQName
+        * @param factory
+        * @return org.apache.axiom.om.OMElement
+        */
+       public org.apache.axiom.om.OMElement getOMElement (
+               final javax.xml.namespace.QName parentQName,
+               final org.apache.axiom.om.OMFactory factory) throws org.apache.axis2.databinding.ADBException{
+
+
+        
+               org.apache.axiom.om.OMDataSource dataSource =
+                       new org.apache.axis2.databinding.ADBDataSource(this,parentQName){
+
+                 public void serialize(org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+                       Exception.this.serialize(parentQName,factory,xmlWriter);
+                 }
+               };
+               return new org.apache.axiom.om.impl.llom.OMSourcedElementImpl(
+               parentQName,factory,dataSource);
+            
+       }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                                       final org.apache.axiom.om.OMFactory factory,
+                                       org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter)
+                                throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+                           serialize(parentQName,factory,xmlWriter,false);
+         }
+
+         public void serialize(final javax.xml.namespace.QName parentQName,
+                               final org.apache.axiom.om.OMFactory factory,
+                               org.apache.axis2.databinding.utils.writer.MTOMAwareXMLStreamWriter xmlWriter,
+                               boolean serializeType)
+            throws javax.xml.stream.XMLStreamException, org.apache.axis2.databinding.ADBException{
+            
+                
+
+
+                java.lang.String prefix = null;
+                java.lang.String namespace = null;
+                
+
+                    prefix = parentQName.getPrefix();
+                    namespace = parentQName.getNamespaceURI();
+
+                    if ((namespace != null) && (namespace.trim().length() > 0)) {
+                        java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+                        if (writerPrefix != null) {
+                            xmlWriter.writeStartElement(namespace, parentQName.getLocalPart());
+                        } else {
+                            if (prefix == null) {
+                                prefix = generatePrefix(namespace);
+                            }
+
+                            xmlWriter.writeStartElement(prefix, parentQName.getLocalPart(), namespace);
+                            xmlWriter.writeNamespace(prefix, namespace);
+                            xmlWriter.setPrefix(prefix, namespace);
+                        }
+                    } else {
+                        xmlWriter.writeStartElement(parentQName.getLocalPart());
+                    }
+                
+                  if (serializeType){
+               
+
+                   java.lang.String namespacePrefix = registerPrefix(xmlWriter,"http://webservice.dicom.psystems.org");
+                   if ((namespacePrefix != null) && (namespacePrefix.trim().length() > 0)){
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           namespacePrefix+":Exception",
+                           xmlWriter);
+                   } else {
+                       writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","type",
+                           "Exception",
+                           xmlWriter);
+                   }
+
+               
+                   }
+                if (localExceptionTracker){
+                            
+                            if (localException!=null){
+                                if (localException instanceof org.apache.axis2.databinding.ADBBean){
+                                    ((org.apache.axis2.databinding.ADBBean)localException).serialize(
+                                               new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","Exception"),
+                                               factory,xmlWriter,true);
+                                 } else {
+                                    java.lang.String namespace2 = "http://webservice.dicom.psystems.org";
+                                    if (! namespace2.equals("")) {
+                                        java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                        if (prefix2 == null) {
+                                            prefix2 = generatePrefix(namespace2);
+
+                                            xmlWriter.writeStartElement(prefix2,"Exception", namespace2);
+                                            xmlWriter.writeNamespace(prefix2, namespace2);
+                                            xmlWriter.setPrefix(prefix2, namespace2);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace2,"Exception");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("Exception");
+                                    }
+                                    org.apache.axis2.databinding.utils.ConverterUtil.serializeAnyType(localException, xmlWriter);
+                                    xmlWriter.writeEndElement();
+                                 }
+                            } else {
+                                
+                                        // write null attribute
+                                            java.lang.String namespace2 = "http://webservice.dicom.psystems.org";
+                                            if (! namespace2.equals("")) {
+                                                java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                                if (prefix2 == null) {
+                                                    prefix2 = generatePrefix(namespace2);
+
+                                                    xmlWriter.writeStartElement(prefix2,"Exception", namespace2);
+                                                    xmlWriter.writeNamespace(prefix2, namespace2);
+                                                    xmlWriter.setPrefix(prefix2, namespace2);
+
+                                                } else {
+                                                    xmlWriter.writeStartElement(namespace2,"Exception");
+                                                }
+
+                                            } else {
+                                                xmlWriter.writeStartElement("Exception");
+                                            }
+
+                                           // write the nil attribute
+                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                           xmlWriter.writeEndElement();
+                                    
+                            }
+
+
+                        }
+                    xmlWriter.writeEndElement();
+               
+
+        }
+
+         /**
+          * Util method to write an attribute with the ns prefix
+          */
+          private void writeAttribute(java.lang.String prefix,java.lang.String namespace,java.lang.String attName,
+                                      java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+              if (xmlWriter.getPrefix(namespace) == null) {
+                       xmlWriter.writeNamespace(prefix, namespace);
+                       xmlWriter.setPrefix(prefix, namespace);
+
+              }
+
+              xmlWriter.writeAttribute(namespace,attName,attValue);
+
+         }
+
+        /**
+          * Util method to write an attribute without the ns prefix
+          */
+          private void writeAttribute(java.lang.String namespace,java.lang.String attName,
+                                      java.lang.String attValue,javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException{
+                if (namespace.equals(""))
+              {
+                  xmlWriter.writeAttribute(attName,attValue);
+              }
+              else
+              {
+                  registerPrefix(xmlWriter, namespace);
+                  xmlWriter.writeAttribute(namespace,attName,attValue);
+              }
+          }
+
+
+           /**
+             * Util method to write an attribute without the ns prefix
+             */
+            private void writeQNameAttribute(java.lang.String namespace, java.lang.String attName,
+                                             javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+                java.lang.String attributeNamespace = qname.getNamespaceURI();
+                java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
+                if (attributePrefix == null) {
+                    attributePrefix = registerPrefix(xmlWriter, attributeNamespace);
+                }
+                java.lang.String attributeValue;
+                if (attributePrefix.trim().length() > 0) {
+                    attributeValue = attributePrefix + ":" + qname.getLocalPart();
+                } else {
+                    attributeValue = qname.getLocalPart();
+                }
+
+                if (namespace.equals("")) {
+                    xmlWriter.writeAttribute(attName, attributeValue);
+                } else {
+                    registerPrefix(xmlWriter, namespace);
+                    xmlWriter.writeAttribute(namespace, attName, attributeValue);
+                }
+            }
+        /**
+         *  method to handle Qnames
+         */
+
+        private void writeQName(javax.xml.namespace.QName qname,
+                                javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+            java.lang.String namespaceURI = qname.getNamespaceURI();
+            if (namespaceURI != null) {
+                java.lang.String prefix = xmlWriter.getPrefix(namespaceURI);
+                if (prefix == null) {
+                    prefix = generatePrefix(namespaceURI);
+                    xmlWriter.writeNamespace(prefix, namespaceURI);
+                    xmlWriter.setPrefix(prefix,namespaceURI);
+                }
+
+                if (prefix.trim().length() > 0){
+                    xmlWriter.writeCharacters(prefix + ":" + org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                } else {
+                    // i.e this is the default namespace
+                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+                }
+
+            } else {
+                xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qname));
+            }
+        }
+
+        private void writeQNames(javax.xml.namespace.QName[] qnames,
+                                 javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
+
+            if (qnames != null) {
+                // we have to store this data until last moment since it is not possible to write any
+                // namespace data after writing the charactor data
+                java.lang.StringBuffer stringToWrite = new java.lang.StringBuffer();
+                java.lang.String namespaceURI = null;
+                java.lang.String prefix = null;
+
+                for (int i = 0; i < qnames.length; i++) {
+                    if (i > 0) {
+                        stringToWrite.append(" ");
+                    }
+                    namespaceURI = qnames[i].getNamespaceURI();
+                    if (namespaceURI != null) {
+                        prefix = xmlWriter.getPrefix(namespaceURI);
+                        if ((prefix == null) || (prefix.length() == 0)) {
+                            prefix = generatePrefix(namespaceURI);
+                            xmlWriter.writeNamespace(prefix, namespaceURI);
+                            xmlWriter.setPrefix(prefix,namespaceURI);
+                        }
+
+                        if (prefix.trim().length() > 0){
+                            stringToWrite.append(prefix).append(":").append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        } else {
+                            stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                        }
+                    } else {
+                        stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(qnames[i]));
+                    }
+                }
+                xmlWriter.writeCharacters(stringToWrite.toString());
+            }
+
+        }
+
+
+         /**
+         * Register a namespace prefix
+         */
+         private java.lang.String registerPrefix(javax.xml.stream.XMLStreamWriter xmlWriter, java.lang.String namespace) throws javax.xml.stream.XMLStreamException {
+                java.lang.String prefix = xmlWriter.getPrefix(namespace);
+
+                if (prefix == null) {
+                    prefix = generatePrefix(namespace);
+
+                    while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
+                        prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+                    }
+
+                    xmlWriter.writeNamespace(prefix, namespace);
+                    xmlWriter.setPrefix(prefix, namespace);
+                }
+
+                return prefix;
+            }
+
+
+  
+        /**
+        * databinding method to get an XML representation of this object
+        *
+        */
+        public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName)
+                    throws org.apache.axis2.databinding.ADBException{
+
+
+        
+                 java.util.ArrayList elementList = new java.util.ArrayList();
+                 java.util.ArrayList attribList = new java.util.ArrayList();
+
+                 if (localExceptionTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
+                                                                      "Exception"));
+                            
+                            
+                                    elementList.add(localException==null?null:
+                                    localException);
+                                }
+
+                return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
+            
+            
+
+        }
+
+  
+
+     /**
+      *  Factory class that keeps the parse method
+      */
+    public static class Factory{
+
+        
+        
+
+        /**
+        * static method to create the object
+        * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
+        *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+        * Postcondition: If this object is an element, the reader is positioned at its end element
+        *                If this object is a complex type, the reader is positioned at the end element of its outer element
+        */
+        public static Exception parse(javax.xml.stream.XMLStreamReader reader) throws java.lang.Exception{
+            Exception object =
+                new Exception();
+
+            int event;
+            java.lang.String nillableValue = null;
+            java.lang.String prefix ="";
+            java.lang.String namespaceuri ="";
+            try {
+                
+                while (!reader.isStartElement() && !reader.isEndElement())
+                    reader.next();
+
+                
+                if (reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","type")!=null){
+                  java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                        "type");
+                  if (fullTypeName!=null){
+                    java.lang.String nsPrefix = null;
+                    if (fullTypeName.indexOf(":") > -1){
+                        nsPrefix = fullTypeName.substring(0,fullTypeName.indexOf(":"));
+                    }
+                    nsPrefix = nsPrefix==null?"":nsPrefix;
+
+                    java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(":")+1);
+                    
+                            if (!"Exception".equals(type)){
+                                //find namespace for the prefix
+                                java.lang.String nsUri = reader.getNamespaceContext().getNamespaceURI(nsPrefix);
+                                return (Exception)ExtensionMapper.getTypeObject(
+                                     nsUri,type,reader);
+                              }
+                        
+
+                  }
+                
+
+                }
+
+                
+
+                
+                // Note all attributes that were handled. Used to differ normal attributes
+                // from anyAttributes.
+                java.util.Vector handledAttributes = new java.util.Vector();
+                
+
+                 
+                    
+                    reader.next();
+                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","Exception").equals(reader.getName())){
+                                
+                                     object.setException(org.apache.axis2.databinding.utils.ConverterUtil.getAnyTypeObject(reader,
+                                                ExtensionMapper.class));
+                                       
+                                         reader.next();
+                                     
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                  
+                            while (!reader.isStartElement() && !reader.isEndElement())
+                                reader.next();
+                            
+                                if (reader.isStartElement())
+                                // A start element we are not expecting indicates a trailing invalid property
+                                throw new org.apache.axis2.databinding.ADBException("Unexpected subelement " + reader.getLocalName());
+                            
+
+
+
+            } catch (javax.xml.stream.XMLStreamException e) {
+                throw new java.lang.Exception(e);
+            }
+
+            return object;
+        }
+
+        }//end of factory class
+
+        
+
+        }
+           
+          
         public static class NewStudyResponse
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -4278,44 +6529,44 @@
                             
 
                         /**
-                        * field for Patient
+                        * field for PatientName
                         */
 
                         
-                                    protected java.lang.String localPatient ;
+                                    protected java.lang.String localPatientName ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localPatientTracker = false ;
+                           protected boolean localPatientNameTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getPatient(){
-                               return localPatient;
+                           public  java.lang.String getPatientName(){
+                               return localPatientName;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param Patient
+                               * @param param PatientName
                                */
-                               public void setPatient(java.lang.String param){
+                               public void setPatientName(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localPatientTracker = true;
+                                          localPatientNameTracker = true;
                                        } else {
-                                          localPatientTracker = true;
+                                          localPatientNameTracker = true;
                                               
                                        }
                                    
-                                            this.localPatient=param;
+                                            this.localPatientName=param;
                                     
 
                                }
@@ -4453,6 +6704,50 @@
                                }
                             
 
+                        /**
+                        * field for StudyPlanningDate
+                        */
+
+                        
+                                    protected java.util.Calendar localStudyPlanningDate ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localStudyPlanningDateTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.util.Calendar
+                           */
+                           public  java.util.Calendar getStudyPlanningDate(){
+                               return localStudyPlanningDate;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param StudyPlanningDate
+                               */
+                               public void setStudyPlanningDate(java.util.Calendar param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localStudyPlanningDateTracker = true;
+                                       } else {
+                                          localStudyPlanningDateTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localStudyPlanningDate=param;
+                                    
+
+                               }
+                            
+
      /**
      * isReaderMTOMAware
      * @return true if the reader supports MTOM
@@ -4583,7 +6878,7 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localPatientTracker){
+                             } if (localPatientNameTracker){
                                     namespace = "http://webservice.dicom.psystems.org";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -4591,20 +6886,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"Patient", namespace);
+                                            xmlWriter.writeStartElement(prefix,"PatientName", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"Patient");
+                                            xmlWriter.writeStartElement(namespace,"PatientName");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("Patient");
+                                        xmlWriter.writeStartElement("PatientName");
                                     }
                                 
 
-                                          if (localPatient==null){
+                                          if (localPatientName==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -4612,7 +6907,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localPatient);
+                                                   xmlWriter.writeCharacters(localPatientName);
                                             
                                           }
                                     
@@ -4715,6 +7010,40 @@
 
                                         
                                                    xmlWriter.writeCharacters(localStudyType);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localStudyPlanningDateTracker){
+                                    namespace = "http://webservice.dicom.psystems.org";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"studyPlanningDate", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"studyPlanningDate");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("studyPlanningDate");
+                                    }
+                                
+
+                                          if (localStudyPlanningDate==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyPlanningDate));
                                             
                                           }
                                     
@@ -4887,12 +7216,12 @@
                                  
                                          elementList.add(localPatientId==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientId));
-                                    } if (localPatientTracker){
+                                    } if (localPatientNameTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
-                                                                      "Patient"));
+                                                                      "PatientName"));
                                  
-                                         elementList.add(localPatient==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatient));
+                                         elementList.add(localPatientName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientName));
                                     } if (localPatientDateBirthdayTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
                                                                       "patientDateBirthday"));
@@ -4911,6 +7240,12 @@
                                  
                                          elementList.add(localStudyType==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyType));
+                                    } if (localStudyPlanningDateTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
+                                                                      "studyPlanningDate"));
+                                 
+                                         elementList.add(localStudyPlanningDate==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyPlanningDate));
                                     }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
@@ -5017,14 +7352,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","Patient").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","PatientName").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setPatient(
+                                              object.setPatientName(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -5107,6 +7442,33 @@
                                     
                                               object.setStudyType(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","studyPlanningDate").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setStudyPlanningDate(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDateTime(content));
                                             
                                        } else {
                                            
@@ -6134,6 +8496,20 @@
 
             }
         
+            private  org.apache.axiom.om.OMElement  toOM(org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE param, boolean optimizeContent)
+            throws org.apache.axis2.AxisFault {
+
+            
+                        try{
+                             return param.getOMElement(org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE.MY_QNAME,
+                                          org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+                        } catch(org.apache.axis2.databinding.ADBException e){
+                            throw org.apache.axis2.AxisFault.makeFault(e);
+                        }
+                    
+
+            }
+        
             private  org.apache.axiom.om.OMElement  toOM(org.psystems.dicom.webservice.DicomArchiveStub.FindStudies param, boolean optimizeContent)
             throws org.apache.axis2.AxisFault {
 
@@ -6284,6 +8660,13 @@
 
                 }
            
+                if (org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE.class.equals(type)){
+                
+                           return org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
                 if (org.psystems.dicom.webservice.DicomArchiveStub.FindStudies.class.equals(type)){
                 
                            return org.psystems.dicom.webservice.DicomArchiveStub.FindStudies.Factory.parse(param.getXMLStreamReaderWithoutCaching());
@@ -6298,6 +8681,13 @@
 
                 }
            
+                if (org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE.class.equals(type)){
+                
+                           return org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
                 if (org.psystems.dicom.webservice.DicomArchiveStub.NewStudy.class.equals(type)){
                 
                            return org.psystems.dicom.webservice.DicomArchiveStub.NewStudy.Factory.parse(param.getXMLStreamReaderWithoutCaching());
@@ -6308,6 +8698,13 @@
                 if (org.psystems.dicom.webservice.DicomArchiveStub.NewStudyResponse.class.equals(type)){
                 
                            return org.psystems.dicom.webservice.DicomArchiveStub.NewStudyResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+                    
+
+                }
+           
+                if (org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE.class.equals(type)){
+                
+                           return org.psystems.dicom.webservice.DicomArchiveStub.DicomWebServiceExceptionE.Factory.parse(param.getXMLStreamReaderWithoutCaching());
                     
 
                 }
