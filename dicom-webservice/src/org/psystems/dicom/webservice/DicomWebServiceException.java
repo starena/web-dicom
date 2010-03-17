@@ -54,69 +54,14 @@
  */
 package org.psystems.dicom.webservice;
 
-import java.util.ArrayList;
-import java.util.Date;
+/**
+ * @author dima_d
+ *
+ */
+public class DicomWebServiceException extends Exception {
 
-public class DicomArchive {
-
-	public org.psystems.dicom.webservice.Study getStudy(int i) throws DicomWebServiceException {
-
-		Study study = new Study();
-		study.setId(i);
-		study.setStudyDate(new Date());
-		study
-				.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
-		study.setStudyDoctor("Врач №1");
-		study.setStudyId("studyID=" + i);
-		study.setPatientName("Пациент №1");
-		study.setPatientId("patientID=ХХХ");
-		study.setStudyResult("Результат 'норма'");
-		study.setStudyType("флюорография");
-		study.setStudyUrl("http://localhost/" + i + ".dcm");
-
-		return study;
-	}
-
-	public Study[] findStudies(String s) throws DicomWebServiceException {
-
-		ArrayList<Study> data = new ArrayList<Study>();
-		for (int i = 0; i < 10; i++) {
-			Study study = new Study();
-			study.setId(i);
-			study.setStudyDate(new Date());
-			study
-					.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
-			study.setStudyDoctor("Врач №1");
-			study.setStudyId("studyID=" + i);
-			study.setPatientName("Пациент №1");
-			study.setPatientId("patientID=ХХХ");
-			study.setStudyResult("Результат 'норма'");
-			study.setStudyType("флюорография");
-			study.setStudyUrl("http://localhost/" + i + ".dcm");
-			data.add(study);
-		}
-
-		Study[] result = new Study[data.size()];
-		return data.toArray(result);
-	}
-
-	/**
-	 * Создание нового исследования
-	 * 
-	 * @param PatientId
-	 * @param PatientName
-	 * @param patientDateBirthday
-	 * @param patientSex
-	 * @param studyType
-	 * @return
-	 * @throws DicomWebServiceException
-	 */
-	public int newStudy(String PatientId, String PatientName,
-			Date patientDateBirthday, String patientSex, String studyType, Date studyPlanningDate)
-			throws DicomWebServiceException {
-		if (PatientName == null)
-			throw new DicomWebServiceException("PatientName is empty!");
-		return 1;
+	public DicomWebServiceException(String msg) {
+		super(msg);
 	}
 
 }

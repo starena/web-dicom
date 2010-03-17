@@ -58,40 +58,63 @@ import java.util.Date;
 
 public class Study {
 
-	private int id;// Идентификатор (внутренний)
-	private String studyDescription; // Описание
-	private String studyResult; // Результат исследования
-	private String studyId;// Идентификатор исследования
+	private Integer id; // Внутренний ID
+	private String patientId; // ID пациента (0016,0032) LO	'Patient ID' = LAB_ID64936
+	private String patientName; // ФИО пациента (0016,0016)	PN	'Patient's Name' = 	Ги****тди***ва И Ф
+	private String patientSex; // Пол пациента (0016,0064) CS "Patient's Sex" = M/F
+	private Date patientBirthDate; // Дата рождения пациента (0016,0048) DA	"Patient's Birth Date" = 19670811
+	private String studyId; // ID исследования (0032,0016)	SH	'Study ID' = 89729
+	private String studyInstanceUID; // UID исследования (0032,0013) UI 'Study Instance UID' = 1.2.826.0.1.3680043.2.634.30.1.89729.20100305113905 
+	private Date studyDate; // Дата исследования (0008,0032) DA	'Study Date' = 	20100225
+	private String studyDoctor; // Врач исследования (0008,0144) PN	"Referring Physician's Name" = Куницкий В.Н
+	private String studyOperator; // Оператор исследования (0008,4208)	PN	"Operators' Name" = Гаврилова Н.Г.
+	private Date studyDescriptionDate;// Дата описания исследования.
+	private String studyType;// Вид исследования.
+	private String studyViewprotocol;// Протокол осмотра
+	private String studyResult;// Результат исследования.
+	private String ManufacturerModelUID; // UID Аппарата (0002,0003)	UI	"Media Storage SOP Instance UID" = 1.2.826.0.1.3680043.2.634.0.18669.2010225.1416.1  
+	private String ManufacturerModelName; // Имя Аппарата (0008,4240) LO	"Manufacturer's Model Name" = КРТ-Электрон
 	private String studyUrl; // URL для открытия в обозревателе
-	private String studyPatient;// ФИО пациента
-	private String studyPatientId;// Идентификатор пациента
-	private String studyDoctor; // Врач
-	private Date studyDate;// Дата исследования
-	private String studyType;// Вид исследования
-	private String studyDevice;// Аппарат, на котором проводилось исследование.
+	private String dcmFileName; // Имя DCM файла
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getStudyDescription() {
-		return studyDescription;
+	public String getPatientId() {
+		return patientId;
 	}
 
-	public void setStudyDescription(String studyDescription) {
-		this.studyDescription = studyDescription;
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
 	}
 
-	public String getStudyResult() {
-		return studyResult;
+	public String getPatientName() {
+		return patientName;
 	}
 
-	public void setStudyResult(String studyResult) {
-		this.studyResult = studyResult;
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+
+	public String getPatientSex() {
+		return patientSex;
+	}
+
+	public void setPatientSex(String patientSex) {
+		this.patientSex = patientSex;
+	}
+
+	public Date getPatientBirthDate() {
+		return patientBirthDate;
+	}
+
+	public void setPatientBirthDate(Date patientBirthDate) {
+		this.patientBirthDate = patientBirthDate;
 	}
 
 	public String getStudyId() {
@@ -102,20 +125,12 @@ public class Study {
 		this.studyId = studyId;
 	}
 
-	public String getStudyUrl() {
-		return studyUrl;
+	public String getStudyInstanceUID() {
+		return studyInstanceUID;
 	}
 
-	public void setStudyUrl(String studyUrl) {
-		this.studyUrl = studyUrl;
-	}
-
-	public String getStudyDoctor() {
-		return studyDoctor;
-	}
-
-	public void setStudyDoctor(String studyDoctor) {
-		this.studyDoctor = studyDoctor;
+	public void setStudyInstanceUID(String studyInstanceUID) {
+		this.studyInstanceUID = studyInstanceUID;
 	}
 
 	public Date getStudyDate() {
@@ -126,6 +141,30 @@ public class Study {
 		this.studyDate = studyDate;
 	}
 
+	public String getStudyDoctor() {
+		return studyDoctor;
+	}
+
+	public void setStudyDoctor(String studyDoctor) {
+		this.studyDoctor = studyDoctor;
+	}
+
+	public String getStudyOperator() {
+		return studyOperator;
+	}
+
+	public void setStudyOperator(String studyOperator) {
+		this.studyOperator = studyOperator;
+	}
+
+	public Date getStudyDescriptionDate() {
+		return studyDescriptionDate;
+	}
+
+	public void setStudyDescriptionDate(Date studyDescriptionDate) {
+		this.studyDescriptionDate = studyDescriptionDate;
+	}
+
 	public String getStudyType() {
 		return studyType;
 	}
@@ -134,28 +173,52 @@ public class Study {
 		this.studyType = studyType;
 	}
 
-	public String getStudyDevice() {
-		return studyDevice;
+	public String getStudyViewprotocol() {
+		return studyViewprotocol;
 	}
 
-	public void setStudyDevice(String studyDevice) {
-		this.studyDevice = studyDevice;
+	public void setStudyViewprotocol(String studyViewprotocol) {
+		this.studyViewprotocol = studyViewprotocol;
 	}
 
-	public String getStudyPatient() {
-		return studyPatient;
+	public String getStudyResult() {
+		return studyResult;
 	}
 
-	public void setStudyPatient(String studyPatient) {
-		this.studyPatient = studyPatient;
+	public void setStudyResult(String studyResult) {
+		this.studyResult = studyResult;
 	}
 
-	public String getStudyPatientId() {
-		return studyPatientId;
+	public String getManufacturerModelUID() {
+		return ManufacturerModelUID;
 	}
 
-	public void setStudyPatientId(String studyPatientId) {
-		this.studyPatientId = studyPatientId;
+	public void setManufacturerModelUID(String manufacturerModelUID) {
+		ManufacturerModelUID = manufacturerModelUID;
+	}
+
+	public String getManufacturerModelName() {
+		return ManufacturerModelName;
+	}
+
+	public void setManufacturerModelName(String manufacturerModelName) {
+		ManufacturerModelName = manufacturerModelName;
+	}
+
+	public String getStudyUrl() {
+		return studyUrl;
+	}
+
+	public void setStudyUrl(String studyUrl) {
+		this.studyUrl = studyUrl;
+	}
+
+	public String getDcmFileName() {
+		return dcmFileName;
+	}
+
+	public void setDcmFileName(String dcmFileName) {
+		this.dcmFileName = dcmFileName;
 	}
 
 }
