@@ -20,6 +20,9 @@ public class SXMTokenizer extends Tokenizer {
 	private char delimiterPars = '=';
 	private char delimiterTokens = '&';
 	private char delimiterEndLine = '^';
+	
+	private String keyWords[] = {"PARAM","DESRC"};
+	private String keyWord;
 
 	public SXMTokenizer(Reader input) {
 		super(input);
