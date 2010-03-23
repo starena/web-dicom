@@ -324,11 +324,17 @@ public class Extractor {
 			// читаем кодировку из dcm-файла
 			if (charsetStr == null) {
 
-				if (dcmObj.get(Tag.SpecificCharacterSet) != null) {
+				if (dcmObj.get(Tag.SpecificCharacterSet) != null && dcmObj.get(Tag.SpecificCharacterSet).length() >0) {
+					
+//					System.out.println("!!! USE SpecificCharacterSet !!! " + dcmObj.get(Tag.SpecificCharacterSet));
+					
 					cs = SpecificCharacterSet.valueOf(dcmObj.get(
 							Tag.SpecificCharacterSet).getStrings(null, false));
 				} else {
-					cs = new SpecificCharacterSet("ISO-8859-5");
+					
+					cs = new Win1251CharacterSet();
+//					System.out.println("!!! USE Win1251CharacterSet !!!");
+//					cs = new SpecificCharacterSet("ISO-8859-5");
 					LOG
 							.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
 				}
