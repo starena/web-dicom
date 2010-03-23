@@ -247,7 +247,7 @@ public class Dicom_browser implements EntryPoint {
 						+ " <p> Дополнительная информация по проекту"
 						+ " <a href='http://code.google.com/p/web-dicom/' target='new'>"
 						+ " http://code.google.com/p/web-dicom/</a>"
-						+ " (откроетя в новом окне) </p>" + "<br><br>");
+						+ " (откроется в новом окне) </p>" + "<br><br>");
 
 		RootPanel.get("resultContainer").add(intro);
 
