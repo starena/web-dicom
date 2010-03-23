@@ -125,7 +125,7 @@ Test targets suppressed because -junit argument was not specified when running w
   <target name="build" depends="gwtc" description="Build this project" />
 
   <target name="war" depends="build" description="Create a war file">
-    <zip destfile="Dicom_browser_${version}.war" basedir="war"/>
+    <zip destfile="distrib/Dicom_browser_${version}.war" basedir="war"/>
   </target>
 
   <target name="clean" description="Cleans this project">
