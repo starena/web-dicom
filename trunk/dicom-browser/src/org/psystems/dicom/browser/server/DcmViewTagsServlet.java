@@ -178,7 +178,8 @@ public class DcmViewTagsServlet extends HttpServlet {
 			throws IOException {
 		DicomObject dcmObj;
 		DicomInputStream din = null;
-		SpecificCharacterSet cs = new SpecificCharacterSet("ISO-8859-5");
+		SpecificCharacterSet cs = new Win1251CharacterSet();
+		// SpecificCharacterSet cs = new SpecificCharacterSet("ISO-8859-5");
 
 		try {
 
@@ -189,7 +190,8 @@ public class DcmViewTagsServlet extends HttpServlet {
 			// System.out.println("dcmObj=" + dcmObj);
 
 			// читаем кодировку из dcm-файла
-			if (dcmObj.get(Tag.SpecificCharacterSet) != null) {
+			if (dcmObj.get(Tag.SpecificCharacterSet) != null
+					&& dcmObj.get(Tag.SpecificCharacterSet).length() > 0) {
 				SpecificCharacterSet cs1 = SpecificCharacterSet.valueOf(dcmObj
 						.get(Tag.SpecificCharacterSet).getStrings(null, false));
 			}
@@ -198,7 +200,7 @@ public class DcmViewTagsServlet extends HttpServlet {
 
 			resp.getWriter().write("<table border=1>");
 
-//			DecimalFormat format = new DecimalFormat("0000");
+			// DecimalFormat format = new DecimalFormat("0000");
 
 			// Раскручиваем теги
 			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
@@ -206,18 +208,17 @@ public class DcmViewTagsServlet extends HttpServlet {
 
 				int tag = element.tag();
 
-//				Short ma = (short) (tag >> 16);
+				// Short ma = (short) (tag >> 16);
 				// String major = format.format(ma);
-//				 Short mi = (short) (tag);
-				//String minor = format.format(mi);
-				//Integer.toHexString(ma)
+				// Short mi = (short) (tag);
+				// String minor = format.format(mi);
+				// Integer.toHexString(ma)
 
-				
 				StringBuffer sb = new StringBuffer();
 				StringUtils.shortToHex(tag >> 16, sb);
 				String major = sb.toString();
 
-				sb = new StringBuffer();	
+				sb = new StringBuffer();
 				StringUtils.shortToHex(tag, sb);
 				String minor = sb.toString();
 
@@ -226,8 +227,6 @@ public class DcmViewTagsServlet extends HttpServlet {
 				// sb.append(',');
 				// StringUtils.shortToHex(tag, sb);
 				// sb.append(')');
-				
-				
 
 				String type = element.vr().toString();
 
@@ -237,7 +236,8 @@ public class DcmViewTagsServlet extends HttpServlet {
 					length = maxLength;
 
 				resp.getWriter().write(
-						"<tr> " + " <td>" + major + " <td> " + minor + " <td> short=" + (short) (tag) + "<td>"
+						"<tr> " + " <td>" + major + " <td> " + minor
+								+ " <td> short=" + (short) (tag) + "<td>"
 								+ type + "<td>" + dcmObj.nameOf(tag) + " <td> "
 								+ element.getValueAsString(cs, length)
 								+ "</tr>");
