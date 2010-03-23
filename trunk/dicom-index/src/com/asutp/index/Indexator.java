@@ -1,4 +1,4 @@
-package snippets;
+package com.asutp.index;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,25 +29,25 @@ import org.apache.lucene.util.Attribute;
 import org.apache.lucene.util.AttributeImpl;
 import org.apache.lucene.util.Version;
 
-public class Snippet1 {
+public class Indexator {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Snippet1();
+		new Indexator();
 	}
 
 	private String inputDir = "testdata/in";
 	private String outDir = "testdata/out";
 
-	public Snippet1() {
+	public Indexator() {
 		
 		
 		
 		try {
-			analyze();
-//			make();
+//			analyze();
+			make();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -56,10 +56,11 @@ public class Snippet1 {
 
 	private void analyze() throws IOException {
 		// TODO Auto-generated method stub
-		WhitespaceAnalyzer analyzer = new WhitespaceAnalyzer();
+//		WhitespaceAnalyzer analyzer = new WhitespaceAnalyzer();
 //		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
+		SXMAnalyzer analyzer = new SXMAnalyzer();
 		
-		String text = "Y==305&&X==203 &&HEIGHT ==15&&WIDTH ==45&&LAYER==!SOIVidget_LAYER_0.30252851845360773&&PARAM==1100016,3,4010000,5,Давление НК [БН ЦДНГ-6 - (Северо-Юрьевское) 4 ГЗУ4],2,&&VTYPE==SOIVidget_INFO&&PARENT==0&&GNAME==!SOIVidget_INFO_0.5889943553914814&&^^";
+		String text = "Y==305&&X==203&&HEIGHT ==15&&WIDTH ==45&&LAYER==!SOIVidget_LAYER_0.30252851845360773&&PARAM==1100016,3,4010000,5,Давление НК [БН ЦДНГ-6 - (Северо-Юрьевское) 4 ГЗУ4],2,&&VTYPE==SOIVidget_INFO&&PARENT==0&&GNAME==!SOIVidget_INFO_0.5889943553914814&&^^";
 		TokenStream stream = analyzer.tokenStream("content", new StringReader(text));
 		System.out.println("Use tokinizer: "+stream.getClass());
 		for(Iterator<Class<? extends Attribute>> iter = stream.getAttributeClassesIterator(); iter.hasNext();) {
@@ -80,7 +81,8 @@ public class Snippet1 {
 	private void make() throws IOException {
 		File index = new File(outDir);
 		SimpleFSDirectory indexdir = new SimpleFSDirectory(index);
-		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
+		SXMAnalyzer analyzer = new SXMAnalyzer();
+//		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
 		
 
 		IndexWriter writer = new IndexWriter(indexdir, analyzer,
@@ -104,6 +106,8 @@ public class Snippet1 {
 		File[] files = dir.listFiles();
 		for (int i = 0; i < files.length; i++) {
 
+			if(files[i].getName().equals(".svn")) continue;
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					new FileInputStream(files[i]), "Cp1251"));
 			String inpStr = null;
@@ -120,8 +124,5 @@ public class Snippet1 {
 		}
 	}
 
-	private void search() {
-
-	}
-
+	
 }
