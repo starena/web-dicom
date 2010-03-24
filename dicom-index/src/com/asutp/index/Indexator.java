@@ -29,6 +29,7 @@ import org.apache.lucene.util.Version;
 public class Indexator {
 
 	/**
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -154,6 +155,13 @@ public class Indexator {
 		}
 	}
 
+	/**
+	 * http://lucene.apache.org/java/3_0_0/queryparsersyntax.html
+	 * 
+	 * @param text
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	private void search(String text) throws IOException, ParseException {
 
 		System.out.println("searching query text = " + text);
