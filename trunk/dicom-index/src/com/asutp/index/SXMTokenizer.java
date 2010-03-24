@@ -40,7 +40,7 @@ public class SXMTokenizer extends Tokenizer {
 
 		// char c = (char) input.read();
 		// System.out.println("token!!!="+c);
-		// String token = new String(buffer,"Cp1251");
+//		 String token = new String(buffer,"Cp1251");
 		// System.out.println("token["+buffer.length+"]"+token);
 
 		// return false;
