@@ -1076,11 +1076,13 @@ public class DcmSnd extends StorageCommitmentService {
     public void open() throws IOException, ConfigurationException,
             InterruptedException {
         assoc = ae.connect(remoteAE, executor);
+        System.out.println("assoc="+assoc);
     }
 
     public void openToStgcmtAE() throws IOException, ConfigurationException,
             InterruptedException {
         assoc = ae.connect(remoteStgcmtAE, executor);
+        
     }
 
     public void send() {
