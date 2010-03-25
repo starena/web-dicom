@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,8 +56,8 @@ public class Indexator {
 //			make();
 			try {
 				// search("\"Сводная таблица работы артезианских скважин НГДУ \"Нижнесортымснефть\"\"");
-//				search("ЦДНГ-6 AND maintokens:ЦДНГ*");
-				search("ЦДНГ-6 AND name:\"Сводная таблица УУГ ДНС\"");
+				search("ЦДНГ-6 AND maintokens:ЦДНГ*");
+//				search("ЦДНГ-6 AND name:\"Сводная таблица УУГ ДНС\"");
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -92,6 +93,9 @@ public class Indexator {
 	}
 
 	private void make() throws IOException {
+		
+		long start = new Date().getTime();
+		
 		File index = new File(outDir);
 		SimpleFSDirectory indexdir = new SimpleFSDirectory(index);
 		// StandardAnalyzer analyzer = new
@@ -106,6 +110,9 @@ public class Indexator {
 		writer.optimize();
 		writer.close();
 		System.out.println("!! success !!!");
+		
+		long end = start - new Date().getTime();
+		System.out.println("Working " + end/1000 + " seconds");
 	}
 
 	/**
@@ -138,7 +145,7 @@ public class Indexator {
 			// System.out.println("!!! name="+name);
 
 			Document doc = new Document();
-			doc.add(new Field(fieldContentName, sb.toString(), Field.Store.NO,
+			doc.add(new Field(fieldContentName, sb.toString(), Field.Store.YES,
 					Field.Index.ANALYZED));
 			doc.add(new Field(fieldSXMName, filename, Field.Store.YES,
 					Field.Index.ANALYZED));
@@ -182,7 +189,7 @@ public class Indexator {
 		// Iterate through the results:
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = isearcher.doc(hits[i].doc);
-			System.out.println("Find: " + hitDoc.get(fieldSXMName));
+			System.out.println("Find: " + hitDoc.get(fieldSXMName) +" " + hitDoc.get(fieldName));
 		}
 		isearcher.close();
 	}
