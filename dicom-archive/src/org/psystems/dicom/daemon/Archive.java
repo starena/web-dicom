@@ -215,7 +215,8 @@ public class Archive extends StorageService {
 			UID._12leadECGWaveformStorage, UID.GeneralECGWaveformStorage, UID.AmbulatoryECGWaveformStorage,
 			UID.HemodynamicWaveformStorage, UID.CardiacElectrophysiologyWaveformStorage,
 			UID.BasicVoiceAudioWaveformStorage, UID.HangingProtocolStorage, UID.SiemensCSANonImageStorage,
-			UID.Dcm4cheAttributesModificationNotificationSOPClass };
+			UID.Dcm4cheAttributesModificationNotificationSOPClass,
+			"1.2.826.0.1.3680043.2.706.5476834"};
 
 	private final Executor executor;
 
