@@ -192,8 +192,8 @@ public class DcmViewTagsServlet extends HttpServlet {
 			// читаем кодировку из dcm-файла
 			if (dcmObj.get(Tag.SpecificCharacterSet) != null
 					&& dcmObj.get(Tag.SpecificCharacterSet).length() > 0) {
-				SpecificCharacterSet cs1 = SpecificCharacterSet.valueOf(dcmObj
-						.get(Tag.SpecificCharacterSet).getStrings(null, false));
+				cs = SpecificCharacterSet.valueOf(dcmObj.get(
+						Tag.SpecificCharacterSet).getStrings(null, false));
 			}
 
 			resp.getWriter().write("<h1> Теги: </h1>");
