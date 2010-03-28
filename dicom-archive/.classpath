@@ -10,7 +10,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-filecache-2.0.21.jar" sourcepath="/dicomweb/docs/dcm4che-2.0.21-apidocs.zip"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-hp-2.0.21.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-image-2.0.21.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-imageio-2.0.21.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-imageio-2.0.21.jar" sourcepath="docs/dcm4che-2.0.21-src.zip"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-imageio-rle-2.0.21.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-iod-2.0.21.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-net-2.0.21.jar" sourcepath="docs/dcm4che-2.0.21-src.zip"/>
