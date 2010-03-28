@@ -281,8 +281,8 @@ public class Extractor {
 		try {
 			reader.setInput(iis, false);
 			if (reader.getNumImages(false) <= 0) {
-				System.out.println("\nError: " + dcmFile
-						+ " - Don't haven any images!");
+//				System.out.println("\nError: " + dcmFile
+//						+ " - Don't have any images!");
 				return new ArrayList<String>();
 			}
 			bi = reader.read(frame - 1, param);
