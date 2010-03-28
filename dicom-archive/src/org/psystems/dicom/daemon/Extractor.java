@@ -280,6 +280,11 @@ public class Extractor {
 		OutputStream out = null;
 		try {
 			reader.setInput(iis, false);
+			if (reader.getNumImages(false) <= 0) {
+				System.out.println("\nError: " + dcmFile
+						+ " - Don't haven any images!");
+				return new ArrayList<String>();
+			}
 			bi = reader.read(frame - 1, param);
 			if (bi == null) {
 				System.out.println("\nError: " + dcmFile + " - couldn't read!");
@@ -307,6 +312,11 @@ public class Extractor {
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		SpecificCharacterSet cs = null;
+		boolean haveImages = true ? images.size() > 0 : false;
+
+		if (!haveImages) {
+			LOG.info("Have not any images");
+		}
 
 		try {
 			long DCM_FILE_SIZE = dcmFile.length();
@@ -324,17 +334,19 @@ public class Extractor {
 			// читаем кодировку из dcm-файла
 			if (charsetStr == null) {
 
-				if (dcmObj.get(Tag.SpecificCharacterSet) != null && dcmObj.get(Tag.SpecificCharacterSet).length() >0) {
-					
-//					System.out.println("!!! USE SpecificCharacterSet !!! " + dcmObj.get(Tag.SpecificCharacterSet));
-					
+				if (dcmObj.get(Tag.SpecificCharacterSet) != null
+						&& dcmObj.get(Tag.SpecificCharacterSet).length() > 0) {
+
+					// System.out.println("!!! USE SpecificCharacterSet !!! " +
+					// dcmObj.get(Tag.SpecificCharacterSet));
+
 					cs = SpecificCharacterSet.valueOf(dcmObj.get(
 							Tag.SpecificCharacterSet).getStrings(null, false));
 				} else {
-					
+
 					cs = new Win1251CharacterSet();
-//					System.out.println("!!! USE Win1251CharacterSet !!!");
-//					cs = new SpecificCharacterSet("ISO-8859-5");
+					// System.out.println("!!! USE Win1251CharacterSet !!!");
+					// cs = new SpecificCharacterSet("ISO-8859-5");
 					LOG
 							.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
 				}
@@ -419,8 +431,12 @@ public class Extractor {
 				}
 			}
 
-			int HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
-			int WIDTH = dcmObj.get(Tag.Columns).getInt(false);
+			int HEIGHT = 0;
+			int WIDTH = 0;
+			if(haveImages) {
+				HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
+				WIDTH = dcmObj.get(Tag.Columns).getInt(false);
+			}
 
 			// Вставка в БД
 
@@ -480,18 +496,14 @@ public class Extractor {
 				stmt.setString(12, STUDY_DESCRIPTION);
 
 				stmt.executeUpdate();
-				
-				
-				
-				
-				
+
 				// Обновляем статистику
 				updateDayStatInc(STUDY_DATE, "ALL_DCM_SIZE", DCM_FILE_SIZE);
 			} finally {
 				if (stmt != null)
 					stmt.close();
 			}
-			
+
 			int dcmId = checkDbDCMFile(DCM_FILE_NAME);
 			insertTags(dcmObj, dcmId);
 
@@ -539,12 +551,11 @@ public class Extractor {
 		// TODO Удаляем старые теги!!!
 
 		PreparedStatement psDelete = connection
-		.prepareStatement("delete from WEBDICOM.DCMFILE_TAGS where FID_DCMFILE = ?");
+				.prepareStatement("delete from WEBDICOM.DCMFILE_TAGS where FID_DCMFILE = ?");
 		psDelete.setInt(1, dcmId);
 		psDelete.executeUpdate();
 		psDelete.close();
-			
-		
+
 		// FIXME Задаем жестко кодировку
 		SpecificCharacterSet cs = new SpecificCharacterSet("ISO-8859-5");
 
@@ -556,8 +567,6 @@ public class Extractor {
 
 		PreparedStatement psInsert = null;
 
-		
-
 		psInsert = connection
 				.prepareStatement("insert into WEBDICOM.DCMFILE_TAGS "
 						+ " (FID_DCMFILE, TAG, TAG_TYPE, VALUE_STRING)"
@@ -566,48 +575,50 @@ public class Extractor {
 		int maxLength = 1000;
 
 		DecimalFormat format = new DecimalFormat("0000");
-		
-//		System.out.println("!!! " + dcmObj);
-		
+
+		// System.out.println("!!! " + dcmObj);
+
 		// Раскручиваем теги
 		for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
 			DicomElement element = it.next();
 			int tag = element.tag();
-//			System.out.println("!!! " + element);
-			
-			//не пишем бинарные данные
-			if(element.vr().equals(VR.OW)) {
+			// System.out.println("!!! " + element);
+
+			// не пишем бинарные данные
+			if (element.vr().equals(VR.OW)) {
 				continue;
 			}
-			
-//			String type = TagUtils.toString(tag);
+
+			// String type = TagUtils.toString(tag);
 			String type = "" + element.vr().toString();
-			if(type.length()>2) {
+			if (type.length() > 2) {
 				type = type.substring(0, 2);
 			}
-			
-			
+
 			short ma = (short) (tag >> 16);
 			String major = format.format(ma);
 			short mi = (short) (tag);
 			String minor = format.format(mi);
-			
+
 			String name = dcmObj.nameOf(tag);
 			int length = element.length();
 			if (length > maxLength)
 				length = maxLength;
 
 			String value = element.getValueAsString(cs, length);
-			if(value==null) continue;
+			if (value == null)
+				continue;
 			psInsert.setInt(1, dcmId);
 			psInsert.setInt(2, tag);
 			psInsert.setString(3, type);
 			psInsert.setString(4, value);
 
 			psInsert.executeUpdate();
-			
-			LOG.info("insert tag (" + major + ","+minor+") ["+ type+"] [" + name + "] " + value);
-//			System.out.println("insert tag (" + major + ","+minor+") ["+ type+"] [" + name + "] " + value);
+
+			LOG.info("insert tag (" + major + "," + minor + ") [" + type
+					+ "] [" + name + "] " + value);
+			// System.out.println("insert tag (" + major + ","+minor+") ["+
+			// type+"] [" + name + "] " + value);
 		}
 		psInsert.close();
 
