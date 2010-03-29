@@ -1061,7 +1061,7 @@ public class Archive extends StorageService {
 				file.renameTo(rename);
 
 				// Извлекаем картинку
-				String image = extractor.extractImage(rename);
+				DCMImage image = extractor.extractImage(rename);
 
 				try {
 					// Пишем всю информацию в БД
