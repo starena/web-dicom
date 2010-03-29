@@ -54,6 +54,7 @@
  */
 package org.psystems.dicom.daemon;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -122,6 +123,59 @@ public class Extractor {
 		super();
 		this.cache = cache;
 		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * Проверка-установка соединения
+	 * 
+	 * @throws SQLException
+	 */
+	void checkMakeConnection() throws SQLException {
+
+		if (connection != null && connection.isValid(0)) {
+			return;
+		}
+
+		Properties props = new Properties(); // connection properties
+		// providing a user name and password is optional in the embedded
+		// and derbyclient frameworks
+		props.put("user", "user1"); // FIXME Взять из конфига
+		props.put("password", "user1"); // FIXME Взять из конфига
+
+		Connection conn = DriverManager.getConnection(connectionStr
+				+ ";create=true", props);
+		// conn.setAutoCommit(false);
+		// s = conn.createStatement();
+		// s.execute(sql);
+		//
+		// conn.commit();
+
+		// return conn;
+		connection = conn;
+	}
+
+	/**
+	 * @param metric
+	 * @param date
+	 * @return
+	 * @throws SQLException
+	 */
+	private long checkDayMetric(String metric, java.sql.Date date)
+			throws SQLException {
+		PreparedStatement psSelect = connection
+				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
+		try {
+			psSelect.setString(1, metric);
+			psSelect.setDate(2, date);
+			ResultSet rs = psSelect.executeQuery();
+			while (rs.next()) {
+				return rs.getLong("METRIC_VALUE_LONG");
+			}
+
+		} finally {
+			psSelect.close();
+		}
+		throw new NoDataFoundException("No data");
 	}
 
 	/**
@@ -200,32 +254,31 @@ public class Extractor {
 	}
 
 	/**
-	 * Проверка-установка соединения
+	 * Проверка на наличии информации о DCM-файле в БД
 	 * 
+	 * @param fileName
+	 * @return старое местоположение
 	 * @throws SQLException
 	 */
-	void checkMakeConnection() throws SQLException {
+	String getDCMFileNamefromDB(String fileName) throws SQLException {
 
-		if (connection != null && connection.isValid(0)) {
-			return;
+		// String name = getRelativeDcmFileName(new File(fileName));
+		// String rerativeName = getRelativeFilePath(new File(fileName));
+
+		PreparedStatement psSelect = connection
+				.prepareStatement("SELECT DCM_FILE_NAME FROM WEBDICOM.DCMFILE WHERE NAME = ?");
+		try {
+			psSelect.setString(1, fileName);
+			ResultSet rs = psSelect.executeQuery();
+			while (rs.next()) {
+				return rs.getString("DCM_FILE_NAME");
+			}
+
+		} finally {
+			if (psSelect != null)
+				psSelect.close();
 		}
-
-		Properties props = new Properties(); // connection properties
-		// providing a user name and password is optional in the embedded
-		// and derbyclient frameworks
-		props.put("user", "user1"); // FIXME Взять из конфига
-		props.put("password", "user1"); // FIXME Взять из конфига
-
-		Connection conn = DriverManager.getConnection(connectionStr
-				+ ";create=true", props);
-		// conn.setAutoCommit(false);
-		// s = conn.createStatement();
-		// s.execute(sql);
-		//
-		// conn.commit();
-
-		// return conn;
-		connection = conn;
+		return null;
 	}
 
 	/**
@@ -234,7 +287,7 @@ public class Extractor {
 	 * @param dcmFile
 	 * @throws IOException
 	 */
-	public String extractImage(File dcmFile) throws IOException {
+	public DCMImage extractImage(File dcmFile) throws IOException {
 
 		File dest = new File(dcmFile.getPath() + imageDirPrefix);
 		dest.mkdirs();
@@ -258,6 +311,7 @@ public class Extractor {
 		BufferedImage bi;
 		OutputStream out = null;
 		String imagePath;
+		DCMImage im;
 		try {
 			reader.setInput(iis, false);
 			if (reader.getNumImages(false) <= 0) {
@@ -273,17 +327,23 @@ public class Extractor {
 			out = new BufferedOutputStream(new FileOutputStream(dest));
 			JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out);
 			enc.encode(bi);
+
+			im = new DCMImage(bi.getWidth(), bi.getHeight(),dest.length());
+//			System.out
+//					.println("!! w:" + bi.getWidth() + " h:" + bi.getHeight() + " s:"+dest.length());
 		} finally {
 			CloseUtils.safeClose(iis);
 			CloseUtils.safeClose(out);
 			imagePath = dest.getPath();
 		}
 
-		//Делаем мелкие копии картинок
-		resize(imagePath, dcmFile.getPath() + imageDirPrefix + "/100x100.jpg", 100, 100);
-		resize(imagePath, dcmFile.getPath() + imageDirPrefix + "/200x200.jpg", 200, 200);
+		// Делаем мелкие копии картинок
+		resize(imagePath, dcmFile.getPath() + imageDirPrefix + "/100x100.jpg",
+				100, 100);
+		resize(imagePath, dcmFile.getPath() + imageDirPrefix + "/200x200.jpg",
+				200, 200);
 
-		return imagePath;
+		return im;
 	}
 
 	/**
@@ -294,7 +354,7 @@ public class Extractor {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void updateDataBase(File dcmFile, String imageFile)
+	public void updateDataBase(File dcmFile, DCMImage image)
 			throws SQLException, IOException {
 
 		if (true)
@@ -305,7 +365,7 @@ public class Extractor {
 		DicomInputStream din = null;
 		SpecificCharacterSet cs = null;
 
-		if (imageFile == null)
+		if (image == null)
 			LOG.info("No image");
 
 		try {
@@ -429,12 +489,12 @@ public class Extractor {
 				}
 			}
 
-			int HEIGHT = 0;
-			int WIDTH = 0;
-			if (imageFile != null) {
-				HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
-				WIDTH = dcmObj.get(Tag.Columns).getInt(false);
-			}
+//			int HEIGHT = 0;
+//			int WIDTH = 0;
+//			if (image != null) {
+//				HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
+//				WIDTH = dcmObj.get(Tag.Columns).getInt(false);
+//			}
 
 			// Вставка в БД
 
@@ -503,11 +563,11 @@ public class Extractor {
 			}
 
 			long dcmId = checkDbDCMFile(DCM_FILE_NAME);
-			insertTags(dcmObj, dcmId);
+			updateTags(dcmObj, dcmId);
 
 			// Вставка в БД информации о картинке
-			insertImageData(dcmFile, new File(imageFile), STUDY_DATE, WIDTH,
-					HEIGHT);
+//			insertImageData(dcmFile, new File(imageFile), STUDY_DATE, WIDTH,
+//					HEIGHT);
 
 		} catch (org.dcm4che2.data.ConfigurationError e) {
 			if (e.getCause() instanceof UnsupportedEncodingException) {
@@ -536,13 +596,13 @@ public class Extractor {
 	}
 
 	/**
-	 * Вставка информации о тегах
+	 * Обновление информации о тегах
 	 * 
 	 * @param dcmObj
 	 * @param dcmId
 	 * @throws SQLException
 	 */
-	private void insertTags(DicomObject dcmObj, long dcmId) throws SQLException {
+	private void updateTags(DicomObject dcmObj, long dcmId) throws SQLException {
 
 		// TODO Удаляем старые теги!!!
 
@@ -624,34 +684,6 @@ public class Extractor {
 	 * Проверка на наличии информации о DCM-файле в БД
 	 * 
 	 * @param fileName
-	 * @return старое местоположение
-	 * @throws SQLException
-	 */
-	String getDCMFileNamefromDB(String fileName) throws SQLException {
-
-		// String name = getRelativeDcmFileName(new File(fileName));
-		// String rerativeName = getRelativeFilePath(new File(fileName));
-
-		PreparedStatement psSelect = connection
-				.prepareStatement("SELECT DCM_FILE_NAME FROM WEBDICOM.DCMFILE WHERE NAME = ?");
-		try {
-			psSelect.setString(1, fileName);
-			ResultSet rs = psSelect.executeQuery();
-			while (rs.next()) {
-				return rs.getString("DCM_FILE_NAME");
-			}
-
-		} finally {
-			if (psSelect != null)
-				psSelect.close();
-		}
-		return null;
-	}
-
-	/**
-	 * Проверка на наличии информации о DCM-файле в БД
-	 * 
-	 * @param fileName
 	 * @return
 	 * @throws SQLException
 	 */
@@ -711,67 +743,67 @@ public class Extractor {
 	 * @param imageFile
 	 * @throws SQLException
 	 */
-	private void insertImageData(File dcmFile, File imageFile,
-			java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
-			throws SQLException {
-
-		long FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
-		String IMAGE_FILE_NAME = getRelativeFilePath(imageFile);
-		String NAME = getRelativeImageFileName(imageFile);
-		long IMAGE_FILE_SIZE = imageFile.length();
-		String CONTENT_TYPE = imageContentType;
-
-		try {
-			int idImage = checkDbImageFile(IMAGE_FILE_NAME);
-
-			PreparedStatement psUpdate = null;
-
-			LOG.info("update data in database [" + FID_DCMFILE + "] image ["
-					+ IMAGE_FILE_NAME + "]");
-			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES"
-					+ " set FID_DCMFILE = ? ,"
-					+ " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? , NAME = ?, "
-					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
-					+ " where ID = ?");
-
-			psUpdate.setLong(1, FID_DCMFILE);
-			psUpdate.setString(2, CONTENT_TYPE);
-			psUpdate.setString(3, IMAGE_FILE_NAME);
-			psUpdate.setString(4, NAME);
-			psUpdate.setLong(5, IMAGE_FILE_SIZE);
-			psUpdate.setInt(6, WIDTH);
-			psUpdate.setInt(7, HEIGHT);
-			psUpdate.setInt(8, idImage);
-			psUpdate.executeUpdate();
-			psUpdate.close();
-
-		} catch (NoDataFoundException ex) {
-			PreparedStatement psInsert = null;
-
-			LOG.info("insert data in database [" + FID_DCMFILE + "] image ["
-					+ IMAGE_FILE_NAME + "]");
-
-			psInsert = connection
-					.prepareStatement("insert into WEBDICOM.IMAGES"
-							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
-							+ " values (?, ?, ?, ?, ?, ?, ?)");
-
-			psInsert.setLong(1, FID_DCMFILE);
-			psInsert.setString(2, CONTENT_TYPE);
-			psInsert.setString(3, IMAGE_FILE_NAME);
-			psInsert.setString(4, NAME);
-			psInsert.setLong(5, IMAGE_FILE_SIZE);
-			psInsert.setInt(6, WIDTH);
-			psInsert.setInt(7, HEIGHT);
-			psInsert.executeUpdate();
-			psInsert.close();
-
-		}
-
-		// Обновление статистики
-		updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
-
-	}
+//	private void insertImageData(File dcmFile, File imageFile,
+//			java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
+//			throws SQLException {
+//
+//		long FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
+//		String IMAGE_FILE_NAME = getRelativeFilePath(imageFile);
+//		String NAME = getRelativeImageFileName(imageFile);
+//		long IMAGE_FILE_SIZE = imageFile.length();
+//		String CONTENT_TYPE = imageContentType;
+//
+//		try {
+//			int idImage = checkDbImageFile(IMAGE_FILE_NAME);
+//
+//			PreparedStatement psUpdate = null;
+//
+//			LOG.info("update data in database [" + FID_DCMFILE + "] image ["
+//					+ IMAGE_FILE_NAME + "]");
+//			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES"
+//					+ " set FID_DCMFILE = ? ,"
+//					+ " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? , NAME = ?, "
+//					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
+//					+ " where ID = ?");
+//
+//			psUpdate.setLong(1, FID_DCMFILE);
+//			psUpdate.setString(2, CONTENT_TYPE);
+//			psUpdate.setString(3, IMAGE_FILE_NAME);
+//			psUpdate.setString(4, NAME);
+//			psUpdate.setLong(5, IMAGE_FILE_SIZE);
+//			psUpdate.setInt(6, WIDTH);
+//			psUpdate.setInt(7, HEIGHT);
+//			psUpdate.setInt(8, idImage);
+//			psUpdate.executeUpdate();
+//			psUpdate.close();
+//
+//		} catch (NoDataFoundException ex) {
+//			PreparedStatement psInsert = null;
+//
+//			LOG.info("insert data in database [" + FID_DCMFILE + "] image ["
+//					+ IMAGE_FILE_NAME + "]");
+//
+//			psInsert = connection
+//					.prepareStatement("insert into WEBDICOM.IMAGES"
+//							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
+//							+ " values (?, ?, ?, ?, ?, ?, ?)");
+//
+//			psInsert.setLong(1, FID_DCMFILE);
+//			psInsert.setString(2, CONTENT_TYPE);
+//			psInsert.setString(3, IMAGE_FILE_NAME);
+//			psInsert.setString(4, NAME);
+//			psInsert.setLong(5, IMAGE_FILE_SIZE);
+//			psInsert.setInt(6, WIDTH);
+//			psInsert.setInt(7, HEIGHT);
+//			psInsert.executeUpdate();
+//			psInsert.close();
+//
+//		}
+//
+//		// Обновление статистики
+//		updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
+//
+//	}
 
 	/**
 	 * Обновление метрики дневной статистики (инкремент)
@@ -831,30 +863,6 @@ public class Extractor {
 				stmt.close();
 		}
 
-	}
-
-	/**
-	 * @param metric
-	 * @param date
-	 * @return
-	 * @throws SQLException
-	 */
-	private long checkDayMetric(String metric, java.sql.Date date)
-			throws SQLException {
-		PreparedStatement psSelect = connection
-				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
-		try {
-			psSelect.setString(1, metric);
-			psSelect.setDate(2, date);
-			ResultSet rs = psSelect.executeQuery();
-			while (rs.next()) {
-				return rs.getLong("METRIC_VALUE_LONG");
-			}
-
-		} finally {
-			psSelect.close();
-		}
-		throw new NoDataFoundException("No data");
 	}
 
 	private void resize(String srcFile, String dstfile, int width, int height)
