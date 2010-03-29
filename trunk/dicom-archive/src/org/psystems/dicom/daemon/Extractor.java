@@ -54,6 +54,7 @@
  */
 package org.psystems.dicom.daemon;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -67,12 +68,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -90,7 +88,6 @@ import org.dcm4che2.filecache.FileCache;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.CloseUtils;
-import org.dcm4che2.util.TagUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -232,36 +229,17 @@ public class Extractor {
 	}
 
 	/**
-	 * Извлечение картинок и запись в БД
-	 * 
-	 * @param file
-	 * @throws SQLException
-	 * @throws IOException
-	 */
-	void extractImagesAndSaveDB(File file) throws SQLException, IOException {
-
-		ArrayList<String> images = extractImages(file);
-		connection.setAutoCommit(false);
-		insertUpdateCommonData(file, images);
-		connection.commit();
-	}
-
-	/**
-	 * Извлечение картинок
+	 * Извлечение картинки
 	 * 
 	 * @param dcmFile
 	 * @throws IOException
-	 * @throws SQLException
 	 */
-	public ArrayList<String> extractImages(File dcmFile) throws IOException,
-			SQLException {
+	public String extractImage(File dcmFile) throws IOException {
 
-		ArrayList<String> resultImages = new ArrayList<String>();
 		File dest = new File(dcmFile.getPath() + imageDirPrefix);
 		dest.mkdirs();
 
-		dest = new File(dest, "1" + imageFileExt);
-		// TODO Тут может быть наверное несколько картинок !!!
+		dest = new File(dest, "fullsize" + imageFileExt);
 
 		Iterator<ImageReader> iter = ImageIO
 				.getImageReadersByFormatName("DICOM");
@@ -270,7 +248,8 @@ public class Extractor {
 		DicomImageReadParam param = (DicomImageReadParam) reader
 				.getDefaultReadParam();
 		param.setWindowCenter(center);
-		param.setWindowWidth(width);
+		// param.setWindowWidth(width);
+		// param.setWindowWidth(1000);
 		param.setVoiLutFunction(vlutFct);
 		param.setPresentationState(prState);
 		param.setPValue2Gray(pval2gray);
@@ -278,17 +257,18 @@ public class Extractor {
 		ImageInputStream iis = ImageIO.createImageInputStream(dcmFile);
 		BufferedImage bi;
 		OutputStream out = null;
+		String imagePath;
 		try {
 			reader.setInput(iis, false);
 			if (reader.getNumImages(false) <= 0) {
-//				System.out.println("\nError: " + dcmFile
-//						+ " - Don't have any images!");
-				return new ArrayList<String>();
+				// System.out.println("\nError: " + dcmFile
+				// + " - Don't have any images!");
+				return null;
 			}
 			bi = reader.read(frame - 1, param);
 			if (bi == null) {
 				System.out.println("\nError: " + dcmFile + " - couldn't read!");
-				return resultImages;
+				return null;
 			}
 			out = new BufferedOutputStream(new FileOutputStream(dest));
 			JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out);
@@ -296,27 +276,37 @@ public class Extractor {
 		} finally {
 			CloseUtils.safeClose(iis);
 			CloseUtils.safeClose(out);
-			resultImages.add(dest.getPath());
+			imagePath = dest.getPath();
 		}
-		return resultImages;
+
+		//Делаем мелкие копии картинок
+		resize(imagePath, dcmFile.getPath() + imageDirPrefix + "/100x100.jpg", 100, 100);
+		resize(imagePath, dcmFile.getPath() + imageDirPrefix + "/200x200.jpg", 200, 200);
+
+		return imagePath;
 	}
 
 	/**
+	 * Запись информации в БД
+	 * 
 	 * @param dcmFile
+	 * @param imageFile
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	private void insertUpdateCommonData(File dcmFile, ArrayList<String> images)
+	public void updateDataBase(File dcmFile, String imageFile)
 			throws SQLException, IOException {
+
+		if (true)
+			return;// TODO Убрать!
+		connection.setAutoCommit(false);
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		SpecificCharacterSet cs = null;
-		boolean haveImages = true ? images.size() > 0 : false;
 
-		if (!haveImages) {
-			LOG.info("Have not any images");
-		}
+		if (imageFile == null)
+			LOG.info("No image");
 
 		try {
 			long DCM_FILE_SIZE = dcmFile.length();
@@ -355,6 +345,22 @@ public class Extractor {
 			String DCM_FILE_NAME = getRelativeFilePath(dcmFile);
 			String NAME = getRelativeDcmFileName(dcmFile);
 
+			DicomElement element1 = dcmObj.get(Tag.StudyInstanceUID);
+			String STUDY_UID = "";
+			if (element1 == null) {
+				LOG.warn("Study ID (tag: StudyID) is empty!");
+			} else {
+				STUDY_UID = element1.getValueAsString(cs, element1.length());
+			}
+
+			element1 = dcmObj.get(Tag.StudyID);
+			String STUDY_ID = "";
+			if (element1 == null) {
+				LOG.warn("Study ID (tag: StudyID) is empty!");
+			} else {
+				STUDY_ID = element1.getValueAsString(cs, element1.length());
+			}
+
 			java.sql.Date PATIENT_BIRTH_DATE;
 
 			if (dcmObj.get(Tag.PatientBirthDate) != null) {
@@ -366,7 +372,7 @@ public class Extractor {
 						.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
 			}
 
-			DicomElement element1 = dcmObj.get(Tag.PatientName);
+			element1 = dcmObj.get(Tag.PatientName);
 			String PATIENT_NAME = element1.getValueAsString(cs, element1
 					.length());
 
@@ -388,14 +394,6 @@ public class Extractor {
 					LOG.warn("PATIENT_SEX to long [" + PATIENT_SEX + "]");
 					PATIENT_SEX = PATIENT_SEX.substring(0, 1);
 				}
-			}
-
-			element1 = dcmObj.get(Tag.StudyID);
-			String STUDY_ID = "";
-			if (element1 == null) {
-				LOG.warn("Study ID (tag: StudyID) is empty!");
-			} else {
-				STUDY_ID = element1.getValueAsString(cs, element1.length());
 			}
 
 			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(
@@ -433,7 +431,7 @@ public class Extractor {
 
 			int HEIGHT = 0;
 			int WIDTH = 0;
-			if(haveImages) {
+			if (imageFile != null) {
 				HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
 				WIDTH = dcmObj.get(Tag.Columns).getInt(false);
 			}
@@ -447,7 +445,7 @@ public class Extractor {
 
 			// Проверка на наличии этого файла в БД
 			try {
-				int id = checkDbDCMFile(DCM_FILE_NAME);
+				long id = checkDbDCMFile(DCM_FILE_NAME);
 				LOG.info("File already in database [" + id + "] ["
 						+ DCM_FILE_NAME + "]");
 				LOG.info("update data in database [" + DCM_FILE_NAME + "]");
@@ -468,7 +466,7 @@ public class Extractor {
 				stmt.setString(8, STUDY_DOCTOR);
 				stmt.setString(9, STUDY_OPERATOR);
 				stmt.setString(10, STUDY_DESCRIPTION);
-				stmt.setInt(11, id);
+				stmt.setLong(11, id);
 				stmt.executeUpdate();
 
 				LOG.info("skip converting image.");
@@ -504,16 +502,12 @@ public class Extractor {
 					stmt.close();
 			}
 
-			int dcmId = checkDbDCMFile(DCM_FILE_NAME);
+			long dcmId = checkDbDCMFile(DCM_FILE_NAME);
 			insertTags(dcmObj, dcmId);
 
-			// Вставка в БД информации о картинках
-
-			for (Iterator<String> it = images.iterator(); it.hasNext();) {
-				String fileImage = it.next();
-				insertImageData(dcmFile, new File(fileImage), STUDY_DATE,
-						WIDTH, HEIGHT);
-			}
+			// Вставка в БД информации о картинке
+			insertImageData(dcmFile, new File(imageFile), STUDY_DATE, WIDTH,
+					HEIGHT);
 
 		} catch (org.dcm4che2.data.ConfigurationError e) {
 			if (e.getCause() instanceof UnsupportedEncodingException) {
@@ -537,6 +531,8 @@ public class Extractor {
 			}
 		}
 
+		connection.commit();
+
 	}
 
 	/**
@@ -546,13 +542,13 @@ public class Extractor {
 	 * @param dcmId
 	 * @throws SQLException
 	 */
-	private void insertTags(DicomObject dcmObj, int dcmId) throws SQLException {
+	private void insertTags(DicomObject dcmObj, long dcmId) throws SQLException {
 
 		// TODO Удаляем старые теги!!!
 
 		PreparedStatement psDelete = connection
 				.prepareStatement("delete from WEBDICOM.DCMFILE_TAGS where FID_DCMFILE = ?");
-		psDelete.setInt(1, dcmId);
+		psDelete.setLong(1, dcmId);
 		psDelete.executeUpdate();
 		psDelete.close();
 
@@ -608,7 +604,7 @@ public class Extractor {
 			String value = element.getValueAsString(cs, length);
 			if (value == null)
 				continue;
-			psInsert.setInt(1, dcmId);
+			psInsert.setLong(1, dcmId);
 			psInsert.setInt(2, tag);
 			psInsert.setString(3, type);
 			psInsert.setString(4, value);
@@ -659,7 +655,7 @@ public class Extractor {
 	 * @return
 	 * @throws SQLException
 	 */
-	private int checkDbDCMFile(String fileName) throws SQLException {
+	private long checkDbDCMFile(String fileName) throws SQLException {
 
 		String name = getRelativeDcmFileName(new File(fileName));
 		// String rerativeName = getRelativeFilePath(new File(fileName));
@@ -670,7 +666,7 @@ public class Extractor {
 			psSelect.setString(1, name);
 			ResultSet rs = psSelect.executeQuery();
 			while (rs.next()) {
-				return rs.getInt("ID");
+				return rs.getLong("ID");
 			}
 
 		} finally {
@@ -719,7 +715,7 @@ public class Extractor {
 			java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
 			throws SQLException {
 
-		Integer FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
+		long FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
 		String IMAGE_FILE_NAME = getRelativeFilePath(imageFile);
 		String NAME = getRelativeImageFileName(imageFile);
 		long IMAGE_FILE_SIZE = imageFile.length();
@@ -738,7 +734,7 @@ public class Extractor {
 					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
 					+ " where ID = ?");
 
-			psUpdate.setInt(1, FID_DCMFILE);
+			psUpdate.setLong(1, FID_DCMFILE);
 			psUpdate.setString(2, CONTENT_TYPE);
 			psUpdate.setString(3, IMAGE_FILE_NAME);
 			psUpdate.setString(4, NAME);
@@ -760,7 +756,7 @@ public class Extractor {
 							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
 							+ " values (?, ?, ?, ?, ?, ?, ?)");
 
-			psInsert.setInt(1, FID_DCMFILE);
+			psInsert.setLong(1, FID_DCMFILE);
 			psInsert.setString(2, CONTENT_TYPE);
 			psInsert.setString(3, IMAGE_FILE_NAME);
 			psInsert.setString(4, NAME);
@@ -859,6 +855,24 @@ public class Extractor {
 			psSelect.close();
 		}
 		throw new NoDataFoundException("No data");
+	}
+
+	private void resize(String srcFile, String dstfile, int width, int height)
+			throws IOException {
+
+		BufferedImage image = ImageIO.read(new File(srcFile));
+
+		// BufferedImage resizedImage = new BufferedImage(width, height,
+		// BufferedImage.TYPE_INT_ARGB);
+		BufferedImage resizedImage = new BufferedImage(width, height,
+				BufferedImage.TYPE_BYTE_GRAY);
+
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(image, 0, 0, width, height, null);
+		g.dispose();
+
+		ImageIO.write(resizedImage, "jpg", new File(dstfile));
+
 	}
 
 }
