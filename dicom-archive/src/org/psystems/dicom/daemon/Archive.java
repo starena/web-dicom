@@ -1054,10 +1054,25 @@ public class Archive extends StorageService {
 
 			// Rename the file after it has been written. See DCM-279
 			if (devnull == null && file != null) {
+				
 				// Добавляем расширение
 				File rename = new File(file.getParent(), iuid
 						+ Extractor.dcmFileExt);
 				LOG.info("M-RENAME {} to {}", file, rename);
+				
+				if(rename.exists()) {
+					Calendar calendar = Calendar.getInstance();
+					SimpleDateFormat formatLevel = new SimpleDateFormat("yyyy-MM-dd_k-m-s.S");
+					String ext = formatLevel.format(calendar.getTime());
+					
+					File renameBack = new File(file.getParent(), iuid
+							+ Extractor.dcmFileBacupExt + "." + ext);
+					LOG.warn("File laready exists! file "+ rename +" will be renamed to " + renameBack);
+					File oldName = new File(file.getParent(), iuid
+							+ Extractor.dcmFileExt);
+					oldName.renameTo(renameBack);
+				}
+				
 				file.renameTo(rename);
 
 				// Извлекаем картинку

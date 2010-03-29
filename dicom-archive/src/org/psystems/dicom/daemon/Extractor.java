@@ -103,6 +103,8 @@ public class Extractor {
 
 	public static String dcmFileExt = ".dcm"; // Расширение для сохраняемых
 	// файлов
+	public static String dcmFileBacupExt = ".bak"; // Расширение для сохраняемых
+	
 	public static String imageDirPrefix = ".images";
 
 	static String connectionStr = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
