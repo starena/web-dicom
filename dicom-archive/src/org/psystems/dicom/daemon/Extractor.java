@@ -104,7 +104,7 @@ public class Extractor {
 	public static String dcmFileExt = ".dcm"; // Расширение для сохраняемых
 	// файлов
 	public static String dcmFileBacupExt = ".bak"; // Расширение для сохраняемых
-	
+
 	public static String imageDirPrefix = ".images";
 
 	static String connectionStr = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
@@ -330,9 +330,10 @@ public class Extractor {
 			JPEGImageEncoder enc = JPEGCodec.createJPEGEncoder(out);
 			enc.encode(bi);
 
-			im = new DCMImage(bi.getWidth(), bi.getHeight(),dest.length());
-//			System.out
-//					.println("!! w:" + bi.getWidth() + " h:" + bi.getHeight() + " s:"+dest.length());
+			im = new DCMImage(bi.getWidth(), bi.getHeight(), dest.length());
+			// System.out
+			// .println("!! w:" + bi.getWidth() + " h:" + bi.getHeight() +
+			// " s:"+dest.length());
 		} finally {
 			CloseUtils.safeClose(iis);
 			CloseUtils.safeClose(out);
@@ -359,8 +360,6 @@ public class Extractor {
 	public void updateDataBase(File dcmFile, DCMImage image)
 			throws SQLException, IOException {
 
-		if (true)
-			return;// TODO Убрать!
 		connection.setAutoCommit(false);
 
 		DicomObject dcmObj;
@@ -491,23 +490,94 @@ public class Extractor {
 				}
 			}
 
-//			int HEIGHT = 0;
-//			int WIDTH = 0;
-//			if (image != null) {
-//				HEIGHT = dcmObj.get(Tag.Rows).getInt(false);
-//				WIDTH = dcmObj.get(Tag.Columns).getInt(false);
-//			}
+			String STUDY_TYPE = "";// TODO Реализовать!!!
+			String STUDY_RESULT = "";// TODO Реализовать!!!
+			String STUDY_MANUFACTURER_MODEL_NAME = "";// TODO Реализовать!!!
 
-			// Вставка в БД
+			// ----------- Вставка в БД ------------------
 
 			PreparedStatement stmt = null;
+
+			// STUDY
+
+			long studyInternalID = getStudyInternalIdFomDB(STUDY_UID);
+			LOG.info("Internal study ID " + studyInternalID);
+
+			if (studyInternalID > 0) {// Есть такое исследование в БД
+
+				LOG.info("Study already in database [" + studyInternalID
+						+ "] [" + DCM_FILE_NAME + "]");
+				LOG.info("update data in database [" + DCM_FILE_NAME + "]");
+
+				stmt = connection
+						.prepareStatement("update WEBDICOM.DCMFILE"
+								+ " SET NAME = ? , DCM_FILE_SIZE = ? , PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
+								+ " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?, STUDY_DESCRIPTION =?"
+								+ " where ID = ?");
+
+				stmt.setString(1, NAME);
+				stmt.setLong(2, DCM_FILE_SIZE);
+				stmt.setString(3, PATIENT_NAME);
+				stmt.setString(4, PATIENT_SEX);
+				stmt.setDate(5, PATIENT_BIRTH_DATE);
+				stmt.setString(6, STUDY_ID);
+				stmt.setDate(7, STUDY_DATE);
+				stmt.setString(8, STUDY_DOCTOR);
+				stmt.setString(9, STUDY_OPERATOR);
+				stmt.setString(10, STUDY_DESCRIPTION);
+				// stmt.setLong(11, id);
+				stmt.executeUpdate();
+				stmt.close();
+
+			} else {
+				// Делаем вставку
+				LOG.info("insert data in database [" + DCM_FILE_NAME + "]");
+				stmt = connection
+						.prepareStatement("insert into WEBDICOM.STUDY ("
+								+ "STUDY_UID,"
+								+ "STUDY_ID,"
+								+ "STUDY_DATE,"
+								+ "STUDY_TYPE,"
+								+ "STUDY_DESCRIPTION,"
+								+ "STUDY_DOCTOR,"
+								+ "STUDY_OPERATOR,"
+								+ "STUDY_RESULT,"
+								+ "STUDY_MANUFACTURER_MODEL_NAME,"
+								+ "PATIENT_ID,"
+								+ "PATIENT_NAME, "
+								+ "PATIENT_BIRTH_DATE, "
+								+ "PATIENT_SEX)"
+								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?,?)");
+
+				stmt.setString(1, STUDY_UID);
+				stmt.setString(2, STUDY_ID);
+				stmt.setDate(3, STUDY_DATE);
+				stmt.setString(4, STUDY_TYPE);
+				stmt.setString(5, STUDY_DESCRIPTION);
+				stmt.setString(6, STUDY_DOCTOR);
+				stmt.setString(7, STUDY_OPERATOR);
+				stmt.setString(8, STUDY_RESULT);
+				stmt.setString(9, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(10, PATIENT_ID);
+				stmt.setString(11, PATIENT_NAME);
+				stmt.setDate(12, PATIENT_BIRTH_DATE);
+				stmt.setString(13, PATIENT_SEX);
+
+				stmt.executeUpdate();
+
+				// Обновляем статистику
+				updateDayStatInc(STUDY_DATE, "ALL_STUDIES_COUNT", 1);
+				stmt.close();
+			}
+
+			// DICOM Файл
 
 			LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]["
 					+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
 
-			// Проверка на наличии этого файла в БД
-			try {
-				long id = checkDbDCMFile(DCM_FILE_NAME);
+			long id = getDCMInternalIdFromDB(DCM_FILE_NAME);
+			if (id > 0) {// Есть такой файл в БД
+
 				LOG.info("File already in database [" + id + "] ["
 						+ DCM_FILE_NAME + "]");
 				LOG.info("update data in database [" + DCM_FILE_NAME + "]");
@@ -530,10 +600,9 @@ public class Extractor {
 				stmt.setString(10, STUDY_DESCRIPTION);
 				stmt.setLong(11, id);
 				stmt.executeUpdate();
+				stmt.close();
 
-				LOG.info("skip converting image.");
-
-			} catch (NoDataFoundException ex) {
+			} else {
 				// Делаем вставку
 				LOG.info("insert data in database [" + DCM_FILE_NAME + "]");
 				stmt = connection
@@ -559,17 +628,15 @@ public class Extractor {
 
 				// Обновляем статистику
 				updateDayStatInc(STUDY_DATE, "ALL_DCM_SIZE", DCM_FILE_SIZE);
-			} finally {
-				if (stmt != null)
-					stmt.close();
+				stmt.close();
 			}
 
-			long dcmId = checkDbDCMFile(DCM_FILE_NAME);
+			long dcmId = getDCMInternalIdFromDB(DCM_FILE_NAME);
 			updateTags(dcmObj, dcmId);
 
 			// Вставка в БД информации о картинке
-//			insertImageData(dcmFile, new File(imageFile), STUDY_DATE, WIDTH,
-//					HEIGHT);
+			// insertImageData(dcmFile, new File(imageFile), STUDY_DATE, WIDTH,
+			// HEIGHT);
 
 		} catch (org.dcm4che2.data.ConfigurationError e) {
 			if (e.getCause() instanceof UnsupportedEncodingException) {
@@ -689,7 +756,7 @@ public class Extractor {
 	 * @return
 	 * @throws SQLException
 	 */
-	private long checkDbDCMFile(String fileName) throws SQLException {
+	private long getDCMInternalIdFromDB(String fileName) throws SQLException {
 
 		String name = getRelativeDcmFileName(new File(fileName));
 		// String rerativeName = getRelativeFilePath(new File(fileName));
@@ -707,7 +774,32 @@ public class Extractor {
 			if (psSelect != null)
 				psSelect.close();
 		}
-		throw new NoDataFoundException("No data");
+		return -1;
+	}
+
+	/**
+	 * Получение из БД внктренного ID
+	 * 
+	 * @param uid
+	 * @return если не найден, то '-1'
+	 * @throws SQLException
+	 */
+	private long getStudyInternalIdFomDB(String uid) throws SQLException {
+
+		PreparedStatement psSelect = connection
+				.prepareStatement("SELECT ID FROM WEBDICOM.STUDY WHERE STUDY_UID = ?");
+		try {
+			psSelect.setString(1, uid);
+			ResultSet rs = psSelect.executeQuery();
+			while (rs.next()) {
+				return rs.getLong("ID");
+			}
+
+		} finally {
+			if (psSelect != null)
+				psSelect.close();
+		}
+		return -1;
 	}
 
 	/**
@@ -745,67 +837,68 @@ public class Extractor {
 	 * @param imageFile
 	 * @throws SQLException
 	 */
-//	private void insertImageData(File dcmFile, File imageFile,
-//			java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
-//			throws SQLException {
-//
-//		long FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
-//		String IMAGE_FILE_NAME = getRelativeFilePath(imageFile);
-//		String NAME = getRelativeImageFileName(imageFile);
-//		long IMAGE_FILE_SIZE = imageFile.length();
-//		String CONTENT_TYPE = imageContentType;
-//
-//		try {
-//			int idImage = checkDbImageFile(IMAGE_FILE_NAME);
-//
-//			PreparedStatement psUpdate = null;
-//
-//			LOG.info("update data in database [" + FID_DCMFILE + "] image ["
-//					+ IMAGE_FILE_NAME + "]");
-//			psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES"
-//					+ " set FID_DCMFILE = ? ,"
-//					+ " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? , NAME = ?, "
-//					+ " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
-//					+ " where ID = ?");
-//
-//			psUpdate.setLong(1, FID_DCMFILE);
-//			psUpdate.setString(2, CONTENT_TYPE);
-//			psUpdate.setString(3, IMAGE_FILE_NAME);
-//			psUpdate.setString(4, NAME);
-//			psUpdate.setLong(5, IMAGE_FILE_SIZE);
-//			psUpdate.setInt(6, WIDTH);
-//			psUpdate.setInt(7, HEIGHT);
-//			psUpdate.setInt(8, idImage);
-//			psUpdate.executeUpdate();
-//			psUpdate.close();
-//
-//		} catch (NoDataFoundException ex) {
-//			PreparedStatement psInsert = null;
-//
-//			LOG.info("insert data in database [" + FID_DCMFILE + "] image ["
-//					+ IMAGE_FILE_NAME + "]");
-//
-//			psInsert = connection
-//					.prepareStatement("insert into WEBDICOM.IMAGES"
-//							+ " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
-//							+ " values (?, ?, ?, ?, ?, ?, ?)");
-//
-//			psInsert.setLong(1, FID_DCMFILE);
-//			psInsert.setString(2, CONTENT_TYPE);
-//			psInsert.setString(3, IMAGE_FILE_NAME);
-//			psInsert.setString(4, NAME);
-//			psInsert.setLong(5, IMAGE_FILE_SIZE);
-//			psInsert.setInt(6, WIDTH);
-//			psInsert.setInt(7, HEIGHT);
-//			psInsert.executeUpdate();
-//			psInsert.close();
-//
-//		}
-//
-//		// Обновление статистики
-//		updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
-//
-//	}
+	// private void insertImageData(File dcmFile, File imageFile,
+	// java.sql.Date STUDY_DATE, int WIDTH, int HEIGHT)
+	// throws SQLException {
+	//
+	// long FID_DCMFILE = checkDbDCMFile(getRelativeFilePath(dcmFile));
+	// String IMAGE_FILE_NAME = getRelativeFilePath(imageFile);
+	// String NAME = getRelativeImageFileName(imageFile);
+	// long IMAGE_FILE_SIZE = imageFile.length();
+	// String CONTENT_TYPE = imageContentType;
+	//
+	// try {
+	// int idImage = checkDbImageFile(IMAGE_FILE_NAME);
+	//
+	// PreparedStatement psUpdate = null;
+	//
+	// LOG.info("update data in database [" + FID_DCMFILE + "] image ["
+	// + IMAGE_FILE_NAME + "]");
+	// psUpdate = connection.prepareStatement("update WEBDICOM.IMAGES"
+	// + " set FID_DCMFILE = ? ,"
+	// + " CONTENT_TYPE = ? , IMAGE_FILE_NAME =? , NAME = ?, "
+	// + " IMAGE_FILE_SIZE = ?, WIDTH = ?, HEIGHT = ?"
+	// + " where ID = ?");
+	//
+	// psUpdate.setLong(1, FID_DCMFILE);
+	// psUpdate.setString(2, CONTENT_TYPE);
+	// psUpdate.setString(3, IMAGE_FILE_NAME);
+	// psUpdate.setString(4, NAME);
+	// psUpdate.setLong(5, IMAGE_FILE_SIZE);
+	// psUpdate.setInt(6, WIDTH);
+	// psUpdate.setInt(7, HEIGHT);
+	// psUpdate.setInt(8, idImage);
+	// psUpdate.executeUpdate();
+	// psUpdate.close();
+	//
+	// } catch (NoDataFoundException ex) {
+	// PreparedStatement psInsert = null;
+	//
+	// LOG.info("insert data in database [" + FID_DCMFILE + "] image ["
+	// + IMAGE_FILE_NAME + "]");
+	//
+	// psInsert = connection
+	// .prepareStatement("insert into WEBDICOM.IMAGES"
+	// +
+	// " (FID_DCMFILE, CONTENT_TYPE, IMAGE_FILE_NAME, NAME,  IMAGE_FILE_SIZE, WIDTH, HEIGHT)"
+	// + " values (?, ?, ?, ?, ?, ?, ?)");
+	//
+	// psInsert.setLong(1, FID_DCMFILE);
+	// psInsert.setString(2, CONTENT_TYPE);
+	// psInsert.setString(3, IMAGE_FILE_NAME);
+	// psInsert.setString(4, NAME);
+	// psInsert.setLong(5, IMAGE_FILE_SIZE);
+	// psInsert.setInt(6, WIDTH);
+	// psInsert.setInt(7, HEIGHT);
+	// psInsert.executeUpdate();
+	// psInsert.close();
+	//
+	// }
+	//
+	// // Обновление статистики
+	// updateDayStatInc(STUDY_DATE, "ALL_IMAGE_SIZE", IMAGE_FILE_SIZE);
+	//
+	// }
 
 	/**
 	 * Обновление метрики дневной статистики (инкремент)
