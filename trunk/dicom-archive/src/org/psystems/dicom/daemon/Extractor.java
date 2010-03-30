@@ -493,6 +493,11 @@ public class Extractor {
 			String STUDY_TYPE = "";// TODO Реализовать!!!
 			String STUDY_RESULT = "";// TODO Реализовать!!!
 			String STUDY_MANUFACTURER_MODEL_NAME = "";// TODO Реализовать!!!
+			String DCM_TYPE = "";// Тип файла (снимок, исследование) TODO Реализовать!!!
+			
+			long IMAGE_FILE_SIZE = 0; // TODO Реализовать!!!
+			int IMAGE_WIDTH = 0; // TODO Реализовать!!!
+			int IMAGE_HEIGHT = 0;// TODO Реализовать!!!
 
 			// ----------- Вставка в БД ------------------
 
@@ -510,22 +515,34 @@ public class Extractor {
 				LOG.info("update data in database [" + DCM_FILE_NAME + "]");
 
 				stmt = connection
-						.prepareStatement("update WEBDICOM.DCMFILE"
-								+ " SET NAME = ? , DCM_FILE_SIZE = ? , PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
-								+ " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?, STUDY_DESCRIPTION =?"
+						.prepareStatement("update WEBDICOM.STUDY SET " +
+										"STUDY_ID = ? ," +
+										"STUDY_DATE = ?," +
+										"STUDY_TYPE = ?," +
+										"STUDY_DESCRIPTION = ?," +
+										"STUDY_DOCTOR =?," +
+										"STUDY_OPERATOR = ?," +
+										"STUDY_RESULT =?," +
+										"STUDY_MANUFACTURER_MODEL_NAME = ?," +
+										"PATIENT_ID =?," +
+										"PATIENT_NAME =?," +
+										"PATIENT_BIRTH_DATE =?, " +
+										"PATIENT_SEX =? "
 								+ " where ID = ?");
 
-				stmt.setString(1, NAME);
-				stmt.setLong(2, DCM_FILE_SIZE);
-				stmt.setString(3, PATIENT_NAME);
-				stmt.setString(4, PATIENT_SEX);
-				stmt.setDate(5, PATIENT_BIRTH_DATE);
-				stmt.setString(6, STUDY_ID);
-				stmt.setDate(7, STUDY_DATE);
-				stmt.setString(8, STUDY_DOCTOR);
-				stmt.setString(9, STUDY_OPERATOR);
-				stmt.setString(10, STUDY_DESCRIPTION);
-				// stmt.setLong(11, id);
+				stmt.setString(1, STUDY_ID);
+				stmt.setDate(2, STUDY_DATE);
+				stmt.setString(3, STUDY_TYPE);
+				stmt.setString(4, STUDY_DESCRIPTION);
+				stmt.setString(5, STUDY_DOCTOR);
+				stmt.setString(6, STUDY_OPERATOR);
+				stmt.setString(7, STUDY_RESULT);
+				stmt.setString(8, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(9, PATIENT_ID);
+				stmt.setString(10, PATIENT_NAME);
+				stmt.setDate(11, PATIENT_BIRTH_DATE);
+				stmt.setString(12, PATIENT_SEX);
+				stmt.setLong(13, studyInternalID);
 				stmt.executeUpdate();
 				stmt.close();
 
@@ -576,6 +593,8 @@ public class Extractor {
 					+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
 
 			long id = getDCMInternalIdFromDB(DCM_FILE_NAME);
+			studyInternalID = getStudyInternalIdFomDB(STUDY_UID);
+			
 			if (id > 0) {// Есть такой файл в БД
 
 				LOG.info("File already in database [" + id + "] ["
@@ -583,46 +602,53 @@ public class Extractor {
 				LOG.info("update data in database [" + DCM_FILE_NAME + "]");
 
 				stmt = connection
-						.prepareStatement("update WEBDICOM.DCMFILE"
-								+ " SET NAME = ? , DCM_FILE_SIZE = ? , PATIENT_NAME = ?, PATIENT_SEX = ?, PATIENT_BIRTH_DATE = ?, "
-								+ " STUDY_ID =? , STUDY_DATE = ?, STUDY_DOCTOR =? , STUDY_OPERATOR = ?, STUDY_DESCRIPTION =?"
+						.prepareStatement("update WEBDICOM.DCMFILE SET "
+								+ "FID_STUDY = ?,"
+								+ "TYPE = ?,"
+								+ "DCM_FILE_NAME = ?,"
+								+ "NAME = ?,"
+								+ "DCM_FILE_SIZE = ?," 
+								+ "IMAGE_FILE_SIZE = ?," 
+								+ "IMAGE_WIDTH = ?," 
+								+ "IMAGE_HEIGHT =? "
 								+ " where ID = ?");
 
-				stmt.setString(1, NAME);
-				stmt.setLong(2, DCM_FILE_SIZE);
-				stmt.setString(3, PATIENT_NAME);
-				stmt.setString(4, PATIENT_SEX);
-				stmt.setDate(5, PATIENT_BIRTH_DATE);
-				stmt.setString(6, STUDY_ID);
-				stmt.setDate(7, STUDY_DATE);
-				stmt.setString(8, STUDY_DOCTOR);
-				stmt.setString(9, STUDY_OPERATOR);
-				stmt.setString(10, STUDY_DESCRIPTION);
-				stmt.setLong(11, id);
+				stmt.setLong(1, studyInternalID);
+				stmt.setString(2, DCM_TYPE);
+				stmt.setString(3, DCM_FILE_NAME);
+				stmt.setString(4, NAME);
+				stmt.setLong(5, DCM_FILE_SIZE);
+				stmt.setLong(6, IMAGE_FILE_SIZE);
+				stmt.setInt(7, IMAGE_WIDTH);
+				stmt.setInt(8, IMAGE_HEIGHT);
+				stmt.setLong(9, id);
 				stmt.executeUpdate();
 				stmt.close();
 
 			} else {
+				
 				// Делаем вставку
 				LOG.info("insert data in database [" + DCM_FILE_NAME + "]");
 				stmt = connection
-						.prepareStatement("insert into WEBDICOM.DCMFILE"
-								+ " (DCM_FILE_NAME, NAME, DCM_FILE_SIZE, PATIENT_ID, PATIENT_NAME, PATIENT_SEX, PATIENT_BIRTH_DATE,"
-								+ " STUDY_ID, STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR, STUDY_DESCRIPTION)"
-								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)");
+				.prepareStatement("insert into WEBDICOM.DCMFILE ("
+						+ "FID_STUDY,"
+						+ "TYPE,"
+						+ "DCM_FILE_NAME,"
+						+ "NAME,"
+						+ "DCM_FILE_SIZE," 
+						+ "IMAGE_FILE_SIZE," 
+						+ "IMAGE_WIDTH," 
+						+ "IMAGE_HEIGHT )"
+						+ "values (?,?,?,?,?,?,?,?)");
 
-				stmt.setString(1, DCM_FILE_NAME);
-				stmt.setString(2, NAME);
-				stmt.setLong(3, DCM_FILE_SIZE);
-				stmt.setString(4, PATIENT_ID);
-				stmt.setString(5, PATIENT_NAME);
-				stmt.setString(6, PATIENT_SEX);
-				stmt.setDate(7, PATIENT_BIRTH_DATE);
-				stmt.setString(8, STUDY_ID);
-				stmt.setDate(9, STUDY_DATE);
-				stmt.setString(10, STUDY_DOCTOR);
-				stmt.setString(11, STUDY_OPERATOR);
-				stmt.setString(12, STUDY_DESCRIPTION);
+				stmt.setLong(1, studyInternalID);
+				stmt.setString(2, DCM_TYPE);
+				stmt.setString(3, DCM_FILE_NAME);
+				stmt.setString(4, NAME);
+				stmt.setLong(5, DCM_FILE_SIZE);
+				stmt.setLong(6, IMAGE_FILE_SIZE);
+				stmt.setInt(7, IMAGE_WIDTH);
+				stmt.setInt(8, IMAGE_HEIGHT);
 
 				stmt.executeUpdate();
 
@@ -676,7 +702,7 @@ public class Extractor {
 		// TODO Удаляем старые теги!!!
 
 		PreparedStatement psDelete = connection
-				.prepareStatement("delete from WEBDICOM.DCMFILE_TAGS where FID_DCMFILE = ?");
+				.prepareStatement("delete from WEBDICOM.DCMFILE_TAG where FID_DCMFILE = ?");
 		psDelete.setLong(1, dcmId);
 		psDelete.executeUpdate();
 		psDelete.close();
@@ -693,7 +719,7 @@ public class Extractor {
 		PreparedStatement psInsert = null;
 
 		psInsert = connection
-				.prepareStatement("insert into WEBDICOM.DCMFILE_TAGS "
+				.prepareStatement("insert into WEBDICOM.DCMFILE_TAG "
 						+ " (FID_DCMFILE, TAG, TAG_TYPE, VALUE_STRING)"
 						+ " values (?, ?, ?,  ?)");
 
