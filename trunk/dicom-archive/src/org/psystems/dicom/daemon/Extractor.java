@@ -490,14 +490,23 @@ public class Extractor {
 				}
 			}
 
-			String STUDY_TYPE = "";// TODO Реализовать!!!
-			String STUDY_RESULT = "";// TODO Реализовать!!!
-			String STUDY_MANUFACTURER_MODEL_NAME = "";// TODO Реализовать!!!
-			String DCM_TYPE = "";// Тип файла (снимок, исследование) TODO Реализовать!!!
-			
-			long IMAGE_FILE_SIZE = 0; // TODO Реализовать!!!
-			int IMAGE_WIDTH = 0; // TODO Реализовать!!!
-			int IMAGE_HEIGHT = 0;// TODO Реализовать!!!
+			String STUDY_TYPE = "Еще не реализовано";// TODO Реализовать!!!
+			String STUDY_RESULT = "Еще не реализовано";// TODO Реализовать!!!
+			String STUDY_MANUFACTURER_MODEL_NAME = "Еще не реализовано";// TODO
+																		// Реализовать!!!
+			String DCM_TYPE = "Еще не реализовано";// Тип файла (снимок,
+													// исследование) TODO
+													// Реализовать!!!
+
+			long IMAGE_FILE_SIZE = 0;
+			int IMAGE_WIDTH = 0;
+			int IMAGE_HEIGHT = 0;
+
+			if (image != null) {
+				IMAGE_FILE_SIZE = image.getHeight(); // TODO Реализовать!!!
+				IMAGE_WIDTH = image.getWidth(); // TODO Реализовать!!!
+				IMAGE_HEIGHT = image.getHeight();// TODO Реализовать!!!
+			}
 
 			// ----------- Вставка в БД ------------------
 
