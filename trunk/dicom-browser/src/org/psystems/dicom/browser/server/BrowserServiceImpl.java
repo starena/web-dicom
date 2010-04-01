@@ -136,13 +136,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			while (rs.next()) {
 
 				StudyProxy studyProxy = new StudyProxy();
+				data.add(studyProxy);
 
 				Calendar now = Calendar.getInstance();
-				Locale loc_ru = new Locale("ru", "RU");
+//				Locale loc_ru = new Locale("ru", "RU");
 				now.setTime(rs.getDate("PATIENT_BIRTH_DATE"));
 
 				ArrayList<DcmTagProxy> tags = getTags(rs.getInt("ID"));
-				StringBuffer sb = new StringBuffer();
+//				StringBuffer sb = new StringBuffer();
 				String ManufacturerModelName = null;
 				String studyType = null;
 				String studyDescriptionDate = null;
