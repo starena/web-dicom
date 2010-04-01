@@ -58,7 +58,7 @@ import java.util.ArrayList;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
-import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
+import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
 import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
 
@@ -80,7 +80,7 @@ public interface BrowserService extends RemoteService {
 	 * @return
 	 * @throws DefaultGWTRPCException
 	 */
-	RPCDcmFileProxyEvent findStudy(long transactionId, String version,
+	RPCDcmProxyEvent findStudy(long transactionId, String version,
 			String queryStr) throws DefaultGWTRPCException;
 
 	RPCResponceEvent getDcmTags(RPCRequestEvent event)
