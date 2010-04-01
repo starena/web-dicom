@@ -64,7 +64,7 @@ public class DcmImageProxy implements Serializable {
 
 	private static final long serialVersionUID = -7977302129675187420L;
 
-	private Integer id; // ID
+	private long id; // ID
 	private String fileName; // Имя файла
 	private String contentType; // Тип контента
 	private Integer width; // Ширина
@@ -78,7 +78,7 @@ public class DcmImageProxy implements Serializable {
 	 * @param width
 	 * @param height
 	 */
-	public void init(Integer id, String fileName, String contentType,
+	public void init(long id, String fileName, String contentType,
 			Integer width, Integer height) {
 		this.id = id;
 		this.fileName = fileName;
@@ -87,7 +87,7 @@ public class DcmImageProxy implements Serializable {
 		this.height = height;
 	}
 
-	public Integer getId() {
+	public long getId() {
 		return id;
 	}
 

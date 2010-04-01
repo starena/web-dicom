@@ -139,11 +139,11 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				data.add(studyProxy);
 
 				Calendar now = Calendar.getInstance();
-//				Locale loc_ru = new Locale("ru", "RU");
+				// Locale loc_ru = new Locale("ru", "RU");
 				now.setTime(rs.getDate("PATIENT_BIRTH_DATE"));
 
 				ArrayList<DcmTagProxy> tags = getTags(rs.getInt("ID"));
-//				StringBuffer sb = new StringBuffer();
+				// StringBuffer sb = new StringBuffer();
 				String ManufacturerModelName = null;
 				String studyType = null;
 				String studyDescriptionDate = null;
@@ -193,7 +193,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					}
 				}
 
-				studyProxy.init(rs.getInt("ID"), rs.getString("STUDY_UID"),
+				studyProxy.init(rs.getLong("ID"), rs.getString("STUDY_UID"),
 						ManufacturerModelName, rs.getString("PATIENT_NAME"), rs
 								.getString("PATIENT_SEX"), rs
 								.getString("PATIENT_ID"), rs
@@ -205,24 +205,22 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 								.getString("STUDY_DESCRIPTION"),
 						studyViewprotocol, studyResult);
 
-				// Получаем список картинок
-				psFiles.setInt(1, rs.getInt("ID"));
+				// Получаем список файлов
+				psFiles.setLong(1, rs.getLong("ID"));
 				ResultSet rsFiles = psFiles.executeQuery();
 
 				ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
 				while (rsFiles.next()) {
-					
-//					int imageId = rsFiles.getInt("ID");
-//					String contentType = rsFiles.getString("CONTENT_TYPE");
-//					String imFileName = rsFiles.getString("IMAGE_FILE_NAME");
-//					int width = rsFiles.getInt("WIDTH");
-//					int height = rsFiles.getInt("HEIGHT");
 
 					DcmFileProxy dcmfileProxy = new DcmFileProxy();
-					
-					// dcmfileProxy.init(imageId, imFileName, contentType,
-					// width,
-					// height);
+
+					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
+							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
+							rsFiles.getString("DCM_FILE_NAME"), rsFiles
+									.getLong("DCM_FILE_SIZE"), rsFiles
+									.getLong("IMAGE_FILE_SIZE"), rsFiles
+									.getInt("IMAGE_WIDTH"), rsFiles
+									.getInt("IMAGE_HEIGHT"));
 					files.add(dcmfileProxy);
 				}
 				rsFiles.close();
@@ -388,7 +386,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 							+ reqEvent.getVersion() + " != " + Util.version);
 		}
 
-		int idDcm = ((DcmTagsRPCRequest) reqEvent.getData()).getIdDcm();
+		long idDcm = ((DcmTagsRPCRequest) reqEvent.getData()).getIdDcm();
 
 		PreparedStatement psSelect = null;
 
@@ -421,7 +419,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
-			String version, int idDcmFile) throws DefaultGWTRPCException {
+			String version, long idDcmFile) throws DefaultGWTRPCException {
 
 		checkVersion(version);// проверка версии клиента
 
@@ -434,7 +432,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			Connection connection = Util.getConnection(getServletContext());
 			psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
 					+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
-			psSelect.setInt(1, idDcmFile);
+			psSelect.setLong(1, idDcmFile);
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
 			while (rs.next()) {
@@ -481,7 +479,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	 * @return
 	 * @throws IOException
 	 */
-	private ArrayList<DcmTagProxy> getTagsFromFile(int idDcm, String fileName)
+	private ArrayList<DcmTagProxy> getTagsFromFile(long idDcm, String fileName)
 			throws IOException {
 		DicomObject dcmObj;
 		DicomInputStream din = null;
@@ -560,7 +558,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	 * @return
 	 * @throws SQLException
 	 */
-	private ArrayList<DcmTagProxy> getTags(int idDcm) throws SQLException {
+	private ArrayList<DcmTagProxy> getTags(long idDcm) throws SQLException {
 
 		PreparedStatement psSelect = null;
 
@@ -569,7 +567,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			psSelect = connection
 					.prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAG WHERE FID_DCMFILE = ?");
 
-			psSelect.setInt(1, idDcm);
+			psSelect.setLong(1, idDcm);
 			ResultSet rs = psSelect.executeQuery();
 			ArrayList<DcmTagProxy> data = new ArrayList<DcmTagProxy>();
 			// DecimalFormat format = new DecimalFormat("0000");

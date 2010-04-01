@@ -64,7 +64,7 @@ public class DcmTagProxy implements Serializable {
 
 	private static final long serialVersionUID = -7977302129675187320L;
 
-	private Integer idDcm; // ID файла в БД
+	private long idDcm; // ID файла в БД
 	private Integer idTag; // ID
 	private String majorStr = null;
 	private String minorStr = null;
@@ -87,7 +87,7 @@ public class DcmTagProxy implements Serializable {
 	 * @param tagName
 	 * @param tagValue
 	 */
-	public void init(Integer idDcm, Integer idTag, short major,
+	public void init(long idDcm, Integer idTag, short major,
 			String majorStr, short minor, String minorStr, String tagType,
 			String tagName, String tagValue) {
 		this.idDcm = idDcm;
@@ -101,7 +101,7 @@ public class DcmTagProxy implements Serializable {
 		this.tagValue = tagValue;
 	}
 
-	public Integer getIdDcm() {
+	public long getIdDcm() {
 		return idDcm;
 	}
 

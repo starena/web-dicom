@@ -87,5 +87,5 @@ public interface BrowserService extends RemoteService {
 			throws DefaultGWTRPCException;
 
 	ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
-			String version, int idDcmFile) throws DefaultGWTRPCException;
+			String version, long idDcmFile) throws DefaultGWTRPCException;
 }
