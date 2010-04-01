@@ -165,7 +165,7 @@ public class SearchedItem extends Composite {
 		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
 				+ ".dcm' target='new'> получить оригнальный DICOM-файл </a>"
 				+ "<a href='" + "dcmtags/" + proxy.getId()
-				+ ".dcm' target='new'> показать тэги </a>");
+				+ ".dcm' target='new'> показать тэги </a> файлов:"+proxy.getFiles().size());
 
 		linkDcm.setStyleName("DicomItemName");
 
