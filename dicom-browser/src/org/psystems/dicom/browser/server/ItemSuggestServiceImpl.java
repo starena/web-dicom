@@ -133,8 +133,8 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 			//
 
 			psSelect = connection
-					.prepareStatement("SELECT ID, DCM_FILE_NAME, PATIENT_NAME, PATIENT_BIRTH_DATE, "
-							+ " STUDY_DATE FROM WEBDICOM.DCMFILE "
+					.prepareStatement("SELECT ID, PATIENT_NAME, PATIENT_BIRTH_DATE "
+							+ " FROM WEBDICOM.STUDY "
 							+ "WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')"
 							+ " order by PATIENT_NAME ");
 

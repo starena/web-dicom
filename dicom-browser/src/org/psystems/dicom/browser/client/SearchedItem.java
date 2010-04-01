@@ -63,9 +63,10 @@ import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponce;
-import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
+import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
 import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
+import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -92,9 +93,9 @@ public class SearchedItem extends Composite {
 
 	private String datePattern = "dd.MM.yyyy";
 	private BrowserServiceAsync service;
-	DcmFileProxy proxy = null;
+	StudyProxy proxy = null;
 
-	public SearchedItem(BrowserServiceAsync service, final DcmFileProxy proxy) {
+	public SearchedItem(BrowserServiceAsync service, final StudyProxy proxy) {
 		super();
 		this.service = service;
 		this.proxy = proxy;
@@ -173,12 +174,12 @@ public class SearchedItem extends Composite {
 		table.getFlexCellFormatter().setAlignment(6, 0,
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 
-		// t.setText(2, 2, "bottom-right corner");
-		// t.setWidget(1, 0, new Button("Wide Button"));
-		// t.getFlexCellFormatter().setColSpan(1, 0, 3);
+	
 		dcmItem.add(table);
+		
+		////////////////////////////
 
-		for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it
+		/*for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it
 				.hasNext();) {
 			final DcmImageProxy imageProxy = it.next();
 
@@ -256,6 +257,9 @@ public class SearchedItem extends Composite {
 			image.addClickHandler(clickOpenHandler);
 
 		}
+*/		
+		
+		//////////////////////////////////////////
 		
 //		
 //		HorizontalPanel tagsPanel = new HorizontalPanel();

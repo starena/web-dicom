@@ -58,35 +58,35 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * TODO Передалеть на интерфейс RPCResponce
  * @author dima_d
  * 
  */
-public class DcmFileProxyCortege implements Serializable {
+public class RPCDcmProxyEvent implements Serializable {
 
-	private static final long serialVersionUID = -7977305129674187420L;
-	private String studyId; // ID исследования
-	private ArrayList<DcmFileProxy> dcmProxies = new ArrayList<DcmFileProxy>();
+	private static final long serialVersionUID = 4300229127183423102L;
+	//идентификатор траназкции
+	private long transactionId;
+	//данные (Object не поддерживается...)
+	private ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
 
 	/**
 	 * Инициализация класса
 	 * 
-	 * @param studyId
+	 * @param transactionId
+	 * @param data
 	 */
-	public void init(String studyId) {
-		this.studyId = studyId;
+	public void init(long transactionId, ArrayList<StudyProxy> data) {
+		this.transactionId = transactionId;
+		this.data = data;
 	}
 
-	public ArrayList<DcmFileProxy> getDcmProxies() {
-		return dcmProxies;
+	public long getTransactionId() {
+		return transactionId;
 	}
 
-	public void setDcmProxies(ArrayList<DcmFileProxy> dcmProxies) {
-		this.dcmProxies = dcmProxies;
+	public ArrayList<StudyProxy> getData() {
+		return data;
 	}
-
-	public String getStudyId() {
-		return studyId;
-	}
-	
 
 }

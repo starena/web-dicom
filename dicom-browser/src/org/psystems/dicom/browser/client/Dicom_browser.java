@@ -58,11 +58,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.dcm4che2.data.DicomElement;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
-import org.psystems.dicom.browser.client.proxy.DcmFileProxyCortege;
-import org.psystems.dicom.browser.client.proxy.RPCDcmFileProxyEvent;
+import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
+import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
@@ -79,11 +77,9 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -330,7 +326,7 @@ public class Dicom_browser implements EntryPoint {
 		transactionStarted();
 
 		browserService.findStudy(searchTransactionID, version, textToServer,
-				new AsyncCallback<RPCDcmFileProxyEvent>() {
+				new AsyncCallback<RPCDcmProxyEvent>() {
 
 					public void onFailure(Throwable caught) {
 
@@ -339,7 +335,7 @@ public class Dicom_browser implements EntryPoint {
 
 					}
 
-					public void onSuccess(RPCDcmFileProxyEvent result) {
+					public void onSuccess(RPCDcmProxyEvent result) {
 
 						// TODO попробовать сделать нормлаьный interrupt (дабы
 						// не качать все данные)
@@ -351,33 +347,36 @@ public class Dicom_browser implements EntryPoint {
 
 						hideWorkStatusMsg();
 
-						ArrayList<DcmFileProxyCortege> cortegeList = result
+						ArrayList<StudyProxy> cortegeList = result
 								.getData();
-						for (Iterator<DcmFileProxyCortege> it = cortegeList
+						for (Iterator<StudyProxy> it = cortegeList
 								.iterator(); it.hasNext();) {
 
-							DcmFileProxyCortege cortege = it.next();
+							StudyProxy studyProxy = it.next();
 							VerticalPanel table = new VerticalPanel();
-							if(cortege.getDcmProxies().size()>1) {
-								DecoratorPanel item = new DecoratorPanel();
-								DOM.setStyleAttribute(item.getElement(), "margin",
-										"5px");
-								RootPanel.get("resultContainer").add(item);
-								item.setWidget(table);
-							} else {
-								RootPanel.get("resultContainer").add(table);
-							}
-
 							
-							
+//							if(cortege.getDcmProxies().size()>1) {
+//								DecoratorPanel item = new DecoratorPanel();
+//								DOM.setStyleAttribute(item.getElement(), "margin",
+//										"5px");
+//								RootPanel.get("resultContainer").add(item);
+//								item.setWidget(table);
+//							} else {
+//								RootPanel.get("resultContainer").add(table);
+//							}
 
-							for (Iterator<DcmFileProxy> iter = cortege
-									.getDcmProxies().iterator(); iter.hasNext();) {
-								DcmFileProxy proxy = iter.next();
-								SearchedItem s = new SearchedItem(
-										browserService, proxy);
-								table.add(s);
-							}
+							RootPanel.get("resultContainer").add(table);
+							
+							SearchedItem s = new SearchedItem(browserService, studyProxy);
+							table.add(s);
+
+//							for (Iterator<DcmFileProxy> iter = studyProxy
+//									.getFiles().iterator(); iter.hasNext();) {
+//								DcmFileProxy dcmfileProxy = iter.next();
+//								SearchedItem s = new SearchedItem(
+//										browserService, dcmfileProxy);
+//								table.add(s);
+//							}
 						}
 
 						if (cortegeList.size() == 0) {
