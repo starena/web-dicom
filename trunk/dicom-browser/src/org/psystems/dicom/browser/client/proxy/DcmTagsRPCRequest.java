@@ -64,13 +64,13 @@ public class DcmTagsRPCRequest implements RPCRequest, Serializable {
 
 	private static final long serialVersionUID = -702488773020935036L;
 
-	private int idDcm;// DI Dicom-файла в БД
+	private long idDcm;// DI Dicom-файла в БД
 
-	public int getIdDcm() {
+	public long getIdDcm() {
 		return idDcm;
 	}
 
-	public void setIdDcm(int idDcm) {
+	public void setIdDcm(long idDcm) {
 		this.idDcm = idDcm;
 	}
 

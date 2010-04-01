@@ -71,7 +71,7 @@ public interface BrowserServiceAsync {
 	void getDcmTags(RPCRequestEvent event,
 			AsyncCallback<RPCResponceEvent> callback);
 
-	void getDcmTagsFromFile(long transactionId, String version, int idDcmFile,
+	void getDcmTagsFromFile(long transactionId, String version, long idDcmFile,
 			AsyncCallback<ArrayList<DcmTagProxy>> callback);
 
 }
