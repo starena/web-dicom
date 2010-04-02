@@ -161,11 +161,7 @@ public class SearchedItem extends Composite {
 		createItemValue(table, 5, 1, proxy.getStudyViewprotocol());
 		table.getFlexCellFormatter().setColSpan(5, 1, 5);
 
-		HTML linkDcm = new HTML();
-		linkDcm.setHTML("<a href='" + "dcm/" + proxy.getId()
-				+ ".dcm' target='new'> получить оригнальный DICOM-файл </a>"
-				+ "<a href='" + "dcmtags/" + proxy.getId()
-				+ ".dcm' target='new'> показать тэги </a> файлов:"+proxy.getFiles().size());
+		HTML linkDcm = createfileItems(proxy);
 
 		linkDcm.setStyleName("DicomItemName");
 
@@ -312,6 +308,21 @@ public class SearchedItem extends Composite {
 		// All composites must call initWidget() in their constructors.
 		initWidget(dcmItem);
 
+	}
+
+	private HTML createfileItems(final StudyProxy studyProxy) {
+		HTML linkDcm = new HTML();
+		String html = "файлов:" + studyProxy.getFiles().size() + " ";
+		for(Iterator<DcmFileProxy> iter = studyProxy.getFiles().iterator(); iter.hasNext();) {
+			DcmFileProxy fileProxy = iter.next();
+			html += "<a href='" + "dcm/" + fileProxy.getId()
+			+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> [оригинал </a>"
+			+ "- <a href='" + "dcmtags/" + fileProxy.getId()
+			+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> тэги] </a>";
+		}
+		
+		linkDcm.setHTML(html);
+		return linkDcm;
 	}
 
 	/**
