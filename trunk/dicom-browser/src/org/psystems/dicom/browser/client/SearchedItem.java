@@ -242,7 +242,7 @@ public class SearchedItem extends Composite {
 
 					HTML link = new HTML();
 					link.setHTML("&nbsp;&nbsp;<a href='" + "images/"
-							+ fileProxy.getId()
+							+ fileProxy.getId()+".fullsize"
 							+ "' target='new'> Открыть в новом окне </a>");
 					link.setStyleName("DicomItemName");
 					vp.add(link);
