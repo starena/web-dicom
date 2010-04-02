@@ -63,6 +63,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -98,13 +100,30 @@ public class AttachementServlet extends HttpServlet {
 		String imagesRootDir = getServletContext().getInitParameter(
 				"webdicom.dir.dst");
 
-		// Смотрим, если передан Integer, зачит ищем по ID
+		
 		int imageId = 0;
-		try {
-			imageId = Integer.valueOf(path);
-		} catch (NumberFormatException ex) {
-			fileName = imagesRootDir + File.separator + path;
+		String type = "fullsize";
+		
+		Matcher matcher = Pattern.compile("^(.*)\\.(.*)$").matcher(path);
+		if (matcher.matches()) {
+			String id = matcher.group(1);
+			type = matcher.group(2);
+//			System.out.println("!!! " + id+ "=" + type);
+			try {
+				imageId = Integer.valueOf(id);
+			} catch (NumberFormatException ex) {
+				throw new IOException("Image not found! id="+id);
+//				fileName = imagesRootDir + File.separator + path;
+			}
 		}
+		
+		// Смотрим, если передан Integer, зачит ищем по ID
+		
+//		try {
+//			imageId = Integer.valueOf(path);
+//		} catch (NumberFormatException ex) {
+//			fileName = imagesRootDir + File.separator + path;
+//		}
 
 		PreparedStatement psSelect = null;
 		try {
@@ -114,26 +133,30 @@ public class AttachementServlet extends HttpServlet {
 			if (fileName == null) {
 				// ищем по ID
 				psSelect = connection
-						.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME "
-								+ " FROM WEBDICOM.IMAGES WHERE ID = ? ");
+						.prepareStatement("SELECT ID, TYPE, DCM_FILE_NAME "
+								+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
 				psSelect.setInt(1, imageId);
 			} else {
 				psSelect = connection
-						.prepareStatement("SELECT ID, CONTENT_TYPE, IMAGE_FILE_NAME "
-								+ " FROM WEBDICOM.IMAGES WHERE IMAGE_FILE_NAME = ? ");
+						.prepareStatement("SELECT ID, TYPE, DCM_FILE_NAME "
+								+ " FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ? ");
 				psSelect.setString(1, path);
 			}
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
 			while (rs.next()) {
-				String contentType = rs.getString("CONTENT_TYPE");
-				String file = rs.getString("IMAGE_FILE_NAME");
+				// String contentType = rs.getString("TYPE");
+				String file = rs.getString("DCM_FILE_NAME");
 				imageId = rs.getInt("ID");
-				fileName = imagesRootDir + File.separator + file;
-				resp.setContentType(contentType);
+				fileName = imagesRootDir + File.separator + file + ".images" + File.separator
+						+type+".jpg";//+ "fullsize.jpg";
+				resp.setContentType("image/jpeg");
 				index++;
 				break;
 			}
+	
+//			System.out.println("fileName="+fileName);
+			
 			if (index == 0) {
 				resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
 				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
