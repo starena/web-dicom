@@ -175,16 +175,19 @@ public class SearchedItem extends Composite {
 		
 		////////////////////////////
 
-		/*for (Iterator<DcmImageProxy> it = proxy.getImagesIds().iterator(); it
+		for (Iterator<DcmFileProxy> it = proxy.getFiles().iterator(); it
 				.hasNext();) {
-			final DcmImageProxy imageProxy = it.next();
+			final DcmFileProxy fileProxy = it.next();
 
-			Image image = new Image("images/" + imageProxy.getId());
+			
+			if(!fileProxy.haveImage()) continue;
+			
+			Image image = new Image("images/" + fileProxy.getId()+".100x100");
 			image.addStyleName("Image");
 			image.setTitle("Щелкните здесь чтобы увеличить изображение");
 
-			Integer w = imageProxy.getWidth();
-			Integer h = imageProxy.getHeight();
+			Integer w = fileProxy.getImageWidth();
+			Integer h = fileProxy.getImageHeight();
 
 			float k = w / h;
 			int hNew = 100;
@@ -194,7 +197,7 @@ public class SearchedItem extends Composite {
 			image.setWidth(wNew + "px");
 			dcmImage.add(image);
 
-			final Image imageFull = new Image("images/" + imageProxy.getId());
+			final Image imageFull = new Image("images/" + fileProxy.getId()+".fullsize");
 			imageFull.addStyleName("Image");
 			imageFull.setTitle("Щелкните здесь чтобы закрыть изображение");
 
@@ -239,7 +242,7 @@ public class SearchedItem extends Composite {
 
 					HTML link = new HTML();
 					link.setHTML("&nbsp;&nbsp;<a href='" + "images/"
-							+ imageProxy.getId()
+							+ fileProxy.getId()
 							+ "' target='new'> Открыть в новом окне </a>");
 					link.setStyleName("DicomItemName");
 					vp.add(link);
@@ -253,7 +256,7 @@ public class SearchedItem extends Composite {
 			image.addClickHandler(clickOpenHandler);
 
 		}
-*/		
+		
 		
 		//////////////////////////////////////////
 		
