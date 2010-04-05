@@ -59,7 +59,7 @@ import java.util.Date;
 
 public class DicomArchive {
 
-	public org.psystems.dicom.webservice.Study getStudy(int i) throws DicomWebServiceException {
+	public org.psystems.dicom.webservice.Study getStudy(long i) throws DicomWebServiceException {
 
 		Study study = new Study();
 		study.setId(i);
@@ -80,7 +80,7 @@ public class DicomArchive {
 	public Study[] findStudies(String s) throws DicomWebServiceException {
 
 		ArrayList<Study> data = new ArrayList<Study>();
-		for (int i = 0; i < 10; i++) {
+		for (long i = 0; i < 10; i++) {
 			Study study = new Study();
 			study.setId(i);
 			study.setStudyDate(new Date());
