@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -536,7 +537,8 @@ public class Extractor {
 										"PATIENT_ID =?," +
 										"PATIENT_NAME =?," +
 										"PATIENT_BIRTH_DATE =?, " +
-										"PATIENT_SEX =? "
+										"PATIENT_SEX =?," +
+										"DATE_MODIFY =? "
 								+ " where ID = ?");
 
 				stmt.setString(1, STUDY_ID);
@@ -551,7 +553,9 @@ public class Extractor {
 				stmt.setString(10, PATIENT_NAME);
 				stmt.setDate(11, PATIENT_BIRTH_DATE);
 				stmt.setString(12, PATIENT_SEX);
-				stmt.setLong(13, studyInternalID);
+				stmt.setDate(13, new Date(new java.util.Date().getTime()));
+				stmt.setLong(14, studyInternalID);
+				
 				stmt.executeUpdate();
 				stmt.close();
 
@@ -572,8 +576,9 @@ public class Extractor {
 								+ "PATIENT_ID,"
 								+ "PATIENT_NAME, "
 								+ "PATIENT_BIRTH_DATE, "
-								+ "PATIENT_SEX)"
-								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?,?)");
+								+ "PATIENT_SEX,"
+								+ "DATE_MODIFY)"
+								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?,?,?)");
 
 				stmt.setString(1, STUDY_UID);
 				stmt.setString(2, STUDY_ID);
@@ -588,6 +593,7 @@ public class Extractor {
 				stmt.setString(11, PATIENT_NAME);
 				stmt.setDate(12, PATIENT_BIRTH_DATE);
 				stmt.setString(13, PATIENT_SEX);
+				stmt.setDate(14, new Date(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
@@ -619,7 +625,7 @@ public class Extractor {
 								+ "DCM_FILE_SIZE = ?," 
 								+ "IMAGE_FILE_SIZE = ?," 
 								+ "IMAGE_WIDTH = ?," 
-								+ "IMAGE_HEIGHT =? "
+								+ "IMAGE_HEIGHT =?, DATE_MODIFY =? "
 								+ " where ID = ?");
 
 				stmt.setLong(1, studyInternalID);
@@ -630,7 +636,8 @@ public class Extractor {
 				stmt.setLong(6, IMAGE_FILE_SIZE);
 				stmt.setInt(7, IMAGE_WIDTH);
 				stmt.setInt(8, IMAGE_HEIGHT);
-				stmt.setLong(9, id);
+				stmt.setDate(9, new Date(new java.util.Date().getTime()));
+				stmt.setLong(10, id);
 				stmt.executeUpdate();
 				stmt.close();
 
@@ -647,8 +654,8 @@ public class Extractor {
 						+ "DCM_FILE_SIZE," 
 						+ "IMAGE_FILE_SIZE," 
 						+ "IMAGE_WIDTH," 
-						+ "IMAGE_HEIGHT )"
-						+ "values (?,?,?,?,?,?,?,?)");
+						+ "IMAGE_HEIGHT, DATE_MODIFY )"
+						+ "values (?,?,?,?,?,?,?,?,?)");
 
 				stmt.setLong(1, studyInternalID);
 				stmt.setString(2, DCM_TYPE);
@@ -658,6 +665,7 @@ public class Extractor {
 				stmt.setLong(6, IMAGE_FILE_SIZE);
 				stmt.setInt(7, IMAGE_WIDTH);
 				stmt.setInt(8, IMAGE_HEIGHT);
+				stmt.setDate(9, new Date(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
