@@ -58,7 +58,7 @@ import java.util.Date;
 
 public class Study {
 
-	private Integer id; // Внутренний ID
+	private Long id; // Внутренний ID
 	private String patientId; // ID пациента (0016,0032) LO	'Patient ID' = LAB_ID64936
 	private String patientName; // ФИО пациента (0016,0016)	PN	'Patient's Name' = 	Ги****тди***ва И Ф
 	private String patientSex; // Пол пациента (0016,0064) CS "Patient's Sex" = M/F
@@ -75,13 +75,13 @@ public class Study {
 	private String ManufacturerModelUID; // UID Аппарата (0002,0003)	UI	"Media Storage SOP Instance UID" = 1.2.826.0.1.3680043.2.634.0.18669.2010225.1416.1  
 	private String ManufacturerModelName; // Имя Аппарата (0008,4240) LO	"Manufacturer's Model Name" = КРТ-Электрон
 	private String studyUrl; // URL для открытия в обозревателе
-	private String dcmFileName; // Имя DCM файла
+	private Long[] dcmFiles; // Связанные DCM-файлы
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -213,12 +213,14 @@ public class Study {
 		this.studyUrl = studyUrl;
 	}
 
-	public String getDcmFileName() {
-		return dcmFileName;
+	public Long[] getDcmFiles() {
+		return dcmFiles;
 	}
 
-	public void setDcmFileName(String dcmFileName) {
-		this.dcmFileName = dcmFileName;
+	public void setDcmFiles(Long[] dcmFiles) {
+		this.dcmFiles = dcmFiles;
 	}
+
+	
 
 }
