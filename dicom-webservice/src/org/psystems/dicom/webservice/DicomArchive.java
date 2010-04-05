@@ -110,9 +110,11 @@ public class DicomArchive {
 		return data.toArray(result);
 	}
 	
+
 	/**
-	 * Поиск исследований
+	 * Поиск исследований по типу
 	 * 
+	 * @param studyType - (fluoro - флюорография)
 	 * @param patientName
 	 * @param patientBirthDate
 	 * @param patientSex
@@ -121,7 +123,7 @@ public class DicomArchive {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Study[] findStudies(String patientName,  Date patientBirthDate, String patientSex,
+	public Study[] findStudiesByType(String studyType, String patientName,  Date patientBirthDate, String patientSex,
 			Date beginStudyDate, Date endStudyDate) throws DicomWebServiceException {
 
 		ArrayList<Study> data = new ArrayList<Study>();
