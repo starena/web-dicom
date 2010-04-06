@@ -45,6 +45,22 @@
 
         
            /**
+            * auto generated Axis2 call back method for findStudiesByType method
+            * override this method for handling normal response from findStudiesByType operation
+            */
+           public void receiveResultfindStudiesByType(
+                    org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByTypeResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from findStudiesByType operation
+           */
+            public void receiveErrorfindStudiesByType(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getStudy method
             * override this method for handling normal response from getStudy operation
             */

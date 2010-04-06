@@ -5,6 +5,8 @@ import java.util.Calendar;
 
 import org.apache.axis2.AxisFault;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudies;
+import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType;
+import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByTypeResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudy;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudyResponse;
@@ -18,9 +20,10 @@ public class DicomArchiveClient {
 		try {
 
 			try {
-				testNewStudy();
-				testGetStudy();
-				findStudies();
+//				testNewStudy();
+//				testGetStudy();
+//				findStudies();
+				findStudiesByType();
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -74,6 +77,23 @@ public class DicomArchiveClient {
 		studySearchedString.setS("строка поиска");
 		FindStudiesResponse responceOfSearcheStudies = stub.findStudies(studySearchedString);
 		Study[] result = responceOfSearcheStudies.get_return();
+		
+		System.out.println("Finded Studies : " + result);
+		 for(int i = 0; i<result.length; i++) {
+			 printStudy(result[i]);
+		 }
+	}
+	
+	private static void findStudiesByType() throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+
+		DicomArchiveStub stub = new DicomArchiveStub("http://192.168.88.1:8080/dicom-webservice/services/DicomArchive" );
+		
+		FindStudiesByType query = new FindStudiesByType();
+		query.setStudyType("fluoro");
+		query.setPatientName("Иванов");
+		
+		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
+		Study[] result = responce.get_return();
 		
 		System.out.println("Finded Studies : " + result);
 		 for(int i = 0; i<result.length; i++) {
