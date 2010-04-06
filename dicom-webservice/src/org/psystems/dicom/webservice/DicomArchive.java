@@ -54,8 +54,18 @@
  */
 package org.psystems.dicom.webservice;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+
+import org.apache.axis2.context.MessageContext;
+import org.apache.axis2.transport.http.HTTPConstants;
 
 public class DicomArchive {
 
@@ -89,6 +99,37 @@ public class DicomArchive {
 	 */
 	public Study[] findStudies(String s) throws DicomWebServiceException {
 
+		MessageContext msgContext = MessageContext.getCurrentMessageContext();
+//		System.out.println("!! msgContext="+msgContext);
+//		
+//		System.out.println("!! MC_HTTP_SERVLET="+HTTPConstants.MC_HTTP_SERVLET);
+//		System.out.println("!! MC_HTTP_SERVLETCONTEXT="+HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+//		
+//		Map props = msgContext.getProperties();
+//		for( Iterator iter = props.keySet().iterator(); iter.hasNext();) {
+//			Object key = iter.next();
+//			Object val = props.get(key);
+//			System.out.println("!! props ["+key + "]="+val);
+//		}
+//		
+//		HttpServlet prop = ((HttpServlet)msgContext.getProperty(HTTPConstants.MC_HTTP_SERVLET));
+//		System.out.println("!! prop="+prop);
+		
+//		ServletContext context =((HttpServlet)msgContext.getProperty(HTTPConstants.MC_HTTP_SERVLET)).
+//		getServletContext();
+//		System.out.println("!! context="+context);
+		
+		ServletContext servletContext = (ServletContext)MessageContext.getCurrentMessageContext().getProperty(
+		HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+		System.out.println("!! servlet="+servletContext);
+		
+		try {
+			Connection connection = Util.getConnection(servletContext);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		ArrayList<Study> data = new ArrayList<Study>();
 		for (long i = 0; i < 10; i++) {
 			Study study = new Study();
@@ -126,6 +167,11 @@ public class DicomArchive {
 	public Study[] findStudiesByType(String studyType, String patientName,  Date patientBirthDate, String patientSex,
 			Date beginStudyDate, Date endStudyDate) throws DicomWebServiceException {
 
+		
+		
+		
+
+		
 		ArrayList<Study> data = new ArrayList<Study>();
 		for (long i = 0; i < 10; i++) {
 			Study study = new Study();
