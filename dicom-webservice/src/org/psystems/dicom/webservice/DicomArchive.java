@@ -99,7 +99,7 @@ public class DicomArchive {
 	 */
 	public Study[] findStudies(String s) throws DicomWebServiceException {
 
-		MessageContext msgContext = MessageContext.getCurrentMessageContext();
+//		MessageContext msgContext = MessageContext.getCurrentMessageContext();
 //		System.out.println("!! msgContext="+msgContext);
 //		
 //		System.out.println("!! MC_HTTP_SERVLET="+HTTPConstants.MC_HTTP_SERVLET);
@@ -169,19 +169,29 @@ public class DicomArchive {
 
 		
 		
-		
+		ServletContext servletContext = (ServletContext)MessageContext.getCurrentMessageContext().getProperty(
+				HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+				System.out.println("!! servlet="+servletContext);
+				
+				try {
+					Connection connection = Util.getConnection(servletContext);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 		
 		ArrayList<Study> data = new ArrayList<Study>();
 		for (long i = 0; i < 10; i++) {
 			Study study = new Study();
 			study.setId(i);
+			study.setStudyType(studyType);
 			study.setStudyDate(new Date());
 			study
 					.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
 			study.setStudyDoctor("Врач №1");
 			study.setStudyId("studyID=" + i);
-			study.setPatientName("Пациент №1");
+			study.setPatientName(patientName);
 			study.setPatientId("patientID=ХХХ");
 			study.setStudyResult("Результат 'норма'");
 			study.setStudyType("флюорография");
