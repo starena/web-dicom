@@ -55,26 +55,29 @@
 package org.psystems.dicom.webservice;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.log4j.Logger;
 
 public class DicomArchive {
+
+	private static Logger logger = Logger.getLogger(DicomArchive.class);
 
 	/**
 	 * @param i
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public org.psystems.dicom.webservice.Study getStudy(long i) throws DicomWebServiceException {
+	public org.psystems.dicom.webservice.Study getStudy(long i)
+			throws DicomWebServiceException {
 
 		Study study = new Study();
 		study.setId(i);
@@ -99,37 +102,41 @@ public class DicomArchive {
 	 */
 	public Study[] findStudies(String s) throws DicomWebServiceException {
 
-//		MessageContext msgContext = MessageContext.getCurrentMessageContext();
-//		System.out.println("!! msgContext="+msgContext);
-//		
-//		System.out.println("!! MC_HTTP_SERVLET="+HTTPConstants.MC_HTTP_SERVLET);
-//		System.out.println("!! MC_HTTP_SERVLETCONTEXT="+HTTPConstants.MC_HTTP_SERVLETCONTEXT);
-//		
-//		Map props = msgContext.getProperties();
-//		for( Iterator iter = props.keySet().iterator(); iter.hasNext();) {
-//			Object key = iter.next();
-//			Object val = props.get(key);
-//			System.out.println("!! props ["+key + "]="+val);
-//		}
-//		
-//		HttpServlet prop = ((HttpServlet)msgContext.getProperty(HTTPConstants.MC_HTTP_SERVLET));
-//		System.out.println("!! prop="+prop);
-		
-//		ServletContext context =((HttpServlet)msgContext.getProperty(HTTPConstants.MC_HTTP_SERVLET)).
-//		getServletContext();
-//		System.out.println("!! context="+context);
-		
-		ServletContext servletContext = (ServletContext)MessageContext.getCurrentMessageContext().getProperty(
-		HTTPConstants.MC_HTTP_SERVLETCONTEXT);
-		System.out.println("!! servlet="+servletContext);
-		
+		// MessageContext msgContext =
+		// MessageContext.getCurrentMessageContext();
+		// System.out.println("!! msgContext="+msgContext);
+		//		
+		// System.out.println("!! MC_HTTP_SERVLET="+HTTPConstants.MC_HTTP_SERVLET);
+		// System.out.println("!! MC_HTTP_SERVLETCONTEXT="+HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+		//		
+		// Map props = msgContext.getProperties();
+		// for( Iterator iter = props.keySet().iterator(); iter.hasNext();) {
+		// Object key = iter.next();
+		// Object val = props.get(key);
+		// System.out.println("!! props ["+key + "]="+val);
+		// }
+		//		
+		// HttpServlet prop =
+		// ((HttpServlet)msgContext.getProperty(HTTPConstants.MC_HTTP_SERVLET));
+		// System.out.println("!! prop="+prop);
+
+		// ServletContext context
+		// =((HttpServlet)msgContext.getProperty(HTTPConstants.MC_HTTP_SERVLET)).
+		// getServletContext();
+		// System.out.println("!! context="+context);
+
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+		System.out.println("!! servlet=" + servletContext);
+
 		try {
 			Connection connection = Util.getConnection(servletContext);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		ArrayList<Study> data = new ArrayList<Study>();
 		for (long i = 0; i < 10; i++) {
 			Study study = new Study();
@@ -150,12 +157,12 @@ public class DicomArchive {
 		Study[] result = new Study[data.size()];
 		return data.toArray(result);
 	}
-	
 
 	/**
 	 * Поиск исследований по типу
 	 * 
-	 * @param studyType - (fluoro - флюорография)
+	 * @param studyType
+	 *            - (fluoro - флюорография)
 	 * @param patientName
 	 * @param patientBirthDate
 	 * @param patientSex
@@ -164,43 +171,81 @@ public class DicomArchive {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Study[] findStudiesByType(String studyType, String patientName,  Date patientBirthDate, String patientSex,
-			Date beginStudyDate, Date endStudyDate) throws DicomWebServiceException {
+	public Study[] findStudiesByType(String studyType, String patientName,
+			Date patientBirthDate, String patientSex, Date beginStudyDate,
+			Date endStudyDate) throws DicomWebServiceException {
 
-		
-		
-		ServletContext servletContext = (ServletContext)MessageContext.getCurrentMessageContext().getProperty(
-				HTTPConstants.MC_HTTP_SERVLETCONTEXT);
-				System.out.println("!! servlet="+servletContext);
-				
-				try {
-					Connection connection = Util.getConnection(servletContext);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+		System.out.println("!! servlet=" + servletContext);
 
-		
-		ArrayList<Study> data = new ArrayList<Study>();
-		for (long i = 0; i < 10; i++) {
-			Study study = new Study();
-			study.setId(i);
-			study.setStudyType(studyType);
-			study.setStudyDate(new Date());
-			study
-					.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
-			study.setStudyDoctor("Врач №1");
-			study.setStudyId("studyID=" + i);
-			study.setPatientName(patientName);
-			study.setPatientId("patientID=ХХХ");
-			study.setStudyResult("Результат 'норма'");
-			study.setStudyType("флюорография");
-			study.setStudyUrl("http://localhost/" + i + ".dcm");
-			data.add(study);
+		PreparedStatement psSelect = null;
+
+		// TODO Вынести эту повторяющуюся логику в отдельный общий модуль
+
+		try {
+
+			Connection connection = Util.getConnection(servletContext);
+
+			psSelect = connection
+					.prepareStatement("SELECT ID, STUDY_UID, STUDY_TYPE, PATIENT_ID, PATIENT_NAME, "
+							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
+							+ " STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR, STUDY_RESULT, STUDY_DESCRIPTION  FROM WEBDICOM.STUDY"
+							+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
+							+ " order by PATIENT_NAME, STUDY_DATE ");
+
+			psSelect.setString(1, patientName);
+			ResultSet rs = psSelect.executeQuery();
+
+			ArrayList<Study> data = new ArrayList<Study>();
+
+			int index = 0;
+			while (rs.next()) {
+
+				String ManufacturerModelName = null;
+				String studyDescriptionDate = null;
+				String studyViewprotocol = null;
+				String studyResult = null;
+
+				Study study = new Study();
+				study.setId(rs.getLong("ID"));
+				study.setStudyType(rs.getString("STUDY_TYPE"));
+				study.setStudyDate(rs.getDate("STUDY_DATE"));
+				study.setManufacturerModelUID(""); // TODO сделать!!
+													// STUDY_MANUFACTURER_UID
+				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
+				study.setStudyId(rs.getString("STUDY_ID"));
+				study.setPatientName(rs.getString("PATIENT_NAME"));
+				study.setPatientId(rs.getString("PATIENT_ID"));
+				study.setStudyResult(rs.getString("STUDY_RESULT"));
+				study.setStudyUrl("");// TODO сделать!!
+				study.setDcmFiles(new Long[] {1l,2l,3l});//TODO сделать!!
+				data.add(study);
+
+			}
+			rs.close();
+
+			Study[] result = new Study[data.size()];
+			return data.toArray(result);
+
+		} catch (SQLException e) {
+			logger.error(e);
+			e.printStackTrace();
+			// TODO Сделать нормальное исключение
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				logger.error(e);
+				// TODO Сделать нормальное исключение
+			}
 		}
 
-		Study[] result = new Study[data.size()];
-		return data.toArray(result);
+		return null;
 	}
 
 	/**
@@ -215,8 +260,8 @@ public class DicomArchive {
 	 * @throws DicomWebServiceException
 	 */
 	public int newStudy(String PatientId, String PatientName,
-			Date patientDateBirthday, String patientSex, String studyType, Date studyPlanningDate)
-			throws DicomWebServiceException {
+			Date patientDateBirthday, String patientSex, String studyType,
+			Date studyPlanningDate) throws DicomWebServiceException {
 		if (PatientName == null)
 			throw new DicomWebServiceException("PatientName is empty!");
 		return 1;
