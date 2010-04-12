@@ -90,12 +90,14 @@ public class DicomArchiveClient {
 		
 		FindStudiesByType query = new FindStudiesByType();
 		query.setStudyType("fluoro");
-		query.setPatientName("Иванов");
+		query.setPatientName("%");
+//		query.setPatientName("Иванов");
 		
 		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
 		Study[] result = responce.get_return();
 		
 		System.out.println("Finded Studies : " + result);
+		if(result==null) return;
 		 for(int i = 0; i<result.length; i++) {
 			 printStudy(result[i]);
 		 }
@@ -131,6 +133,9 @@ public class DicomArchiveClient {
 	}
 	
 	private static void printStudy(Study findedStudy) {
+		
+		if(findedStudy == null) return;
+		
 		System.out.println("findedStudy=" + findedStudy.getId() + ";"
 				+ findedStudy.getStudyViewprotocol() + ";"
 				+ findedStudy.getManufacturerModelName() + ";"
