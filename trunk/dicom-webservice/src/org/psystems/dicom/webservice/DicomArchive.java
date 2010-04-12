@@ -66,6 +66,7 @@ import javax.servlet.ServletContext;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.orm.Study;
 
 public class DicomArchive {
 
@@ -76,11 +77,11 @@ public class DicomArchive {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public org.psystems.dicom.webservice.Study getStudy(long i)
+	public Study getStudy(long i)
 			throws DicomWebServiceException {
 
-		Study study = new Study();
-		study.setId(i);
+		Study study = Study.getInstance(i);
+//		study.setId(i);
 		study.setStudyDate(new Date());
 		study
 				.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
@@ -139,7 +140,7 @@ public class DicomArchive {
 
 		ArrayList<Study> data = new ArrayList<Study>();
 		for (long i = 0; i < 10; i++) {
-			Study study = new Study();
+			Study study =  Study.getInstance(i);
 			study.setId(i);
 			study.setStudyDate(new Date());
 			study
@@ -208,8 +209,8 @@ public class DicomArchive {
 				String studyViewprotocol = null;
 				String studyResult = null;
 
-				Study study = new Study();
-				study.setId(rs.getLong("ID"));
+				Study study = Study.getInstance(rs.getLong("ID"));
+//				study.setId(rs.getLong("ID"));
 				study.setStudyType(rs.getString("STUDY_TYPE"));
 				study.setStudyDate(rs.getDate("STUDY_DATE"));
 				study.setManufacturerModelUID(""); // TODO сделать!!

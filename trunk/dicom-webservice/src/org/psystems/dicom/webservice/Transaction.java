@@ -54,6 +54,8 @@
  */
 package org.psystems.dicom.webservice;
 
+import org.psystems.dicom.commons.orm.Study;
+
 public class Transaction {
 
 	private int id;
