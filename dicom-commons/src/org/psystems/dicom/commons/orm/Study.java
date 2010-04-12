@@ -17,6 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>
     
+    Russian translation <http://code.google.com/p/gpl3rus/wiki/LatestRelease>
+     
     The Original Code is part of WEB-DICOM, an implementation hosted at 
     <http://code.google.com/p/web-dicom/>
     
@@ -24,39 +26,14 @@
     The Original Code is part of dcm4che, an implementation of DICOM(TM) in
     Java(TM), hosted at http://sourceforge.net/projects/dcm4che.
     
-    =======================================================================
-    
-    WEB-DICOM - Сохранение и предоставление информации с DICOM устройств
-
-    Copyright (C) 2009-2010 psystems.org 
-    Copyright (C) 2009-2010 Dmitry Derenok 
-
-    Это программа является свободным программным обеспечением. Вы можете 
-    распространять и/или модифицировать её согласно условиям Стандартной 
-    Общественной Лицензии GNU, опубликованной Фондом Свободного Программного 
-    Обеспечения, версии 3 или, по Вашему желанию, любой более поздней версии. 
-    Эта программа распространяется в надежде, что она будет полезной, но
-    БЕЗ ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ 
-    ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную 
-    Общественную Лицензию GNU для получения дополнительной информации. 
-    Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе 
-    с программой. В случае её отсутствия, посмотрите <http://www.gnu.org/licenses/>
-    Русский перевод <http://code.google.com/p/gpl3rus/wiki/LatestRelease>
-    
-    Оригинальный исходный код WEB-DICOM можно получить на
-    <http://code.google.com/p/web-dicom/>
-    
-    В проекте WEB-DICOM использованы библиотеки открытого проекта dcm4che/
-    Оригинальный исходный код проекта dcm4che, и его имплементация DICOM(TM) in
-    Java(TM), находится здесь http://sourceforge.net/projects/dcm4che.
-    
-    
  */
+
 package org.psystems.dicom.commons.orm;
 
 import java.util.Date;
+import java.util.List;
 
-public class Study {
+public abstract class Study {
 
 	private Long id; // Внутренний ID
 	private String patientId; // ID пациента (0016,0032) LO	'Patient ID' = LAB_ID64936
@@ -221,6 +198,13 @@ public class Study {
 		this.dcmFiles = dcmFiles;
 	}
 
+	/**
+	 * Получение списка исследований
+	 * 
+	 * @param query поисковая строка
+	 * @return
+	 */
+	public abstract List<Study> getStudues(String query);
 	
 
 }
