@@ -86,7 +86,7 @@ public class DicomArchiveClient {
 	
 	private static void findStudiesByType() throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
 
-		DicomArchiveStub stub = new DicomArchiveStub("http://192.168.88.1:8080/dicom-webservice/services/DicomArchive" );
+		DicomArchiveStub stub = new DicomArchiveStub("http://localhost:8080/dicom-webservice/services/DicomArchive" );
 		
 		FindStudiesByType query = new FindStudiesByType();
 		query.setStudyType("fluoro");
