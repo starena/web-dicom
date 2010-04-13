@@ -1,17 +1,19 @@
 #!/bin/sh
-# chkconfig: 3 60 30
-# description: Starts and stops Tomcat (running as root)
 
 mode=$1
 
-export TOMCAT_HOME=/usr/local/java/tomcat
-export CATALINA_HOME=/usr/local/java/tomcat
-export JAVA_HOME=/usr/local/java/jdk1.4
+TOMCAT_HOME='/export/home/httpd/tomcat/apache-tomcat-6.0.24'
+CATALINA_HOME='/export/home/httpd/tomcat/apache-tomcat-6.0.24'
+JAVA_HOME='/usr/jdk/jdk1.6.0_05'
+
+export TOMCAT_HOME
+export CATALINA_HOME
+export JAVA_HOME
 
 case "$mode" in
   'start')
     # Start daemon
-    su -c "$TOMCAT_HOME/bin/catalina.sh $mode" root
+    su httpd -c "$TOMCAT_HOME/bin/catalina.sh $mode"
     ;;
 
   'stop')
