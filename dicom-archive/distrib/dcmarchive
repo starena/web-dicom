@@ -9,6 +9,7 @@
 
 MAIN_CLASS=org.psystems.dicom.daemon.Archive
 MAIN_JAR=dcmarchive.jar
+PID='/export/home/httpd/dicom/bin/dcmarchive.pid'
 
 
 DIRNAME="`dirname "$0"`"
@@ -41,6 +42,9 @@ else
     JAVA="java"
 fi
 
+
+echo $DCM4CHE_HOME
+
 # Setup the classpath
 CP="$DCM4CHE_HOME/etc/"
 CP="$CP:$DCM4CHE_HOME/lib/$MAIN_JAR"
@@ -68,10 +72,13 @@ CP="$CP:$DCM4CHE_HOME/lib/slf4j-log4j12-1.5.0.jar"
 
 
 # For Cygwin, switch paths to Windows format before running java
-if $cygwin; then
-    JAVA=`cygpath --path --windows "$JAVA"`
-    CP=`cygpath --path --windows "$CP"`
-fi
+#if $cygwin; then
+#    JAVA=`cygpath --path --windows "$JAVA"`
+#    CP=`cygpath --path --windows "$CP"`
+#fi
 
 # Execute the JVM
-exec $JAVA $JAVA_OPTS -cp "$CP" $MAIN_CLASS "$@"
+$JAVA $JAVA_OPTS -cp "$CP" $MAIN_CLASS "$@" &
+
+
+echo $! > $PID 

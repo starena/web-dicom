@@ -63,7 +63,8 @@ set CP=%CP%;%DCM4CHE_HOME%\lib\dcm4che-imageio-rle-2.0.21.jar
 set CP=%CP%;%DCM4CHE_HOME%\lib\slf4j-api-1.5.0.jar
 set CP=%CP%;%DCM4CHE_HOME%\lib\slf4j-log4j12-1.5.0.jar
 set CP=%CP%;%DCM4CHE_HOME%\lib\org.apache.log4j_1.2.13.v200806030600.jar
-set CP=%CP%;%DCM4CHE_HOME%\lib\jai_imageio.jar lib/slf4j-log4j12-1.5.0.jar
+set CP=%CP%;%DCM4CHE_HOME%\lib\jai_imageio.jar 
+set CP=%CP%;%DCM4CHE_HOME%\lib\slf4j-log4j12-1.5.0.jar
 
 
 "%JAVA%" %JAVA_OPTS% -cp "%CP%" %MAIN_CLASS% %ARGS%
