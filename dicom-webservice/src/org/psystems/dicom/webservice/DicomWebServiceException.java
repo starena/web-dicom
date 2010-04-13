@@ -56,12 +56,33 @@ package org.psystems.dicom.webservice;
 
 /**
  * @author dima_d
- *
+ * 
  */
-public class DicomWebServiceException extends Exception {
+public class DicomWebServiceException extends Throwable {
 
-	public DicomWebServiceException(String msg) {
-		super(msg);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7529959696848010201L;
+
+	public DicomWebServiceException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DicomWebServiceException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DicomWebServiceException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DicomWebServiceException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
 	}
 
 }
