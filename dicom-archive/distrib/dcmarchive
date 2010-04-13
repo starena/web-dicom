@@ -43,8 +43,6 @@ else
 fi
 
 
-echo $DCM4CHE_HOME
-
 # Setup the classpath
 CP="$DCM4CHE_HOME/etc/"
 CP="$CP:$DCM4CHE_HOME/lib/$MAIN_JAR"

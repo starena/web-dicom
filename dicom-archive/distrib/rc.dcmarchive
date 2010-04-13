@@ -1,5 +1,6 @@
 #!/bin/sh
 pidfile='/export/home/httpd/dicom/bin/dcmarchive.pid'
+ERRLOG='/export/home/httpd/dicom/bin/dcmarchive.errlog'
 exec='/export/home/httpd/dicom/bin/dcmarchive DCMRCV:11112 -dest /tmp'
 USER='httpd'
 
@@ -21,7 +22,7 @@ case "$1" in
 
 	   else
 	        rm -f $pidfile #del pidfile
-		su $USER -c "$exec $debugName &"
+		su $USER -c "$exec $debugName 1>>$ERRLOG &"
 		echo "DICOM Archive started!"
 	 fi  
 	;;
