@@ -30,6 +30,7 @@
 
 package org.psystems.dicom.commons.orm;
 
+import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
 
@@ -37,39 +38,37 @@ public abstract class Study {
 
 	private Long id; // Внутренний ID
 	private String patientId; // ID пациента (0016,0032) LO 'Patient ID' =
-								// LAB_ID64936
+	// LAB_ID64936
 	private String patientName; // ФИО пациента (0016,0016) PN 'Patient's Name'
-								// = Ги****тди***ва И Ф
+	// = Ги****тди***ва И Ф
 	private String patientSex; // Пол пациента (0016,0064) CS "Patient's Sex" =
-								// M/F
+	// M/F
 	private Date patientBirthDate; // Дата рождения пациента (0016,0048) DA
-									// "Patient's Birth Date" = 19670811
+	// "Patient's Birth Date" = 19670811
 	private String studyId; // ID исследования (0032,0016) SH 'Study ID' = 89729
 	private String studyInstanceUID; // UID исследования (0032,0013) UI 'Study
-										// Instance UID' =
-										// 1.2.826.0.1.3680043.2.634.30.1.89729.20100305113905
+	// Instance UID' =
+	// 1.2.826.0.1.3680043.2.634.30.1.89729.20100305113905
 	private Date studyDate; // Дата исследования (0008,0032) DA 'Study Date' =
-							// 20100225
+	// 20100225
 	private String studyDoctor; // Врач исследования (0008,0144) PN
-								// "Referring Physician's Name" = Куницкий В.Н
+	// "Referring Physician's Name" = Куницкий В.Н
 	private String studyOperator; // Оператор исследования (0008,4208) PN
-									// "Operators' Name" = Гаврилова Н.Г.
+	// "Operators' Name" = Гаврилова Н.Г.
 	private Date studyDescriptionDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
 	private String studyViewprotocol;// Протокол осмотра
 	private String studyResult;// Результат исследования.
 	private String ManufacturerModelUID; // UID Аппарата (0002,0003) UI
-											// "Media Storage SOP Instance UID"
-											// =
-											// 1.2.826.0.1.3680043.2.634.0.18669.2010225.1416.1
+	// "Media Storage SOP Instance UID"
+	// =
+	// 1.2.826.0.1.3680043.2.634.0.18669.2010225.1416.1
 	private String ManufacturerModelName; // Имя Аппарата (0008,4240) LO
-											// "Manufacturer's Model Name" =
-											// КРТ-Электрон
+	// "Manufacturer's Model Name" =
+	// КРТ-Электрон
 	private String studyUrl; // URL для открытия в обозревателе
 	private Long[] dcmFiles; // Связанные DCM-файлы
 
-	
-	
 	public Long getId() {
 		return id;
 	}
@@ -214,7 +213,6 @@ public abstract class Study {
 		this.dcmFiles = dcmFiles;
 	}
 
-
 	/**
 	 * Получение экземпляра
 	 * 
@@ -232,8 +230,30 @@ public abstract class Study {
 	 *            поисковая строка
 	 * @return
 	 */
-	public static  List<Study> getStudues(String query) {
+	public static List<Study> getStudues(String query) {
 		return StudyImpl.getStudues(query);
+	}
+
+	/**
+	 * Получение списка исследований
+	 * 
+	 * TODO сделано для WEB-сервиса. заточка под "МИС" 
+	 * 
+	 * @param connection
+	 * @param studyType
+	 * @param patientName
+	 * @param patientBirthDate
+	 * @param patientSex
+	 * @param beginStudyDate
+	 * @param endStudyDate
+	 * @return
+	 * @throws DataException
+	 */
+	public static Study[] getStudues(Connection connection, String studyType,
+			String patientName, Date patientBirthDate, String patientSex,
+			Date beginStudyDate, Date endStudyDate) throws DataException {
+		return StudyImpl.getStudues(connection, studyType, patientName,
+				patientBirthDate, patientSex, beginStudyDate, endStudyDate);
 	}
 
 }
