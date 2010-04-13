@@ -1,0 +1,28 @@
+#!/bin/sh
+# chkconfig: 3 60 30
+# description: Starts and stops Tomcat (running as root)
+
+mode=$1
+
+export TOMCAT_HOME=/usr/local/java/tomcat
+export CATALINA_HOME=/usr/local/java/tomcat
+export JAVA_HOME=/usr/local/java/jdk1.4
+
+case "$mode" in
+  'start')
+    # Start daemon
+    su -c "$TOMCAT_HOME/bin/catalina.sh $mode" root
+    ;;
+
+  'stop')
+    # Stop daemon. We use a signal here to avoid having to know the
+    # root password.
+        $TOMCAT_HOME/bin/catalina.sh $mode
+    ;;
+
+  *)
+    # usage
+    echo "usage: $0 start|stop"
+    exit 1
+    ;;
+esac
