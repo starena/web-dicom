@@ -415,6 +415,21 @@ public class Extractor {
 				STUDY_UID = element1.getValueAsString(cs, element1.length());
 			}
 
+			//TODO Сделать корректную привязку !!!
+//			element1 = dcmObj.get(Tag.Manufacturer);
+			
+//			if (element1 == null) {
+//				LOG.warn("STUDY_MANUFACTURER_UID (tag: Manufacturer) is empty!");
+//				STUDY_MANUFACTURER_UID = "empty";
+//			} else {
+//				STUDY_MANUFACTURER_UID = element1.getValueAsString(cs, element1.length());
+//			}
+//			
+//			if (STUDY_MANUFACTURER_UID == null || STUDY_MANUFACTURER_UID.length() == 0) {
+//				STUDY_MANUFACTURER_UID = "empty";
+//			}
+			
+			
 			element1 = dcmObj.get(Tag.StudyID);
 			String STUDY_ID = "";
 			if (element1 == null) {
@@ -443,7 +458,7 @@ public class Extractor {
 					.getValueAsString(cs, element1.length());
 
 			if (PATIENT_ID == null || PATIENT_ID.length() == 0) {
-				PATIENT_ID = "не указан";
+				PATIENT_ID = "empty";
 			}
 
 			element1 = dcmObj.get(Tag.PatientSex);
@@ -461,7 +476,7 @@ public class Extractor {
 			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(
 					Tag.StudyDate).getDate(false).getTime());
 
-			String STUDY_DOCTOR = "не указан";
+			String STUDY_DOCTOR = "empty";
 			element1 = dcmObj.get(Tag.ReferringPhysicianName);
 			if (element1 != null) {
 				STUDY_DOCTOR = element1.getValueAsString(cs, element1.length());
@@ -470,13 +485,13 @@ public class Extractor {
 				}
 			}
 
-			String STUDY_OPERATOR = "не указан";
+			String STUDY_OPERATOR = "empty";
 			element1 = dcmObj.get(Tag.OperatorsName);
 			if (element1 != null) {
 				STUDY_OPERATOR = element1.getValueAsString(cs, element1
 						.length());
 				if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
-					STUDY_OPERATOR = "не указан";
+					STUDY_OPERATOR = "empty";
 				}
 			}
 
@@ -491,6 +506,7 @@ public class Extractor {
 				}
 			}
 
+			String STUDY_MANUFACTURER_UID = "Еще не реализовано";// TODO Реализовать!!!
 			String STUDY_TYPE = "Еще не реализовано";// TODO Реализовать!!!
 			String STUDY_RESULT = "Еще не реализовано";// TODO Реализовать!!!
 			String STUDY_MANUFACTURER_MODEL_NAME = "Еще не реализовано";// TODO
@@ -527,6 +543,7 @@ public class Extractor {
 				stmt = connection
 						.prepareStatement("update WEBDICOM.STUDY SET " +
 										"STUDY_ID = ? ," +
+										"STUDY_MANUFACTURER_UID = ? " +
 										"STUDY_DATE = ?," +
 										"STUDY_TYPE = ?," +
 										"STUDY_DESCRIPTION = ?," +
@@ -542,19 +559,20 @@ public class Extractor {
 								+ " where ID = ?");
 
 				stmt.setString(1, STUDY_ID);
-				stmt.setDate(2, STUDY_DATE);
-				stmt.setString(3, STUDY_TYPE);
-				stmt.setString(4, STUDY_DESCRIPTION);
-				stmt.setString(5, STUDY_DOCTOR);
-				stmt.setString(6, STUDY_OPERATOR);
-				stmt.setString(7, STUDY_RESULT);
-				stmt.setString(8, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(9, PATIENT_ID);
-				stmt.setString(10, PATIENT_NAME);
-				stmt.setDate(11, PATIENT_BIRTH_DATE);
-				stmt.setString(12, PATIENT_SEX);
-				stmt.setDate(13, new Date(new java.util.Date().getTime()));
-				stmt.setLong(14, studyInternalID);
+				stmt.setString(2, STUDY_MANUFACTURER_UID);
+				stmt.setDate(3, STUDY_DATE);
+				stmt.setString(4, STUDY_TYPE);
+				stmt.setString(5, STUDY_DESCRIPTION);
+				stmt.setString(6, STUDY_DOCTOR);
+				stmt.setString(7, STUDY_OPERATOR);
+				stmt.setString(8, STUDY_RESULT);
+				stmt.setString(9, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(10, PATIENT_ID);
+				stmt.setString(11, PATIENT_NAME);
+				stmt.setDate(12, PATIENT_BIRTH_DATE);
+				stmt.setString(13, PATIENT_SEX);
+				stmt.setDate(14, new Date(new java.util.Date().getTime()));
+				stmt.setLong(15, studyInternalID);
 				
 				stmt.executeUpdate();
 				stmt.close();
@@ -565,6 +583,7 @@ public class Extractor {
 				stmt = connection
 						.prepareStatement("insert into WEBDICOM.STUDY ("
 								+ "STUDY_UID,"
+								+ "STUDY_MANUFACTURER_UID,"
 								+ "STUDY_ID,"
 								+ "STUDY_DATE,"
 								+ "STUDY_TYPE,"
@@ -578,22 +597,23 @@ public class Extractor {
 								+ "PATIENT_BIRTH_DATE, "
 								+ "PATIENT_SEX,"
 								+ "DATE_MODIFY)"
-								+ " values (?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?,?,?)");
+								+ " values (?,?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?,?,?)");
 
 				stmt.setString(1, STUDY_UID);
-				stmt.setString(2, STUDY_ID);
-				stmt.setDate(3, STUDY_DATE);
-				stmt.setString(4, STUDY_TYPE);
-				stmt.setString(5, STUDY_DESCRIPTION);
-				stmt.setString(6, STUDY_DOCTOR);
-				stmt.setString(7, STUDY_OPERATOR);
-				stmt.setString(8, STUDY_RESULT);
-				stmt.setString(9, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(10, PATIENT_ID);
-				stmt.setString(11, PATIENT_NAME);
-				stmt.setDate(12, PATIENT_BIRTH_DATE);
-				stmt.setString(13, PATIENT_SEX);
-				stmt.setDate(14, new Date(new java.util.Date().getTime()));
+				stmt.setString(2, STUDY_MANUFACTURER_UID);
+				stmt.setString(3, STUDY_ID);
+				stmt.setDate(4, STUDY_DATE);
+				stmt.setString(5, STUDY_TYPE);
+				stmt.setString(6, STUDY_DESCRIPTION);
+				stmt.setString(7, STUDY_DOCTOR);
+				stmt.setString(8, STUDY_OPERATOR);
+				stmt.setString(9, STUDY_RESULT);
+				stmt.setString(10, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(11, PATIENT_ID);
+				stmt.setString(12, PATIENT_NAME);
+				stmt.setDate(13, PATIENT_BIRTH_DATE);
+				stmt.setString(14, PATIENT_SEX);
+				stmt.setDate(15, new Date(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
