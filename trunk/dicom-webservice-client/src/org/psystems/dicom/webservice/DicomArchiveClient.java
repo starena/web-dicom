@@ -2,6 +2,8 @@
 
 import java.rmi.RemoteException;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.axis2.AxisFault;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudies;
@@ -85,12 +87,31 @@ public class DicomArchiveClient {
 	}
 	
 	private static void findStudiesByType() throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
-
+		
 		DicomArchiveStub stub = new DicomArchiveStub("http://localhost:8080/dicom-webservice/services/DicomArchive" );
 		
 		FindStudiesByType query = new FindStudiesByType();
 		query.setStudyType("fluoro");
-		query.setPatientName("%");
+		
+		
+		query.setPatientName(null);
+		query.setPatientSex(null);
+		query.setPatientBirthDate(null);
+		
+		
+		Calendar db = Calendar.getInstance();
+		db.set(2010, 1, 25); //2010-02-25
+		
+//		db.set(1961, 3, 9); //1961-04-09
+//		query.setPatientBirthDate(db);
+		
+		
+		query.setBeginStudyDate(db);
+		query.setEndStudyDate(db);
+		
+		
+		
+//		query.setPatientName("%");
 //		query.setPatientName("Иванов");
 		
 		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
