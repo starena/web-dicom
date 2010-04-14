@@ -225,6 +225,7 @@ public abstract class Study {
 
 	/**
 	 * Получение списка исследований
+	 * http://lucene.apache.org/java/3_0_0/queryparsersyntax.html
 	 * 
 	 * @param query
 	 *            поисковая строка

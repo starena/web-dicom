@@ -54,43 +54,91 @@ public class StudyImpl extends Study {
 		return null;
 	}
 
-	public static Study[] getStudues(Connection connection,
-			String studyType, String patientName, Date patientBirthDate,
-			String patientSex, Date beginStudyDate, Date endStudyDate)
-			throws DataException {
+	public static Study[] getStudues(Connection connection, String studyType,
+			String patientName, Date patientBirthDate, String patientSex,
+			Date beginStudyDate, Date endStudyDate) throws DataException {
 
 		PreparedStatement psSelect = null;
 
-		// TODO Вынести эту повторяющуюся логику в отдельный общий модуль
+		// "SELECT * FROM WEBDICOM.STUDY"
+		// + " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
+		// + " order by PATIENT_NAME, STUDY_DATE "
+
+		String sqlAddon = "";
+
+		if (studyType != null) {
+		}// TODO Сделать обработку studyType !!!
+
+		if (patientName != null) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " UPPER(PATIENT_NAME) like UPPER( ? || '%') ";
+		}
+
+		if (patientBirthDate != null) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " PATIENT_BIRTH_DATE = ? ";
+		}
+
+		if (patientSex != null) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " PATIENT_SEX = ? ";
+		}
+
+		if (beginStudyDate != null && endStudyDate != null) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_DATE BETWEEN ? AND ? ";
+		}
+
+		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
+				+ " order by PATIENT_NAME, STUDY_DATE ";
+		
+//		System.err.println("SQL:"+sql);
 
 		try {
 
-			psSelect = connection
-					.prepareStatement("SELECT ID, STUDY_UID, STUDY_TYPE, PATIENT_ID, PATIENT_NAME, "
-							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
-							+ " STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR, STUDY_RESULT, STUDY_DESCRIPTION  FROM WEBDICOM.STUDY"
-							+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
-							+ " order by PATIENT_NAME, STUDY_DATE ");
+			psSelect = connection.prepareStatement(sql);
+			int index = 1;
 
-			psSelect.setString(1, patientName);
+			if (studyType != null) {
+			}// TODO Сделать обработку studyType !!!
+
+			if (patientName != null) {
+				psSelect.setString(index++, patientName);	
+			}
+
+			if (patientBirthDate != null) {
+				psSelect.setDate(index++, new java.sql.Date(patientBirthDate.getTime()));
+			}
+
+			if (patientSex != null) {
+				psSelect.setString(index++, patientSex);
+			}
+
+			if (beginStudyDate != null && endStudyDate != null) {
+				psSelect.setDate(index++, new java.sql.Date(beginStudyDate.getTime()));
+				psSelect.setDate(index++, new java.sql.Date(endStudyDate.getTime()));
+			}
+			
+			
 			ResultSet rs = psSelect.executeQuery();
 
 			ArrayList<Study> data = new ArrayList<Study>();
 
-			int index = 0;
 			while (rs.next()) {
-
-				String ManufacturerModelName = null;
-				String studyDescriptionDate = null;
-				String studyViewprotocol = null;
-				String studyResult = null;
 
 				Study study = new StudyImpl();
 				study.setId(rs.getLong("ID"));
 				study.setStudyType(rs.getString("STUDY_TYPE"));
 				study.setStudyDate(rs.getDate("STUDY_DATE"));
-				study.setManufacturerModelUID(""); // TODO сделать!!
-				// STUDY_MANUFACTURER_UID
+//				study.setManufacturerModelUID(rs
+//						.getString("STUDY_MANUFACTURER_UID"));
+				study.setManufacturerModelUID("");//TODO сделать!!
+				study.setManufacturerModelName(rs
+						.getString("STUDY_MANUFACTURER_MODEL_NAME"));
 				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
 				study.setStudyId(rs.getString("STUDY_ID"));
 				study.setPatientName(rs.getString("PATIENT_NAME"));
