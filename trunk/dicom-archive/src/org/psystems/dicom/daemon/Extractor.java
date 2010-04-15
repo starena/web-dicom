@@ -506,15 +506,74 @@ public class Extractor {
 				}
 			}
 
-			String STUDY_MANUFACTURER_UID = "Еще не реализовано";// TODO Реализовать!!!
-			String STUDY_TYPE = "Еще не реализовано";// TODO Реализовать!!!
-			String STUDY_RESULT = "Еще не реализовано";// TODO Реализовать!!!
-			String STUDY_MANUFACTURER_MODEL_NAME = "Еще не реализовано";// TODO
-																		// Реализовать!!!
-			String DCM_TYPE = "Еще не реализовано";// Тип файла (снимок,
+			Date STUDY_VIEW_PROTOCOL_DATE = null;// TODO Проверить Дата ли возвращается или строка
+			String STUDY_MANUFACTURER_UID = "empty";// TODO Реализовать!!!
+			String DCM_TYPE = "empty";// Тип файла (снимок,
 													// исследование) TODO
 													// Реализовать!!!
-
+			
+			// BEGIN ---------------------------------
+			// Драйвер для Электрона
+			//TODO Выделить в отдельный драйвер
+			
+			int tagStudyDescriptionDate = 0x00211110;
+			int tagStudyType1 = 0x00291106;
+			int tagStudyType2 = 0x00291107;
+			int tagStudyResult = 0x00211103;
+			int tagStudyViewprotocol = 0x00211118;
+			
+			
+			String STUDY_MANUFACTURER_MODEL_NAME = "empty";
+			element1 = dcmObj.get(Tag.ManufacturerModelName);
+			if (element1 != null
+					&& element1.getValueAsString(cs, element1.length())
+							.length() > 0) {
+				STUDY_MANUFACTURER_MODEL_NAME = element1.getValueAsString(cs,
+						element1.length());
+			}
+			
+			String STUDY_TYPE = "empty";
+			element1 = dcmObj.get(tagStudyType1);
+			if (element1 != null
+					&& element1.getValueAsString(cs, element1.length())
+							.length() > 0) {
+				STUDY_TYPE = element1.getValueAsString(cs,
+						element1.length());
+			}
+			element1 = dcmObj.get(tagStudyType2);
+			if (element1 != null
+					&& element1.getValueAsString(cs, element1.length())
+							.length() > 0) {
+				STUDY_TYPE += ", " + element1.getValueAsString(cs,
+						element1.length());
+			}
+			
+			String STUDY_RESULT = "empty";
+			element1 = dcmObj.get(tagStudyResult);
+			if (element1 != null
+					&& element1.getValueAsString(cs, element1.length())
+							.length() > 0) {
+				STUDY_RESULT = element1.getValueAsString(cs,
+						element1.length());
+			}
+			
+			String STUDY_VIEW_PROTOCOL = "empty";
+			element1 = dcmObj.get(tagStudyViewprotocol);
+			if (element1 != null
+					&& element1.getValueAsString(cs, element1.length())
+							.length() > 0) {
+				STUDY_VIEW_PROTOCOL = element1.getValueAsString(cs,
+						element1.length());
+			}
+			
+//			element1 = dcmObj.get(tagStudyDescriptionDate);
+//			if (element1 != null) {
+//				STUDY_VIEW_PROTOCOL_DATE = new java.sql.Date(element1.getDate(false).getTime());
+//			}
+			
+			
+			// END ---------------------------------
+			
 			long IMAGE_FILE_SIZE = 0;
 			int IMAGE_WIDTH = 0;
 			int IMAGE_HEIGHT = 0;
@@ -543,13 +602,15 @@ public class Extractor {
 				stmt = connection
 						.prepareStatement("update WEBDICOM.STUDY SET " +
 										"STUDY_ID = ? ," +
-										"STUDY_MANUFACTURER_UID = ? " +
+										"STUDY_MANUFACTURER_UID = ?, " +
 										"STUDY_DATE = ?," +
 										"STUDY_TYPE = ?," +
 										"STUDY_DESCRIPTION = ?," +
 										"STUDY_DOCTOR =?," +
 										"STUDY_OPERATOR = ?," +
 										"STUDY_RESULT =?," +
+										"STUDY_VIEW_PROTOCOL =?," +
+										"STUDY_VIEW_PROTOCOL_DATE =?," +
 										"STUDY_MANUFACTURER_MODEL_NAME = ?," +
 										"PATIENT_ID =?," +
 										"PATIENT_NAME =?," +
@@ -566,13 +627,15 @@ public class Extractor {
 				stmt.setString(6, STUDY_DOCTOR);
 				stmt.setString(7, STUDY_OPERATOR);
 				stmt.setString(8, STUDY_RESULT);
-				stmt.setString(9, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(10, PATIENT_ID);
-				stmt.setString(11, PATIENT_NAME);
-				stmt.setDate(12, PATIENT_BIRTH_DATE);
-				stmt.setString(13, PATIENT_SEX);
-				stmt.setDate(14, new Date(new java.util.Date().getTime()));
-				stmt.setLong(15, studyInternalID);
+				stmt.setString(9, STUDY_VIEW_PROTOCOL);
+				stmt.setDate(10, STUDY_VIEW_PROTOCOL_DATE);
+				stmt.setString(11, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(12, PATIENT_ID);
+				stmt.setString(13, PATIENT_NAME);
+				stmt.setDate(14, PATIENT_BIRTH_DATE);
+				stmt.setString(15, PATIENT_SEX);
+				stmt.setDate(16, new Date(new java.util.Date().getTime()));
+				stmt.setLong(17, studyInternalID);
 				
 				stmt.executeUpdate();
 				stmt.close();
@@ -591,13 +654,15 @@ public class Extractor {
 								+ "STUDY_DOCTOR,"
 								+ "STUDY_OPERATOR,"
 								+ "STUDY_RESULT,"
+								+ "STUDY_VIEW_PROTOCOL,"
+								+ "STUDY_VIEW_PROTOCOL_DATE,"
 								+ "STUDY_MANUFACTURER_MODEL_NAME,"
 								+ "PATIENT_ID,"
 								+ "PATIENT_NAME, "
 								+ "PATIENT_BIRTH_DATE, "
 								+ "PATIENT_SEX,"
 								+ "DATE_MODIFY)"
-								+ " values (?,?,?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?,?,?)");
+								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setString(1, STUDY_UID);
 				stmt.setString(2, STUDY_MANUFACTURER_UID);
@@ -608,12 +673,14 @@ public class Extractor {
 				stmt.setString(7, STUDY_DOCTOR);
 				stmt.setString(8, STUDY_OPERATOR);
 				stmt.setString(9, STUDY_RESULT);
-				stmt.setString(10, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(11, PATIENT_ID);
-				stmt.setString(12, PATIENT_NAME);
-				stmt.setDate(13, PATIENT_BIRTH_DATE);
-				stmt.setString(14, PATIENT_SEX);
-				stmt.setDate(15, new Date(new java.util.Date().getTime()));
+				stmt.setString(10, STUDY_VIEW_PROTOCOL);
+				stmt.setDate(11, STUDY_VIEW_PROTOCOL_DATE);
+				stmt.setString(12, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(13, PATIENT_ID);
+				stmt.setString(14, PATIENT_NAME);
+				stmt.setDate(15, PATIENT_BIRTH_DATE);
+				stmt.setString(16, PATIENT_SEX);
+				stmt.setDate(17, new Date(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
