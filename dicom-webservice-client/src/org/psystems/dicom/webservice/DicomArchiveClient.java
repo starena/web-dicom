@@ -162,7 +162,8 @@ public class DicomArchiveClient {
 				+ findedStudy.getManufacturerModelName() + ";"
 				+ findedStudy.getStudyDoctor() + ";" + findedStudy.getStudyId()
 				+ ";" + findedStudy.getPatientName() + ";"
-				+ findedStudy.getPatientId() + ";"
+				+ findedStudy.getPatientId() + ";" +
+				"PatientBirthDate="+findedStudy.getPatientBirthDate() + ";"
 				+ findedStudy.getStudyResult() + ";"
 				+ findedStudy.getStudyType() + ";" + findedStudy.getStudyUrl()
 				+ ";" + findedStudy.getStudyDate());
