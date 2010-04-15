@@ -481,7 +481,7 @@ public class Extractor {
 			if (element1 != null) {
 				STUDY_DOCTOR = element1.getValueAsString(cs, element1.length());
 				if (STUDY_DOCTOR == null || STUDY_DOCTOR.length() == 0) {
-					STUDY_DOCTOR = "не указан";
+					STUDY_DOCTOR = "not defined";
 				}
 			}
 
@@ -491,18 +491,18 @@ public class Extractor {
 				STUDY_OPERATOR = element1.getValueAsString(cs, element1
 						.length());
 				if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
-					STUDY_OPERATOR = "empty";
+					STUDY_OPERATOR = "not defined";
 				}
 			}
 
-			String STUDY_DESCRIPTION = "";
+			String STUDY_DESCRIPTION = "empty";
 			element1 = dcmObj.get(Tag.MedicalAlerts);
 			if (element1 != null) {
 				STUDY_DESCRIPTION = element1.getValueAsString(cs, element1
 						.length());
 				if (STUDY_DESCRIPTION == null
 						|| STUDY_DESCRIPTION.length() == 0) {
-					STUDY_DESCRIPTION = "нет";
+					STUDY_DESCRIPTION = "not defined";
 				}
 			}
 
