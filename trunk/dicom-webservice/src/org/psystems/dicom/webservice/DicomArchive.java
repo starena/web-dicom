@@ -174,8 +174,8 @@ public class DicomArchive {
 	 * @throws DicomWebServiceException
 	 */
 	public Study[] findStudiesByType(String studyType, String patientName,
-			Date patientBirthDate, String patientSex, Date beginStudyDate,
-			Date endStudyDate) throws DicomWebServiceException {
+			String patientBirthDate, String patientSex, String beginStudyDate,
+			String endStudyDate) throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) MessageContext
 				.getCurrentMessageContext().getProperty(
