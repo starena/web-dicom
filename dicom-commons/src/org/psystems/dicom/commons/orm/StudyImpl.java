@@ -55,8 +55,8 @@ public class StudyImpl extends Study {
 	}
 
 	public static Study[] getStudues(Connection connection, String studyType,
-			String patientName, Date patientBirthDate, String patientSex,
-			Date beginStudyDate, Date endStudyDate) throws DataException {
+			String patientName, String patientBirthDate, String patientSex,
+			String beginStudyDate, String endStudyDate) throws DataException {
 
 		PreparedStatement psSelect = null;
 
@@ -111,7 +111,7 @@ public class StudyImpl extends Study {
 			}
 
 			if (patientBirthDate != null) {
-				psSelect.setDate(index++, new java.sql.Date(patientBirthDate.getTime()));
+				psSelect.setDate(index++, java.sql.Date.valueOf(patientBirthDate));
 			}
 
 			if (patientSex != null) {
@@ -119,8 +119,8 @@ public class StudyImpl extends Study {
 			}
 
 			if (beginStudyDate != null && endStudyDate != null) {
-				psSelect.setDate(index++, new java.sql.Date(beginStudyDate.getTime()));
-				psSelect.setDate(index++, new java.sql.Date(endStudyDate.getTime()));
+				psSelect.setDate(index++, java.sql.Date.valueOf(beginStudyDate));
+				psSelect.setDate(index++, java.sql.Date.valueOf(endStudyDate));
 			}
 			
 			
