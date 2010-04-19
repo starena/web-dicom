@@ -31,6 +31,7 @@
 package org.psystems.dicom.commons.orm;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -68,6 +69,7 @@ public abstract class Study {
 	// КРТ-Электрон
 	private String studyUrl; // URL для открытия в обозревателе
 	private Long[] dcmFiles; // Связанные DCM-файлы
+	private String dateFormat = "yyyy-MM-dd";
 
 	public Long getId() {
 		return id;
@@ -104,6 +106,16 @@ public abstract class Study {
 	public Date getPatientBirthDate() {
 		return patientBirthDate;
 	}
+	
+	/**
+	 * @return 'YYYY-MM-DD'
+	 */
+	public String getPatientBirthDateAsString() {
+		if(patientBirthDate==null) return null;
+		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
+		return formatLevel.format(patientBirthDate);
+	}
+	
 
 	public void setPatientBirthDate(Date patientBirthDate) {
 		this.patientBirthDate = patientBirthDate;
@@ -128,6 +140,15 @@ public abstract class Study {
 	public Date getStudyDate() {
 		return studyDate;
 	}
+	
+	/**
+	 * @return 'YYYY-MM-DD'
+	 */
+	public String getStudyDateAsString() {
+		if(studyDate==null) return null;
+		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
+		return formatLevel.format(studyDate);
+	}
 
 	public void setStudyDate(Date studyDate) {
 		this.studyDate = studyDate;
@@ -151,6 +172,15 @@ public abstract class Study {
 
 	public Date getStudyDescriptionDate() {
 		return studyDescriptionDate;
+	}
+	
+	/**
+	 * @return 'YYYY-MM-DD'
+	 */
+	public String getStudyDescriptionDateAsString() {
+		if(studyDescriptionDate==null) return null;
+		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
+		return formatLevel.format(studyDescriptionDate);
 	}
 
 	public void setStudyDescriptionDate(Date studyDescriptionDate) {
@@ -251,8 +281,8 @@ public abstract class Study {
 	 * @throws DataException
 	 */
 	public static Study[] getStudues(Connection connection, String studyType,
-			String patientName, Date patientBirthDate, String patientSex,
-			Date beginStudyDate, Date endStudyDate) throws DataException {
+			String patientName, String patientBirthDate, String patientSex,
+			String beginStudyDate, String endStudyDate) throws DataException {
 		return StudyImpl.getStudues(connection, studyType, patientName,
 				patientBirthDate, patientSex, beginStudyDate, endStudyDate);
 	}
