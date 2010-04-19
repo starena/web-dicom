@@ -1,6 +1,7 @@
  package org.psystems.dicom.webservice;
 
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +26,12 @@ public class DicomArchiveClient {
 //				testNewStudy();
 //				testGetStudy();
 //				findStudies();
-				findStudiesByType();
+				String host = "http://localhost:8080";
+				if(args.length > 0) {
+					host = args[0];
+				}
+				System.out.println("host is "+host);
+				findStudiesByType(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -81,14 +87,15 @@ public class DicomArchiveClient {
 		Study[] result = responceOfSearcheStudies.get_return();
 		
 		System.out.println("Finded Studies : " + result);
+		
 		 for(int i = 0; i<result.length; i++) {
 			 printStudy(result[i]);
 		 }
 	}
 	
-	private static void findStudiesByType() throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+	private static void findStudiesByType(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
 		
-		DicomArchiveStub stub = new DicomArchiveStub("http://localhost:8080/dicom-webservice/services/DicomArchive" );
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/dicom-webservice/services/DicomArchive" );
 		
 		FindStudiesByType query = new FindStudiesByType();
 		query.setStudyType("fluoro");
@@ -96,28 +103,29 @@ public class DicomArchiveClient {
 		
 		query.setPatientName(null);
 		query.setPatientSex(null);
-		query.setPatientBirthDate(null);
-		
-		
-		Calendar db = Calendar.getInstance();
-		db.set(2010, 1, 25); //2010-02-25
-		
-//		db.set(1961, 3, 9); //1961-04-09
-//		query.setPatientBirthDate(db);
-		
-		
-		query.setBeginStudyDate(db);
-		query.setEndStudyDate(db);
-		
-		
-		
+		query.setPatientBirthDate("1978-12-14");
+//		
+//		
+//		Calendar db = Calendar.getInstance();
+//		db.set(2010, 1, 25); //2010-02-25
+//		
+////		db.set(1961, 3, 9); //1961-04-09
+////		query.setPatientBirthDate(db);
+//		
+//		
+//		query.setBeginStudyDate("2010-02-25");
+//		query.setEndStudyDate("2010-02-25");
+//		
+//		
+//		
 //		query.setPatientName("%");
-//		query.setPatientName("Иванов");
-		
+////		query.setPatientName("Иванов");
+//		
 		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
 		Study[] result = responce.get_return();
 		
 		System.out.println("Finded Studies : " + result);
+		System.out.println("Calendar:"+Calendar.getInstance());
 		if(result==null) return;
 		 for(int i = 0; i<result.length; i++) {
 			 printStudy(result[i]);
@@ -157,15 +165,24 @@ public class DicomArchiveClient {
 		
 		if(findedStudy == null) return;
 		
+		SimpleDateFormat formatLevel = new SimpleDateFormat("yyyy-MM-dd_H-m-s.S");
+//		String PatientBirthDate = formatLevel.format(calendar.getTime());
+		
+		
 		System.out.println("findedStudy=" + findedStudy.getId() + ";"
 				+ findedStudy.getStudyViewprotocol() + ";"
 				+ findedStudy.getManufacturerModelName() + ";"
 				+ findedStudy.getStudyDoctor() + ";" + findedStudy.getStudyId()
 				+ ";" + findedStudy.getPatientName() + ";"
 				+ findedStudy.getPatientId() + ";" +
-				"PatientBirthDate="+findedStudy.getPatientBirthDate() + ";"
+				"PatientBirthDate="+findedStudy.getPatientBirthDateAsString() + 
+				" --- [" + findedStudy.getPatientBirthDate().getTime() +"] -- "+
+				"[" + findedStudy.getPatientBirthDate().getTime().getTime() +"] -- "+
+				"{" + findedStudy.getPatientBirthDate() +"};"
+				+"Sex="+findedStudy.getPatientSex()+"; "
+				+ "StudyDateAsString=" + findedStudy.getStudyDateAsString() + ";"
 				+ findedStudy.getStudyResult() + ";"
-				+ findedStudy.getStudyType() + ";" + findedStudy.getStudyUrl()
-				+ ";" + findedStudy.getStudyDate());
+				+ findedStudy.getStudyType() + ";" + findedStudy.getStudyUrl());
+				//+ ";" + findedStudy.getStudyDate());
 	}
 }
