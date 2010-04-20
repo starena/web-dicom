@@ -103,7 +103,8 @@ public class DicomArchiveClient {
 		
 		query.setPatientName(null);
 		query.setPatientSex(null);
-		query.setPatientBirthDate("1978-12-14");
+		query.setPatientBirthDate("");
+//		query.setPatientBirthDate("1978-12-14");
 //		
 //		
 //		Calendar db = Calendar.getInstance();
@@ -113,19 +114,19 @@ public class DicomArchiveClient {
 ////		query.setPatientBirthDate(db);
 //		
 //		
-//		query.setBeginStudyDate("2010-02-25");
-//		query.setEndStudyDate("2010-02-25");
+		query.setBeginStudyDate("");
+		query.setEndStudyDate("");
 //		
 //		
 //		
-//		query.setPatientName("%");
+		query.setPatientName("%");
 ////		query.setPatientName("Иванов");
 //		
 		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
 		Study[] result = responce.get_return();
 		
 		System.out.println("Finded Studies : " + result);
-		System.out.println("Calendar:"+Calendar.getInstance());
+//		System.out.println("Calendar:"+Calendar.getInstance());
 		if(result==null) return;
 		 for(int i = 0; i<result.length; i++) {
 			 printStudy(result[i]);
