@@ -60,6 +60,8 @@ public class StudyImpl extends Study {
 
 		PreparedStatement psSelect = null;
 
+		//TODO Сделать ограничение на количество возвращаемых строк
+		
 		// "SELECT * FROM WEBDICOM.STUDY"
 		// + " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
 		// + " order by PATIENT_NAME, STUDY_DATE "
@@ -69,25 +71,26 @@ public class StudyImpl extends Study {
 		if (studyType != null) {
 		}// TODO Сделать обработку studyType !!!
 
-		if (patientName != null) {
+		if (patientName != null && patientName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " UPPER(PATIENT_NAME) like UPPER( ? || '%') ";
 		}
 
-		if (patientBirthDate != null) {
+		if (patientBirthDate != null && patientBirthDate.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " PATIENT_BIRTH_DATE = ? ";
 		}
 
-		if (patientSex != null) {
+		if (patientSex != null && patientSex.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " PATIENT_SEX = ? ";
 		}
 
-		if (beginStudyDate != null && endStudyDate != null) {
+		if (beginStudyDate != null && beginStudyDate.length() > 0
+				&& endStudyDate != null && endStudyDate.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " STUDY_DATE BETWEEN ? AND ? ";
@@ -95,9 +98,12 @@ public class StudyImpl extends Study {
 
 		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
 				+ " order by PATIENT_NAME, STUDY_DATE ";
-		
-//		System.err.println("SQL:"+sql);
 
+		// System.err.println("SQL:"+sql);
+
+		IllegalArgumentException ex = new IllegalArgumentException("All query arguments empty! Set any argument's");
+		if(sqlAddon.length()==0) throw new DataException(ex);
+		
 		try {
 
 			psSelect = connection.prepareStatement(sql);
@@ -106,24 +112,26 @@ public class StudyImpl extends Study {
 			if (studyType != null) {
 			}// TODO Сделать обработку studyType !!!
 
-			if (patientName != null) {
-				psSelect.setString(index++, patientName);	
+			if (patientName != null && patientName.length() > 0) {
+				psSelect.setString(index++, patientName);
 			}
 
-			if (patientBirthDate != null) {
-				psSelect.setDate(index++, java.sql.Date.valueOf(patientBirthDate));
+			if (patientBirthDate != null && patientBirthDate.length() > 0) {
+				psSelect.setDate(index++, java.sql.Date
+						.valueOf(patientBirthDate));
 			}
 
-			if (patientSex != null) {
+			if (patientSex != null && patientSex.length() > 0) {
 				psSelect.setString(index++, patientSex);
 			}
 
-			if (beginStudyDate != null && endStudyDate != null) {
-				psSelect.setDate(index++, java.sql.Date.valueOf(beginStudyDate));
+			if (beginStudyDate != null && beginStudyDate.length() > 0
+					&& endStudyDate != null && endStudyDate.length() > 0) {
+				psSelect
+						.setDate(index++, java.sql.Date.valueOf(beginStudyDate));
 				psSelect.setDate(index++, java.sql.Date.valueOf(endStudyDate));
 			}
-			
-			
+
 			ResultSet rs = psSelect.executeQuery();
 
 			ArrayList<Study> data = new ArrayList<Study>();
@@ -134,9 +142,9 @@ public class StudyImpl extends Study {
 				study.setId(rs.getLong("ID"));
 				study.setStudyType(rs.getString("STUDY_TYPE"));
 				study.setStudyDate(rs.getDate("STUDY_DATE"));
-//				study.setManufacturerModelUID(rs
-//						.getString("STUDY_MANUFACTURER_UID"));
-				study.setManufacturerModelUID("");//TODO сделать!!
+				// study.setManufacturerModelUID(rs
+				// .getString("STUDY_MANUFACTURER_UID"));
+				study.setManufacturerModelUID("");// TODO сделать!!
 				study.setManufacturerModelName(rs
 						.getString("STUDY_MANUFACTURER_MODEL_NAME"));
 				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
@@ -170,5 +178,4 @@ public class StudyImpl extends Study {
 		}
 
 	}
-
 }
