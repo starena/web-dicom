@@ -60,8 +60,8 @@ public class StudyImpl extends Study {
 
 		PreparedStatement psSelect = null;
 
-		//TODO Сделать ограничение на количество возвращаемых строк
-		
+		// TODO Сделать ограничение на количество возвращаемых строк
+
 		// "SELECT * FROM WEBDICOM.STUDY"
 		// + " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
 		// + " order by PATIENT_NAME, STUDY_DATE "
@@ -101,9 +101,11 @@ public class StudyImpl extends Study {
 
 		// System.err.println("SQL:"+sql);
 
-		IllegalArgumentException ex = new IllegalArgumentException("All query arguments empty! Set any argument's");
-		if(sqlAddon.length()==0) throw new DataException(ex);
-		
+		IllegalArgumentException ex = new IllegalArgumentException(
+				"All query arguments empty! Set any argument's");
+		if (sqlAddon.length() == 0)
+			throw new DataException(ex);
+
 		try {
 
 			psSelect = connection.prepareStatement(sql);
@@ -142,12 +144,14 @@ public class StudyImpl extends Study {
 				study.setId(rs.getLong("ID"));
 				study.setStudyType(rs.getString("STUDY_TYPE"));
 				study.setStudyDate(rs.getDate("STUDY_DATE"));
-				// study.setManufacturerModelUID(rs
-				// .getString("STUDY_MANUFACTURER_UID"));
-				study.setManufacturerModelUID("");// TODO сделать!!
+				study.setManufacturerModelUID(rs
+						.getString("STUDY_MANUFACTURER_UID"));
 				study.setManufacturerModelName(rs
 						.getString("STUDY_MANUFACTURER_MODEL_NAME"));
 				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
+				study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
+				study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
+
 				study.setStudyId(rs.getString("STUDY_ID"));
 				study.setPatientName(rs.getString("PATIENT_NAME"));
 				study.setPatientSex(rs.getString("PATIENT_SEX"));
