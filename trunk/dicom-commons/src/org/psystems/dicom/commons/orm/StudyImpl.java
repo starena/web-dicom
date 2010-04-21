@@ -154,6 +154,7 @@ public class StudyImpl extends Study {
 
 				study.setStudyId(rs.getString("STUDY_ID"));
 				study.setPatientName(rs.getString("PATIENT_NAME"));
+				study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
 				study.setPatientSex(rs.getString("PATIENT_SEX"));
 				study.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
 				study.setPatientId(rs.getString("PATIENT_ID"));

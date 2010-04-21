@@ -42,6 +42,8 @@ public abstract class Study {
 	// LAB_ID64936
 	private String patientName; // ФИО пациента (0016,0016) PN 'Patient's Name'
 	// = Ги****тди***ва И Ф
+	private String patientShortName; // КБП пациента
+
 	private String patientSex; // Пол пациента (0016,0064) CS "Patient's Sex" =
 	// M/F
 	private Date patientBirthDate; // Дата рождения пациента (0016,0048) DA
@@ -95,6 +97,14 @@ public abstract class Study {
 		this.patientName = patientName;
 	}
 
+	public String getPatientShortName() {
+		return patientShortName;
+	}
+
+	public void setPatientShortName(String patientShortName) {
+		this.patientShortName = patientShortName;
+	}
+
 	public String getPatientSex() {
 		return patientSex;
 	}
@@ -106,16 +116,16 @@ public abstract class Study {
 	public Date getPatientBirthDate() {
 		return patientBirthDate;
 	}
-	
+
 	/**
 	 * @return 'YYYY-MM-DD'
 	 */
 	public String getPatientBirthDateAsString() {
-		if(patientBirthDate==null) return null;
+		if (patientBirthDate == null)
+			return null;
 		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
 		return formatLevel.format(patientBirthDate);
 	}
-	
 
 	public void setPatientBirthDate(Date patientBirthDate) {
 		this.patientBirthDate = patientBirthDate;
@@ -140,12 +150,13 @@ public abstract class Study {
 	public Date getStudyDate() {
 		return studyDate;
 	}
-	
+
 	/**
 	 * @return 'YYYY-MM-DD'
 	 */
 	public String getStudyDateAsString() {
-		if(studyDate==null) return null;
+		if (studyDate == null)
+			return null;
 		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
 		return formatLevel.format(studyDate);
 	}
@@ -173,12 +184,13 @@ public abstract class Study {
 	public Date getStudyDescriptionDate() {
 		return studyDescriptionDate;
 	}
-	
+
 	/**
 	 * @return 'YYYY-MM-DD'
 	 */
 	public String getStudyDescriptionDateAsString() {
-		if(studyDescriptionDate==null) return null;
+		if (studyDescriptionDate == null)
+			return null;
 		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
 		return formatLevel.format(studyDescriptionDate);
 	}
@@ -268,7 +280,7 @@ public abstract class Study {
 	/**
 	 * Получение списка исследований
 	 * 
-	 * TODO сделано для WEB-сервиса. заточка под "МИС" 
+	 * TODO сделано для WEB-сервиса. заточка под "МИС"
 	 * 
 	 * @param connection
 	 * @param studyType
