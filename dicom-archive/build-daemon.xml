@@ -64,7 +64,7 @@
 		<javac srcdir="${source_dir}" destdir="${classes_dir}" debug="on" nowarn="on">
 			<classpath refid="build.classpath" />
 			<include name="org/psystems/dicom/daemon/**"/>
-			<exclude name="test*/*"/>
+			<exclude name="**/*Test.java"/>
 		</javac>
 	</target>
 
