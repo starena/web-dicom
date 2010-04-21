@@ -2033,6 +2033,50 @@
                             
 
                         /**
+                        * field for PatientShortName
+                        */
+
+                        
+                                    protected java.lang.String localPatientShortName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localPatientShortNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getPatientShortName(){
+                               return localPatientShortName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param PatientShortName
+                               */
+                               public void setPatientShortName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localPatientShortNameTracker = true;
+                                       } else {
+                                          localPatientShortNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localPatientShortName=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for PatientBirthDate
                         */
 
@@ -2372,6 +2416,40 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localPatientShortNameTracker){
+                                    namespace = "http://webservice.dicom.psystems.org";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"patientShortName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"patientShortName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("patientShortName");
+                                    }
+                                
+
+                                          if (localPatientShortName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localPatientShortName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localPatientBirthDateTracker){
                                     namespace = "http://webservice.dicom.psystems.org";
                                     if (! namespace.equals("")) {
@@ -2682,6 +2760,12 @@
                                  
                                          elementList.add(localPatientName==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientName));
+                                    } if (localPatientShortNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
+                                                                      "patientShortName"));
+                                 
+                                         elementList.add(localPatientShortName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientShortName));
                                     } if (localPatientBirthDateTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
                                                                       "patientBirthDate"));
@@ -2820,6 +2904,33 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setPatientName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","patientShortName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setPatientShortName(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
