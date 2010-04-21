@@ -3,8 +3,6 @@
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.axis2.AxisFault;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudies;
@@ -95,6 +93,9 @@ public class DicomArchiveClient {
 	
 	private static void findStudiesByType(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
 		
+		
+	
+		
 		DicomArchiveStub stub = new DicomArchiveStub(host+"/dicom-webservice/services/DicomArchive" );
 		
 		FindStudiesByType query = new FindStudiesByType();
@@ -175,6 +176,7 @@ public class DicomArchiveClient {
 				+ findedStudy.getManufacturerModelName() + ";"
 				+ findedStudy.getStudyDoctor() + ";" + findedStudy.getStudyId()
 				+ ";" + findedStudy.getPatientName() + ";"
+				+ ";" + findedStudy.getPatientShortName() + ";"
 				+ findedStudy.getPatientId() + ";" +
 				"PatientBirthDate="+findedStudy.getPatientBirthDateAsString() + 
 				" --- [" + findedStudy.getPatientBirthDate().getTime() +"] -- "+
