@@ -505,12 +505,21 @@ public class Extractor {
 					STUDY_DESCRIPTION = "not defined";
 				}
 			}
+			
+			
+			String PATIENT_SHORTNAME = makeShortName(PATIENT_NAME,PATIENT_BIRTH_DATE);
+			if(PATIENT_SHORTNAME == null || PATIENT_SHORTNAME.length()==0) {
+				PATIENT_SHORTNAME = "notmuch";
+			}
 
 			Date STUDY_VIEW_PROTOCOL_DATE = null;// TODO Проверить Дата ли возвращается или строка
 			String STUDY_MANUFACTURER_UID = "empty";// TODO Реализовать!!!
 			String DCM_TYPE = "empty";// Тип файла (снимок,
 													// исследование) TODO
 													// Реализовать!!!
+			
+			
+			
 			
 			// BEGIN ---------------------------------
 			// Драйвер для Электрона
@@ -583,6 +592,9 @@ public class Extractor {
 				IMAGE_WIDTH = image.getWidth(); // TODO Реализовать!!!
 				IMAGE_HEIGHT = image.getHeight();// TODO Реализовать!!!
 			}
+			
+			
+			
 
 			// ----------- Вставка в БД ------------------
 
@@ -614,6 +626,7 @@ public class Extractor {
 										"STUDY_MANUFACTURER_MODEL_NAME = ?," +
 										"PATIENT_ID =?," +
 										"PATIENT_NAME =?," +
+										"PATIENT_SHORTNAME =?," +
 										"PATIENT_BIRTH_DATE =?, " +
 										"PATIENT_SEX =?," +
 										"DATE_MODIFY =? "
@@ -632,10 +645,11 @@ public class Extractor {
 				stmt.setString(11, STUDY_MANUFACTURER_MODEL_NAME);
 				stmt.setString(12, PATIENT_ID);
 				stmt.setString(13, PATIENT_NAME);
-				stmt.setDate(14, PATIENT_BIRTH_DATE);
-				stmt.setString(15, PATIENT_SEX);
-				stmt.setDate(16, new Date(new java.util.Date().getTime()));
-				stmt.setLong(17, studyInternalID);
+				stmt.setString(14, PATIENT_SHORTNAME);
+				stmt.setDate(15, PATIENT_BIRTH_DATE);
+				stmt.setString(16, PATIENT_SEX);
+				stmt.setDate(17, new Date(new java.util.Date().getTime()));
+				stmt.setLong(18, studyInternalID);
 				
 				stmt.executeUpdate();
 				stmt.close();
@@ -659,10 +673,11 @@ public class Extractor {
 								+ "STUDY_MANUFACTURER_MODEL_NAME,"
 								+ "PATIENT_ID,"
 								+ "PATIENT_NAME, "
+								+ "PATIENT_SHORTNAME, "
 								+ "PATIENT_BIRTH_DATE, "
 								+ "PATIENT_SEX,"
 								+ "DATE_MODIFY)"
-								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setString(1, STUDY_UID);
 				stmt.setString(2, STUDY_MANUFACTURER_UID);
@@ -678,9 +693,10 @@ public class Extractor {
 				stmt.setString(12, STUDY_MANUFACTURER_MODEL_NAME);
 				stmt.setString(13, PATIENT_ID);
 				stmt.setString(14, PATIENT_NAME);
-				stmt.setDate(15, PATIENT_BIRTH_DATE);
-				stmt.setString(16, PATIENT_SEX);
-				stmt.setDate(17, new Date(new java.util.Date().getTime()));
+				stmt.setString(15, PATIENT_SHORTNAME);
+				stmt.setDate(16, PATIENT_BIRTH_DATE);
+				stmt.setString(17, PATIENT_SEX);
+				stmt.setDate(18, new Date(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
@@ -1106,6 +1122,28 @@ public class Extractor {
 
 		ImageIO.write(resizedImage, "jpg", new File(dstfile));
 
+	}
+	
+	/**
+	 * Получение КБП
+	 * @param PatientName
+	 * @param PatientBirthDate
+	 * @return
+	 */
+	public static String makeShortName (String PatientName, Date PatientBirthDate) {
+		
+		String result = null;
+		PatientName = PatientName.replaceAll("\\^", " ");//Заменяем ^
+		Matcher matcher = Pattern.compile("\\s*(...).*?\\s+(.).*?\\s+(.).*?").matcher(PatientName.toUpperCase());
+		if (matcher.matches()) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(PatientBirthDate);
+			
+			result = matcher.group(1)+matcher.group(2)+matcher.group(3)+(cal.get(Calendar.YEAR) - 1900); 
+//			System.out.println("!=["+matcher.group(1)+"]["+matcher.group(2)+"]["+matcher.group(3)+"]");
+		}
+		return result;
+		
 	}
 
 }
