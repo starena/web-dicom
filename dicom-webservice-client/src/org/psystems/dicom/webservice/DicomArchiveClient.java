@@ -103,6 +103,7 @@ public class DicomArchiveClient {
 		
 		
 		query.setPatientName(null);
+		query.setPatientShortName(null);
 		query.setPatientSex(null);
 		query.setPatientBirthDate("");
 //		query.setPatientBirthDate("1978-12-14");
