@@ -277,6 +277,7 @@ public abstract class Study {
 		return StudyImpl.getStudues(query);
 	}
 
+
 	/**
 	 * Получение списка исследований
 	 * 
@@ -285,6 +286,7 @@ public abstract class Study {
 	 * @param connection
 	 * @param studyType
 	 * @param patientName
+	 * @param patientShortName
 	 * @param patientBirthDate
 	 * @param patientSex
 	 * @param beginStudyDate
@@ -293,9 +295,9 @@ public abstract class Study {
 	 * @throws DataException
 	 */
 	public static Study[] getStudues(Connection connection, String studyType,
-			String patientName, String patientBirthDate, String patientSex,
+			String patientName, String patientShortName, String patientBirthDate, String patientSex,
 			String beginStudyDate, String endStudyDate) throws DataException {
-		return StudyImpl.getStudues(connection, studyType, patientName,
+		return StudyImpl.getStudues(connection, studyType, patientName, patientShortName,
 				patientBirthDate, patientSex, beginStudyDate, endStudyDate);
 	}
 
