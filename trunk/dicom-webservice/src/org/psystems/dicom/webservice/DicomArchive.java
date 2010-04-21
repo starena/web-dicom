@@ -160,12 +160,14 @@ public class DicomArchive {
 		return data.toArray(result);
 	}
 
+
 	/**
 	 * Поиск исследований по типу
 	 * 
-	 * @param studyType
-	 *            - (fluoro - флюорография)
+	 * @param studyType - (fluoro - флюорография)
+	 * 
 	 * @param patientName
+	 * @param patientShortName
 	 * @param patientBirthDate
 	 * @param patientSex
 	 * @param beginStudyDate
@@ -173,7 +175,7 @@ public class DicomArchive {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Study[] findStudiesByType(String studyType, String patientName,
+	public Study[] findStudiesByType(String studyType, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
 			String endStudyDate) throws DicomWebServiceException {
 
@@ -187,7 +189,7 @@ public class DicomArchive {
 		try {
 			connection = Util.getConnection(servletContext);
 			try {
-				return Study.getStudues(connection, studyType, patientName,
+				return Study.getStudues(connection, studyType, patientName, patientShortName,
 						patientBirthDate, patientSex, beginStudyDate,
 						endStudyDate);
 			} catch (DataException e) {
