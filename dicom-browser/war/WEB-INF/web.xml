@@ -36,18 +36,7 @@
 	</welcome-file-list>
 
 	<!-- Servlets -->
-	
-	<!--<servlet>
-		<servlet-name>study2</servlet-name>
-		<jsp-file>Study.jsp</jsp-file>
-	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>study2</servlet-name>
-		<url-pattern>/study/*</url-pattern>
-	</servlet-mapping>
-
-	-->
 	<servlet>
 		<servlet-name>browserServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.BrowserServiceImpl</servlet-class>
@@ -103,23 +92,23 @@
 		</init-param>
 
 	</servlet>
-	
+
 	<servlet-mapping>
-		<servlet-name>ViewStudyImagesServlet</servlet-name>
-		<url-pattern>/study/*</url-pattern>
+		<servlet-name>dcmAttachementServlet</servlet-name>
+		<url-pattern>/dcm/*</url-pattern>
 	</servlet-mapping>
+
 
 	<servlet>
 		<servlet-name>ViewStudyImagesServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.ViewStudyImagesServlet
 		</servlet-class>
 	</servlet>
-	
-	
+
 
 	<servlet-mapping>
-		<servlet-name>dcmAttachementServlet</servlet-name>
-		<url-pattern>/dcm/*</url-pattern>
+		<servlet-name>ViewStudyImagesServlet</servlet-name>
+		<url-pattern>/study/*</url-pattern>
 	</servlet-mapping>
 
 
@@ -165,7 +154,6 @@
 	</servlet-mapping>
 
 
-	
 
 
 </web-app>
