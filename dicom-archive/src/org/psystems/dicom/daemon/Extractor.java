@@ -414,6 +414,14 @@ public class Extractor {
 			} else {
 				STUDY_UID = element1.getValueAsString(cs, element1.length());
 			}
+			
+			String STUDY_MODALITY = "empty";
+			element1 = dcmObj.get(Tag.Modality);
+			if (element1 == null) {
+				LOG.warn("Study ID (tag: Modality) is empty!");
+			} else {
+				STUDY_MODALITY = element1.getValueAsString(cs, element1.length());
+			}
 
 			//TODO Сделать корректную привязку !!!
 //			element1 = dcmObj.get(Tag.Manufacturer);
@@ -521,6 +529,7 @@ public class Extractor {
 			
 			
 			
+			
 			// BEGIN ---------------------------------
 			// Драйвер для Электрона
 			//TODO Выделить в отдельный драйвер
@@ -614,6 +623,7 @@ public class Extractor {
 				stmt = connection
 						.prepareStatement("update WEBDICOM.STUDY SET " +
 										"STUDY_ID = ? ," +
+										"STUDY_MODALITY = ?," +
 										"STUDY_MANUFACTURER_UID = ?, " +
 										"STUDY_DATE = ?," +
 										"STUDY_TYPE = ?," +
@@ -633,23 +643,24 @@ public class Extractor {
 								+ " where ID = ?");
 
 				stmt.setString(1, STUDY_ID);
-				stmt.setString(2, STUDY_MANUFACTURER_UID);
-				stmt.setDate(3, STUDY_DATE);
-				stmt.setString(4, STUDY_TYPE);
-				stmt.setString(5, STUDY_DESCRIPTION);
-				stmt.setString(6, STUDY_DOCTOR);
-				stmt.setString(7, STUDY_OPERATOR);
-				stmt.setString(8, STUDY_RESULT);
-				stmt.setString(9, STUDY_VIEW_PROTOCOL);
-				stmt.setDate(10, STUDY_VIEW_PROTOCOL_DATE);
-				stmt.setString(11, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(12, PATIENT_ID);
-				stmt.setString(13, PATIENT_NAME);
-				stmt.setString(14, PATIENT_SHORTNAME);
-				stmt.setDate(15, PATIENT_BIRTH_DATE);
-				stmt.setString(16, PATIENT_SEX);
-				stmt.setDate(17, new Date(new java.util.Date().getTime()));
-				stmt.setLong(18, studyInternalID);
+				stmt.setString(2, STUDY_MODALITY);
+				stmt.setString(3, STUDY_MANUFACTURER_UID);
+				stmt.setDate(4, STUDY_DATE);
+				stmt.setString(5, STUDY_TYPE);
+				stmt.setString(6, STUDY_DESCRIPTION);
+				stmt.setString(7, STUDY_DOCTOR);
+				stmt.setString(8, STUDY_OPERATOR);
+				stmt.setString(9, STUDY_RESULT);
+				stmt.setString(10, STUDY_VIEW_PROTOCOL);
+				stmt.setDate(11, STUDY_VIEW_PROTOCOL_DATE);
+				stmt.setString(12, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(13, PATIENT_ID);
+				stmt.setString(14, PATIENT_NAME);
+				stmt.setString(15, PATIENT_SHORTNAME);
+				stmt.setDate(16, PATIENT_BIRTH_DATE);
+				stmt.setString(17, PATIENT_SEX);
+				stmt.setDate(18, new Date(new java.util.Date().getTime()));
+				stmt.setLong(19, studyInternalID);
 				
 				stmt.executeUpdate();
 				stmt.close();
@@ -660,6 +671,7 @@ public class Extractor {
 				stmt = connection
 						.prepareStatement("insert into WEBDICOM.STUDY ("
 								+ "STUDY_UID,"
+								+ "STUDY_MODALITY,"
 								+ "STUDY_MANUFACTURER_UID,"
 								+ "STUDY_ID,"
 								+ "STUDY_DATE,"
@@ -677,26 +689,27 @@ public class Extractor {
 								+ "PATIENT_BIRTH_DATE, "
 								+ "PATIENT_SEX,"
 								+ "DATE_MODIFY)"
-								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setString(1, STUDY_UID);
-				stmt.setString(2, STUDY_MANUFACTURER_UID);
-				stmt.setString(3, STUDY_ID);
-				stmt.setDate(4, STUDY_DATE);
-				stmt.setString(5, STUDY_TYPE);
-				stmt.setString(6, STUDY_DESCRIPTION);
-				stmt.setString(7, STUDY_DOCTOR);
-				stmt.setString(8, STUDY_OPERATOR);
-				stmt.setString(9, STUDY_RESULT);
-				stmt.setString(10, STUDY_VIEW_PROTOCOL);
-				stmt.setDate(11, STUDY_VIEW_PROTOCOL_DATE);
-				stmt.setString(12, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(13, PATIENT_ID);
-				stmt.setString(14, PATIENT_NAME);
-				stmt.setString(15, PATIENT_SHORTNAME);
-				stmt.setDate(16, PATIENT_BIRTH_DATE);
-				stmt.setString(17, PATIENT_SEX);
-				stmt.setDate(18, new Date(new java.util.Date().getTime()));
+				stmt.setString(2, STUDY_MODALITY);
+				stmt.setString(3, STUDY_MANUFACTURER_UID);
+				stmt.setString(4, STUDY_ID);
+				stmt.setDate(5, STUDY_DATE);
+				stmt.setString(6, STUDY_TYPE);
+				stmt.setString(7, STUDY_DESCRIPTION);
+				stmt.setString(8, STUDY_DOCTOR);
+				stmt.setString(9, STUDY_OPERATOR);
+				stmt.setString(10, STUDY_RESULT);
+				stmt.setString(11, STUDY_VIEW_PROTOCOL);
+				stmt.setDate(12, STUDY_VIEW_PROTOCOL_DATE);
+				stmt.setString(13, STUDY_MANUFACTURER_MODEL_NAME);
+				stmt.setString(14, PATIENT_ID);
+				stmt.setString(15, PATIENT_NAME);
+				stmt.setString(16, PATIENT_SHORTNAME);
+				stmt.setDate(17, PATIENT_BIRTH_DATE);
+				stmt.setString(18, PATIENT_SEX);
+				stmt.setDate(19, new Date(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
