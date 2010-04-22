@@ -54,7 +54,7 @@ public class StudyImpl extends Study {
 		return null;
 	}
 
-	public static Study[] getStudues(Connection connection, String studyType,
+	public static Study[] getStudues(Connection connection, String studyModality,
 			String patientName, String patientShortName, String patientBirthDate, String patientSex,
 			String beginStudyDate, String endStudyDate) throws DataException {
 
@@ -68,9 +68,14 @@ public class StudyImpl extends Study {
 
 		String sqlAddon = "";
 
-		if (studyType != null) {
-		}// TODO Сделать обработку studyType !!!
-
+		
+		if (studyModality != null && studyModality.length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_MODALITY = ? ";
+		}
+		
+		
 		if (patientName != null && patientName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
@@ -117,8 +122,10 @@ public class StudyImpl extends Study {
 			psSelect = connection.prepareStatement(sql);
 			int index = 1;
 
-			if (studyType != null) {
-			}// TODO Сделать обработку studyType !!!
+			
+			if (studyModality != null && studyModality.length() > 0) {
+				psSelect.setString(index++, studyModality);
+			}
 
 			if (patientName != null && patientName.length() > 0) {
 				psSelect.setString(index++, patientName);
@@ -152,6 +159,7 @@ public class StudyImpl extends Study {
 
 				Study study = new StudyImpl();
 				study.setId(rs.getLong("ID"));
+				study.setStudyModality(rs.getString("STUDY_MODALITY"));
 				study.setStudyType(rs.getString("STUDY_TYPE"));
 				study.setStudyDate(rs.getDate("STUDY_DATE"));
 				study.setManufacturerModelUID(rs

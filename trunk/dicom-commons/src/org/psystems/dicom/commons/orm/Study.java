@@ -60,6 +60,7 @@ public abstract class Study {
 	// "Operators' Name" = Гаврилова Н.Г.
 	private Date studyDescriptionDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
+	private String studyModality;// модальность (0008,0060).
 	private String studyViewprotocol;// Протокол осмотра
 	private String studyResult;// Результат исследования.
 	private String ManufacturerModelUID; // UID Аппарата (0002,0003) UI
@@ -207,6 +208,14 @@ public abstract class Study {
 		this.studyType = studyType;
 	}
 
+	public String getStudyModality() {
+		return studyModality;
+	}
+
+	public void setStudyModality(String studyModality) {
+		this.studyModality = studyModality;
+	}
+
 	public String getStudyViewprotocol() {
 		return studyViewprotocol;
 	}
@@ -277,14 +286,13 @@ public abstract class Study {
 		return StudyImpl.getStudues(query);
 	}
 
-
 	/**
 	 * Получение списка исследований
 	 * 
 	 * TODO сделано для WEB-сервиса. заточка под "МИС"
 	 * 
 	 * @param connection
-	 * @param studyType
+	 * @param studyModality
 	 * @param patientName
 	 * @param patientShortName
 	 * @param patientBirthDate
@@ -294,11 +302,13 @@ public abstract class Study {
 	 * @return
 	 * @throws DataException
 	 */
-	public static Study[] getStudues(Connection connection, String studyType,
-			String patientName, String patientShortName, String patientBirthDate, String patientSex,
-			String beginStudyDate, String endStudyDate) throws DataException {
-		return StudyImpl.getStudues(connection, studyType, patientName, patientShortName,
-				patientBirthDate, patientSex, beginStudyDate, endStudyDate);
+	public static Study[] getStudues(Connection connection,
+			String studyModality, String patientName, String patientShortName,
+			String patientBirthDate, String patientSex, String beginStudyDate,
+			String endStudyDate) throws DataException {
+		return StudyImpl.getStudues(connection, studyModality, patientName,
+				patientShortName, patientBirthDate, patientSex, beginStudyDate,
+				endStudyDate);
 	}
 
 }
