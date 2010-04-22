@@ -7,6 +7,11 @@
 		<param-value>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</param-value>
 	</context-param>
 	
+	<context-param>
+		<param-name>webdicom.ws.viewstudy.url</param-name>
+		<param-value>"http://127.0.0.1:8888/study/</param-value>
+	</context-param>
+	
 	<servlet>
 		<display-name>Apache-Axis Servlet</display-name>
 		<servlet-name>AxisServlet</servlet-name>
