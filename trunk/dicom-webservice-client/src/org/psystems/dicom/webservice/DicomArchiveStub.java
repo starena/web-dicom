@@ -1945,44 +1945,44 @@
         
 
                         /**
-                        * field for StudyType
+                        * field for StudyModality
                         */
 
                         
-                                    protected java.lang.String localStudyType ;
+                                    protected java.lang.String localStudyModality ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localStudyTypeTracker = false ;
+                           protected boolean localStudyModalityTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getStudyType(){
-                               return localStudyType;
+                           public  java.lang.String getStudyModality(){
+                               return localStudyModality;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param StudyType
+                               * @param param StudyModality
                                */
-                               public void setStudyType(java.lang.String param){
+                               public void setStudyModality(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localStudyTypeTracker = true;
+                                          localStudyModalityTracker = true;
                                        } else {
-                                          localStudyTypeTracker = true;
+                                          localStudyModalityTracker = true;
                                               
                                        }
                                    
-                                            this.localStudyType=param;
+                                            this.localStudyModality=param;
                                     
 
                                }
@@ -2348,7 +2348,7 @@
 
                
                    }
-                if (localStudyTypeTracker){
+                if (localStudyModalityTracker){
                                     namespace = "http://webservice.dicom.psystems.org";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -2356,20 +2356,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"studyType", namespace);
+                                            xmlWriter.writeStartElement(prefix,"studyModality", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"studyType");
+                                            xmlWriter.writeStartElement(namespace,"studyModality");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("studyType");
+                                        xmlWriter.writeStartElement("studyModality");
                                     }
                                 
 
-                                          if (localStudyType==null){
+                                          if (localStudyModality==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -2377,7 +2377,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localStudyType);
+                                                   xmlWriter.writeCharacters(localStudyModality);
                                             
                                           }
                                     
@@ -2748,12 +2748,12 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localStudyTypeTracker){
+                 if (localStudyModalityTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
-                                                                      "studyType"));
+                                                                      "studyModality"));
                                  
-                                         elementList.add(localStudyType==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyType));
+                                         elementList.add(localStudyModality==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyModality));
                                     } if (localPatientNameTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
                                                                       "patientName"));
@@ -2869,14 +2869,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","studyType").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","studyModality").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setStudyType(
+                                              object.setStudyModality(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -6335,6 +6335,50 @@
                             
 
                         /**
+                        * field for StudyModality
+                        */
+
+                        
+                                    protected java.lang.String localStudyModality ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localStudyModalityTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getStudyModality(){
+                               return localStudyModality;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param StudyModality
+                               */
+                               public void setStudyModality(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localStudyModalityTracker = true;
+                                       } else {
+                                          localStudyModalityTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localStudyModality=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for StudyOperator
                         */
 
@@ -7274,6 +7318,40 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localStudyModalityTracker){
+                                    namespace = "http://orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"studyModality", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"studyModality");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("studyModality");
+                                    }
+                                
+
+                                          if (localStudyModality==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localStudyModality);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localStudyOperatorTracker){
                                     namespace = "http://orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
@@ -7722,6 +7800,12 @@
                                  
                                          elementList.add(localStudyInstanceUID==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyInstanceUID));
+                                    } if (localStudyModalityTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
+                                                                      "studyModality"));
+                                 
+                                         elementList.add(localStudyModality==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyModality));
                                     } if (localStudyOperatorTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
                                                                       "studyOperator"));
@@ -8310,6 +8394,33 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setStudyInstanceUID(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","studyModality").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setStudyModality(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
