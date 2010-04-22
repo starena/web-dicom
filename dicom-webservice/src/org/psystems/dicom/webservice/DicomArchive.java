@@ -189,9 +189,21 @@ public class DicomArchive {
 		try {
 			connection = Util.getConnection(servletContext);
 			try {
-				return Study.getStudues(connection, studyType, patientName, patientShortName,
+				Study[] studies = Study.getStudues(connection, studyType, patientName, patientShortName,
 						patientBirthDate, patientSex, beginStudyDate,
 						endStudyDate);
+				
+				String url = servletContext
+				.getInitParameter("webdicom.ws.viewstudy.url");
+				
+				
+				//"http://127.0.0.1:8888/study/"
+				
+				for(int i=0; i<studies.length; i++) {
+					studies[i].setStudyUrl(url+"/"+studies[i].getId());
+				}
+				
+				return studies;
 			} catch (DataException e) {
 				logger.warn("Error get studies: " + e);
 				throw new DicomWebServiceException(e);
