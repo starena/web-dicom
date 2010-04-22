@@ -164,7 +164,7 @@ public class DicomArchive {
 	/**
 	 * Поиск исследований по типу
 	 * 
-	 * @param studyType - (fluoro - флюорография)
+	 * @param studyModality - (CR - флюорография)
 	 * 
 	 * @param patientName
 	 * @param patientShortName
@@ -175,7 +175,7 @@ public class DicomArchive {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Study[] findStudiesByType(String studyType, String patientName, String patientShortName,
+	public Study[] findStudiesByType(String studyModality, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
 			String endStudyDate) throws DicomWebServiceException {
 
@@ -189,7 +189,7 @@ public class DicomArchive {
 		try {
 			connection = Util.getConnection(servletContext);
 			try {
-				Study[] studies = Study.getStudues(connection, studyType, patientName, patientShortName,
+				Study[] studies = Study.getStudues(connection, studyModality, patientName, patientShortName,
 						patientBirthDate, patientSex, beginStudyDate,
 						endStudyDate);
 				
