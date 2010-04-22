@@ -99,7 +99,8 @@ public class DicomArchiveClient {
 		DicomArchiveStub stub = new DicomArchiveStub(host+"/dicom-webservice/services/DicomArchive" );
 		
 		FindStudiesByType query = new FindStudiesByType();
-		query.setStudyType("fluoro");
+		
+		query.setStudyModality("CR");
 		
 		
 		query.setPatientName(null);
