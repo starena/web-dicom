@@ -115,10 +115,11 @@ public class DicomArchiveClient {
 //		
 ////		db.set(1961, 3, 9); //1961-04-09
 ////		query.setPatientBirthDate(db);
+//		(2010-02-25) (2010-04-01)
 //		
 //		
-		query.setBeginStudyDate("");
-		query.setEndStudyDate("");
+		query.setBeginStudyDate("2010-02-24");
+		query.setEndStudyDate("2010-02-25");
 //		
 //		
 //		
