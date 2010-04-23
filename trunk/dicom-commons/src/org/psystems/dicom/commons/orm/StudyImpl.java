@@ -54,9 +54,10 @@ public class StudyImpl extends Study {
 		return null;
 	}
 
-	public static Study[] getStudues(Connection connection, String studyModality,
-			String patientName, String patientShortName, String patientBirthDate, String patientSex,
-			String beginStudyDate, String endStudyDate) throws DataException {
+	public static Study[] getStudues(Connection connection,
+			String studyModality, String patientName, String patientShortName,
+			String patientBirthDate, String patientSex, String beginStudyDate,
+			String endStudyDate) throws DataException {
 
 		PreparedStatement psSelect = null;
 
@@ -68,20 +69,18 @@ public class StudyImpl extends Study {
 
 		String sqlAddon = "";
 
-		
 		if (studyModality != null && studyModality.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " STUDY_MODALITY = ? ";
 		}
-		
-		
+
 		if (patientName != null && patientName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " UPPER(PATIENT_NAME) like UPPER( ? || '%') ";
 		}
-		
+
 		if (patientShortName != null && patientShortName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
@@ -102,9 +101,31 @@ public class StudyImpl extends Study {
 
 		if (beginStudyDate != null && beginStudyDate.length() > 0
 				&& endStudyDate != null && endStudyDate.length() > 0) {
+
+			if (java.sql.Date.valueOf(beginStudyDate).getTime() > java.sql.Date
+					.valueOf(endStudyDate).getTime()) {
+				throw new DataException(new IllegalArgumentException(
+						"beginStudyDate > endStudyDate"));
+			}
+
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " STUDY_DATE BETWEEN ? AND ? ";
+		} else {
+
+			if (beginStudyDate != null && beginStudyDate.length() > 0
+					&& (endStudyDate == null || endStudyDate.length() > 0)) {
+				if (sqlAddon.length() != 0)
+					sqlAddon += " AND ";
+				sqlAddon += " STUDY_DATE > ? ";
+			}
+
+			if (endStudyDate != null && endStudyDate.length() > 0
+					&& (beginStudyDate == null || beginStudyDate.length() > 0)) {
+				if (sqlAddon.length() != 0)
+					sqlAddon += " AND ";
+				sqlAddon += " STUDY_DATE < ?  ";
+			}
 		}
 
 		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
@@ -122,7 +143,6 @@ public class StudyImpl extends Study {
 			psSelect = connection.prepareStatement(sql);
 			int index = 1;
 
-			
 			if (studyModality != null && studyModality.length() > 0) {
 				psSelect.setString(index++, studyModality);
 			}
@@ -130,7 +150,7 @@ public class StudyImpl extends Study {
 			if (patientName != null && patientName.length() > 0) {
 				psSelect.setString(index++, patientName);
 			}
-			
+
 			if (patientShortName != null && patientShortName.length() > 0) {
 				psSelect.setString(index++, patientShortName);
 			}
@@ -149,6 +169,19 @@ public class StudyImpl extends Study {
 				psSelect
 						.setDate(index++, java.sql.Date.valueOf(beginStudyDate));
 				psSelect.setDate(index++, java.sql.Date.valueOf(endStudyDate));
+			}else {
+				
+				if (beginStudyDate != null && beginStudyDate.length() > 0
+						&& (endStudyDate == null || endStudyDate.length() > 0)) {
+					psSelect
+					.setDate(index++, java.sql.Date.valueOf(beginStudyDate));
+				}
+
+				if (endStudyDate != null && endStudyDate.length() > 0
+						&& (beginStudyDate == null || beginStudyDate.length() > 0)) {
+					psSelect
+					.setDate(index++, java.sql.Date.valueOf(endStudyDate));
+				}
 			}
 
 			ResultSet rs = psSelect.executeQuery();
