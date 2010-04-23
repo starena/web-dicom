@@ -231,7 +231,7 @@ public class DcmViewTagsServlet extends HttpServlet {
 				String type = element.vr().toString();
 
 				int length = element.length();
-				int maxLength = 200;
+				int maxLength = 200;//TODO Убрать жесткое ограничение.
 				if (length > maxLength)
 					length = maxLength;
 
