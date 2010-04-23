@@ -132,6 +132,8 @@ public class ViewStudyImagesServlet extends HttpServlet {
 				psSelect.setString(1, path);
 			}
 			ResultSet rs = psSelect.executeQuery();
+			
+
 			resp.getWriter().write("<table border='0' cellpadding='10'><tr>");
 			while (rs.next()) {
 				String file = rs.getString("DCM_FILE_NAME");
@@ -169,7 +171,9 @@ public class ViewStudyImagesServlet extends HttpServlet {
 
 	private void printImage(HttpServletResponse resp, int dcmId) throws IOException {
 		resp.getWriter().write("<td>");
-		resp.getWriter().write("<a href='../images/"+dcmId+".fullsize' target='_blank'><image src='../images/"+dcmId+".100x100' </image> </a>");
+		String href = "../images/"+dcmId+".fullsize";
+//		resp.getWriter().write("<a href='"+href +"' target='_blank'><image src='../images/"+dcmId+".100x100' </image> </a>");
+		resp.getWriter().write("<a href='"+href+"' onclick=\"window.open('"+href+"','name1','left=0,top=0,width=800,height=600,toolbar=0,location=0,directories=0,menubar=0,status=0'); return false\"> <image src='../images/"+dcmId+".100x100' </image> </a>");
 		resp.getWriter().write("</td>");
 		
 	}
