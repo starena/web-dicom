@@ -2,21 +2,73 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import="java.util.*"%>
+<%@ page import="java.sql.*"%>
 
 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Blog</title>
+<title>Исследования</title>
 </head>
 
 <body>
 
 <jsp:include page="/Header.jsp"></jsp:include>
 
+<jsp:useBean id="util" scope="page"
+	class="org.psystems.dicom.browser.server.Util" />
 
-<h1>Body</h1>
-<%=request.getParameter("id")%>
+
+<script language="javascript">
+
+
+function openwindow (linka,name,_left,_top,_width,_height) {
+
+	var width = 800;
+	var height = 600;
+	var left=(screen.width-width)/2;
+	var top=(screen.height-height)/2;
+	window.open(linka,name,'left='+left+',top='+top+',width='+width+',height='+height+',toolbar=0,location=0,directories=0,menubar=0,status=0,resizable=1');
+	
+}
+
+</script>
+
+<table border='0' cellpadding='10'><tr>
+
+<%
+	
+	String path = request.getPathInfo().replaceFirst("/", "");
+	Connection connection = util.getConnection(getServletContext());
+	PreparedStatement psSelect = null;
+	psSelect = connection.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
+	psSelect.setLong(1, Long.valueOf(path).longValue());
+	ResultSet rs = psSelect.executeQuery();
+	while (rs.next()) {
+		String file = rs.getString("DCM_FILE_NAME");
+		long dcmId = rs.getLong("ID");
+		String href = "../images/"+dcmId+".fullsize";
+%>
+
+
+<td>
+		
+		
+<a href='<%=href%>' onclick="openwindow('<%=href%>','name2',0,0,800,600); return false"> 
+<image src="../images/<%=dcmId%>.100x100"> </image> 
+</a>
+
+</td>
+
+
+<%
+	}
+
+%>
+
+</tr></table>
+
+
 
 </body>
 </html>
