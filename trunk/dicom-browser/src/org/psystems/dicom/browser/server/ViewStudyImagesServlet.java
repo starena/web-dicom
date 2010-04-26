@@ -55,14 +55,11 @@
 package org.psystems.dicom.browser.server;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,12 +69,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.dcm4che2.data.DicomElement;
-import org.dcm4che2.data.DicomObject;
-import org.dcm4che2.data.SpecificCharacterSet;
-import org.dcm4che2.data.Tag;
-import org.dcm4che2.io.DicomInputStream;
-import org.dcm4che2.util.StringUtils;
 
 public class ViewStudyImagesServlet extends HttpServlet {
 
@@ -134,6 +125,10 @@ public class ViewStudyImagesServlet extends HttpServlet {
 			ResultSet rs = psSelect.executeQuery();
 			
 
+			
+//			resp.getWriter().write("<script language=\"javascript\">");
+//			resp.getWriter().write("</script>");
+			
 			resp.getWriter().write("<table border='0' cellpadding='10'><tr>");
 			while (rs.next()) {
 				String file = rs.getString("DCM_FILE_NAME");
@@ -172,8 +167,9 @@ public class ViewStudyImagesServlet extends HttpServlet {
 	private void printImage(HttpServletResponse resp, int dcmId) throws IOException {
 		resp.getWriter().write("<td>");
 		String href = "../images/"+dcmId+".fullsize";
+		
 //		resp.getWriter().write("<a href='"+href +"' target='_blank'><image src='../images/"+dcmId+".100x100' </image> </a>");
-		resp.getWriter().write("<a href='"+href+"' onclick=\"window.open('"+href+"','name1','left=0,top=0,width=800,height=600,toolbar=0,location=0,directories=0,menubar=0,status=0'); return false\"> <image src='../images/"+dcmId+".100x100' </image> </a>");
+		resp.getWriter().write("<a href='"+href+"' onclick=\"window.open('"+href+"','name1','left=0,top=0,width=800,height=600,toolbar=0,location=0,directories=0,menubar=0,status=0,resizable=1'); return false\"> <image src='../images/"+dcmId+".100x100' </image> </a>");
 		resp.getWriter().write("</td>");
 		
 	}

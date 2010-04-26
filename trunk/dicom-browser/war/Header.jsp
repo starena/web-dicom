@@ -21,6 +21,6 @@
 
 <body>
 
-<h1> Header </h1>
+<h1> Исследования </h1>
 </body>
 </html>
