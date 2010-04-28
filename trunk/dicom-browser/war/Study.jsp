@@ -24,11 +24,11 @@
 
 function openwindow (linka,name,_left,_top,_width,_height) {
 
-	var width = 800;
-	var height = 600;
+	var width = _width;
+	var height = _height;
 	var left=(screen.width-width)/2;
 	var top=(screen.height-height)/2;
-	window.open(linka,name,'left='+left+',top='+top+',width='+width+',height='+height+',toolbar=0,location=0,directories=0,menubar=0,status=0,resizable=1');
+	window.open(linka,name,'left='+left+',top='+top+',width='+width+',height='+height+',toolbar=0,location=0,directories=0,menubar=0,status=0,resizable=1,scrollbars=1');
 	
 }
 
@@ -38,6 +38,8 @@ function openwindow (linka,name,_left,_top,_width,_height) {
 
 <%
 	
+	String width = (String)request.getParameter("width");
+	String height = (String)request.getParameter("height");
 	String path = request.getPathInfo().replaceFirst("/", "");
 	Connection connection = util.getConnection(getServletContext());
 	PreparedStatement psSelect = null;
@@ -47,15 +49,15 @@ function openwindow (linka,name,_left,_top,_width,_height) {
 	while (rs.next()) {
 		String file = rs.getString("DCM_FILE_NAME");
 		long dcmId = rs.getLong("ID");
-		String href = "../images/"+dcmId+".fullsize";
+		/*String href = "../images/"+dcmId+".fullsize";*/
+		String href = "../study/image/"+dcmId;
 %>
 
 
 <td>
 		
-		
-<a href='<%=href%>' onclick="openwindow('<%=href%>','name2',0,0,800,600); return false"> 
-<image src="../images/<%=dcmId%>.100x100"> </image> 
+<a href='<%=href%>' onclick="openwindow('<%=href%>','name2',0,0,<%=width %>,<%=height %>); return false"> 
+<img src="../images/<%=dcmId%>.100x100" border='0'> </img> 
 </a>
 
 </td>

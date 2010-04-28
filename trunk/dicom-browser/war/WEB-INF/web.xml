@@ -117,6 +117,16 @@
 	
 	-->
 	
+	<servlet>
+	<servlet-name>studyImage</servlet-name>
+	<jsp-file>/StudyImage.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>studyImage</servlet-name>
+		<url-pattern>/study/image/*</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 	<servlet>
