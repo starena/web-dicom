@@ -1,4 +1,4 @@
-<project name="My Application" default="compile" basedir=".">
+<project name="okocits3 demo serviceses" default="compile" basedir=".">
 
 	<!-- Configure the directory into which the web application is built -->
 	<property name="build"    value="${basedir}/build"/>
@@ -26,7 +26,7 @@
 		<!-- ... construct web application in ${build} subdirectory, and
             generated a ${path}.war ... -->
 
-		<war destfile="${build}/okocits3-webservice.war" webxml="WebContent/WEB-INF/web.xml">
+		<war destfile="${build}${path}.war" webxml="WebContent/WEB-INF/web.xml">
 			<fileset dir="WebContent"/>
 			<classes dir="build/classes"/>
 		</war>
