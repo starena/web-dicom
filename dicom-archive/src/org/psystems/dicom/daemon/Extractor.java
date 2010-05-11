@@ -89,6 +89,7 @@ import org.dcm4che2.data.VR;
 import org.dcm4che2.filecache.FileCache;
 import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.io.DicomInputStream;
+import org.dcm4che2.net.Association;
 import org.dcm4che2.util.CloseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -353,14 +354,16 @@ public class Extractor {
 	/**
 	 * Запись информации в БД
 	 * 
+	 * @param as 
 	 * @param dcmFile
 	 * @param imageFile
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void updateDataBase(File dcmFile, DCMImage image)
+	public void updateDataBase(Association as, File dcmFile, DCMImage image)
 			throws SQLException, IOException {
 
+		LOG.info("Calling AE Title: ["+as.getCallingAET()+" : "+as.getLocalAET()+"]; Remote AE Title : ["+as.getRemoteAET()+"]");
 		connection.setAutoCommit(false);
 
 		DicomObject dcmObj;
