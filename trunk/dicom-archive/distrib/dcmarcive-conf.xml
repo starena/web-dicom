@@ -1,0 +1,15 @@
+<dcmarchive>
+	
+	<dcmconnector>
+		<AET>DDV</AET>
+		<name>Test DICOM KRT Electron connector</name>
+		<driver>electron</driver>
+	</dcmconnector>
+
+	<dcmconnector>
+		<AET>TEST</AET>
+		<name>Test DICOM Renex connector</name>
+		<driver>renex</driver>
+	</dcmconnector>
+	
+</dcmarchive>
