@@ -985,6 +985,7 @@ public class Archive extends StorageService {
 			String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
 
 			File file = null;
+		
 
 			try {
 
@@ -999,7 +1000,7 @@ public class Archive extends StorageService {
 					findName = extractor.getDCMFileNamefromDB(f);
 					// System.out.println("[1]!!!! finded in DB " + findName);
 
-					if (findName != null) {
+					if (findName != null) {	
 
 						findName = cache.getCacheRootDir() + File.separator
 								+ findName;
@@ -1080,7 +1081,7 @@ public class Archive extends StorageService {
 
 				try {
 					// Пишем всю информацию в БД
-					extractor.updateDataBase(rename, image);
+					extractor.updateDataBase(as, rename, image);
 
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
