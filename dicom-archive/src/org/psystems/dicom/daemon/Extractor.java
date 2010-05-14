@@ -110,6 +110,8 @@ public class Extractor {
 	public static String imageDirPrefix = ".images";
 
 	static String connectionStr = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
+
+	public static String configStr = "dcmarcive-conf.xml";
 	private Connection connection;// соединение с БД
 
 	private int frame = 1;

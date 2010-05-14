@@ -1,4 +1,9 @@
 <dcmarchive>
+
+	<dicomconnect>DDV@localhost:11112</dicomconnect>
+	<destination>/temp/data</destination>
+	<jdbcconnect>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</jdbcconnect>
+
 	
 	<dcmconnector>
 		<AET>DDV</AET>
