@@ -283,6 +283,8 @@ public class Archive extends StorageService {
 
 	private char[] trustStorePassword = SECRET;
 
+	private Config config;
+
 	private static Extractor extractor;
 
 	public Archive(String name) {
@@ -295,6 +297,7 @@ public class Archive extends StorageService {
 		ae.setAssociationAcceptor(true);
 		ae.register(new VerificationService());
 		ae.register(this);
+		config = new Config(Extractor.configStr);
 	}
 
 	public final void setAEtitle(String aet) {
@@ -473,6 +476,12 @@ public class Archive extends StorageService {
 		OptionBuilder.withDescription("jdbc connect  <URL>.\n example: "
 				+ Extractor.connectionStr);
 		opts.addOption(OptionBuilder.create("jdbcconnect"));
+		
+		OptionBuilder.withArgName("config");
+		OptionBuilder.hasArg();
+		OptionBuilder.withDescription("config file <config> .\n example: "
+				+ Extractor.configStr);
+		opts.addOption(OptionBuilder.create("config"));
 
 		OptionBuilder.withArgName("file|url");
 		OptionBuilder.hasArg();
@@ -654,6 +663,9 @@ public class Archive extends StorageService {
 
 		if (cl.hasOption("jdbcconnect"))
 			Extractor.connectionStr = cl.getOptionValue("jdbcconnect");
+		
+		if (cl.hasOption("config"))
+			Extractor.configStr = cl.getOptionValue("config");
 
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));

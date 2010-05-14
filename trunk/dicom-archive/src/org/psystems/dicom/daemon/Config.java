@@ -2,6 +2,7 @@ package org.psystems.dicom.daemon;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,21 +16,21 @@ import org.xml.sax.SAXException;
 
 public class Config {
 
+	private ArrayList<Connector> connectors = new ArrayList<Connector>();
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-		new Config(); 
+		new Config("distrib/dcmarcive-conf.xml");
 
 	}
-	
-	
 
-	public Config() {
+	public Config(String file) {
 		super();
 		try {
-			loadConfig();
+			loadConfig(file);
 		} catch (ParserConfigurationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -42,15 +43,13 @@ public class Config {
 		}
 	}
 
-
-
-	public void loadConfig() throws ParserConfigurationException,
-			SAXException, IOException {
+	public void loadConfig(String file) throws ParserConfigurationException, SAXException,
+			IOException {
 
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
 				.newInstance();
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-		Document doc = docBuilder.parse(new File("distrib/dcmarcive-conf.xml"));
+		Document doc = docBuilder.parse(new File(file));
 
 		// normalize text representation
 		doc.getDocumentElement().normalize();
@@ -80,6 +79,8 @@ public class Config {
 				System.out.println("AET : "
 						+ ((Node) textFNList.item(0)).getNodeValue().trim());
 
+				String aET = ((Node) textFNList.item(0)).getNodeValue().trim();
+
 				// -------
 
 				NodeList nameList = firstconenctorElement
@@ -90,8 +91,10 @@ public class Config {
 				System.out.println("Name : "
 						+ ((Node) textLNList.item(0)).getNodeValue().trim());
 
+				String name = ((Node) textLNList.item(0)).getNodeValue().trim();
+
 				// -------
-				
+
 				NodeList ageList = firstconenctorElement
 						.getElementsByTagName("driver");
 				Element ageElement = (Element) ageList.item(0);
@@ -100,8 +103,45 @@ public class Config {
 				System.out.println("driver : "
 						+ ((Node) textAgeList.item(0)).getNodeValue().trim());
 
+				String driver = ((Node) textAgeList.item(0)).getNodeValue()
+						.trim();
+				Connector conn = new Connector(aET, name, driver);
+
+				connectors.add(conn);
+
 			}
 		}
+	}
+
+	/**
+	 * @author dima_d
+	 * 
+	 */
+	public class Connector {
+
+		private String AET;
+		private String name;
+		private String driver;
+
+		public Connector(String aET, String name, String driver) {
+			super();
+			AET = aET;
+			this.name = name;
+			this.driver = driver;
+		}
+
+		public String getAET() {
+			return AET;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getDriver() {
+			return driver;
+		}
+
 	}
 
 }
