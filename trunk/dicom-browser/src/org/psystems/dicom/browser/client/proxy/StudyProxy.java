@@ -78,7 +78,7 @@ public class StudyProxy implements Serializable {
 	private Date studyDate; // Дата исследования
 	private String studyDoctor; // Врач исследования
 	private String studyOperator; // Оператор исследования
-	private String studyDescriptionDate;// Дата описания исследования.
+	private Date studyDescriptionDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
 	private String studyViewprotocol;// Протокол осмотра
@@ -111,7 +111,7 @@ public class StudyProxy implements Serializable {
 	public void init(long id, String studyUID, String ManufacturerModelName,
 			String patientName, String patientSex, String patientId,
 			Date patientBirthDate, String studyId, String studyType,
-			Date studyDate, String studyDescriptionDate, String studyDoctor,
+			Date studyDate, Date studyDescriptionDate, String studyDoctor,
 			String studyOperator, String studyDescription,
 			String studyViewprotocol, String studyResult) {
 
@@ -188,8 +188,13 @@ public class StudyProxy implements Serializable {
 		return studyResult;
 	}
 
-	public String getStudyDescriptionDate() {
+	public Date getStudyDescriptionDate() {
 		return studyDescriptionDate;
+	}
+	
+	public String getStudyDescriptionDateAsString(String pattern) {
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
+		return dateFormat.format(studyDescriptionDate);
 	}
 
 	public String getStudyType() {

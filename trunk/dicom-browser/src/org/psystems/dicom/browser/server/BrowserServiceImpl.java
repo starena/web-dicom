@@ -86,6 +86,8 @@ import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
 import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
+import org.psystems.dicom.commons.orm.DataException;
+import org.psystems.dicom.commons.orm.Study;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -118,116 +120,149 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 			Connection connection = Util.getConnection(getServletContext());
 
-			psFiles = connection
-					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
-
-			psSelect = connection
-					.prepareStatement("SELECT ID, STUDY_UID, PATIENT_ID, PATIENT_NAME, "
-							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
-							+ " STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR, STUDY_RESULT, STUDY_DESCRIPTION  FROM WEBDICOM.STUDY"
-							+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
-							+ " order by PATIENT_NAME, STUDY_DATE ");
-
-			psSelect.setString(1, queryStr);
-			ResultSet rs = psSelect.executeQuery();
-
+//			psFiles = connection
+//					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
+//
+//			psSelect = connection
+//					.prepareStatement("SELECT ID, STUDY_UID, PATIENT_ID, PATIENT_NAME, "
+//							+ " PATIENT_SEX, PATIENT_BIRTH_DATE, STUDY_ID,"
+//							+ " STUDY_DATE, STUDY_DOCTOR, STUDY_OPERATOR, STUDY_RESULT, STUDY_DESCRIPTION  FROM WEBDICOM.STUDY"
+//							+ " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
+//							+ " order by PATIENT_NAME, STUDY_DATE ");
+//
+//			psSelect.setString(1, queryStr);
+//			ResultSet rs = psSelect.executeQuery();
+//
+//			ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
+//			int index = 0;
+//			while (rs.next()) {
+//
+//				StudyProxy studyProxy = new StudyProxy();
+//				data.add(studyProxy);
+//
+//				Calendar now = Calendar.getInstance();
+//				// Locale loc_ru = new Locale("ru", "RU");
+//				now.setTime(rs.getDate("PATIENT_BIRTH_DATE"));
+//
+//				ArrayList<DcmTagProxy> tags = getTags(rs.getInt("ID"));
+//				// StringBuffer sb = new StringBuffer();
+//				String ManufacturerModelName = null;
+//				String studyType = null;
+//				String studyDescriptionDate = null;
+//				String studyViewprotocol = null;
+//				String studyResult = null;
+//
+//				// Собираем теги
+//				for (Iterator<DcmTagProxy> iter = tags.iterator(); iter
+//						.hasNext();) {
+//					DcmTagProxy tag = iter.next();
+//
+//					// TODO Это только для КРТ Электрон !!!!
+//					// Дата описания снимка
+//					if (tag.getMajor() == 21
+//							|| Integer.toHexString(tag.getMinor()).equals(
+//									"1110")) {
+//						studyDescriptionDate = tag.getTagValue();
+//					}
+//
+//					// «Вид исследования» - 0029 1106+0029 1107
+//					if (tag.getMajor() == 29
+//							|| Integer.toHexString(tag.getMinor()).equals(
+//									"1106")) {
+//						studyType = tag.getTagValue();
+//					}
+//
+//					if (tag.getMajor() == 29
+//							|| Integer.toHexString(tag.getMinor()).equals(
+//									"1107")) {
+//						studyType += " , " + tag.getTagValue();
+//					}
+//
+//					if (tag.getMajor() == 21
+//							|| Integer.toHexString(tag.getMinor()).equals(
+//									"1103")) {
+//						studyResult = tag.getTagValue();
+//					}
+//
+//					if (tag.getMajor() == 21
+//							|| Integer.toHexString(tag.getMinor()).equals(
+//									"1118")) {
+//						studyViewprotocol = tag.getTagValue();
+//					}
+//
+//					if (tag.getIdTag() == Tag.ManufacturerModelName) {
+//						ManufacturerModelName = tag.getTagValue();
+//					}
+//				}
+//
+//				studyProxy.init(rs.getLong("ID"), rs.getString("STUDY_UID"),
+//						ManufacturerModelName, rs.getString("PATIENT_NAME"), rs
+//								.getString("PATIENT_SEX"), rs
+//								.getString("PATIENT_ID"), rs
+//								.getDate("PATIENT_BIRTH_DATE"), rs
+//								.getString("STUDY_ID"), studyType, rs
+//								.getDate("STUDY_DATE"), studyDescriptionDate,
+//						rs.getString("STUDY_DOCTOR"), rs
+//								.getString("STUDY_OPERATOR"), rs
+//								.getString("STUDY_DESCRIPTION"),
+//						studyViewprotocol, studyResult);
+//
+//				// Получаем список файлов
+//				psFiles.setLong(1, rs.getLong("ID"));
+//				ResultSet rsFiles = psFiles.executeQuery();
+//
+//				ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
+//				while (rsFiles.next()) {
+//
+//					DcmFileProxy dcmfileProxy = new DcmFileProxy();
+//
+//					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
+//							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
+//							rsFiles.getString("DCM_FILE_NAME"), rsFiles
+//									.getLong("DCM_FILE_SIZE"), rsFiles
+//									.getLong("IMAGE_FILE_SIZE"), rsFiles
+//									.getInt("IMAGE_WIDTH"), rsFiles
+//									.getInt("IMAGE_HEIGHT"));
+//					files.add(dcmfileProxy);
+//				}
+//				rsFiles.close();
+//				studyProxy.setFiles(files);
+//
+//			}
+//			rs.close();
+			
+			
 			ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
-			int index = 0;
-			while (rs.next()) {
-
+			Study[] studies = Study.getStudues(connection, null, queryStr, null,null, null, null,null);
+			for(int i=0; i<studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();
+				
+				
+				
+				java.util.Date studyDescriptionDate = null;
+				java.util.Date studyDate = null;
+				java.util.Date patientBirthDate = null;
+				
+				if(studies[i].getStudyDescriptionDate()!=null)
+					studyDescriptionDate = new java.util.Date(studies[i].getStudyDescriptionDate().getTime());
+				
+				if(studies[i].getStudyDate()!=null)
+					studyDate = new java.util.Date(studies[i].getStudyDate().getTime());
+				
+				if(studies[i].getPatientBirthDate()!=null)
+					patientBirthDate = new java.util.Date(studies[i].getPatientBirthDate().getTime());
+				
+				studyProxy.init(studies[i].getId(), studies[i].getStudyInstanceUID(),
+						studies[i].getManufacturerModelName(), studies[i].getPatientName(),
+						studies[i].getPatientSex(),studies[i].getPatientId(),
+						patientBirthDate,studies[i].getStudyId(),
+						studies[i].getStudyType(), studyDate,
+						studyDescriptionDate, studies[i].getStudyDoctor(),
+						studies[i].getStudyOperator(), studies[i].getStudyViewprotocol(),
+						studies[i].getStudyViewprotocol(), studies[i].getStudyResult());
 				data.add(studyProxy);
-
-				Calendar now = Calendar.getInstance();
-				// Locale loc_ru = new Locale("ru", "RU");
-				now.setTime(rs.getDate("PATIENT_BIRTH_DATE"));
-
-				ArrayList<DcmTagProxy> tags = getTags(rs.getInt("ID"));
-				// StringBuffer sb = new StringBuffer();
-				String ManufacturerModelName = null;
-				String studyType = null;
-				String studyDescriptionDate = null;
-				String studyViewprotocol = null;
-				String studyResult = null;
-
-				// Собираем теги
-				for (Iterator<DcmTagProxy> iter = tags.iterator(); iter
-						.hasNext();) {
-					DcmTagProxy tag = iter.next();
-
-					// TODO Это только для КРТ Электрон !!!!
-					// Дата описания снимка
-					if (tag.getMajor() == 21
-							|| Integer.toHexString(tag.getMinor()).equals(
-									"1110")) {
-						studyDescriptionDate = tag.getTagValue();
-					}
-
-					// «Вид исследования» - 0029 1106+0029 1107
-					if (tag.getMajor() == 29
-							|| Integer.toHexString(tag.getMinor()).equals(
-									"1106")) {
-						studyType = tag.getTagValue();
-					}
-
-					if (tag.getMajor() == 29
-							|| Integer.toHexString(tag.getMinor()).equals(
-									"1107")) {
-						studyType += " , " + tag.getTagValue();
-					}
-
-					if (tag.getMajor() == 21
-							|| Integer.toHexString(tag.getMinor()).equals(
-									"1103")) {
-						studyResult = tag.getTagValue();
-					}
-
-					if (tag.getMajor() == 21
-							|| Integer.toHexString(tag.getMinor()).equals(
-									"1118")) {
-						studyViewprotocol = tag.getTagValue();
-					}
-
-					if (tag.getIdTag() == Tag.ManufacturerModelName) {
-						ManufacturerModelName = tag.getTagValue();
-					}
-				}
-
-				studyProxy.init(rs.getLong("ID"), rs.getString("STUDY_UID"),
-						ManufacturerModelName, rs.getString("PATIENT_NAME"), rs
-								.getString("PATIENT_SEX"), rs
-								.getString("PATIENT_ID"), rs
-								.getDate("PATIENT_BIRTH_DATE"), rs
-								.getString("STUDY_ID"), studyType, rs
-								.getDate("STUDY_DATE"), studyDescriptionDate,
-						rs.getString("STUDY_DOCTOR"), rs
-								.getString("STUDY_OPERATOR"), rs
-								.getString("STUDY_DESCRIPTION"),
-						studyViewprotocol, studyResult);
-
-				// Получаем список файлов
-				psFiles.setLong(1, rs.getLong("ID"));
-				ResultSet rsFiles = psFiles.executeQuery();
-
-				ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
-				while (rsFiles.next()) {
-
-					DcmFileProxy dcmfileProxy = new DcmFileProxy();
-
-					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
-							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
-							rsFiles.getString("DCM_FILE_NAME"), rsFiles
-									.getLong("DCM_FILE_SIZE"), rsFiles
-									.getLong("IMAGE_FILE_SIZE"), rsFiles
-									.getInt("IMAGE_WIDTH"), rsFiles
-									.getInt("IMAGE_HEIGHT"));
-					files.add(dcmfileProxy);
-				}
-				rsFiles.close();
-				studyProxy.setFiles(files);
-
 			}
-			rs.close();
+			
 
 			// DcmFileProxyCortege[] result = data.toArray(new
 			// DcmFileProxy[data.size()]);
@@ -254,7 +289,12 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			logger.error(e);
 			e.printStackTrace();
 			throw new DefaultGWTRPCException(e.getMessage());
-		} finally {
+		} catch (DataException e) {
+			logger.error(e);
+			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
+		} 
+		finally {
 
 			try {
 				if (psSelect != null)
