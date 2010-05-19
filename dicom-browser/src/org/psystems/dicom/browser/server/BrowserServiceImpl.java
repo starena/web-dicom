@@ -120,8 +120,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 			Connection connection = Util.getConnection(getServletContext());
 
-//			psFiles = connection
-//					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
+			psFiles = connection
+					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
 //
 //			psSelect = connection
 //					.prepareStatement("SELECT ID, STUDY_UID, PATIENT_ID, PATIENT_NAME, "
@@ -260,6 +260,30 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 						studyDescriptionDate, studies[i].getStudyDoctor(),
 						studies[i].getStudyOperator(), studies[i].getStudyViewprotocol(),
 						studies[i].getStudyViewprotocol(), studies[i].getStudyResult());
+				
+				// Получаем список файлов
+				// TODO Перенести этот код в dicom-common ???
+				
+				psFiles.setLong(1, studies[i].getId());
+				ResultSet rsFiles = psFiles.executeQuery();
+
+				ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
+				while (rsFiles.next()) {
+
+					DcmFileProxy dcmfileProxy = new DcmFileProxy();
+
+					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
+							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
+							rsFiles.getString("DCM_FILE_NAME"), rsFiles
+									.getLong("DCM_FILE_SIZE"), rsFiles
+									.getLong("IMAGE_FILE_SIZE"), rsFiles
+									.getInt("IMAGE_WIDTH"), rsFiles
+									.getInt("IMAGE_HEIGHT"));
+					files.add(dcmfileProxy);
+				}
+				rsFiles.close();
+				studyProxy.setFiles(files);
+				
 				data.add(studyProxy);
 			}
 			
