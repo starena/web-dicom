@@ -263,6 +263,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				
 				// Получаем список файлов
 				// TODO Перенести этот код в dicom-common ???
+				//
 				
 				psFiles.setLong(1, studies[i].getId());
 				ResultSet rsFiles = psFiles.executeQuery();
