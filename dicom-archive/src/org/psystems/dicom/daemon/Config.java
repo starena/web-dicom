@@ -23,24 +23,19 @@ public class Config {
 	 */
 	public static void main(String[] args) {
 
-		new Config("distrib/dcmarcive-conf.xml");
+		try {
+			new Config("distrib/dcmarcive-conf.xml");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
-	public Config(String file) {
-		super();
-		try {
+	public Config(String file) throws Exception {
+	
 			loadConfig(file);
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SAXException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 	}
 
 	public void loadConfig(String file) throws ParserConfigurationException, SAXException,
