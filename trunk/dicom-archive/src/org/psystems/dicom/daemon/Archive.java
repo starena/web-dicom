@@ -283,7 +283,7 @@ public class Archive extends StorageService {
 
 	private char[] trustStorePassword = SECRET;
 
-	private Config config;
+	private static Config config;
 
 	private static Extractor extractor;
 
@@ -297,7 +297,7 @@ public class Archive extends StorageService {
 		ae.setAssociationAcceptor(true);
 		ae.register(new VerificationService());
 		ae.register(this);
-		config = new Config(Extractor.configStr);
+		
 	}
 
 	public final void setAEtitle(String aet) {
@@ -664,8 +664,19 @@ public class Archive extends StorageService {
 		if (cl.hasOption("jdbcconnect"))
 			Extractor.connectionStr = cl.getOptionValue("jdbcconnect");
 		
-		if (cl.hasOption("config"))
+		if (cl.hasOption("config")) {
 			Extractor.configStr = cl.getOptionValue("config");
+			try {
+				config = new Config(Extractor.configStr);
+				}catch(Exception ex) {
+					LOG.error("Can't load config file! "+ex);
+					System.err.println("Can't load config file! "+ex);
+					ex.printStackTrace();
+					System.exit(-1);
+				}
+		
+		}
+		
 
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));
