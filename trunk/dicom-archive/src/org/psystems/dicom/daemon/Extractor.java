@@ -91,6 +91,7 @@ import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.net.Association;
 import org.dcm4che2.util.CloseUtils;
+import org.psystems.dicom.daemon.DICOMDriver.CustomStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -380,222 +381,14 @@ public class Extractor {
 			din = new DicomInputStream(dcmFile);
 			dcmObj = din.readDicomObject();
 
-			// проверки
-
-			// TODO Дать возможность задания с коммандной строки
-			String charsetStr = null;
-			if (charsetStr != null) {
-				cs = new SpecificCharacterSet(charsetStr);
-			}
-
-			// читаем кодировку из dcm-файла
-			if (charsetStr == null) {
-
-				if (dcmObj.get(Tag.SpecificCharacterSet) != null
-						&& dcmObj.get(Tag.SpecificCharacterSet).length() > 0) {
-
-					// System.out.println("!!! USE SpecificCharacterSet !!! " +
-					// dcmObj.get(Tag.SpecificCharacterSet));
-
-					cs = SpecificCharacterSet.valueOf(dcmObj.get(
-							Tag.SpecificCharacterSet).getStrings(null, false));
-				} else {
-
-					cs = new Win1251CharacterSet();
-					// System.out.println("!!! USE Win1251CharacterSet !!!");
-					// cs = new SpecificCharacterSet("ISO-8859-5");
-					LOG
-							.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
-				}
-			}
-
 			String DCM_FILE_NAME = getRelativeFilePath(dcmFile);
 			String NAME = getRelativeDcmFileName(dcmFile);
-
-			DicomElement element1 = dcmObj.get(Tag.StudyInstanceUID);
-			String STUDY_UID = "";
-			if (element1 == null) {
-				LOG.warn("Study ID (tag: StudyID) is empty!");
-			} else {
-				STUDY_UID = element1.getValueAsString(cs, element1.length());
-			}
-			
-			String STUDY_MODALITY = "empty";
-			element1 = dcmObj.get(Tag.Modality);
-			if (element1 == null) {
-				LOG.warn("Study ID (tag: Modality) is empty!");
-			} else {
-				STUDY_MODALITY = element1.getValueAsString(cs, element1.length());
-			}
-
-			//TODO Сделать корректную привязку !!!
-//			element1 = dcmObj.get(Tag.Manufacturer);
-			
-//			if (element1 == null) {
-//				LOG.warn("STUDY_MANUFACTURER_UID (tag: Manufacturer) is empty!");
-//				STUDY_MANUFACTURER_UID = "empty";
-//			} else {
-//				STUDY_MANUFACTURER_UID = element1.getValueAsString(cs, element1.length());
-//			}
-//			
-//			if (STUDY_MANUFACTURER_UID == null || STUDY_MANUFACTURER_UID.length() == 0) {
-//				STUDY_MANUFACTURER_UID = "empty";
-//			}
-			
-			
-			element1 = dcmObj.get(Tag.StudyID);
-			String STUDY_ID = "";
-			if (element1 == null) {
-				LOG.warn("Study ID (tag: StudyID) is empty!");
-			} else {
-				STUDY_ID = element1.getValueAsString(cs, element1.length());
-			}
-
-			java.sql.Date PATIENT_BIRTH_DATE;
-
-			if (dcmObj.get(Tag.PatientBirthDate) != null) {
-				PATIENT_BIRTH_DATE = new java.sql.Date(dcmObj.get(
-						Tag.PatientBirthDate).getDate(false).getTime());
-			} else {
-				PATIENT_BIRTH_DATE = new java.sql.Date(0);
-				LOG
-						.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
-			}
-
-			element1 = dcmObj.get(Tag.PatientName);
-			String PATIENT_NAME = element1.getValueAsString(cs, element1
-					.length());
-
-			element1 = dcmObj.get(Tag.PatientID);
-			String PATIENT_ID = element1
-					.getValueAsString(cs, element1.length());
-
-			if (PATIENT_ID == null || PATIENT_ID.length() == 0) {
-				PATIENT_ID = "empty";
-			}
-
-			element1 = dcmObj.get(Tag.PatientSex);
-			String PATIENT_SEX = "";
-			if (element1 == null) {
-				LOG.warn("Patient sex (tag: PatientSex) is empty!");
-			} else {
-				PATIENT_SEX = element1.getValueAsString(cs, element1.length());
-				if (PATIENT_SEX.length() > 1) {
-					LOG.warn("PATIENT_SEX to long [" + PATIENT_SEX + "]");
-					PATIENT_SEX = PATIENT_SEX.substring(0, 1);
-				}
-			}
-
-			java.sql.Date STUDY_DATE = new java.sql.Date(dcmObj.get(
-					Tag.StudyDate).getDate(false).getTime());
-
-			String STUDY_DOCTOR = "empty";
-			element1 = dcmObj.get(Tag.ReferringPhysicianName);
-			if (element1 != null) {
-				STUDY_DOCTOR = element1.getValueAsString(cs, element1.length());
-				if (STUDY_DOCTOR == null || STUDY_DOCTOR.length() == 0) {
-					STUDY_DOCTOR = "not defined";
-				}
-			}
-
-			String STUDY_OPERATOR = "empty";
-			element1 = dcmObj.get(Tag.OperatorsName);
-			if (element1 != null) {
-				STUDY_OPERATOR = element1.getValueAsString(cs, element1
-						.length());
-				if (STUDY_OPERATOR == null || STUDY_OPERATOR.length() == 0) {
-					STUDY_OPERATOR = "not defined";
-				}
-			}
-
-			String STUDY_DESCRIPTION = "empty";
-			element1 = dcmObj.get(Tag.MedicalAlerts);
-			if (element1 != null) {
-				STUDY_DESCRIPTION = element1.getValueAsString(cs, element1
-						.length());
-				if (STUDY_DESCRIPTION == null
-						|| STUDY_DESCRIPTION.length() == 0) {
-					STUDY_DESCRIPTION = "not defined";
-				}
-			}
-			
-			
-			String PATIENT_SHORTNAME = makeShortName(PATIENT_NAME,PATIENT_BIRTH_DATE);
-			if(PATIENT_SHORTNAME == null || PATIENT_SHORTNAME.length()==0) {
-				PATIENT_SHORTNAME = "notmuch";
-			}
-
-			Date STUDY_VIEW_PROTOCOL_DATE = null;// TODO Проверить Дата ли возвращается или строка
-			String STUDY_MANUFACTURER_UID = "empty";// TODO Реализовать!!!
-			String DCM_TYPE = "empty";// Тип файла (снимок,
-													// исследование) TODO
-													// Реализовать!!!
 			
 			
 			
-			
-			
-			// BEGIN ---------------------------------
-			// Драйвер для Электрона
-			//TODO Выделить в отдельный драйвер
-			
-			int tagStudyDescriptionDate = 0x00211110;
-			int tagStudyType1 = 0x00291106;
-			int tagStudyType2 = 0x00291107;
-			int tagStudyResult = 0x00211103;
-			int tagStudyViewprotocol = 0x00211118;
-			
-			
-			String STUDY_MANUFACTURER_MODEL_NAME = "empty";
-			element1 = dcmObj.get(Tag.ManufacturerModelName);
-			if (element1 != null
-					&& element1.getValueAsString(cs, element1.length())
-							.length() > 0) {
-				STUDY_MANUFACTURER_MODEL_NAME = element1.getValueAsString(cs,
-						element1.length());
-			}
-			
-			String STUDY_TYPE = "empty";
-			element1 = dcmObj.get(tagStudyType1);
-			if (element1 != null
-					&& element1.getValueAsString(cs, element1.length())
-							.length() > 0) {
-				STUDY_TYPE = element1.getValueAsString(cs,
-						element1.length());
-			}
-			element1 = dcmObj.get(tagStudyType2);
-			if (element1 != null
-					&& element1.getValueAsString(cs, element1.length())
-							.length() > 0) {
-				STUDY_TYPE += ", " + element1.getValueAsString(cs,
-						element1.length());
-			}
-			
-			String STUDY_RESULT = "empty";
-			element1 = dcmObj.get(tagStudyResult);
-			if (element1 != null
-					&& element1.getValueAsString(cs, element1.length())
-							.length() > 0) {
-				STUDY_RESULT = element1.getValueAsString(cs,
-						element1.length());
-			}
-			
-			String STUDY_VIEW_PROTOCOL = "empty";
-			element1 = dcmObj.get(tagStudyViewprotocol);
-			if (element1 != null
-					&& element1.getValueAsString(cs, element1.length())
-							.length() > 0) {
-				STUDY_VIEW_PROTOCOL = element1.getValueAsString(cs,
-						element1.length());
-			}
-			
-//			element1 = dcmObj.get(tagStudyDescriptionDate);
-//			if (element1 != null) {
-//				STUDY_VIEW_PROTOCOL_DATE = new java.sql.Date(element1.getDate(false).getTime());
-//			}
-			
-			
-			// END ---------------------------------
+			//!!!!!!!!!!!!!!!!!!!!
+			CustomStudy study = DICOMDriver.getStudy(dcmObj);
+			//!!!!!!!!!!!!!!!!!!!
 			
 			long IMAGE_FILE_SIZE = 0;
 			int IMAGE_WIDTH = 0;
@@ -616,7 +409,7 @@ public class Extractor {
 
 			// STUDY
 
-			long studyInternalID = getStudyInternalIdFomDB(STUDY_UID);
+			long studyInternalID = getStudyInternalIdFomDB(study.getStudyInstanceUID());
 			LOG.info("Internal study ID " + studyInternalID);
 
 			if (studyInternalID > 0) {// Есть такое исследование в БД
@@ -647,23 +440,24 @@ public class Extractor {
 										"DATE_MODIFY =? "
 								+ " where ID = ?");
 
-				stmt.setString(1, STUDY_ID);
-				stmt.setString(2, STUDY_MODALITY);
-				stmt.setString(3, STUDY_MANUFACTURER_UID);
-				stmt.setDate(4, STUDY_DATE);
-				stmt.setString(5, STUDY_TYPE);
-				stmt.setString(6, STUDY_DESCRIPTION);
-				stmt.setString(7, STUDY_DOCTOR);
-				stmt.setString(8, STUDY_OPERATOR);
-				stmt.setString(9, STUDY_RESULT);
-				stmt.setString(10, STUDY_VIEW_PROTOCOL);
-				stmt.setDate(11, STUDY_VIEW_PROTOCOL_DATE);
-				stmt.setString(12, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(13, PATIENT_ID);
-				stmt.setString(14, PATIENT_NAME);
-				stmt.setString(15, PATIENT_SHORTNAME);
-				stmt.setDate(16, PATIENT_BIRTH_DATE);
-				stmt.setString(17, PATIENT_SEX);
+				stmt.setString(1, study.getStudyID());
+				stmt.setString(2, study.getModality());
+				stmt.setString(3, study.getManufacturerUID());
+				stmt.setDate(4, study.getStudyDate());
+				
+				stmt.setString(5, study.getStudyType());
+				stmt.setString(6, study.getStudyDescription());
+				stmt.setString(7, study.getStudyDoctor());
+				stmt.setString(8, study.getOperatorsName());
+				stmt.setString(9, study.getStudyResult());
+				stmt.setString(10, study.getStudyViewProtocol());
+				stmt.setDate(11, study.getStudyViewProtocolDate());
+				stmt.setString(12, study.getManufacturerModelName());
+				stmt.setString(13, study.getPatientID());
+				stmt.setString(14, study.getPatientName());
+				stmt.setString(15, study.getPatientShortName());
+				stmt.setDate(16, study.getPatientBirthDate());
+				stmt.setString(17, study.getPatientSex());
 				stmt.setDate(18, new Date(new java.util.Date().getTime()));
 				stmt.setLong(19, studyInternalID);
 				
@@ -696,40 +490,40 @@ public class Extractor {
 								+ "DATE_MODIFY)"
 								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-				stmt.setString(1, STUDY_UID);
-				stmt.setString(2, STUDY_MODALITY);
-				stmt.setString(3, STUDY_MANUFACTURER_UID);
-				stmt.setString(4, STUDY_ID);
-				stmt.setDate(5, STUDY_DATE);
-				stmt.setString(6, STUDY_TYPE);
-				stmt.setString(7, STUDY_DESCRIPTION);
-				stmt.setString(8, STUDY_DOCTOR);
-				stmt.setString(9, STUDY_OPERATOR);
-				stmt.setString(10, STUDY_RESULT);
-				stmt.setString(11, STUDY_VIEW_PROTOCOL);
-				stmt.setDate(12, STUDY_VIEW_PROTOCOL_DATE);
-				stmt.setString(13, STUDY_MANUFACTURER_MODEL_NAME);
-				stmt.setString(14, PATIENT_ID);
-				stmt.setString(15, PATIENT_NAME);
-				stmt.setString(16, PATIENT_SHORTNAME);
-				stmt.setDate(17, PATIENT_BIRTH_DATE);
-				stmt.setString(18, PATIENT_SEX);
+				stmt.setString(1, study.getStudyInstanceUID());
+				stmt.setString(2, study.getModality());
+				stmt.setString(3, study.getManufacturerUID());
+				stmt.setString(4, study.getStudyID());
+				stmt.setDate(5, study.getStudyDate());
+				stmt.setString(6, study.getStudyType());
+				stmt.setString(7, study.getStudyDescription());
+				stmt.setString(8, study.getStudyDoctor());
+				stmt.setString(9, study.getOperatorsName());
+				stmt.setString(10, study.getStudyResult());
+				stmt.setString(11, study.getStudyViewProtocol());
+				stmt.setDate(12, study.getStudyViewProtocolDate());
+				stmt.setString(13, study.getManufacturerModelName());
+				stmt.setString(14, study.getPatientID());
+				stmt.setString(15, study.getPatientName());
+				stmt.setString(16, study.getPatientShortName());
+				stmt.setDate(17, study.getPatientBirthDate());
+				stmt.setString(18, study.getPatientSex());
 				stmt.setDate(19, new Date(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
 				// Обновляем статистику
-				updateDayStatInc(STUDY_DATE, "ALL_STUDIES_COUNT", 1);
+				updateDayStatInc(study.getStudyDate(), "ALL_STUDIES_COUNT", 1);
 				stmt.close();
 			}
 
 			// DICOM Файл
 
-			LOG.info("[" + DCM_FILE_NAME + "][" + PATIENT_NAME + "]["
-					+ PATIENT_BIRTH_DATE + "][" + STUDY_DATE + "]");
+			LOG.info("[" + DCM_FILE_NAME + "][" + study.getPatientName() + "]["
+					+ study.getPatientBirthDate() + "][" + study.getStudyDate() + "]");
 
 			long id = getDCMInternalIdFromDB(DCM_FILE_NAME);
-			studyInternalID = getStudyInternalIdFomDB(STUDY_UID);
+			studyInternalID = getStudyInternalIdFomDB(study.getStudyInstanceUID());
 			
 			if (id > 0) {// Есть такой файл в БД
 
@@ -750,7 +544,7 @@ public class Extractor {
 								+ " where ID = ?");
 
 				stmt.setLong(1, studyInternalID);
-				stmt.setString(2, DCM_TYPE);
+				stmt.setString(2, study.getDcmType());
 				stmt.setString(3, DCM_FILE_NAME);
 				stmt.setString(4, NAME);
 				stmt.setLong(5, DCM_FILE_SIZE);
@@ -779,7 +573,7 @@ public class Extractor {
 						+ "values (?,?,?,?,?,?,?,?,?)");
 
 				stmt.setLong(1, studyInternalID);
-				stmt.setString(2, DCM_TYPE);
+				stmt.setString(2, study.getDcmType());
 				stmt.setString(3, DCM_FILE_NAME);
 				stmt.setString(4, NAME);
 				stmt.setLong(5, DCM_FILE_SIZE);
@@ -791,7 +585,7 @@ public class Extractor {
 				stmt.executeUpdate();
 
 				// Обновляем статистику
-				updateDayStatInc(STUDY_DATE, "ALL_DCM_SIZE", DCM_FILE_SIZE);
+				updateDayStatInc(study.getStudyDate(), "ALL_DCM_SIZE", DCM_FILE_SIZE);
 				stmt.close();
 			}
 
