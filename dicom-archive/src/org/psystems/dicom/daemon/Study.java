@@ -36,6 +36,57 @@ public class Study {
 	private static Logger LOG = LoggerFactory.getLogger(Study.class);
 	
 	public Study getInstance(DicomObject dcmObj) {
+		Study study = getInstanceCommon(dcmObj);
+		Study studyImpl = null;//драйвер
+		
+		// LookInside
+		// (0002,0002) UI #26 [1.2.826.0.1.3680043.2.706.5476834] Media Storage
+		// SOP Class UID
+
+		// KRT Electron
+		// (0002,0002) UI #26 [1.2.840.10008.5.1.4.1.1.1] Media Storage SOP
+		// Class UID
+		// (0009,0010) LO #20 [KRT_ELECTRON_PRIVATE] Private Creator Data
+		// Element
+
+		SpecificCharacterSet cs;
+
+		// SpecificCharacterSet
+		if (dcmObj.get(Tag.SpecificCharacterSet) != null
+				&& dcmObj.get(Tag.SpecificCharacterSet).length() > 0) {
+			cs = SpecificCharacterSet.valueOf(dcmObj.get(
+					Tag.SpecificCharacterSet).getStrings(null, false));
+		} else {
+			cs = new CharacterSetCp1251();
+			LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
+		}
+
+
+		DicomElement element = dcmObj.get(Tag.MediaStorageSOPClassUID);
+		String MediaStorageSOPClassUID = element.getValueAsString(cs, element
+				.length());
+
+		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
+			int tag = 0x00090010;
+			element = dcmObj.get(tag);
+			if (element != null
+					&& element.getValueAsString(cs, element.length()).equals(
+							"KRT_ELECTRON_PRIVATE")) {
+				
+				studyImpl = new StudyImplElektron(study,dcmObj);
+				
+			}
+		}
+		if (MediaStorageSOPClassUID.equals("1.2.826.0.1.3680043.2.706.5476834")) {
+			 studyImpl = new StudyImpLookInside(study,dcmObj);
+			
+		}
+		
+		if(studyImpl!=null) return studyImpl;
+		return study;
+	}
+	
+	public Study getInstanceCommon(DicomObject dcmObj) {
 
 
 		Study study = new Study();
