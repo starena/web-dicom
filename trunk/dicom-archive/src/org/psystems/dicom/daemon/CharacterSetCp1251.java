@@ -5,15 +5,15 @@ import java.io.UnsupportedEncodingException;
 import org.dcm4che2.data.ConfigurationError;
 import org.dcm4che2.data.SpecificCharacterSet;
 
-public class Win1251CharacterSet extends SpecificCharacterSet {
+public class CharacterSetCp1251 extends SpecificCharacterSet {
 
 	private static String codepage = "Cp1251";
 
-	public Win1251CharacterSet() {
+	public CharacterSetCp1251() {
 		super(codepage);
 	}
 	
-	public Win1251CharacterSet(String charset) {
+	public CharacterSetCp1251(String charset) {
 		super(charset);
 	}
 

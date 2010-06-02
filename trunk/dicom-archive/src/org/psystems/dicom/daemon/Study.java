@@ -1,7 +1,5 @@
 package org.psystems.dicom.daemon;
 
-import java.sql.Date;
-
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
@@ -9,88 +7,36 @@ import org.dcm4che2.data.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DICOMDriver {
+/**
+ * Кастомный класс описания исследования
+ * 
+ * @author dima_d
+ * 
+ */
+public class Study {
 
-	private static Logger LOG = LoggerFactory.getLogger(DICOMDriver.class);
+	private SpecificCharacterSet cs;
+	private String StudyInstanceUID;
+	private String Modality;
+	private String StudyID;
+	private java.sql.Date PatientBirthDate;
+	private String PatientName;
+	private String PatientID;
+	private String PatientSex;
+	private java.sql.Date StudyDate;
+	private String StudyDoctor;// Tag.ReferringPhysicianName
+	private String OperatorsName;
+	private String StudyDescription;// Tag.MedicalAlerts
+	private String PatientShortName;
+	protected String ManufacturerModelName;
+	protected String StudyType;
+	protected String StudyResult;
+	protected String StudyViewProtocol;
 
-	static DICOMDriver getInstance(DicomObject dcmObj) {
+	private static Logger LOG = LoggerFactory.getLogger(Study.class);
+	
+	public Study getInstance(DicomObject dcmObj) {
 
-		// LookInside
-		// (0002,0002) UI #26 [1.2.826.0.1.3680043.2.706.5476834] Media Storage
-		// SOP Class UID
-
-		// KRT Electron
-		// (0002,0002) UI #26 [1.2.840.10008.5.1.4.1.1.1] Media Storage SOP
-		// Class UID
-		// (0009,0010) LO #20 [KRT_ELECTRON_PRIVATE] Private Creator Data
-		// Element
-
-		SpecificCharacterSet cs;
-
-		// SpecificCharacterSet
-		if (dcmObj.get(Tag.SpecificCharacterSet) != null
-				&& dcmObj.get(Tag.SpecificCharacterSet).length() > 0) {
-			cs = SpecificCharacterSet.valueOf(dcmObj.get(
-					Tag.SpecificCharacterSet).getStrings(null, false));
-		} else {
-			cs = new CharacterSetCp1251();
-			LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
-		}
-
-
-		DicomElement element = dcmObj.get(Tag.MediaStorageSOPClassUID);
-		String MediaStorageSOPClassUID = element.getValueAsString(cs, element
-				.length());
-
-		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
-			int tag = 0x00090010;
-			element = dcmObj.get(tag);
-			if (element != null
-					&& element.getValueAsString(cs, element.length()).equals(
-							"KRT_ELECTRON_PRIVATE")) {
-				return new DICOMDriverKRTElectron();
-			}
-		}
-		if (MediaStorageSOPClassUID.equals("1.2.826.0.1.3680043.2.706.5476834")) {
-			return new DICOMDriverPACSLookInside();
-		}
-
-		// deafault driver
-		return new DICOMDriver();
-
-	}
-
-	/**
-	 * Получение исследвания
-	 * 
-	 * @param dcmObj
-	 * @return
-	 */
-	public static Study getStudy(DicomObject dcmObj) {
-
-		DICOMDriver driver = getInstance(dcmObj);
-		Study study = driver.getStudyImpl(dcmObj);
-		return study;
-
-	}
-
-	/**
-	 * Получение общей части исследования
-	 * 
-	 * @param dcmObj
-	 * @return
-	 */
-	public Study getStudyImpl(DicomObject dcmObj) {
-		return getStudyCommon(dcmObj);
-	}
-
-	/**
-	 * Получение общей части исследования
-	 * 
-	 * @param dcmObj
-	 * @return
-	 */
-	public Study getStudyCommon(DicomObject dcmObj) {
 
 		Study study = new Study();
 		SpecificCharacterSet cs;
@@ -235,8 +181,176 @@ public class DICOMDriver {
 		// // Реализовать!!!
 
 		return study;
+		
+	}
+	
+	// TODO Manufacturer в файлах не фигурирует...
+	protected String ManufacturerUID = "empty";
 
+	// TODO в файлах не фигурирует
+	private java.sql.Date StudyViewProtocolDate = null;
+
+	// TODO Тип файла (снимок, описание). пока не сделано.
+	protected String DcmType = "empty";
+
+	public void setCs(SpecificCharacterSet cs) {
+		this.cs = cs;
 	}
 
-	
+	public void setStudyInstanceUID(String studyInstanceUID) {
+		StudyInstanceUID = studyInstanceUID;
+	}
+
+	public void setModality(String modality) {
+		Modality = modality;
+	}
+
+	public void setStudyID(String studyID) {
+		StudyID = studyID;
+	}
+
+	public void setPatientBirthDate(java.sql.Date patientBirthDate) {
+		PatientBirthDate = patientBirthDate;
+	}
+
+	public void setPatientName(String patientName) {
+		PatientName = patientName;
+	}
+
+	public void setPatientID(String patientID) {
+		PatientID = patientID;
+	}
+
+	public void setPatientSex(String patientSex) {
+		PatientSex = patientSex;
+	}
+
+	public void setStudyDate(java.sql.Date studyDate) {
+		StudyDate = studyDate;
+	}
+
+	public void setStudyDoctor(String studyDoctor) {
+		StudyDoctor = studyDoctor;
+	}
+
+	public void setOperatorsName(String operatorsName) {
+		OperatorsName = operatorsName;
+	}
+
+	public void setStudyDescription(String studyDescription) {
+		StudyDescription = studyDescription;
+	}
+
+	public void setPatientShortName(String patientShortName) {
+		PatientShortName = patientShortName;
+	}
+
+	public void setManufacturerModelName(String manufacturerModelName) {
+		ManufacturerModelName = manufacturerModelName;
+	}
+
+	public void setStudyType(String studyType) {
+		StudyType = studyType;
+	}
+
+	public void setStudyResult(String studyResult) {
+		StudyResult = studyResult;
+	}
+
+	public void setStudyViewProtocol(String studyViewProtocol) {
+		StudyViewProtocol = studyViewProtocol;
+	}
+
+	public void setManufacturerUID(String manufacturerUID) {
+		ManufacturerUID = manufacturerUID;
+	}
+
+	public void setStudyViewProtocolDate(java.sql.Date studyViewProtocolDate) {
+		StudyViewProtocolDate = studyViewProtocolDate;
+	}
+
+	public void setDcmType(String dcmType) {
+		DcmType = dcmType;
+	}
+
+	public SpecificCharacterSet getCs() {
+		return cs;
+	}
+
+	public String getStudyInstanceUID() {
+		return StudyInstanceUID;
+	}
+
+	public String getModality() {
+		return Modality;
+	}
+
+	public String getStudyID() {
+		return StudyID;
+	}
+
+	public java.sql.Date getPatientBirthDate() {
+		return PatientBirthDate;
+	}
+
+	public String getPatientName() {
+		return PatientName;
+	}
+
+	public String getPatientID() {
+		return PatientID;
+	}
+
+	public String getPatientSex() {
+		return PatientSex;
+	}
+
+	public java.sql.Date getStudyDate() {
+		return StudyDate;
+	}
+
+	public String getStudyDoctor() {
+		return StudyDoctor;
+	}
+
+	public String getOperatorsName() {
+		return OperatorsName;
+	}
+
+	public String getStudyDescription() {
+		return StudyDescription;
+	}
+
+	public String getPatientShortName() {
+		return PatientShortName;
+	}
+
+	public String getManufacturerModelName() {
+		return ManufacturerModelName;
+	}
+
+	public String getStudyType() {
+		return StudyType;
+	}
+
+	public String getStudyResult() {
+		return StudyResult;
+	}
+
+	public String getStudyViewProtocol() {
+		return StudyViewProtocol;
+	}
+
+	public String getManufacturerUID() {
+		return ManufacturerUID;
+	}
+
+	public java.sql.Date getStudyViewProtocolDate() {
+		return StudyViewProtocolDate;
+	}
+
+	public String getDcmType() {
+		return DcmType;
+	}
+
 }
