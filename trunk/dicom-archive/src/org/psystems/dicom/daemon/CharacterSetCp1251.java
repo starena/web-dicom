@@ -13,9 +13,9 @@ public class CharacterSetCp1251 extends SpecificCharacterSet {
 		super(codepage);
 	}
 	
-	public CharacterSetCp1251(String charset) {
-		super(charset);
-	}
+//	public CharacterSetCp1251(String charset) {
+//		super(charset);
+//	}
 
 	@Override
 	public String decode(byte[] val) {
