@@ -4,7 +4,6 @@ import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
-import org.psystems.dicom.daemon.DICOMDriver.CustomStudy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -104,127 +104,127 @@ public class DICOMDriver {
 			cs = new Win1251CharacterSet();
 			LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
 		}
-		study.cs = cs;
+		study.setCs(cs);
 
 		// StudyInstanceUID
 		DicomElement element1 = dcmObj.get(Tag.StudyInstanceUID);
-		study.StudyInstanceUID = "empty";
+		study.setStudyInstanceUID("empty");
 		if (element1 == null) {
 			LOG.warn("Study ID (tag: StudyID) is empty!");
 		} else {
-			study.StudyInstanceUID = element1.getValueAsString(cs, element1
-					.length());
+			study.setStudyInstanceUID(element1.getValueAsString(cs, element1
+					.length()));
 		}
 
 		// Modality
-		study.Modality = "empty";
+		study.setModality("empty");
 		element1 = dcmObj.get(Tag.Modality);
 		if (element1 == null) {
 			LOG.warn("Study ID (tag: Modality) is empty!");
 		} else {
-			study.Modality = element1.getValueAsString(cs, element1.length());
+			study.setModality(element1.getValueAsString(cs, element1.length()));
 		}
 
 		// StudyID
 		element1 = dcmObj.get(Tag.StudyID);
-		study.StudyID = "empty";
+		study.setStudyID("empty");
 		if (element1 == null) {
 			LOG.warn("Study ID (tag: StudyID) is empty!");
 		} else {
-			study.StudyID = element1.getValueAsString(cs, element1.length());
+			study.setStudyID(element1.getValueAsString(cs, element1.length()));
 		}
 
 		// PatientBirthDate
 		if (dcmObj.get(Tag.PatientBirthDate) != null) {
-			study.PatientBirthDate = new java.sql.Date(dcmObj.get(
-					Tag.PatientBirthDate).getDate(false).getTime());
+			study.setPatientBirthDate(new java.sql.Date(dcmObj.get(
+					Tag.PatientBirthDate).getDate(false).getTime()));
 		} else {
-			study.PatientBirthDate = new java.sql.Date(0);
+			study.setPatientBirthDate( new java.sql.Date(0));
 			LOG.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
 		}
 
 		// PatientName
 		element1 = dcmObj.get(Tag.PatientName);
-		study.PatientName = "empty";
+		study.setPatientName("empty");
 		if (element1 == null) {
 			LOG.warn("Patien Name (tag: PatientName) is empty!");
 		} else {
-			study.PatientName = element1
-					.getValueAsString(cs, element1.length());
+			study.setPatientName(element1
+					.getValueAsString(cs, element1.length()));
 		}
 
 		// PatientID
 		element1 = dcmObj.get(Tag.PatientID);
-		study.PatientID = "empty";
+		study.setPatientID("empty");
 		if (element1 == null) {
 			LOG.warn("Patien ID (tag: PatientID) is empty!");
 		} else {
-			study.PatientID = element1.getValueAsString(cs, element1.length());
+			study.setPatientID(element1.getValueAsString(cs, element1.length()));
 		}
 
 		// PatientSex
 		element1 = dcmObj.get(Tag.PatientSex);
-		study.PatientSex = "";
+		study.setPatientSex("");
 		if (element1 == null) {
 			LOG.warn("Patient sex (tag: PatientSex) is empty!");
 		} else {
-			study.PatientSex = element1.getValueAsString(cs, element1.length());
-			if (study.PatientSex.length() > 1) {
-				LOG.warn("PATIENT_SEX to long [" + study.PatientSex + "]");
-				study.PatientSex = study.PatientSex.substring(0, 1);
+			study.setPatientSex(element1.getValueAsString(cs, element1.length()));
+			if (study.getPatientSex().length() > 1) {
+				LOG.warn("PATIENT_SEX to long [" + study.getPatientSex() + "]");
+				study.setPatientSex(study.getPatientSex().substring(0, 1));
 			}
 		}
 
 		// StudyDate
 		if (dcmObj.get(Tag.StudyDate) != null) {
-			study.StudyDate = new java.sql.Date(dcmObj.get(Tag.StudyDate)
-					.getDate(false).getTime());
+			study.setStudyDate( new java.sql.Date(dcmObj.get(Tag.StudyDate)
+					.getDate(false).getTime()));
 		} else {
-			study.StudyDate = new java.sql.Date(0);
+			study.setStudyDate (new java.sql.Date(0));
 			LOG.warn("Patient Birth Date (tag: StudyDate) is empty!");
 		}
 
 		// StudyDoctor (Tag.ReferringPhysicianName)
-		study.StudyDoctor = "empty";
+		study.setStudyDoctor("empty");
 		element1 = dcmObj.get(Tag.ReferringPhysicianName);
 		if (element1 != null) {
-			study.StudyDoctor = element1
-					.getValueAsString(cs, element1.length());
-			if (study.StudyDoctor == null || study.StudyDoctor.length() == 0) {
-				study.StudyDoctor = "not defined";
+			study.setStudyDoctor(element1
+					.getValueAsString(cs, element1.length()));
+			if (study.getStudyDoctor() == null || study.getStudyDoctor().length() == 0) {
+				study.setStudyDoctor("not defined");
 			}
 		}
 
 		// OperatorsName
-		study.OperatorsName = "empty";
+		study.setOperatorsName("empty");
 		element1 = dcmObj.get(Tag.OperatorsName);
 		if (element1 != null) {
-			study.OperatorsName = element1.getValueAsString(cs, element1
-					.length());
-			if (study.OperatorsName == null
-					|| study.OperatorsName.length() == 0) {
-				study.OperatorsName = "not defined";
+			study.setOperatorsName(element1.getValueAsString(cs, element1
+					.length()));
+			if (study.getOperatorsName() == null
+					|| study.getOperatorsName().length() == 0) {
+				study.setOperatorsName ("not defined");
 			}
 		}
 
 		// StudyDescription (Tag.MedicalAlerts)
-		study.StudyDescription = "empty";
+		study.setStudyDescription("empty");
 		element1 = dcmObj.get(Tag.MedicalAlerts);
 		if (element1 != null) {
-			study.StudyDescription = element1.getValueAsString(cs, element1
-					.length());
-			if (study.StudyDescription == null
-					|| study.StudyDescription.length() == 0) {
-				study.StudyDescription = "not defined";
+			study.setStudyDescription(element1.getValueAsString(cs, element1
+					.length()));
+			if (study.getStudyDescription() == null
+					|| study.getStudyDescription().length() == 0) {
+				study.setStudyDescription( "not defined");
 			}
 		}
 
 		// PatientShortName (это КБП)
-		study.PatientShortName = Extractor.makeShortName(study.PatientName,
-				study.PatientBirthDate);
-		if (study.PatientShortName == null
-				|| study.PatientShortName.length() == 0) {
-			study.PatientShortName = "notmuch";
+		study.setPatientShortName(Extractor.makeShortName(study.getPatientName(),
+				study.getPatientBirthDate()));
+		if (study.getPatientShortName() == null
+				|| study.getPatientShortName().length() == 0) {
+			study.setPatientShortName("notmuch");
 		}
 
 		// Date STUDY_VIEW_PROTOCOL_DATE = null;// TODO Проверить Дата ли
@@ -238,120 +238,5 @@ public class DICOMDriver {
 
 	}
 
-	/**
-	 * Кастомный класс описанием исследования
-	 * 
-	 * @author dima_d
-	 * 
-	 */
-	public class CustomStudy {
-
-		private SpecificCharacterSet cs;
-		private String StudyInstanceUID;
-		private String Modality;
-		private String StudyID;
-		private java.sql.Date PatientBirthDate;
-		private String PatientName;
-		private String PatientID;
-		private String PatientSex;
-		private java.sql.Date StudyDate;
-		private String StudyDoctor;// Tag.ReferringPhysicianName
-		private String OperatorsName;
-		private String StudyDescription;// Tag.MedicalAlerts
-		private String PatientShortName;
-		protected String ManufacturerModelName;
-		protected String StudyType;
-		protected String StudyResult;
-		protected String StudyViewProtocol;
-		protected String ManufacturerUID = "empty"; // TODO Manufacturer в
-		// файлах не фигурирует...
-		private java.sql.Date StudyViewProtocolDate = null;// TODO в файлах не
-		// фигурирует
-
-		protected String DcmType = "empty"; // TODO Тип файла (снимок,
-
-		// описание). пока не сделано.
-
-		public SpecificCharacterSet getCs() {
-			return cs;
-		}
-
-		public String getStudyInstanceUID() {
-			return StudyInstanceUID;
-		}
-
-		public String getModality() {
-			return Modality;
-		}
-
-		public String getStudyID() {
-			return StudyID;
-		}
-
-		public java.sql.Date getPatientBirthDate() {
-			return PatientBirthDate;
-		}
-
-		public String getPatientName() {
-			return PatientName;
-		}
-
-		public String getPatientID() {
-			return PatientID;
-		}
-
-		public String getPatientSex() {
-			return PatientSex;
-		}
-
-		public java.sql.Date getStudyDate() {
-			return StudyDate;
-		}
-
-		public String getStudyDoctor() {
-			return StudyDoctor;
-		}
-
-		public String getOperatorsName() {
-			return OperatorsName;
-		}
-
-		public String getStudyDescription() {
-			return StudyDescription;
-		}
-
-		public String getPatientShortName() {
-			return PatientShortName;
-		}
-
-		public String getManufacturerModelName() {
-			return ManufacturerModelName;
-		}
-
-		public String getStudyType() {
-			return StudyType;
-		}
-
-		public String getStudyResult() {
-			return StudyResult;
-		}
-
-		public String getStudyViewProtocol() {
-			return StudyViewProtocol;
-		}
-
-		public String getManufacturerUID() {
-			return ManufacturerUID;
-		}
-
-		public java.sql.Date getStudyViewProtocolDate() {
-			return StudyViewProtocolDate;
-		}
-
-		public String getDcmType() {
-			return DcmType;
-		}
-
-	}
-
+	
 }
