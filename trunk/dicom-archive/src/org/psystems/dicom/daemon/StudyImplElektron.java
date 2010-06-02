@@ -11,12 +11,14 @@ public class StudyImplElektron extends Study {
 
 	private static Logger LOG = LoggerFactory.getLogger(StudyImplElektron.class);
 	
-	StudyImplElektron(Study study,DicomObject dcmObj ) {
+	StudyImplElektron(DicomObject dcmObj ) {
 
-	LOG.info("DICOM Driver 'KRT Electron'");
+		LOG.info("DICOM Driver 'KRT Electron'");
 		
+		//инициализируем общие теги
+		implCommon(dcmObj);
 		
-		SpecificCharacterSet cs = study.getCs();
+		SpecificCharacterSet cs = getCs();
 		
 		int tagStudyDescriptionDate = 0x00211110;
 		int tagStudyType1 = 0x00291106;
@@ -25,43 +27,43 @@ public class StudyImplElektron extends Study {
 		int tagStudyViewprotocol = 0x00211118;
 
 		// ManufacturerModelName
-		study.ManufacturerModelName = "empty";
+		ManufacturerModelName = "empty";
 		DicomElement element1 = dcmObj.get(Tag.ManufacturerModelName);
 		if (element1 != null
 				&& element1.getValueAsString(cs, element1.length()).length() > 0) {
-			study.ManufacturerModelName = element1.getValueAsString(cs,
+			ManufacturerModelName = element1.getValueAsString(cs,
 					element1.length());
 		}
 
 		// StudyType
-		study.StudyType = "empty";
+		StudyType = "empty";
 		element1 = dcmObj.get(tagStudyType1);
 		if (element1 != null
 				&& element1.getValueAsString(cs, element1.length()).length() > 0) {
-			study.StudyType = element1.getValueAsString(cs, element1.length());
+			StudyType = element1.getValueAsString(cs, element1.length());
 		}
 		element1 = dcmObj.get(tagStudyType2);
 		if (element1 != null
 				&& element1.getValueAsString(cs, element1.length()).length() > 0) {
-			study.StudyType += ", "
+			StudyType += ", "
 					+ element1.getValueAsString(cs, element1.length());
 		}
 
 		// StudyResult
-		study.StudyResult = "empty";
+		StudyResult = "empty";
 		element1 = dcmObj.get(tagStudyResult);
 		if (element1 != null
 				&& element1.getValueAsString(cs, element1.length()).length() > 0) {
-			study.StudyResult = element1
+			StudyResult = element1
 					.getValueAsString(cs, element1.length());
 		}
 
 		// StudyViewProtocol
-		study.StudyViewProtocol = "empty";
+		StudyViewProtocol = "empty";
 		element1 = dcmObj.get(tagStudyViewprotocol);
 		if (element1 != null
 				&& element1.getValueAsString(cs, element1.length()).length() > 0) {
-			study.StudyViewProtocol = element1.getValueAsString(cs, element1
+			StudyViewProtocol = element1.getValueAsString(cs, element1
 					.length());
 		}
 		

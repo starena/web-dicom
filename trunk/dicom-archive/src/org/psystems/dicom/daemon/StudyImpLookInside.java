@@ -73,8 +73,10 @@ import org.dcm4che2.data.DicomObject;
  */
 public class StudyImpLookInside extends Study {
 
-	StudyImpLookInside(Study study, DicomObject dcmObj) {
-		// TODO Auto-generated constructor stub
+	StudyImpLookInside(DicomObject dcmObj) {
+		//инициализируем общие теги
+		implCommon(dcmObj);
+		// TODO Реализовать!
 	}
 
 }

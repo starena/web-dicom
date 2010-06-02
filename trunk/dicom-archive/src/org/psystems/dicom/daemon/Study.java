@@ -35,9 +35,7 @@ public class Study {
 
 	private static Logger LOG = LoggerFactory.getLogger(Study.class);
 	
-	public Study getInstance(DicomObject dcmObj) {
-		Study study = getInstanceCommon(dcmObj);
-		Study studyImpl = null;//драйвер
+	public static Study getInstance(DicomObject dcmObj) {
 		
 		// LookInside
 		// (0002,0002) UI #26 [1.2.826.0.1.3680043.2.706.5476834] Media Storage
@@ -73,23 +71,28 @@ public class Study {
 					&& element.getValueAsString(cs, element.length()).equals(
 							"KRT_ELECTRON_PRIVATE")) {
 				
-				studyImpl = new StudyImplElektron(study,dcmObj);
+				return new StudyImplElektron(dcmObj);
 				
 			}
 		}
 		if (MediaStorageSOPClassUID.equals("1.2.826.0.1.3680043.2.706.5476834")) {
-			 studyImpl = new StudyImpLookInside(study,dcmObj);
+			return new StudyImpLookInside(dcmObj);
 			
 		}
 		
-		if(studyImpl!=null) return studyImpl;
+		//Общий драйвер
+		Study study = new Study();
+		study.implCommon(dcmObj);
 		return study;
 	}
 	
-	public Study getInstanceCommon(DicomObject dcmObj) {
+	/**
+	 * @param dcmObj
+	 */
+	protected void implCommon(DicomObject dcmObj) {
 
 
-		Study study = new Study();
+		
 		SpecificCharacterSet cs;
 
 		// SpecificCharacterSet
@@ -101,127 +104,128 @@ public class Study {
 			cs = new CharacterSetCp1251();
 			LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
 		}
-		study.setCs(cs);
+		setCs(cs);
 
 		// StudyInstanceUID
 		DicomElement element1 = dcmObj.get(Tag.StudyInstanceUID);
-		study.setStudyInstanceUID("empty");
+		setStudyInstanceUID("empty");
 		if (element1 == null) {
-			LOG.warn("Study ID (tag: StudyID) is empty!");
+			LOG.warn("Study ID (tag: StudyUID) is empty!");
+			
 		} else {
-			study.setStudyInstanceUID(element1.getValueAsString(cs, element1
+			setStudyInstanceUID(element1.getValueAsString(cs, element1
 					.length()));
 		}
 
 		// Modality
-		study.setModality("empty");
+		setModality("empty");
 		element1 = dcmObj.get(Tag.Modality);
 		if (element1 == null) {
 			LOG.warn("Study ID (tag: Modality) is empty!");
 		} else {
-			study.setModality(element1.getValueAsString(cs, element1.length()));
+			setModality(element1.getValueAsString(cs, element1.length()));
 		}
 
 		// StudyID
 		element1 = dcmObj.get(Tag.StudyID);
-		study.setStudyID("empty");
+		setStudyID("empty");
 		if (element1 == null) {
 			LOG.warn("Study ID (tag: StudyID) is empty!");
 		} else {
-			study.setStudyID(element1.getValueAsString(cs, element1.length()));
+			setStudyID(element1.getValueAsString(cs, element1.length()));
 		}
 
 		// PatientBirthDate
 		if (dcmObj.get(Tag.PatientBirthDate) != null) {
-			study.setPatientBirthDate(new java.sql.Date(dcmObj.get(
+			setPatientBirthDate(new java.sql.Date(dcmObj.get(
 					Tag.PatientBirthDate).getDate(false).getTime()));
 		} else {
-			study.setPatientBirthDate( new java.sql.Date(0));
+			setPatientBirthDate( new java.sql.Date(0));
 			LOG.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
 		}
 
 		// PatientName
 		element1 = dcmObj.get(Tag.PatientName);
-		study.setPatientName("empty");
+		setPatientName("empty");
 		if (element1 == null) {
 			LOG.warn("Patien Name (tag: PatientName) is empty!");
 		} else {
-			study.setPatientName(element1
+			setPatientName(element1
 					.getValueAsString(cs, element1.length()));
 		}
 
 		// PatientID
 		element1 = dcmObj.get(Tag.PatientID);
-		study.setPatientID("empty");
+		setPatientID("empty");
 		if (element1 == null) {
 			LOG.warn("Patien ID (tag: PatientID) is empty!");
 		} else {
-			study.setPatientID(element1.getValueAsString(cs, element1.length()));
+			setPatientID(element1.getValueAsString(cs, element1.length()));
 		}
 
 		// PatientSex
 		element1 = dcmObj.get(Tag.PatientSex);
-		study.setPatientSex("");
+		setPatientSex("");
 		if (element1 == null) {
 			LOG.warn("Patient sex (tag: PatientSex) is empty!");
 		} else {
-			study.setPatientSex(element1.getValueAsString(cs, element1.length()));
-			if (study.getPatientSex().length() > 1) {
-				LOG.warn("PATIENT_SEX to long [" + study.getPatientSex() + "]");
-				study.setPatientSex(study.getPatientSex().substring(0, 1));
+			setPatientSex(element1.getValueAsString(cs, element1.length()));
+			if (getPatientSex().length() > 1) {
+				LOG.warn("PATIENT_SEX to long [" + getPatientSex() + "]");
+				setPatientSex(getPatientSex().substring(0, 1));
 			}
 		}
 
 		// StudyDate
 		if (dcmObj.get(Tag.StudyDate) != null) {
-			study.setStudyDate( new java.sql.Date(dcmObj.get(Tag.StudyDate)
+			setStudyDate( new java.sql.Date(dcmObj.get(Tag.StudyDate)
 					.getDate(false).getTime()));
 		} else {
-			study.setStudyDate (new java.sql.Date(0));
+			setStudyDate (new java.sql.Date(0));
 			LOG.warn("Patient Birth Date (tag: StudyDate) is empty!");
 		}
 
 		// StudyDoctor (Tag.ReferringPhysicianName)
-		study.setStudyDoctor("empty");
+		setStudyDoctor("empty");
 		element1 = dcmObj.get(Tag.ReferringPhysicianName);
 		if (element1 != null) {
-			study.setStudyDoctor(element1
+			setStudyDoctor(element1
 					.getValueAsString(cs, element1.length()));
-			if (study.getStudyDoctor() == null || study.getStudyDoctor().length() == 0) {
-				study.setStudyDoctor("not defined");
+			if (getStudyDoctor() == null || getStudyDoctor().length() == 0) {
+				setStudyDoctor("not defined");
 			}
 		}
 
 		// OperatorsName
-		study.setOperatorsName("empty");
+		setOperatorsName("empty");
 		element1 = dcmObj.get(Tag.OperatorsName);
 		if (element1 != null) {
-			study.setOperatorsName(element1.getValueAsString(cs, element1
+			setOperatorsName(element1.getValueAsString(cs, element1
 					.length()));
-			if (study.getOperatorsName() == null
-					|| study.getOperatorsName().length() == 0) {
-				study.setOperatorsName ("not defined");
+			if (getOperatorsName() == null
+					|| getOperatorsName().length() == 0) {
+				setOperatorsName ("not defined");
 			}
 		}
 
 		// StudyDescription (Tag.MedicalAlerts)
-		study.setStudyDescription("empty");
+		setStudyDescription("empty");
 		element1 = dcmObj.get(Tag.MedicalAlerts);
 		if (element1 != null) {
-			study.setStudyDescription(element1.getValueAsString(cs, element1
+			setStudyDescription(element1.getValueAsString(cs, element1
 					.length()));
-			if (study.getStudyDescription() == null
-					|| study.getStudyDescription().length() == 0) {
-				study.setStudyDescription( "not defined");
+			if (getStudyDescription() == null
+					|| getStudyDescription().length() == 0) {
+				setStudyDescription( "not defined");
 			}
 		}
 
 		// PatientShortName (это КБП)
-		study.setPatientShortName(Extractor.makeShortName(study.getPatientName(),
-				study.getPatientBirthDate()));
-		if (study.getPatientShortName() == null
-				|| study.getPatientShortName().length() == 0) {
-			study.setPatientShortName("notmuch");
+		setPatientShortName(Extractor.makeShortName(getPatientName(),
+				getPatientBirthDate()));
+		if (getPatientShortName() == null
+				|| getPatientShortName().length() == 0) {
+			setPatientShortName("notmuch");
 		}
 
 		// Date STUDY_VIEW_PROTOCOL_DATE = null;// TODO Проверить Дата ли
@@ -231,7 +235,7 @@ public class Study {
 		// // исследование) TODO
 		// // Реализовать!!!
 
-		return study;
+		
 		
 	}
 	
