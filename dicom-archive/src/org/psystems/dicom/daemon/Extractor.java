@@ -387,7 +387,7 @@ public class Extractor {
 			
 			
 			//!!!!!!!!!!!!!!!!!!!!
-			Study study = DICOMDriver.getStudy(dcmObj);
+			Study study = Study.getInstance(dcmObj);
 			//!!!!!!!!!!!!!!!!!!!
 			
 			long IMAGE_FILE_SIZE = 0;
