@@ -78,11 +78,11 @@ public class DICOMDriverPACSLookInside extends DICOMDriver {
 
 	private static Logger LOG = LoggerFactory.getLogger(DICOMDriverPACSLookInside.class);
 	
-	public CustomStudy getStudyImpl(DicomObject dcmObj) {
+	public Study getStudyImpl(DicomObject dcmObj) {
 
 		LOG.info("DICOM Driver 'PACS LookInside'");
 		
-		CustomStudy study = super.getStudyImpl(dcmObj);
+		Study study = super.getStudyImpl(dcmObj);
 		
 		
 		return study;

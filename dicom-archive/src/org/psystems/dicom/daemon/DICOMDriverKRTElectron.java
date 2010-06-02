@@ -17,12 +17,12 @@ public class DICOMDriverKRTElectron extends DICOMDriver {
 
 	private static Logger LOG = LoggerFactory.getLogger(DICOMDriverKRTElectron.class);
 	
-	public CustomStudy getStudyImpl(DicomObject dcmObj) {
+	public Study getStudyImpl(DicomObject dcmObj) {
 
 		LOG.info("DICOM Driver 'KRT Electron'");
 		
 		
-		CustomStudy study = super.getStudyImpl(dcmObj);
+		Study study = super.getStudyImpl(dcmObj);
 		SpecificCharacterSet cs = study.getCs();
 		
 		int tagStudyDescriptionDate = 0x00211110;
