@@ -448,7 +448,7 @@ public class Extractor {
 				stmt.setString(5, study.getStudyType());
 				stmt.setString(6, study.getStudyDescription());
 				stmt.setString(7, study.getStudyDoctor());
-				stmt.setString(8, study.getOperatorsName());
+				stmt.setString(8, study.getStudyOperator());
 				stmt.setString(9, study.getStudyResult());
 				stmt.setString(10, study.getStudyViewProtocol());
 				stmt.setDate(11, study.getStudyViewProtocolDate());
@@ -498,7 +498,7 @@ public class Extractor {
 				stmt.setString(6, study.getStudyType());
 				stmt.setString(7, study.getStudyDescription());
 				stmt.setString(8, study.getStudyDoctor());
-				stmt.setString(9, study.getOperatorsName());
+				stmt.setString(9, study.getStudyOperator());
 				stmt.setString(10, study.getStudyResult());
 				stmt.setString(11, study.getStudyViewProtocol());
 				stmt.setDate(12, study.getStudyViewProtocolDate());
