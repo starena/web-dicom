@@ -25,13 +25,22 @@ public class Study {
 	private String PatientSex;
 	private java.sql.Date StudyDate;
 	private String StudyDoctor;// Tag.ReferringPhysicianName
-	private String OperatorsName;
+	private String StudyOperator;
 	private String StudyDescription;// Tag.MedicalAlerts
 	private String PatientShortName;
 	protected String ManufacturerModelName;
 	protected String StudyType;
 	protected String StudyResult;
 	protected String StudyViewProtocol;
+	
+	// TODO Manufacturer в файлах не фигурирует...
+	protected String ManufacturerUID = "empty";
+
+	// TODO в файлах не фигурирует
+	private java.sql.Date StudyViewProtocolDate = null;
+
+	// TODO Тип файла (снимок, описание). пока не сделано.
+	protected String DcmType = "empty";
 
 	private static Logger LOG = LoggerFactory.getLogger(Study.class);
 	
@@ -197,14 +206,14 @@ public class Study {
 		}
 
 		// OperatorsName
-		setOperatorsName("empty");
+		setStudyOperator("empty");
 		element1 = dcmObj.get(Tag.OperatorsName);
 		if (element1 != null) {
-			setOperatorsName(element1.getValueAsString(cs, element1
+			setStudyOperator(element1.getValueAsString(cs, element1
 					.length()));
-			if (getOperatorsName() == null
-					|| getOperatorsName().length() == 0) {
-				setOperatorsName ("not defined");
+			if (getStudyOperator() == null
+					|| getStudyOperator().length() == 0) {
+				setStudyOperator ("not defined");
 			}
 		}
 
@@ -239,14 +248,7 @@ public class Study {
 		
 	}
 	
-	// TODO Manufacturer в файлах не фигурирует...
-	protected String ManufacturerUID = "empty";
-
-	// TODO в файлах не фигурирует
-	private java.sql.Date StudyViewProtocolDate = null;
-
-	// TODO Тип файла (снимок, описание). пока не сделано.
-	protected String DcmType = "empty";
+	
 
 	public void setCs(SpecificCharacterSet cs) {
 		this.cs = cs;
@@ -288,8 +290,8 @@ public class Study {
 		StudyDoctor = studyDoctor;
 	}
 
-	public void setOperatorsName(String operatorsName) {
-		OperatorsName = operatorsName;
+	public void setStudyOperator(String operatorsName) {
+		StudyOperator = operatorsName;
 	}
 
 	public void setStudyDescription(String studyDescription) {
@@ -368,8 +370,8 @@ public class Study {
 		return StudyDoctor;
 	}
 
-	public String getOperatorsName() {
-		return OperatorsName;
+	public String getStudyOperator() {
+		return StudyOperator;
 	}
 
 	public String getStudyDescription() {
