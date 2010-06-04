@@ -29,6 +29,9 @@ public class Study {
 	private String StudyDescription;// Tag.MedicalAlerts
 	private String PatientShortName;
 	protected String ManufacturerModelName;
+	// Tag.Manufacturer
+	// (0008,0070) LO #18 [JV HELPIC (MOSCOW)] Manufacturer
+	protected String Manufacturer;
 	protected String StudyType;
 	protected String StudyResult;
 	protected String StudyViewProtocol;
@@ -116,32 +119,43 @@ public class Study {
 		setCs(cs);
 
 		// StudyInstanceUID
-		DicomElement element1 = dcmObj.get(Tag.StudyInstanceUID);
+		DicomElement element = dcmObj.get(Tag.StudyInstanceUID);
 		setStudyInstanceUID("empty");
-		if (element1 == null) {
+		if (element == null) {
 			LOG.warn("Study ID (tag: StudyUID) is empty!");
 			
 		} else {
-			setStudyInstanceUID(element1.getValueAsString(cs, element1
+			setStudyInstanceUID(element.getValueAsString(cs, element
+					.length()));
+		}
+		
+		// Manufacturer
+		element = dcmObj.get(Tag.Manufacturer);
+		setManufacturer("empty");
+		if (element == null) {
+			LOG.warn("Study ID (tag: Manufacturer) is empty!");
+			
+		} else {
+			setManufacturer(element.getValueAsString(cs, element
 					.length()));
 		}
 
 		// Modality
 		setModality("empty");
-		element1 = dcmObj.get(Tag.Modality);
-		if (element1 == null) {
+		element = dcmObj.get(Tag.Modality);
+		if (element == null) {
 			LOG.warn("Study ID (tag: Modality) is empty!");
 		} else {
-			setModality(element1.getValueAsString(cs, element1.length()));
+			setModality(element.getValueAsString(cs, element.length()));
 		}
 
 		// StudyID
-		element1 = dcmObj.get(Tag.StudyID);
+		element = dcmObj.get(Tag.StudyID);
 		setStudyID("empty");
-		if (element1 == null) {
+		if (element == null) {
 			LOG.warn("Study ID (tag: StudyID) is empty!");
 		} else {
-			setStudyID(element1.getValueAsString(cs, element1.length()));
+			setStudyID(element.getValueAsString(cs, element.length()));
 		}
 
 		// PatientBirthDate
@@ -154,31 +168,31 @@ public class Study {
 		}
 
 		// PatientName
-		element1 = dcmObj.get(Tag.PatientName);
+		element = dcmObj.get(Tag.PatientName);
 		setPatientName("empty");
-		if (element1 == null) {
+		if (element == null) {
 			LOG.warn("Patien Name (tag: PatientName) is empty!");
 		} else {
-			setPatientName(element1
-					.getValueAsString(cs, element1.length()));
+			setPatientName(element
+					.getValueAsString(cs, element.length()));
 		}
 
 		// PatientID
-		element1 = dcmObj.get(Tag.PatientID);
+		element = dcmObj.get(Tag.PatientID);
 		setPatientID("empty");
-		if (element1 == null) {
+		if (element == null) {
 			LOG.warn("Patien ID (tag: PatientID) is empty!");
 		} else {
-			setPatientID(element1.getValueAsString(cs, element1.length()));
+			setPatientID(element.getValueAsString(cs, element.length()));
 		}
 
 		// PatientSex
-		element1 = dcmObj.get(Tag.PatientSex);
+		element = dcmObj.get(Tag.PatientSex);
 		setPatientSex("");
-		if (element1 == null) {
+		if (element == null) {
 			LOG.warn("Patient sex (tag: PatientSex) is empty!");
 		} else {
-			setPatientSex(element1.getValueAsString(cs, element1.length()));
+			setPatientSex(element.getValueAsString(cs, element.length()));
 			if (getPatientSex().length() > 1) {
 				LOG.warn("PATIENT_SEX to long [" + getPatientSex() + "]");
 				setPatientSex(getPatientSex().substring(0, 1));
@@ -196,10 +210,10 @@ public class Study {
 
 		// StudyDoctor (Tag.ReferringPhysicianName)
 		setStudyDoctor("empty");
-		element1 = dcmObj.get(Tag.ReferringPhysicianName);
-		if (element1 != null) {
-			setStudyDoctor(element1
-					.getValueAsString(cs, element1.length()));
+		element = dcmObj.get(Tag.ReferringPhysicianName);
+		if (element != null) {
+			setStudyDoctor(element
+					.getValueAsString(cs, element.length()));
 			if (getStudyDoctor() == null || getStudyDoctor().length() == 0) {
 				setStudyDoctor("not defined");
 			}
@@ -207,9 +221,9 @@ public class Study {
 
 		// OperatorsName
 		setStudyOperator("empty");
-		element1 = dcmObj.get(Tag.OperatorsName);
-		if (element1 != null) {
-			setStudyOperator(element1.getValueAsString(cs, element1
+		element = dcmObj.get(Tag.OperatorsName);
+		if (element != null) {
+			setStudyOperator(element.getValueAsString(cs, element
 					.length()));
 			if (getStudyOperator() == null
 					|| getStudyOperator().length() == 0) {
@@ -219,9 +233,9 @@ public class Study {
 
 		// StudyDescription (Tag.MedicalAlerts)
 		setStudyDescription("empty");
-		element1 = dcmObj.get(Tag.MedicalAlerts);
-		if (element1 != null) {
-			setStudyDescription(element1.getValueAsString(cs, element1
+		element = dcmObj.get(Tag.MedicalAlerts);
+		if (element != null) {
+			setStudyDescription(element.getValueAsString(cs, element
 					.length()));
 			if (getStudyDescription() == null
 					|| getStudyDescription().length() == 0) {
@@ -409,5 +423,15 @@ public class Study {
 	public String getDcmType() {
 		return DcmType;
 	}
+
+	public String getManufacturer() {
+		return Manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		Manufacturer = manufacturer;
+	}
+	
+	
 
 }

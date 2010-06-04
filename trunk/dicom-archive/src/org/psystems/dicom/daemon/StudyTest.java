@@ -2,18 +2,12 @@ package org.psystems.dicom.daemon;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.sql.Date;
-import java.util.Iterator;
-
-import org.dcm4che2.data.DicomElement;
-import org.dcm4che2.data.DicomObject;
-import org.dcm4che2.data.SpecificCharacterSet;
-import org.dcm4che2.data.Tag;
-import org.dcm4che2.io.DicomInputStream;
-import org.dcm4che2.util.StringUtils;
 
 import junit.framework.TestCase;
+
+import org.dcm4che2.data.DicomObject;
+import org.dcm4che2.io.DicomInputStream;
 
 public class StudyTest extends TestCase {
 
@@ -29,7 +23,7 @@ public class StudyTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testGetInstance_1() {
+	public void testGetInstance_elektron_1() {
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
@@ -73,7 +67,7 @@ public class StudyTest extends TestCase {
 		}
 	}
 
-	public void testGetInstance_2() {
+	public void testGetInstance_elektron_2() {
 
 		DicomObject dcmObj;
 		DicomInputStream din = null;
@@ -121,5 +115,116 @@ public class StudyTest extends TestCase {
 			}
 		}
 	}
+	
+	public void testGetInstance_renex() {
+
+		
+		//Исследование из RENEX 
+		DicomObject dcmObj;
+		DicomInputStream din = null;
+		String fileName = "test/data/pacs/iso.dcm";
+		try {
+
+			File f = new File(fileName);
+			din = new DicomInputStream(f);
+			dcmObj = din.readDicomObject();
+			Study study = Study.getInstance(dcmObj);
+			assertEquals(study.getClass().getName(),
+					"org.psystems.dicom.daemon.Study");
+			assertEquals(study.getStudyInstanceUID(),
+					"1.871.3.3789295964.39943.18345.1575621271.2728364279.1");
+			assertEquals(study.getModality(), "CR");
+			assertEquals(study.getStudyID(), "1");
+			assertEquals(study.getPatientBirthDate(), new Date(59, 9, 5));//19591005
+			assertEquals(study.getPatientName(), "Gaer^Lidiya^Nikolaevna");
+			//TODO Разобраться почему ID нету
+			assertEquals(study.getPatientID(), null);
+			assertEquals(study.getPatientSex(), "F");
+			//TODO Разобраться почему ID нету
+			assertEquals(study.getStudyDoctor(), "not defined");
+			//TODO Разобраться почему ID нету
+			assertEquals(study.getStudyOperator(), "empty");
+			
+			//(0010,2000) LO #12 [Без диагноза] Medical Alerts
+			//TODO Разобраться почему тег исчез
+			//assertEquals(study.getStudyDescription(), "Без диагноза");
+			
+			assertEquals(study.getPatientShortName(), "GAELN59");
+			assertEquals(study.getManufacturerModelName(), null);
+			assertEquals(study.getManufacturer(), "JV HELPIC (MOSCOW)");
+			
+			assertEquals(study.getStudyType(), null);
+			assertEquals(study.getStudyResult(), null);
+			assertEquals(study.getStudyViewProtocol(), null);
+			assertEquals(study.getStudyViewProtocolDate(), null);
+			assertEquals(study.getManufacturerUID(), "empty");
+			assertEquals(study.getDcmType(), "empty");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (din != null)
+					din.close();
+			} catch (IOException ignore) {
+			}
+		}
+	}
+	
+public void testGetInstance_renex_lookinside() {
+
+		
+		//Исследование из RENEX 
+		DicomObject dcmObj;
+		DicomInputStream din = null;
+		String fileName = "test/data/pacs/iso.dcm";
+		try {
+
+			File f = new File(fileName);
+			din = new DicomInputStream(f);
+			dcmObj = din.readDicomObject();
+			Study study = Study.getInstance(dcmObj);
+			assertEquals(study.getClass().getName(),
+					"org.psystems.dicom.daemon.Study");
+			assertEquals(study.getStudyInstanceUID(),
+					"1.871.3.3789295964.39943.18345.1575621271.2728364279.1");
+			assertEquals(study.getModality(), "CR");
+			assertEquals(study.getStudyID(), "1");
+			assertEquals(study.getPatientBirthDate(), new Date(59, 9, 5));//19591005
+			assertEquals(study.getPatientName(), "Gaer^Lidiya^Nikolaevna");
+			//TODO Разобраться почему ID нету
+			assertEquals(study.getPatientID(), null);
+			assertEquals(study.getPatientSex(), "F");
+			//TODO Разобраться почему ID нету
+			assertEquals(study.getStudyDoctor(), "not defined");
+			//TODO Разобраться почему ID нету
+			assertEquals(study.getStudyOperator(), "empty");
+			
+			//(0010,2000) LO #12 [Без диагноза] Medical Alerts
+			//TODO Разобраться почему тег исчез
+			//assertEquals(study.getStudyDescription(), "Без диагноза");
+			
+			assertEquals(study.getPatientShortName(), "GAELN59");
+			assertEquals(study.getManufacturerModelName(), null);
+			assertEquals(study.getManufacturer(), "JV HELPIC (MOSCOW)");
+			
+			assertEquals(study.getStudyType(), null);
+			assertEquals(study.getStudyResult(), null);
+			assertEquals(study.getStudyViewProtocol(), null);
+			assertEquals(study.getStudyViewProtocolDate(), null);
+			assertEquals(study.getManufacturerUID(), "empty");
+			assertEquals(study.getDcmType(), "empty");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (din != null)
+					din.close();
+			} catch (IOException ignore) {
+			}
+		}
+	}
+
 
 }
