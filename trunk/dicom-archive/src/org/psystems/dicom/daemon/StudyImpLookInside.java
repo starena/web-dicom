@@ -65,18 +65,73 @@
  */
 package org.psystems.dicom.daemon;
 
+import java.sql.Date;
+
+import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
+import org.dcm4che2.data.SpecificCharacterSet;
+import org.dcm4che2.data.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author dima_d
  * 
  */
 public class StudyImpLookInside extends Study {
+	
+	private static Logger LOG = LoggerFactory.getLogger(StudyImpLookInside.class);
 
 	StudyImpLookInside(DicomObject dcmObj) {
+		
+		LOG.info("DICOM Driver 'Look Inside'");
+		
 		//инициализируем общие теги
 		implCommon(dcmObj);
-		// TODO Реализовать!
+		
+		
+		SpecificCharacterSet cs = getCs();
+		
+		int tagPatientName = 0x34950022;
+		int tagPatientBirthDate = 0x349500B2;
+		int tagPatientSex = 0x34950042;
+		
+
+		// PatientName
+		String cusomPatientName = "empty";
+		DicomElement element = dcmObj.get(tagPatientName);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()).length() > 0) {
+			cusomPatientName = element.getValueAsString(cs,
+					element.length());
+		}
+		
+		cusomPatientName = cusomPatientName.replaceAll("\\^", " ");
+		setPatientName(cusomPatientName);
+		
+		// PatientBirthDate
+		String cusomPatientBirthDate = null;
+		element = dcmObj.get(tagPatientBirthDate);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()).length() > 0) {
+			cusomPatientBirthDate = element.getValueAsString(cs,
+					element.length());
+		}
+		
+		setPatientBirthDate(Date.valueOf(cusomPatientBirthDate));
+		
+		// PatientSex
+		String cusomPatientSex = null;
+		element = dcmObj.get(tagPatientSex);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()).length() > 0) {
+			cusomPatientSex = element.getValueAsString(cs,
+					element.length());
+		}
+		
+		setPatientSex(cusomPatientSex);
+		
+		
 	}
 
 }
