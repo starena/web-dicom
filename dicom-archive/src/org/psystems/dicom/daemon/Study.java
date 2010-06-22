@@ -16,34 +16,34 @@ import org.slf4j.LoggerFactory;
 public class Study {
 
 	private SpecificCharacterSet cs;
-	private String StudyInstanceUID;
-	private String Modality;
-	private String StudyID;
-	private java.sql.Date PatientBirthDate;
-	private String PatientName;
-	private String PatientID;
-	private String PatientSex;
-	private java.sql.Date StudyDate;
-	private String StudyDoctor;// Tag.ReferringPhysicianName
-	private String StudyOperator;
-	private String StudyDescription;// Tag.MedicalAlerts
-	private String PatientShortName;
-	protected String ManufacturerModelName;
+	private String StudyInstanceUID = "not implemented";
+	private String Modality = "not implemented";
+	private String StudyID = "not implemented";
+	private java.sql.Date PatientBirthDate = null;
+	private String PatientName = "not implemented";
+	private String PatientID = "not implemented";
+	private String PatientSex = "not implemented";
+	private java.sql.Date StudyDate = null;
+	private String StudyDoctor = "not implemented";// Tag.ReferringPhysicianName
+	private String StudyOperator = "not implemented";
+	private String StudyDescription = "not implemented";// Tag.MedicalAlerts
+	private String PatientShortName = "not implemented";
+	protected String ManufacturerModelName = "not implemented";
 	// Tag.Manufacturer
 	// (0008,0070) LO #18 [JV HELPIC (MOSCOW)] Manufacturer
-	protected String Manufacturer;
-	protected String StudyType;
-	protected String StudyResult;
-	protected String StudyViewProtocol;
+	protected String Manufacturer = "not implemented";
+	protected String StudyType = "not implemented";
+	protected String StudyResult = "not implemented";
+	protected String StudyViewProtocol= "not implemented";
 	
 	// TODO Manufacturer в файлах не фигурирует...
-	protected String ManufacturerUID = "empty";
+	protected String ManufacturerUID = "not implemented";
 
 	// TODO в файлах не фигурирует
 	private java.sql.Date StudyViewProtocolDate = null;
 
 	// TODO Тип файла (снимок, описание). пока не сделано.
-	protected String DcmType = "empty";
+	protected String DcmType = "not implemented";
 
 	private static Logger LOG = LoggerFactory.getLogger(Study.class);
 	
@@ -83,11 +83,14 @@ public class Study {
 					&& element.getValueAsString(cs, element.length()).equals(
 							"KRT_ELECTRON_PRIVATE")) {
 				
+				LOG.info("Using dirver 'Elektron'");
 				return new StudyImplElektron(dcmObj);
 				
 			}
 		}
 		if (MediaStorageSOPClassUID.equals("1.2.826.0.1.3680043.2.706.5476834")) {
+//			System.out.println("!!!!!");
+			LOG.info("Using dirver 'LookInside'");
 			return new StudyImpLookInside(dcmObj);
 			
 		}
@@ -95,6 +98,8 @@ public class Study {
 		//Общий драйвер
 		Study study = new Study();
 		study.implCommon(dcmObj);
+		
+		LOG.info("Using dirver 'Common'");
 		return study;
 	}
 	
@@ -120,7 +125,7 @@ public class Study {
 
 		// StudyInstanceUID
 		DicomElement element = dcmObj.get(Tag.StudyInstanceUID);
-		setStudyInstanceUID("empty");
+//		setStudyInstanceUID("empty");
 		if (element == null) {
 			LOG.warn("Study ID (tag: StudyUID) is empty!");
 			
@@ -131,7 +136,7 @@ public class Study {
 		
 		// Manufacturer
 		element = dcmObj.get(Tag.Manufacturer);
-		setManufacturer("empty");
+//		setManufacturer("empty");
 		if (element == null) {
 			LOG.warn("Study ID (tag: Manufacturer) is empty!");
 			
@@ -139,9 +144,18 @@ public class Study {
 			setManufacturer(element.getValueAsString(cs, element
 					.length()));
 		}
+		
+		// ManufacturerModelName
+//		ManufacturerModelName = "empty";
+		element = dcmObj.get(Tag.ManufacturerModelName);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()).length() > 0) {
+			ManufacturerModelName = element.getValueAsString(cs,
+					element.length());
+		}
 
 		// Modality
-		setModality("empty");
+//		setModality("empty");
 		element = dcmObj.get(Tag.Modality);
 		if (element == null) {
 			LOG.warn("Study ID (tag: Modality) is empty!");
@@ -151,7 +165,7 @@ public class Study {
 
 		// StudyID
 		element = dcmObj.get(Tag.StudyID);
-		setStudyID("empty");
+//		setStudyID("empty");
 		if (element == null) {
 			LOG.warn("Study ID (tag: StudyID) is empty!");
 		} else {
@@ -169,7 +183,7 @@ public class Study {
 
 		// PatientName
 		element = dcmObj.get(Tag.PatientName);
-		setPatientName("empty");
+//		setPatientName("empty");
 		if (element == null) {
 			LOG.warn("Patien Name (tag: PatientName) is empty!");
 		} else {
@@ -179,7 +193,7 @@ public class Study {
 
 		// PatientID
 		element = dcmObj.get(Tag.PatientID);
-		setPatientID("empty");
+//		setPatientID("empty");
 		if (element == null) {
 			LOG.warn("Patien ID (tag: PatientID) is empty!");
 		} else {
@@ -188,7 +202,7 @@ public class Study {
 
 		// PatientSex
 		element = dcmObj.get(Tag.PatientSex);
-		setPatientSex("");
+//		setPatientSex("");
 		if (element == null) {
 			LOG.warn("Patient sex (tag: PatientSex) is empty!");
 		} else {
@@ -209,7 +223,7 @@ public class Study {
 		}
 
 		// StudyDoctor (Tag.ReferringPhysicianName)
-		setStudyDoctor("empty");
+//		setStudyDoctor("empty");
 		element = dcmObj.get(Tag.ReferringPhysicianName);
 		if (element != null) {
 			setStudyDoctor(element
@@ -220,7 +234,7 @@ public class Study {
 		}
 
 		// OperatorsName
-		setStudyOperator("empty");
+//		setStudyOperator("empty");
 		element = dcmObj.get(Tag.OperatorsName);
 		if (element != null) {
 			setStudyOperator(element.getValueAsString(cs, element
@@ -232,7 +246,7 @@ public class Study {
 		}
 
 		// StudyDescription (Tag.MedicalAlerts)
-		setStudyDescription("empty");
+//		setStudyDescription("empty");
 		element = dcmObj.get(Tag.MedicalAlerts);
 		if (element != null) {
 			setStudyDescription(element.getValueAsString(cs, element

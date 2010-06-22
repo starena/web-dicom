@@ -26,18 +26,11 @@ public class StudyImplElektron extends Study {
 		int tagStudyResult = 0x00211103;
 		int tagStudyViewprotocol = 0x00211118;
 
-		// ManufacturerModelName
-		ManufacturerModelName = "empty";
-		DicomElement element = dcmObj.get(Tag.ManufacturerModelName);
-		if (element != null
-				&& element.getValueAsString(cs, element.length()).length() > 0) {
-			ManufacturerModelName = element.getValueAsString(cs,
-					element.length());
-		}
+		
 
 		// StudyType
-		StudyType = "empty";
-		element = dcmObj.get(tagStudyType1);
+//		StudyType = "empty";
+		DicomElement element = dcmObj.get(tagStudyType1);
 		if (element != null
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
 			StudyType = element.getValueAsString(cs, element.length());
@@ -50,7 +43,7 @@ public class StudyImplElektron extends Study {
 		}
 
 		// StudyResult
-		StudyResult = "empty";
+//		StudyResult = "empty";
 		element = dcmObj.get(tagStudyResult);
 		if (element != null
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
@@ -59,7 +52,7 @@ public class StudyImplElektron extends Study {
 		}
 
 		// StudyViewProtocol
-		StudyViewProtocol = "empty";
+//		StudyViewProtocol = "empty";
 		element = dcmObj.get(tagStudyViewprotocol);
 		if (element != null
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
