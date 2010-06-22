@@ -98,7 +98,7 @@ public class StudyImpLookInside extends Study {
 		
 
 		// PatientName
-		String cusomPatientName = "empty";
+		String cusomPatientName = "not implemented";
 		DicomElement element = dcmObj.get(tagPatientName);
 		if (element != null
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
@@ -130,6 +130,17 @@ public class StudyImpLookInside extends Study {
 		}
 		
 		setPatientSex(cusomPatientSex);
+		
+		// PatientShortName (это КБП)
+		setPatientShortName(Extractor.makeShortName(getPatientName(),
+				getPatientBirthDate()));
+		if (getPatientShortName() == null
+				|| getPatientShortName().length() == 0) {
+			setPatientShortName("notmuch");
+		}
+		
+		//TODO Костыли:
+		//setStudyType("not implemented");
 		
 		
 	}

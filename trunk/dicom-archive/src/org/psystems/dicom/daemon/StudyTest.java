@@ -50,11 +50,11 @@ public class StudyTest extends TestCase {
 			assertEquals(study.getPatientShortName(), "НИКТГ61");
 			assertEquals(study.getManufacturerModelName(), "КРТ-Электрон");
 			assertEquals(study.getStudyType(), "Флюорография, Прямая передняя");
-			assertEquals(study.getStudyResult(), "empty");
-			assertEquals(study.getStudyViewProtocol(), "empty");
+			assertEquals(study.getStudyResult(), "not implemented");
+			assertEquals(study.getStudyViewProtocol(), "not implemented");
 			assertEquals(study.getStudyViewProtocolDate(), null);
-			assertEquals(study.getManufacturerUID(), "empty");
-			assertEquals(study.getDcmType(), "empty");
+			assertEquals(study.getManufacturerUID(), "not implemented");
+			assertEquals(study.getDcmType(), "not implemented");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -102,8 +102,8 @@ public class StudyTest extends TestCase {
 			assertEquals(study.getStudyViewProtocol(), "Органы грудной полости без видимых патологических изменений (придуманная)\n" +
 					"придуманное - не согласие!!!!!!!!!!!");
 			assertEquals(study.getStudyViewProtocolDate(), null);
-			assertEquals(study.getManufacturerUID(), "empty");
-			assertEquals(study.getDcmType(), "empty");
+			assertEquals(study.getManufacturerUID(), "not implemented");
+			assertEquals(study.getDcmType(), "not implemented");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,22 +143,22 @@ public class StudyTest extends TestCase {
 			//TODO Разобраться почему ID нету
 			assertEquals(study.getStudyDoctor(), "not defined");
 			//TODO Разобраться почему ID нету
-			assertEquals(study.getStudyOperator(), "empty");
+			assertEquals(study.getStudyOperator(), "not implemented");
 			
 			//(0010,2000) LO #12 [Без диагноза] Medical Alerts
 			//TODO Разобраться почему тег исчез
 			//assertEquals(study.getStudyDescription(), "Без диагноза");
 			
 			assertEquals(study.getPatientShortName(), "GAELN59");
-			assertEquals(study.getManufacturerModelName(), null);
+			assertEquals(study.getManufacturerModelName(), "RENEXFLUORO3");
 			assertEquals(study.getManufacturer(), "JV HELPIC (MOSCOW)");
 			
-			assertEquals(study.getStudyType(), null);
-			assertEquals(study.getStudyResult(), null);
-			assertEquals(study.getStudyViewProtocol(), null);
+			assertEquals(study.getStudyType(), "not implemented");
+			assertEquals(study.getStudyResult(), "not implemented");
+			assertEquals(study.getStudyViewProtocol(), "not implemented");
 			assertEquals(study.getStudyViewProtocolDate(), null);
-			assertEquals(study.getManufacturerUID(), "empty");
-			assertEquals(study.getDcmType(), "empty");
+			assertEquals(study.getManufacturerUID(), "not implemented");
+			assertEquals(study.getDcmType(), "not implemented");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -190,7 +190,7 @@ public void testGetInstance_renex_lookinside() {
 					"1.871.3.3789295964.39943.18345.1575621271.2728364279.1");
 			assertEquals(study.getModality(), "CR");
 			//TODO Куда исчез тег?
-			assertEquals(study.getStudyID(), "empty");
+			assertEquals(study.getStudyID(), "not implemented");
 			
 			assertEquals(study.getPatientBirthDate(), new Date(59, 9, 5));//1959-10-05
 			
@@ -198,25 +198,27 @@ public void testGetInstance_renex_lookinside() {
 			//TODO Разобраться почему ID нету
 			assertEquals(study.getPatientID(), null);
 			assertEquals(study.getPatientSex(), "F");
-			//TODO Разобраться почему ID нету
-			assertEquals(study.getStudyDoctor(), "not defined");
-			//TODO Разобраться почему ID нету
-			assertEquals(study.getStudyOperator(), "empty");
+			//TODO Разобраться почему нету
+			assertEquals(study.getStudyDoctor(), "not implemented");
+			//TODO Разобраться почему нету
+			assertEquals(study.getStudyOperator(), "not implemented");
 			
 			//(0010,2000) LO #12 [Без диагноза] Medical Alerts
 			//TODO Разобраться почему тег исчез
 			//assertEquals(study.getStudyDescription(), "Без диагноза");
 			
-			assertEquals(study.getPatientShortName(), "GAELN59");
-			assertEquals(study.getManufacturerModelName(), null);
-			assertEquals(study.getManufacturer(), "JV HELPIC (MOSCOW)");
+			assertEquals(study.getPatientShortName(), "ГАЕЛН59");
+			assertEquals(study.getManufacturerModelName(), "not implemented");
+			//TODO Разобраться почему нету
+			assertEquals(study.getManufacturer(), "not implemented");
 			
-			assertEquals(study.getStudyType(), null);
-			assertEquals(study.getStudyResult(), null);
-			assertEquals(study.getStudyViewProtocol(), null);
+			//TODO Разобраться откуда брать
+			assertEquals(study.getStudyType(), "not implemented");
+			assertEquals(study.getStudyResult(), "not implemented");
+			assertEquals(study.getStudyViewProtocol(), "not implemented");
 			assertEquals(study.getStudyViewProtocolDate(), null);
-			assertEquals(study.getManufacturerUID(), "empty");
-			assertEquals(study.getDcmType(), "empty");
+			assertEquals(study.getManufacturerUID(), "not implemented");
+			assertEquals(study.getDcmType(), "not implemented");
 
 		} catch (IOException e) {
 			e.printStackTrace();
