@@ -95,19 +95,30 @@ public class StudyImpLookInside extends Study {
 		int tagPatientName = 0x34950022;
 		int tagPatientBirthDate = 0x349500B2;
 		int tagPatientSex = 0x34950042;
+		int tagDoctor =  0x34970062;
+		int tagOpeator = 0x34970052;
+		int tagStudyType = 0x34970002;
+		int tagStudyResult = 0x34970082;
+		int tagStudyViewprotocol = 0x349700C2;
+		
+		int tagStudyDescriptionDateDate = 0x34970012;
+		int tagStudyDescriptionDateTime = 0x34970022;
+		
+		
 		
 
 		// PatientName
-		String cusomPatientName = "not implemented";
+		String cusomPatientName = null;
 		DicomElement element = dcmObj.get(tagPatientName);
 		if (element != null
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
 			cusomPatientName = element.getValueAsString(cs,
 					element.length());
+			cusomPatientName = cusomPatientName.replaceAll("\\^", " ");
+			setPatientName(cusomPatientName);
 		}
 		
-		cusomPatientName = cusomPatientName.replaceAll("\\^", " ");
-		setPatientName(cusomPatientName);
+		
 		
 		// PatientBirthDate
 		String cusomPatientBirthDate = null;
@@ -116,9 +127,10 @@ public class StudyImpLookInside extends Study {
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
 			cusomPatientBirthDate = element.getValueAsString(cs,
 					element.length());
+			setPatientBirthDate(Date.valueOf(cusomPatientBirthDate));
 		}
 		
-		setPatientBirthDate(Date.valueOf(cusomPatientBirthDate));
+		
 		
 		// PatientSex
 		String cusomPatientSex = null;
@@ -127,9 +139,10 @@ public class StudyImpLookInside extends Study {
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
 			cusomPatientSex = element.getValueAsString(cs,
 					element.length());
+			setPatientSex(cusomPatientSex);
 		}
 		
-		setPatientSex(cusomPatientSex);
+		
 		
 		// PatientShortName (это КБП)
 		setPatientShortName(Extractor.makeShortName(getPatientName(),
@@ -138,6 +151,85 @@ public class StudyImpLookInside extends Study {
 				|| getPatientShortName().length() == 0) {
 			setPatientShortName("notmuch");
 		}
+		
+		
+		// Doctor
+		String customDoctor = null;
+		element = dcmObj.get(tagDoctor);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()) != null) {
+			customDoctor = element.getValueAsString(cs,
+					element.length());
+			setStudyDoctor(customDoctor);
+		}
+		
+		// Operator
+		String customOperator = null;
+		element = dcmObj.get(tagOpeator);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()) != null) {
+			customOperator = element.getValueAsString(cs,
+					element.length());
+			setStudyOperator(customOperator);
+		}
+		
+		// StudyType
+		String customStudyType = null;
+		element = dcmObj.get(tagStudyType);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()) != null) {
+			customStudyType = element.getValueAsString(cs,
+					element.length());
+			setStudyType(customStudyType);
+		}
+		
+		// StudyResult
+		String customStudyResult = null;
+		element = dcmObj.get(tagStudyResult);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()) != null) {
+			customStudyResult = element.getValueAsString(cs,
+					element.length());
+			setStudyResult(customStudyResult);
+		}
+		
+		// StudyViewProtocol
+		String customStudyViewProtocol = null;
+		element = dcmObj.get(tagStudyViewprotocol);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()) != null) {
+			customStudyViewProtocol = element.getValueAsString(cs,
+					element.length());
+			setStudyViewProtocol(customStudyViewProtocol);
+		}
+		
+		// PatientBirthDate
+		String StudyDescriptionDate = null;
+		String StudyDescriptionTime = null;
+		
+		
+		
+		element = dcmObj.get(tagStudyDescriptionDateDate);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()) != null) {
+			StudyDescriptionDate = element.getValueAsString(cs,
+					element.length());
+		}
+		
+		element = dcmObj.get(tagStudyDescriptionDateTime);
+		if (element != null
+				&& element.getValueAsString(cs, element.length()) != null) {
+			StudyDescriptionTime = element.getValueAsString(cs,
+					element.length());
+		}
+		
+		if(StudyDescriptionDate != null && StudyDescriptionTime != null) {
+			//TODO Дата описания = Дата проведеия исследования
+//			System.out.println("!!! ["+StudyDescriptionDate + " " + StudyDescriptionTime+"]");
+			setStudyViewProtocolDate(Date.valueOf(StudyDescriptionDate));
+			setStudyDate(Date.valueOf(StudyDescriptionDate));
+		}
+		
 		
 		//TODO Костыли:
 		//setStudyType("not implemented");
