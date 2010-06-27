@@ -154,7 +154,7 @@ public class SearchedItem extends Composite {
 		table.getFlexCellFormatter().setColSpan(3, 1, 5);
 		
 		createItemName(table, 4, 0, "результат:");
-		createItemValue(table, 4, 1, proxy.getStudyDescriptionDate() +" , " + proxy.getStudyResult());
+		createItemValue(table, 4, 1, proxy.getStudyDateAsString("dd.MM.yyyy")+" , " + proxy.getStudyResult());
 		table.getFlexCellFormatter().setColSpan(4, 1, 5);
 		
 		createItemName(table, 5, 0, "Протокол осмотра:");
