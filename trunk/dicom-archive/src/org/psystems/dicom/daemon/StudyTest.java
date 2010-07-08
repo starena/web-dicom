@@ -375,7 +375,7 @@ public void testGetInstance_renex_lookinside_68() {
 		//TODO Разобраться почему ID нету
 		assertEquals(study.getPatientID(), null);
 		//TODO Все-таи пол будет как Ж или F
-		assertEquals(study.getPatientSex(), "Ж");
+		assertEquals(study.getPatientSex(), "F");
 		//TODO Разобраться почему нету
 		assertEquals(study.getStudyDoctor(), "ВРАЧ ПЕТРОВ");
 		//TODO Разобраться почему нету

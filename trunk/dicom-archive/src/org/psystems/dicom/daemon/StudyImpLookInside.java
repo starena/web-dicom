@@ -139,6 +139,21 @@ public class StudyImpLookInside extends Study {
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
 			cusomPatientSex = element.getValueAsString(cs,
 					element.length());
+			
+			if(cusomPatientSex != null) {
+				if (cusomPatientSex.length() > 1) {
+					LOG.warn("PATIENT_SEX to long [" + cusomPatientSex + "]");
+					cusomPatientSex = cusomPatientSex.substring(0, 1);
+				}
+				if (cusomPatientSex.equals("М")) {
+					LOG.warn("PATIENT_SEX bad type [" + cusomPatientSex + "]");
+					cusomPatientSex = "M";
+				}
+				if (cusomPatientSex.equals("Ж")) {
+					LOG.warn("PATIENT_SEX bad type [" + cusomPatientSex + "]");
+					cusomPatientSex = "F";
+				}
+			}
 			setPatientSex(cusomPatientSex);
 		}
 		
