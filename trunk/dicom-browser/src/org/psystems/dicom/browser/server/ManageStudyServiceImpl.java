@@ -83,6 +83,7 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements Mana
 		}
 		
 		jpg2Dcm.setCfgProperty("00100010", patientName);
+		jpg2Dcm.setCharset("ISO_IR144");
 				
 		File jpgFile = new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.JPG");
 		File dcmFile = new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.dcm");
