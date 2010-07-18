@@ -81,6 +81,8 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements Mana
 			e1.printStackTrace();
 			throw new DefaultGWTRPCException("Не могу найти конфигурационный файл! "+1);
 		}
+		
+		jpg2Dcm.setCfgProperty("00100010", patientName);
 				
 		File jpgFile = new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.JPG");
 		File dcmFile = new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.dcm");

@@ -202,6 +202,11 @@ public class Jpg2Dcm {
 		this.noAPPn = noAPPn;
 	}
 
+	
+	void setCfgProperty (String key, String value) {
+		cfg.setProperty(key, value);
+	}
+	
 	void loadConfiguration(File cfgFile, boolean augment)
 			throws IOException {
 		Properties tmp = augment ? new Properties(cfg) : new Properties();
