@@ -78,7 +78,10 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -113,7 +116,7 @@ public class Dicom_browser implements EntryPoint {
 			.create(BrowserService.class);
 
 	
-	private final ManageStydyServiceAsync manageStudyService = GWT
+	final ManageStydyServiceAsync manageStudyService = GWT
 	.create(ManageStydyService.class);
 	
 	private DialogBox errorDialogBox;
@@ -275,30 +278,25 @@ public class Dicom_browser implements EntryPoint {
 		Hyperlink tools = new Hyperlink("Создать исследование", "newstudy");
 		hp.add(tools);
 		
-		Button btn = new Button("создать");
-		hp.add(btn);
 		
-		btn.addClickHandler(new ClickHandler() {
+		
+		
+		
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onValueChange(ValueChangeEvent<String> event) {
 				// TODO Auto-generated method stub
-				
-				manageStudyService.newStudy("123", new AsyncCallback<Void>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						// TODO Auto-generated method stub
-						
-						
-					}
-				});
+				System.out.println("!!! "+event.getValue());
+				if(event.getValue().equals("newstudy")) {
+					
+					RootPanel.get("searchContainer").clear();
+					RootPanel.get("resultContainer").clear();
+					
+					NewStudyPanel panel = new NewStudyPanel(manageStudyService);
+					RootPanel.get("searchContainer").add(panel);
+					
+				}
 			}
 		});
 		
