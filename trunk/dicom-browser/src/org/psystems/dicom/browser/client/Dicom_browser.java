@@ -65,6 +65,8 @@ import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 import org.psystems.dicom.browser.client.service.ItemSuggestService;
+import org.psystems.dicom.browser.client.service.ManageStydyService;
+import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -85,6 +87,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -109,6 +112,10 @@ public class Dicom_browser implements EntryPoint {
 	private final BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);
 
+	
+	private final ManageStydyServiceAsync manageStudyService = GWT
+	.create(ManageStydyService.class);
+	
 	private DialogBox errorDialogBox;
 	private HTML errorResponseLabel;
 	private Button sendButton;
@@ -264,6 +271,37 @@ public class Dicom_browser implements EntryPoint {
 		// image.setTitle("Использование дискового пространства");
 		// statanel.setWidget(3,0,image);
 		// statanel.getFlexCellFormatter().setColSpan(2, 0, 2);
+		
+		Hyperlink tools = new Hyperlink("Создать исследование", "newstudy");
+		hp.add(tools);
+		
+		Button btn = new Button("создать");
+		hp.add(btn);
+		
+		btn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+				manageStudyService.newStudy("123", new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						
+						
+					}
+				});
+			}
+		});
+		
 
 	}
 
