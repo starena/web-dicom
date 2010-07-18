@@ -56,6 +56,7 @@ package org.psystems.dicom.browser.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.service.ManageStydyService;
@@ -82,7 +83,23 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements Mana
 			throw new DefaultGWTRPCException("Не могу найти конфигурационный файл! "+1);
 		}
 		
-		jpg2Dcm.setCfgProperty("00100010", patientName);
+		try {
+			patientName = new String( patientName.getBytes("UTF-8"),"Cp1251");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			throw new DefaultGWTRPCException("Не могу создать файл с исследованием! "+e1);
+		}
+		
+		String s = "patientName Привет!";
+		String sss = null;
+		try {
+			sss = new String (s.getBytes("UTF-8"),"Cp1251");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		jpg2Dcm.setCfgProperty("00100010", s);
 		jpg2Dcm.setCharset("ISO_IR144");
 				
 		File jpgFile = new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.JPG");
