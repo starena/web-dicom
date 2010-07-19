@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.psystems.dicom.browser.client.modules;
+package org.psystems.dicom.browser.client.component;
 
 import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 

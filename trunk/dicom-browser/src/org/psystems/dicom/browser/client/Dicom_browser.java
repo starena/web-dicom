@@ -54,9 +54,9 @@
  */
 package org.psystems.dicom.browser.client;
 
+import org.psystems.dicom.browser.client.component.BrowserPanel;
+import org.psystems.dicom.browser.client.component.StudyManagePanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.modules.BrowserPanel;
-import org.psystems.dicom.browser.client.modules.StudyManagePanel;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 import org.psystems.dicom.browser.client.service.ManageStydyService;
