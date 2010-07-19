@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.psystems.dicom.browser.client.modules;
+package org.psystems.dicom.browser.client.component;
 
 import java.util.ArrayList;
 import java.util.Date;
