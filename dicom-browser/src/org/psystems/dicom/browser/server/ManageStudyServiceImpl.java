@@ -67,43 +67,50 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class ManageStudyServiceImpl extends RemoteServiceServlet implements ManageStydyService {
+public class ManageStudyServiceImpl extends RemoteServiceServlet implements
+		ManageStydyService {
 
 	@Override
 	public void newStudy(String patientName) throws DefaultGWTRPCException {
 		// TODO Auto-generated method stub
 		System.out.println("!!!! making dcm...");
-		
+
 		Jpg2Dcm jpg2Dcm = new Jpg2Dcm();
 		try {
-			jpg2Dcm.loadConfiguration(new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\jpg2dcm.cfg"),true);
+			jpg2Dcm
+					.loadConfiguration(
+							new File(
+									"C:\\WORK\\workspace\\dicom-browser\\test\\data\\jpg2dcm.cfg"),
+							true);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			throw new DefaultGWTRPCException("Не могу найти конфигурационный файл! "+1);
+			throw new DefaultGWTRPCException(
+					"Не могу найти конфигурационный файл! " + 1);
 		}
 		
-		try {
-			patientName = new String( patientName.getBytes("UTF-8"),"Cp1251");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			throw new DefaultGWTRPCException("Не могу создать файл с исследованием! "+e1);
-		}
+
+//		try {
+//			patientName = new String(patientName.getBytes("UTF-8"), "Cp1251");
+//		} catch (UnsupportedEncodingException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//			throw new DefaultGWTRPCException(
+//					"Не могу создать файл с исследованием! " + e1);
+//		}
+
+	
 		
-		String s = "patientName Привет!";
-		String sss = null;
-		try {
-			sss = new String (s.getBytes("UTF-8"),"Cp1251");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		jpg2Dcm.setCfgProperty("00100010", s);
-		jpg2Dcm.setCharset("ISO_IR144");
-				
-		File jpgFile = new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.JPG");
-		File dcmFile = new File("C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.dcm");
+		jpg2Dcm.setCfgProperty("00100010", patientName);
+		//TODO Сделать сохранение даты через attrs.putDate(...)
+		jpg2Dcm.setCfgProperty("00100030", "20010329");
+		jpg2Dcm.setCharset("ISO_IR 144");
+//		jpg2Dcm.setCharset("ISO_IR 192");//UTF-8
+
+		File jpgFile = new File(
+				"C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.JPG");
+		File dcmFile = new File(
+				"C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.dcm");
 
 		try {
 			jpg2Dcm.convert(jpgFile, dcmFile);
@@ -111,7 +118,8 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements Mana
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new DefaultGWTRPCException("Не могу создать файл с исследованием! "+e);
+			throw new DefaultGWTRPCException(
+					"Не могу создать файл с исследованием! " + e);
 		}
 	}
 
