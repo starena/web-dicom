@@ -195,5 +195,16 @@
 		<url-pattern>/dicom_browser/managestudy</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>NewStudyServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.NewStudyServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>NewStudyServlet</servlet-name>
+		<url-pattern>/newstudy/upload</url-pattern>
+	</servlet-mapping>
 
 </web-app>

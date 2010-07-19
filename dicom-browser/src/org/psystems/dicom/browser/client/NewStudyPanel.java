@@ -14,9 +14,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 
 /**
  * @author dima_d
@@ -40,12 +46,46 @@ public class NewStudyPanel extends Composite implements
 //		History.fireCurrentHistoryState();
 		
 		DecoratorPanel mainPanel = new DecoratorPanel();
+		
+		final FormPanel formPanel = new FormPanel();
+		formPanel.setAction("/newstudy/upload");
+		formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
+		formPanel.setMethod(FormPanel.METHOD_POST);
+		mainPanel.setWidget(formPanel);
+		
+		formPanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+
+			@Override
+			public void onSubmitComplete(SubmitCompleteEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("!!! onSubmitComplete" + event.getResults());
+			}
+
+		});
+
+		formPanel.addSubmitHandler(new SubmitHandler() {
+
+			@Override
+			public void onSubmit(SubmitEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("!!!onSubmit" + event);
+			}
+
+		});
+		
 		VerticalPanel verticalPanel = new VerticalPanel();
-		mainPanel.setWidget(verticalPanel);
+		formPanel.add(verticalPanel);
 		
 		patientName = new TextBox();
+		patientName.setName("patientName");
 		verticalPanel.add(patientName);
 		
+		
+		
+		
+		FileUpload fileUpload = new FileUpload();
+		fileUpload.setName("upload");
+		verticalPanel.add(fileUpload);
 		
 		Button submitBtn = new Button("Создать");
 		verticalPanel.add(submitBtn);
@@ -56,24 +96,28 @@ public class NewStudyPanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				formPanel.submit();
 
-				manageStudyService.newStudy(patientName.getText(), new AsyncCallback<Void>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						// TODO Auto-generated method stub
-						
-						
-					}
-				});
+//				manageStudyService.newStudy(patientName.getText(), new AsyncCallback<Void>() {
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//
+//					@Override
+//					public void onSuccess(Void result) {
+//						// TODO Auto-generated method stub
+//						
+//						
+//					}
+//				});
 			}
 		});
+		
+		
 		
 		initWidget(mainPanel);
 		
