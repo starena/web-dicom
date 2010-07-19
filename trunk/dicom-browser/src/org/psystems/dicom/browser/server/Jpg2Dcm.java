@@ -257,6 +257,9 @@ public class Jpg2Dcm {
 			DicomOutputStream dos = new DicomOutputStream(bos);
 			try {
 				dos.writeDicomFile(attrs);
+				
+				//Запись картинки BEGIN
+				
 				dos.writeHeader(Tag.PixelData, VR.OB, -1);
 				dos.writeHeader(Tag.Item, null, 0);
 				dos.writeHeader(Tag.Item, null, (jpgLen + 1) & ~1);
@@ -269,6 +272,9 @@ public class Jpg2Dcm {
 					dos.write(0);
 				}
 				dos.writeHeader(Tag.SequenceDelimitationItem, null, 0);
+				
+				//Запись картинки END
+				
 			} finally {
 				dos.close();
 			}
