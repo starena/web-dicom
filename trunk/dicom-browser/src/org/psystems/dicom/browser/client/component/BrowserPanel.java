@@ -53,9 +53,6 @@ public class BrowserPanel extends Composite implements
 
 	private Dicom_browser Application;
 
-	// TODO Вынести панель с приглашением в отдельный класс
-	private boolean showPageIntro = true;// Показ страницы с приглашением
-
 	private String searchTitle = "...введите фамилию (% - любой символ)...";
 	private VerticalPanel resultPanel;
 	private Button sendButton;
@@ -109,8 +106,8 @@ public class BrowserPanel extends Composite implements
 			@Override
 			public void onFocus(FocusEvent event) {
 
-				if (showPageIntro) {
-					showPageIntro = false;
+				if (Application.showPageIntro) {
+					Application.showPageIntro = false;
 					resultPanel.clear();
 				}
 
@@ -186,41 +183,10 @@ public class BrowserPanel extends Composite implements
 			}
 		});
 
-		HTML intro = new HTML();
-		intro.setWidth("800px");
-		// intro.setStyleName("DicomItemValue");
-		intro
-				.setHTML(" <br><p> Добро пожаловать в экспериментальную версию проекта"
-						+ " по работе с исследованиями полученных с аппаратов поддерживающих стандарт DICOM </p>"
-						+ " <p> Начните свою работу с поиска необходимого вам исследования."
-						+ " Просто начните в поисковой строке набирать фамилию пациента и нажмите [enter]."
-						+ " В качестве дополнения можно использовать маску 'групповой символ' процент (%) или подчеркивание (_)"
-						+ " Для начала поиска можно также нажать кнопу 'Поиск'  </p>"
-						+ " <p> Дополнительная информация по проекту"
-						+ " <a href='http://code.google.com/p/web-dicom/' target='new'>"
-						+ " http://code.google.com/p/web-dicom/</a>"
-						+ " (откроется в новом окне) </p>" + "<br><br>");
-
-		resultPanel.add(intro);
-
-		FlexTable statanel = new FlexTable();
-		resultPanel.add(statanel);
-
-		Image image = new Image("stat/chart/clientreqs/");
-		image.setTitle("Поисковые запросы");
-		statanel.setWidget(1, 0, image);
-		statanel.getFlexCellFormatter().setColSpan(0, 0, 2);
-
-		image = new Image("stat/chart/dailyload/");
-		image.setTitle("Загрузка данных");
-		statanel.setWidget(2, 0, image);
-		statanel.getFlexCellFormatter().setColSpan(1, 0, 2);
-
-		// image = new Image("stat/chart/usagestore/");
-		// image.setTitle("Использование дискового пространства");
-		// statanel.setWidget(3,0,image);
-		// statanel.getFlexCellFormatter().setColSpan(2, 0, 2);
-
+		if(Application.showPageIntro) {
+			IntroPanel intro = new IntroPanel();
+			resultPanel.add(intro);
+		}
 		Hyperlink tools = new Hyperlink("Создать исследование", "newstudy");
 		searchPanel.add(tools);
 

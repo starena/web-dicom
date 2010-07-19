@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 /**
  * @author dima_d
  * 
- *         Редактор статьи
  */
 public class StudyManagePanel extends Composite implements
 		ValueChangeHandler<String> {

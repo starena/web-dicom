@@ -106,6 +106,8 @@ public class Dicom_browser implements EntryPoint {
 
 	private VerticalPanel bodyPanel;
 
+	public boolean showPageIntro = true;// Показ страницы с приглашением
+	
 	/**
 	 * This is the entry point method.
 	 */
@@ -117,15 +119,15 @@ public class Dicom_browser implements EntryPoint {
 		bodyPanel = new VerticalPanel();
 		RootPanel.get("bodyContainer").add(bodyPanel);
 
-		BrowserPanel browserPanel = new BrowserPanel(this);
-		bodyPanel.add(browserPanel);
+//		BrowserPanel browserPanel = new BrowserPanel(this);
+//		bodyPanel.add(browserPanel);
 
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
 
-				System.out.println("!!! " + event.getValue());
+//				System.out.println("!!! " + event.getValue());
 				if (event.getValue().equals("")) {
 
 					bodyPanel.clear();
@@ -143,6 +145,8 @@ public class Dicom_browser implements EntryPoint {
 				}
 			}
 		});
+		
+		History.fireCurrentHistoryState();
 
 	}
 
