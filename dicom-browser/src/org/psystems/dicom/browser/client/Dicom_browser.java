@@ -59,6 +59,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.modules.StudyManagePanel;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
@@ -112,7 +113,7 @@ public class Dicom_browser implements EntryPoint {
 	public static String version = "0.1a";
 
 	// Create a remote service proxy
-	private final BrowserServiceAsync browserService = GWT
+	public final BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);
 
 	
@@ -135,16 +136,29 @@ public class Dicom_browser implements EntryPoint {
 
 	private boolean showPageIntro = true;// Показ страницы с приглашением
 
+	private VerticalPanel bodyPanel;
+
+	private VerticalPanel resultPanel;
+
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 
 		_workStatusPopup();
+		
+		bodyPanel = new VerticalPanel();
+		RootPanel.get("bodyContainer").add(bodyPanel);
+		
+		
 
-		HorizontalPanel hp = new HorizontalPanel();
-		RootPanel.get("searchContainer").add(hp);
-		hp.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		HorizontalPanel searchPanel = new HorizontalPanel();
+		bodyPanel.add(searchPanel);
+		searchPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		
+		resultPanel = new VerticalPanel();
+		bodyPanel.add(resultPanel);
+		
 
 		sendButton = new Button("Поиск");
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
@@ -163,7 +177,7 @@ public class Dicom_browser implements EntryPoint {
 
 				if (showPageIntro) {
 					showPageIntro = false;
-					RootPanel.get("resultContainer").clear();
+					resultPanel.clear();
 				}
 
 				nameField.removeStyleName("DicomSuggestionEmpty");
@@ -202,12 +216,12 @@ public class Dicom_browser implements EntryPoint {
 
 		sendButton.addStyleName("sendButton");
 
-		hp.add(nameField);
+		searchPanel.add(nameField);
 
-		hp.add(sendButton);
+		searchPanel.add(sendButton);
 
 		clearButton = new Button("Сброс");
-		hp.add(clearButton);
+		searchPanel.add(clearButton);
 
 		clearButton.addClickHandler(new ClickHandler() {
 
@@ -217,7 +231,7 @@ public class Dicom_browser implements EntryPoint {
 				nameField.setText(searchTitle);
 				nameField.removeStyleName("DicomSuggestion");
 				nameField.addStyleName("DicomSuggestionEmpty");
-				RootPanel.get("resultContainer").clear();
+				resultPanel.clear();
 				transactionFinished();
 			}
 
@@ -239,6 +253,7 @@ public class Dicom_browser implements EntryPoint {
 				searchItems();
 			}
 		});
+		
 
 		HTML intro = new HTML();
 		intro.setWidth("800px");
@@ -255,10 +270,10 @@ public class Dicom_browser implements EntryPoint {
 						+ " http://code.google.com/p/web-dicom/</a>"
 						+ " (откроется в новом окне) </p>" + "<br><br>");
 
-		RootPanel.get("resultContainer").add(intro);
+		resultPanel.add(intro);
 
 		FlexTable statanel = new FlexTable();
-		RootPanel.get("resultContainer").add(statanel);
+		resultPanel.add(statanel);
 
 		Image image = new Image("stat/chart/clientreqs/");
 		image.setTitle("Поисковые запросы");
@@ -276,7 +291,8 @@ public class Dicom_browser implements EntryPoint {
 		// statanel.getFlexCellFormatter().setColSpan(2, 0, 2);
 		
 		Hyperlink tools = new Hyperlink("Создать исследование", "newstudy");
-		hp.add(tools);
+		searchPanel.add(tools);
+		
 		
 		
 		
@@ -290,11 +306,11 @@ public class Dicom_browser implements EntryPoint {
 				System.out.println("!!! "+event.getValue());
 				if(event.getValue().equals("newstudy")) {
 					
-					RootPanel.get("searchContainer").clear();
-					RootPanel.get("resultContainer").clear();
+					RootPanel.get("bodyContainer").clear();
 					
-					NewStudyPanel panel = new NewStudyPanel(manageStudyService);
-					RootPanel.get("searchContainer").add(panel);
+					
+					StudyManagePanel panel = new StudyManagePanel(manageStudyService);
+					RootPanel.get("bodyContainer").add(panel);
 					
 				}
 			}
@@ -401,7 +417,7 @@ public class Dicom_browser implements EntryPoint {
 //								RootPanel.get("resultContainer").add(table);
 //							}
 
-							RootPanel.get("resultContainer").add(table);
+							resultPanel.add(table);
 							
 							SearchedItem s = new SearchedItem(browserService, studyProxy);
 							table.add(s);
@@ -432,7 +448,7 @@ public class Dicom_browser implements EntryPoint {
 		emptyStr.setStyleName("DicomItemValue");
 		emptyStr.setHTML("Ничего не найдено...");
 
-		RootPanel.get("resultContainer").add(emptyStr);
+		resultPanel.add(emptyStr);
 
 		emptyStr = new HTML();
 		emptyStr.setWidth("800px");
@@ -447,7 +463,7 @@ public class Dicom_browser implements EntryPoint {
 						+ " Петров, Переладов. А набрав  пе___в - получите результат: Петров"
 						+ " </p>");
 
-		RootPanel.get("resultContainer").add(emptyStr);
+		resultPanel.add(emptyStr);
 	}
 
 	private void showErrorDlg(DefaultGWTRPCException e) {
@@ -618,7 +634,7 @@ public class Dicom_browser implements EntryPoint {
 	 * старт транзакции
 	 */
 	private void transactionStarted() {
-		RootPanel.get("resultContainer").clear();
+		resultPanel.clear();
 		sendButton.setEnabled(false);
 		clearButton.setEnabled(false);
 	}

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.psystems.dicom.browser.client;
+package org.psystems.dicom.browser.client.modules;
 
 import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
  * 
  *         Редактор статьи
  */
-public class NewStudyPanel extends Composite implements
+public class StudyManagePanel extends Composite implements
 		ValueChangeHandler<String> {
 
 	
@@ -37,7 +37,7 @@ public class NewStudyPanel extends Composite implements
 	private ManageStydyServiceAsync manageStudyService;
 	private TextBox patientName;
 
-	public NewStudyPanel(final ManageStydyServiceAsync manageStudyService) {
+	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService) {
 	
 		this.manageStudyService = manageStudyService;
 		
