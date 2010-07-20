@@ -54,7 +54,9 @@
  */
 package org.psystems.dicom.browser.client;
 
-import org.psystems.dicom.browser.client.component.BrowserPanel;
+import org.psystems.dicom.browser.client.component.HeaderPanel;
+import org.psystems.dicom.browser.client.component.SearchPanel;
+import org.psystems.dicom.browser.client.component.SearchResultPanel;
 import org.psystems.dicom.browser.client.component.StudyManagePanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.service.BrowserService;
@@ -74,7 +76,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -104,20 +105,32 @@ public class Dicom_browser implements EntryPoint {
 	private PopupPanel workStatusPopup;
 	private FlowPanel workStatusPanel;
 
-	private VerticalPanel bodyPanel;
+//	private VerticalPanel bodyPanel;
 
 	public boolean showPageIntro = true;// Показ страницы с приглашением
+
+private SearchPanel searchPanel;
 	
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 
+		
+		
 		_workStatusPopup();
 		createErorrDlg();
+		
+		HeaderPanel headerPanel = new HeaderPanel();
+		RootPanel.get("headerContainer").add(headerPanel);
+		
+		searchPanel = new SearchPanel(this);
+		RootPanel.get("searchContainer").add(searchPanel);
 
-		bodyPanel = new VerticalPanel();
-		RootPanel.get("bodyContainer").add(bodyPanel);
+//		bodyPanel = new VerticalPanel();
+//		RootPanel.get("bodyContainer").add(bodyPanel);
+		
+		
 
 //		BrowserPanel browserPanel = new BrowserPanel(this);
 //		bodyPanel.add(browserPanel);
@@ -129,18 +142,26 @@ public class Dicom_browser implements EntryPoint {
 
 //				System.out.println("!!! " + event.getValue());
 				if (event.getValue().equals("")) {
+					
+					RootPanel.get("bodyContainer").clear();
+					SearchResultPanel searchResultPanel = new SearchResultPanel();
+					
+					//TODO убрасть в css !!!
+					
+//					DOM.setStyleAttribute(searchDecorPanel.getElement(), "margin", "10");
+					RootPanel.get("bodyContainer").add(searchResultPanel);
+					
+//					RootPanel.get("bodyContainer").add(searchResultPanel);
+					searchPanel.setResultPanel(searchResultPanel);
 
-					bodyPanel.clear();
-					BrowserPanel browserPanel = new BrowserPanel(
-							Dicom_browser.this);
-					bodyPanel.add(browserPanel);
 
 				} else if (event.getValue().equals("newstudy")) {
 
-					bodyPanel.clear();
+					RootPanel.get("bodyContainer").clear();
+					
 					StudyManagePanel panel = new StudyManagePanel(
 							manageStudyService);
-					bodyPanel.add(panel);
+					RootPanel.get("bodyContainer").add(panel);
 
 				}
 			}

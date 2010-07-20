@@ -6,36 +6,55 @@
 <web-app>
 
 
-	<!-- config params -->
+	<!-- ************************************************* -->
+	<!-- ***     Конфигурационные параметры            *** -->
+	<!-- ************************************************* -->
 
+	<!-- Коннекторы к БД -->
+	
+	<!-- БД проекта web-dicom -->
 	<resource-ref>
 		<res-ref-name>jdbc/webdicom</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
 
+
 	<context-param>
 		<param-name>webdicom.connection.url</param-name>
 		<param-value>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</param-value>
 	</context-param>
 
+	<!-- ??? -->
 	<context-param>
 		<param-name>webdicom.dir.src</param-name>
 		<param-value>C:\temp\data</param-value>
 	</context-param>
 
+	<!-- ??? -->
 	<context-param>
 		<param-name>webdicom.dir.dst</param-name>
 		<param-value>C:\temp\data</param-value>
 	</context-param>
 
-	<!-- Default page to serve -->
+	<!-- Директория для сохранения временных заугружаемых картинок -->
+	<context-param>
+		<param-name>webdicom.dir.uploadimages</param-name>
+		<param-value>C:\temp\data\images</param-value>
+	</context-param>
+
+	<!-- ************************************************* -->
+	<!-- ***     Страница по умолчанию                 *** -->
+	<!-- ************************************************* -->
 
 	<welcome-file-list>
 		<welcome-file>Dicom_browser.html</welcome-file>
 	</welcome-file-list>
 
-	<!-- Servlets -->
+
+	<!-- ************************************************* -->
+	<!-- ***                  СЕРВЛЕТЫ                 *** -->
+	<!-- ************************************************* -->
 
 	<servlet>
 		<servlet-name>browserServlet</servlet-name>
@@ -97,41 +116,24 @@
 		<servlet-name>dcmAttachementServlet</servlet-name>
 		<url-pattern>/dcm/*</url-pattern>
 	</servlet-mapping>
-	
-	<!--
 
 
 
 	<servlet>
-		<servlet-name>ViewStudyImagesServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.ViewStudyImagesServlet
-		</servlet-class>
-	</servlet>
-
-
-	<servlet-mapping>
-		<servlet-name>ViewStudyImagesServlet</servlet-name>
-		<url-pattern>/study/*</url-pattern>
-	</servlet-mapping>
-	
-	
-	-->
-	
-	<servlet>
-	<servlet-name>studyImage</servlet-name>
-	<jsp-file>/StudyImage.jsp</jsp-file>
+		<servlet-name>studyImage</servlet-name>
+		<jsp-file>/StudyImage.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>studyImage</servlet-name>
 		<url-pattern>/study/image/*</url-pattern>
 	</servlet-mapping>
-	
-	
-	
+
+
+
 	<servlet>
-	<servlet-name>study2</servlet-name>
-	<jsp-file>/Study.jsp</jsp-file>
+		<servlet-name>study2</servlet-name>
+		<jsp-file>/Study.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
@@ -156,6 +158,10 @@
 	</servlet-mapping>
 
 
+	<!-- ************************************************* -->
+	<!-- ***         СТАТИСТИЧЕСКИЕ СЕРВЛЕТЫ           *** -->
+	<!-- ************************************************* -->
+
 	<servlet>
 		<servlet-name>UseagStoreChartServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.stat.UseagStoreChartServlet</servlet-class>
@@ -173,7 +179,7 @@
 		<servlet-name>StatDailyLoadChartServlet</servlet-name>
 		<url-pattern>/stat/chart/dailyload/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>StatClientRequestsChartServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.stat.StatClientRequestsChartServlet2</servlet-class>
@@ -183,6 +189,9 @@
 		<url-pattern>/stat/chart/clientreqs/*</url-pattern>
 	</servlet-mapping>
 
+	<!-- ************************************************* -->
+	<!-- ***    СЕРВЛЕТЫ УПРАВЛЕНИЯ ИССЛЕДОВАНИЕМ      *** -->
+	<!-- ************************************************* -->
 
 	<servlet>
 		<servlet-name>manageStudyServlet</servlet-name>
