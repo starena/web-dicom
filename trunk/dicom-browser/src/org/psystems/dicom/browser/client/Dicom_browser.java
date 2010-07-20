@@ -55,6 +55,7 @@
 package org.psystems.dicom.browser.client;
 
 import org.psystems.dicom.browser.client.component.HeaderPanel;
+import org.psystems.dicom.browser.client.component.IntroPanel;
 import org.psystems.dicom.browser.client.component.SearchPanel;
 import org.psystems.dicom.browser.client.component.SearchResultPanel;
 import org.psystems.dicom.browser.client.component.StudyManagePanel;
@@ -105,68 +106,56 @@ public class Dicom_browser implements EntryPoint {
 	private PopupPanel workStatusPopup;
 	private FlowPanel workStatusPanel;
 
-//	private VerticalPanel bodyPanel;
+	// private VerticalPanel bodyPanel;
 
 	public boolean showPageIntro = true;// Показ страницы с приглашением
 
-private SearchPanel searchPanel;
-	
+	private SearchPanel searchPanel;
+
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
 
-		
-		
 		_workStatusPopup();
 		createErorrDlg();
-		
+
 		HeaderPanel headerPanel = new HeaderPanel();
 		RootPanel.get("headerContainer").add(headerPanel);
-		
+
 		searchPanel = new SearchPanel(this);
 		RootPanel.get("searchContainer").add(searchPanel);
-
-//		bodyPanel = new VerticalPanel();
-//		RootPanel.get("bodyContainer").add(bodyPanel);
-		
-		
-
-//		BrowserPanel browserPanel = new BrowserPanel(this);
-//		bodyPanel.add(browserPanel);
 
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
 
-//				System.out.println("!!! " + event.getValue());
 				if (event.getValue().equals("")) {
-					
+
 					RootPanel.get("bodyContainer").clear();
 					SearchResultPanel searchResultPanel = new SearchResultPanel();
-					
-					//TODO убрасть в css !!!
-					
-//					DOM.setStyleAttribute(searchDecorPanel.getElement(), "margin", "10");
 					RootPanel.get("bodyContainer").add(searchResultPanel);
-					
-//					RootPanel.get("bodyContainer").add(searchResultPanel);
 					searchPanel.setResultPanel(searchResultPanel);
-
 
 				} else if (event.getValue().equals("newstudy")) {
 
 					RootPanel.get("bodyContainer").clear();
-					
+
 					StudyManagePanel panel = new StudyManagePanel(
 							manageStudyService);
 					RootPanel.get("bodyContainer").add(panel);
 
+				} else if (event.getValue().equals("showintro")) {
+
+					RootPanel.get("bodyContainer").clear();
+					IntroPanel intro = new IntroPanel();
+					RootPanel.get("bodyContainer").add(intro);
+
 				}
 			}
 		});
-		
+
 		History.fireCurrentHistoryState();
 
 	}

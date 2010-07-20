@@ -8,8 +8,10 @@ import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 /**
  * @author dima_d
@@ -21,6 +23,8 @@ public class IntroPanel extends Composite {
 
 		
 		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel.setWidth("100%");
+		mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		HTML intro = new HTML();
 		intro.setWidth("800px");
 		// intro.setStyleName("DicomItemValue");
