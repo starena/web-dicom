@@ -43,18 +43,18 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
- * Панель обозревателя
+ * Панель поиска
  * 
  * @author dima_d
  * 
  */
-public class BrowserPanel extends Composite implements
+public class SearchPanel extends Composite implements
 		ValueChangeHandler<String> {
 
 	private Dicom_browser Application;
 
 	private String searchTitle = "...введите фамилию (% - любой символ)...";
-	private VerticalPanel resultPanel;
+	private SearchResultPanel resultPanel;
 	private Button sendButton;
 	private Button clearButton;
 	private SuggestBox nameField;
@@ -65,7 +65,7 @@ public class BrowserPanel extends Composite implements
 	/**
 	 * @param application
 	 */
-	public BrowserPanel(Dicom_browser application) {
+	public SearchPanel(Dicom_browser application) {
 
 		this.Application = application;
 		History.addValueChangeHandler(this);
@@ -75,6 +75,14 @@ public class BrowserPanel extends Composite implements
 		_construct(mainPanel);
 		initWidget(mainPanel);
 
+	}
+	
+	/**
+	 * Задание панели для отображения результатов поиска
+	 * @param panel
+	 */
+	public void setResultPanel(SearchResultPanel panel) {
+		resultPanel = panel;
 	}
 
 	/**
@@ -88,8 +96,8 @@ public class BrowserPanel extends Composite implements
 		mainPanel.add(searchPanel);
 		searchPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 
-		resultPanel = new VerticalPanel();
-		mainPanel.add(resultPanel);
+//		resultPanel = new VerticalPanel();
+//		mainPanel.add(resultPanel);
 
 		sendButton = new Button("Поиск");
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
@@ -183,12 +191,14 @@ public class BrowserPanel extends Composite implements
 			}
 		});
 
-		if(Application.showPageIntro) {
-			IntroPanel intro = new IntroPanel();
-			resultPanel.add(intro);
-		}
-		Hyperlink tools = new Hyperlink("Создать исследование", "newstudy");
-		searchPanel.add(tools);
+		
+//		if(Application.showPageIntro) {
+//			IntroPanel intro = new IntroPanel();
+//			resultPanel.add(intro);
+//		}
+		
+//		Hyperlink tools = new Hyperlink("Создать исследование", "newstudy");
+//		searchPanel.add(tools);
 
 	}
 
