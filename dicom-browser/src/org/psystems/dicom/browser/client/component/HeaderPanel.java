@@ -21,8 +21,12 @@ public class HeaderPanel extends HorizontalPanel {
 	 */
 	public HeaderPanel() {
 		_applayStyles();
+		Hyperlink mainPage = new Hyperlink("На главную", "");
+		this.add(mainPage);
 		Hyperlink newStudy = new Hyperlink("Создать исследование", "newstudy");
 		this.add(newStudy);
+		Hyperlink showIntro = new Hyperlink("Приглашение", "showintro");
+		this.add(showIntro);
 	}
 	
 	/**
