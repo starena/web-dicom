@@ -20,13 +20,18 @@ public class HeaderPanel extends HorizontalPanel {
 	 * @param application
 	 */
 	public HeaderPanel() {
+		
+		HorizontalPanel itemsPanel = new HorizontalPanel();
+		this.add(itemsPanel);
+		itemsPanel.setSpacing(5);
+		
 		_applayStyles();
 		Hyperlink mainPage = new Hyperlink("На главную", "");
-		this.add(mainPage);
+		itemsPanel.add(mainPage);
 		Hyperlink newStudy = new Hyperlink("Создать исследование", "newstudy");
-		this.add(newStudy);
+		itemsPanel.add(newStudy);
 		Hyperlink showIntro = new Hyperlink("Приглашение", "showintro");
-		this.add(showIntro);
+		itemsPanel.add(showIntro);
 	}
 	
 	/**
