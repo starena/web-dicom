@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
-import org.psystems.dicom.browser.client.SearchedItem;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
@@ -27,6 +26,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -341,7 +342,9 @@ public class SearchPanel extends Composite implements
 
 							resultPanel.add(table);
 
-							SearchedItem s = new SearchedItem(
+							resultPanel.add(new CardPanel());
+
+							StudyCardPanel s = new StudyCardPanel(
 									Application.browserService, studyProxy);
 							table.add(s);
 
