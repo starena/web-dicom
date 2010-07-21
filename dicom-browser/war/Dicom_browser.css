@@ -171,7 +171,7 @@ A.selected {
 
 .SearchItem {
 	margin: 15px;
-	width: 1000px;
+	/*width: 1000px;*/
 }
 
 .DicomItem {

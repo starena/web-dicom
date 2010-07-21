@@ -52,11 +52,12 @@
     
     
  */
-package org.psystems.dicom.browser.client;
+package org.psystems.dicom.browser.client.component;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
@@ -89,18 +90,21 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author dima_d
  * 
  */
-public class SearchedItem extends Composite {
+public class StudyCardPanel extends Composite {
 
 	private String datePattern = "dd.MM.yyyy";
 	private BrowserServiceAsync service;
 	StudyProxy proxy = null;
 
-	public SearchedItem(BrowserServiceAsync service, final StudyProxy proxy) {
+	public StudyCardPanel(BrowserServiceAsync service, final StudyProxy proxy) {
 		super();
 		this.service = service;
 		this.proxy = proxy;
-
+		
+		
 		HorizontalPanel dcmItem = new HorizontalPanel();
+		//TODO Перенести в css
+		DOM.setStyleAttribute(dcmItem.getElement(), "background", "white");
 
 		//
 		HorizontalPanel dcmImage = new HorizontalPanel();

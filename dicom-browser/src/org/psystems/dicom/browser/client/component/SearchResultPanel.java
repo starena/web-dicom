@@ -46,6 +46,10 @@ public class SearchResultPanel extends Composite {
 
 		resultPanel = new VerticalPanel();
 		mainPanel.add(resultPanel);
+		
+		//TODO Убрать в css
+		DOM.setStyleAttribute(resultPanel.getElement(), "background", "#E9EDF5");
+		resultPanel.setSpacing(10);
 
 		showHelpPage();
 		
