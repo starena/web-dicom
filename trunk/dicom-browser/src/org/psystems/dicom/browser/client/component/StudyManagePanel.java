@@ -17,14 +17,18 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
@@ -72,16 +76,17 @@ public class StudyManagePanel extends Composite implements
 
 		});
 
-		VerticalPanel verticalPanel = new VerticalPanel();
-		formPanel.add(verticalPanel);
+		FlexTable flexTable = new FlexTable();
+		formPanel.add(flexTable);
 
+		flexTable.setWidget(0, 0, new Label("ФИО"));
+		
 		TextBox patientName = new TextBox();
 		patientName.setName("00100010");
-		verticalPanel.add(patientName);
+		flexTable.setWidget(0, 1, patientName);
 
-		final Hidden patientBirthDate = new Hidden();
-		verticalPanel.add(patientBirthDate);
-		patientBirthDate.setName("00100030");
+		
+		
 
 		// TextBox patientBirthDate = new TextBox();
 		// patientBirthDate.setName("00100030");
@@ -90,8 +95,14 @@ public class StudyManagePanel extends Composite implements
 		// DatePicker datePicker = new DatePicker();
 		// verticalPanel.add(datePicker);
 
+		flexTable.setWidget(1, 0, new Label("Дата рождения"));
+		
+		final Hidden patientBirthDate = new Hidden();
+		flexTable.setWidget(1, 2, patientBirthDate);
+		patientBirthDate.setName("00100030");
+		
 		DateBox dateBox = new DateBox();
-		verticalPanel.add(dateBox);
+		flexTable.setWidget(1, 1, dateBox);
 		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat("d.MM.yyyy");
 		dateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
@@ -106,6 +117,8 @@ public class StudyManagePanel extends Composite implements
 			}
 		});
 		
+		
+		
 
 		
 		
@@ -114,13 +127,16 @@ public class StudyManagePanel extends Composite implements
 //		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy.mm.dd");
 //		dateFormat.format((Date)event);
 		
+		flexTable.setWidget(2, 0, new Label("Снимок"));
 		
 		FileUpload fileUpload = new FileUpload();
 		fileUpload.setName("upload");
-		verticalPanel.add(fileUpload);
+		flexTable.setWidget(2, 1, fileUpload);
 
 		Button submitBtn = new Button("Создать");
-		verticalPanel.add(submitBtn);
+		flexTable.setWidget(3, 0, submitBtn);
+		flexTable.getFlexCellFormatter().setColSpan(3, 0, 2);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
 		submitBtn.addClickHandler(new ClickHandler() {
 
