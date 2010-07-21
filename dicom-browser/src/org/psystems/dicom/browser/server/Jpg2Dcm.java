@@ -219,11 +219,15 @@ public class Jpg2Dcm {
 		cfg = tmp;
 	}
 
-	public void convert(File jpgFile, File dcmFile) throws IOException {
+	public void convert(InputStream jpgInputStream,/*File jpgFile,*/ File dcmFile) throws IOException {
 		jpgHeaderLen = 0;
-		jpgLen = (int) jpgFile.length();
-		DataInputStream jpgInput = new DataInputStream(new BufferedInputStream(
-				new FileInputStream(jpgFile)));
+		
+		jpgLen = (int) jpgInputStream.available();
+		DataInputStream jpgInput = new DataInputStream(jpgInputStream);
+//		jpgLen = (int) jpgFile.length();
+//		DataInputStream jpgInput = new DataInputStream(new BufferedInputStream(
+//				new FileInputStream(jpgFile)));
+		
 		try {
 			DicomObject attrs = new BasicDicomObject();
 			attrs.putString(Tag.SpecificCharacterSet, VR.CS, charset);
@@ -376,50 +380,7 @@ public class Jpg2Dcm {
 		}
 	}
 
-	public static void main(String[] args) {
-		try {
-			Jpg2Dcm jpg2Dcm = new Jpg2Dcm();
-
-			// if (cl.hasOption(LONG_OPT_CHARSET)) {
-			// jpg2Dcm.setCharset(cl.getOptionValue(LONG_OPT_CHARSET));
-			// }
-			// if (cl.hasOption("c")) {
-			// jpg2Dcm.loadConfiguration(new File(cl.getOptionValue("c")),
-			// true);
-			// }
-			// if (cl.hasOption("C")) {
-			// jpg2Dcm.loadConfiguration(new File(cl.getOptionValue("C")),
-			// false);
-			// }
-			// if (cl.hasOption(LONG_OPT_UID_PREFIX)) {
-			// UIDUtils.setRoot(cl.getOptionValue(LONG_OPT_UID_PREFIX));
-			// }
-			// if (cl.hasOption(LONG_OPT_MPEG)) {
-			// jpg2Dcm.setTransferSyntax(UID.MPEG2);
-			// }
-			// if (cl.hasOption(LONG_OPT_TRANSFER_SYNTAX)) {
-			// jpg2Dcm.setTransferSyntax(
-			// cl.getOptionValue(LONG_OPT_TRANSFER_SYNTAX));
-			// }
-			// jpg2Dcm.setNoAPPn(cl.hasOption(LONG_OPT_NO_APPN));
-
-			// List argList = cl.getArgList();
-
-			// File jpgFile = new File((String) argList.get(0));
-			// File dcmFile = new File((String) argList.get(1));
-
-			File jpgFile = new File("1.jpg");
-			File dcmFile = new File("1.dcm");
-
-			long start = System.currentTimeMillis();
-			jpg2Dcm.convert(jpgFile, dcmFile);
-			long fin = System.currentTimeMillis();
-			System.out.println("Encapsulated " + jpgFile + " to " + dcmFile
-					+ " in " + (fin - start) + "ms.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	// private static CommandLine parse(String[] args) {
 	// Options opts = new Options();

@@ -34,7 +34,6 @@ public class StudyManagePanel extends Composite implements
 	
 
 	private ManageStydyServiceAsync manageStudyService;
-	private TextBox patientName;
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService) {
 	
@@ -75,9 +74,15 @@ public class StudyManagePanel extends Composite implements
 		VerticalPanel verticalPanel = new VerticalPanel();
 		formPanel.add(verticalPanel);
 		
-		patientName = new TextBox();
-		patientName.setName("patientName");
+		TextBox patientName = new TextBox();
+		patientName.setName("00100010");
 		verticalPanel.add(patientName);
+		
+		TextBox patientBirthDate = new TextBox();
+		patientBirthDate.setName("00100030");
+		verticalPanel.add(patientBirthDate);
+		
+		
 		
 		
 		
