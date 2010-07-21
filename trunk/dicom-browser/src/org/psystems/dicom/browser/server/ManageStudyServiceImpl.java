@@ -112,15 +112,15 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements
 		File dcmFile = new File(
 				"C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.dcm");
 
-		try {
-			jpg2Dcm.convert(jpgFile, dcmFile);
-			System.out.println("!!!! making dcm SUCCESS!");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(
-					"Не могу создать файл с исследованием! " + e);
-		}
+//		try {
+//			jpg2Dcm.convert(jpgFile, dcmFile);
+//			System.out.println("!!!! making dcm SUCCESS!");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			throw new DefaultGWTRPCException(
+//					"Не могу создать файл с исследованием! " + e);
+//		}
 	}
 
 }

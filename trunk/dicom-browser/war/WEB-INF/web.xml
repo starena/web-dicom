@@ -11,7 +11,7 @@
 	<!-- ************************************************* -->
 
 	<!-- Коннекторы к БД -->
-	
+
 	<!-- БД проекта web-dicom -->
 	<resource-ref>
 		<res-ref-name>jdbc/webdicom</res-ref-name>
@@ -24,6 +24,8 @@
 		<param-name>webdicom.connection.url</param-name>
 		<param-value>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</param-value>
 	</context-param>
+
+	<!-- Прочие настройки -->
 
 	<!-- ??? -->
 	<context-param>
@@ -56,6 +58,8 @@
 	<!-- ***                  СЕРВЛЕТЫ                 *** -->
 	<!-- ************************************************* -->
 
+	<!--   СЕРВЛЕТЫ - Имплементаторы GWT-RPC сервисов    -->
+
 	<servlet>
 		<servlet-name>browserServlet</servlet-name>
 		<servlet-class>org.psystems.dicom.browser.server.BrowserServiceImpl</servlet-class>
@@ -80,6 +84,7 @@
 		<url-pattern>/dicom_browser/services/itemsuggestservice</url-pattern>
 	</servlet-mapping>
 
+	<!--   СЕРВЛЕТЫ ???    -->
 
 	<servlet>
 		<servlet-name>attachementServlet</servlet-name>
@@ -120,16 +125,21 @@
 
 
 	<servlet>
-		<servlet-name>studyImage</servlet-name>
-		<jsp-file>/StudyImage.jsp</jsp-file>
+		<servlet-name>DcmViewTagsServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.DcmViewTagsServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>studyImage</servlet-name>
-		<url-pattern>/study/image/*</url-pattern>
+		<servlet-name>DcmViewTagsServlet</servlet-name>
+		<url-pattern>/dcmtags/*</url-pattern>
 	</servlet-mapping>
 
-
+	<!-- ************************************************* -->
+	<!-- ***    СЕРВЛЕТЫ ОТОБРАЖЕНИЯ КАРТИНКИ В МИС     *** -->
+	<!-- ************************************************* -->
 
 	<servlet>
 		<servlet-name>study2</servlet-name>
@@ -141,20 +151,14 @@
 		<url-pattern>/study/*</url-pattern>
 	</servlet-mapping>
 
-
-
-
 	<servlet>
-		<servlet-name>DcmViewTagsServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.DcmViewTagsServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-
+		<servlet-name>studyImage</servlet-name>
+		<jsp-file>/StudyImage.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>DcmViewTagsServlet</servlet-name>
-		<url-pattern>/dcmtags/*</url-pattern>
+		<servlet-name>studyImage</servlet-name>
+		<url-pattern>/study/image/*</url-pattern>
 	</servlet-mapping>
 
 
