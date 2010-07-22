@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
@@ -77,25 +79,21 @@ public class StudyManagePanel extends Composite implements
 		});
 
 		FlexTable flexTable = new FlexTable();
+		//TODO Убрать в css
+		DOM.setStyleAttribute(formPanel.getElement(), "background", "#E9EDF5");
+		
 		formPanel.add(flexTable);
 
-		flexTable.setWidget(0, 0, new Label("ФИО"));
+		flexTable.setWidget(0, 0, makeItemLabel("ФИО"));
 		
 		TextBox patientName = new TextBox();
 		patientName.setName("00100010");
 		flexTable.setWidget(0, 1, patientName);
 
 		
-		
+	
 
-		// TextBox patientBirthDate = new TextBox();
-		// patientBirthDate.setName("00100030");
-		// verticalPanel.add(patientBirthDate);
-
-		// DatePicker datePicker = new DatePicker();
-		// verticalPanel.add(datePicker);
-
-		flexTable.setWidget(1, 0, new Label("Дата рождения"));
+		flexTable.setWidget(1, 0, makeItemLabel("Дата рождения"));
 		
 		final Hidden patientBirthDate = new Hidden();
 		flexTable.setWidget(1, 2, patientBirthDate);
@@ -127,7 +125,7 @@ public class StudyManagePanel extends Composite implements
 //		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy.mm.dd");
 //		dateFormat.format((Date)event);
 		
-		flexTable.setWidget(2, 0, new Label("Снимок"));
+		flexTable.setWidget(2, 0, makeItemLabel("Снимок"));
 		
 		FileUpload fileUpload = new FileUpload();
 		fileUpload.setName("upload");
@@ -163,9 +161,24 @@ public class StudyManagePanel extends Composite implements
 				// });
 			}
 		});
+		
+		
+		flexTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 
 		initWidget(mainPanel);
+		
 
+	}
+	
+	/**
+	 * @param title
+	 * @return
+	 */
+	Widget makeItemLabel(String title) {
+		Label label = new Label(title);
+		//TODO Убрать в css
+		DOM.setStyleAttribute(label.getElement(), "font", "1.5em/ 150% normal Verdana, Tahoma, sans-serif");
+		return label;
 	}
 
 	@Override
