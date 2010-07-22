@@ -96,6 +96,10 @@ public class SearchResultPanel extends Composite {
 		int width = Window.getClientWidth();
 		int left = toolsPanel.getAbsoluteLeft();
 		toolsPanel.setWidth((width - left*2)+"px");
+		for(int i=0; i<resultPanel.getWidgetCount(); i++){
+			Widget widget = resultPanel.getWidget(i);
+			widget.setWidth((width - left*2 - 20)+"px");
+		}
 		
 	}
 	
@@ -109,6 +113,11 @@ public class SearchResultPanel extends Composite {
 	}
 
 	private void showHelpPage() {
+		
+		resultPanel.add(new CardPanel());
+		resultPanel.add(new CardPanel());
+		resultPanel.add(new CardPanel());
+		
 		HTML html = new HTML(
 				"Тут будут подсказки по механизмам поиска информации");
 		resultPanel.add(html);

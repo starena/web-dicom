@@ -342,7 +342,7 @@ public class SearchPanel extends Composite implements
 
 							resultPanel.add(table);
 
-							resultPanel.add(new CardPanel());
+//							resultPanel.add(new CardPanel());
 
 							StudyCardPanel s = new StudyCardPanel(
 									Application.browserService, studyProxy);
