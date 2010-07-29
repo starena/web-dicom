@@ -40,6 +40,7 @@ package org.psystems.dicom.daemon;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -648,6 +649,7 @@ public class DcmSnd extends StorageCommitmentService {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         CommandLine cl = parse(args);
+        for(int counter=0; counter<10; counter++) {
         DcmSnd dcmsnd = new DcmSnd(cl.hasOption("device") 
                 ? cl.getOptionValue("device") : "DCMSND");
         final List<String> argList = cl.getArgList();
@@ -765,7 +767,15 @@ public class DcmSnd extends StorageCommitmentService {
             dcmsnd.addFile(new File(argList.get(i)));
         long t2 = System.currentTimeMillis();
         if (dcmsnd.getNumberOfFilesToSend() == 0) {
-            System.exit(2);
+        	System.out.println("!!!!!");
+        	try {
+    			Thread.sleep(1000);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        	continue;
+//            System.exit(2);
         }
         System.out.println("\nScanned " + dcmsnd.getNumberOfFilesToSend()
                 + " files in " + ((t2 - t1) / 1000F) + "s (="
@@ -822,6 +832,7 @@ public class DcmSnd extends StorageCommitmentService {
                 System.exit(2);
             }
         }        
+       
         try {
             dcmsnd.start();
         } catch (Exception e) {
@@ -896,6 +907,8 @@ public class DcmSnd extends StorageCommitmentService {
         } finally {
             dcmsnd.stop();
         }
+        }
+        
     }
 
     private static void promptStgCmt(DicomObject cmtrslt, float seconds) {
