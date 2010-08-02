@@ -217,6 +217,8 @@ public class DcmSnd extends StorageCommitmentService {
     
     private char[] trustStorePassword = SECRET;
 
+	private static int RESCAN;
+
     public DcmSnd(String name) {
         device = new Device(name);
         executor = new NewThreadExecutor(name);
@@ -619,6 +621,12 @@ public class DcmSnd extends StorageCommitmentService {
                 "transcoder buffer size in KB, 1KB by default");
         opts.addOption(OptionBuilder.create("bufsize"));
 
+        OptionBuilder.withArgName("ms");
+        OptionBuilder.hasArg();
+        OptionBuilder.withDescription(
+                "timeout in ms for rescan source folder. Sended file removed.");
+        opts.addOption(OptionBuilder.create("rescan"));
+        
         opts.addOption("lowprior", false,
                 "LOW priority of the C-STORE operation, MEDIUM by default");
         opts.addOption("highprior", false,
@@ -649,7 +657,7 @@ public class DcmSnd extends StorageCommitmentService {
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         CommandLine cl = parse(args);
-        for(int counter=0; counter<10; counter++) {
+        for(;;) {
         DcmSnd dcmsnd = new DcmSnd(cl.hasOption("device") 
                 ? cl.getOptionValue("device") : "DCMSND");
         final List<String> argList = cl.getArgList();
@@ -761,15 +769,22 @@ public class DcmSnd extends StorageCommitmentService {
             dcmsnd.setPriority(CommandUtils.LOW);
         if (cl.hasOption("highprior"))
             dcmsnd.setPriority(CommandUtils.HIGH);
-        System.out.println("Scanning files to send");
+        if (cl.hasOption("rescan"))
+            dcmsnd.setRescanTimeout(parseInt(cl.getOptionValue("rescan"),
+                    "illegal argument of option -releaseTO",
+                    1, Integer.MAX_VALUE));
+        
+        
+        System.out.println("Scanning files to send.");
         long t1 = System.currentTimeMillis();
         for (int i = 1, n = argList.size(); i < n; ++i)
             dcmsnd.addFile(new File(argList.get(i)));
         long t2 = System.currentTimeMillis();
         if (dcmsnd.getNumberOfFilesToSend() == 0) {
-        	System.out.println("!!!!!");
+        	//TODO Убрать отладку
+//        	System.out.println("waiting new files "+RESCAN+" ms.");
         	try {
-    			Thread.sleep(1000);
+    			Thread.sleep(RESCAN);
     		} catch (InterruptedException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
@@ -911,7 +926,13 @@ public class DcmSnd extends StorageCommitmentService {
         
     }
 
-    private static void promptStgCmt(DicomObject cmtrslt, float seconds) {
+    private void setRescanTimeout(int time) {
+		// TODO Auto-generated method stub
+    	RESCAN = time;
+	}
+    
+
+	private static void promptStgCmt(DicomObject cmtrslt, float seconds) {
         System.out.println("Received Storage Commitment Result after "
                 + seconds + "s:");
         DicomElement refSOPSq = cmtrslt.get(Tag.ReferencedSOPSequence);
@@ -1156,9 +1177,14 @@ public class DcmSnd extends StorageCommitmentService {
                 // should not happen
                 e.printStackTrace();
             }
+            
+            System.out.println("deleting file "+info.f+"...");
+            info.f.delete();
         }
         try {
             assoc.waitForDimseRSP();
+            
+            
         } catch (InterruptedException e) {
             // should not happen
             e.printStackTrace();
