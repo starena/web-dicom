@@ -99,7 +99,7 @@ import org.dcm4che2.util.UIDUtils;
  * @version $Revision: 12233 $ $Date: 2009-10-02 12:05:17 +0200 (Fri, 02 Oct 2009) $
  * @since Oct 13, 2005
  */
-public class DcmSnd extends StorageCommitmentService {
+public class Repeater extends StorageCommitmentService {
 
     private static final int KB = 1024;
 
@@ -219,7 +219,7 @@ public class DcmSnd extends StorageCommitmentService {
 
 	private static int RESCAN;
 
-    public DcmSnd(String name) {
+    public Repeater(String name) {
         device = new Device(name);
         executor = new NewThreadExecutor(name);
         remoteAE.setInstalled(true);
@@ -642,7 +642,7 @@ public class DcmSnd extends StorageCommitmentService {
             throw new RuntimeException("unreachable");
         }
         if (cl.hasOption('V')) {
-            Package p = DcmSnd.class.getPackage();
+            Package p = Repeater.class.getPackage();
             System.out.println("dcmsnd v" + p.getImplementationVersion());
             System.exit(0);
         }
@@ -658,7 +658,7 @@ public class DcmSnd extends StorageCommitmentService {
     public static void main(String[] args) {
         CommandLine cl = parse(args);
         for(;;) {
-        DcmSnd dcmsnd = new DcmSnd(cl.hasOption("device") 
+        Repeater dcmsnd = new Repeater(cl.hasOption("device") 
                 ? cl.getOptionValue("device") : "DCMSND");
         final List<String> argList = cl.getArgList();
         String remoteAE = argList.get(0);
@@ -775,7 +775,7 @@ public class DcmSnd extends StorageCommitmentService {
                     1, Integer.MAX_VALUE));
         
         
-        System.out.println("Scanning files to send.");
+//        System.out.println("Scanning files to send.");
         long t1 = System.currentTimeMillis();
         for (int i = 1, n = argList.size(); i < n; ++i)
             dcmsnd.addFile(new File(argList.get(i)));
@@ -950,7 +950,7 @@ public class DcmSnd extends StorageCommitmentService {
         return stgCmtResult;
     }
 
-    private static void prompt(DcmSnd dcmsnd, float seconds) {
+    private static void prompt(Repeater dcmsnd, float seconds) {
         System.out.print("\nSent ");
         System.out.print(dcmsnd.getNumberOfFilesSent());
         System.out.print(" objects (=");
@@ -1158,7 +1158,7 @@ public class DcmSnd extends StorageCommitmentService {
                     @Override
                     public void onDimseRSP(Association as, DicomObject cmd,
                             DicomObject data) {
-                        DcmSnd.this.onDimseRSP(cmd);
+                        Repeater.this.onDimseRSP(cmd);
                     }
                 };
 
@@ -1400,7 +1400,7 @@ public class DcmSnd extends StorageCommitmentService {
 
     private static InputStream openFileOrURL(String url) throws IOException {
         if (url.startsWith("resource:")) {
-            return DcmSnd.class.getClassLoader().getResourceAsStream(
+            return Repeater.class.getClassLoader().getResourceAsStream(
                     url.substring(9));
         }
         try {
