@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -36,7 +37,7 @@ public class NewStudyServlet extends HttpServlet {
 		// TODO Вынести в конфиг!!
 		// Create a factory for disk-based file items
 		DiskFileItemFactory factory = new DiskFileItemFactory(100000, new File(
-				"c:\\temp\\image"));
+				"c:\\temp11\\image"));
 
 		// Set factory constraints
 		// factory.setSizeThreshold(yourMaxMemorySize);
@@ -119,9 +120,9 @@ public class NewStudyServlet extends HttpServlet {
 
 		Jpg2Dcm jpg2Dcm = new Jpg2Dcm();
 
-		jpg2Dcm.loadConfiguration(new File(
-				"C:\\WORK\\workspace\\dicom-browser\\test\\data\\jpg2dcm.cfg"),
-				true);
+		String cfg = getServletContext().getInitParameter("webdicom.dir.newdcm.cfg");
+		
+		jpg2Dcm.loadConfiguration(new File(cfg),true);
 
 		// try {
 		// patientName = new String(patientName.getBytes("UTF-8"), "Cp1251");
@@ -144,10 +145,23 @@ public class NewStudyServlet extends HttpServlet {
 		jpg2Dcm.setCharset("ISO_IR 144");
 		// jpg2Dcm.setCharset("ISO_IR 192");//UTF-8
 
-		File dcmFile = new File(
-				"C:\\WORK\\workspace\\dicom-browser\\test\\data\\test.dcm");
+		String dcmDir = getServletContext().getInitParameter(
+		"webdicom.dir.newdcm");
+		
+		String dcmTmpDir = getServletContext().getInitParameter(
+		"webdicom.dir.newdcm.tmp");
+		
+		long prefix = new Date().getTime();
+		String dcmFileName = dcmDir+"/"+prefix+".dcm";
+		String tmpFileName = dcmTmpDir+"/"+prefix+".dcm";
+		//TODO Задать в конфиге
+		File dcmFileTmp = new File(tmpFileName );
 
-		jpg2Dcm.convert(stream, dcmFile);
+		jpg2Dcm.convert(stream, dcmFileTmp);
+		
+		File dcmFile = new File(dcmFileName );
+		
+		dcmFileTmp.renameTo(dcmFile);
 		System.out.println("!!!! making dcm SUCCESS!");
 
 	}
