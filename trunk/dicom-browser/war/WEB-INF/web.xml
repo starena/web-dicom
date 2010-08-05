@@ -41,8 +41,8 @@
 
 	<!-- Директория для сохранения временных заугружаемых картинок -->
 	<context-param>
-		<param-name>webdicom.dir.uploadimages</param-name>
-		<param-value>C:\temp\data\images</param-value>
+		<param-name>webdicom.dir.newdcm.uploadimages</param-name>
+		<param-value>C:\temp</param-value>
 	</context-param>
 	
 	<!-- Директория для сохранения временных DCM-файлов  -->

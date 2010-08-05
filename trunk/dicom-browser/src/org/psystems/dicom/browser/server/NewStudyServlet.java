@@ -35,9 +35,10 @@ public class NewStudyServlet extends HttpServlet {
 		System.out.println("isMultipart=" + isMultipart);
 
 		// TODO Вынести в конфиг!!
+		String imgTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.uploadimages");
+		
 		// Create a factory for disk-based file items
-		DiskFileItemFactory factory = new DiskFileItemFactory(100000, new File(
-				"c:\\temp11\\image"));
+		DiskFileItemFactory factory = new DiskFileItemFactory(100000, new File(imgTmpDir));
 
 		// Set factory constraints
 		// factory.setSizeThreshold(yourMaxMemorySize);
