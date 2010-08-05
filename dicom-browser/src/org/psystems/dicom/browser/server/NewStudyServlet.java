@@ -132,6 +132,12 @@ public class NewStudyServlet extends HttpServlet {
 		// throw new DefaultGWTRPCException(
 		// "Не могу создать файл с исследованием! " + e1);
 		// }
+		
+		//TODO
+		props.put("00100040", "M"); //# Patient's Sex
+		props.put("00080020", "20100806"); //# Study Date
+		
+		
 
 		for (Iterator<Object> iter = props.keySet().iterator(); iter.hasNext();) {
 			String key = (String) iter.next();
