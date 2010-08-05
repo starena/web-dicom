@@ -862,7 +862,8 @@ public class Repeater extends StorageCommitmentService {
             } catch (Exception e) {
                 System.err.println("ERROR: Failed to establish association:"
                         + e.getMessage());
-                System.exit(2);
+                continue;
+//                System.exit(2);
             }
             t2 = System.currentTimeMillis();
             System.out.println("Connected to " + remoteAE + " in " 
@@ -897,7 +898,8 @@ public class Repeater extends StorageCommitmentService {
                 } catch (Exception e) {
                     System.err.println("ERROR: Failed to establish association:"
                             + e.getMessage());
-                    System.exit(2);
+                    continue;
+//                    System.exit(2);
                 }
                 t2 = System.currentTimeMillis();
                 System.out.println("Connected to " + remoteStgCmtAE + " in " 
