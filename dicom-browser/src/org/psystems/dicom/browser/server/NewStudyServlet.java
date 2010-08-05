@@ -135,8 +135,8 @@ public class NewStudyServlet extends HttpServlet {
 		// }
 		
 		//TODO
-		props.put("00100040", "M"); //# Patient's Sex
-		props.put("00080020", "20100806"); //# Study Date
+//		props.put("00100040", "M"); //# Patient's Sex
+//		props.put("00080020", "20100806"); //# Study Date
 		
 		
 
