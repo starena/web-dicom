@@ -665,10 +665,11 @@ public class Extractor {
 		for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
 			DicomElement element = it.next();
 			int tag = element.tag();
-			// System.out.println("!!! " + element);
+			
+//			System.out.println("!!! VR[" + element.vr() + "]"+ element);
 
 			// не пишем бинарные данные
-			if (element.vr().equals(VR.OW)) {
+			if (element.vr().equals(VR.OW) || element.vr().equals(VR.OB)) {
 				continue;
 			}
 
