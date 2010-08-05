@@ -27,13 +27,13 @@
 
 	<!-- Прочие настройки -->
 
-	<!-- ??? -->
+	<!-- Корневая папка файлов исследований -->
 	<context-param>
 		<param-name>webdicom.dir.src</param-name>
 		<param-value>C:\temp\data</param-value>
 	</context-param>
 
-	<!-- ??? -->
+	<!-- ??? Очевидно это папка с картинками ??? TODO Переименовать в image...-->
 	<context-param>
 		<param-name>webdicom.dir.dst</param-name>
 		<param-value>C:\temp\data</param-value>
@@ -44,6 +44,26 @@
 		<param-name>webdicom.dir.uploadimages</param-name>
 		<param-value>C:\temp\data\images</param-value>
 	</context-param>
+	
+	<!-- Директория для сохранения временных DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.tmp</param-name>
+		<param-value>C:\temp\dcm.tmp</param-value>
+	</context-param>
+	
+	<!-- Директория для сохранения DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm</param-name>
+		<param-value>C:\temp\dcm</param-value>
+	</context-param>
+	
+	<!-- Конфиг-прототип для создания DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.cfg</param-name>
+		<param-value>C:\WORK\workspace\dicom-browser\test\data\jpg2dcm.cfg</param-value>
+	</context-param>
+	
+	
 
 	<!-- ************************************************* -->
 	<!-- ***     Страница по умолчанию                 *** -->

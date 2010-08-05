@@ -222,6 +222,8 @@ public class Jpg2Dcm {
 	public void convert(InputStream jpgInputStream,/*File jpgFile,*/ File dcmFile) throws IOException {
 		jpgHeaderLen = 0;
 		
+		
+		
 		jpgLen = (int) jpgInputStream.available();
 		DataInputStream jpgInput = new DataInputStream(jpgInputStream);
 //		jpgLen = (int) jpgFile.length();
@@ -229,6 +231,8 @@ public class Jpg2Dcm {
 //				new FileInputStream(jpgFile)));
 		
 		try {
+			
+			
 			DicomObject attrs = new BasicDicomObject();
 			attrs.putString(Tag.SpecificCharacterSet, VR.CS, charset);
 			for (Enumeration en = cfg.propertyNames(); en.hasMoreElements();) {
@@ -242,9 +246,11 @@ public class Jpg2Dcm {
 					attrs.putString(tagPath, vr, cfg.getProperty(key));
 				}
 			}
-			if (noAPPn || missingRowsColumnsSamplesPMI(attrs)) {
+			//проверка на то что будем писать jpg
+			if ( jpgLen>0 && (noAPPn || missingRowsColumnsSamplesPMI(attrs))) {
 				readHeader(attrs, jpgInput);
 			}
+			
 			ensureUS(attrs, Tag.BitsAllocated, 8);
 			ensureUS(attrs, Tag.BitsStored, attrs.getInt(Tag.BitsAllocated));
 			ensureUS(attrs, Tag.HighBit, attrs.getInt(Tag.BitsStored) - 1);
@@ -263,6 +269,7 @@ public class Jpg2Dcm {
 				dos.writeDicomFile(attrs);
 				
 				//Запись картинки BEGIN
+				if(jpgLen>0) {
 				
 				dos.writeHeader(Tag.PixelData, VR.OB, -1);
 				dos.writeHeader(Tag.Item, null, 0);
@@ -276,6 +283,7 @@ public class Jpg2Dcm {
 					dos.write(0);
 				}
 				dos.writeHeader(Tag.SequenceDelimitationItem, null, 0);
+				}
 				
 				//Запись картинки END
 				
