@@ -22,7 +22,10 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -85,24 +88,35 @@ public class StudyManagePanel extends Composite implements
 		formPanel.add(flexTable);
 
 		flexTable.setWidget(0, 0, makeItemLabel("ФИО"));
+		flexTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		TextBox patientName = new TextBox();
 		patientName.setName("00100010");
 		flexTable.setWidget(0, 1, patientName);
 
+		flexTable.setWidget(1, 0, makeItemLabel("Пол"));
+		flexTable.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		
-	
+		ListBox lbSex = new ListBox();
+		lbSex.setName("00100040");
+		lbSex.addItem("Муж", "M");
+		lbSex.addItem("Жен", "F");
+		
+		flexTable.setWidget(1, 1, lbSex);
+		
+		
 
-		flexTable.setWidget(1, 0, makeItemLabel("Дата рождения"));
+		flexTable.setWidget(2, 0, makeItemLabel("Дата рождения"));
+		flexTable.getCellFormatter().setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		final Hidden patientBirthDate = new Hidden();
-		flexTable.setWidget(1, 2, patientBirthDate);
+		flexTable.setWidget(2, 2, patientBirthDate);
 		patientBirthDate.setName("00100030");
 		
 		DateBox dateBox = new DateBox();
-		flexTable.setWidget(1, 1, dateBox);
+		flexTable.setWidget(2, 1, dateBox);
 		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("d.MM.yyyy");
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
 		dateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
 		
 		dateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
@@ -116,7 +130,37 @@ public class StudyManagePanel extends Composite implements
 		});
 		
 		
+		flexTable.setWidget(3, 0, makeItemLabel("Дата исследования"));
+		flexTable.getCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		
+		final Hidden studyDate = new Hidden();
+		
+		flexTable.setWidget(3, 2, studyDate);
+		studyDate.setName("00080020");
+		
+		DateBox studydateBox = new DateBox();
+		studydateBox.setValue(new Date());
+		flexTable.setWidget(3, 1, studydateBox);
+		
+		
+		DateTimeFormat dateFormat1 = DateTimeFormat.getFormat("yyyyMMdd");
+		String d = dateFormat1.format(studydateBox.getValue());
+		studyDate.setValue(d);
+		
+		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
+		
+		studydateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
+		
+		studydateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
+			
+			@Override
+			public void onValueChange(ValueChangeEvent<Date> event) {
+				DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
+				String d = dateFormat.format(event.getValue());
+				studyDate.setValue(d);
+			}
+		});
+	
 
 		
 		
@@ -125,16 +169,17 @@ public class StudyManagePanel extends Composite implements
 //		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy.mm.dd");
 //		dateFormat.format((Date)event);
 		
-		flexTable.setWidget(2, 0, makeItemLabel("Снимок"));
+		flexTable.setWidget(4, 0, makeItemLabel("Снимок"));
+		flexTable.getCellFormatter().setHorizontalAlignment(4, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		
 		FileUpload fileUpload = new FileUpload();
 		fileUpload.setName("upload");
-		flexTable.setWidget(2, 1, fileUpload);
+		flexTable.setWidget(4, 1, fileUpload);
 
 		Button submitBtn = new Button("Создать");
-		flexTable.setWidget(3, 0, submitBtn);
-		flexTable.getFlexCellFormatter().setColSpan(3, 0, 2);
-		flexTable.getFlexCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_CENTER);
+		flexTable.setWidget(5, 0, submitBtn);
+		flexTable.getFlexCellFormatter().setColSpan(5, 0, 3);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(5, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
 		submitBtn.addClickHandler(new ClickHandler() {
 
@@ -163,7 +208,7 @@ public class StudyManagePanel extends Composite implements
 		});
 		
 		
-		flexTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+		
 
 		initWidget(mainPanel);
 		
