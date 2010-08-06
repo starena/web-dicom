@@ -237,7 +237,7 @@
 
 	<servlet-mapping>
 		<servlet-name>NewStudyServlet</servlet-name>
-		<url-pattern>/newstudy/upload</url-pattern>
+		<url-pattern>newstudy/upload</url-pattern>
 	</servlet-mapping>
 
 </web-app>
