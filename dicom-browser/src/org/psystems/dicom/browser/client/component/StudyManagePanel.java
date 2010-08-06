@@ -63,7 +63,7 @@ public class StudyManagePanel extends Composite implements
 		DecoratorPanel mainPanel = new DecoratorPanel();
 
 		final FormPanel formPanel = new FormPanel();
-		formPanel.setAction("/newstudy/upload");
+		formPanel.setAction("newstudy/upload");
 		formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formPanel.setMethod(FormPanel.METHOD_POST);
 		mainPanel.setWidget(formPanel);
