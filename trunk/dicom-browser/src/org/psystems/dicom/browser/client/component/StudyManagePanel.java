@@ -20,20 +20,17 @@ import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Hidden;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
@@ -44,10 +41,20 @@ public class StudyManagePanel extends Composite implements
 		ValueChangeHandler<String> {
 
 	private ManageStydyServiceAsync manageStudyService;
+	private HTML submitResult;
+	private Button submitBtn;
+	private TextBox patientName;
+	private DateBox birstdayDox;
+	private DateBox studydateBox;
+	private FileUpload fileUpload;
+	
+	DateTimeFormat dateFormatBox = DateTimeFormat.getFormat("dd.MM.yyyy");
+	
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService) {
 
 		this.manageStudyService = manageStudyService;
+		
 
 		// История
 		History.addValueChangeHandler(this);
@@ -66,20 +73,31 @@ public class StudyManagePanel extends Composite implements
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println("!!! onSubmitComplete" + event.getResults());
+//				System.out.println("!!! onSubmitComplete [" + event.getResults()+"]");
+				
+					if(!event.getResults().matches(".+___success___.+")) {
+						submitResult.setHTML(""+event.toDebugString()+"<HR>"+event.getResults());
+						submitError();
+					} else {
+						submitSuccess();	
+					}
+					
+				
 			}
 
 		});
-
+		
 		formPanel.addSubmitHandler(new SubmitHandler() {
-
+			
 			@Override
 			public void onSubmit(SubmitEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println("!!!onSubmit" + event);
+//				event.cancel();
+				submitBtn.setEnabled(false);
 			}
-
 		});
+
+		
 
 		FlexTable flexTable = new FlexTable();
 		//TODO Убрать в css
@@ -90,7 +108,7 @@ public class StudyManagePanel extends Composite implements
 		flexTable.setWidget(0, 0, makeItemLabel("ФИО"));
 		flexTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		
-		TextBox patientName = new TextBox();
+		patientName = new TextBox();
 		patientName.setName("00100010");
 		flexTable.setWidget(0, 1, patientName);
 
@@ -113,13 +131,13 @@ public class StudyManagePanel extends Composite implements
 		flexTable.setWidget(2, 2, patientBirthDate);
 		patientBirthDate.setName("00100030");
 		
-		DateBox dateBox = new DateBox();
-		flexTable.setWidget(2, 1, dateBox);
+		birstdayDox = new DateBox();
+		birstdayDox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
+		flexTable.setWidget(2, 1, birstdayDox);
 		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd.MM.yyyy");
-		dateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
 		
-		dateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
+		
+		birstdayDox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 			
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
@@ -138,7 +156,7 @@ public class StudyManagePanel extends Composite implements
 		flexTable.setWidget(3, 2, studyDate);
 		studyDate.setName("00080020");
 		
-		DateBox studydateBox = new DateBox();
+		studydateBox = new DateBox();
 		studydateBox.setValue(new Date());
 		flexTable.setWidget(3, 1, studydateBox);
 		
@@ -149,7 +167,7 @@ public class StudyManagePanel extends Composite implements
 		
 		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
 		
-		studydateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
+		studydateBox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
 		
 		studydateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 			
@@ -172,11 +190,11 @@ public class StudyManagePanel extends Composite implements
 		flexTable.setWidget(4, 0, makeItemLabel("Снимок"));
 		flexTable.getCellFormatter().setHorizontalAlignment(4, 0, HasHorizontalAlignment.ALIGN_RIGHT);
 		
-		FileUpload fileUpload = new FileUpload();
+		fileUpload = new FileUpload();
 		fileUpload.setName("upload");
 		flexTable.setWidget(4, 1, fileUpload);
 
-		Button submitBtn = new Button("Создать");
+		submitBtn = new Button("Создать");
 		flexTable.setWidget(5, 0, submitBtn);
 		flexTable.getFlexCellFormatter().setColSpan(5, 0, 3);
 		flexTable.getFlexCellFormatter().setHorizontalAlignment(5, 0, HasHorizontalAlignment.ALIGN_CENTER);
@@ -185,36 +203,53 @@ public class StudyManagePanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-
 				formPanel.submit();
-
-				// manageStudyService.newStudy(patientName.getText(), new
-				// AsyncCallback<Void>() {
-				//
-				// @Override
-				// public void onFailure(Throwable caught) {
-				// // TODO Auto-generated method stub
-				//						
-				// }
-				//
-				// @Override
-				// public void onSuccess(Void result) {
-				// // TODO Auto-generated method stub
-				//						
-				//						
-				// }
-				// });
 			}
 		});
 		
-		
-		
+		submitResult = new HTML("");
+		flexTable.setWidget(6, 0, submitResult);
+		flexTable.getFlexCellFormatter().setColSpan(6, 0, 3);
+		flexTable.getFlexCellFormatter().setHorizontalAlignment(6, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
 		initWidget(mainPanel);
 		
 
 	}
 	
+	private void clearForm() {
+		submitBtn.setEnabled(true);
+		resetForm();
+		
+		studydateBox.setValue(new Date());
+	
+		/*
+		patientName.setText("");
+		birstdayDox.setValue(null);
+		studydateBox.setValue(null);
+		*/
+	}
+	
+	private native void resetForm() /*-{
+    $doc.forms[0].reset();
+	}-*/; 
+	
+	/**
+	 * НЕуспешное завершение сохранения исследования
+	 */
+	protected void submitError() {
+		submitBtn.setEnabled(true);
+	}
+
+	/**
+	 * Успешное завершение сохранения исследования
+	 */
+	protected void submitSuccess() {
+		clearForm();
+		submitBtn.setEnabled(true);
+		
+	}
+
 	/**
 	 * @param title
 	 * @return

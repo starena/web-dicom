@@ -77,6 +77,10 @@ public class NewStudyServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		resp.setStatus(200);
+		resp.getWriter().write("___success___");
+//		throw new IOException("EXCEPT!!!");
 
 	}
 

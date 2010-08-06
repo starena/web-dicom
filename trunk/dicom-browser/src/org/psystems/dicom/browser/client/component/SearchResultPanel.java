@@ -114,9 +114,11 @@ public class SearchResultPanel extends Composite {
 
 	private void showHelpPage() {
 		
+		/*
 		resultPanel.add(new CardPanel());
 		resultPanel.add(new CardPanel());
 		resultPanel.add(new CardPanel());
+		*/
 		
 		HTML html = new HTML(
 				"Тут будут подсказки по механизмам поиска информации");
