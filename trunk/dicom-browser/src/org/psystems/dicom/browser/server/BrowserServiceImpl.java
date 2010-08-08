@@ -118,7 +118,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		try {
 
-			Connection connection = Util.getConnection(getServletContext());
+			Connection connection = Util.getConnection("main",getServletContext());
 
 			psFiles = connection
 					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
@@ -359,7 +359,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	private void updateDayStatInc(Date date, String metric, long value)
 			throws SQLException {
 
-		Connection connection = Util.getConnection(getServletContext());
+		Connection connection = Util.getConnection("main",getServletContext());
 
 		PreparedStatement stmt = null;
 
@@ -422,7 +422,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	 */
 	private long checkDayMetric(String metric, Date date) throws SQLException {
 
-		Connection connection = Util.getConnection(getServletContext());
+		Connection connection = Util.getConnection("main",getServletContext());
 
 		PreparedStatement psSelect = connection
 				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
@@ -494,7 +494,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		try {
 			String fileName = null;
-			Connection connection = Util.getConnection(getServletContext());
+			Connection connection = Util.getConnection("main",getServletContext());
 			psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
 					+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
 			psSelect.setLong(1, idDcmFile);
@@ -628,7 +628,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		PreparedStatement psSelect = null;
 
 		try {
-			Connection connection = Util.getConnection(getServletContext());
+			Connection connection = Util.getConnection("main",getServletContext());
 			psSelect = connection
 					.prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAG WHERE FID_DCMFILE = ?");
 

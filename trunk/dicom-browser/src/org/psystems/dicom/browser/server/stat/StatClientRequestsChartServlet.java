@@ -186,7 +186,7 @@ public class StatClientRequestsChartServlet extends HttpServlet {
 		calendarEnd.setTimeInMillis(time);
 
 		try {
-			Connection connection = Util.getConnection(getServletContext());
+			Connection connection = Util.getConnection("main",getServletContext());
 
 			Calendar calendarBegin = (Calendar) calendarEnd.clone();
 			calendarBegin.add(Calendar.DAY_OF_MONTH, -7);

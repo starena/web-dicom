@@ -79,39 +79,54 @@ public class Util {
 	// static Connection connection;
 	// static String connectionStr =
 	// "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
-	
-	// Версия ПО (используется для проверки на стороне сервере при обновлении клиента)
-	public static String version = "0.1a"; //TODO Взять из конфига?
 
-	private static Logger logger = Logger.getLogger(AttachementServlet.class
+	// Версия ПО (используется для проверки на стороне сервере при обновлении
+	// клиента)
+	public static String version = "0.1a"; // TODO Взять из конфига?
+
+	private static Logger logger = Logger.getLogger(Util.class
 			.getName());
+
+
+
 	/**
+	 * @param jdbcName
+	 *            - Имя соединения
 	 * @param servletContext
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Connection getConnection(ServletContext servletContext)
-			throws SQLException {
+	public static Connection getConnection(String jdbcName,
+			ServletContext servletContext) throws SQLException {
 
 		Connection connection = null;
 
-	
+		//
+		String connectionDriver = servletContext
+				.getInitParameter("webdicom.connection." + jdbcName + ".driver");
+
 		//
 		String connectionUrl = servletContext
-				.getInitParameter("webdicom.connection.url");
+				.getInitParameter("webdicom.connection." + jdbcName + ".url");
+
 		if (connectionUrl != null) {
-			 Properties props = new Properties(); // connection properties
-			 props.put("user", "user1"); // FIXME взять из конфига
-			 props.put("password", "user1"); // FIXME взять из конфига
-			
-			 connection = DriverManager.getConnection(
-					 connectionUrl + ";create=true", props);
+			Properties props = new Properties(); // connection properties
+
+			if (connectionDriver != null) {
+				try {
+					Class.forName(connectionDriver);
+				} catch (ClassNotFoundException exx) {
+					throw new SQLException("driver not found!  '"
+							+ connectionDriver + "'");
+				}
+			}
+			connection = DriverManager.getConnection(connectionUrl, props);
 		} else {
 			// for Tomcat
 			try {
 				Context initCtx = new InitialContext();
 				Context envCtx = (Context) initCtx.lookup("java:comp/env");
-				DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
+				DataSource ds = (DataSource) envCtx.lookup("jdbc/" + jdbcName);
 				connection = ds.getConnection();
 			} catch (NamingException e) {
 				throw new SQLException("JNDI error " + e);
@@ -120,19 +135,20 @@ public class Util {
 
 		return connection;
 	}
-	
+
 	/**
-	 * TODO !!! Убрать !!!
-	 * Проверка версии клиентског запроса
+	 * TODO !!! Убрать !!! Проверка версии клиентског запроса
+	 * 
 	 * @param v
 	 * @return
 	 */
 	public static boolean checkClentVersion(String v) {
 		return version.equalsIgnoreCase(v);
 	}
-	
+
 	/**
 	 * Проверка версии клиентског запроса
+	 * 
 	 * @param v
 	 * @return
 	 */

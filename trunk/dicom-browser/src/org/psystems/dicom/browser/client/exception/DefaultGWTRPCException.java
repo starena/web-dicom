@@ -64,6 +64,16 @@ public class DefaultGWTRPCException extends Exception implements Serializable {
 	public DefaultGWTRPCException() {
 	}
 
+	public DefaultGWTRPCException(String message, Throwable cause) {
+		super(message, cause);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DefaultGWTRPCException(Throwable cause) {
+		super(cause);
+		// TODO Auto-generated constructor stub
+	}
+
 	public DefaultGWTRPCException(String text) {
 		this.text = text;
 	}
