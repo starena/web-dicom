@@ -52,128 +52,86 @@
     
     
  */
-package org.psystems.dicom.browser.server;
+package org.psystems.dicom.browser.server.drv;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.browser.client.ItemSuggestion;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
+import org.psystems.dicom.browser.client.service.ItemSuggestService;
 
-public class ViewStudyImagesServlet extends HttpServlet {
+import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-	private static Logger logger = Logger.getLogger(ViewStudyImagesServlet.class
-			.getName());
+public class Dicom {
 
-	static {
-		// PropertyConfigurator.configure("WEB-INF/log4j.properties");
-	}
+	private static Logger logger = Logger
+			.getLogger(Dicom.class.getName());
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-
-		String path = req.getPathInfo().replaceFirst("/", "");
-
-		Matcher matcher = Pattern.compile("^(.*).dcm$").matcher(path);
-		if (matcher.matches()) {
-			path = matcher.group(1);
-		}
-
-		String fileName = null;
-		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html");
-
-		String dcmRootDir = getServletContext().getInitParameter(
-				"webdicom.dir.src");
-
-		// Смотрим, если передан Integer, зачит ищем по ID
-		int dcmId = 0;
-		try {
-			dcmId = Integer.valueOf(path);
-		} catch (NumberFormatException ex) {
-			fileName = dcmRootDir + File.separator + path;
-		}
-
-		PreparedStatement psSelect = null;
-		try {
-
-			Connection connection = Util.getConnection("main",getServletContext());
-
-			if (fileName == null) {
-				// ищем по ID
-				psSelect = connection
-						.prepareStatement("SELECT * "
-								+ " FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
-				psSelect.setInt(1, dcmId);
-			} else {
-				psSelect = connection
-						.prepareStatement("SELECT ID, DCM_FILE_NAME "
-								+ " FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ? ");
-				psSelect.setString(1, path);
-			}
-			ResultSet rs = psSelect.executeQuery();
-			
-
-			
-//			resp.getWriter().write("<script language=\"javascript\">");
-//			resp.getWriter().write("</script>");
-			
-			resp.getWriter().write("<table border='0' cellpadding='10'><tr>");
-			while (rs.next()) {
-				String file = rs.getString("DCM_FILE_NAME");
-				dcmId = rs.getInt("ID");
-				fileName = dcmRootDir + File.separator + file;
-				printImage(resp,dcmId);
-				
-			}
-			resp.getWriter().write("</tr></table>");
+	public static List<Suggestion> getSuggestions(ServletContext context,
+			String queryStr, int limit) throws SQLException {
 		
 
-		} catch (SQLException e) {
-			logger.error(e);
-			e.printStackTrace();
+		List<Suggestion> suggestions = new ArrayList<Suggestion>(limit);
+		PreparedStatement psSelect = null;
+
+		try {
+
+
+			
+			Connection connection = org.psystems.dicom.browser.server.Util
+					.getConnection("main",context);
+
+			psSelect = connection
+					.prepareStatement("SELECT ID, PATIENT_NAME, PATIENT_BIRTH_DATE "
+							+ " FROM WEBDICOM.STUDY "
+							+ "WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')"
+							+ " order by PATIENT_NAME ");
+
+			psSelect.setString(1, queryStr);
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
+			suggestions
+					.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
+			while (rs.next()) {
+
+				String name = rs.getString("PATIENT_NAME");
+				String date = "" + rs.getDate("PATIENT_BIRTH_DATE");
+				suggestions.add(new ItemSuggestion(name + " [" + date + "]",
+						name));
+
+				if (index++ > limit) {
+					break;
+				}
+
+			}
+			rs.close();
+		
 		} finally {
+
 			try {
 				if (psSelect != null)
 					psSelect.close();
 			} catch (SQLException e) {
 				logger.error(e);
-				e.printStackTrace();
+				// throw new DefaultGWTRPCException(e.getMessage());
 			}
 		}
 
-//		try {
-//		} catch (FileNotFoundException ex) {
-//			resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
-//			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Dcm not found! "
-//					+ fileName);
-//			ex.printStackTrace();
-//			return;
-//		}
-
-	}
-
-	private void printImage(HttpServletResponse resp, int dcmId) throws IOException {
-		resp.getWriter().write("<td>");
-		String href = "../images/"+dcmId+".fullsize";
-		
-//		resp.getWriter().write("<a href='"+href +"' target='_blank'><image src='../images/"+dcmId+".100x100' </image> </a>");
-		resp.getWriter().write("<a href='"+href+"' onclick=\"window.open('"+href+"','name1','left=0,top=0,width=800,height=600,toolbar=0,location=0,directories=0,menubar=0,status=0,resizable=1'); return false\"> <image src='../images/"+dcmId+".100x100' </image> </a>");
-		resp.getWriter().write("</td>");
-		
-	}
-
 	
+		return suggestions;
+	}
 
 }

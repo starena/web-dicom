@@ -14,6 +14,7 @@
 
 	<!-- БД проекта web-dicom -->
 	<resource-ref>
+	<description>Project derby main connector</description>
 		<res-ref-name>jdbc/webdicom</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
@@ -21,9 +22,31 @@
 
 
 	<context-param>
-		<param-name>webdicom.connection.url</param-name>
+		<param-name>webdicom.connection.main.url</param-name>
 		<param-value>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</param-value>
 	</context-param>
+
+	<!-- БД проекта ОМИТЦ -->
+
+	<resource-ref>
+		<description>OMITS Oracle connector</description>
+		<res-ref-name>jdbc/omits</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	
+	<context-param>
+		<param-name>webdicom.connection.omits.driver</param-name>
+		<param-value>oracle.jdbc.driver.OracleDriver</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>webdicom.connection.omits.url</param-name>
+		<param-value>jdbc:oracle:thin:DICOM_USER/EPy8jC5l@localhost:30001:SRGP1</param-value>
+	</context-param>
+	
+	
+
 
 	<!-- Прочие настройки -->
 
@@ -33,7 +56,9 @@
 		<param-value>C:\temp\data</param-value>
 	</context-param>
 
-	<!-- ??? Очевидно это папка с картинками ??? TODO Переименовать в image...-->
+	<!--
+		??? Очевидно это папка с картинками ??? TODO Переименовать в image...
+	-->
 	<context-param>
 		<param-name>webdicom.dir.dst</param-name>
 		<param-value>C:\temp\data</param-value>
@@ -44,26 +69,26 @@
 		<param-name>webdicom.dir.newdcm.uploadimages</param-name>
 		<param-value>C:\temp</param-value>
 	</context-param>
-	
+
 	<!-- Директория для сохранения временных DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm.tmp</param-name>
 		<param-value>C:\temp\dcm.tmp</param-value>
 	</context-param>
-	
+
 	<!-- Директория для сохранения DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm</param-name>
 		<param-value>C:\temp\dcm</param-value>
 	</context-param>
-	
+
 	<!-- Конфиг-прототип для создания DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm.cfg</param-name>
 		<param-value>C:\WORK\workspace\dicom-browser\test\data\jpg2dcm.cfg</param-value>
 	</context-param>
-	
-	
+
+
 
 	<!-- ************************************************* -->
 	<!-- ***     Страница по умолчанию                 *** -->

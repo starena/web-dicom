@@ -101,7 +101,7 @@ public class UseagStoreChartServlet extends HttpServlet {
 		
 		try {
 
-			Connection connection = Util.getConnection(getServletContext());
+			Connection connection = Util.getConnection("main",getServletContext());
 			long dcmSizes = 0;
 			long imgSizes = 0;
 			//

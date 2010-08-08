@@ -128,7 +128,7 @@ public class AttachementServlet extends HttpServlet {
 		PreparedStatement psSelect = null;
 		try {
 
-			Connection connection = Util.getConnection(getServletContext());
+			Connection connection = Util.getConnection("main",getServletContext());
 
 			if (fileName == null) {
 				// ищем по ID
