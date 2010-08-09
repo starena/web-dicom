@@ -168,6 +168,13 @@ A.selected {
 	color: #B0CAFA;	
 }
 
+.SearchButton {
+	font: 2.167em/ 118% normal Verdana, Tahoma, sans-serif;
+	margin: 5px;
+	/*color: #000000;*/
+	color: #44639C;	
+}
+
 
 .SearchItem {
 	margin: 15px;
@@ -182,13 +189,13 @@ A.selected {
 }
 
 .DicomItemName {
-	font: 1.2em/ 78% normal Verdana, Tahoma, sans-serif;
+	font: 1.4em/ 78% normal Verdana, Tahoma, sans-serif;
 	margin: 2px;
 	color: #B0CAFA;	
 }
 
 .DicomItemValue {
-	font: 1.3em/ 78% normal Verdana, Tahoma, sans-serif;
+	font: 1.5em/ 78% normal Verdana, Tahoma, sans-serif;
 	margin: 2px;
 	color: #44639C;
 }

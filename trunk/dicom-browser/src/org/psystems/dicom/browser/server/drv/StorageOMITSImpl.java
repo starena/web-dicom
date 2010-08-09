@@ -52,58 +52,150 @@
     
     
  */
-package org.psystems.dicom.browser.server;
+package org.psystems.dicom.browser.server.drv;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.apache.log4j.Logger;
+import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.ItemSuggestService;
-import org.psystems.dicom.browser.server.drv.Storage;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
-		ItemSuggestService {
+/**
+ * @author dima_d
+ * 
+ *         Драйвер для работы с БД ОМИТЦ
+ * 
+ */
+public class StorageOMITSImpl extends Storage {
 
-	private static Logger logger = Logger
-			.getLogger(ItemSuggestServiceImpl.class.getName());
+	private static Logger logger = Logger.getLogger(StorageOMITSImpl.class.getName());
 
-	public SuggestTransactedResponse getSuggestions(long transactionId,
-			String version, SuggestOracle.Request req)
-			throws DefaultGWTRPCException {
-		SuggestTransactedResponse resp = new SuggestTransactedResponse();
-		resp.setTransactionId(transactionId);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.psystems.dicom.browser.server.StorageDrv#getSuggestions(javax.servlet
+	 * .ServletContext, java.lang.String, int)
+	 */
+	@Override
+	public List<Suggestion> getSuggestionsImpl(ServletContext context,
+			String queryStr, int limit) throws SQLException {
 
-		// проверка версии клиента
-		if (!org.psystems.dicom.browser.server.Util.checkClentVersion(version)) {
-			throw new VersionGWTRPCException(
-					"Версия клиента не совпадает с версией сервера! " + version
-							+ " != "
-							+ org.psystems.dicom.browser.server.Util.version);
-		}
-		// Create a list to hold our suggestions (pre-set the lengthto the limit
-		// specified by the request)
+		List<Suggestion> suggestions = new ArrayList<Suggestion>(limit);
+		PreparedStatement psSelect = null;
 
-		List<Suggestion> suggestions;
 		try {
-			suggestions = Storage.getSuggestions(
-					getServletContext(), req.getQuery(), req.getLimit());
-		} catch (SQLException e) {
-			e.printStackTrace();//TODO Убрать
-			throw new DefaultGWTRPCException(e);
+
+			Connection connection = org.psystems.dicom.browser.server.Util
+					.getConnection("omits", context);
+
+			psSelect = connection
+					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
+							+ " from  lpu.v_patient v "
+							+ "WHERE UPPER(SUR_NAME) like UPPER(? || '%')"
+							+ " order by SUR_NAME ");
+
+			psSelect.setString(1, queryStr);
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
+
+			while (rs.next()) {
+
+				String name = rs.getString("SUR_NAME") + " "
+						+ rs.getString("FIRST_NAME") + " "
+						+ rs.getString("PATR_NAME");
+				String date = "" + rs.getDate("BIRTHDAY");
+				suggestions.add(new ItemSuggestion(name + " (" + date + ")",
+						name));
+
+				if (index++ > limit) {
+					break;
+				}
+
+			}
+			rs.close();
+
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				// throw new DefaultGWTRPCException(e.getMessage());
+			}
 		}
 
-		// Now set the suggestions in the response
-		resp.setSuggestions(suggestions);
+		return suggestions;
+	}
 
-		// Send the response back to the client
-		return resp;
+	@Override
+	public List<PatientProxy> getPatientsImpl(ServletContext context,
+			String queryStr, int limit) throws SQLException {
+		PreparedStatement psSelect = null;
+
+		ArrayList<PatientProxy> result = new ArrayList<PatientProxy>();
+
+		try {
+
+			Connection connection = org.psystems.dicom.browser.server.Util
+					.getConnection("omits", context);
+
+			psSelect = connection
+					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
+							+ " from  lpu.v_patient v "
+							+ "WHERE UPPER(SUR_NAME) like UPPER(? || '%')"
+							+ " order by SUR_NAME ");
+
+			psSelect.setString(1, queryStr);
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
+
+			while (rs.next()) {
+
+				String name = rs.getString("SUR_NAME") + " "
+						+ rs.getString("FIRST_NAME") + " "
+						+ rs.getString("PATR_NAME");
+
+				PatientProxy proxy = new PatientProxy();
+				proxy.init(rs.getLong("ID"), name, rs.getString("SEX"), rs
+						.getDate("BIRTHDAY"));
+				result.add(proxy);
+
+				if (index++ > limit) {
+					break;
+				}
+
+			}
+			rs.close();
+
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+			} catch (SQLException e) {
+				logger.error(e);
+			}
+		}
+		return result;
+
 	}
 
 }

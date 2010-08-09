@@ -55,8 +55,10 @@
 package org.psystems.dicom.browser.client.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
+import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
 import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
@@ -73,5 +75,8 @@ public interface BrowserServiceAsync {
 
 	void getDcmTagsFromFile(long transactionId, String version, long idDcmFile,
 			AsyncCallback<ArrayList<DcmTagProxy>> callback);
+
+	void getPatients(long transactionId, String version, String queryStr,
+			AsyncCallback<List<PatientProxy>> callback);
 
 }

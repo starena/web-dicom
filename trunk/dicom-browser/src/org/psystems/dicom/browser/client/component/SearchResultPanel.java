@@ -30,78 +30,78 @@ import com.google.gwt.user.client.ui.Widget;
 public class SearchResultPanel extends Composite {
 
 	VerticalPanel resultPanel;
-	private FlowPanel toolsPanel;
+//	private FlowPanel toolsPanel;
 
 	/**
 	 * @param application
 	 */
 	public SearchResultPanel() {
 
-		DecoratorPanel decorator = new DecoratorPanel();
+//		DecoratorPanel decorator = new DecoratorPanel();
 		VerticalPanel mainPanel = new VerticalPanel();
-		decorator.setWidget(mainPanel);
+//		decorator.setWidget(mainPanel);
 
 		
-		_makeToolsPanel(mainPanel);
+//		_makeToolsPanel(mainPanel);
 
 		resultPanel = new VerticalPanel();
 		mainPanel.add(resultPanel);
 		
 		//TODO Убрать в css
-		DOM.setStyleAttribute(resultPanel.getElement(), "background", "#E9EDF5");
+//		DOM.setStyleAttribute(resultPanel.getElement(), "background", "#E9EDF5");
 		resultPanel.setSpacing(10);
 
 		showHelpPage();
 		
 		
-		initWidget(decorator);
+		initWidget(mainPanel);
 		
 	}
 	
 	@Override
 	protected void onLoad() {
 		super.onLoad();
-		reLayout();
+//		reLayout();
 	}
 
-	private void _makeToolsPanel(VerticalPanel mainPanel) {
-		
-		toolsPanel = new FlowPanel();
-		mainPanel.add(toolsPanel);
-		
-		Window.addResizeHandler(new ResizeHandler() {
-			
-			@Override
-			public void onResize(ResizeEvent event) {
-				// TODO Auto-generated method stub
-//				System.out.println("!!! resize"+event.getWidth());
-				reLayout();
-			}
-		});
-		
-		//TODO Убрать в css
-		DOM.setStyleAttribute(toolsPanel.getElement(), "background", "#E9EDF5");
-//		DOM.setStyleAttribute(toolsPanel.getElement(), "marginBottom", "50px");
-		
-		for(int i=0; i< 20; i++) {
-		
-		Button b = new Button("!!! "+i);
-		DOM.setStyleAttribute(b.getElement(), "margin", "3px");
-		toolsPanel.add(b);
-		
-		}
-	}
+//	private void _makeToolsPanel(VerticalPanel mainPanel) {
+//		
+////		toolsPanel = new FlowPanel();
+////		mainPanel.add(toolsPanel);
+//		
+//		Window.addResizeHandler(new ResizeHandler() {
+//			
+//			@Override
+//			public void onResize(ResizeEvent event) {
+//				// TODO Auto-generated method stub
+////				System.out.println("!!! resize"+event.getWidth());
+//				reLayout();
+//			}
+//		});
+//		
+//		//TODO Убрать в css
+////		DOM.setStyleAttribute(toolsPanel.getElement(), "background", "#E9EDF5");
+////		DOM.setStyleAttribute(toolsPanel.getElement(), "marginBottom", "50px");
+//		
+////		for(int i=0; i< 20; i++) {
+////		
+////		Button b = new Button("!!! "+i);
+////		DOM.setStyleAttribute(b.getElement(), "margin", "3px");
+////		toolsPanel.add(b);
+////		
+////		}
+//	}
 
-	private void reLayout() {
-		int width = Window.getClientWidth();
-		int left = toolsPanel.getAbsoluteLeft();
-		toolsPanel.setWidth((width - left*2)+"px");
-		for(int i=0; i<resultPanel.getWidgetCount(); i++){
-			Widget widget = resultPanel.getWidget(i);
-			widget.setWidth((width - left*2 - 20)+"px");
-		}
-		
-	}
+//	private void reLayout() {
+//		int width = Window.getClientWidth();
+//		int left = toolsPanel.getAbsoluteLeft();
+//		toolsPanel.setWidth((width - left*2)+"px");
+//		for(int i=0; i<resultPanel.getWidgetCount(); i++){
+//			Widget widget = resultPanel.getWidget(i);
+//			widget.setWidth((width - left*2 - 20)+"px");
+//		}
+//		
+//	}
 	
 	public void clear() {
 		resultPanel.clear();
@@ -114,11 +114,11 @@ public class SearchResultPanel extends Composite {
 
 	private void showHelpPage() {
 		
-		/*
-		resultPanel.add(new CardPanel());
-		resultPanel.add(new CardPanel());
-		resultPanel.add(new CardPanel());
-		*/
+		
+		resultPanel.add(new PatientCardPanel());
+		resultPanel.add(new PatientCardPanel());
+		resultPanel.add(new PatientCardPanel());
+		
 		
 		HTML html = new HTML(
 				"Тут будут подсказки по механизмам поиска информации");
