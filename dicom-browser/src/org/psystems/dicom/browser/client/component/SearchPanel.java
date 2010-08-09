@@ -101,6 +101,8 @@ public class SearchPanel extends Composite implements
 //		mainPanel.add(resultPanel);
 
 		sendButton = new Button("Поиск");
+		sendButton.setStyleName("SearchButton");
+		
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
 		nameField = new SuggestBox(oracle);
 		nameField.addStyleName("DicomSuggestionEmpty");
@@ -180,7 +182,7 @@ public class SearchPanel extends Composite implements
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				// System.out.println("addSelectionHandler "+event);
-				searchItems();
+				searcStudyes();
 			}
 		});
 
@@ -188,7 +190,7 @@ public class SearchPanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				searchItems();
+				searcStudyes();
 			}
 		});
 
@@ -238,9 +240,9 @@ public class SearchPanel extends Composite implements
 	}
 
 	/**
-	 * Send the name from the nameField to the server and wait for a response.
+	 * Поиск исследований
 	 */
-	private void searchItems() {
+	private void searcStudyes() {
 
 		Date d = new Date();
 		searchTransactionID = d.getTime();

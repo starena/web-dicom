@@ -52,86 +52,65 @@
     
     
  */
-package org.psystems.dicom.browser.server.drv;
+package org.psystems.dicom.browser.client.proxy;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Date;
 
-import javax.servlet.ServletContext;
+/**
+ * Прокси пациента
+ * 
+ * @author dima_d
+ * 
+ */
+public class PatientProxy implements Serializable {
 
-import org.apache.log4j.Logger;
-import org.psystems.dicom.browser.client.ItemSuggestion;
-import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
-import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
-import org.psystems.dicom.browser.client.service.ItemSuggestService;
+	private static final long serialVersionUID = -7977302129675187420L;
 
-import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+	private long id; // ID
+	private String patientName; // ФИО пациента
+	private String patientSex; // Пол пациента
+	private Date patientBirthDate; // Дата рождения пациента
 
-public class Dicom {
-
-	private static Logger logger = Logger
-			.getLogger(Dicom.class.getName());
-
-	public static List<Suggestion> getSuggestions(ServletContext context,
-			String queryStr, int limit) throws SQLException {
-		
-
-		List<Suggestion> suggestions = new ArrayList<Suggestion>(limit);
-		PreparedStatement psSelect = null;
-
-		try {
-
-
-			
-			Connection connection = org.psystems.dicom.browser.server.Util
-					.getConnection("main",context);
-
-			psSelect = connection
-					.prepareStatement("SELECT ID, PATIENT_NAME, PATIENT_BIRTH_DATE "
-							+ " FROM WEBDICOM.STUDY "
-							+ "WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')"
-							+ " order by PATIENT_NAME ");
-
-			psSelect.setString(1, queryStr);
-			ResultSet rs = psSelect.executeQuery();
-			int index = 0;
-			suggestions
-					.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
-			while (rs.next()) {
-
-				String name = rs.getString("PATIENT_NAME");
-				String date = "" + rs.getDate("PATIENT_BIRTH_DATE");
-				suggestions.add(new ItemSuggestion(name + " [" + date + "]",
-						name));
-
-				if (index++ > limit) {
-					break;
-				}
-
-			}
-			rs.close();
-		
-		} finally {
-
-			try {
-				if (psSelect != null)
-					psSelect.close();
-			} catch (SQLException e) {
-				logger.error(e);
-				// throw new DefaultGWTRPCException(e.getMessage());
-			}
-		}
-
-	
-		return suggestions;
+	/**
+	 * Инициализация класса
+	 *
+	 * @param id
+	 * @param patientName
+	 * @param patientSex
+	 * @param patientBirthDate
+	 */
+	public void init(long id, String patientName, String patientSex,
+			Date patientBirthDate) {
+		this.id = id;
+		this.patientName = patientName;
+		this.patientSex = patientSex;
+		this.patientBirthDate = patientBirthDate;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public String getPatientSex() {
+		return patientSex;
+	}
+
+	public Date getPatientBirthDate() {
+		return patientBirthDate;
+	}
+
+	@Override
+	public String toString() {
+		return "PatientProxy [id=" + id + ", patientBirthDate="
+				+ patientBirthDate + ", patientName=" + patientName
+				+ ", patientSex=" + patientSex + "]";
+	}
+	
+	
 
 }

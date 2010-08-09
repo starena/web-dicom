@@ -85,7 +85,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * Виджет отображающий результат поиска исследования
+ * Карточка Dicom исследования
  * 
  * @author dima_d
  * 

@@ -65,53 +65,48 @@ import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
-import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
-import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
-import org.psystems.dicom.browser.client.service.ItemSuggestService;
+import org.psystems.dicom.browser.client.proxy.PatientProxy;
 
-import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class OMITS {
+/**
+ * @author dima_d
+ * 
+ * Основной драйвер
+ *
+ */
+public class StorageWebDicomImpl extends Storage {
 
-	private static Logger logger = Logger
-			.getLogger(OMITS.class.getName());
+	private static Logger logger = Logger.getLogger(Storage.class.getName());
 
-	public static List<Suggestion> getSuggestions(ServletContext context,
+	/* (non-Javadoc)
+	 * @see org.psystems.dicom.browser.server.StorageDrv#getSuggestions(javax.servlet.ServletContext, java.lang.String, int)
+	 */
+	@Override
+	public List<Suggestion> getSuggestionsImpl(ServletContext context,
 			String queryStr, int limit) throws SQLException {
-		
 
 		List<Suggestion> suggestions = new ArrayList<Suggestion>(limit);
 		PreparedStatement psSelect = null;
 
 		try {
 
-			//TODO Сделать конфигурабильным (типо загрузка драйвера)
 			Connection connection = org.psystems.dicom.browser.server.Util
-			.getConnection("omits",context);
-//			System.out.println("!!! connection_omits="+connection);
-			
-			
+					.getConnection("main", context);
 
-			//TODO Перепутаны колонки!!!
 			psSelect = connection
-					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX " +
-							" from  lpu.v_patient v "
-							+ "WHERE UPPER(SUR_NAME) like UPPER(? || '%')"
-							+ " order by SUR_NAME ");
+					.prepareStatement("SELECT ID, PATIENT_NAME, PATIENT_BIRTH_DATE "
+							+ " FROM WEBDICOM.STUDY "
+							+ "WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')"
+							+ " order by PATIENT_NAME ");
 
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
-			suggestions
-					.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
 			while (rs.next()) {
 
-				String name = rs.getString("SUR_NAME");
-				String date = "" + rs.getDate("BIRTHDAY");
+				String name = rs.getString("PATIENT_NAME");
+				String date = "" + rs.getDate("PATIENT_BIRTH_DATE");
 				suggestions.add(new ItemSuggestion(name + " [" + date + "]",
 						name));
 
@@ -121,7 +116,7 @@ public class OMITS {
 
 			}
 			rs.close();
-		
+
 		} finally {
 
 			try {
@@ -133,8 +128,16 @@ public class OMITS {
 			}
 		}
 
-	
 		return suggestions;
 	}
+
+	@Override
+	public List<PatientProxy> getPatientsImpl(ServletContext context,
+			String queryStr, int limit) throws SQLException {
+		// TODO Auto-generated method stub
+		return new ArrayList<PatientProxy>();
+	}
+
+	
 
 }
