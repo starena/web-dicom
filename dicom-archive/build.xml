@@ -2,7 +2,7 @@
 
 	<target name="init">
 
-		<property name="extlib_dir" value="war/WEB-INF/lib" />
+		<property name="extlib_dir" value="lib" />
 		<property name="source_dir" value="src" />
 		<property name="classes_dir" value="classes" />
 		<property name="doc_dir" value="doc" />

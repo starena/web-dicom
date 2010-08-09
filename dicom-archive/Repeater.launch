@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/dicom-archive/src/org/psystems/dicom/daemon/Repeater.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.psystems.dicom.daemon.Repeater"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-rescan 2000 DDV@localhost:11112 C:\temp\dcm\"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="dicom-archive"/>
+</launchConfiguration>
