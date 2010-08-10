@@ -56,42 +56,30 @@ package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
 
+import org.psystems.dicom.browser.client.Dicom_browser;
+
 /**
- * Обертка для передачи сообщений "вниз"
+ * Сущность - запрос к GWT-сервлету
  * 
  * @author dima_d
  * 
  */
-public class RPCRequestEvent implements Serializable {
+public abstract class ARPCRequest implements Serializable {
 
-	private static final long serialVersionUID = 4300229127183423102L;
-
+	private static final long serialVersionUID = -503807514055668960L;
 	private long transactionId;// идентификатор траназкции
-	private String version;// версия клиента
-	private RPCRequest data;
-
-	/**
-	 * Инициализация класса
-	 * 
-	 * @param transactionId
-	 * @param data
-	 */
-	public void init(long transactionId, String version, RPCRequest data) {
-		this.transactionId = transactionId;
-		this.version = version;
-		this.data = data;
-	}
+	private String version = Dicom_browser.version;// версия клиента
 
 	public long getTransactionId() {
 		return transactionId;
 	}
 
-	public String getVersion() {
-		return version;
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
-	public RPCRequest getData() {
-		return data;
+	public String getVersion() {
+		return version;
 	}
 
 }

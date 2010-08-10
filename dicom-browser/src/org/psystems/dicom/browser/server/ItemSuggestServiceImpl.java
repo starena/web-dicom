@@ -81,12 +81,8 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		resp.setTransactionId(transactionId);
 
 		// проверка версии клиента
-		if (!org.psystems.dicom.browser.server.Util.checkClentVersion(version)) {
-			throw new VersionGWTRPCException(
-					"Версия клиента не совпадает с версией сервера! " + version
-							+ " != "
-							+ org.psystems.dicom.browser.server.Util.version);
-		}
+		org.psystems.dicom.browser.server.Util.checkClentVersion(version);
+		
 		// Create a list to hold our suggestions (pre-set the lengthto the limit
 		// specified by the request)
 

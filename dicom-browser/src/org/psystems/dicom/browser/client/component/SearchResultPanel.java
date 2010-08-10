@@ -115,10 +115,6 @@ public class SearchResultPanel extends Composite {
 	private void showHelpPage() {
 		
 		
-		resultPanel.add(new PatientCardPanel());
-		resultPanel.add(new PatientCardPanel());
-		resultPanel.add(new PatientCardPanel());
-		
 		
 		HTML html = new HTML(
 				"Тут будут подсказки по механизмам поиска информации");

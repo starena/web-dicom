@@ -55,14 +55,14 @@
 package org.psystems.dicom.browser.client.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
-import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
-import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
-import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -85,12 +85,13 @@ public interface BrowserService extends RemoteService {
 	RPCDcmProxyEvent findStudy(long transactionId, String version,
 			String queryStr) throws DefaultGWTRPCException;
 
-	RPCResponceEvent getDcmTags(RPCRequestEvent event)
+	PatientsRPCResponse getPatients(PatientsRPCRequest req)
+			throws DefaultGWTRPCException;
+
+	DcmTagsRPCResponse getDcmTags(DcmTagsRPCRequest req)
 			throws DefaultGWTRPCException;
 
 	ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
 			String version, long idDcmFile) throws DefaultGWTRPCException;
 
-	List<PatientProxy> getPatients(long transactionId, String version,
-			String queryStr) throws DefaultGWTRPCException;
 }

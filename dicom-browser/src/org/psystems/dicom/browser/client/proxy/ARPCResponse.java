@@ -56,35 +56,41 @@ package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
 
-public class RPCResponceEvent implements Serializable {
-
-	private static final long serialVersionUID = 4300229127183423102L;
+/**
+ * Сущность - Ответ от GWT-сервлета
+ * 
+ * @author dima_d
+ * 
+ */
+public abstract class ARPCResponse implements Serializable {
 
 	private long transactionId;// идентификатор траназкции
 	private String version;// версия клиента
-	private RPCResponce data;
 
 	/**
-	 * Инициализация класса
-	 * 
-	 * @param transactionId
-	 * @param data
+	 * инициализация (версия и транзакция)
+	 * @param req
 	 */
-	public void init(long transactionId, String version, RPCResponce data) {
-		this.transactionId = transactionId;
-		this.version = version;
-		this.data = data;
+	public void init(ARPCRequest req) {
+		transactionId = req.getTransactionId();
+		version = req.getVersion();
 	}
-
+	
 	public long getTransactionId() {
 		return transactionId;
+	}
+
+	public void setTransactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	public String getVersion() {
 		return version;
 	}
 
-	public RPCResponce getData() {
-		return data;
+	public void setVersion(String version) {
+		this.version = version;
 	}
+	
+
 }

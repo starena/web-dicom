@@ -66,7 +66,8 @@ import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
+import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.ARPCRequest;
 
 /**
  * Утилитный класс
@@ -139,20 +140,28 @@ public class Util {
 	/**
 	 * TODO !!! Убрать !!! Проверка версии клиентског запроса
 	 * 
-	 * @param v
+	 * @param version
+	 * @return 
 	 * @return
+	 * @throws VersionGWTRPCException 
 	 */
-	public static boolean checkClentVersion(String v) {
-		return version.equalsIgnoreCase(v);
+	public static void checkClentVersion(String version) throws VersionGWTRPCException {
+		if (!version.equalsIgnoreCase(version) ) {
+			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! "+ version + " != " + version);
+		}
 	}
 
 	/**
-	 * Проверка версии клиентског запроса
+	 * Проверка версии клиента (при запросе)
 	 * 
 	 * @param v
 	 * @return
+	 * @throws VersionGWTRPCException 
 	 */
-	public static boolean checkClentVersion(RPCRequestEvent event) {
-		return version.equalsIgnoreCase(event.getVersion());
+	public static void checkClentVersion(ARPCRequest req) throws VersionGWTRPCException {
+		if (!version.equalsIgnoreCase(req.getVersion()) ) {
+			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! "+ req.getVersion() + " != " + version);
+		}
 	}
+	
 }

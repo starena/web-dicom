@@ -54,12 +54,33 @@
  */
 package org.psystems.dicom.browser.client.proxy;
 
+
 /**
- * Интерфейс объектов передаваемых в бакэнд 
+ * @author dima_d Запрос на получение пациентов
  * 
- * @author dima_d
- *
  */
-public interface RPCRequest  {
+public class PatientsRPCRequest extends ARPCRequest {
+
+	private static final long serialVersionUID = -702488773020935036L;
+
+	private String queryStr;// строка запроса
+
+	private int limit;// Лимит на количество возвращаемых данных
+
+	public String getQueryStr() {
+		return queryStr;
+	}
+
+	public void setQueryStr(String queryStr) {
+		this.queryStr = queryStr;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
 
 }

@@ -58,15 +58,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
-import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
-import org.psystems.dicom.browser.client.proxy.DcmImageProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
-import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponce;
-import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
-import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
-import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 
@@ -81,7 +76,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -379,16 +373,13 @@ public class StudyCardPanel extends Composite {
 	 */
 	private void showTagsFromDb(final VerticalPanel vp) {
 
-		RPCRequestEvent requestEvent = new RPCRequestEvent();
 		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
 		req.setIdDcm(proxy.getId());
-
-		requestEvent.init(0, Dicom_browser.version, req);
 
 		vp.clear();
 		vp.add(new Label("Загрузка..."));
 
-		service.getDcmTags(requestEvent, new AsyncCallback<RPCResponceEvent>() {
+		service.getDcmTags(req, new AsyncCallback<DcmTagsRPCResponse>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -396,14 +387,11 @@ public class StudyCardPanel extends Composite {
 				vp.add(new Label("Ошибка полчения данных! " + caught));
 			}
 
-			public void onSuccess(RPCResponceEvent result) {
-				// TODO Auto-generated method stub
-				DcmTagsRPCResponce data = (DcmTagsRPCResponce) result.getData();
-				ArrayList<DcmTagProxy> a = data.getTagList();
+			public void onSuccess(DcmTagsRPCResponse result) {
+				ArrayList<DcmTagProxy> a = result.getTagList();
 				vp.clear();
 				for (Iterator<DcmTagProxy> it = a.iterator(); it.hasNext();) {
 					DcmTagProxy proxy = it.next();
-					// System.out.println(proxy);
 					vp.add(new Label("" + proxy));
 				}
 			}
@@ -414,11 +402,8 @@ public class StudyCardPanel extends Composite {
 
 	protected void showTagsFromFile(final VerticalPanel vp) {
 
-		RPCRequestEvent requestEvent = new RPCRequestEvent();
 		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
 		req.setIdDcm(proxy.getId());
-
-		requestEvent.init(0, Dicom_browser.version, req);
 
 		vp.clear();
 		vp.add(new Label("Загрузка..."));
