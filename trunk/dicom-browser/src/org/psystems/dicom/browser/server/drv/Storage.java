@@ -52,7 +52,7 @@ public abstract class Storage {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<PatientProxy> getPatients(ServletContext context,
+	public static ArrayList<PatientProxy> getPatients(ServletContext context,
 			String queryStr, int limit) throws SQLException {
 
 		ArrayList<PatientProxy> result = new ArrayList<PatientProxy>();

@@ -65,8 +65,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.dcm4che2.data.DicomElement;
@@ -77,17 +75,17 @@ import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.StringUtils;
 import org.dcm4che2.util.TagUtils;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
-import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponce;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
-import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
-import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
+import org.psystems.dicom.browser.server.drv.Storage;
 import org.psystems.dicom.commons.orm.DataException;
 import org.psystems.dicom.commons.orm.Study;
 
@@ -113,52 +111,59 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	public RPCDcmProxyEvent findStudy(long transactionId, String version,
 			String queryStr) throws DefaultGWTRPCException {
 
-		checkVersion(version);// проверка версии клиента
+		// проверка версии клиента
+		Util.checkClentVersion(version);
 
 		PreparedStatement psFiles = null;
 		PreparedStatement psSelect = null;
 
 		try {
 
-			Connection connection = Util.getConnection("main",getServletContext());
+			Connection connection = Util.getConnection("main",
+					getServletContext());
 
 			psFiles = connection
 					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
-			
-			
+
 			ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
-			Study[] studies = Study.getStudues(connection, null, queryStr, null,null, null, null,null);
-			for(int i=0; i<studies.length; i++) {
+			Study[] studies = Study.getStudues(connection, null, queryStr,
+					null, null, null, null, null);
+			for (int i = 0; i < studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();
-				
-				
-				
+
 				java.util.Date studyDescriptionDate = null;
 				java.util.Date studyDate = null;
 				java.util.Date patientBirthDate = null;
-				
-				if(studies[i].getStudyDescriptionDate()!=null)
-					studyDescriptionDate = new java.util.Date(studies[i].getStudyDescriptionDate().getTime());
-				
-				if(studies[i].getStudyDate()!=null)
-					studyDate = new java.util.Date(studies[i].getStudyDate().getTime());
-				
-				if(studies[i].getPatientBirthDate()!=null)
-					patientBirthDate = new java.util.Date(studies[i].getPatientBirthDate().getTime());
-				
-				studyProxy.init(studies[i].getId(), studies[i].getStudyInstanceUID(),
-						studies[i].getManufacturerModelName(), studies[i].getPatientName(),
-						studies[i].getPatientSex(),studies[i].getPatientId(),
-						patientBirthDate,studies[i].getStudyId(),
-						studies[i].getStudyType(), studyDate,
-						studyDescriptionDate, studies[i].getStudyDoctor(),
-						studies[i].getStudyOperator(), studies[i].getStudyViewprotocol(),
-						studies[i].getStudyViewprotocol(), studies[i].getStudyResult());
-				
+
+				if (studies[i].getStudyDescriptionDate() != null)
+					studyDescriptionDate = new java.util.Date(studies[i]
+							.getStudyDescriptionDate().getTime());
+
+				if (studies[i].getStudyDate() != null)
+					studyDate = new java.util.Date(studies[i].getStudyDate()
+							.getTime());
+
+				if (studies[i].getPatientBirthDate() != null)
+					patientBirthDate = new java.util.Date(studies[i]
+							.getPatientBirthDate().getTime());
+
+				studyProxy.init(studies[i].getId(), studies[i]
+						.getStudyInstanceUID(), studies[i]
+						.getManufacturerModelName(), studies[i]
+						.getPatientName(), studies[i].getPatientSex(),
+						studies[i].getPatientId(), patientBirthDate, studies[i]
+								.getStudyId(), studies[i].getStudyType(),
+						studyDate, studyDescriptionDate, studies[i]
+								.getStudyDoctor(), studies[i]
+								.getStudyOperator(), studies[i]
+								.getStudyViewprotocol(), studies[i]
+								.getStudyViewprotocol(), studies[i]
+								.getStudyResult());
+
 				// Получаем список файлов
 				// TODO Перенести этот код в dicom-common ???
 				//
-				
+
 				psFiles.setLong(1, studies[i].getId());
 				ResultSet rsFiles = psFiles.executeQuery();
 
@@ -178,10 +183,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				}
 				rsFiles.close();
 				studyProxy.setFiles(files);
-				
+
 				data.add(studyProxy);
 			}
-			
 
 			// DcmFileProxyCortege[] result = data.toArray(new
 			// DcmFileProxy[data.size()]);
@@ -212,8 +216,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			logger.error(e);
 			e.printStackTrace();
 			throw new DefaultGWTRPCException(e.getMessage());
-		} 
-		finally {
+		} finally {
 
 			try {
 				if (psSelect != null)
@@ -229,20 +232,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Метод проверки версии клиента
-	 * 
-	 * @param version
-	 * @throws VersionGWTRPCException
-	 */
-	private void checkVersion(String version) throws VersionGWTRPCException {
-		if (!Util.checkClentVersion(version)) {
-			throw new VersionGWTRPCException(
-					"Версия клиента не совпадает с версией сервера! " + version
-							+ " != " + Util.version);
-		}
-	}
-
-	/**
 	 * Обновление метрики дневной статистики (инкремент)
 	 * 
 	 * @param date
@@ -253,7 +242,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	private void updateDayStatInc(Date date, String metric, long value)
 			throws SQLException {
 
-		Connection connection = Util.getConnection("main",getServletContext());
+		Connection connection = Util.getConnection("main", getServletContext());
 
 		PreparedStatement stmt = null;
 
@@ -316,7 +305,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	 */
 	private long checkDayMetric(String metric, Date date) throws SQLException {
 
-		Connection connection = Util.getConnection("main",getServletContext());
+		Connection connection = Util.getConnection("main", getServletContext());
 
 		PreparedStatement psSelect = connection
 				.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
@@ -335,29 +324,22 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public RPCResponceEvent getDcmTags(RPCRequestEvent reqEvent)
+	public DcmTagsRPCResponse getDcmTags(DcmTagsRPCRequest req)
 			throws DefaultGWTRPCException {
 
-		// проверка версии клиента
-		if (!Util.checkClentVersion(reqEvent)) {
-			throw new VersionGWTRPCException(
-					"Версия клиента не совпадает с версией сервера! "
-							+ reqEvent.getVersion() + " != " + Util.version);
-		}
+		// проверка версии клиента TODO сделать MOCK?
+		Util.checkClentVersion(req);
 
-		long idDcm = ((DcmTagsRPCRequest) reqEvent.getData()).getIdDcm();
+		long idDcm = req.getIdDcm();
 
 		PreparedStatement psSelect = null;
 
 		try {
 			ArrayList<DcmTagProxy> data = getTags(idDcm);
-			DcmTagsRPCResponce responce = new DcmTagsRPCResponce();
+			DcmTagsRPCResponse responce = new DcmTagsRPCResponse();
 			responce.setTagList(data);
 
-			RPCResponceEvent respEvent = new RPCResponceEvent();
-			respEvent.init(reqEvent.getTransactionId(), reqEvent.getVersion(),
-					responce);
-			return respEvent;
+			return responce;
 
 		} catch (SQLException e) {
 			logger.error(e);
@@ -373,14 +355,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				throw new DefaultGWTRPCException(e.getMessage());
 			}
 		}
-
 	}
 
 	@Override
 	public ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
 			String version, long idDcmFile) throws DefaultGWTRPCException {
 
-		checkVersion(version);// проверка версии клиента
+		// проверка версии клиента
+		Util.checkClentVersion(version);
 
 		String dcmRootDir = getServletContext().getInitParameter(
 				"webdicom.dir.src");
@@ -388,7 +370,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		try {
 			String fileName = null;
-			Connection connection = Util.getConnection("main",getServletContext());
+			Connection connection = Util.getConnection("main",
+					getServletContext());
 			psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
 					+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
 			psSelect.setLong(1, idDcmFile);
@@ -522,7 +505,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		PreparedStatement psSelect = null;
 
 		try {
-			Connection connection = Util.getConnection("main",getServletContext());
+			Connection connection = Util.getConnection("main",
+					getServletContext());
 			psSelect = connection
 					.prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAG WHERE FID_DCMFILE = ?");
 
@@ -569,18 +553,25 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public List<PatientProxy> getPatients(long transactionId, String version,
-			String queryStr) throws DefaultGWTRPCException {
-		
-		checkVersion(version);// проверка версии клиента
-		
-		!!! transactionId !!!
-		Сделать передачу запроса-ответа через объект RPCResponce (с возвратом transactionId)
-		А еще лучше сделать какой mock над сервдетом с автопередаче и автоответом этих полей
-		version и transactionId
-		
-		// TODO Auto-generated method stub
-		return null;
+	public PatientsRPCResponse getPatients(PatientsRPCRequest req)
+			throws DefaultGWTRPCException {
+
+		// проверка версии клиента TODO сделать MOCK?
+		Util.checkClentVersion(req);
+
+		ArrayList<PatientProxy> data;
+		try {
+			data = Storage.getPatients(getServletContext(), req.getQueryStr(),
+					req.getLimit());
+		} catch (SQLException e) {
+			throw new DefaultGWTRPCException(e);
+		}
+
+		PatientsRPCResponse resp = new PatientsRPCResponse();
+		resp.init(req);
+		resp.setPatients(data);
+
+		return resp;
 	}
 
 }

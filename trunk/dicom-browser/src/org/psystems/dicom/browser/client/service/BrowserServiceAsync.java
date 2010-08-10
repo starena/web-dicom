@@ -55,13 +55,13 @@
 package org.psystems.dicom.browser.client.service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
-import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
-import org.psystems.dicom.browser.client.proxy.RPCRequestEvent;
-import org.psystems.dicom.browser.client.proxy.RPCResponceEvent;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -70,13 +70,13 @@ public interface BrowserServiceAsync {
 	void findStudy(long transactionId, String version, String queryStr,
 			AsyncCallback<RPCDcmProxyEvent> callback);
 
-	void getDcmTags(RPCRequestEvent event,
-			AsyncCallback<RPCResponceEvent> callback);
-
 	void getDcmTagsFromFile(long transactionId, String version, long idDcmFile,
 			AsyncCallback<ArrayList<DcmTagProxy>> callback);
 
-	void getPatients(long transactionId, String version, String queryStr,
-			AsyncCallback<List<PatientProxy>> callback);
+	void getPatients(PatientsRPCRequest req,
+			AsyncCallback<PatientsRPCResponse> callback);
+
+	void getDcmTags(DcmTagsRPCRequest req,
+			AsyncCallback<DcmTagsRPCResponse> callback);
 
 }

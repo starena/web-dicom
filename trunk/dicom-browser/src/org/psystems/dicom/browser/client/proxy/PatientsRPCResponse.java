@@ -54,15 +54,24 @@
  */
 package org.psystems.dicom.browser.client.proxy;
 
+import java.util.ArrayList;
 
 /**
- * 
- * Интерфейс объектов возбращаемых из бакэнда
- * 
- * @author dima_d
+ * @author dima_d Ответ на получение списка пациентов
  * 
  */
-public interface RPCResponce {
+public class PatientsRPCResponse extends ARPCResponse {
 
+	private static final long serialVersionUID = -540089094742711175L;
+	
+	private ArrayList<PatientProxy> patients; // Пациенты
+
+	public ArrayList<PatientProxy> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(ArrayList<PatientProxy> patients) {
+		this.patients = patients;
+	}
 
 }

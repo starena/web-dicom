@@ -10,6 +10,9 @@ import java.util.Iterator;
 import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
@@ -182,7 +185,7 @@ public class SearchPanel extends Composite implements
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				// System.out.println("addSelectionHandler "+event);
-				searcStudyes();
+				searchStudyes();
 			}
 		});
 
@@ -190,7 +193,7 @@ public class SearchPanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				searcStudyes();
+				searchStudyes();
 			}
 		});
 
@@ -242,7 +245,7 @@ public class SearchPanel extends Composite implements
 	/**
 	 * Поиск исследований
 	 */
-	private void searcStudyes() {
+	private void searchStudyes() {
 
 		Date d = new Date();
 		searchTransactionID = d.getTime();
@@ -297,12 +300,16 @@ public class SearchPanel extends Composite implements
 		// t.schedule(2000);
 		t.scheduleRepeating(3000);
 
-		String textToServer = nameField.getText();
+		String querystr = nameField.getText();
 		transactionStarted();
 
-		Application.browserService.findStudy(searchTransactionID,
-				Dicom_browser.version, textToServer,
-				new AsyncCallback<RPCDcmProxyEvent>() {
+		PatientsRPCRequest req = new PatientsRPCRequest();
+		req.setTransactionId(searchTransactionID);
+		req.setQueryStr(querystr);
+		req.setLimit(20);
+		
+		Application.browserService.getPatients(req,
+				new AsyncCallback<PatientsRPCResponse>() {
 
 					public void onFailure(Throwable caught) {
 
@@ -312,10 +319,12 @@ public class SearchPanel extends Composite implements
 
 					}
 
-					public void onSuccess(RPCDcmProxyEvent result) {
+					public void onSuccess(PatientsRPCResponse result) {
 
+						
 						// TODO попробовать сделать нормлаьный interrupt (дабы
 						// не качать все данные)
+
 						// Если сменился идентификатор транзакции, то ничего не
 						// принимаем
 						if (searchTransactionID != result.getTransactionId()) {
@@ -324,42 +333,19 @@ public class SearchPanel extends Composite implements
 
 						Application.hideWorkStatusMsg();
 
-						ArrayList<StudyProxy> cortegeList = result.getData();
-						for (Iterator<StudyProxy> it = cortegeList.iterator(); it
+						ArrayList<PatientProxy> patients = result.getPatients();
+						for (Iterator<PatientProxy> it = patients.iterator(); it
 								.hasNext();) {
 
-							StudyProxy studyProxy = it.next();
+							PatientProxy patientProxy = it.next();
 							VerticalPanel table = new VerticalPanel();
-
-							// if(cortege.getDcmProxies().size()>1) {
-							// DecoratorPanel item = new DecoratorPanel();
-							// DOM.setStyleAttribute(item.getElement(),
-							// "margin",
-							// "5px");
-							// RootPanel.get("resultContainer").add(item);
-							// item.setWidget(table);
-							// } else {
-							// RootPanel.get("resultContainer").add(table);
-							// }
-
 							resultPanel.add(table);
-
-//							resultPanel.add(new CardPanel());
-
-							StudyCardPanel s = new StudyCardPanel(
-									Application.browserService, studyProxy);
-							table.add(s);
-
-							// for (Iterator<DcmFileProxy> iter = studyProxy
-							// .getFiles().iterator(); iter.hasNext();) {
-							// DcmFileProxy dcmfileProxy = iter.next();
-							// SearchedItem s = new SearchedItem(
-							// browserService, dcmfileProxy);
-							// table.add(s);
-							// }
+							PatientCardPanel patientCard = new PatientCardPanel(
+									patientProxy);
+							table.add(patientCard);
 						}
 
-						if (cortegeList.size() == 0) {
+						if (patients.size() == 0) {
 							showNotFound();
 						}
 
@@ -368,6 +354,75 @@ public class SearchPanel extends Composite implements
 					}
 
 				});
+		
+//		Application.browserService.findStudy(searchTransactionID,
+//				Dicom_browser.version, textToServer,
+//				new AsyncCallback<RPCDcmProxyEvent>() {
+//
+//					public void onFailure(Throwable caught) {
+//
+//						transactionFinished();
+//						Application
+//								.showErrorDlg((DefaultGWTRPCException) caught);
+//
+//					}
+//
+//					public void onSuccess(RPCDcmProxyEvent result) {
+//
+//						// TODO попробовать сделать нормлаьный interrupt (дабы
+//						// не качать все данные)
+//						// Если сменился идентификатор транзакции, то ничего не
+//						// принимаем
+//						if (searchTransactionID != result.getTransactionId()) {
+//							return;
+//						}
+//
+//						Application.hideWorkStatusMsg();
+//
+//						ArrayList<StudyProxy> cortegeList = result.getData();
+//						for (Iterator<StudyProxy> it = cortegeList.iterator(); it
+//								.hasNext();) {
+//
+//							StudyProxy studyProxy = it.next();
+//							VerticalPanel table = new VerticalPanel();
+//
+//							// if(cortege.getDcmProxies().size()>1) {
+//							// DecoratorPanel item = new DecoratorPanel();
+//							// DOM.setStyleAttribute(item.getElement(),
+//							// "margin",
+//							// "5px");
+//							// RootPanel.get("resultContainer").add(item);
+//							// item.setWidget(table);
+//							// } else {
+//							// RootPanel.get("resultContainer").add(table);
+//							// }
+//
+//							resultPanel.add(table);
+//
+////							resultPanel.add(new CardPanel());
+//
+//							StudyCardPanel s = new StudyCardPanel(
+//									Application.browserService, studyProxy);
+//							table.add(s);
+//
+//							// for (Iterator<DcmFileProxy> iter = studyProxy
+//							// .getFiles().iterator(); iter.hasNext();) {
+//							// DcmFileProxy dcmfileProxy = iter.next();
+//							// SearchedItem s = new SearchedItem(
+//							// browserService, dcmfileProxy);
+//							// table.add(s);
+//							// }
+//						}
+//
+//						if (cortegeList.size() == 0) {
+//							showNotFound();
+//						}
+//
+//						transactionFinished();
+//
+//					}
+//
+//				});
 	}
 
 	protected void showNotFound() {

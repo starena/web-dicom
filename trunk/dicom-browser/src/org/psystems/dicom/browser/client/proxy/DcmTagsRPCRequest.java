@@ -54,13 +54,12 @@
  */
 package org.psystems.dicom.browser.client.proxy;
 
-import java.io.Serializable;
 
 /**
  * @author dima_d Запрос на получение тегов
  * 
  */
-public class DcmTagsRPCRequest implements RPCRequest, Serializable {
+public class DcmTagsRPCRequest extends ARPCRequest {
 
 	private static final long serialVersionUID = -702488773020935036L;
 
