@@ -29,17 +29,12 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -104,7 +99,7 @@ public class SearchPanel extends Composite implements
 //		mainPanel.add(resultPanel);
 
 		sendButton = new Button("Поиск");
-		sendButton.setStyleName("SearchButton");
+		sendButton.setStyleName("SearchToolButton");
 		
 		ItemSuggestOracle oracle = new ItemSuggestOracle();
 		nameField = new SuggestBox(oracle);
@@ -157,13 +152,13 @@ public class SearchPanel extends Composite implements
 		// onblur="this.value=(this.value=='')?this.title:this.value;"
 		// onfocus="this.value=(this.value==this.title)?'':this.value;"
 
-		sendButton.addStyleName("sendButton");
 
 		searchPanel.add(nameField);
 
 		searchPanel.add(sendButton);
 
 		clearButton = new Button("Сброс");
+		clearButton.setStyleName("SearchToolButton");
 		searchPanel.add(clearButton);
 
 		clearButton.addClickHandler(new ClickHandler() {
@@ -241,11 +236,12 @@ public class SearchPanel extends Composite implements
 	private void transactionInterrupt() {
 		transactionFinished();
 	}
-
+	
+	
 	/**
 	 * Поиск исследований
 	 */
-	private void searchStudyes() {
+	private void searchPatients() {
 
 		Date d = new Date();
 		searchTransactionID = d.getTime();
@@ -355,74 +351,144 @@ public class SearchPanel extends Composite implements
 
 				});
 		
-//		Application.browserService.findStudy(searchTransactionID,
-//				Dicom_browser.version, textToServer,
-//				new AsyncCallback<RPCDcmProxyEvent>() {
-//
-//					public void onFailure(Throwable caught) {
-//
-//						transactionFinished();
-//						Application
-//								.showErrorDlg((DefaultGWTRPCException) caught);
-//
-//					}
-//
-//					public void onSuccess(RPCDcmProxyEvent result) {
-//
-//						// TODO попробовать сделать нормлаьный interrupt (дабы
-//						// не качать все данные)
-//						// Если сменился идентификатор транзакции, то ничего не
-//						// принимаем
-//						if (searchTransactionID != result.getTransactionId()) {
-//							return;
-//						}
-//
-//						Application.hideWorkStatusMsg();
-//
-//						ArrayList<StudyProxy> cortegeList = result.getData();
-//						for (Iterator<StudyProxy> it = cortegeList.iterator(); it
-//								.hasNext();) {
-//
-//							StudyProxy studyProxy = it.next();
-//							VerticalPanel table = new VerticalPanel();
-//
-//							// if(cortege.getDcmProxies().size()>1) {
-//							// DecoratorPanel item = new DecoratorPanel();
-//							// DOM.setStyleAttribute(item.getElement(),
-//							// "margin",
-//							// "5px");
-//							// RootPanel.get("resultContainer").add(item);
-//							// item.setWidget(table);
-//							// } else {
-//							// RootPanel.get("resultContainer").add(table);
-//							// }
-//
-//							resultPanel.add(table);
-//
-////							resultPanel.add(new CardPanel());
-//
-//							StudyCardPanel s = new StudyCardPanel(
-//									Application.browserService, studyProxy);
-//							table.add(s);
-//
-//							// for (Iterator<DcmFileProxy> iter = studyProxy
-//							// .getFiles().iterator(); iter.hasNext();) {
-//							// DcmFileProxy dcmfileProxy = iter.next();
-//							// SearchedItem s = new SearchedItem(
-//							// browserService, dcmfileProxy);
-//							// table.add(s);
-//							// }
-//						}
-//
-//						if (cortegeList.size() == 0) {
-//							showNotFound();
-//						}
-//
-//						transactionFinished();
-//
-//					}
-//
-//				});
+
+	}
+
+
+	/**
+	 * Поиск исследований
+	 */
+	private void searchStudyes() {
+
+		Date d = new Date();
+		searchTransactionID = d.getTime();
+
+		DateTimeFormat dateFormat = DateTimeFormat
+				.getFormat("dd.MM.yyyy. G 'at' HH:mm:ss vvvv");
+		// showWorkStatusMsg("Послан <b> запрос данных </b> по пациенту ... "
+		// + dateFormat.format(d));
+		Application.showWorkStatusMsg("");
+
+		TransactionTimer t = new TransactionTimer() {
+
+			private int counter = 0;
+
+			public void run() {
+
+				// System.out.println("!!!!!!!!!!!! " + getTransactionId() + "="
+				// + searchTransactionID);
+				if (getTransactionId() != searchTransactionID) {
+					cancel();
+					return;
+				}
+
+				if (counter == 0) {
+
+					Button b = new Button("Остановить поиск");
+					b.addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							transactionInterrupt();
+						}
+					});
+
+					// TODO Вынести логику в Application
+					Application.addToWorkStatusWidget(b);
+					// TODO Вынести логику в Application
+					Application
+							.addToWorkStatusMsg(" Возможно имеется <i>проблема</i> со связью. Вы <b>всегда</b> можете остановить поиск...");
+				}
+				counter++;
+
+				Application.addToWorkStatusMsg(" Поиск продолжается " + counter
+						* 2 + " сек.");
+				// HTML l = new HTML("<a href=''>[Остановить]</a>");
+				// DOM.setStyleAttribute(l.getElement(), "cursor",
+				// "pointer");
+
+			}
+		};
+		t.setTransactionId(searchTransactionID);
+		// t.schedule(2000);
+		t.scheduleRepeating(3000);
+
+		String querystr = nameField.getText();
+		transactionStarted();
+
+		PatientsRPCRequest req = new PatientsRPCRequest();
+		req.setTransactionId(searchTransactionID);
+		req.setQueryStr(querystr);
+		req.setLimit(20);
+		
+		
+		
+		Application.browserService.findStudy(searchTransactionID,
+				Dicom_browser.version, querystr,
+				new AsyncCallback<RPCDcmProxyEvent>() {
+
+					public void onFailure(Throwable caught) {
+
+						transactionFinished();
+						Application
+								.showErrorDlg((DefaultGWTRPCException) caught);
+
+					}
+
+					public void onSuccess(RPCDcmProxyEvent result) {
+
+						// TODO попробовать сделать нормлаьный interrupt (дабы
+						// не качать все данные)
+						// Если сменился идентификатор транзакции, то ничего не
+						// принимаем
+						if (searchTransactionID != result.getTransactionId()) {
+							return;
+						}
+
+						Application.hideWorkStatusMsg();
+
+						ArrayList<StudyProxy> cortegeList = result.getData();
+						for (Iterator<StudyProxy> it = cortegeList.iterator(); it
+								.hasNext();) {
+
+							StudyProxy studyProxy = it.next();
+							VerticalPanel table = new VerticalPanel();
+
+							// if(cortege.getDcmProxies().size()>1) {
+							// DecoratorPanel item = new DecoratorPanel();
+							// DOM.setStyleAttribute(item.getElement(),
+							// "margin",
+							// "5px");
+							// RootPanel.get("resultContainer").add(item);
+							// item.setWidget(table);
+							// } else {
+							// RootPanel.get("resultContainer").add(table);
+							// }
+
+							resultPanel.add(table);
+
+							StudyCardPanel s = new StudyCardPanel(
+									Application.browserService, studyProxy);
+							table.add(s);
+
+							// for (Iterator<DcmFileProxy> iter = studyProxy
+							// .getFiles().iterator(); iter.hasNext();) {
+							// DcmFileProxy dcmfileProxy = iter.next();
+							// SearchedItem s = new SearchedItem(
+							// browserService, dcmfileProxy);
+							// table.add(s);
+							// }
+						}
+
+						if (cortegeList.size() == 0) {
+							showNotFound();
+						}
+
+						transactionFinished();
+
+					}
+
+				});
 	}
 
 	protected void showNotFound() {

@@ -88,7 +88,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 
 		List<Suggestion> suggestions;
 		try {
-			suggestions = Storage.getSuggestions(
+			suggestions = Storage.getSearchStudiesSuggestions(
 					getServletContext(), req.getQuery(), req.getLimit());
 		} catch (SQLException e) {
 			e.printStackTrace();//TODO Убрать
