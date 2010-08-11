@@ -7,6 +7,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Панель заголовка проекта
@@ -28,9 +29,14 @@ public class HeaderPanel extends HorizontalPanel {
 		_applayStyles();
 		Hyperlink mainPage = new Hyperlink("На главную", "");
 		itemsPanel.add(mainPage);
+		itemsPanel.add(new Label("|"));
 		Hyperlink newStudy = new Hyperlink("Создать исследование", "newstudy");
 		itemsPanel.add(newStudy);
-		Hyperlink showIntro = new Hyperlink("Приглашение", "showintro");
+		itemsPanel.add(new Label("|"));
+		Hyperlink worklistStudy = new Hyperlink("Список исследований", "workliststudy");
+		itemsPanel.add(worklistStudy);
+		itemsPanel.add(new Label("|"));
+		Hyperlink showIntro = new Hyperlink("Помощь", "showintro");
 		itemsPanel.add(showIntro);
 	}
 	

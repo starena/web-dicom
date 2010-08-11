@@ -31,14 +31,44 @@ public abstract class Storage {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<Suggestion> getSuggestions(ServletContext context,
+	public static List<Suggestion> getSearchStudiesSuggestions(ServletContext context,
 			String queryStr, int limit) throws SQLException {
 
 		List<Suggestion> result = new ArrayList<Suggestion>();
 		result.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
 		for (Iterator<Storage> iter = drivers.iterator(); iter.hasNext();) {
 			Storage drv = iter.next();
-			result.addAll(drv.getSuggestionsImpl(context, queryStr, limit));
+			
+			//TODO сделать конфигурабельным перечень драйверов для поиска
+			if(drv instanceof StorageWebDicomImpl) {
+				result.addAll(drv.getSuggestionsImpl(context, queryStr, limit));
+			}
+			
+		}
+		return result;
+	}
+	
+	/**
+	 * Метод возврата результатов поиска в выпадающем поисковом списке
+	 * 
+	 * @param context
+	 * @param queryStr
+	 * @param limit
+	 * @return
+	 * @throws SQLException
+	 */
+	public static List<Suggestion> getSearchPatientsSuggestions(ServletContext context,
+			String queryStr, int limit) throws SQLException {
+
+		List<Suggestion> result = new ArrayList<Suggestion>();
+		result.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
+		for (Iterator<Storage> iter = drivers.iterator(); iter.hasNext();) {
+			Storage drv = iter.next();
+			
+			//TODO сделать конфигурабельным перечень драйверов для поиска
+			if(drv instanceof StorageOMITSImpl) {
+				result.addAll(drv.getSuggestionsImpl(context, queryStr, limit));
+			}
 		}
 		return result;
 	}
@@ -58,7 +88,11 @@ public abstract class Storage {
 		ArrayList<PatientProxy> result = new ArrayList<PatientProxy>();
 		for (Iterator<Storage> iter = drivers.iterator(); iter.hasNext();) {
 			Storage drv = iter.next();
-			result.addAll(drv.getPatientsImpl(context, queryStr, limit));
+			
+			//TODO сделать конфигурабельным перечень драйверов для поиска
+			if(drv instanceof StorageOMITSImpl) {
+				result.addAll(drv.getPatientsImpl(context, queryStr, limit));
+			}
 		}
 		return result;
 	}
