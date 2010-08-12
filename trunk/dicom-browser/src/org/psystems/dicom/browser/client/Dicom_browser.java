@@ -96,7 +96,7 @@ public class Dicom_browser implements EntryPoint {
 	public final BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);
 
-	final ManageStydyServiceAsync manageStudyService = GWT
+	public static final ManageStydyServiceAsync manageStudyService = GWT
 			.create(ManageStydyService.class);
 
 	private DialogBox errorDialogBox;
@@ -143,7 +143,7 @@ public class Dicom_browser implements EntryPoint {
 					RootPanel.get("bodyContainer").clear();
 
 					StudyManagePanel panel = new StudyManagePanel(
-							manageStudyService);
+							manageStudyService,null);
 					RootPanel.get("bodyContainer").add(panel);
 
 				} else if (event.getValue().equals("showintro")) {
