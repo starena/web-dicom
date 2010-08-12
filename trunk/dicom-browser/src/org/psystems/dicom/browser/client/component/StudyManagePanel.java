@@ -104,6 +104,7 @@ public class StudyManagePanel extends Composite implements
 		//TODO Убрать в css
 		DOM.setStyleAttribute(formPanel.getElement(), "background", "#E9EDF5");
 		
+		
 		formPanel.add(flexTable);
 
 		flexTable.setWidget(0, 0, makeItemLabel("ФИО"));
@@ -111,6 +112,8 @@ public class StudyManagePanel extends Composite implements
 		
 		patientName = new TextBox();
 		patientName.setName("00100010");
+		patientName.setWidth("400px");
+		patientName.setText(proxy.getPatientName());
 		flexTable.setWidget(0, 1, patientName);
 
 		flexTable.setWidget(1, 0, makeItemLabel("Пол"));
@@ -120,7 +123,11 @@ public class StudyManagePanel extends Composite implements
 		lbSex.setName("00100040");
 		lbSex.addItem("Муж", "M");
 		lbSex.addItem("Жен", "F");
-		
+		if("F".equals(proxy.getPatientSex())) {
+			lbSex.setSelectedIndex(1);
+		}else {
+			lbSex.setSelectedIndex(0);
+		}
 		flexTable.setWidget(1, 1, lbSex);
 		
 		
@@ -134,6 +141,13 @@ public class StudyManagePanel extends Composite implements
 		
 		birstdayDox = new DateBox();
 		birstdayDox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
+		birstdayDox.setValue(proxy.getPatientBirthDate());
+		
+		//TODO Сделать через единую функцию!!
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
+		String df = dateFormat.format(proxy.getPatientBirthDate());
+		patientBirthDate.setValue(df);
+		
 		flexTable.setWidget(2, 1, birstdayDox);
 		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
 		
@@ -208,11 +222,36 @@ public class StudyManagePanel extends Composite implements
 			}
 		});
 		
+		
+		
 		submitResult = new HTML("UID:"+proxy.getStudyUID());
 		flexTable.setWidget(6, 0, submitResult);
 		flexTable.getFlexCellFormatter().setColSpan(6, 0, 3);
 		flexTable.getFlexCellFormatter().setHorizontalAlignment(6, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
+		Hidden studyInstanceUID = new Hidden();
+		flexTable.setWidget(7, 0, studyInstanceUID);
+		studyInstanceUID.setName("0020000D");
+		studyInstanceUID.setValue(proxy.getStudyUID());
+		
+		Hidden studySeriesUID = new Hidden();
+		flexTable.setWidget(8, 0, studySeriesUID);
+		studySeriesUID.setName("0020000E");
+		studySeriesUID.setValue(proxy.getStudyUID()+"."+new Date().getTime());
+
+		
+		Hidden studyId = new Hidden();
+		flexTable.setWidget(9, 0, studyId);
+		studyId.setName("00200010");
+		studyId.setValue(proxy.getStudyId());
+		
+		Hidden patientId = new Hidden();
+		flexTable.setWidget(10, 0, patientId);
+		patientId.setName("00100021");
+		patientId.setValue(proxy.getPatientId());
+		
+		
+		
 		initWidget(mainPanel);
 		
 
