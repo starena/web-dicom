@@ -123,6 +123,9 @@ public class StudyCardPanel extends Composite {
 		table.getFlexCellFormatter().setColSpan(0, 0, 6);
 		table.getFlexCellFormatter().setAlignment(0, 0,
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+		
+		
+		
 
 		table.setWidget(0, 1, dcmImage);
 		table.getFlexCellFormatter().setAlignment(0, 0,
@@ -168,8 +171,34 @@ public class StudyCardPanel extends Composite {
 		table.getFlexCellFormatter().setAlignment(6, 0,
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 
+		final Label changeStudy = new Label("[изменить]");
+		changeStudy.setStyleName("DicomItem");
+		table.setWidget(7, 0, changeStudy);
+		table.getFlexCellFormatter().setColSpan(7, 0, 6);
+		table.getFlexCellFormatter().setAlignment(7, 0,
+				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+		
+		changeStudy.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				table.remove(changeStudy);
+				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, proxy);
+				table.setWidget(8, 0, panel);
+				table.getFlexCellFormatter().setColSpan(8, 0, 6);
+				table.getFlexCellFormatter().setAlignment(8, 0,
+						HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
+			}
+		});
+		
+		
 	
 		dcmItem.add(table);
+		
+		
+		
+		
 		
 		////////////////////////////
 
@@ -256,57 +285,7 @@ public class StudyCardPanel extends Composite {
 		}
 		
 		
-		//////////////////////////////////////////
-		
-//		
-//		HorizontalPanel tagsPanel = new HorizontalPanel();
-//		table.setWidget(5, 0, tagsPanel);
-//		table.getFlexCellFormatter().setColSpan(5, 0, 6);
-//		table.getFlexCellFormatter().setColSpan(4, 0, 6);
-//		table.getFlexCellFormatter().setAlignment(4, 0,
-//				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
-//
-//		final VerticalPanel vp = new VerticalPanel();
-//		tagsPanel.add(vp);
-//		
-//
-//		Label showTagsLabelfromDB = new Label("Показать теги из БД");
-//		showTagsLabelfromDB.setStyleName("DicomItemValue");
-//		DOM.setStyleAttribute(showTagsLabelfromDB.getElement(), "cursor",
-//				"pointer");
-//		vp.add(showTagsLabelfromDB);
-//
-//		final VerticalPanel vp1 = new VerticalPanel();
-//		tagsPanel.add(vp1);
-//		
-//
-//		showTagsLabelfromDB.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				// TODO Auto-generated method stub
-//				showTagsFromDb(vp);
-//			}
-//
-//		});
-//
-//		Label showTagsLabelFromFile = new Label("Показать теги из файла");
-//		showTagsLabelFromFile.setStyleName("DicomItemValue");
-//		DOM.setStyleAttribute(showTagsLabelFromFile.getElement(), "cursor",
-//				"pointer");
-//		vp1.add(showTagsLabelFromFile);
-//
-//		showTagsLabelFromFile.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				// TODO Auto-generated method stub
-//				showTagsFromFile(vp1);
-//			}
-//
-//		});
 
-		// All composites must call initWidget() in their constructors.
 		initWidget(dcmItem);
 
 	}

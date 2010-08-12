@@ -5,6 +5,7 @@ package org.psystems.dicom.browser.client.component;
 
 import java.util.Date;
 
+import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -51,7 +52,7 @@ public class StudyManagePanel extends Composite implements
 	DateTimeFormat dateFormatBox = DateTimeFormat.getFormat("dd.MM.yyyy");
 	
 
-	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService) {
+	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService, StudyProxy proxy) {
 
 		this.manageStudyService = manageStudyService;
 		
@@ -207,7 +208,7 @@ public class StudyManagePanel extends Composite implements
 			}
 		});
 		
-		submitResult = new HTML("");
+		submitResult = new HTML("UID:"+proxy.getStudyUID());
 		flexTable.setWidget(6, 0, submitResult);
 		flexTable.getFlexCellFormatter().setColSpan(6, 0, 3);
 		flexTable.getFlexCellFormatter().setHorizontalAlignment(6, 0, HasHorizontalAlignment.ALIGN_CENTER);

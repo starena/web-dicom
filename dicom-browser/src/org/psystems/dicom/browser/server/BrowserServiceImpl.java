@@ -159,6 +159,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 								.getStudyViewprotocol(), studies[i]
 								.getStudyViewprotocol(), studies[i]
 								.getStudyResult());
+				
 
 				// Получаем список файлов
 				// TODO Перенести этот код в dicom-common ???
