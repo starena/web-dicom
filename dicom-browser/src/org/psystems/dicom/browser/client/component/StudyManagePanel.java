@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
@@ -46,10 +47,15 @@ public class StudyManagePanel extends Composite implements
 	private Button submitBtn;
 	private TextBox patientName;
 	private DateBox birstdayDox;
-	private DateBox studydateBox;
+	private DateBox studyDateBox;
 	private FileUpload fileUpload;
 	
 	DateTimeFormat dateFormatBox = DateTimeFormat.getFormat("dd.MM.yyyy");
+	DateTimeFormat dateFormatHidden = DateTimeFormat.getFormat("yyyyMMdd");
+	private FlexTable formTable;
+	private VerticalPanel formDataPanel;
+	private Hidden patientBirthDateHidden;
+	private Hidden studyDateHidden;
 	
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService, StudyProxy proxy) {
@@ -100,25 +106,48 @@ public class StudyManagePanel extends Composite implements
 
 		
 
-		FlexTable flexTable = new FlexTable();
+		formTable = new FlexTable();
 		//TODO Убрать в css
 		DOM.setStyleAttribute(formPanel.getElement(), "background", "#E9EDF5");
 		
+		formDataPanel = new VerticalPanel();
+		formPanel.add(formDataPanel);
+		formDataPanel.add(formTable);
 		
-		formPanel.add(flexTable);
+		
+		//
+		Hidden studyInstanceUID = new Hidden();
+		studyInstanceUID.setName("0020000D");
+		studyInstanceUID.setValue(proxy.getStudyUID());
+		addFormHidden(studyInstanceUID);
+		
+		//
+		Hidden studySeriesUID = new Hidden();
+		studySeriesUID.setName("0020000E");
+		studySeriesUID.setValue(proxy.getStudyUID()+"."+new Date().getTime());
+		addFormHidden(studySeriesUID);
 
-		flexTable.setWidget(0, 0, makeItemLabel("ФИО"));
-		flexTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+		//
+		Hidden studyId = new Hidden();
+		studyId.setName("00200010");
+		studyId.setValue(proxy.getStudyId());
+		addFormHidden(studyId);
+
+		//
+		Hidden patientId = new Hidden();
+		patientId.setName("00100021");
+		patientId.setValue(proxy.getPatientId());
+		addFormHidden(patientId);
 		
+
+		//
 		patientName = new TextBox();
 		patientName.setName("00100010");
 		patientName.setWidth("400px");
 		patientName.setText(proxy.getPatientName());
-		flexTable.setWidget(0, 1, patientName);
-
-		flexTable.setWidget(1, 0, makeItemLabel("Пол"));
-		flexTable.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+		addFormRow(0,"ФИО", patientName);
 		
+		//
 		ListBox lbSex = new ListBox();
 		lbSex.setName("00100040");
 		lbSex.addItem("Муж", "M");
@@ -128,92 +157,60 @@ public class StudyManagePanel extends Composite implements
 		}else {
 			lbSex.setSelectedIndex(0);
 		}
-		flexTable.setWidget(1, 1, lbSex);
+		addFormRow(1,"Пол", lbSex);
 		
 		
-
-		flexTable.setWidget(2, 0, makeItemLabel("Дата рождения"));
-		flexTable.getCellFormatter().setHorizontalAlignment(2, 0, HasHorizontalAlignment.ALIGN_RIGHT);
-		
-		final Hidden patientBirthDate = new Hidden();
-		flexTable.setWidget(2, 2, patientBirthDate);
-		patientBirthDate.setName("00100030");
-		
+		//
 		birstdayDox = new DateBox();
 		birstdayDox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
 		birstdayDox.setValue(proxy.getPatientBirthDate());
-		
-		//TODO Сделать через единую функцию!!
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
-		String df = dateFormat.format(proxy.getPatientBirthDate());
-		patientBirthDate.setValue(df);
-		
-		flexTable.setWidget(2, 1, birstdayDox);
-		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
-		
-		
 		birstdayDox.addValueChangeHandler(new ValueChangeHandler<Date>() {
-			
-			@Override
-			public void onValueChange(ValueChangeEvent<Date> event) {
-				DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
-				String d = dateFormat.format(event.getValue());
-				patientBirthDate.setValue(d);
-			}
-		});
-		
-		
-		flexTable.setWidget(3, 0, makeItemLabel("Дата исследования"));
-		flexTable.getCellFormatter().setHorizontalAlignment(3, 0, HasHorizontalAlignment.ALIGN_RIGHT);
-		
-		final Hidden studyDate = new Hidden();
-		
-		flexTable.setWidget(3, 2, studyDate);
-		studyDate.setName("00080020");
-		
-		studydateBox = new DateBox();
-		studydateBox.setValue(new Date());
-		flexTable.setWidget(3, 1, studydateBox);
-		
-		
-		DateTimeFormat dateFormat1 = DateTimeFormat.getFormat("yyyyMMdd");
-		String d = dateFormat1.format(studydateBox.getValue());
-		studyDate.setValue(d);
-		
-		// DateTimeFormat dateFormat = DateTimeFormat.getLongDateFormat();
-		
-		studydateBox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
-		
-		studydateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
-			
-			@Override
-			public void onValueChange(ValueChangeEvent<Date> event) {
-				DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
-				String d = dateFormat.format(event.getValue());
-				studyDate.setValue(d);
-			}
-		});
-	
 
+			@Override
+			public void onValueChange(ValueChangeEvent<Date> event) {
+				String d = dateFormatHidden.format(event.getValue());
+				patientBirthDateHidden.setValue(d);
+			}
+		});
+		
+		patientBirthDateHidden = new Hidden();
+		patientBirthDateHidden.setName("00100030");
+		addFormHidden(patientBirthDateHidden);
+		patientBirthDateHidden.setValue(dateFormatHidden.format(proxy.getPatientBirthDate()));
+		
+		addFormRow(2, "Дата рождения", birstdayDox);
+	
+		
+		//
+		studyDateBox = new DateBox();
+		studyDateBox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
+		studyDateBox.setValue(new Date());
+		studyDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
+			
+			@Override
+			public void onValueChange(ValueChangeEvent<Date> event) {
+				studyDateHidden.setValue(dateFormatHidden.format(event.getValue()));
+			}
+		});
+		
+		studyDateHidden = new Hidden();
+		studyDateHidden.setName("00080020");
+		addFormHidden(studyDateHidden);
+		studyDateHidden.setValue(dateFormatHidden.format(studyDateBox.getValue()));
+		
+		addFormRow(3, "Дата исследования", studyDateBox);
 		
 		
-//		Date d = (Date)event;
-//		System.out.println("!!! date="+event.getValue().getClass());
-//		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy.mm.dd");
-//		dateFormat.format((Date)event);
-		
-		flexTable.setWidget(4, 0, makeItemLabel("Снимок"));
-		flexTable.getCellFormatter().setHorizontalAlignment(4, 0, HasHorizontalAlignment.ALIGN_RIGHT);
-		
+		//
 		fileUpload = new FileUpload();
 		fileUpload.setName("upload");
-		flexTable.setWidget(4, 1, fileUpload);
+		formTable.setWidget(4, 1, fileUpload);
+		
+		addFormRow(4,"Снимок", fileUpload);
 
+		
+		//
 		submitBtn = new Button("Создать");
-		flexTable.setWidget(5, 0, submitBtn);
-		flexTable.getFlexCellFormatter().setColSpan(5, 0, 3);
-		flexTable.getFlexCellFormatter().setHorizontalAlignment(5, 0, HasHorizontalAlignment.ALIGN_CENTER);
-
 		submitBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -221,53 +218,58 @@ public class StudyManagePanel extends Composite implements
 				formPanel.submit();
 			}
 		});
+		addFormRow(5,submitBtn);
 		
-		
-		
+		//
 		submitResult = new HTML("UID:"+proxy.getStudyUID());
-		flexTable.setWidget(6, 0, submitResult);
-		flexTable.getFlexCellFormatter().setColSpan(6, 0, 3);
-		flexTable.getFlexCellFormatter().setHorizontalAlignment(6, 0, HasHorizontalAlignment.ALIGN_CENTER);
-
-		Hidden studyInstanceUID = new Hidden();
-		flexTable.setWidget(7, 0, studyInstanceUID);
-		studyInstanceUID.setName("0020000D");
-		studyInstanceUID.setValue(proxy.getStudyUID());
-		
-		Hidden studySeriesUID = new Hidden();
-		flexTable.setWidget(8, 0, studySeriesUID);
-		studySeriesUID.setName("0020000E");
-		studySeriesUID.setValue(proxy.getStudyUID()+"."+new Date().getTime());
-
-		
-		Hidden studyId = new Hidden();
-		flexTable.setWidget(9, 0, studyId);
-		studyId.setName("00200010");
-		studyId.setValue(proxy.getStudyId());
-		
-		Hidden patientId = new Hidden();
-		flexTable.setWidget(10, 0, patientId);
-		patientId.setName("00100021");
-		patientId.setValue(proxy.getPatientId());
-		
+		addFormRow(6,submitResult);
 		
 		
 		initWidget(mainPanel);
-		
-
 	}
 	
+	/**
+	 * Добавление строчки на форму
+	 * @param row
+	 * @param title
+	 * @param input
+	 */
+	private void addFormRow(int row, String title, Widget input) {
+		
+		formTable.setWidget(row, 0, makeItemLabel(title));
+		formTable.getCellFormatter().setHorizontalAlignment(row, 0, HasHorizontalAlignment.ALIGN_RIGHT);
+		formTable.setWidget(row, 1, input);
+		
+	}
+	
+	/**
+	 * Добавление строчки на форму
+	 * @param row
+	 * @param input
+	 */
+	private void addFormRow(int row, Widget input) {
+		
+		formTable.setWidget(row, 0, input);
+		formTable.getFlexCellFormatter().setColSpan(row, 0, 2);
+		formTable.getFlexCellFormatter().setHorizontalAlignment(row, 0, HasHorizontalAlignment.ALIGN_CENTER);
+		
+		
+	}
+	
+
+	/**
+	 * Добавление hidden-поля на форму
+	 * 
+	 * @param input
+	 */
+	private void addFormHidden(Hidden input) {
+		formDataPanel.add(input);
+	}
+
 	private void clearForm() {
 		submitBtn.setEnabled(true);
 		resetForm();
-		
-		studydateBox.setValue(new Date());
-	
-		/*
-		patientName.setText("");
-		birstdayDox.setValue(null);
-		studydateBox.setValue(null);
-		*/
+		studyDateBox.setValue(new Date());
 	}
 	
 	private native void resetForm() /*-{
