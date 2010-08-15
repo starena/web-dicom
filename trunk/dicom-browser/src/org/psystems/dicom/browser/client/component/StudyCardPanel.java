@@ -69,6 +69,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -179,12 +180,12 @@ public class StudyCardPanel extends Composite {
 		table.getFlexCellFormatter().setAlignment(6, 0,
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
 
-		final Label changeStudy = new Label("[изменить]");
+		final Button changeStudy = new Button("изменить...");
 		changeStudy.setStyleName("DicomItem");
 		table.setWidget(7, 0, changeStudy);
 		table.getFlexCellFormatter().setColSpan(7, 0, 6);
 		table.getFlexCellFormatter().setAlignment(7, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
+				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
 		
 		changeStudy.addClickHandler(new ClickHandler() {
 			

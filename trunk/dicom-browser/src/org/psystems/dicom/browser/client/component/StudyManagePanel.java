@@ -270,7 +270,7 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, "Снимок", fileUpload);
 
 		//
-		submitBtn = new Button("Создать");
+		submitBtn = new Button("Сохранить изменения...");
 		submitBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -350,7 +350,7 @@ public class StudyManagePanel extends Composite implements
 	 * Успешное завершение сохранения исследования
 	 */
 	protected void submitSuccess() {
-		clearForm();
+//		clearForm();
 		submitBtn.setEnabled(true);
 
 	}
