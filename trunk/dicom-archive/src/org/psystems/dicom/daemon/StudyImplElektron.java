@@ -21,8 +21,8 @@ public class StudyImplElektron extends Study {
 		SpecificCharacterSet cs = getCs();
 		
 		int tagStudyDescriptionDate = 0x00211110;
-		int tagStudyType1 = 0x00291106;
-		int tagStudyType2 = 0x00291107;
+		int tagStudyType = 0x00291106;
+		int tagStudyTypeDescription = 0x00291107;
 		int tagStudyResult = 0x00211103;
 		int tagStudyViewprotocol = 0x00211118;
 
@@ -30,15 +30,16 @@ public class StudyImplElektron extends Study {
 
 		// StudyType
 //		StudyType = "empty";
-		DicomElement element = dcmObj.get(tagStudyType1);
+		DicomElement element = dcmObj.get(tagStudyType);
 		if (element != null
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
 			StudyType = element.getValueAsString(cs, element.length());
 		}
-		element = dcmObj.get(tagStudyType2);
+		element = dcmObj.get(tagStudyTypeDescription);
 		if (element != null
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
-			StudyType += ", "
+			
+			StudyDescription = StudyType + ", "
 					+ element.getValueAsString(cs, element.length());
 		}
 

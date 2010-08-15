@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="lib/clibwrapper_jiio.jar"/>
 	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che-audit-2.0.21.jar"/>
-	<classpathentry kind="lib" path="lib/dcm4che-core-2.0.21.jar"/>
+	<classpathentry kind="lib" path="lib/dcm4che-core-2.0.21.jar" sourcepath="docs/dcm4che-2.0.21-src.zip"/>
 	<classpathentry kind="lib" path="lib/dcm4che-filecache-2.0.21.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che-hp-2.0.21.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che-image-2.0.21.jar"/>

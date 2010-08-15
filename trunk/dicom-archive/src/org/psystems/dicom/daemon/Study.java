@@ -26,7 +26,7 @@ public class Study {
 	private java.sql.Date StudyDate = null;
 	private String StudyDoctor = "not implemented";// Tag.ReferringPhysicianName
 	private String StudyOperator = "not implemented";
-	private String StudyDescription = "not implemented";// Tag.MedicalAlerts
+	protected String StudyDescription = "not implemented";// Tag.StudyDestination
 	private String PatientShortName = "not implemented";
 	protected String ManufacturerModelName = "not implemented";
 	// Tag.Manufacturer
@@ -244,18 +244,42 @@ public class Study {
 				setStudyOperator ("not defined");
 			}
 		}
-
-		// StudyDescription (Tag.MedicalAlerts)
-//		setStudyDescription("empty");
+		
+		// StudyResult
 		element = dcmObj.get(Tag.MedicalAlerts);
+		if (element != null) {
+			setStudyResult(element.getValueAsString(cs, element
+					.length()));
+//			if (getStudyResult() == null
+//					|| getStudyDescription().length() == 0) {
+//				setStudyResult("not defined");
+//			}
+		}
+
+		// StudyDescription
+		element = dcmObj.get(Tag.StudyDescription);
 		if (element != null) {
 			setStudyDescription(element.getValueAsString(cs, element
 					.length()));
-			if (getStudyDescription() == null
-					|| getStudyDescription().length() == 0) {
-				setStudyDescription( "not defined");
-			}
+//			if (getStudyDescription() == null
+//					|| getStudyDescription().length() == 0) {
+//				setStudyDescription("not defined");
+//			}
 		}
+		
+		// StudyViewProtocol
+		element = dcmObj.get(Tag.StudyComments);
+		if (element != null) {
+			setStudyViewProtocol(element.getValueAsString(cs, element
+					.length()));
+//			if (getStudyDescription() == null
+//					|| getStudyDescription().length() == 0) {
+//				setStudyDescription("not defined");
+//			}
+		}
+		
+		
+
 
 		// PatientShortName (это КБП)
 		setPatientShortName(Extractor.makeShortName(getPatientName(),
@@ -264,6 +288,9 @@ public class Study {
 				|| getPatientShortName().length() == 0) {
 			setPatientShortName("notmuch");
 		}
+		
+		
+		
 
 		// Date STUDY_VIEW_PROTOCOL_DATE = null;// TODO Проверить Дата ли
 		// // возвращается или строка
