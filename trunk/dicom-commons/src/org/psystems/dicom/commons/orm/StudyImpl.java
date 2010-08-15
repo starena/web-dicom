@@ -195,6 +195,7 @@ public class StudyImpl extends Study {
 				study.setStudyInstanceUID(rs.getString("STUDY_UID"));
 				study.setStudyModality(rs.getString("STUDY_MODALITY"));
 				study.setStudyType(rs.getString("STUDY_TYPE"));
+				study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
 				study.setStudyDate(rs.getDate("STUDY_DATE"));
 				study.setManufacturerModelUID(rs
 						.getString("STUDY_MANUFACTURER_UID"));
