@@ -60,6 +60,7 @@ public abstract class Study {
 	// "Operators' Name" = Гаврилова Н.Г.
 	private Date studyDescriptionDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
+	private String studyDescription;// Описание исследования.
 	private String studyModality;// модальность (0008,0060).
 	private String studyViewprotocol;// Протокол осмотра
 	private String studyResult;// Результат исследования.
@@ -214,6 +215,16 @@ public abstract class Study {
 
 	public void setStudyModality(String studyModality) {
 		this.studyModality = studyModality;
+	}
+	
+	
+
+	public String getStudyDescription() {
+		return studyDescription;
+	}
+
+	public void setStudyDescription(String studyDescription) {
+		this.studyDescription = studyDescription;
 	}
 
 	public String getStudyViewprotocol() {
