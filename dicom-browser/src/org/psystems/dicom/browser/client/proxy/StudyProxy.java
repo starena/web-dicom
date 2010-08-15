@@ -69,6 +69,7 @@ public class StudyProxy implements Serializable {
 	private static final long serialVersionUID = -7977302129675187420L;
 
 	private long id; // ID
+	private String studyModality; // Modality
 	private String studyUID; // UID
 	private String patientName; // ФИО пациента
 	private String patientSex; // Пол пациента
@@ -92,6 +93,7 @@ public class StudyProxy implements Serializable {
 	 * Инициализация класса
 	 * 
 	 * @param id
+	 * @param studyModality
 	 * @param studyUID
 	 * @param ManufacturerModelName
 	 * @param patientName
@@ -108,7 +110,7 @@ public class StudyProxy implements Serializable {
 	 * @param studyViewprotocol
 	 * @param studyResult
 	 */
-	public void init(long id, String studyUID, String ManufacturerModelName,
+	public void init(long id, String studyModality, String studyUID, String ManufacturerModelName,
 			String patientName, String patientSex, String patientId,
 			Date patientBirthDate, String studyId, String studyType,
 			Date studyDate, Date studyDescriptionDate, String studyDoctor,
@@ -116,6 +118,7 @@ public class StudyProxy implements Serializable {
 			String studyViewprotocol, String studyResult) {
 
 		this.id = id;
+		this.studyModality = studyModality;
 		this.studyUID = studyUID;
 		this.ManufacturerModelName = ManufacturerModelName;
 		this.patientName = patientName;
@@ -223,6 +226,12 @@ public class StudyProxy implements Serializable {
 
 	public String getStudyUID() {
 		return studyUID;
+	}
+	
+	
+
+	public String getStudyModality() {
+		return studyModality;
 	}
 
 	@Override

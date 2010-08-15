@@ -160,8 +160,10 @@ public class Dicom_browser implements EntryPoint {
 
 	}
 
-	public void showErrorDlg(DefaultGWTRPCException e) {
-		errorResponseLabel.setHTML("Ошибка: " + e.getText());
+	public void showErrorDlg(Throwable e) {
+		errorResponseLabel.setHTML("Ошибка: " + e);
+		System.err.println("interface error!");
+		e.printStackTrace();
 		errorDialogBox.show();
 		errorDialogBox.center();
 

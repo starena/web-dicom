@@ -59,7 +59,10 @@ public class StudyManagePanel extends Composite implements
 	private Hidden patientBirthDateHidden;
 	private Hidden studyDateHidden;
 	private TextBox medicalAlerts;
-	private TextArea studyDescription;
+	private TextBox studyDescription;
+	private TextArea studyComments;
+	private TextBox studyDoctror;
+	private TextBox studyOperator;
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
 			StudyProxy proxy) {
@@ -141,21 +144,27 @@ public class StudyManagePanel extends Composite implements
 		patientId.setValue(proxy.getPatientId());
 		addFormHidden(patientId);
 
+		//
+		Hidden manufacturerModelName = new Hidden();
+		manufacturerModelName.setName("00081090");
+		manufacturerModelName.setValue(proxy.getManufacturerModelName());
+		addFormHidden(manufacturerModelName);
+		
 		int rowCounter = 0;
 
 		// Тип исследования Modality 00080060
 		// TODO Добавить словарь типов чтобы в интерфейсе показывать не CR,OT
 		// итп..
-		ListBox studyType = new ListBox();
-		studyType.setName("00100040");
-		studyType.addItem("Прочее", "OT");
-		studyType.addItem("Флюорография", "CR");
-		if ("CR".equals(proxy.getStudyType())) {
-			studyType.setSelectedIndex(1);
+		ListBox studyModality = new ListBox();
+		studyModality.setName("00080060");
+		studyModality.addItem("Прочее", "OT");
+		studyModality.addItem("Флюорография", "CR");
+		if ("CR".equals(proxy.getStudyModality())) {
+			studyModality.setSelectedIndex(1);
 		} else {
-			studyType.setSelectedIndex(0);
+			studyModality.setSelectedIndex(0);
 		}
-		addFormRow(rowCounter++, "Тип", studyType);
+		addFormRow(rowCounter++, "Модальность", studyModality);
 
 		//
 		patientName = new TextBox();
@@ -217,6 +226,27 @@ public class StudyManagePanel extends Composite implements
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата исследования", studyDateBox);
+		
+		//
+		studyDoctror = new TextBox();
+		studyDoctror.setName("00080090");
+		studyDoctror.setWidth("400px");
+		studyDoctror.setText(proxy.getStudyDoctor());
+		addFormRow(rowCounter++, "Врач", studyDoctror);
+		
+		//
+		studyOperator = new TextBox();
+		studyOperator.setName("00081070");
+		studyOperator.setWidth("400px");
+		studyOperator.setText(proxy.getStudyOperator());
+		addFormRow(rowCounter++, "Лаборант", studyOperator);
+		
+		//
+		studyDescription = new TextBox();
+		studyDescription.setName("00081030");
+		studyDescription.setWidth("400px");
+		studyDescription.setText(proxy.getStudyDescription());
+		addFormRow(rowCounter++, "Описание исследования", studyDescription);
 
 		//
 		medicalAlerts = new TextBox();
@@ -226,15 +256,13 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, "Осложнения", medicalAlerts);
 
 		//
-		studyDescription = new TextArea();
-		studyDescription.setName("00081030");
-		studyDescription.setSize("400px", "200px");
-		studyDescription.setText(proxy.getStudyDescription());
+		studyComments = new TextArea();
+		studyComments.setName("00324000");//Tag.StudyComments
+		studyComments.setSize("400px", "200px");
+		studyComments.setText(proxy.getStudyViewprotocol());
+		addFormRow(rowCounter++, "Протокол", studyComments);
 
-		// addFormRow(rowCounter++, makeItemLabel("Описание"));
-		// addFormRow(rowCounter++, studyDescription);
-		addFormRow(rowCounter++, "Описание", studyDescription);
-
+//		
 		//
 		fileUpload = new FileUpload();
 		fileUpload.setName("upload");
