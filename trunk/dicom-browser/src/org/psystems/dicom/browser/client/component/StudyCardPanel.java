@@ -152,10 +152,18 @@ public class StudyCardPanel extends Composite {
 
 		createItemName(table, 3, 0, "Тип исследования:");
 		createItemValue(table, 3, 1, proxy.getStudyType());
-		table.getFlexCellFormatter().setColSpan(3, 1, 5);
+//		table.getFlexCellFormatter().setColSpan(3, 1, 5);
+		
+		createItemName(table, 3, 2, "Описание:");
+		createItemValue(table, 3, 3, proxy.getStudyDescription());
+		table.getFlexCellFormatter().setColSpan(3, 3, 3);
 		
 		createItemName(table, 4, 0, "результат:");
-		createItemValue(table, 4, 1, proxy.getStudyDateAsString("dd.MM.yyyy")+" , " + proxy.getStudyResult());
+		String result = "норма";
+		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
+			result=proxy.getStudyResult();
+		}
+		createItemValue(table, 4, 1, proxy.getStudyDateAsString("dd.MM.yyyy")+" , " + result);
 		table.getFlexCellFormatter().setColSpan(4, 1, 5);
 		
 		createItemName(table, 5, 0, "Протокол осмотра:");

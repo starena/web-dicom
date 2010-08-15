@@ -311,7 +311,7 @@ public class SearchPanel extends Composite implements
 
 						transactionFinished();
 						Application
-								.showErrorDlg((DefaultGWTRPCException) caught);
+								.showErrorDlg(caught);
 
 					}
 
@@ -431,7 +431,7 @@ public class SearchPanel extends Composite implements
 
 						transactionFinished();
 						Application
-								.showErrorDlg((DefaultGWTRPCException) caught);
+								.showErrorDlg(caught);
 
 					}
 
@@ -543,9 +543,9 @@ public class SearchPanel extends Composite implements
 			}
 
 			public void onFailure(Throwable error) {
-				Application.showErrorDlg((DefaultGWTRPCException) error);
+				Application.showErrorDlg(error);
 				callback.onSuggestionsReady(req, new SuggestOracle.Response());
-				Application.showErrorDlg((DefaultGWTRPCException) error);
+				Application.showErrorDlg(error);
 			}
 
 			public void onSuccess(Object retValue) {

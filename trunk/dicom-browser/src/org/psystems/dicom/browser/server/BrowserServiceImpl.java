@@ -147,7 +147,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					patientBirthDate = new java.util.Date(studies[i]
 							.getPatientBirthDate().getTime());
 
-				studyProxy.init(studies[i].getId(), studies[i]
+				studyProxy.init(studies[i].getId(), studies[i].getStudyModality(), studies[i]
 						.getStudyInstanceUID(), studies[i]
 						.getManufacturerModelName(), studies[i]
 						.getPatientName(), studies[i].getPatientSex(),
@@ -156,7 +156,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 						studyDate, studyDescriptionDate, studies[i]
 								.getStudyDoctor(), studies[i]
 								.getStudyOperator(), studies[i]
-								.getStudyViewprotocol(), studies[i]
+								.getStudyDescription(), studies[i]
 								.getStudyViewprotocol(), studies[i]
 								.getStudyResult());
 				
