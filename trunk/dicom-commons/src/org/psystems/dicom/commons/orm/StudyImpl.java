@@ -204,7 +204,7 @@ public class StudyImpl extends Study {
 				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
 				study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
 				study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
-
+				study.setStudyViewprotocolDate(rs.getDate("STUDY_VIEW_PROTOCOL_DATE"));
 				study.setStudyId(rs.getString("STUDY_ID"));
 				study.setPatientName(rs.getString("PATIENT_NAME"));
 				study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
