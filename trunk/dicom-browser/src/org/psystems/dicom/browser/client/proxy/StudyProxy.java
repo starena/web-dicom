@@ -79,7 +79,7 @@ public class StudyProxy implements Serializable {
 	private Date studyDate; // Дата исследования
 	private String studyDoctor; // Врач исследования
 	private String studyOperator; // Оператор исследования
-	private Date studyDescriptionDate;// Дата описания исследования.
+	private Date studyViewprotocolDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
 	private String studyViewprotocol;// Протокол осмотра
@@ -113,7 +113,7 @@ public class StudyProxy implements Serializable {
 	public void init(long id, String studyModality, String studyUID, String ManufacturerModelName,
 			String patientName, String patientSex, String patientId,
 			Date patientBirthDate, String studyId, String studyType,
-			Date studyDate, Date studyDescriptionDate, String studyDoctor,
+			Date studyDate, Date studyViewprotocolDate, String studyDoctor,
 			String studyOperator, String studyDescription,
 			String studyViewprotocol, String studyResult) {
 
@@ -128,7 +128,7 @@ public class StudyProxy implements Serializable {
 		this.studyId = studyId;
 		this.studyType = studyType;
 		this.studyDate = studyDate;
-		this.studyDescriptionDate = studyDescriptionDate;
+		this.studyViewprotocolDate = studyViewprotocolDate;
 		this.studyDoctor = studyDoctor;
 		this.studyOperator = studyOperator;
 		this.studyDescription = studyDescription;
@@ -171,6 +171,7 @@ public class StudyProxy implements Serializable {
 	}
 
 	public String getStudyDateAsString(String pattern) {
+		if(studyDate==null) return null;
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
 		return dateFormat.format(studyDate);
 	}
@@ -191,13 +192,16 @@ public class StudyProxy implements Serializable {
 		return studyResult;
 	}
 
-	public Date getStudyDescriptionDate() {
-		return studyDescriptionDate;
-	}
 	
-	public String getStudyDescriptionDateAsString(String pattern) {
+	
+	public Date getStudyViewprotocolDate() {
+		return studyViewprotocolDate;
+	}
+
+	public String getStudyViewprotocolDateAsString(String pattern) {
+		if(studyViewprotocolDate==null) return null;
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
-		return dateFormat.format(studyDescriptionDate);
+		return dateFormat.format(studyViewprotocolDate);
 	}
 
 	public String getStudyType() {

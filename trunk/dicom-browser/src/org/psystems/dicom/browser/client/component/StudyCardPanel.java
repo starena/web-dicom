@@ -133,11 +133,11 @@ public class StudyCardPanel extends Composite {
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
 		table.getFlexCellFormatter().setRowSpan(0, 1, 5);
 
-		createItemName(table, 1, 0, "дата:");
+		createItemName(table, 1, 0, "дата исследования:");
 		createItemValue(table, 1, 1, proxy.getStudyDateAsString(datePattern));
 
-		createItemName(table, 1, 2, "исследование:");
-		createItemValue(table, 1, 3, proxy.getStudyDateAsString(datePattern));
+		createItemName(table, 1, 2, "дата описания:");
+		createItemValue(table, 1, 3, proxy.getStudyViewprotocolDateAsString(datePattern));
 
 		createItemName(table, 1, 4, "код пациента:");
 		createItemValue(table, 1, 5, proxy.getPatientId());
@@ -164,7 +164,7 @@ public class StudyCardPanel extends Composite {
 		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
 			result=proxy.getStudyResult();
 		}
-		createItemValue(table, 4, 1, proxy.getStudyDateAsString("dd.MM.yyyy")+" , " + result);
+		createItemValue(table, 4, 1, proxy.getStudyViewprotocolDateAsString("dd.MM.yyyy")+" , " + result);
 		table.getFlexCellFormatter().setColSpan(4, 1, 5);
 		
 		createItemName(table, 5, 0, "Протокол осмотра:");

@@ -135,9 +135,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				java.util.Date studyDate = null;
 				java.util.Date patientBirthDate = null;
 
-				if (studies[i].getStudyDescriptionDate() != null)
+				if (studies[i].getStudyViewprotocolDate() != null)
 					studyDescriptionDate = new java.util.Date(studies[i]
-							.getStudyDescriptionDate().getTime());
+							.getStudyViewprotocolDate().getTime());
 
 				if (studies[i].getStudyDate() != null)
 					studyDate = new java.util.Date(studies[i].getStudyDate()

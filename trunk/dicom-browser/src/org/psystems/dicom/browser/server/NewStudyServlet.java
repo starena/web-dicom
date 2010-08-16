@@ -19,6 +19,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.psystems.dicom.browser.client.component.StudyManagePanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 
 public class NewStudyServlet extends HttpServlet {
@@ -147,6 +148,11 @@ public class NewStudyServlet extends HttpServlet {
 		for (Iterator<Object> iter = props.keySet().iterator(); iter.hasNext();) {
 			String key = (String) iter.next();
 			String value = props.getProperty(key);
+			
+			//Заточка пот значение тега = 'норма'
+			if(key.equals("00102000") && value!=null && value.equals(StudyManagePanel.medicalAlertsTitle)) {
+				value = "";
+			}
 			jpg2Dcm.setCfgProperty(key, value);
 			System.out.println("!!!! key=" + key + "; value=" + value);
 		}
