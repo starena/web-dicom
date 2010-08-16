@@ -58,7 +58,7 @@ public abstract class Study {
 	// "Referring Physician's Name" = Куницкий В.Н
 	private String studyOperator; // Оператор исследования (0008,4208) PN
 	// "Operators' Name" = Гаврилова Н.Г.
-	private Date studyDescriptionDate;// Дата описания исследования.
+	private Date studyViewprotocolDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
 	private String studyModality;// модальность (0008,0060).
@@ -183,22 +183,25 @@ public abstract class Study {
 		this.studyOperator = studyOperator;
 	}
 
-	public Date getStudyDescriptionDate() {
-		return studyDescriptionDate;
+
+	public Date getStudyViewprotocolDate() {
+		return studyViewprotocolDate;
 	}
 
 	/**
 	 * @return 'YYYY-MM-DD'
 	 */
-	public String getStudyDescriptionDateAsString() {
-		if (studyDescriptionDate == null)
+	public String getStudyViewprotocolDateAsString() {
+		if (studyViewprotocolDate == null)
 			return null;
 		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
-		return formatLevel.format(studyDescriptionDate);
+		return formatLevel.format(studyViewprotocolDate);
 	}
 
-	public void setStudyDescriptionDate(Date studyDescriptionDate) {
-		this.studyDescriptionDate = studyDescriptionDate;
+	
+
+	public void setStudyViewprotocolDate(Date studyViewprotocolDate) {
+		this.studyViewprotocolDate = studyViewprotocolDate;
 	}
 
 	public String getStudyType() {
