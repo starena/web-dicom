@@ -8,8 +8,12 @@ import java.util.Date;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -63,6 +67,9 @@ public class StudyManagePanel extends Composite implements
 	private TextArea studyComments;
 	private TextBox studyDoctror;
 	private TextBox studyOperator;
+	private DateBox studyViewProtocolDateBox;
+	private Hidden studyViewProtocolDateHidden;
+	public final static String medicalAlertsTitle = "норма";
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
 			StudyProxy proxy) {
@@ -209,7 +216,7 @@ public class StudyManagePanel extends Composite implements
 		//
 		studyDateBox = new DateBox();
 		studyDateBox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
-		studyDateBox.setValue(new Date());
+		studyDateBox.setValue(proxy.getStudyDate());
 		studyDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
@@ -226,6 +233,28 @@ public class StudyManagePanel extends Composite implements
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата исследования", studyDateBox);
+		
+		//
+		studyViewProtocolDateBox = new DateBox();
+		studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
+		studyViewProtocolDateBox.setValue(new Date());
+		studyViewProtocolDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Date> event) {
+				studyViewProtocolDateHidden.setValue(dateFormatHidden.format(event
+						.getValue()));
+			}
+		});
+
+		studyViewProtocolDateHidden = new Hidden();
+		studyViewProtocolDateHidden.setName("00321050");
+		addFormHidden(studyViewProtocolDateHidden);
+		studyViewProtocolDateHidden.setValue(dateFormatHidden.format(studyViewProtocolDateBox
+				.getValue()));
+
+		addFormRow(rowCounter++, "Дата описания", studyViewProtocolDateBox);
+		
 		
 		//
 		studyDoctror = new TextBox();
@@ -252,8 +281,60 @@ public class StudyManagePanel extends Composite implements
 		medicalAlerts = new TextBox();
 		medicalAlerts.setName("00102000");
 		medicalAlerts.setWidth("400px");
+		
+		medicalAlerts.addStyleName("DicomSuggestionEmpty");
+		medicalAlerts.setTitle(medicalAlertsTitle );
+		medicalAlerts.setText(medicalAlertsTitle);
+		
 		medicalAlerts.setText(proxy.getStudyResult());
-		addFormRow(rowCounter++, "Осложнения", medicalAlerts);
+		if(proxy.getStudyResult()==null || proxy.getStudyResult().length()==0) {
+			medicalAlerts.setText(medicalAlertsTitle);
+		}
+		
+		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
+			medicalAlerts.removeStyleName("DicomSuggestionEmpty");
+			medicalAlerts.addStyleName("DicomSuggestion");
+		}
+		addFormRow(rowCounter++, "Результат", medicalAlerts);
+		
+		
+		
+		medicalAlerts.addFocusHandler(new FocusHandler() {
+
+			@Override
+			public void onFocus(FocusEvent event) {
+
+				
+
+				medicalAlerts.removeStyleName("DicomSuggestionEmpty");
+				medicalAlerts.addStyleName("DicomSuggestion");
+
+				if (medicalAlerts.getText().equals(medicalAlerts.getTitle())) {
+					medicalAlerts.setValue("");
+				} else {
+					medicalAlerts.setValue(medicalAlerts.getValue());
+				}
+			}
+
+		});
+
+		medicalAlerts.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+
+				if (medicalAlerts.getText().equals("")) {
+					medicalAlerts.setValue(medicalAlerts.getTitle());
+					medicalAlerts.removeStyleName("DicomSuggestion");
+					medicalAlerts.addStyleName("DicomSuggestionEmpty");
+				} else {
+					medicalAlerts.setValue(medicalAlerts.getValue());
+				}
+
+			}
+
+		});
+		
 
 		//
 		studyComments = new TextArea();
