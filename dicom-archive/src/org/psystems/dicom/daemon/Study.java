@@ -219,7 +219,7 @@ public class Study {
 					.getDate(false).getTime()));
 		} else {
 			setStudyDate (new java.sql.Date(0));
-			LOG.warn("Patient Birth Date (tag: StudyDate) is empty!");
+			LOG.warn("Study Date (tag: StudyDate) is empty!");
 		}
 
 		// StudyDoctor (Tag.ReferringPhysicianName)
@@ -278,7 +278,19 @@ public class Study {
 //			}
 		}
 		
+		// StudyCompletionDate
+		if (dcmObj.get(Tag.StudyCompletionDate) != null) {
+			setStudyViewProtocolDate( new java.sql.Date(dcmObj.get(Tag.StudyCompletionDate)
+					.getDate(false).getTime()));
+		} else {
+			setStudyViewProtocolDate (new java.sql.Date(0));
+			LOG.warn("Study Completion Date (tag: StudyCompletionDate) is empty!");
+		}
 		
+		
+//		Tag.StudyVerifiedDate;
+//		Tag.VerificationDateTime;
+//		Tag.StudyCompletionDate;
 
 
 		// PatientShortName (это КБП)
