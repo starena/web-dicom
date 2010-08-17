@@ -16,25 +16,25 @@ import org.slf4j.LoggerFactory;
 public class Study {
 
 	private SpecificCharacterSet cs;
-	private String StudyInstanceUID = "not implemented";
-	private String Modality = "not implemented";
-	private String StudyID = "not implemented";
+	private String StudyInstanceUID = "";
+	private String Modality = "";
+	private String StudyID = "";
 	private java.sql.Date PatientBirthDate = null;
-	private String PatientName = "not implemented";
-	private String PatientID = "not implemented";
-	private String PatientSex = "not implemented";
+	private String PatientName = "";
+	private String PatientID = "";
+	private String PatientSex = "";
 	private java.sql.Date StudyDate = null;
-	private String StudyDoctor = "not implemented";// Tag.ReferringPhysicianName
-	private String StudyOperator = "not implemented";
-	protected String StudyDescription = "not implemented";// Tag.StudyDestination
-	private String PatientShortName = "not implemented";
-	protected String ManufacturerModelName = "not implemented";
+	private String StudyDoctor = "";// Tag.ReferringPhysicianName
+	private String StudyOperator = "";
+	protected String StudyDescription = "";// Tag.StudyDestination
+	private String PatientShortName = "";
+	protected String ManufacturerModelName = "";
 	// Tag.Manufacturer
 	// (0008,0070) LO #18 [JV HELPIC (MOSCOW)] Manufacturer
-	protected String Manufacturer = "not implemented";
-	protected String StudyType = "not implemented";
-	protected String StudyResult = "not implemented";
-	protected String StudyViewProtocol= "not implemented";
+	protected String Manufacturer = "";
+	protected String StudyType = "";
+	protected String StudyResult = "";
+	protected String StudyViewProtocol= "";
 	
 	// TODO Manufacturer в файлах не фигурирует...
 	protected String ManufacturerUID = "not implemented";
@@ -75,19 +75,38 @@ public class Study {
 		DicomElement element = dcmObj.get(Tag.MediaStorageSOPClassUID);
 		String MediaStorageSOPClassUID = element.getValueAsString(cs, element
 				.length());
+		
+		element = dcmObj.get(Tag.ManufacturerModelName);
+		String ManufacturerModelName = "";
+		if(element != null) {
+			ManufacturerModelName = element.getValueAsString(cs, element.length());
+		}
 
-		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
-			int tag = 0x00090010;
-			element = dcmObj.get(tag);
-			if (element != null
-					&& element.getValueAsString(cs, element.length()).equals(
-							"KRT_ELECTRON_PRIVATE")) {
-				
+		//TODO можно и по модели и по MediaStorageSOPClassUID
+		//TODO как лучше???
+//		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
+		if (ManufacturerModelName.equals("КРТ-Электрон")) {
+//			int tag = 0x00090010;
+//			element = dcmObj.get(tag);
+//			if (element != null
+//					&& element.getValueAsString(cs, element.length()).equals(
+//							"KRT_ELECTRON_PRIVATE")) {
+			
 				LOG.info("Using dirver 'Elektron'");
 				return new StudyImplElektron(dcmObj);
 				
-			}
+//			}
 		}
+		
+		//TODO можно и по модели и по MediaStorageSOPClassUID
+		//TODO как лучше???
+//		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
+		if (ManufacturerModelName.equals("RENEXFLUORO3")) {
+				LOG.info("Using dirver 'Renex'");
+				return new StudyImplRenex(dcmObj);
+				
+		}
+		
 		if (MediaStorageSOPClassUID.equals("1.2.826.0.1.3680043.2.706.5476834")) {
 //			System.out.println("!!!!!");
 			LOG.info("Using dirver 'LookInside'");
@@ -187,8 +206,11 @@ public class Study {
 		if (element == null) {
 			LOG.warn("Patien Name (tag: PatientName) is empty!");
 		} else {
-			setPatientName(element
-					.getValueAsString(cs, element.length()));
+			String pname = element.getValueAsString(cs, element.length());
+			//Заточка под Renex
+			pname = pname.replaceAll("\\^", " ");
+			setPatientName(pname);
+			
 		}
 
 		// PatientID
@@ -229,7 +251,7 @@ public class Study {
 			setStudyDoctor(element
 					.getValueAsString(cs, element.length()));
 			if (getStudyDoctor() == null || getStudyDoctor().length() == 0) {
-				setStudyDoctor("not defined");
+				setStudyDoctor("");
 			}
 		}
 
@@ -241,7 +263,7 @@ public class Study {
 					.length()));
 			if (getStudyOperator() == null
 					|| getStudyOperator().length() == 0) {
-				setStudyOperator ("not defined");
+				setStudyOperator ("");
 			}
 		}
 		
@@ -298,7 +320,7 @@ public class Study {
 				getPatientBirthDate()));
 		if (getPatientShortName() == null
 				|| getPatientShortName().length() == 0) {
-			setPatientShortName("notmuch");
+			setPatientShortName("notmuched");
 		}
 		
 		
