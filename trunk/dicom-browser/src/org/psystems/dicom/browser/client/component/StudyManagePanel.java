@@ -10,6 +10,8 @@ import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -335,6 +337,26 @@ public class StudyManagePanel extends Composite implements
 
 		});
 		
+		//
+		final ListBox lbCommentsTemplates = new ListBox();
+		lbCommentsTemplates.setName("00100040");
+		lbCommentsTemplates.addItem("Выберите шаблон...", "");
+		lbCommentsTemplates.addItem("Органы грудной клетки без видимой патологии",
+				"Органы грудной клетки без видимой патологии");
+		
+		lbCommentsTemplates.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO Auto-generated method stub
+//				System.out.println("!!! "+event)!!!;
+				int i = lbCommentsTemplates.getSelectedIndex();
+				studyComments.setText(lbCommentsTemplates.getValue(i));
+			}
+		});
+		
+		
+		addFormRow(rowCounter++, "варианты протокола", lbCommentsTemplates);
 
 		//
 		studyComments = new TextArea();
