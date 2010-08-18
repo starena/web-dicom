@@ -55,6 +55,7 @@
 package org.psystems.dicom.browser.client.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
@@ -68,6 +69,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface BrowserServiceAsync {
 
 	void findStudy(long transactionId, String version, String queryStr,
+			HashMap<String, String> attrs,
 			AsyncCallback<RPCDcmProxyEvent> callback);
 
 	void getDcmTagsFromFile(long transactionId, String version, long idDcmFile,
@@ -78,5 +80,6 @@ public interface BrowserServiceAsync {
 
 	void getDcmTags(DcmTagsRPCRequest req,
 			AsyncCallback<DcmTagsRPCResponse> callback);
+
 
 }

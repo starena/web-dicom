@@ -105,7 +105,7 @@ public class SearchResultPanel extends Composite {
 	
 	public void clear() {
 		resultPanel.clear();
-		showHelpPage();
+//		showHelpPage();
 	}
 
 	public void add(Widget w) {

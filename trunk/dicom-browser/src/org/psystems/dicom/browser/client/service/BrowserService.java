@@ -55,6 +55,7 @@
 package org.psystems.dicom.browser.client.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
@@ -75,15 +76,15 @@ public interface BrowserService extends RemoteService {
 
 	/**
 	 * Поиск исследований
-	 * 
 	 * @param transactionId
 	 * @param version
 	 * @param queryStr
+	 * @param attrs
 	 * @return
 	 * @throws DefaultGWTRPCException
 	 */
 	RPCDcmProxyEvent findStudy(long transactionId, String version,
-			String queryStr) throws DefaultGWTRPCException;
+			String queryStr, HashMap<String, String> attrs) throws DefaultGWTRPCException;
 
 	PatientsRPCResponse getPatients(PatientsRPCRequest req)
 			throws DefaultGWTRPCException;

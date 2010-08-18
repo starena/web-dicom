@@ -59,6 +59,7 @@ import org.psystems.dicom.browser.client.component.IntroPanel;
 import org.psystems.dicom.browser.client.component.SearchPanel;
 import org.psystems.dicom.browser.client.component.SearchResultPanel;
 import org.psystems.dicom.browser.client.component.StudyManagePanel;
+import org.psystems.dicom.browser.client.component.WorkListPanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
@@ -71,6 +72,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -91,6 +93,10 @@ public class Dicom_browser implements EntryPoint {
 	// Версия ПО (используется для проверки на стороне сервере при обновлении
 	// клиента)
 	public static String version = "0.1a";
+	
+	public static DateTimeFormat dateFormatUser = DateTimeFormat.getFormat("dd.MM.yyyy");
+	public static DateTimeFormat dateFormatDicom = DateTimeFormat.getFormat("yyyyMMdd");
+	public static DateTimeFormat dateFormatSql = DateTimeFormat.getFormat("yyyy-MM-dd");
 
 	// Create a remote service proxy
 	public final BrowserServiceAsync browserService = GWT
@@ -153,6 +159,13 @@ public class Dicom_browser implements EntryPoint {
 					RootPanel.get("bodyContainer").add(intro);
 
 				}
+				 else if (event.getValue().equals("workliststudy")) {
+
+						RootPanel.get("bodyContainer").clear();
+						WorkListPanel wlpanel = new WorkListPanel(Dicom_browser.this);
+						RootPanel.get("bodyContainer").add(wlpanel);
+
+					}
 			}
 		});
 
