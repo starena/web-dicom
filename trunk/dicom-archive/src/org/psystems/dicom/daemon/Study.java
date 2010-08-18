@@ -240,7 +240,7 @@ public class Study {
 			setStudyDate( new java.sql.Date(dcmObj.get(Tag.StudyDate)
 					.getDate(false).getTime()));
 		} else {
-			setStudyDate (new java.sql.Date(0));
+			setStudyDate (null);
 			LOG.warn("Study Date (tag: StudyDate) is empty!");
 		}
 
@@ -305,7 +305,7 @@ public class Study {
 			setStudyViewProtocolDate( new java.sql.Date(dcmObj.get(Tag.StudyCompletionDate)
 					.getDate(false).getTime()));
 		} else {
-			setStudyViewProtocolDate (new java.sql.Date(0));
+			setStudyViewProtocolDate (null);
 			LOG.warn("Study Completion Date (tag: StudyCompletionDate) is empty!");
 		}
 		
