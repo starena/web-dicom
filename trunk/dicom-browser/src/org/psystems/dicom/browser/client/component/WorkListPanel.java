@@ -249,17 +249,19 @@ public class WorkListPanel extends Composite {
 							// }
 							
 							
-							if (cortegeList.size() >= maxResultCount) {
-								HTML emptyStr = new HTML();
-								emptyStr.setWidth("900px");
-								emptyStr.setStyleName("DicomItemValue");
-								emptyStr
-										.setHTML("Показаны только первые "
-												+ maxResultCount
-												+ " строк! Чтобы посмотреть все - сужайте критерий поиска.");
+							
+						}
+						
+						if (cortegeList.size() >= maxResultCount) {
+							HTML emptyStr = new HTML();
+							emptyStr.setWidth("900px");
+							emptyStr.setStyleName("DicomItemValue");
+							emptyStr
+									.setHTML("Показаны только первые "
+											+ maxResultCount
+											+ " строк! Чтобы посмотреть все - сужайте критерий поиска.");
 
-								resultPanel.add(emptyStr);
-							}
+							resultPanel.add(emptyStr);
 						}
 
 						if (cortegeList.size() == 0) {
