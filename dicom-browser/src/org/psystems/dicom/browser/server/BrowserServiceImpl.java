@@ -64,6 +64,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
@@ -109,7 +110,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public RPCDcmProxyEvent findStudy(long transactionId, String version,
-			String queryStr) throws DefaultGWTRPCException {
+			String queryStr,  HashMap<String, String> attrs) throws DefaultGWTRPCException {
 
 		// проверка версии клиента
 		Util.checkClentVersion(version);
@@ -126,8 +127,18 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
 
 			ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
+			
+			//TODO ТУт костыль под worklist !!!
+			String studyDB = null;
+			String studyDE = null;
+			if (attrs!=null) {
+				studyDB = attrs.get("beginStudyDate");
+				studyDE = attrs.get("endStudyDate");
+			}
+			
+			
 			Study[] studies = Study.getStudues(connection, null, queryStr,
-					null, null, null, null, null);
+					null, null, null, studyDB, studyDE);
 			for (int i = 0; i < studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();
 

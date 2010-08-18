@@ -161,10 +161,23 @@ public class StudyCardPanel extends Composite {
 		
 		createItemName(table, 4, 0, "результат:");
 		String result = "норма";
+		if(proxy.getStudyResult()==null || proxy.getStudyResult().length()==0) {
+			result = null;
+		}
 		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
 			result=proxy.getStudyResult();
 		}
-		createItemValue(table, 4, 1, proxy.getStudyViewprotocolDateAsString("dd.MM.yyyy")+" , " + result);
+		
+		String resultStr = "";
+		if(proxy.getStudyViewprotocolDate()!=null) {
+			resultStr = proxy.getStudyViewprotocolDateAsString("dd.MM.yyyy");  
+		}
+		if(result!=null) {
+			resultStr += " , "+ result;
+		}
+		
+		
+		createItemValue(table, 4, 1, resultStr);
 		table.getFlexCellFormatter().setColSpan(4, 1, 5);
 		
 		createItemName(table, 5, 0, "Протокол осмотра:");

@@ -424,7 +424,7 @@ public class SearchPanel extends Composite implements
 		
 		
 		Application.browserService.findStudy(searchTransactionID,
-				Dicom_browser.version, querystr,
+				Dicom_browser.version, querystr, null,
 				new AsyncCallback<RPCDcmProxyEvent>() {
 
 					public void onFailure(Throwable caught) {

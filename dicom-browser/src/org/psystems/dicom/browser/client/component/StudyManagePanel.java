@@ -5,6 +5,7 @@ package org.psystems.dicom.browser.client.component;
 
 import java.util.Date;
 
+import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
@@ -58,8 +59,6 @@ public class StudyManagePanel extends Composite implements
 	private DateBox studyDateBox;
 	private FileUpload fileUpload;
 
-	DateTimeFormat dateFormatBox = DateTimeFormat.getFormat("dd.MM.yyyy");
-	DateTimeFormat dateFormatHidden = DateTimeFormat.getFormat("yyyyMMdd");
 	private FlexTable formTable;
 	private VerticalPanel formDataPanel;
 	private Hidden patientBirthDateHidden;
@@ -196,13 +195,13 @@ public class StudyManagePanel extends Composite implements
 
 		//
 		birstdayDox = new DateBox();
-		birstdayDox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
+		birstdayDox.setFormat(new DateBox.DefaultFormat(Dicom_browser.dateFormatUser));
 		birstdayDox.setValue(proxy.getPatientBirthDate());
 		birstdayDox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				String d = dateFormatHidden.format(event.getValue());
+				String d = Dicom_browser.dateFormatDicom.format(event.getValue());
 				patientBirthDateHidden.setValue(d);
 			}
 		});
@@ -210,20 +209,20 @@ public class StudyManagePanel extends Composite implements
 		patientBirthDateHidden = new Hidden();
 		patientBirthDateHidden.setName("00100030");
 		addFormHidden(patientBirthDateHidden);
-		patientBirthDateHidden.setValue(dateFormatHidden.format(proxy
+		patientBirthDateHidden.setValue(Dicom_browser.dateFormatDicom.format(proxy
 				.getPatientBirthDate()));
 
 		addFormRow(rowCounter++, "Дата рождения", birstdayDox);
 
 		//
 		studyDateBox = new DateBox();
-		studyDateBox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
+		studyDateBox.setFormat(new DateBox.DefaultFormat(Dicom_browser.dateFormatUser));
 		studyDateBox.setValue(proxy.getStudyDate());
 		studyDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				studyDateHidden.setValue(dateFormatHidden.format(event
+				studyDateHidden.setValue(Dicom_browser.dateFormatDicom.format(event
 						.getValue()));
 			}
 		});
@@ -231,20 +230,20 @@ public class StudyManagePanel extends Composite implements
 		studyDateHidden = new Hidden();
 		studyDateHidden.setName("00080020");
 		addFormHidden(studyDateHidden);
-		studyDateHidden.setValue(dateFormatHidden.format(studyDateBox
+		studyDateHidden.setValue(Dicom_browser.dateFormatDicom.format(studyDateBox
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата исследования", studyDateBox);
 		
 		//
 		studyViewProtocolDateBox = new DateBox();
-		studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(dateFormatBox));
+		studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(Dicom_browser.dateFormatUser));
 		studyViewProtocolDateBox.setValue(new Date());
 		studyViewProtocolDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				studyViewProtocolDateHidden.setValue(dateFormatHidden.format(event
+				studyViewProtocolDateHidden.setValue(Dicom_browser.dateFormatDicom.format(event
 						.getValue()));
 			}
 		});
@@ -252,7 +251,7 @@ public class StudyManagePanel extends Composite implements
 		studyViewProtocolDateHidden = new Hidden();
 		studyViewProtocolDateHidden.setName("00321050");
 		addFormHidden(studyViewProtocolDateHidden);
-		studyViewProtocolDateHidden.setValue(dateFormatHidden.format(studyViewProtocolDateBox
+		studyViewProtocolDateHidden.setValue(Dicom_browser.dateFormatDicom.format(studyViewProtocolDateBox
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата описания", studyViewProtocolDateBox);
@@ -272,6 +271,28 @@ public class StudyManagePanel extends Composite implements
 		studyOperator.setText(proxy.getStudyOperator());
 		addFormRow(rowCounter++, "Лаборант", studyOperator);
 		
+		
+		//
+		//TODO Взять из конфигурации
+		final ListBox lbDescriptionTemplates = new ListBox();
+//		lbDescriptionTemplates.setName("00100040");
+		lbDescriptionTemplates.addItem("Выберите шаблон...", "");
+		lbDescriptionTemplates.addItem("Флюорография, Прямая передняя",
+				"Флюорография, Прямая передняя");
+		
+		lbDescriptionTemplates.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO Auto-generated method stub
+//				System.out.println("!!! "+event)!!!;
+				int i = lbDescriptionTemplates.getSelectedIndex();
+				studyDescription.setText(lbDescriptionTemplates.getValue(i));
+			}
+		});
+		
+		
+		addFormRow(rowCounter++, "Варианты описания", lbDescriptionTemplates);
 		//
 		studyDescription = new TextBox();
 		studyDescription.setName("00081030");
@@ -339,7 +360,7 @@ public class StudyManagePanel extends Composite implements
 		
 		//
 		final ListBox lbCommentsTemplates = new ListBox();
-		lbCommentsTemplates.setName("00100040");
+//		lbCommentsTemplates.setName("00100040");
 		lbCommentsTemplates.addItem("Выберите шаблон...", "");
 		lbCommentsTemplates.addItem("Органы грудной клетки без видимой патологии",
 				"Органы грудной клетки без видимой патологии");
