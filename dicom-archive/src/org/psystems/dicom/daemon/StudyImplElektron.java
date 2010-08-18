@@ -61,6 +61,17 @@ public class StudyImplElektron extends Study {
 					.length());
 		}
 		
+		// StudyResult
+		element = dcmObj.get(Tag.MedicalAlerts);
+		if (element != null) {
+			setStudyResult(element.getValueAsString(cs, element
+					.length()));
+			//Костыль. в это теге из Электрона приходит сточка "Без диагноза"
+			if (getStudyResult() != null && getStudyResult().equals("Без диагноза")) {
+				setStudyResult(null);
+			}
+		}
+		
 	}
 
 }
