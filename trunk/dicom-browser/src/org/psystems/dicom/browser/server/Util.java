@@ -102,6 +102,7 @@ public class Util {
 
 		Connection connection = null;
 
+		try {
 		//
 		String connectionDriver = servletContext
 				.getInitParameter("webdicom.connection." + jdbcName + ".driver");
@@ -132,6 +133,11 @@ public class Util {
 			} catch (NamingException e) {
 				throw new SQLException("JNDI error " + e);
 			}
+		}
+		}catch(SQLException ex) {
+			System.err.println("DBERROR: "+ex + " code:"+ex.getErrorCode()+" state: "+ex.getSQLState());
+			ex.printStackTrace();
+			throw ex;
 		}
 
 		return connection;
