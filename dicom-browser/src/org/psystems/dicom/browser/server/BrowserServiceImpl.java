@@ -131,13 +131,15 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			//TODO ТУт костыль под worklist !!!
 			String studyDB = null;
 			String studyDE = null;
+			String manufacturerModelName = null;
 			if (attrs!=null) {
 				studyDB = attrs.get("beginStudyDate");
 				studyDE = attrs.get("endStudyDate");
+				manufacturerModelName = attrs.get("manufacturerModelName");
 			}
 			
 			
-			Study[] studies = Study.getStudues(connection, null, queryStr,
+			Study[] studies = Study.getStudues(connection, null, manufacturerModelName,queryStr,
 					null, null, null, studyDB, studyDE);
 			for (int i = 0; i < studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();
@@ -570,7 +572,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		// проверка версии клиента TODO сделать MOCK?
 		Util.checkClentVersion(req);
-
 		ArrayList<PatientProxy> data;
 		try {
 			data = Storage.getPatients(getServletContext(), req.getQueryStr(),

@@ -13,6 +13,8 @@ import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -24,6 +26,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -43,6 +46,7 @@ public class WorkListPanel extends Composite {
 	protected String dateBegin;
 	protected String dateEnd;
 	private DateBox studyDateBoxEnd;
+	protected String manufacturerModelName = "RENEXFLUORO3";
 	
 	public final static int maxResultCount = 100;
 
@@ -53,8 +57,8 @@ public class WorkListPanel extends Composite {
 
 		this.Application = application;
 		
-		dateBegin = Dicom_browser.dateFormatSql.format(new Date());
-		dateEnd = Dicom_browser.dateFormatSql.format(new Date());
+		dateBegin = Utils.dateFormatSql.format(new Date());
+		dateEnd = Utils.dateFormatSql.format(new Date());
 		
 		VerticalPanel mainPanel = new VerticalPanel();
 
@@ -67,13 +71,13 @@ public class WorkListPanel extends Composite {
 		
 		studyDateBoxBegin = new DateBox();
 		studyDateBoxBegin.setFormat(new DateBox.DefaultFormat(
-				Dicom_browser.dateFormatUser));
+				Utils.dateFormatUser));
 		studyDateBoxBegin.setValue(new Date());
 		studyDateBoxBegin.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				dateBegin = Dicom_browser.dateFormatSql.format(event
+				dateBegin = Utils.dateFormatSql.format(event
 						.getValue());
 //				System.out.println("!!!!val="+dateBegin);
 				searchStudyes();
@@ -88,13 +92,13 @@ public class WorkListPanel extends Composite {
 
 		studyDateBoxEnd = new DateBox();
 		studyDateBoxEnd.setFormat(new DateBox.DefaultFormat(
-				Dicom_browser.dateFormatUser));
+				Utils.dateFormatUser));
 		studyDateBoxEnd.setValue(new Date());
 		studyDateBoxEnd.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				dateEnd = Dicom_browser.dateFormatSql.format(event
+				dateEnd = Utils.dateFormatSql.format(event
 						.getValue());
 //				System.out.println("!!!!val="+dateBegin);
 				searchStudyes();
@@ -103,6 +107,26 @@ public class WorkListPanel extends Composite {
 
 		toolPanel.add(studyDateBoxEnd);
 
+		
+		//
+		final ListBox lbManufacturerModelName = new ListBox();
+//		lbCommentsTemplates.setName("00100040");
+		lbManufacturerModelName.addItem("RENEXFLUORO3", "RENEXFLUORO3");
+		lbManufacturerModelName.addItem("КРТ-Электрон","КРТ-Электрон");
+		
+		lbManufacturerModelName.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO Auto-generated method stub
+//				System.out.println("!!! "+event)!!!;
+				int i = lbManufacturerModelName.getSelectedIndex();
+				manufacturerModelName = lbManufacturerModelName.getValue(i);
+				searchStudyes();
+			}
+		});
+		
+		toolPanel.add(lbManufacturerModelName);
 		
 		resultPanel = new VerticalPanel();
 		mainPanel.add(resultPanel);
@@ -121,6 +145,8 @@ public class WorkListPanel extends Composite {
 	public void add(Widget w) {
 		resultPanel.add(w);
 	}
+	
+	
 	
 	/**
 	 * Поиск исследований
@@ -192,6 +218,7 @@ public class WorkListPanel extends Composite {
 		HashMap<String, String> attrs = new HashMap<String, String>();
 		attrs.put("beginStudyDate", dateBegin);
 		attrs.put("endStudyDate", dateEnd);
+		attrs.put("manufacturerModelName", manufacturerModelName);
 		Application.browserService.findStudy(searchTransactionID,
 				Dicom_browser.version, "%", attrs,
 				new AsyncCallback<RPCDcmProxyEvent>() {

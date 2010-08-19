@@ -65,16 +65,9 @@ import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
-import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
-import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
-import org.psystems.dicom.browser.client.service.ItemSuggestService;
 
-import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * @author dima_d
@@ -108,9 +101,10 @@ public class StorageOMITSImpl extends Storage {
 			psSelect = connection
 					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
 							+ " from  lpu.v_patient v "
-							+ "WHERE UPPER(SUR_NAME) like UPPER(? || '%')"
+							+ "WHERE UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%')"
 							+ " order by SUR_NAME ");
 
+//			System.out.println("!!!! queryStr=["+queryStr+"]");
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
@@ -160,7 +154,7 @@ public class StorageOMITSImpl extends Storage {
 			psSelect = connection
 					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
 							+ " from  lpu.v_patient v "
-							+ "WHERE UPPER(SUR_NAME) like UPPER(? || '%')"
+							+ "WHERE UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%')"
 							+ " order by SUR_NAME ");
 
 			psSelect.setString(1, queryStr);

@@ -92,25 +92,25 @@ public class Dicom_browser implements EntryPoint {
 
 	// Версия ПО (используется для проверки на стороне сервере при обновлении
 	// клиента)
+	//TODO !!!! Пернести в конфиг !!!!!
+	//TODO В классе ARPCRequest тоже есть эта переменная !!!
 	public static String version = "0.1a";
 	
-	public static DateTimeFormat dateFormatUser = DateTimeFormat.getFormat("dd.MM.yyyy");
-	public static DateTimeFormat dateFormatDicom = DateTimeFormat.getFormat("yyyyMMdd");
-	public static DateTimeFormat dateFormatSql = DateTimeFormat.getFormat("yyyy-MM-dd");
+
 
 	// Create a remote service proxy
-	public final BrowserServiceAsync browserService = GWT
+	public final static BrowserServiceAsync browserService = GWT
 			.create(BrowserService.class);
 
 	public static final ManageStydyServiceAsync manageStudyService = GWT
 			.create(ManageStydyService.class);
 
-	private DialogBox errorDialogBox;
-	private HTML errorResponseLabel;
+	private static DialogBox errorDialogBox;
+	private static HTML errorResponseLabel;
 
 	// панель состояния работы запросов
-	private PopupPanel workStatusPopup;
-	private FlowPanel workStatusPanel;
+	private static PopupPanel workStatusPopup;
+	private static FlowPanel workStatusPanel;
 
 	// private VerticalPanel bodyPanel;
 
@@ -149,7 +149,7 @@ public class Dicom_browser implements EntryPoint {
 					RootPanel.get("bodyContainer").clear();
 
 					StudyManagePanel panel = new StudyManagePanel(
-							manageStudyService,null);
+							manageStudyService,browserService,null);
 					RootPanel.get("bodyContainer").add(panel);
 
 				} else if (event.getValue().equals("showintro")) {
@@ -173,7 +173,7 @@ public class Dicom_browser implements EntryPoint {
 
 	}
 
-	public void showErrorDlg(Throwable e) {
+	public static void showErrorDlg(Throwable e) {
 		errorResponseLabel.setHTML("Ошибка: " + e);
 		System.err.println("interface error!");
 		e.printStackTrace();
@@ -282,7 +282,7 @@ public class Dicom_browser implements EntryPoint {
 	/**
 	 * Скрытие панели состояния процесса
 	 */
-	public void hideWorkStatusMsg() {
+	public static void hideWorkStatusMsg() {
 		workStatusPanel.clear();
 		workStatusPopup.hide();
 	}

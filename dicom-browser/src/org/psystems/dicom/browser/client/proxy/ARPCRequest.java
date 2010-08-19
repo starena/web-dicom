@@ -56,8 +56,6 @@ package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
-
 /**
  * Сущность - запрос к GWT-сервлету
  * 
@@ -68,7 +66,8 @@ public abstract class ARPCRequest implements Serializable {
 
 	private static final long serialVersionUID = -503807514055668960L;
 	private long transactionId;// идентификатор траназкции
-	private String version = Dicom_browser.version;// версия клиента
+	//TODO !!!! Пернести в конфиг !!!!!
+	private String version = "0.1a";// Dicom_browser.version;// версия клиента
 
 	public long getTransactionId() {
 		return transactionId;
