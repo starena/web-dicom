@@ -188,6 +188,10 @@ A.selected {
 	/*color: #44639C;*/	
 }
 
+.DicomItemWarn {
+	color: red;
+}
+
 .DicomItemName {
 	font: 1.4em/ 78% normal Verdana, Tahoma, sans-serif;
 	margin: 2px;

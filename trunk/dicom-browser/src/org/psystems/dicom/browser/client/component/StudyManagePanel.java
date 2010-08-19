@@ -3,10 +3,16 @@
  */
 package org.psystems.dicom.browser.client.component;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
+import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
+import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -22,6 +28,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -70,11 +77,15 @@ public class StudyManagePanel extends Composite implements
 	private TextBox studyOperator;
 	private DateBox studyViewProtocolDateBox;
 	private Hidden studyViewProtocolDateHidden;
+	private ListBox patientNameCheck;
+	private BrowserServiceAsync browserService;
 	public final static String medicalAlertsTitle = "норма";
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
+			BrowserServiceAsync browserService,
 			StudyProxy proxy) {
 
+		this.browserService = browserService;
 		this.manageStudyService = manageStudyService;
 
 		// История
@@ -179,8 +190,43 @@ public class StudyManagePanel extends Composite implements
 		patientName.setName("00100010");
 		patientName.setWidth("400px");
 		patientName.setText(proxy.getPatientName());
+		patientName.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO Auto-generated method stub
+				patientVerify();
+			}
+		});
+		
+		
 		addFormRow(rowCounter++, "ФИО", patientName);
 
+		//
+		patientNameCheck = new ListBox(true);
+		patientNameCheck.setSize("400px","20em");
+		
+		patientNameCheck.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				String val = patientNameCheck.getItemText(patientNameCheck.getSelectedIndex());
+				patientName.setValue(val);
+				submitBtn.setEnabled(true);
+			}
+		});
+		
+		
+		formTable.setWidget(rowCounter-2, 2, makeItemLabel("Сверка имени (Click - выбор)"));
+		formTable.getCellFormatter().setHorizontalAlignment(rowCounter-2, 2,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		
+		
+		formTable.setWidget(rowCounter -1, 2, patientNameCheck);
+		formTable.getCellFormatter().setVerticalAlignment(rowCounter -1 , 2,
+				HasVerticalAlignment.ALIGN_TOP);
+		formTable.getFlexCellFormatter().setRowSpan(rowCounter -1, 2, 20);
+		
 		//
 		ListBox lbSex = new ListBox();
 		lbSex.setName("00100040");
@@ -195,13 +241,13 @@ public class StudyManagePanel extends Composite implements
 
 		//
 		birstdayDox = new DateBox();
-		birstdayDox.setFormat(new DateBox.DefaultFormat(Dicom_browser.dateFormatUser));
+		birstdayDox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
 		birstdayDox.setValue(proxy.getPatientBirthDate());
 		birstdayDox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				String d = Dicom_browser.dateFormatDicom.format(event.getValue());
+				String d = Utils.dateFormatDicom.format(event.getValue());
 				patientBirthDateHidden.setValue(d);
 			}
 		});
@@ -209,20 +255,20 @@ public class StudyManagePanel extends Composite implements
 		patientBirthDateHidden = new Hidden();
 		patientBirthDateHidden.setName("00100030");
 		addFormHidden(patientBirthDateHidden);
-		patientBirthDateHidden.setValue(Dicom_browser.dateFormatDicom.format(proxy
+		patientBirthDateHidden.setValue(Utils.dateFormatDicom.format(proxy
 				.getPatientBirthDate()));
 
 		addFormRow(rowCounter++, "Дата рождения", birstdayDox);
 
 		//
 		studyDateBox = new DateBox();
-		studyDateBox.setFormat(new DateBox.DefaultFormat(Dicom_browser.dateFormatUser));
+		studyDateBox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
 		studyDateBox.setValue(proxy.getStudyDate());
 		studyDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				studyDateHidden.setValue(Dicom_browser.dateFormatDicom.format(event
+				studyDateHidden.setValue(Utils.dateFormatDicom.format(event
 						.getValue()));
 			}
 		});
@@ -230,20 +276,20 @@ public class StudyManagePanel extends Composite implements
 		studyDateHidden = new Hidden();
 		studyDateHidden.setName("00080020");
 		addFormHidden(studyDateHidden);
-		studyDateHidden.setValue(Dicom_browser.dateFormatDicom.format(studyDateBox
+		studyDateHidden.setValue(Utils.dateFormatDicom.format(studyDateBox
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата исследования", studyDateBox);
 		
 		//
 		studyViewProtocolDateBox = new DateBox();
-		studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(Dicom_browser.dateFormatUser));
+		studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
 		studyViewProtocolDateBox.setValue(new Date());
 		studyViewProtocolDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				studyViewProtocolDateHidden.setValue(Dicom_browser.dateFormatDicom.format(event
+				studyViewProtocolDateHidden.setValue(Utils.dateFormatDicom.format(event
 						.getValue()));
 			}
 		});
@@ -251,7 +297,7 @@ public class StudyManagePanel extends Composite implements
 		studyViewProtocolDateHidden = new Hidden();
 		studyViewProtocolDateHidden.setName("00321050");
 		addFormHidden(studyViewProtocolDateHidden);
-		studyViewProtocolDateHidden.setValue(Dicom_browser.dateFormatDicom.format(studyViewProtocolDateBox
+		studyViewProtocolDateHidden.setValue(Utils.dateFormatDicom.format(studyViewProtocolDateBox
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата описания", studyViewProtocolDateBox);
@@ -395,6 +441,7 @@ public class StudyManagePanel extends Composite implements
 
 		//
 		submitBtn = new Button("Сохранить изменения...");
+		submitBtn.setEnabled(false);
 		submitBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -409,6 +456,69 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, submitResult);
 
 		initWidget(mainPanel);
+		
+		patientVerify();
+	}
+	
+private void patientVerify () {
+		
+		patientNameCheck.addItem("Ищем: "+patientName.getValue());
+		submitBtn.setEnabled(false);
+	
+		PatientsRPCRequest req = new PatientsRPCRequest();
+		req.setTransactionId(1);
+		req.setQueryStr(patientName.getText()+"%");
+		req.setLimit(20);
+		
+		browserService.getPatients(req,
+				new AsyncCallback<PatientsRPCResponse>() {
+
+					public void onFailure(Throwable caught) {
+
+//						transactionFinished();
+						Dicom_browser.showErrorDlg(caught);
+
+					}
+
+					public void onSuccess(PatientsRPCResponse result) {
+
+						
+						// TODO попробовать сделать нормлаьный interrupt (дабы
+						// не качать все данные)
+
+						// Если сменился идентификатор транзакции, то ничего не
+						// принимаем
+//						if (searchTransactionID != result.getTransactionId()) {
+//							return;
+//						}
+
+						Dicom_browser.hideWorkStatusMsg();
+
+						ArrayList<PatientProxy> patients = result.getPatients();
+						patientNameCheck.clear();
+						for (Iterator<PatientProxy> it = patients.iterator(); it
+								.hasNext();) {
+
+							PatientProxy patientProxy = it.next();
+							patientNameCheck.addItem(patientProxy.getPatientName(), patientProxy.getPatientName());
+							patientNameCheck.setSelectedIndex(0);
+						}
+
+						if (patients.size() == 0) {
+							patientNameCheck.addItem("Совпадений не найдено!");
+						}
+						
+						if (patients.size() == 1) {
+							patientName.setValue(patients.get(0).getPatientName());
+							submitBtn.setEnabled(true);
+						}
+
+//						transactionFinished();
+
+					}
+
+				});
+		
 	}
 
 	/**

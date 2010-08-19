@@ -90,6 +90,7 @@ public class StudyCardPanel extends Composite {
 	private String datePattern = "dd.MM.yyyy";
 	private BrowserServiceAsync service;
 	StudyProxy proxy = null;
+	private Label labelPAtientName;
 
 	public StudyCardPanel(BrowserServiceAsync service, final StudyProxy proxy) {
 		super();
@@ -116,11 +117,11 @@ public class StudyCardPanel extends Composite {
 			sex = "Ж";
 		}
 
-		Label l = new Label(proxy.getPatientName() + " (" + sex + ") "
+		labelPAtientName = new Label(proxy.getPatientName() + " (" + sex + ") "
 				+ proxy.getPatientBirthDateAsString(datePattern));
-		l.setStyleName("DicomItem");
+		labelPAtientName.setStyleName("DicomItem");
 
-		table.setWidget(0, 0, l);
+		table.setWidget(0, 0, labelPAtientName);
 		table.getFlexCellFormatter().setColSpan(0, 0, 6);
 		table.getFlexCellFormatter().setAlignment(0, 0,
 				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
@@ -161,20 +162,22 @@ public class StudyCardPanel extends Composite {
 		
 		createItemName(table, 4, 0, "результат:");
 		String result = "норма";
-		if(proxy.getStudyResult()==null || proxy.getStudyResult().length()==0) {
-			result = null;
-		}
-		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
+//		if(proxy.getStudyResult()==null ) {
+//			result = null;
+//			
+//		}
+		if(proxy.getStudyResult()!=null) {
 			result=proxy.getStudyResult();
 		}
+		
 		
 		String resultStr = "";
 		if(proxy.getStudyViewprotocolDate()!=null) {
 			resultStr = proxy.getStudyViewprotocolDateAsString("dd.MM.yyyy");  
 		}
-		if(result!=null) {
+//		if(result!=null) {
 			resultStr += " , "+ result;
-		}
+//		}
 		
 		
 		createItemValue(table, 4, 1, resultStr);
@@ -184,6 +187,12 @@ public class StudyCardPanel extends Composite {
 		createItemValue(table, 5, 1, proxy.getStudyViewprotocol());
 		table.getFlexCellFormatter().setColSpan(5, 1, 5);
 
+		if(result==null || result.length()==0 || proxy.getStudyDescription() == null ||
+				proxy.getStudyDescription().length() ==0 || proxy.getStudyViewprotocol() == null ||
+				proxy.getStudyViewprotocol().length() == 0) {
+			setWarning();
+		}
+		
 		HTML linkDcm = createfileItems(proxy);
 
 		linkDcm.setStyleName("DicomItemName");
@@ -206,7 +215,7 @@ public class StudyCardPanel extends Composite {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				table.remove(changeStudy);
-				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, proxy);
+				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, proxy);
 				table.setWidget(8, 0, panel);
 				table.getFlexCellFormatter().setColSpan(8, 0, 6);
 				table.getFlexCellFormatter().setAlignment(8, 0,
@@ -310,6 +319,10 @@ public class StudyCardPanel extends Composite {
 
 		initWidget(dcmItem);
 
+	}
+
+	private void setWarning() {
+		labelPAtientName.addStyleName("DicomItemWarn");
 	}
 
 	private HTML createfileItems(final StudyProxy studyProxy) {

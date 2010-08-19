@@ -57,7 +57,7 @@ public class StudyImpl extends Study {
 	}
 
 	public static Study[] getStudues(Connection connection,
-			String studyModality, String patientName, String patientShortName,
+			String studyModality, String manufacturerModelName, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
 			String endStudyDate) throws DataException {
 
@@ -76,13 +76,20 @@ public class StudyImpl extends Study {
 				sqlAddon += " AND ";
 			sqlAddon += " STUDY_MODALITY = ? ";
 		}
+		
+		if (manufacturerModelName != null && manufacturerModelName.length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_MANUFACTURER_MODEL_NAME = ? ";
+		}
 
 		if (patientName != null && patientName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " UPPER(PATIENT_NAME) like UPPER( ? || '%') ";
 		}
-
+		
+		
 		if (patientShortName != null && patientShortName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
@@ -147,6 +154,10 @@ public class StudyImpl extends Study {
 
 			if (studyModality != null && studyModality.length() > 0) {
 				psSelect.setString(index++, studyModality);
+			}
+			
+			if (manufacturerModelName != null && manufacturerModelName.length() > 0) {
+				psSelect.setString(index++, manufacturerModelName);
 			}
 
 			if (patientName != null && patientName.length() > 0) {
