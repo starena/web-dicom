@@ -13,7 +13,7 @@ public class StudyImplElektron extends Study {
 	
 	StudyImplElektron(DicomObject dcmObj ) {
 
-		LOG.info("DICOM Driver 'KRT Electron'");
+		LOG.info(getDebugStr("DICOM Driver 'KRT Electron'"));
 		
 		//инициализируем общие теги
 		implCommon(dcmObj);
