@@ -212,9 +212,11 @@ public class StudyManagePanel extends Composite implements
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				String id = patientNameCheck.getItemText(patientNameCheck
+				String id = patientNameCheck.getValue(patientNameCheck
 						.getSelectedIndex());
+				
 				PatientProxy proxyFinded = itemProxies.get(id);
+//				System.out.println("!!!! id="+id+";"+proxyFinded);
 				applyVerifyedData(proxyFinded);
 				
 			}
