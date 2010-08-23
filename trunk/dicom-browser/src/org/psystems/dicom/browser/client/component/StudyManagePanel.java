@@ -5,6 +5,7 @@ package org.psystems.dicom.browser.client.component;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
@@ -79,11 +80,12 @@ public class StudyManagePanel extends Composite implements
 	private Hidden studyViewProtocolDateHidden;
 	private ListBox patientNameCheck;
 	private BrowserServiceAsync browserService;
+	protected HashMap<String, PatientProxy> itemProxies = new HashMap<String, PatientProxy>();
+	private ListBox lbSex;
 	public final static String medicalAlertsTitle = "норма";
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
-			BrowserServiceAsync browserService,
-			StudyProxy proxy) {
+			BrowserServiceAsync browserService, StudyProxy proxy) {
 
 		this.browserService = browserService;
 		this.manageStudyService = manageStudyService;
@@ -126,7 +128,7 @@ public class StudyManagePanel extends Composite implements
 			public void onSubmit(SubmitEvent event) {
 				// TODO Auto-generated method stub
 				// event.cancel();
-				submitBtn.setEnabled(false);
+				dataVerifyed(false);
 			}
 		});
 
@@ -168,7 +170,7 @@ public class StudyManagePanel extends Composite implements
 		manufacturerModelName.setName("00081090");
 		manufacturerModelName.setValue(proxy.getManufacturerModelName());
 		addFormHidden(manufacturerModelName);
-		
+
 		int rowCounter = 0;
 
 		// Тип исследования Modality 00080060
@@ -191,44 +193,45 @@ public class StudyManagePanel extends Composite implements
 		patientName.setWidth("400px");
 		patientName.setText(proxy.getPatientName());
 		patientName.addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
 				// TODO Auto-generated method stub
 				patientVerify();
 			}
 		});
-		
-		
+
 		addFormRow(rowCounter++, "ФИО", patientName);
 
 		//
 		patientNameCheck = new ListBox(true);
-		patientNameCheck.setSize("400px","20em");
-		
+		patientNameCheck.setSize("400px", "20em");
+
 		patientNameCheck.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				String val = patientNameCheck.getItemText(patientNameCheck.getSelectedIndex());
-				patientName.setValue(val);
-				submitBtn.setEnabled(true);
+				
+				String id = patientNameCheck.getItemText(patientNameCheck
+						.getSelectedIndex());
+				PatientProxy proxyFinded = itemProxies.get(id);
+				applyVerifyedData(proxyFinded);
+				
 			}
 		});
-		
-		
-		formTable.setWidget(rowCounter-2, 2, makeItemLabel("Сверка имени (Click - выбор)"));
-		formTable.getCellFormatter().setHorizontalAlignment(rowCounter-2, 2,
+
+		formTable.setWidget(rowCounter - 2, 2,
+				makeItemLabel("Сверка имени (Click - выбор)"));
+		formTable.getCellFormatter().setHorizontalAlignment(rowCounter - 2, 2,
 				HasHorizontalAlignment.ALIGN_CENTER);
-		
-		
-		formTable.setWidget(rowCounter -1, 2, patientNameCheck);
-		formTable.getCellFormatter().setVerticalAlignment(rowCounter -1 , 2,
+
+		formTable.setWidget(rowCounter - 1, 2, patientNameCheck);
+		formTable.getCellFormatter().setVerticalAlignment(rowCounter - 1, 2,
 				HasVerticalAlignment.ALIGN_TOP);
-		formTable.getFlexCellFormatter().setRowSpan(rowCounter -1, 2, 20);
-		
+		formTable.getFlexCellFormatter().setRowSpan(rowCounter - 1, 2, 20);
+
 		//
-		ListBox lbSex = new ListBox();
+		lbSex = new ListBox();
 		lbSex.setName("00100040");
 		lbSex.addItem("Муж", "M");
 		lbSex.addItem("Жен", "F");
@@ -280,64 +283,64 @@ public class StudyManagePanel extends Composite implements
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата исследования", studyDateBox);
-		
+
 		//
 		studyViewProtocolDateBox = new DateBox();
-		studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
+		studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(
+				Utils.dateFormatUser));
 		studyViewProtocolDateBox.setValue(new Date());
-		studyViewProtocolDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
+		studyViewProtocolDateBox
+				.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
-			@Override
-			public void onValueChange(ValueChangeEvent<Date> event) {
-				studyViewProtocolDateHidden.setValue(Utils.dateFormatDicom.format(event
-						.getValue()));
-			}
-		});
+					@Override
+					public void onValueChange(ValueChangeEvent<Date> event) {
+						studyViewProtocolDateHidden
+								.setValue(Utils.dateFormatDicom.format(event
+										.getValue()));
+					}
+				});
 
 		studyViewProtocolDateHidden = new Hidden();
 		studyViewProtocolDateHidden.setName("00321050");
 		addFormHidden(studyViewProtocolDateHidden);
-		studyViewProtocolDateHidden.setValue(Utils.dateFormatDicom.format(studyViewProtocolDateBox
-				.getValue()));
+		studyViewProtocolDateHidden.setValue(Utils.dateFormatDicom
+				.format(studyViewProtocolDateBox.getValue()));
 
 		addFormRow(rowCounter++, "Дата описания", studyViewProtocolDateBox);
-		
-		
+
 		//
 		studyDoctror = new TextBox();
 		studyDoctror.setName("00080090");
 		studyDoctror.setWidth("400px");
 		studyDoctror.setText(proxy.getStudyDoctor());
 		addFormRow(rowCounter++, "Врач", studyDoctror);
-		
+
 		//
 		studyOperator = new TextBox();
 		studyOperator.setName("00081070");
 		studyOperator.setWidth("400px");
 		studyOperator.setText(proxy.getStudyOperator());
 		addFormRow(rowCounter++, "Лаборант", studyOperator);
-		
-		
+
 		//
-		//TODO Взять из конфигурации
+		// TODO Взять из конфигурации
 		final ListBox lbDescriptionTemplates = new ListBox();
-//		lbDescriptionTemplates.setName("00100040");
+		// lbDescriptionTemplates.setName("00100040");
 		lbDescriptionTemplates.addItem("Выберите шаблон...", "");
 		lbDescriptionTemplates.addItem("Флюорография, Прямая передняя",
 				"Флюорография, Прямая передняя");
-		
+
 		lbDescriptionTemplates.addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
 				// TODO Auto-generated method stub
-//				System.out.println("!!! "+event)!!!;
+				// System.out.println("!!! "+event)!!!;
 				int i = lbDescriptionTemplates.getSelectedIndex();
 				studyDescription.setText(lbDescriptionTemplates.getValue(i));
 			}
 		});
-		
-		
+
 		addFormRow(rowCounter++, "Варианты описания", lbDescriptionTemplates);
 		//
 		studyDescription = new TextBox();
@@ -350,30 +353,28 @@ public class StudyManagePanel extends Composite implements
 		medicalAlerts = new TextBox();
 		medicalAlerts.setName("00102000");
 		medicalAlerts.setWidth("400px");
-		
+
 		medicalAlerts.addStyleName("DicomSuggestionEmpty");
-		medicalAlerts.setTitle(medicalAlertsTitle );
+		medicalAlerts.setTitle(medicalAlertsTitle);
 		medicalAlerts.setText(medicalAlertsTitle);
-		
+
 		medicalAlerts.setText(proxy.getStudyResult());
-		if(proxy.getStudyResult()==null || proxy.getStudyResult().length()==0) {
+		if (proxy.getStudyResult() == null
+				|| proxy.getStudyResult().length() == 0) {
 			medicalAlerts.setText(medicalAlertsTitle);
 		}
-		
-		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
+
+		if (proxy.getStudyResult() != null
+				&& proxy.getStudyResult().length() > 0) {
 			medicalAlerts.removeStyleName("DicomSuggestionEmpty");
 			medicalAlerts.addStyleName("DicomSuggestion");
 		}
 		addFormRow(rowCounter++, "Результат", medicalAlerts);
-		
-		
-		
+
 		medicalAlerts.addFocusHandler(new FocusHandler() {
 
 			@Override
 			public void onFocus(FocusEvent event) {
-
-				
 
 				medicalAlerts.removeStyleName("DicomSuggestionEmpty");
 				medicalAlerts.addStyleName("DicomSuggestion");
@@ -403,36 +404,36 @@ public class StudyManagePanel extends Composite implements
 			}
 
 		});
-		
+
 		//
 		final ListBox lbCommentsTemplates = new ListBox();
-//		lbCommentsTemplates.setName("00100040");
+		// lbCommentsTemplates.setName("00100040");
 		lbCommentsTemplates.addItem("Выберите шаблон...", "");
-		lbCommentsTemplates.addItem("Органы грудной клетки без видимой патологии",
+		lbCommentsTemplates.addItem(
+				"Органы грудной клетки без видимой патологии",
 				"Органы грудной клетки без видимой патологии");
-		
+
 		lbCommentsTemplates.addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
 				// TODO Auto-generated method stub
-//				System.out.println("!!! "+event)!!!;
+				// System.out.println("!!! "+event)!!!;
 				int i = lbCommentsTemplates.getSelectedIndex();
 				studyComments.setText(lbCommentsTemplates.getValue(i));
 			}
 		});
-		
-		
+
 		addFormRow(rowCounter++, "варианты протокола", lbCommentsTemplates);
 
 		//
 		studyComments = new TextArea();
-		studyComments.setName("00324000");//Tag.StudyComments
+		studyComments.setName("00324000");// Tag.StudyComments
 		studyComments.setSize("400px", "200px");
 		studyComments.setText(proxy.getStudyViewprotocol());
 		addFormRow(rowCounter++, "Протокол", studyComments);
 
-//		
+		//		
 		//
 		fileUpload = new FileUpload();
 		fileUpload.setName("upload");
@@ -441,7 +442,7 @@ public class StudyManagePanel extends Composite implements
 
 		//
 		submitBtn = new Button("Сохранить изменения...");
-		submitBtn.setEnabled(false);
+		dataVerifyed(false);
 		submitBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -456,69 +457,119 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, submitResult);
 
 		initWidget(mainPanel);
-		
+
 		patientVerify();
 	}
-	
-private void patientVerify () {
-		
-		patientNameCheck.addItem("Ищем: "+patientName.getValue());
-		submitBtn.setEnabled(false);
-	
+
+	protected void dataVerifyed(boolean b) {
+
+		if (b) {
+			submitBtn.setText("Сохранить изменения...");
+		} else {
+			submitBtn.setText("Сохранить НЕПРОВЕРЕННЫЕ изменения...");
+		}
+	}
+
+	private void patientVerify() {
+
+		patientNameCheck.addItem("Ищем: " + patientName.getValue());
+		dataVerifyed(false);
+
 		PatientsRPCRequest req = new PatientsRPCRequest();
 		req.setTransactionId(1);
-		req.setQueryStr(patientName.getText()+"%");
+		req.setQueryStr(patientName.getText() + "%");
 		req.setLimit(20);
-		
+
 		browserService.getPatients(req,
 				new AsyncCallback<PatientsRPCResponse>() {
 
+					private Object patientProxy;
+
 					public void onFailure(Throwable caught) {
 
-//						transactionFinished();
+						// transactionFinished();
 						Dicom_browser.showErrorDlg(caught);
 
 					}
 
 					public void onSuccess(PatientsRPCResponse result) {
 
-						
 						// TODO попробовать сделать нормлаьный interrupt (дабы
 						// не качать все данные)
 
 						// Если сменился идентификатор транзакции, то ничего не
 						// принимаем
-//						if (searchTransactionID != result.getTransactionId()) {
-//							return;
-//						}
+						// if (searchTransactionID != result.getTransactionId())
+						// {
+						// return;
+						// }
 
 						Dicom_browser.hideWorkStatusMsg();
 
 						ArrayList<PatientProxy> patients = result.getPatients();
 						patientNameCheck.clear();
+						itemProxies = new HashMap<String, PatientProxy>();
+						itemProxies.clear();
+						
+						PatientProxy lastPatientProxy = null;
 						for (Iterator<PatientProxy> it = patients.iterator(); it
 								.hasNext();) {
 
 							PatientProxy patientProxy = it.next();
-							patientNameCheck.addItem(patientProxy.getPatientName(), patientProxy.getPatientName());
+							lastPatientProxy = patientProxy;
+							String sex;
+							if( "M".equals(patientProxy.getPatientSex())) {
+								sex = "М";
+							} else {
+								sex = "Ж";
+							}
+							// String d =
+							// Utils.dateFormatDicom.format(event.getValue());
+							patientNameCheck.addItem(patientProxy
+									.getPatientName()
+									+ " ("
+									+ sex 
+									+ ") "
+									+ Utils.dateFormatUser.format(patientProxy
+											.getPatientBirthDate()),""+patientProxy
+											.getId());
+							
+							itemProxies.put(""+patientProxy.getId(), patientProxy);
 							patientNameCheck.setSelectedIndex(0);
 						}
 
 						if (patients.size() == 0) {
 							patientNameCheck.addItem("Совпадений не найдено!");
-						}
-						
-						if (patients.size() == 1) {
-							patientName.setValue(patients.get(0).getPatientName());
-							submitBtn.setEnabled(true);
+							dataVerifyed(false);
+
 						}
 
-//						transactionFinished();
+						if (patients.size() == 1) {
+							
+							applyVerifyedData(lastPatientProxy);
+						}
+
+						// transactionFinished();
 
 					}
 
 				});
-		
+
+	}
+
+	/**
+	 * Применение сверенных данных
+	 * @param lastPatientProxy
+	 */
+	protected void applyVerifyedData(PatientProxy lastPatientProxy) {
+		if(lastPatientProxy==null) return;
+		patientName.setValue(lastPatientProxy.getPatientName());
+		birstdayDox.setValue(lastPatientProxy.getPatientBirthDate());
+		if("M".equals(lastPatientProxy.getPatientSex()))
+			lbSex.setSelectedIndex(0);
+		else
+			lbSex.setSelectedIndex(1);
+		dataVerifyed(true);
 	}
 
 	/**
@@ -564,7 +615,7 @@ private void patientVerify () {
 	}
 
 	private void clearForm() {
-		submitBtn.setEnabled(true);
+		dataVerifyed(true);
 		resetForm();
 		studyDateBox.setValue(new Date());
 	}
@@ -577,16 +628,15 @@ private void patientVerify () {
 	 * НЕуспешное завершение сохранения исследования
 	 */
 	protected void submitError() {
-		submitBtn.setEnabled(true);
+		dataVerifyed(true);
 	}
 
 	/**
 	 * Успешное завершение сохранения исследования
 	 */
 	protected void submitSuccess() {
-//		clearForm();
-		submitBtn.setEnabled(true);
-
+		// clearForm();
+		dataVerifyed(true);
 	}
 
 	/**
