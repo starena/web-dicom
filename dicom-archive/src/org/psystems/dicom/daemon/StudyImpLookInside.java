@@ -84,7 +84,7 @@ public class StudyImpLookInside extends Study {
 
 	StudyImpLookInside(DicomObject dcmObj) {
 		
-		LOG.info("DICOM Driver 'Look Inside'");
+		LOG.info(getDebugStr("DICOM Driver 'Look Inside'"));
 		
 		//инициализируем общие теги
 		implCommon(dcmObj);
@@ -142,15 +142,15 @@ public class StudyImpLookInside extends Study {
 			
 			if(cusomPatientSex != null) {
 				if (cusomPatientSex.length() > 1) {
-					LOG.warn("PATIENT_SEX to long [" + cusomPatientSex + "]");
+					LOG.warn(getDebugStr("PATIENT_SEX to long [" + cusomPatientSex + "]"));
 					cusomPatientSex = cusomPatientSex.substring(0, 1);
 				}
 				if (cusomPatientSex.equals("М")) {
-					LOG.warn("PATIENT_SEX bad type [" + cusomPatientSex + "]");
+					LOG.warn(getDebugStr("PATIENT_SEX bad type [" + cusomPatientSex + "]"));
 					cusomPatientSex = "M";
 				}
 				if (cusomPatientSex.equals("Ж")) {
-					LOG.warn("PATIENT_SEX bad type [" + cusomPatientSex + "]");
+					LOG.warn(getDebugStr("PATIENT_SEX bad type [" + cusomPatientSex + "]"));
 					cusomPatientSex = "F";
 				}
 			}

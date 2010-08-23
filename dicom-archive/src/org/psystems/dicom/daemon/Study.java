@@ -46,8 +46,15 @@ public class Study {
 	protected String DcmType = "not implemented";
 
 	private static Logger LOG = LoggerFactory.getLogger(Study.class);
+	//идентификатор в LOG-журнале
+	private static String debugId = "";
 	
 	public static Study getInstance(DicomObject dcmObj) {
+		
+		DicomElement element = dcmObj.get(Tag.StudyInstanceUID);
+		if (element != null) {
+			debugId = element.getValueAsString(new CharacterSetCp1251(), element.length());
+		}
 		
 		// LookInside
 		// (0002,0002) UI #26 [1.2.826.0.1.3680043.2.706.5476834] Media Storage
@@ -59,6 +66,8 @@ public class Study {
 		// (0009,0010) LO #20 [KRT_ELECTRON_PRIVATE] Private Creator Data
 		// Element
 
+		
+		
 		SpecificCharacterSet cs;
 
 		// SpecificCharacterSet
@@ -68,11 +77,11 @@ public class Study {
 					Tag.SpecificCharacterSet).getStrings(null, false));
 		} else {
 			cs = new CharacterSetCp1251();
-			LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
+			LOG.warn(getDebugStr("Character Ser (tag: SpecificCharacterSet) is empty!"));
 		}
 
 
-		DicomElement element = dcmObj.get(Tag.MediaStorageSOPClassUID);
+		element = dcmObj.get(Tag.MediaStorageSOPClassUID);
 		String MediaStorageSOPClassUID = element.getValueAsString(cs, element
 				.length());
 		
@@ -85,14 +94,14 @@ public class Study {
 		//TODO можно и по модели и по MediaStorageSOPClassUID
 		//TODO как лучше???
 //		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
-		if (ManufacturerModelName.equals("КРТ-Электрон")) {
-//			int tag = 0x00090010;
-//			element = dcmObj.get(tag);
-//			if (element != null
-//					&& element.getValueAsString(cs, element.length()).equals(
-//							"KRT_ELECTRON_PRIVATE")) {
+//		if (ManufacturerModelName.equals("КРТ-Электрон")) {
+			int tag = 0x00090010;
+			element = dcmObj.get(tag);
+			if (element != null
+					&& element.getValueAsString(cs, element.length()).equals(
+							"KRT_ELECTRON_PRIVATE")) {
 			
-				LOG.info("Using dirver 'Elektron'");
+				LOG.info(getDebugStr("Using dirver 'Elektron'"));
 				return new StudyImplElektron(dcmObj);
 				
 //			}
@@ -102,14 +111,14 @@ public class Study {
 		//TODO как лучше???
 //		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
 		if (ManufacturerModelName.equals("RENEXFLUORO3")) {
-				LOG.info("Using dirver 'Renex'");
+				LOG.info(getDebugStr("Using dirver 'Renex'"));
 				return new StudyImplRenex(dcmObj);
 				
 		}
 		
 		if (MediaStorageSOPClassUID.equals("1.2.826.0.1.3680043.2.706.5476834")) {
 //			System.out.println("!!!!!");
-			LOG.info("Using dirver 'LookInside'");
+			LOG.info(getDebugStr("Using dirver 'LookInside'"));
 			return new StudyImpLookInside(dcmObj);
 			
 		}
@@ -118,8 +127,17 @@ public class Study {
 		Study study = new Study();
 		study.implCommon(dcmObj);
 		
-		LOG.info("Using dirver 'Common'");
+		LOG.info(getDebugStr("Using dirver 'Common'"));
 		return study;
+	}
+	
+	/**
+	 * Отладочная строка
+	 * @param str
+	 * @return
+	 */
+	public static String getDebugStr(String str) {
+		return "UID["+debugId + "] "+str;
 	}
 	
 	/**
@@ -138,7 +156,7 @@ public class Study {
 					Tag.SpecificCharacterSet).getStrings(null, false));
 		} else {
 			cs = new CharacterSetCp1251();
-			LOG.warn("Character Ser (tag: SpecificCharacterSet) is empty!");
+			LOG.warn(getDebugStr("Character Ser (tag: SpecificCharacterSet) is empty!"));
 		}
 		setCs(cs);
 
@@ -146,7 +164,7 @@ public class Study {
 		DicomElement element = dcmObj.get(Tag.StudyInstanceUID);
 //		setStudyInstanceUID("empty");
 		if (element == null) {
-			LOG.warn("Study ID (tag: StudyUID) is empty!");
+			LOG.warn(getDebugStr("Study ID (tag: StudyUID) is empty!"));
 			
 		} else {
 			setStudyInstanceUID(element.getValueAsString(cs, element
@@ -157,7 +175,7 @@ public class Study {
 		element = dcmObj.get(Tag.Manufacturer);
 //		setManufacturer("empty");
 		if (element == null) {
-			LOG.warn("Study ID (tag: Manufacturer) is empty!");
+			LOG.warn(getDebugStr("Study ID (tag: Manufacturer) is empty!"));
 			
 		} else {
 			setManufacturer(element.getValueAsString(cs, element
@@ -177,7 +195,7 @@ public class Study {
 //		setModality("empty");
 		element = dcmObj.get(Tag.Modality);
 		if (element == null) {
-			LOG.warn("Study ID (tag: Modality) is empty!");
+			LOG.warn(getDebugStr("Study ID (tag: Modality) is empty!"));
 		} else {
 			setModality(element.getValueAsString(cs, element.length()));
 		}
@@ -186,7 +204,7 @@ public class Study {
 		element = dcmObj.get(Tag.StudyID);
 //		setStudyID("empty");
 		if (element == null) {
-			LOG.warn("Study ID (tag: StudyID) is empty!");
+			LOG.warn(getDebugStr("Study ID (tag: StudyID) is empty!"));
 		} else {
 			setStudyID(element.getValueAsString(cs, element.length()));
 		}
@@ -197,14 +215,14 @@ public class Study {
 					Tag.PatientBirthDate).getDate(false).getTime()));
 		} else {
 			setPatientBirthDate( new java.sql.Date(0));
-			LOG.warn("Patient Birth Date (tag: PatientBirthDate) is empty!");
+			LOG.warn(getDebugStr("Patient Birth Date (tag: PatientBirthDate) is empty!"));
 		}
 
 		// PatientName
 		element = dcmObj.get(Tag.PatientName);
 //		setPatientName("empty");
 		if (element == null) {
-			LOG.warn("Patien Name (tag: PatientName) is empty!");
+			LOG.warn(getDebugStr("Patien Name (tag: PatientName) is empty!"));
 		} else {
 			String pname = element.getValueAsString(cs, element.length());
 			//Заточка под Renex
@@ -217,7 +235,7 @@ public class Study {
 		element = dcmObj.get(Tag.PatientID);
 //		setPatientID("empty");
 		if (element == null) {
-			LOG.warn("Patien ID (tag: PatientID) is empty!");
+			LOG.warn(getDebugStr("Patien ID (tag: PatientID) is empty!"));
 		} else {
 			setPatientID(element.getValueAsString(cs, element.length()));
 		}
@@ -226,11 +244,11 @@ public class Study {
 		element = dcmObj.get(Tag.PatientSex);
 //		setPatientSex("");
 		if (element == null) {
-			LOG.warn("Patient sex (tag: PatientSex) is empty!");
+			LOG.warn(getDebugStr("Patient sex (tag: PatientSex) is empty!"));
 		} else {
 			setPatientSex(element.getValueAsString(cs, element.length()));
 			if (getPatientSex().length() > 1) {
-				LOG.warn("PATIENT_SEX to long [" + getPatientSex() + "]");
+				LOG.warn(getDebugStr("PATIENT_SEX to long [" + getPatientSex() + "]"));
 				setPatientSex(getPatientSex().substring(0, 1));
 			}
 		}
@@ -241,7 +259,7 @@ public class Study {
 					.getDate(false).getTime()));
 		} else {
 			setStudyDate (null);
-			LOG.warn("Study Date (tag: StudyDate) is empty!");
+			LOG.warn(getDebugStr("Study Date (tag: StudyDate) is empty!"));
 		}
 
 		// StudyDoctor (Tag.ReferringPhysicianName)
@@ -306,7 +324,7 @@ public class Study {
 					.getDate(false).getTime()));
 		} else {
 			setStudyViewProtocolDate (null);
-			LOG.warn("Study Completion Date (tag: StudyCompletionDate) is empty!");
+			LOG.warn(getDebugStr("Study Completion Date (tag: StudyCompletionDate) is empty!"));
 		}
 		
 		
@@ -320,7 +338,9 @@ public class Study {
 				getPatientBirthDate()));
 		if (getPatientShortName() == null
 				|| getPatientShortName().length() == 0) {
-			setPatientShortName("notmuched");
+			setPatientShortName("notmuch");
+			LOG.warn(getDebugStr("Patient Short Name not muched! ["+getPatientName()+"]["+
+					getPatientBirthDate()+"]"));
 		}
 		
 		
