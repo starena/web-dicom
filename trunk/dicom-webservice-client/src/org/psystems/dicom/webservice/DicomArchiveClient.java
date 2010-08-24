@@ -24,7 +24,10 @@ public class DicomArchiveClient {
 //				testNewStudy();
 //				testGetStudy();
 //				findStudies();
-				String host = "http://localhost:8080";
+				
+//				String host = "http://localhost:8080/dicom-webservice";
+				String host = "http://localhost:38081/dicom-webservice2";
+				
 				if(args.length > 0) {
 					host = args[0];
 				}
@@ -96,7 +99,7 @@ public class DicomArchiveClient {
 		
 	
 		
-		DicomArchiveStub stub = new DicomArchiveStub(host+"/dicom-webservice/services/DicomArchive" );
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
 		
 		FindStudiesByType query = new FindStudiesByType();
 		
@@ -115,15 +118,14 @@ public class DicomArchiveClient {
 //		
 ////		db.set(1961, 3, 9); //1961-04-09
 ////		query.setPatientBirthDate(db);
-//		(2010-02-25) (2010-04-01)
 //		
 //		
-		query.setBeginStudyDate("2010-02-24");
-		query.setEndStudyDate("2010-02-25");
+		query.setBeginStudyDate("");
+		query.setEndStudyDate("");
 //		
 //		
 //		
-		query.setPatientName("%");
+		query.setPatientName("А%");
 ////		query.setPatientName("Иванов");
 //		
 		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
@@ -182,8 +184,8 @@ public class DicomArchiveClient {
 				+ ";" + findedStudy.getPatientShortName() + ";"
 				+ findedStudy.getPatientId() + ";" +
 				"PatientBirthDate="+findedStudy.getPatientBirthDateAsString() + 
-				" --- [" + findedStudy.getPatientBirthDate().getTime() +"] -- "+
-				"[" + findedStudy.getPatientBirthDate().getTime().getTime() +"] -- "+
+//				" --- [" + findedStudy.getPatientBirthDate().getTime() +"] -- "+
+//				"[" + findedStudy.getPatientBirthDate().getTime().getTime() +"] -- "+
 				"{" + findedStudy.getPatientBirthDate() +"};"
 				+"Sex="+findedStudy.getPatientSex()+"; "
 				+ "StudyDateAsString=" + findedStudy.getStudyDateAsString() + ";"

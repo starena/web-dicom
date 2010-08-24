@@ -160,7 +160,7 @@
      */
     public DicomArchiveStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://192.168.88.1:8080/dicom-webservice/services/DicomArchive.DicomArchiveHttpSoap12Endpoint" );
+                    this(configurationContext,"http://172.20.12.4:8080/dicom-webservice/services/DicomArchive.DicomArchiveHttpSoap12Endpoint" );
                 
     }
 
@@ -169,7 +169,7 @@
      */
     public DicomArchiveStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://192.168.88.1:8080/dicom-webservice/services/DicomArchive.DicomArchiveHttpSoap12Endpoint" );
+                    this("http://172.20.12.4:8080/dicom-webservice/services/DicomArchive.DicomArchiveHttpSoap12Endpoint" );
                 
     }
 
@@ -1318,7 +1318,7 @@
         }
         return false;
     }
-     //http://192.168.88.1:8080/dicom-webservice/services/DicomArchive.DicomArchiveHttpSoap12Endpoint
+     //http://172.20.12.4:8080/dicom-webservice/services/DicomArchive.DicomArchiveHttpSoap12Endpoint
         public static class FindStudiesByTypeResponse
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -6115,88 +6115,44 @@
                             
 
                         /**
-                        * field for StudyDescriptionDate
+                        * field for StudyDescription
                         */
 
                         
-                                    protected java.util.Calendar localStudyDescriptionDate ;
+                                    protected java.lang.String localStudyDescription ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localStudyDescriptionDateTracker = false ;
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return java.util.Calendar
-                           */
-                           public  java.util.Calendar getStudyDescriptionDate(){
-                               return localStudyDescriptionDate;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param StudyDescriptionDate
-                               */
-                               public void setStudyDescriptionDate(java.util.Calendar param){
-                            
-                                       if (param != null){
-                                          //update the setting tracker
-                                          localStudyDescriptionDateTracker = true;
-                                       } else {
-                                          localStudyDescriptionDateTracker = true;
-                                              
-                                       }
-                                   
-                                            this.localStudyDescriptionDate=param;
-                                    
-
-                               }
-                            
-
-                        /**
-                        * field for StudyDescriptionDateAsString
-                        */
-
-                        
-                                    protected java.lang.String localStudyDescriptionDateAsString ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localStudyDescriptionDateAsStringTracker = false ;
+                           protected boolean localStudyDescriptionTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getStudyDescriptionDateAsString(){
-                               return localStudyDescriptionDateAsString;
+                           public  java.lang.String getStudyDescription(){
+                               return localStudyDescription;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param StudyDescriptionDateAsString
+                               * @param param StudyDescription
                                */
-                               public void setStudyDescriptionDateAsString(java.lang.String param){
+                               public void setStudyDescription(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localStudyDescriptionDateAsStringTracker = true;
+                                          localStudyDescriptionTracker = true;
                                        } else {
-                                          localStudyDescriptionDateAsStringTracker = true;
+                                          localStudyDescriptionTracker = true;
                                               
                                        }
                                    
-                                            this.localStudyDescriptionDateAsString=param;
+                                            this.localStudyDescription=param;
                                     
 
                                }
@@ -6593,6 +6549,94 @@
                                        }
                                    
                                             this.localStudyViewprotocol=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for StudyViewprotocolDate
+                        */
+
+                        
+                                    protected java.util.Calendar localStudyViewprotocolDate ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localStudyViewprotocolDateTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.util.Calendar
+                           */
+                           public  java.util.Calendar getStudyViewprotocolDate(){
+                               return localStudyViewprotocolDate;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param StudyViewprotocolDate
+                               */
+                               public void setStudyViewprotocolDate(java.util.Calendar param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localStudyViewprotocolDateTracker = true;
+                                       } else {
+                                          localStudyViewprotocolDateTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localStudyViewprotocolDate=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for StudyViewprotocolDateAsString
+                        */
+
+                        
+                                    protected java.lang.String localStudyViewprotocolDateAsString ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localStudyViewprotocolDateAsStringTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getStudyViewprotocolDateAsString(){
+                               return localStudyViewprotocolDateAsString;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param StudyViewprotocolDateAsString
+                               */
+                               public void setStudyViewprotocolDateAsString(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localStudyViewprotocolDateAsStringTracker = true;
+                                       } else {
+                                          localStudyViewprotocolDateAsStringTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localStudyViewprotocolDateAsString=param;
                                     
 
                                }
@@ -7148,7 +7192,7 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localStudyDescriptionDateTracker){
+                             } if (localStudyDescriptionTracker){
                                     namespace = "http://orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -7156,20 +7200,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"studyDescriptionDate", namespace);
+                                            xmlWriter.writeStartElement(prefix,"studyDescription", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"studyDescriptionDate");
+                                            xmlWriter.writeStartElement(namespace,"studyDescription");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("studyDescriptionDate");
+                                        xmlWriter.writeStartElement("studyDescription");
                                     }
                                 
 
-                                          if (localStudyDescriptionDate==null){
+                                          if (localStudyDescription==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -7177,41 +7221,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDescriptionDate));
-                                            
-                                          }
-                                    
-                                   xmlWriter.writeEndElement();
-                             } if (localStudyDescriptionDateAsStringTracker){
-                                    namespace = "http://orm.commons.dicom.psystems.org/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
-
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
-
-                                            xmlWriter.writeStartElement(prefix,"studyDescriptionDateAsString", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
-
-                                        } else {
-                                            xmlWriter.writeStartElement(namespace,"studyDescriptionDateAsString");
-                                        }
-
-                                    } else {
-                                        xmlWriter.writeStartElement("studyDescriptionDateAsString");
-                                    }
-                                
-
-                                          if (localStudyDescriptionDateAsString==null){
-                                              // write the nil attribute
-                                              
-                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localStudyDescriptionDateAsString);
+                                                   xmlWriter.writeCharacters(localStudyDescription);
                                             
                                           }
                                     
@@ -7522,6 +7532,74 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localStudyViewprotocolDateTracker){
+                                    namespace = "http://orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"studyViewprotocolDate", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"studyViewprotocolDate");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("studyViewprotocolDate");
+                                    }
+                                
+
+                                          if (localStudyViewprotocolDate==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyViewprotocolDate));
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localStudyViewprotocolDateAsStringTracker){
+                                    namespace = "http://orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"studyViewprotocolDateAsString", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"studyViewprotocolDateAsString");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("studyViewprotocolDateAsString");
+                                    }
+                                
+
+                                          if (localStudyViewprotocolDateAsString==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localStudyViewprotocolDateAsString);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
                              }
                     xmlWriter.writeEndElement();
                
@@ -7770,18 +7848,12 @@
                                  
                                          elementList.add(localStudyDateAsString==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDateAsString));
-                                    } if (localStudyDescriptionDateTracker){
+                                    } if (localStudyDescriptionTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
-                                                                      "studyDescriptionDate"));
+                                                                      "studyDescription"));
                                  
-                                         elementList.add(localStudyDescriptionDate==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDescriptionDate));
-                                    } if (localStudyDescriptionDateAsStringTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
-                                                                      "studyDescriptionDateAsString"));
-                                 
-                                         elementList.add(localStudyDescriptionDateAsString==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDescriptionDateAsString));
+                                         elementList.add(localStudyDescription==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDescription));
                                     } if (localStudyDoctorTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
                                                                       "studyDoctor"));
@@ -7836,6 +7908,18 @@
                                  
                                          elementList.add(localStudyViewprotocol==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyViewprotocol));
+                                    } if (localStudyViewprotocolDateTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
+                                                                      "studyViewprotocolDate"));
+                                 
+                                         elementList.add(localStudyViewprotocolDate==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyViewprotocolDate));
+                                    } if (localStudyViewprotocolDateAsStringTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
+                                                                      "studyViewprotocolDateAsString"));
+                                 
+                                         elementList.add(localStudyViewprotocolDateAsString==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyViewprotocolDateAsString));
                                     }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
@@ -8278,41 +8362,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","studyDescriptionDate").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","studyDescription").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setStudyDescriptionDate(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDateTime(content));
-                                            
-                                       } else {
-                                           
-                                           
-                                           reader.getElementText(); // throw away text nodes if any.
-                                       }
-                                      
-                                        reader.next();
-                                    
-                              }  // End of if for expected property start element
-                                
-                                    else {
-                                        
-                                    }
-                                
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","studyDescriptionDateAsString").equals(reader.getName())){
-                                
-                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
-                                    
-                                    java.lang.String content = reader.getElementText();
-                                    
-                                              object.setStudyDescriptionDateAsString(
+                                              object.setStudyDescription(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -8556,6 +8613,60 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setStudyViewprotocol(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","studyViewprotocolDate").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setStudyViewprotocolDate(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDateTime(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","studyViewprotocolDateAsString").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setStudyViewprotocolDateAsString(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
