@@ -29,7 +29,7 @@ public class StudyImplRenex extends Study {
 		
 
 		// StudyType
-		StudyType = "Флюорография";
+		StudyType = new String("Флюорография");
 		
 
 		// StudyResult
