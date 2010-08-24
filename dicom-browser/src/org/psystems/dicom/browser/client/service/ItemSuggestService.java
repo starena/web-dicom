@@ -80,6 +80,6 @@ public interface ItemSuggestService extends RemoteService {
 	}
 
 	public SuggestTransactedResponse getSuggestions(long transactionId,
-			String version, SuggestOracle.Request req) throws DefaultGWTRPCException;
+			String version, String mode, SuggestOracle.Request req) throws DefaultGWTRPCException;
 
 }

@@ -143,14 +143,21 @@ public class Dicom_browser implements EntryPoint {
 					SearchResultPanel searchResultPanel = new SearchResultPanel();
 					RootPanel.get("bodyContainer").add(searchResultPanel);
 					searchPanel.setResultPanel(searchResultPanel);
+					searchPanel.setType("study");
 
 				} else if (event.getValue().equals("newstudy")) {
 
+					
 					RootPanel.get("bodyContainer").clear();
 
-					StudyManagePanel panel = new StudyManagePanel(
-							manageStudyService,browserService,null);
-					RootPanel.get("bodyContainer").add(panel);
+//					StudyManagePanel panel = new StudyManagePanel(
+//							manageStudyService,browserService,null);
+//					RootPanel.get("bodyContainer").add(panel);
+					SearchResultPanel searchResultPanel = new SearchResultPanel();
+					RootPanel.get("bodyContainer").add(searchResultPanel);
+					searchPanel.setResultPanel(searchResultPanel);
+					
+					searchPanel.setType("patient");
 
 				} else if (event.getValue().equals("showintro")) {
 

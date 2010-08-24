@@ -237,6 +237,76 @@ public class StudyProxy implements Serializable {
 	public String getStudyModality() {
 		return studyModality;
 	}
+	
+	
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setStudyModality(String studyModality) {
+		this.studyModality = studyModality;
+	}
+
+	public void setStudyUID(String studyUID) {
+		this.studyUID = studyUID;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+
+	public void setPatientSex(String patientSex) {
+		this.patientSex = patientSex;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public void setPatientBirthDate(Date patientBirthDate) {
+		this.patientBirthDate = patientBirthDate;
+	}
+
+	public void setStudyId(String studyId) {
+		this.studyId = studyId;
+	}
+
+	public void setStudyDate(Date studyDate) {
+		this.studyDate = studyDate;
+	}
+
+	public void setStudyDoctor(String studyDoctor) {
+		this.studyDoctor = studyDoctor;
+	}
+
+	public void setStudyOperator(String studyOperator) {
+		this.studyOperator = studyOperator;
+	}
+
+	public void setStudyViewprotocolDate(Date studyViewprotocolDate) {
+		this.studyViewprotocolDate = studyViewprotocolDate;
+	}
+
+	public void setStudyType(String studyType) {
+		this.studyType = studyType;
+	}
+
+	public void setStudyDescription(String studyDescription) {
+		this.studyDescription = studyDescription;
+	}
+
+	public void setStudyViewprotocol(String studyViewprotocol) {
+		this.studyViewprotocol = studyViewprotocol;
+	}
+
+	public void setStudyResult(String studyResult) {
+		this.studyResult = studyResult;
+	}
+
+	public void setManufacturerModelName(String manufacturerModelName) {
+		ManufacturerModelName = manufacturerModelName;
+	}
 
 	@Override
 	public String toString() {

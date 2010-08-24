@@ -260,7 +260,8 @@ public class StudyManagePanel extends Composite implements
 		patientBirthDateHidden = new Hidden();
 		patientBirthDateHidden.setName("00100030");
 		addFormHidden(patientBirthDateHidden);
-		patientBirthDateHidden.setValue(Utils.dateFormatDicom.format(proxy
+		if(proxy.getPatientBirthDate()!=null)
+			patientBirthDateHidden.setValue(Utils.dateFormatDicom.format(proxy
 				.getPatientBirthDate()));
 
 		addFormRow(rowCounter++, "Дата рождения", birstdayDox);
@@ -281,7 +282,8 @@ public class StudyManagePanel extends Composite implements
 		studyDateHidden = new Hidden();
 		studyDateHidden.setName("00080020");
 		addFormHidden(studyDateHidden);
-		studyDateHidden.setValue(Utils.dateFormatDicom.format(studyDateBox
+		if(studyDateBox.getValue()!=null)
+			studyDateHidden.setValue(Utils.dateFormatDicom.format(studyDateBox
 				.getValue()));
 
 		addFormRow(rowCounter++, "Дата исследования", studyDateBox);
