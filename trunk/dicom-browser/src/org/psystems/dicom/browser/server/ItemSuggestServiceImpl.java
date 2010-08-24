@@ -71,11 +71,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		ItemSuggestService {
 
+	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger
 			.getLogger(ItemSuggestServiceImpl.class.getName());
 
 	public SuggestTransactedResponse getSuggestions(long transactionId,
-			String version, SuggestOracle.Request req)
+			String version, String type, SuggestOracle.Request req)
 			throws DefaultGWTRPCException {
 		SuggestTransactedResponse resp = new SuggestTransactedResponse();
 		resp.setTransactionId(transactionId);
@@ -88,8 +90,14 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 
 		List<Suggestion> suggestions;
 		try {
+			if(type.equals("study")) {
 			suggestions = Storage.getSearchStudiesSuggestions(
 					getServletContext(), req.getQuery(), req.getLimit());
+			}else {
+				suggestions = Storage.getSearchPatientsSuggestions(
+						getServletContext(), req.getQuery(), req.getLimit());
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();//TODO Убрать
 			throw new DefaultGWTRPCException(e);

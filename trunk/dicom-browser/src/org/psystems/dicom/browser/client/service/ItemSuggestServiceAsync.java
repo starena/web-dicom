@@ -61,7 +61,8 @@ import com.google.gwt.user.client.ui.SuggestOracle.Request;
 
 public interface ItemSuggestServiceAsync {
 
-	void getSuggestions(long transactionId, String version, Request req,
-			AsyncCallback<SuggestTransactedResponse> callback);
+
+	void getSuggestions(long transactionId, String version, String mode,
+			Request req, AsyncCallback<SuggestTransactedResponse> callback);
 
 }

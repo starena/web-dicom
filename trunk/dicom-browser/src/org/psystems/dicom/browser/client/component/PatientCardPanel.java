@@ -1,9 +1,15 @@
 package org.psystems.dicom.browser.client.component;
 
+import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -17,16 +23,36 @@ import com.google.gwt.user.client.ui.Widget;
 public class PatientCardPanel extends Composite {
 
 	private PatientProxy patientProxy;
+	private VerticalPanel mainPanel;
 
-	public PatientCardPanel(PatientProxy patientProxy) {
+	public PatientCardPanel(final PatientProxy patientProxy) {
 		this.patientProxy = patientProxy;
-		VerticalPanel mainPanel = new VerticalPanel();
+		mainPanel = new VerticalPanel();
 		Label l = new Label(patientProxy.getPatientName() + " ("
 				+ patientProxy.getPatientSex() + ") "
 				+ patientProxy.getPatientBirthDate());
 		l.setStyleName("DicomItem");
 
 		mainPanel.add(l);
+		
+		Button changeStudy = new Button("изменить...");
+		changeStudy.setStyleName("DicomItem");
+		mainPanel.add(changeStudy);
+		
+		changeStudy.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				StudyProxy proxy = new StudyProxy();
+				proxy.setPatientId(""+patientProxy.getId());
+				proxy.setPatientName(patientProxy.getPatientName());
+				proxy.setPatientSex(patientProxy.getPatientSex());
+				proxy.setPatientBirthDate(patientProxy.getPatientBirthDate());
+				
+				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, proxy);
+				mainPanel.add(panel);
+			}
+		});
 
 		initWidget(mainPanel);
 	}

@@ -57,6 +57,7 @@ public class SearchPanel extends Composite implements
 	private Button sendButton;
 	private Button clearButton;
 	private SuggestBox nameField;
+	private String type = "study";//Тип (исследования, пациенты)
 
 	// Идентификатор транзакции (Время последнего запроса)
 	private long searchTransactionID;
@@ -180,7 +181,10 @@ public class SearchPanel extends Composite implements
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				// System.out.println("addSelectionHandler "+event);
-				searchStudyes();
+				if(type.equals("study"))
+					searchStudyes();
+				else
+					searchPatients();
 			}
 		});
 
@@ -188,7 +192,10 @@ public class SearchPanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				searchStudyes();
+				if(type.equals("study"))
+					searchStudyes();
+				else
+					searchPatients();
 			}
 		});
 
@@ -524,7 +531,7 @@ public class SearchPanel extends Composite implements
 				SuggestOracle.Callback callback) {
 			try {
 				ItemSuggestService.Util.getInstance().getSuggestions(
-						searchTransactionID, Dicom_browser.version, req,
+						searchTransactionID, Dicom_browser.version, type ,req,
 						new ItemSuggestCallback(req, callback));
 			} catch (DefaultGWTRPCException e) {
 				Application.showErrorDlg(e);
@@ -565,5 +572,15 @@ public class SearchPanel extends Composite implements
 		}
 
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	
 
 }
