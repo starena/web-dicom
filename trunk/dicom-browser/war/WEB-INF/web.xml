@@ -186,15 +186,19 @@
 	<!-- ***    СЕРВЛЕТЫ ОТОБРАЖЕНИЯ КАРТИНКИ В МИС     *** -->
 	<!-- ************************************************* -->
 
+	<!--   JSP-Servlet выдачи общей страницы    -->
+
 	<servlet>
-		<servlet-name>study2</servlet-name>
+		<servlet-name>study</servlet-name>
 		<jsp-file>/Study.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>study2</servlet-name>
+		<servlet-name>study</servlet-name>
 		<url-pattern>/study/*</url-pattern>
 	</servlet-mapping>
+
+	<!--   JSP-Servlet выдачи фрейма с картинкой    -->
 
 	<servlet>
 		<servlet-name>studyImage</servlet-name>
