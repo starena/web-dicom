@@ -189,7 +189,7 @@ public class DicomArchive {
 		try {
 			connection = Util.getConnection(servletContext);
 			try {
-				Study[] studies = Study.getStudues(connection, studyModality, patientName, patientShortName,
+				Study[] studies = Study.getStudues(connection, studyModality, null, patientName, patientShortName,
 						patientBirthDate, patientSex, beginStudyDate,
 						endStudyDate);
 				
@@ -198,10 +198,20 @@ public class DicomArchive {
 				
 				
 				//"http://127.0.0.1:8888/study/"
+				ArrayList<Study> tmpData = new ArrayList<Study>();
+				
 				
 				for(int i=0; i<studies.length; i++) {
 					studies[i].setStudyUrl(url+"/"+studies[i].getId());
+					
+					//Фильтруем результаты в которых есть отклонения
+					if(studies[i].getStudyResult()==null || studies[i].getStudyResult().length()==0) {
+						tmpData.add(studies[i]);
+					}
 				}
+				
+				studies = new Study[tmpData.size()];
+				tmpData.toArray(studies);
 				
 				return studies;
 			} catch (DataException e) {
