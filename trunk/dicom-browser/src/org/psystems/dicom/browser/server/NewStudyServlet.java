@@ -71,6 +71,14 @@ public class NewStudyServlet extends HttpServlet {
 					stream = processUploadedFile(item);
 				}
 			}
+			
+//			for (Iterator<Object> iter1 = props.keySet().iterator(); iter1.hasNext();) {
+//				String key = (String) iter1.next();
+//				String value = props.getProperty(key);
+//				
+//				
+//				System.out.println("[1]!!! key=" + key + "; value=" + value);
+//			}
 
 			makeDicomFile(props, stream);
 

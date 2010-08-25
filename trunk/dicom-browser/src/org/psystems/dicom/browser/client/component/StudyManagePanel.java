@@ -165,13 +165,35 @@ public class StudyManagePanel extends Composite implements
 		patientId.setValue(proxy.getPatientId());
 		addFormHidden(patientId);
 
-		//
-		Hidden manufacturerModelName = new Hidden();
-		manufacturerModelName.setName("00081090");
-		manufacturerModelName.setValue(proxy.getManufacturerModelName());
-		addFormHidden(manufacturerModelName);
+		
 
 		int rowCounter = 0;
+		
+		if (proxy.getManufacturerModelName() != null) {
+			addFormRow(rowCounter++, "Аппарат", new Label(proxy
+					.getManufacturerModelName()));
+			//
+			Hidden manufacturerModelName = new Hidden();
+			manufacturerModelName.setName("00081090");
+			manufacturerModelName.setValue(proxy.getManufacturerModelName());
+			addFormHidden(manufacturerModelName);
+		} else {
+
+			// Тип исследования Modality 00080060
+			// TODO Добавить словарь типов чтобы в интерфейсе показывать не
+			// CR,OT
+			// итп..
+			ListBox studyManufacturerModelName = new ListBox();
+			studyManufacturerModelName.setName("00081090");
+			studyManufacturerModelName.addItem("Мамограф", "MAMOGRAF");
+//			studyManufacturerModelName.addItem("Флюорография", "CR");
+//			if ("CR".equals(proxy.getStudyModality())) {
+//				studyManufacturerModelName.setSelectedIndex(1);
+//			} else {
+//				studyManufacturerModelName.setSelectedIndex(0);
+//			}
+			addFormRow(rowCounter++, "Аппарат", studyManufacturerModelName);
+		}
 
 		// Тип исследования Modality 00080060
 		// TODO Добавить словарь типов чтобы в интерфейсе показывать не CR,OT
@@ -269,7 +291,12 @@ public class StudyManagePanel extends Composite implements
 		//
 		studyDateBox = new DateBox();
 		studyDateBox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
-		studyDateBox.setValue(proxy.getStudyDate());
+		
+		if(proxy.getStudyDate()==null) {
+			studyDateBox.setValue(new Date());
+		} else {
+			studyDateBox.setValue(proxy.getStudyDate());
+		}
 		studyDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override

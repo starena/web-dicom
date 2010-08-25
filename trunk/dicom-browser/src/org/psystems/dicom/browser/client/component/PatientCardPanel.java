@@ -28,8 +28,12 @@ public class PatientCardPanel extends Composite {
 	public PatientCardPanel(final PatientProxy patientProxy) {
 		this.patientProxy = patientProxy;
 		mainPanel = new VerticalPanel();
+		String sex = "М";
+		if("F".equals(patientProxy.getPatientSex())) {
+			sex = "Ж";
+		}
 		Label l = new Label(patientProxy.getPatientName() + " ("
-				+ patientProxy.getPatientSex() + ") "
+				+ sex  + ") "
 				+ patientProxy.getPatientBirthDate());
 		l.setStyleName("DicomItem");
 
