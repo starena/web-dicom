@@ -85,6 +85,7 @@ public class StudyProxy implements Serializable {
 	private String studyViewprotocol;// Протокол осмотра
 	private String studyResult;// Результат исследования.
 	private String ManufacturerModelName; // Аппарат
+	private Date studyDateModify; // Дата модификации
 
 	// Файлы связанные с исследованием
 	private ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
@@ -306,6 +307,16 @@ public class StudyProxy implements Serializable {
 
 	public void setManufacturerModelName(String manufacturerModelName) {
 		ManufacturerModelName = manufacturerModelName;
+	}
+	
+	
+
+	public Date getStudyDateModify() {
+		return studyDateModify;
+	}
+
+	public void setStudyDateModify(Date studyDateModify) {
+		this.studyDateModify = studyDateModify;
 	}
 
 	@Override

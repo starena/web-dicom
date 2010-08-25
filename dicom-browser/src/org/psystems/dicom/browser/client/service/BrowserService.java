@@ -64,6 +64,7 @@ import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
+import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -76,6 +77,7 @@ public interface BrowserService extends RemoteService {
 
 	/**
 	 * Поиск исследований
+	 * 
 	 * @param transactionId
 	 * @param version
 	 * @param queryStr
@@ -84,7 +86,8 @@ public interface BrowserService extends RemoteService {
 	 * @throws DefaultGWTRPCException
 	 */
 	RPCDcmProxyEvent findStudy(long transactionId, String version,
-			String queryStr, HashMap<String, String> attrs) throws DefaultGWTRPCException;
+			String queryStr, HashMap<String, String> attrs)
+			throws DefaultGWTRPCException;
 
 	PatientsRPCResponse getPatients(PatientsRPCRequest req)
 			throws DefaultGWTRPCException;
@@ -94,5 +97,8 @@ public interface BrowserService extends RemoteService {
 
 	ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
 			String version, long idDcmFile) throws DefaultGWTRPCException;
+
+	StudyProxy getStudyByID(long transactionId, String version, Long id)
+			throws DefaultGWTRPCException;
 
 }

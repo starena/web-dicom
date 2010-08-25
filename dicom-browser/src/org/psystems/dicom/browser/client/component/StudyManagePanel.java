@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
@@ -82,11 +83,14 @@ public class StudyManagePanel extends Composite implements
 	private BrowserServiceAsync browserService;
 	protected HashMap<String, PatientProxy> itemProxies = new HashMap<String, PatientProxy>();
 	private ListBox lbSex;
+	private StudyProxy proxy;
+	private HTML verifyHTML;
 	public final static String medicalAlertsTitle = "норма";
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
-			BrowserServiceAsync browserService, StudyProxy proxy) {
+			final BrowserServiceAsync browserService, StudyProxy proxy) {
 
+		this.proxy = proxy;
 		this.browserService = browserService;
 		this.manageStudyService = manageStudyService;
 
@@ -479,14 +483,68 @@ public class StudyManagePanel extends Composite implements
 			@Override
 			public void onClick(ClickEvent event) {
 				formPanel.submit();
+//				StudyProxy tmpProxy = StudyManagePanel.this.proxy;
+				verifyHTML.setHTML("Отправка данных...");
+				
+				//Вынести в отдельный метод
+				TransactionTimer t = new TransactionTimer() {
+
+					boolean doExit = false;
+					private int counter = 0;
+
+					public void run() {
+
+
+						if(doExit) return;
+						
+						if(counter++>2) {
+							verifyHTML.setHTML("Отправка данных...НЕУДАЧНА!!!");
+							return;
+						}
+						verifyHTML.setHTML("Отправка данных..."+counter);
+						
+						//TODO Вынести в отдельный метод !!!!
+						browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								verifyHTML.setHTML("Ошибка при верификации данных!!!");
+								doExit=true;
+							}
+
+							@Override
+							public void onSuccess(StudyProxy result) {
+								// TODO Auto-generated method stub
+								if(StudyManagePanel.this.proxy.getStudyDateModify().getTime() != 
+									result.getStudyDateModify().getTime()) {
+								verifyHTML.setHTML("Данные приняты: "+StudyManagePanel.this.proxy.getStudyDateModify()+
+										" - "+result.getStudyDateModify());
+								doExit=true;
+								}
+								
+							}
+						});
+						
+
+					}
+				};
+				// t.schedule(2000);
+				t.scheduleRepeating(3000);
 			}
 		});
 		addFormRow(rowCounter++, submitBtn);
 
 		//
 		submitResult = new HTML("UID:" + proxy.getStudyUID());
+		
 		addFormRow(rowCounter++, submitResult);
+		
+		addFormRow(rowCounter++, new HTML(""+proxy.getStudyDateModify()));
 
+		verifyHTML = new HTML("");
+		addFormRow(rowCounter++, verifyHTML);
+		
 		initWidget(mainPanel);
 
 		patientVerify();
@@ -668,6 +726,8 @@ public class StudyManagePanel extends Composite implements
 	protected void submitSuccess() {
 		// clearForm();
 		dataVerifyed(true);
+		
+		
 	}
 
 	/**
