@@ -74,6 +74,8 @@ public abstract class Study {
 	private String studyUrl; // URL для открытия в обозревателе
 	private Long[] dcmFiles; // Связанные DCM-файлы
 	private String dateFormat = "yyyy-MM-dd";
+	
+	private Date studyDateModify; 
 
 	public Long getId() {
 		return id;
@@ -278,6 +280,15 @@ public abstract class Study {
 		this.dcmFiles = dcmFiles;
 	}
 
+	
+	public Date getStudyDateModify() {
+		return studyDateModify;
+	}
+
+	public void setStudyDateModify(Date studyDateModidy) {
+		this.studyDateModify = studyDateModidy;
+	}
+
 	/**
 	 * Получение экземпляра
 	 * 
@@ -323,6 +334,15 @@ public abstract class Study {
 		return StudyImpl.getStudues(connection, studyModality, manufacturerModelName, patientName,
 				patientShortName, patientBirthDate, patientSex, beginStudyDate,
 				endStudyDate);
+	}
+	
+	/**
+	 * @param connection
+	 * @param findId
+	 * @return
+	 */
+	public static Study getStudyByID (Connection connection, Long findId)  throws DataException {
+		return StudyImpl.getStudyByID(connection, findId);
 	}
 
 }

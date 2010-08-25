@@ -230,6 +230,7 @@ public class StudyImpl extends Study {
 				study.setStudyResult(rs.getString("STUDY_RESULT"));
 				study.setStudyUrl("");// TODO сделать!!
 				study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
+				study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
 				data.add(study);
 
 			}
@@ -252,4 +253,70 @@ public class StudyImpl extends Study {
 		}
 
 	}
+
+	/**
+	 * @param connection
+	 * @param findId
+	 * @return
+	 */
+	public static Study getStudyByID (Connection connection, Long findId)  throws DataException {
+		
+		PreparedStatement psSelect = null;
+		String sql = "SELECT * FROM WEBDICOM.STUDY WHERE ID = ?";
+
+		try {
+
+			psSelect = connection.prepareStatement(sql);
+			psSelect.setLong(1, findId);
+			ResultSet rs = psSelect.executeQuery();
+
+			while (rs.next()) {
+
+				Study study = new StudyImpl();
+				study.setId(rs.getLong("ID"));
+				study.setStudyInstanceUID(rs.getString("STUDY_UID"));
+				study.setStudyModality(rs.getString("STUDY_MODALITY"));
+				study.setStudyType(rs.getString("STUDY_TYPE"));
+				study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
+				study.setStudyDate(rs.getDate("STUDY_DATE"));
+				study.setManufacturerModelUID(rs
+						.getString("STUDY_MANUFACTURER_UID"));
+				study.setManufacturerModelName(rs
+						.getString("STUDY_MANUFACTURER_MODEL_NAME"));
+				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
+				study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
+				study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
+				study.setStudyViewprotocolDate(rs.getDate("STUDY_VIEW_PROTOCOL_DATE"));
+				study.setStudyId(rs.getString("STUDY_ID"));
+				study.setPatientName(rs.getString("PATIENT_NAME"));
+				study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
+				study.setPatientSex(rs.getString("PATIENT_SEX"));
+				study.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+				study.setPatientId(rs.getString("PATIENT_ID"));
+				study.setStudyResult(rs.getString("STUDY_RESULT"));
+				study.setStudyUrl("");// TODO сделать!!
+				study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
+				study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
+				return study;
+
+			}
+			rs.close();
+
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+		return null;
+
+	}
+	
 }

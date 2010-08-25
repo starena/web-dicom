@@ -173,6 +173,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 								.getStudyViewprotocol(), studies[i]
 								.getStudyResult());
 				
+				studyProxy.setStudyDateModify(studies[i].getStudyDateModify());
 
 				// Получаем список файлов
 				// TODO Перенести этот код в dicom-common ???
@@ -585,6 +586,123 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		resp.setPatients(data);
 
 		return resp;
+	}
+
+	@Override
+	public StudyProxy getStudyByID(long transactionId, String version, Long id)
+			throws DefaultGWTRPCException {
+		
+		// проверка версии клиента
+		Util.checkClentVersion(version);
+
+		PreparedStatement psFiles = null;
+		PreparedStatement psSelect = null;
+
+		try {
+
+			Connection connection = Util.getConnection("main",getServletContext());
+			
+			psFiles = connection
+			.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
+			
+			Study study = Study.getStudyByID(connection, id);
+			StudyProxy studyProxy = new StudyProxy();
+
+				java.util.Date studyDescriptionDate = null;
+				java.util.Date studyDate = null;
+				java.util.Date patientBirthDate = null;
+
+				if (study.getStudyViewprotocolDate() != null)
+					studyDescriptionDate = new java.util.Date(study
+							.getStudyViewprotocolDate().getTime());
+
+				if (study.getStudyDate() != null)
+					studyDate = new java.util.Date(study.getStudyDate()
+							.getTime());
+
+				if (study.getPatientBirthDate() != null)
+					patientBirthDate = new java.util.Date(study
+							.getPatientBirthDate().getTime());
+
+				studyProxy.init(study.getId(), study.getStudyModality(), study
+						.getStudyInstanceUID(), study
+						.getManufacturerModelName(), study
+						.getPatientName(), study.getPatientSex(),
+						study.getPatientId(), patientBirthDate, study
+								.getStudyId(), study.getStudyType(),
+						studyDate, studyDescriptionDate, study
+								.getStudyDoctor(), study
+								.getStudyOperator(), study
+								.getStudyDescription(), study
+								.getStudyViewprotocol(), study
+								.getStudyResult());
+				
+				studyProxy.setStudyDateModify(study.getStudyDateModify());
+
+				// Получаем список файлов
+				// TODO Выделить в общую часть с методом findStudy(....)
+				//
+
+				psFiles.setLong(1, study.getId());
+				ResultSet rsFiles = psFiles.executeQuery();
+
+				ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
+				while (rsFiles.next()) {
+
+					DcmFileProxy dcmfileProxy = new DcmFileProxy();
+
+					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
+							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
+							rsFiles.getString("DCM_FILE_NAME"), rsFiles
+									.getLong("DCM_FILE_SIZE"), rsFiles
+									.getLong("IMAGE_FILE_SIZE"), rsFiles
+									.getInt("IMAGE_WIDTH"), rsFiles
+									.getInt("IMAGE_HEIGHT"));
+					files.add(dcmfileProxy);
+				}
+				rsFiles.close();
+				studyProxy.setFiles(files);
+
+			
+			
+
+			Calendar calendar = Calendar.getInstance();
+
+			int tzoffset = calendar.getTimeZone().getOffset(
+					calendar.getTimeInMillis());
+
+			long time = calendar.getTimeInMillis();
+			time = time - (time % (60 * 60 * 24 * 1000)) - tzoffset;
+			calendar.setTimeInMillis(time);
+
+			Date sqlDate = new java.sql.Date(time);
+			updateDayStatInc(sqlDate, "CLIENT_CONNECTIONS", (long) 1);
+			
+			
+			return studyProxy;
+
+		} catch (SQLException e) {
+			logger.error(e);
+			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
+		} catch (DataException e) {
+			logger.error(e);
+			e.printStackTrace();
+			throw new DefaultGWTRPCException(e.getMessage());
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+				if (psFiles != null)
+					psFiles.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				throw new DefaultGWTRPCException(e.getMessage());
+			}
+		}
+
+		
 	}
 
 }
