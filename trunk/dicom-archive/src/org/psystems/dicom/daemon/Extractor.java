@@ -69,6 +69,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -458,9 +459,8 @@ public class Extractor {
 				stmt.setString(15, study.getPatientShortName());
 				stmt.setDate(16, study.getPatientBirthDate());
 				stmt.setString(17, study.getPatientSex());
-				stmt.setDate(18, new Date(new java.util.Date().getTime()));
+				stmt.setTimestamp(18, new Timestamp(new java.util.Date().getTime()));
 				stmt.setLong(19, studyInternalID);
-				
 				stmt.executeUpdate();
 				stmt.close();
 
@@ -508,7 +508,7 @@ public class Extractor {
 				stmt.setString(16, study.getPatientShortName());
 				stmt.setDate(17, study.getPatientBirthDate());
 				stmt.setString(18, study.getPatientSex());
-				stmt.setDate(19, new Date(new java.util.Date().getTime()));
+				stmt.setTimestamp(19, new Timestamp(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
@@ -551,7 +551,7 @@ public class Extractor {
 				stmt.setLong(6, IMAGE_FILE_SIZE);
 				stmt.setInt(7, IMAGE_WIDTH);
 				stmt.setInt(8, IMAGE_HEIGHT);
-				stmt.setDate(9, new Date(new java.util.Date().getTime()));
+				stmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
 				stmt.setLong(10, id);
 				stmt.executeUpdate();
 				stmt.close();
@@ -580,7 +580,7 @@ public class Extractor {
 				stmt.setLong(6, IMAGE_FILE_SIZE);
 				stmt.setInt(7, IMAGE_WIDTH);
 				stmt.setInt(8, IMAGE_HEIGHT);
-				stmt.setDate(9, new Date(new java.util.Date().getTime()));
+				stmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
 
 				stmt.executeUpdate();
 
