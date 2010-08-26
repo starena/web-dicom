@@ -97,14 +97,19 @@ public class StorageOMITSImpl extends Storage {
 
 			Connection connection = org.psystems.dicom.browser.server.Util
 					.getConnection("omits", context);
+			
+			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') ";
+			
+			if(queryStr.matches("^\\D{5}\\d{2}$")) {
+				where = " CODE = UPPER(?) ";
+			}
 
 			psSelect = connection
 					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
 							+ " from  lpu.v_patient v "
-							+ "WHERE UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%')"
+							+ "WHERE " + where
 							+ " order by SUR_NAME ");
 
-//			System.out.println("!!!! queryStr=["+queryStr+"]");
 			psSelect.setString(1, queryStr);
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
@@ -150,11 +155,17 @@ public class StorageOMITSImpl extends Storage {
 
 			Connection connection = org.psystems.dicom.browser.server.Util
 					.getConnection("omits", context);
+			
+			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') ";
+			
+			if(queryStr.matches("^\\D{5}\\d{2}$")) {
+				where = " CODE = UPPER(?) ";
+			}
 
 			psSelect = connection
 					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
 							+ " from  lpu.v_patient v "
-							+ "WHERE UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%')"
+							+ "WHERE " + where
 							+ " order by SUR_NAME ");
 
 			psSelect.setString(1, queryStr);

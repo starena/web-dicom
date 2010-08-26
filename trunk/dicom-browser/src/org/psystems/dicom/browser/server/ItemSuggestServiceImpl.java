@@ -88,6 +88,8 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		// Create a list to hold our suggestions (pre-set the lengthto the limit
 		// specified by the request)
 
+		System.out.println("!!!! transactionId="+transactionId);
+		
 		List<Suggestion> suggestions;
 		try {
 			if(type.equals("study")) {

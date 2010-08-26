@@ -31,5 +31,13 @@ public class NewStudyServletTest extends TestCase {
 		}
 
 	}
+	
+	public void testRegexp() {
+		String s = "ИВАЛА56";
+		System.out.println("S="+s);
+		if(s.matches("^\\D{5}\\d{2}$")) {
+			System.out.println("!!! find "+s);
+		}
+	}
 
 }
