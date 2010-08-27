@@ -50,6 +50,9 @@ public class StudyImplElektron extends Study {
 				&& element.getValueAsString(cs, element.length()).length() > 0) {
 			StudyResult = element
 					.getValueAsString(cs, element.length());
+			if (StudyResult.equalsIgnoreCase("норма")) {
+				StudyResult="";
+			}
 		}
 
 		// StudyViewProtocol
