@@ -201,10 +201,12 @@ public class StudyImpl extends Study {
 
 			ArrayList<Study> data = new ArrayList<Study>();
 
+//			System.out.println("!!!! sql="+sql);
 			int counter = 1;
 			while (rs.next()) {
 				//TODO убрать в конфиг
 				if(counter++> WorkListPanel.maxResultCount) break;
+//				System.out.println("!!!!! counter="+counter);
 
 				Study study = new StudyImpl();
 				study.setId(rs.getLong("ID"));
@@ -236,6 +238,7 @@ public class StudyImpl extends Study {
 			}
 			rs.close();
 
+//			System.out.println("!!!! data="+data.size());
 			Study[] result = new Study[data.size()];
 			return data.toArray(result);
 
