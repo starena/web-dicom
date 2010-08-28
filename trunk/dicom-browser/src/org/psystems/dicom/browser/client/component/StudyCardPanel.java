@@ -190,7 +190,7 @@ public class StudyCardPanel extends Composite {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				table.remove(changeStudy);
-				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, proxy);
+				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, StudyCardPanel.this, proxy);
 				table.setWidget(8, 0, panel);
 				table.getFlexCellFormatter().setColSpan(8, 0, 6);
 				table.getFlexCellFormatter().setAlignment(8, 0,
@@ -302,7 +302,7 @@ public class StudyCardPanel extends Composite {
 	 * Задание данных для данной формы
 	 * @param proxy
 	 */
-	private void setProxy(StudyProxy proxy) {
+	 void setProxy(StudyProxy proxy) {
 
 		this.proxy = proxy;
 		

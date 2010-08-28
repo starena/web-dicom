@@ -61,6 +61,7 @@ public class StudyManagePanel extends Composite implements
 		ValueChangeHandler<String> {
 
 	private ManageStydyServiceAsync manageStudyService;
+	private StudyCardPanel studyCardPanel;
 	private HTML submitResult;
 	private Button submitBtn;
 	private TextBox patientName;
@@ -75,8 +76,8 @@ public class StudyManagePanel extends Composite implements
 	private TextBox medicalAlerts;
 	private TextBox studyDescription;
 	private TextArea studyComments;
-	private TextBox studyDoctror;
-	private TextBox studyOperator;
+//	private TextBox studyOperator;
+//	private TextBox studyDoctror2;
 	private DateBox studyViewProtocolDateBox;
 	private Hidden studyViewProtocolDateHidden;
 	private ListBox patientNameCheck;
@@ -85,11 +86,15 @@ public class StudyManagePanel extends Composite implements
 	private ListBox lbSex;
 	private StudyProxy proxy;
 	private HTML verifyHTML;
+	private ListBox studyDoctror;
+	private ListBox studyOperator;
+	private int rowCounter;
 	public final static String medicalAlertsTitle = "норма";
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
-			final BrowserServiceAsync browserService, StudyProxy proxy) {
+			final BrowserServiceAsync browserService, StudyCardPanel studyCardPanel, StudyProxy proxy) {
 
+		this.studyCardPanel = studyCardPanel;
 		this.proxy = proxy;
 		this.browserService = browserService;
 		this.manageStudyService = manageStudyService;
@@ -133,6 +138,7 @@ public class StudyManagePanel extends Composite implements
 				// TODO Auto-generated method stub
 				// event.cancel();
 				dataVerifyed(false);
+				startcheckindStudyModify();
 			}
 		});
 
@@ -171,7 +177,7 @@ public class StudyManagePanel extends Composite implements
 
 		
 
-		int rowCounter = 0;
+		rowCounter = 0;
 		
 		if (proxy.getManufacturerModelName() != null) {
 			addFormRow(rowCounter++, "Аппарат", new Label(proxy
@@ -344,17 +350,88 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, "Дата описания", studyViewProtocolDateBox);
 
 		//
-		studyDoctror = new TextBox();
+//		studyDoctror = new TextBox();
+//		studyDoctror.setName("00080090");
+//		studyDoctror.setWidth("400px");
+//		studyDoctror.setText(proxy.getStudyDoctor());
+//		addFormRow(rowCounter++, "Врач", studyDoctror);
+//		
+		
+		studyDoctror = new ListBox();
 		studyDoctror.setName("00080090");
-		studyDoctror.setWidth("400px");
-		studyDoctror.setText(proxy.getStudyDoctor());
+		studyDoctror.addItem("Выберите врача...", "");
+		studyDoctror.addItem("Петрова  Н.Н.", "Петрова  Н.Н.");
+		studyDoctror.addItem("Девяткова И.А.", "Девяткова И.А.");
+//		studyDoctror2.addItem("Ввести нового...", "manualinput");
+		
+		boolean find = false;
+		for( int i=0; i< studyDoctror.getItemCount(); i++) {
+			String item = studyDoctror.getItemText(i);
+			if(item.equalsIgnoreCase(proxy.getStudyDoctor())) {
+				studyDoctror.setSelectedIndex(i);
+				find = true;
+				break;
+			}
+		}
+		
+		if(!find && proxy.getStudyDoctor()!=null && proxy.getStudyDoctor().length()!=0) {
+			studyDoctror.addItem(proxy.getStudyDoctor() + " (нет в словаре!)", proxy.getStudyDoctor());
+			studyDoctror.setSelectedIndex(studyDoctror.getItemCount()-1);
+		}
+		
+//		studyDoctror2.addChangeHandler(new ChangeHandler() {
+//
+//			@Override
+//			public void onChange(ChangeEvent event) {
+//				// TODO Auto-generated method stub
+//				// System.out.println("!!! "+event)!!!;
+////				int i = studyDoctror2.getSelectedIndex();
+////				studyDoctror2.getValue(i);
+//			}
+//		});
+		
 		addFormRow(rowCounter++, "Врач", studyDoctror);
 
 		//
-		studyOperator = new TextBox();
+//		studyOperator = new TextBox();
+//		studyOperator.setName("00081070");
+//		studyOperator.setWidth("400px");
+//		studyOperator.setText(proxy.getStudyOperator());
+//		addFormRow(rowCounter++, "Лаборант", studyOperator);
+		
+		studyOperator = new ListBox();
 		studyOperator.setName("00081070");
-		studyOperator.setWidth("400px");
-		studyOperator.setText(proxy.getStudyOperator());
+		studyOperator.addItem("Выберите лаборанта...", "");
+		studyOperator.addItem("Михеева И.А.", "Михеева И.А.");
+		studyOperator.addItem("Давыдов В.С.", "Давыдов В.С.");
+//		studyOperator2.addItem("Ввести нового...", "manualinput");
+		
+		find = false;
+		for( int i=0; i< studyOperator.getItemCount(); i++) {
+			String item = studyOperator.getItemText(i);
+			if(item.equalsIgnoreCase(proxy.getStudyOperator())) {
+				studyOperator.setSelectedIndex(i);
+				find = true;
+				break;
+			}
+		}
+		
+		if(!find && proxy.getStudyOperator()!=null && proxy.getStudyOperator().length()!=0) {
+			studyOperator.addItem(proxy.getStudyOperator() + " (нет в словаре!)", proxy.getStudyOperator());
+			studyOperator.setSelectedIndex(studyOperator.getItemCount()-1);
+		}
+		
+//		studyOperator2.addChangeHandler(new ChangeHandler() {
+//
+//			@Override
+//			public void onChange(ChangeEvent event) {
+//				// TODO Auto-generated method stub
+//				// System.out.println("!!! "+event)!!!;
+////				int i = studyOperator2.getSelectedIndex();
+////				studyOperator2.getValue(i);
+//			}
+//		});
+		
 		addFormRow(rowCounter++, "Лаборант", studyOperator);
 
 		//
@@ -483,54 +560,7 @@ public class StudyManagePanel extends Composite implements
 			@Override
 			public void onClick(ClickEvent event) {
 				formPanel.submit();
-//				StudyProxy tmpProxy = StudyManagePanel.this.proxy;
-				verifyHTML.setHTML("Отправка данных...");
-				
-				//Вынести в отдельный метод
-				TransactionTimer t = new TransactionTimer() {
 
-					boolean doExit = false;
-					private int counter = 0;
-
-					public void run() {
-
-
-						if(doExit) return;
-						
-						if(counter++>2) {
-							verifyHTML.setHTML("Отправка данных...НЕУДАЧНА!!!");
-							return;
-						}
-						verifyHTML.setHTML("Отправка данных..."+counter);
-						
-						//TODO Вынести в отдельный метод !!!!
-						browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								verifyHTML.setHTML("Ошибка при верификации данных!!!");
-								doExit=true;
-							}
-
-							@Override
-							public void onSuccess(StudyProxy result) {
-								// TODO Auto-generated method stub
-								if(StudyManagePanel.this.proxy.getStudyDateModify().getTime() != 
-									result.getStudyDateModify().getTime()) {
-								verifyHTML.setHTML("Данные приняты: "+StudyManagePanel.this.proxy.getStudyDateModify()+
-										" - "+result.getStudyDateModify());
-								doExit=true;
-								}
-								
-							}
-						});
-						
-
-					}
-				};
-				// t.schedule(2000);
-				t.scheduleRepeating(3000);
 			}
 		});
 		addFormRow(rowCounter++, submitBtn);
@@ -548,6 +578,80 @@ public class StudyManagePanel extends Composite implements
 		initWidget(mainPanel);
 
 		patientVerify();
+	}
+
+	/**
+	 * Запуск процедуры проверки принятия данных системой
+	 * и попапдния их в БД
+	 */
+	protected void startcheckindStudyModify() {
+		// TODO Auto-generated method stub
+		
+//		StudyProxy tmpProxy = StudyManagePanel.this.proxy;
+		verifyHTML.setHTML("Отправка данных...");
+		
+		//Вынести в отдельный метод
+		TransactionTimer t = new TransactionTimer() {
+
+			boolean doExit = false;
+			private int counter = 0;
+
+			public void run() {
+
+
+				if(doExit) return;
+				
+				if(counter++>2) {
+					verifyHTML.setHTML("Отправка данных...НЕУДАЧНА!!!");
+					return;
+				}
+				verifyHTML.setHTML("Отправка данных..."+counter);
+				
+				//TODO Вынести в отдельный метод !!!!
+				browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						verifyHTML.setHTML("Ошибка при верификации данных!!!");
+						doExit=true;
+					}
+
+					@Override
+					public void onSuccess(StudyProxy result) {
+						// TODO Auto-generated method stub
+						if(StudyManagePanel.this.proxy.getStudyDateModify().getTime() != 
+							result.getStudyDateModify().getTime()) {
+						verifyHTML.setHTML("Данные приняты: "+StudyManagePanel.this.proxy.getStudyDateModify()+
+								" - "+result.getStudyDateModify());
+						
+						if(studyCardPanel!=null) {
+							//TODO Возможно сделать интерфейс для возврата?
+							studyCardPanel.setProxy(result);
+						}
+						
+						Button closeBtn = new Button("Закрыть форму ввода");
+						addFormRow(rowCounter++, closeBtn);
+						
+						closeBtn.addClickHandler(new ClickHandler() {
+							
+							@Override
+							public void onClick(ClickEvent event) {
+								StudyManagePanel.this.removeFromParent();
+							}
+						});
+						
+						doExit=true;
+						}
+						
+					}
+				});
+				
+
+			}
+		};
+		// t.schedule(2000);
+		t.scheduleRepeating(3000);
 	}
 
 	protected void dataVerifyed(boolean b) {
