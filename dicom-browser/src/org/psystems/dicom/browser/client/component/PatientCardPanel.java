@@ -53,7 +53,7 @@ public class PatientCardPanel extends Composite {
 				proxy.setPatientSex(patientProxy.getPatientSex());
 				proxy.setPatientBirthDate(patientProxy.getPatientBirthDate());
 				
-				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, proxy);
+				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, null, proxy);
 				mainPanel.add(panel);
 			}
 		});
