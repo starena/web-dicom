@@ -76,6 +76,7 @@ import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
+import org.dcm4che2.data.VR;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.StringUtils;
 
@@ -235,11 +236,16 @@ public class DcmViewTagsServlet extends HttpServlet {
 				if (length > maxLength)
 					length = maxLength;
 
+				String value = "Not be converted";
+				if(!element.vr().equals(VR.SQ)) {
+					value = element.getValueAsString(cs, length);
+				}
+				
 				resp.getWriter().write(
 						"<tr> " + " <td>" + major + " <td> " + minor
 								+ " <td> short=" + (short) (tag) + "<td>"
 								+ type + "<td>" + dcmObj.nameOf(tag) + " <td> "
-								+ element.getValueAsString(cs, length)
+								+ value
 								+ "</tr>");
 			}
 			resp.getWriter().write("</table>");

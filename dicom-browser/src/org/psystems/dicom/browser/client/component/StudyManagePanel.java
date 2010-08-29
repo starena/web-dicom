@@ -550,7 +550,12 @@ public class StudyManagePanel extends Composite implements
 		fileUpload = new FileUpload();
 		fileUpload.setName("upload");
 
-		addFormRow(rowCounter++, "Снимок", fileUpload);
+		ListBox lbAttachnebtType = new ListBox();
+		lbAttachnebtType.setName("content_type");
+		lbAttachnebtType.addItem("Описание", "application/pdf");
+		lbAttachnebtType.addItem("Снимок", "image/jpg");
+		
+		addFormRow(rowCounter++, lbAttachnebtType, fileUpload);
 
 		//
 		submitBtn = new Button("Сохранить изменения...");
@@ -775,6 +780,24 @@ public class StudyManagePanel extends Composite implements
 	private void addFormRow(int row, String title, Widget input) {
 
 		formTable.setWidget(row, 0, makeItemLabel(title));
+		formTable.getCellFormatter().setHorizontalAlignment(row, 0,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+		formTable.getCellFormatter().setVerticalAlignment(row, 0,
+				HasVerticalAlignment.ALIGN_TOP);
+		formTable.setWidget(row, 1, input);
+
+	}
+	
+	/**
+	 * Добавление строчки на форму
+	 * 
+	 * @param row
+	 * @param title
+	 * @param input
+	 */
+	private void addFormRow(int row, Widget title, Widget input) {
+
+		formTable.setWidget(row, 0, title);
 		formTable.getCellFormatter().setHorizontalAlignment(row, 0,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		formTable.getCellFormatter().setVerticalAlignment(row, 0,
