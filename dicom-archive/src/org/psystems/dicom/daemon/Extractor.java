@@ -669,7 +669,8 @@ public class Extractor {
 //			System.out.println("!!! VR[" + element.vr() + "]"+ element);
 
 			// не пишем бинарные данные
-			if (element.vr().equals(VR.OW) || element.vr().equals(VR.OB)) {
+			if (element.vr().equals(VR.OW) || element.vr().equals(VR.OB)
+					|| element.vr().equals(VR.SQ)) {
 				continue;
 			}
 
@@ -689,6 +690,7 @@ public class Extractor {
 			if (length > maxLength)
 				length = maxLength;
 
+//			System.out.println("!!! element vr=["+element.vr()+"]");
 			String value = element.getValueAsString(cs, length);
 			if (value == null)
 				continue;
