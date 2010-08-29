@@ -183,11 +183,11 @@ public class Jpg2Dcm {
 	private Properties cfg = new Properties();
 
 	public Jpg2Dcm() {
-		try {
-//			cfg.load(Jpg2Dcm.class.getResourceAsStream("jpg2dcm.cfg"));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+//		try {
+////			cfg.load(Jpg2Dcm.class.getResourceAsStream("jpg2dcm.cfg"));
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 
 	public final void setCharset(String charset) {

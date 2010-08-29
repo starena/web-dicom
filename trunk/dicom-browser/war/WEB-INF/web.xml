@@ -82,10 +82,16 @@
 		<param-value>C:\temp\dcm</param-value>
 	</context-param>
 
-	<!-- Конфиг-прототип для создания DCM-файлов  -->
+	<!-- Конфиг-прототип для создания JPG - DCM-файлов  -->
 	<context-param>
-		<param-name>webdicom.dir.newdcm.cfg</param-name>
+		<param-name>webdicom.dir.newdcm.jpg.cfg</param-name>
 		<param-value>C:\WORK\workspace\dicom-browser\test\data\jpg2dcm.cfg</param-value>
+	</context-param>
+	
+	<!-- Конфиг-прототип для создания DFP - DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.pdf.cfg</param-name>
+		<param-value>C:\WORK\workspace\dicom-browser\test\data\pdf2dcm.cfg</param-value>
 	</context-param>
 
 

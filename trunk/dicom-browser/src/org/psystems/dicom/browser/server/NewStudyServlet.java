@@ -131,63 +131,108 @@ public class NewStudyServlet extends HttpServlet {
 	private void makeDicomFile(Properties props, InputStream stream)
 			throws IOException {
 		System.out.println("!!!! making dcm...");
-
-		Jpg2Dcm jpg2Dcm = new Jpg2Dcm();
-
-		String cfg = getServletContext().getInitParameter("webdicom.dir.newdcm.cfg");
 		
-		jpg2Dcm.loadConfiguration(new File(cfg),true);
-
-		// try {
-		// patientName = new String(patientName.getBytes("UTF-8"), "Cp1251");
-		// } catch (UnsupportedEncodingException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// throw new DefaultGWTRPCException(
-		// "Не могу создать файл с исследованием! " + e1);
-		// }
+		String contentType = (String) props.get("content_type");
+		props.remove("content_type");
 		
-		//TODO
-//		props.put("00100040", "M"); //# Patient's Sex
-//		props.put("00080020", "20100806"); //# Study Date
+		//TODO Убрать дублирование кода в этих условиях!!!
 		
-		
-
-		for (Iterator<Object> iter = props.keySet().iterator(); iter.hasNext();) {
-			String key = (String) iter.next();
-			String value = props.getProperty(key);
+		if(contentType.equals("application/pdf")) {
 			
-			//Заточка пот значение тега = 'норма'
-			if(key.equals("00102000") && value!=null && value.equals(StudyManagePanel.medicalAlertsTitle)) {
-				value = "";
+			Pdf2Dcm pfg2Dcm = new Pdf2Dcm();
+			String cfg = getServletContext().getInitParameter(
+					"webdicom.dir.newdcm.pdf.cfg");
+			pfg2Dcm.loadConfiguration(new File(cfg));
+
+			for (Iterator<Object> iter = props.keySet().iterator(); iter
+					.hasNext();) {
+				String key = (String) iter.next();
+				String value = props.getProperty(key);
+
+				// Заточка пот значение тега = 'норма'
+				if (key.equals("00102000") && value != null
+						&& value.equals(StudyManagePanel.medicalAlertsTitle)) {
+					value = "";
+				}
+				pfg2Dcm.setCfgProperty(key, value);
+				System.out.println("!!!! key=" + key + "; value=" + value);
 			}
-			jpg2Dcm.setCfgProperty(key, value);
-			System.out.println("!!!! key=" + key + "; value=" + value);
+
+			// TODO Сделать сохранение даты через attrs.putDate(...)
+			// jpg2Dcm.setCfgProperty("00100030", "20010329");
+			pfg2Dcm.setCharset("ISO_IR 144");
+			// jpg2Dcm.setCharset("ISO_IR 192");//UTF-8
+
+			String dcmDir = getServletContext().getInitParameter(
+					"webdicom.dir.newdcm");
+
+			String dcmTmpDir = getServletContext().getInitParameter(
+					"webdicom.dir.newdcm.tmp");
+
+			long prefix = new Date().getTime();
+			String dcmFileName = dcmDir + "/" + prefix + ".dcm";
+			String tmpFileName = dcmTmpDir + "/" + prefix + ".dcm";
+			// TODO Задать в конфиге
+			File dcmFileTmp = new File(tmpFileName);
+
+			pfg2Dcm.convert(stream, dcmFileTmp);
+
+			File dcmFile = new File(dcmFileName);
+
+			dcmFileTmp.renameTo(dcmFile);
+			System.out.println("!!!! making IMAGE dcm SUCCESS!");
 		}
+		
+		//-------------------------------
+		
+		//TODO Убрать дублирование кода в этих условиях!!!
+		if (contentType.equals("image/jpg")) {
 
-		// TODO Сделать сохранение даты через attrs.putDate(...)
-//		jpg2Dcm.setCfgProperty("00100030", "20010329");
-		jpg2Dcm.setCharset("ISO_IR 144");
-		// jpg2Dcm.setCharset("ISO_IR 192");//UTF-8
+			Jpg2Dcm jpg2Dcm = new Jpg2Dcm();
+			String cfg = getServletContext().getInitParameter(
+					"webdicom.dir.newdcm.jpg.cfg");
+			jpg2Dcm.loadConfiguration(new File(cfg), true);
 
-		String dcmDir = getServletContext().getInitParameter(
-		"webdicom.dir.newdcm");
-		
-		String dcmTmpDir = getServletContext().getInitParameter(
-		"webdicom.dir.newdcm.tmp");
-		
-		long prefix = new Date().getTime();
-		String dcmFileName = dcmDir+"/"+prefix+".dcm";
-		String tmpFileName = dcmTmpDir+"/"+prefix+".dcm";
-		//TODO Задать в конфиге
-		File dcmFileTmp = new File(tmpFileName );
+			for (Iterator<Object> iter = props.keySet().iterator(); iter
+					.hasNext();) {
+				String key = (String) iter.next();
+				String value = props.getProperty(key);
 
-		jpg2Dcm.convert(stream, dcmFileTmp);
+				// Заточка пот значение тега = 'норма'
+				if (key.equals("00102000") && value != null
+						&& value.equals(StudyManagePanel.medicalAlertsTitle)) {
+					value = "";
+				}
+				jpg2Dcm.setCfgProperty(key, value);
+				System.out.println("!!!! key=" + key + "; value=" + value);
+			}
+
+			// TODO Сделать сохранение даты через attrs.putDate(...)
+			// jpg2Dcm.setCfgProperty("00100030", "20010329");
+			jpg2Dcm.setCharset("ISO_IR 144");
+			// jpg2Dcm.setCharset("ISO_IR 192");//UTF-8
+
+			String dcmDir = getServletContext().getInitParameter(
+					"webdicom.dir.newdcm");
+
+			String dcmTmpDir = getServletContext().getInitParameter(
+					"webdicom.dir.newdcm.tmp");
+
+			long prefix = new Date().getTime();
+			String dcmFileName = dcmDir + "/" + prefix + ".dcm";
+			String tmpFileName = dcmTmpDir + "/" + prefix + ".dcm";
+			// TODO Задать в конфиге
+			File dcmFileTmp = new File(tmpFileName);
+
+			jpg2Dcm.convert(stream, dcmFileTmp);
+
+			File dcmFile = new File(dcmFileName);
+
+			dcmFileTmp.renameTo(dcmFile);
+			System.out.println("!!!! making IMAGE dcm SUCCESS!");
+
+		}
 		
-		File dcmFile = new File(dcmFileName );
-		
-		dcmFileTmp.renameTo(dcmFile);
-		System.out.println("!!!! making dcm SUCCESS!");
 
 	}
 

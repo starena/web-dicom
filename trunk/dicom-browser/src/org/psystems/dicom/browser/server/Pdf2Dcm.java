@@ -40,6 +40,7 @@ package org.psystems.dicom.browser.server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,15 +48,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.dcm4che2.data.BasicDicomObject;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.Tag;
@@ -88,11 +82,11 @@ public class Pdf2Dcm {
     private Properties cfg = new Properties();
 
     public Pdf2Dcm() {
-        try {
-            cfg.load(Pdf2Dcm.class.getResourceAsStream("pdf2dcm.cfg"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+////            cfg.load(Pdf2Dcm.class.getResourceAsStream("pdf2dcm.cfg"));
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
     }
     
     public final void setCharset(String charset) {
@@ -110,7 +104,11 @@ public class Pdf2Dcm {
         this.transferSyntax = transferSyntax;
     }
 
-    private void loadConfiguration(File cfgFile) throws IOException {
+    void setCfgProperty (String key, String value) {
+		cfg.setProperty(key, value);
+	}
+    
+    void loadConfiguration(File cfgFile) throws IOException {
         Properties tmp = new Properties(cfg);
         InputStream in = new BufferedInputStream(new FileInputStream(cfgFile));
         try {
@@ -121,7 +119,11 @@ public class Pdf2Dcm {
         cfg = tmp;
     }
     
-    public void convert(File pdfFile, File dcmFile) throws IOException { 
+    public void convert(InputStream pdfInputStream/*File pdfFile*/, File dcmFile) throws IOException { 
+    	
+    	int pdfLen = (int) pdfInputStream.available();
+    	DataInputStream pdfInput = new DataInputStream(pdfInputStream);
+    	
         DicomObject attrs = new BasicDicomObject();
         attrs.putString(Tag.SpecificCharacterSet, VR.CS, charset);
         attrs.putSequence(Tag.ConceptNameCodeSequence);
@@ -136,7 +138,7 @@ public class Pdf2Dcm {
         attrs.putDate(Tag.InstanceCreationDate, VR.DA, now);
         attrs.putDate(Tag.InstanceCreationTime, VR.TM, now);
         attrs.initFileMetaInformation(transferSyntax);
-        FileInputStream pdfInput = new FileInputStream(pdfFile);
+//        FileInputStream pdfInput = new FileInputStream(pdfFile);
         FileOutputStream fos = new FileOutputStream(dcmFile);
         BufferedOutputStream bos = new BufferedOutputStream(fos);
         DicomOutputStream dos = new DicomOutputStream(bos);
@@ -144,7 +146,7 @@ public class Pdf2Dcm {
             dos.writeFileMetaInformation(attrs);
             dos.writeDataset(attrs.subSet(Tag.SpecificCharacterSet, 
                     Tag.EncapsulatedDocument), transferSyntax);
-            int pdfLen = (int) pdfFile.length();
+//            int pdfLen = (int) pdfFile.length();
             dos.writeHeader(Tag.EncapsulatedDocument, VR.OB, (pdfLen+1)&~1);
             byte[] b = new byte[bufferSize];
             int r;
@@ -168,91 +170,91 @@ public class Pdf2Dcm {
         }        
     }
 
-    public static void main(String[] args) {
-        try {
-            CommandLine cl = parse(args);
-            Pdf2Dcm pdf2Dcm = new Pdf2Dcm();
-            if (cl.hasOption("ivrle")) {
-                pdf2Dcm.setTransferSyntax(UID.ImplicitVRLittleEndian);
-            }
-            if (cl.hasOption("cs")) {
-                pdf2Dcm.setCharset(cl.getOptionValue("cs"));
-            }
-            if (cl.hasOption("bs")) {
-                pdf2Dcm.setBufferSize(Integer.parseInt(cl.getOptionValue("bs")));
-            }
-            if (cl.hasOption("c")) {
-                pdf2Dcm.loadConfiguration(new File(cl.getOptionValue("c")));
-            }
-            if (cl.hasOption("uid")) {
-                UIDUtils.setRoot(cl.getOptionValue("uid"));
-            }
-            List argList = cl.getArgList();
-            File pdfFile = new File((String) argList.get(0));
-            File dcmFile = new File((String) argList.get(1));
-            long start = System.currentTimeMillis();
-            pdf2Dcm.convert(pdfFile, dcmFile);
-            long fin = System.currentTimeMillis();
-            System.out.println("Encapsulated " + pdfFile + " to " + dcmFile 
-                    + " in " + (fin - start) +  "ms.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            CommandLine cl = parse(args);
+//            Pdf2Dcm pdf2Dcm = new Pdf2Dcm();
+//            if (cl.hasOption("ivrle")) {
+//                pdf2Dcm.setTransferSyntax(UID.ImplicitVRLittleEndian);
+//            }
+//            if (cl.hasOption("cs")) {
+//                pdf2Dcm.setCharset(cl.getOptionValue("cs"));
+//            }
+//            if (cl.hasOption("bs")) {
+//                pdf2Dcm.setBufferSize(Integer.parseInt(cl.getOptionValue("bs")));
+//            }
+//            if (cl.hasOption("c")) {
+//                pdf2Dcm.loadConfiguration(new File(cl.getOptionValue("c")));
+//            }
+//            if (cl.hasOption("uid")) {
+//                UIDUtils.setRoot(cl.getOptionValue("uid"));
+//            }
+//            List argList = cl.getArgList();
+//            File pdfFile = new File((String) argList.get(0));
+//            File dcmFile = new File((String) argList.get(1));
+//            long start = System.currentTimeMillis();
+//            pdf2Dcm.convert(pdfFile, dcmFile);
+//            long fin = System.currentTimeMillis();
+//            System.out.println("Encapsulated " + pdfFile + " to " + dcmFile 
+//                    + " in " + (fin - start) +  "ms.");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    private static CommandLine parse(String[] args) {
-        Options opts = new Options();
-        
-        OptionBuilder.withArgName("charset");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "Specific Character Set, ISO_IR 100 by default");
-        opts.addOption(OptionBuilder.create("cs"));
-
-        OptionBuilder.withArgName("size");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "Buffer size used for copying PDF to DICOM file, 8192 by default");
-        opts.addOption(OptionBuilder.create("bs"));
-        
-        OptionBuilder.withArgName("file");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "Configuration file specifying DICOM attribute values");
-        opts.addOption(OptionBuilder.create("c"));
-        
-        opts.addOption("ivrle", false, "use Implicit VR Little Endian instead " +
-                "Explicit VR Little Endian Transfer Syntax for DICOM encoding.");
-        opts.addOption("h", "help", false, "print this message");
-        
-        OptionBuilder.withArgName("prefix");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription("Generate UIDs with given prefix," +
-                "1.2.40.0.13.1.<host-ip> by default.");
-        opts.addOption(OptionBuilder.create("uid"));
-        
-        opts.addOption("V", "version", false,
-                "print the version information and exit");
-        CommandLine cl = null;
-        try {
-            cl = new GnuParser().parse(opts, args);
-        } catch (ParseException e) {
-            exit("pdf2dcm: " + e.getMessage());
-            throw new RuntimeException("unreachable");
-        }
-        if (cl.hasOption('V')) {
-            Package p = Pdf2Dcm.class.getPackage();
-            System.out.println("pdf2dcm v" + p.getImplementationVersion());
-            System.exit(0);
-        }
-        if (cl.hasOption('h') || cl.getArgList().size() != 2) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
-            System.exit(0);
-        }
-
-        return cl;
-    }
+//    private static CommandLine parse(String[] args) {
+//        Options opts = new Options();
+//        
+//        OptionBuilder.withArgName("charset");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "Specific Character Set, ISO_IR 100 by default");
+//        opts.addOption(OptionBuilder.create("cs"));
+//
+//        OptionBuilder.withArgName("size");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "Buffer size used for copying PDF to DICOM file, 8192 by default");
+//        opts.addOption(OptionBuilder.create("bs"));
+//        
+//        OptionBuilder.withArgName("file");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "Configuration file specifying DICOM attribute values");
+//        opts.addOption(OptionBuilder.create("c"));
+//        
+//        opts.addOption("ivrle", false, "use Implicit VR Little Endian instead " +
+//                "Explicit VR Little Endian Transfer Syntax for DICOM encoding.");
+//        opts.addOption("h", "help", false, "print this message");
+//        
+//        OptionBuilder.withArgName("prefix");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription("Generate UIDs with given prefix," +
+//                "1.2.40.0.13.1.<host-ip> by default.");
+//        opts.addOption(OptionBuilder.create("uid"));
+//        
+//        opts.addOption("V", "version", false,
+//                "print the version information and exit");
+//        CommandLine cl = null;
+//        try {
+//            cl = new GnuParser().parse(opts, args);
+//        } catch (ParseException e) {
+//            exit("pdf2dcm: " + e.getMessage());
+//            throw new RuntimeException("unreachable");
+//        }
+//        if (cl.hasOption('V')) {
+//            Package p = Pdf2Dcm.class.getPackage();
+//            System.out.println("pdf2dcm v" + p.getImplementationVersion());
+//            System.exit(0);
+//        }
+//        if (cl.hasOption('h') || cl.getArgList().size() != 2) {
+//            HelpFormatter formatter = new HelpFormatter();
+//            formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
+//            System.exit(0);
+//        }
+//
+//        return cl;
+//    }
 
     private static void exit(String msg) {
         System.err.println(msg);
