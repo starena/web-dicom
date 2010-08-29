@@ -99,6 +99,10 @@ public class StudyCard extends Composite {
 		  @Source("logoTXT.png")
 		  /*@ImageOptions(flipRtl = true)*/
 		  ImageResource logoTXT();
+		  
+		  @Source("logoPDF.png")
+		  /*@ImageOptions(flipRtl = true)*/
+		  ImageResource logoPDF();
 		}
 	
 	Resources resources = GWT.create(Resources.class);
@@ -292,10 +296,14 @@ public class StudyCard extends Composite {
 				contentPanel.add(imagePreview);
 			}else {
 				
-				ImageResource imgRes = resources.logoTXT();
+				ImageResource imgRes = resources.logoPDF();
 				Image imageLogoTXT = new Image(imgRes);
 				imageLogoTXT.addStyleName("Image");
 				contentPanel.add(imageLogoTXT);
+				
+				String htmlAttach =  "<a href='" + "dcmattach/" + fileProxy.getId()
+				+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> PDF </a>";
+				contentPanel.add(new HTML(htmlAttach));
 			}
 			
 			contentPanel.add(new HTML(html));
