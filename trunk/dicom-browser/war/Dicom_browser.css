@@ -186,6 +186,8 @@ A.selected {
 	margin: 5px;
 	color: #000000;
 	/*color: #44639C;*/	
+	cursor: pointer;
+  cursor: hand;
 }
 
 .DicomItemWarn {
@@ -220,6 +222,12 @@ A.selected {
 .DicomItemName A:HOVER {
 	color: #44639C;
 	text-decoration: underline;
+}
+
+.StudyCard {
+	margin-bottom: 10px;
+	background: white;
+	width: 100%;
 }
 
 

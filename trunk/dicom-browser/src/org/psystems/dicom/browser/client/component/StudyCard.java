@@ -62,21 +62,28 @@ import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
-import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ImageBundle;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.ImageBundle.Resource;
 
 /**
  * Карточка Dicom исследования
@@ -84,10 +91,20 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author dima_d
  * 
  */
-public class StudyCardPanel extends Composite {
+public class StudyCard extends Composite {
+	
+	
+	interface Resources extends ClientBundle {
+
+		  @Source("logoTXT.png")
+		  /*@ImageOptions(flipRtl = true)*/
+		  ImageResource logoTXT();
+		}
+	
+	Resources resources = GWT.create(Resources.class);
+
 
 	private String datePattern = "dd.MM.yyyy";
-	private BrowserServiceAsync service;
 	StudyProxy proxy = null;
 	private Label labelPatientName;
 	private Label labelStudyDate;
@@ -100,110 +117,138 @@ public class StudyCardPanel extends Composite {
 	private Label labelStudyDescription;
 	private Label labelResult;
 	private Label labelStudyViewprotocol;
-	private HTML htmlDCMFiles;
-	private HorizontalPanel DCMFilesPanel;
+	private HorizontalPanel FilesPanel;
+	private boolean fullMode;
+	private VerticalPanel mainPanel;
+	private FlexTable commonTable;
 
-	public StudyCardPanel(BrowserServiceAsync service, final StudyProxy proxy2) {
+	/**
+	 * Карточка исследования
+	 * @param fullMode
+	 */
+	public StudyCard(boolean fullMode) {
 		super();
-		this.service = service;
+		//this.fullMode = fullMode;
+		this.fullMode = false;//TODO Убрать!
 		
-		
-		HorizontalPanel dcmItem = new HorizontalPanel();
-		//TODO Перенести в css
-		DOM.setStyleAttribute(dcmItem.getElement(), "background", "white");
-
-		//
-		DCMFilesPanel = new HorizontalPanel();
-		DCMFilesPanel.setVerticalAlignment(HorizontalPanel.ALIGN_TOP);
-
-		final FlexTable table = new FlexTable();
-		table.setStyleName("SearchItem");
+		mainPanel = new VerticalPanel();
 
 		labelPatientName = new Label("");
-		labelPatientName.setStyleName("DicomItem");
-
-		table.setWidget(0, 0, labelPatientName);
-		table.getFlexCellFormatter().setColSpan(0, 0, 6);
-		table.getFlexCellFormatter().setAlignment(0, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
-		
-		//
-
-		table.setWidget(0, 1, DCMFilesPanel);
-		table.getFlexCellFormatter().setAlignment(0, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
-		table.getFlexCellFormatter().setRowSpan(0, 1, 5);
-
-		createItemName(table, 1, 0, "дата исследования:");
-		labelStudyDate = createItemValue(table, 1, 1, "");
-
-		createItemName(table, 1, 2, "дата описания:");
-		labelStudyViewProtocolDate = createItemValue(table, 1, 3, "");
-
-		createItemName(table, 1, 4, "код пациента:");
-		labelPatientId = createItemValue(table, 1, 5, "");
-
-		createItemName(table, 2, 0, "аппарат:");
-		labelManufacturerModelName = createItemValue(table, 2, 1,  "");
-
-		createItemName(table, 2, 2, "врач:");
-		labelStudyDoctor = createItemValue(table, 2, 3, "");
-
-		createItemName(table, 2, 4, "лаборант:");
-		labelStudyOperator = createItemValue(table, 2, 5, "");
-
-		createItemName(table, 3, 0, "Тип исследования:");
-		labelStudyType = createItemValue(table, 3, 1, "");
-		
-		createItemName(table, 3, 2, "Описание:");
-		labelStudyDescription = createItemValue(table, 3, 3, "");
-		table.getFlexCellFormatter().setColSpan(3, 3, 3);
-		
-		createItemName(table, 4, 0, "результат:");
-		labelResult =  createItemValue(table, 4, 1, "");
-		table.getFlexCellFormatter().setColSpan(4, 1, 5);
-		
-		createItemName(table, 5, 0, "Протокол осмотра:");
-		labelStudyViewprotocol = createItemValue(table, 5, 1, "");
-		table.getFlexCellFormatter().setColSpan(5, 1, 5);
-
-		//
-		
-		htmlDCMFiles = new HTML();
-		htmlDCMFiles.setStyleName("DicomItemName");
-
-		table.setWidget(6, 0, htmlDCMFiles);
-		table.getFlexCellFormatter().setColSpan(6, 0, 6);
-		table.getFlexCellFormatter().setAlignment(6, 0,
-				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_MIDDLE);
-
-		final Button changeStudy = new Button("изменить...");
-		changeStudy.setStyleName("DicomItem");
-		table.setWidget(7, 0, changeStudy);
-		table.getFlexCellFormatter().setColSpan(7, 0, 6);
-		table.getFlexCellFormatter().setAlignment(7, 0,
-				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
-		
-		changeStudy.addClickHandler(new ClickHandler() {
+		labelPatientName.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				table.remove(changeStudy);
-				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, StudyCardPanel.this, proxy);
-				table.setWidget(8, 0, panel);
-				table.getFlexCellFormatter().setColSpan(8, 0, 6);
-				table.getFlexCellFormatter().setAlignment(8, 0,
-						HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
+				if(isFullMode()) setFullMode(false); else setFullMode(true);
+			}
+		});
+		labelPatientName.setStyleName("DicomItem");
+		//TODO Убрать в css
+		labelPatientName.setWidth("100%");
+		
+		HorizontalPanel hp = new HorizontalPanel();
+		hp.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		mainPanel.add(hp);
+		
+		hp.add(labelPatientName);
+		
+		
+		final Button changeStudyBtn = new Button("изменить...");
+		hp.add(changeStudyBtn);
+		
+		changeStudyBtn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				setFullMode(true);
+				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, StudyCard.this, proxy);
+				mainPanel.add(panel);
+				changeStudyBtn.removeFromParent();
 			}
 		});
 		
-		dcmItem.add(table);
+
+		initWidget(mainPanel);
+		addStyleName("StudyCard");
+	}
+
+
+
+
+	/**
+	 * Создание панели с общими обисанием исследования
+	 */
+	private void makeCommonPanel() {
 		
-		setProxy(proxy2);
+		commonTable = new FlexTable();
+		commonTable.setStyleName("SearchItem");
+		mainPanel.add(commonTable);
+		
+//		table.setWidget(0, 1, DCMFilesPanel);
+//		table.getFlexCellFormatter().setAlignment(0, 0,
+//				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
+//		table.getFlexCellFormatter().setRowSpan(0, 1, 5);
 
-		initWidget(dcmItem);
+		createItemName(commonTable, 1, 0, "дата исследования:");
+		labelStudyDate = createItemValue(commonTable, 1, 1, "");
 
+		createItemName(commonTable, 1, 2, "дата описания:");
+		labelStudyViewProtocolDate = createItemValue(commonTable, 1, 3, "");
+
+		createItemName(commonTable, 1, 4, "код пациента:");
+		labelPatientId = createItemValue(commonTable, 1, 5, "");
+
+		createItemName(commonTable, 2, 0, "аппарат:");
+		labelManufacturerModelName = createItemValue(commonTable, 2, 1,  "");
+
+		createItemName(commonTable, 2, 2, "врач:");
+		labelStudyDoctor = createItemValue(commonTable, 2, 3, "");
+
+		createItemName(commonTable, 2, 4, "лаборант:");
+		labelStudyOperator = createItemValue(commonTable, 2, 5, "");
+
+		createItemName(commonTable, 3, 0, "Тип исследования:");
+		labelStudyType = createItemValue(commonTable, 3, 1, "");
+		
+		createItemName(commonTable, 3, 2, "Описание:");
+		labelStudyDescription = createItemValue(commonTable, 3, 3, "");
+		commonTable.getFlexCellFormatter().setColSpan(3, 3, 3);
+		
+		createItemName(commonTable, 4, 0, "результат:");
+		labelResult =  createItemValue(commonTable, 4, 1, "");
+		commonTable.getFlexCellFormatter().setColSpan(4, 1, 5);
+		
+		createItemName(commonTable, 5, 0, "Протокол осмотра:");
+		labelStudyViewprotocol = createItemValue(commonTable, 5, 1, "");
+		commonTable.getFlexCellFormatter().setColSpan(5, 1, 5);
+
+	
+		
+		FilesPanel = new HorizontalPanel();
+		mainPanel.add(FilesPanel);
+//		mainPanel.add(changeStudy);
+		
+		setProxy(proxy);
+	}
+	
+	
+
+	
+	public boolean isFullMode() {
+		return fullMode;
+	}
+
+
+	public void setFullMode(boolean fullMode) {
+		
+		if(this.fullMode==fullMode) return;
+		
+		this.fullMode = fullMode;
+		if (fullMode)
+			makeCommonPanel();
+		else {
+			commonTable.removeFromParent();
+			FilesPanel.removeFromParent();
+		}
 	}
 
 	/**
@@ -211,92 +256,147 @@ public class StudyCardPanel extends Composite {
 	 * 
 	 * @param dcmImage
 	 */
-	private void makeDCMFilesPanel() {
+	private void makeFilesPanel() {
 		
-		DCMFilesPanel.clear();
+		FilesPanel.clear();
 		
 		for (Iterator<DcmFileProxy> it = proxy.getFiles().iterator(); it
 				.hasNext();) {
 			final DcmFileProxy fileProxy = it.next();
 
 			
-			if(!fileProxy.haveImage()) continue;
+//			if(!fileProxy.haveImage()) {
+				
+				
+//				String html = "файлов:" + studyProxy.getFiles().size() + " ";
+				String html =  "<a href='" + "dcm/" + fileProxy.getId()
+					+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> оригинал </a>"
+					
+					
+					+ " :: <a href='" + "dcmtags/" + fileProxy.getId()
+					+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> тэги </a>";
+				
+//				DCMFilesPanel.add(new HTML(html));
+//				FilesPanel.add(new Button(fileProxy.getType()));
+//				continue;
+//			}
 			
-			Image image = new Image("images/" + fileProxy.getId()+".100x100");
-			image.addStyleName("Image");
-			image.setTitle("Щелкните здесь чтобы увеличить изображение");
-
-			Integer w = fileProxy.getImageWidth();
-			Integer h = fileProxy.getImageHeight();
-
-			float k = w / h;
-			int hNew = 100;
-			int wNew = (int) (hNew / k);
-
-			image.setHeight(hNew + "px");
-			image.setWidth(wNew + "px");
-			DCMFilesPanel.add(image);
-
-			final Image imageFull = new Image("images/" + fileProxy.getId()+".fullsize");
-			imageFull.addStyleName("Image");
-			imageFull.setTitle("Щелкните здесь чтобы закрыть изображение");
-
-			hNew = 600;
-			wNew = (int) (hNew / k);
-
-			imageFull.setHeight(hNew + "px");
-			imageFull.setWidth(wNew + "px");
-
-			ClickHandler clickOpenHandler = new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-
-					final PopupPanel pGlass = new PopupPanel();
-					// pGlass.setModal(true);
-					pGlass.setGlassEnabled(true);
-					pGlass.setAutoHideEnabled(true);
-
-					VerticalPanel vp = new VerticalPanel();
-					pGlass.add(vp);
-					vp.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-
-					Label lTitle = new Label(proxy.getPatientName() + " ["
-							+ proxy.getPatientBirthDateAsString(datePattern)
-							+ "]" + " исследование от "
-							+ proxy.getStudyDateAsString(datePattern));
-
-					lTitle.setStyleName("DicomItemValue");
-
-					vp.add(lTitle);
-					vp.add(imageFull);
-
-					imageFull.addClickHandler(new ClickHandler() {
-
-						@Override
-						public void onClick(ClickEvent event) {
-							pGlass.hide();
-						}
-
-					});
-
-					HTML link = new HTML();
-					link.setHTML("&nbsp;&nbsp;<a href='" + "images/"
-							+ fileProxy.getId()+".fullsize"
-							+ "' target='new'> Открыть в новом окне </a>");
-					link.setStyleName("DicomItemName");
-					vp.add(link);
-
-					pGlass.show();
-					pGlass.center();
-				}
-
-			};
-
-			image.addClickHandler(clickOpenHandler);
+			
+			
+			VerticalPanel contentPanel = new VerticalPanel();
+			contentPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+			
+			//TODO переделат на fileProxy.getType
+			if(fileProxy.haveImage()) {
+				Image imagePreview = makeItemImage(fileProxy);
+				contentPanel.add(imagePreview);
+			}else {
+				
+				ImageResource imgRes = resources.logoTXT();
+				Image imageLogoTXT = new Image(imgRes);
+				imageLogoTXT.addStyleName("Image");
+				contentPanel.add(imageLogoTXT);
+			}
+			
+			contentPanel.add(new HTML(html));
+			
+			
+			
+			FilesPanel.add(contentPanel);
 
 		}
 	}
+
+	
+	/**
+	 * Информация о снимке исследования
+	 * 
+	 * @param fileProxy
+	 * @return
+	 */
+	private Image makeItemImage(final DcmFileProxy fileProxy) {
+		
+		Image image = new Image("images/" + fileProxy.getId()+".100x100");
+		image.addStyleName("Image");
+		image.setTitle("Щелкните здесь чтобы увеличить изображение");
+
+		Integer w = fileProxy.getImageWidth();
+		Integer h = fileProxy.getImageHeight();
+
+		final float k = w / h;
+		int hNew = 100;
+		int wNew = (int) (hNew / k);
+
+		image.setHeight(hNew + "px");
+		image.setWidth(wNew + "px");
+		
+
+		
+		ClickHandler clickOpenHandler = new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				final PopupPanel pGlass = new PopupPanel();
+				// pGlass.setModal(true);
+				pGlass.setGlassEnabled(true);
+				pGlass.setAutoHideEnabled(true);
+
+				VerticalPanel vp = new VerticalPanel();
+				pGlass.add(vp);
+				vp.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+
+				Label lTitle = new Label(proxy.getPatientName() + " ["
+						+ proxy.getPatientBirthDateAsString(datePattern)
+						+ "]" + " исследование от "
+						+ proxy.getStudyDateAsString(datePattern));
+
+				lTitle.setStyleName("DicomItemValue");
+
+				vp.add(lTitle);
+				
+				final Image imageFull = new Image("images/" + fileProxy.getId()+".fullsize");
+				imageFull.addStyleName("Image");
+				imageFull.setTitle("Щелкните здесь чтобы закрыть изображение");
+
+				int fullhNew = 600;
+				int fullwNew = (int) (fullhNew / k);
+
+				imageFull.setHeight(fullhNew + "px");
+				imageFull.setWidth(fullwNew + "px");
+
+				
+				vp.add(imageFull);
+
+				imageFull.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						pGlass.hide();
+					}
+
+				});
+
+				HTML link = new HTML();
+				link.setHTML("&nbsp;&nbsp;<a href='" + "images/"
+						+ fileProxy.getId()+".fullsize"
+						+ "' target='new'> Открыть в новом окне </a>");
+				link.setStyleName("DicomItemName");
+				vp.add(link);
+
+				pGlass.show();
+				pGlass.center();
+			}
+
+		};
+
+		image.addClickHandler(clickOpenHandler);
+		return image;
+		
+	}
+
+
+
 
 	/**
 	 * Задание данных для данной формы
@@ -312,9 +412,16 @@ public class StudyCardPanel extends Composite {
 		} else if ("F".equalsIgnoreCase(sex)) {
 			sex = "Ж";
 		}
+		String result = "норма";
+		if(proxy.getStudyResult()!=null) {
+			result=proxy.getStudyResult();
+		}
 
 		labelPatientName.setText(proxy.getPatientName() + " (" + sex + ") "
-				+ proxy.getPatientBirthDateAsString(datePattern));
+				+ proxy.getPatientBirthDateAsString(datePattern) + " - "+result+ " ("+proxy.getStudyDateAsString(datePattern)+")");
+		
+		if(!fullMode) return;
+		
 		labelStudyDate.setText(proxy.getStudyDateAsString(datePattern));
 		labelStudyViewProtocolDate.setText(proxy.getStudyViewprotocolDateAsString(datePattern));
 		labelPatientId.setText(proxy.getPatientId());
@@ -324,10 +431,7 @@ public class StudyCardPanel extends Composite {
 		labelStudyType.setText(proxy.getStudyType());
 		labelStudyDescription.setText(proxy.getStudyDescription());
 		
-		String result = "норма";
-		if(proxy.getStudyResult()!=null) {
-			result=proxy.getStudyResult();
-		}
+		
 		String resultStr = "";
 		if(proxy.getStudyViewprotocolDate()!=null) {
 			resultStr = proxy.getStudyViewprotocolDateAsString("dd.MM.yyyy");  
@@ -343,10 +447,9 @@ public class StudyCardPanel extends Composite {
 			setWarningOfNotResult();
 		}
 		
-		htmlDCMFiles.setHTML(getDCMFiles(proxy));
 		
 		//Панель и картинками и вложениями
-		makeDCMFilesPanel();
+		makeFilesPanel();
 		
 	}
 
@@ -357,23 +460,7 @@ public class StudyCardPanel extends Composite {
 		labelPatientName.addStyleName("DicomItemWarn");
 	}
 
-	/**
-	 * Получение списка файлов
-	 * @param studyProxy
-	 * @return
-	 */
-	private String getDCMFiles(final StudyProxy studyProxy) {
-		String html = "файлов:" + studyProxy.getFiles().size() + " ";
-		for(Iterator<DcmFileProxy> iter = studyProxy.getFiles().iterator(); iter.hasNext();) {
-			DcmFileProxy fileProxy = iter.next();
-			html += "<a href='" + "dcm/" + fileProxy.getId()
-			+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> [оригинал </a>"
-			+ "- <a href='" + "dcmtags/" + fileProxy.getId()
-			+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> тэги] </a>";
-		}
-		
-		return html;
-	}
+
 
 	/**
 	 * @param t
@@ -412,7 +499,7 @@ public class StudyCardPanel extends Composite {
 		vp.clear();
 		vp.add(new Label("Загрузка..."));
 
-		service.getDcmTagsFromFile(0, Dicom_browser.version, proxy.getId(),
+		Dicom_browser.browserService.getDcmTagsFromFile(0, Dicom_browser.version, proxy.getId(),
 				new AsyncCallback<ArrayList<DcmTagProxy>>() {
 
 					@Override
@@ -434,51 +521,7 @@ public class StudyCardPanel extends Composite {
 
 	}
 	
-//	/**
-//	 * @param t
-//	 * @param row
-//	 * @param col
-//	 * @param html
-//	 */
-//	private void createItemHTML(FlexTable t, int row, int col, String html) {
-//		HTML h = new HTML(html);
-////		h.setStyleName("DicomItemValue");
-//		t.setWidget(row, col, h);
-//		t.getFlexCellFormatter().setAlignment(row, col,
-//				HorizontalPanel.ALIGN_LEFT, HorizontalPanel.ALIGN_MIDDLE);
-//	}
 
-	/**
-	 * @param vp
-	 */
-//	private void showTagsFromDb(final VerticalPanel vp) {
-//
-//		DcmTagsRPCRequest req = new DcmTagsRPCRequest();
-//		req.setIdDcm(proxy.getId());
-//
-//		vp.clear();
-//		vp.add(new Label("Загрузка..."));
-//
-//		service.getDcmTags(req, new AsyncCallback<DcmTagsRPCResponse>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				vp.clear();
-//				vp.add(new Label("Ошибка полчения данных! " + caught));
-//			}
-//
-//			public void onSuccess(DcmTagsRPCResponse result) {
-//				ArrayList<DcmTagProxy> a = result.getTagList();
-//				vp.clear();
-//				for (Iterator<DcmTagProxy> it = a.iterator(); it.hasNext();) {
-//					DcmTagProxy proxy = it.next();
-//					vp.add(new Label("" + proxy));
-//				}
-//			}
-//
-//		});
-//
-//	}
 
 
 

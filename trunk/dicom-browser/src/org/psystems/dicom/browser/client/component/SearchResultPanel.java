@@ -48,13 +48,16 @@ public class SearchResultPanel extends Composite {
 		mainPanel.add(resultPanel);
 		
 		//TODO Убрать в css
-//		DOM.setStyleAttribute(resultPanel.getElement(), "background", "#E9EDF5");
+		DOM.setStyleAttribute(resultPanel.getElement(), "background", "#E9EDF5");
 		resultPanel.setSpacing(10);
+		resultPanel.setWidth("100%");
 
 		showHelpPage();
 		
 		
 		initWidget(mainPanel);
+		//TODO Убрать в css
+		setWidth("100%");
 		
 	}
 	

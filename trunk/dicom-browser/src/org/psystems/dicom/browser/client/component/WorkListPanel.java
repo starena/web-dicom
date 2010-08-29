@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -48,7 +49,7 @@ public class WorkListPanel extends Composite {
 	private DateBox studyDateBoxEnd;
 	protected String manufacturerModelName = "RENEXFLUORO3";
 	
-	public final static int maxResultCount = 100;
+	public final static int maxResultCount = 300;
 
 	/**
 	 * @param application TODO Убрать и вызывать через static методы???
@@ -130,10 +131,14 @@ public class WorkListPanel extends Composite {
 		
 		resultPanel = new VerticalPanel();
 		mainPanel.add(resultPanel);
+		//TODO Убрать в css
 		resultPanel.setSpacing(10);
-
-		initWidget(mainPanel);
+		DOM.setStyleAttribute(resultPanel.getElement(), "background", "#E9EDF5");
+		resultPanel.setWidth("100%");
 		
+		initWidget(mainPanel);
+		//TODO Убрать в css
+		setWidth("100%");
 		searchStudyes();
 
 	}
@@ -248,7 +253,6 @@ public class WorkListPanel extends Composite {
 								.hasNext();) {
 
 							StudyProxy studyProxy = it.next();
-							VerticalPanel table = new VerticalPanel();
 
 							// if(cortege.getDcmProxies().size()>1) {
 							// DecoratorPanel item = new DecoratorPanel();
@@ -261,11 +265,10 @@ public class WorkListPanel extends Composite {
 							// RootPanel.get("resultContainer").add(table);
 							// }
 
-							resultPanel.add(table);
 
-							StudyCardPanel s = new StudyCardPanel(
-									Application.browserService, studyProxy);
-							table.add(s);
+							StudyCard s = new StudyCard(false);
+							s.setProxy(studyProxy);
+							resultPanel.add(s);
 
 							// for (Iterator<DcmFileProxy> iter = studyProxy
 							// .getFiles().iterator(); iter.hasNext();) {
