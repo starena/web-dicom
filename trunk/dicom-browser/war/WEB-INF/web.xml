@@ -187,6 +187,21 @@
 		<servlet-name>DcmViewTagsServlet</servlet-name>
 		<url-pattern>/dcmtags/*</url-pattern>
 	</servlet-mapping>
+	
+	<!--  Просмотр вложения   -->
+	
+	<servlet>
+		<servlet-name>DcmViewAttachementServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.DcmViewAttachementServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DcmViewAttachementServlet</servlet-name>
+		<url-pattern>/dcmattach/*</url-pattern>
+	</servlet-mapping>
 
 	<!-- ************************************************* -->
 	<!-- ***    СЕРВЛЕТЫ ОТОБРАЖЕНИЯ КАРТИНКИ В МИС     *** -->
