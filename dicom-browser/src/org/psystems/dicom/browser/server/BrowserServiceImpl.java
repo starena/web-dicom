@@ -132,15 +132,17 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			String studyDB = null;
 			String studyDE = null;
 			String manufacturerModelName = null;
+			String studyResult = null;
 			if (attrs!=null) {
 				studyDB = attrs.get("beginStudyDate");
 				studyDE = attrs.get("endStudyDate");
+				studyResult = attrs.get("studyResult");
 				manufacturerModelName = attrs.get("manufacturerModelName");
 			}
 			
 			
 			Study[] studies = Study.getStudues(connection, null, manufacturerModelName,queryStr,
-					null, null, null, studyDB, studyDE);
+					null, null, null, studyDB, studyDE, studyResult);
 			for (int i = 0; i < studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();
 
