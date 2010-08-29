@@ -420,6 +420,13 @@ public class StudyCard extends Composite {
 		labelPatientName.setText(proxy.getPatientName() + " (" + sex + ") "
 				+ proxy.getPatientBirthDateAsString(datePattern) + " - "+result+ " ("+proxy.getStudyDateAsString(datePattern)+")");
 		
+		//Установка оповещения неописанного исследования
+		if(result==null || result.length()==0 || proxy.getStudyDescription() == null ||
+				proxy.getStudyDescription().length() ==0 || proxy.getStudyViewprotocol() == null ||
+				proxy.getStudyViewprotocol().length() == 0) {
+			setWarningOfNotResult();
+		}
+		
 		if(!fullMode) return;
 		
 		labelStudyDate.setText(proxy.getStudyDateAsString(datePattern));
@@ -440,12 +447,7 @@ public class StudyCard extends Composite {
 		labelResult.setText(resultStr);
 		
 		labelStudyViewprotocol.setText(proxy.getStudyViewprotocol());
-		//Установка оповещения неописанного исследования
-		if(result==null || result.length()==0 || proxy.getStudyDescription() == null ||
-				proxy.getStudyDescription().length() ==0 || proxy.getStudyViewprotocol() == null ||
-				proxy.getStudyViewprotocol().length() == 0) {
-			setWarningOfNotResult();
-		}
+		
 		
 		
 		//Панель и картинками и вложениями
