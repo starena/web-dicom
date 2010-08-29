@@ -56,10 +56,11 @@ public class StudyImpl extends Study {
 		return null;
 	}
 
+	
 	public static Study[] getStudues(Connection connection,
 			String studyModality, String manufacturerModelName, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
-			String endStudyDate) throws DataException {
+			String endStudyDate, String studyResult) throws DataException {
 
 		PreparedStatement psSelect = null;
 
@@ -135,12 +136,28 @@ public class StudyImpl extends Study {
 					sqlAddon += " AND ";
 				sqlAddon += " STUDY_DATE < ?  ";
 			}
+			
+			
+		}
+		
+		if (studyResult != null && studyResult.length() > 0) {
+			if (sqlAddon.length() != 0)
+				
+			if(studyResult.equals("new")) {
+				sqlAddon += " AND ";
+				sqlAddon += " (STUDY_RESULT = '' OR STUDY_RESULT is NULL ) ";
+			}
+			if(studyResult.equals("old")) {
+				sqlAddon += " AND ";
+				sqlAddon += " STUDY_RESULT is not null ";
+			}
+			
 		}
 
 		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
 				+ " order by PATIENT_NAME, STUDY_DATE ";
 
-		// System.err.println("SQL:"+sql);
+//		System.err.println("SQL:"+sql);
 
 		IllegalArgumentException ex = new IllegalArgumentException(
 				"All query arguments empty! Set any argument's");
@@ -196,6 +213,9 @@ public class StudyImpl extends Study {
 					.setDate(index++, java.sql.Date.valueOf(endStudyDate));
 				}
 			}
+			
+			
+		
 
 			ResultSet rs = psSelect.executeQuery();
 

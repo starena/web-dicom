@@ -48,6 +48,7 @@ public class WorkListPanel extends Composite {
 	protected String dateEnd;
 	private DateBox studyDateBoxEnd;
 	protected String manufacturerModelName = "RENEXFLUORO3";
+	protected String studyResult;
 	
 	public final static int maxResultCount = 300;
 
@@ -66,7 +67,7 @@ public class WorkListPanel extends Composite {
 		HorizontalPanel toolPanel = new HorizontalPanel();
 		mainPanel.add(toolPanel);
 
-		Label label = new Label("Список исследований (максимум - "+maxResultCount+"). выберите диапазон дат: ");
+		Label label = new Label("Рабочий лист: с ");
 		label.addStyleName("DicomItemValue");
 		toolPanel.add(label);
 		
@@ -87,7 +88,7 @@ public class WorkListPanel extends Composite {
 
 		toolPanel.add(studyDateBoxBegin);
 		
-		label = new Label(" -  ");
+		label = new Label(" по ");
 		label.addStyleName("DicomItemValue");
 		toolPanel.add(label);
 
@@ -108,6 +109,9 @@ public class WorkListPanel extends Composite {
 
 		toolPanel.add(studyDateBoxEnd);
 
+		label = new Label("аппарат:");
+		label.addStyleName("DicomItemValue");
+		toolPanel.add(label);
 		
 		//
 		final ListBox lbManufacturerModelName = new ListBox();
@@ -128,6 +132,34 @@ public class WorkListPanel extends Composite {
 		});
 		
 		toolPanel.add(lbManufacturerModelName);
+		
+		label = new Label(" - ");
+		label.addStyleName("DicomItemValue");
+		toolPanel.add(label);
+		//
+		final ListBox lbStudyResult = new ListBox();
+		lbStudyResult.addItem("Неописанные", "new");
+		lbStudyResult.addItem("Все","all");
+		lbStudyResult.addItem("Описанные","old");
+		
+		lbStudyResult.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO Auto-generated method stub
+//				System.out.println("!!! "+event)!!!;
+				int i = lbStudyResult.getSelectedIndex();
+				studyResult = lbStudyResult.getValue(i);
+				searchStudyes();
+			}
+		});
+		
+		
+		toolPanel.add(lbStudyResult);
+		
+		label = new Label("максимум - "+maxResultCount);
+		label.addStyleName("DicomItemValue");
+		toolPanel.add(label);
 		
 		resultPanel = new VerticalPanel();
 		mainPanel.add(resultPanel);
@@ -224,6 +256,7 @@ public class WorkListPanel extends Composite {
 		attrs.put("beginStudyDate", dateBegin);
 		attrs.put("endStudyDate", dateEnd);
 		attrs.put("manufacturerModelName", manufacturerModelName);
+		attrs.put("studyResult", studyResult);
 		Application.browserService.findStudy(searchTransactionID,
 				Dicom_browser.version, "%", attrs,
 				new AsyncCallback<RPCDcmProxyEvent>() {
