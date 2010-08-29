@@ -459,7 +459,7 @@ public class SearchPanel extends Composite implements
 								.hasNext();) {
 
 							StudyProxy studyProxy = it.next();
-							VerticalPanel table = new VerticalPanel();
+//							VerticalPanel table = new VerticalPanel();
 
 							// if(cortege.getDcmProxies().size()>1) {
 							// DecoratorPanel item = new DecoratorPanel();
@@ -472,11 +472,12 @@ public class SearchPanel extends Composite implements
 							// RootPanel.get("resultContainer").add(table);
 							// }
 
-							resultPanel.add(table);
+//							resultPanel.add(table);
 
-							StudyCardPanel s = new StudyCardPanel(
-									Application.browserService, studyProxy);
-							table.add(s);
+							StudyCard s = new StudyCard(true);
+							s.setProxy(studyProxy);
+							resultPanel.add(s);
+//							table.add(s);
 
 							// for (Iterator<DcmFileProxy> iter = studyProxy
 							// .getFiles().iterator(); iter.hasNext();) {

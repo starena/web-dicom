@@ -61,7 +61,7 @@ public class StudyManagePanel extends Composite implements
 		ValueChangeHandler<String> {
 
 	private ManageStydyServiceAsync manageStudyService;
-	private StudyCardPanel studyCardPanel;
+	private StudyCard studyCardPanel;
 	private HTML submitResult;
 	private Button submitBtn;
 	private TextBox patientName;
@@ -92,7 +92,7 @@ public class StudyManagePanel extends Composite implements
 	public final static String medicalAlertsTitle = "норма";
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
-			final BrowserServiceAsync browserService, StudyCardPanel studyCardPanel, StudyProxy proxy) {
+			final BrowserServiceAsync browserService, StudyCard studyCardPanel, StudyProxy proxy) {
 
 		this.studyCardPanel = studyCardPanel;
 		this.proxy = proxy;
