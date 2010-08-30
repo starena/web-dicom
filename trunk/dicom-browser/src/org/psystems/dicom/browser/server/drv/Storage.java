@@ -35,7 +35,7 @@ public abstract class Storage {
 			String queryStr, int limit) throws SQLException {
 
 		List<Suggestion> result = new ArrayList<Suggestion>();
-		result.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
+		result.add(new ItemSuggestion(queryStr + "...", queryStr));
 		for (Iterator<Storage> iter = drivers.iterator(); iter.hasNext();) {
 			Storage drv = iter.next();
 			
@@ -61,7 +61,7 @@ public abstract class Storage {
 			String queryStr, int limit) throws SQLException {
 
 		List<Suggestion> result = new ArrayList<Suggestion>();
-		result.add(new ItemSuggestion(queryStr + "...", queryStr + "%"));
+		result.add(new ItemSuggestion(queryStr + "...", queryStr));
 		for (Iterator<Storage> iter = drivers.iterator(); iter.hasNext();) {
 			Storage drv = iter.next();
 			

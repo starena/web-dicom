@@ -421,7 +421,7 @@ public class StudyCard extends Composite {
 			sex = "Ж";
 		}
 		String result = "норма";
-		if(proxy.getStudyResult()!=null) {
+		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
 			result=proxy.getStudyResult();
 		}
 
