@@ -237,7 +237,7 @@ public class StudyManagePanel extends Composite implements
 
 		//
 		patientNameCheck = new ListBox(true);
-		patientNameCheck.setSize("400px", "20em");
+		patientNameCheck.setSize("450px", "20em");
 
 		patientNameCheck.addClickHandler(new ClickHandler() {
 
