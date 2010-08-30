@@ -75,6 +75,11 @@ public class StudyImplElektron extends Study {
 			}
 		}
 		
+		//Если заполнен протокол осмотра - то и дату осмотра ставим
+		if(StudyViewProtocol !=null && StudyViewProtocol.length()>0) {
+			setStudyViewProtocolDate(getStudyDate());
+		}
+		
 	}
 
 }
