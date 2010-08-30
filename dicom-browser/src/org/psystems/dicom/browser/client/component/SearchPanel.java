@@ -531,6 +531,7 @@ public class SearchPanel extends Composite implements
 		public void requestSuggestions(SuggestOracle.Request req,
 				SuggestOracle.Callback callback) {
 			try {
+				searchTransactionID = new Date().getTime();
 				ItemSuggestService.Util.getInstance().getSuggestions(
 						searchTransactionID, Dicom_browser.version, type ,req,
 						new ItemSuggestCallback(req, callback));

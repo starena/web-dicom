@@ -231,3 +231,12 @@ A.selected {
 }
 
 
+.WorkListPanel {
+	background: white;
+}
+
+.WorkListPanelItem {
+	font: 2.167em/ 118% normal Verdana, Tahoma, sans-serif;
+}
+
+

@@ -362,6 +362,8 @@ public class StudyManagePanel extends Composite implements
 		studyDoctror.addItem("Выберите врача...", "");
 		studyDoctror.addItem("Петрова  Н.Н.", "Петрова  Н.Н.");
 		studyDoctror.addItem("Девяткова И.А.", "Девяткова И.А.");
+		studyDoctror.addItem("Солоница В.Д.", "Солоница В.Д.");
+		
 //		studyDoctror2.addItem("Ввести нового...", "manualinput");
 		
 		boolean find = false;
@@ -404,6 +406,8 @@ public class StudyManagePanel extends Composite implements
 		studyOperator.addItem("Выберите лаборанта...", "");
 		studyOperator.addItem("Михеева И.А.", "Михеева И.А.");
 		studyOperator.addItem("Давыдов В.С.", "Давыдов В.С.");
+		studyOperator.addItem("Тебенев Е.Н.", "Тебенев Е.Н.");
+		
 //		studyOperator2.addItem("Ввести нового...", "manualinput");
 		
 		find = false;
@@ -466,7 +470,7 @@ public class StudyManagePanel extends Composite implements
 		medicalAlerts.setName("00102000");
 		medicalAlerts.setWidth("400px");
 
-		medicalAlerts.addStyleName("DicomSuggestionEmpty");
+//		medicalAlerts.addStyleName("DicomSuggestionEmpty");
 		medicalAlerts.setTitle(medicalAlertsTitle);
 		medicalAlerts.setText(medicalAlertsTitle);
 
@@ -478,8 +482,8 @@ public class StudyManagePanel extends Composite implements
 
 		if (proxy.getStudyResult() != null
 				&& proxy.getStudyResult().length() > 0) {
-			medicalAlerts.removeStyleName("DicomSuggestionEmpty");
-			medicalAlerts.addStyleName("DicomSuggestion");
+//			medicalAlerts.removeStyleName("DicomSuggestionEmpty");
+//			medicalAlerts.addStyleName("DicomSuggestion");
 		}
 		addFormRow(rowCounter++, "Результат", medicalAlerts);
 
@@ -488,8 +492,8 @@ public class StudyManagePanel extends Composite implements
 			@Override
 			public void onFocus(FocusEvent event) {
 
-				medicalAlerts.removeStyleName("DicomSuggestionEmpty");
-				medicalAlerts.addStyleName("DicomSuggestion");
+//				medicalAlerts.removeStyleName("DicomSuggestionEmpty");
+//				medicalAlerts.addStyleName("DicomSuggestion");
 
 				if (medicalAlerts.getText().equals(medicalAlerts.getTitle())) {
 					medicalAlerts.setValue("");
@@ -507,8 +511,8 @@ public class StudyManagePanel extends Composite implements
 
 				if (medicalAlerts.getText().equals("")) {
 					medicalAlerts.setValue(medicalAlerts.getTitle());
-					medicalAlerts.removeStyleName("DicomSuggestion");
-					medicalAlerts.addStyleName("DicomSuggestionEmpty");
+//					medicalAlerts.removeStyleName("DicomSuggestion");
+//					medicalAlerts.addStyleName("DicomSuggestionEmpty");
 				} else {
 					medicalAlerts.setValue(medicalAlerts.getValue());
 				}

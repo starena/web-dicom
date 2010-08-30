@@ -13,6 +13,7 @@ import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -21,9 +22,11 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -49,7 +52,10 @@ public class WorkListPanel extends Composite {
 	private DateBox studyDateBoxEnd;
 	protected String manufacturerModelName = "RENEXFLUORO3";
 	protected String studyResult;
+	protected ArrayList<StudyProxy> studies;
 	
+//	private String datePattern = "dd.MM.yyyy";
+	private String datePatternYEAR = "yyyy";
 	public final static int maxResultCount = 300;
 
 	/**
@@ -65,6 +71,7 @@ public class WorkListPanel extends Composite {
 		VerticalPanel mainPanel = new VerticalPanel();
 
 		HorizontalPanel toolPanel = new HorizontalPanel();
+		toolPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 		mainPanel.add(toolPanel);
 
 		Label label = new Label("Рабочий лист: с ");
@@ -82,7 +89,7 @@ public class WorkListPanel extends Composite {
 				dateBegin = Utils.dateFormatSql.format(event
 						.getValue());
 //				System.out.println("!!!!val="+dateBegin);
-				searchStudyes();
+				searchStudyes(false);
 			}
 		});
 
@@ -103,7 +110,7 @@ public class WorkListPanel extends Composite {
 				dateEnd = Utils.dateFormatSql.format(event
 						.getValue());
 //				System.out.println("!!!!val="+dateBegin);
-				searchStudyes();
+				searchStudyes(false);
 			}
 		});
 
@@ -118,16 +125,15 @@ public class WorkListPanel extends Composite {
 //		lbCommentsTemplates.setName("00100040");
 		lbManufacturerModelName.addItem("RENEXFLUORO3", "RENEXFLUORO3");
 		lbManufacturerModelName.addItem("КРТ-Электрон","КРТ-Электрон");
+		lbManufacturerModelName.addItem("Мамография","MAMOGRAF");
 		
 		lbManufacturerModelName.addChangeHandler(new ChangeHandler() {
 			
 			@Override
 			public void onChange(ChangeEvent event) {
-				// TODO Auto-generated method stub
-//				System.out.println("!!! "+event)!!!;
 				int i = lbManufacturerModelName.getSelectedIndex();
 				manufacturerModelName = lbManufacturerModelName.getValue(i);
-				searchStudyes();
+				searchStudyes(false);
 			}
 		});
 		
@@ -150,7 +156,7 @@ public class WorkListPanel extends Composite {
 //				System.out.println("!!! "+event)!!!;
 				int i = lbStudyResult.getSelectedIndex();
 				studyResult = lbStudyResult.getValue(i);
-				searchStudyes();
+				searchStudyes(false);
 			}
 		});
 		
@@ -160,6 +166,48 @@ public class WorkListPanel extends Composite {
 		label = new Label("максимум - "+maxResultCount);
 		label.addStyleName("DicomItemValue");
 		toolPanel.add(label);
+		
+		Button printBtn = new Button("Печать");
+		toolPanel.add(printBtn);
+		printBtn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(studies!=null) {
+					resultPanel.clear();
+					Grid resultTable = new Grid(studies.size()+1, 4);
+					resultTable.addStyleName("WorkListPanel");
+//					DOM.setStyleAttribute(resultTable.getElement(), "background", "white");
+					
+					
+					resultTable.setWidget(0, 0, makeItem("№"));
+					resultTable.setWidget(0, 1, makeItem("ФИО"));
+					resultTable.setWidget(0, 2, makeItem("ГОД"));
+					resultTable.setWidget(0, 3, makeItem("ОПИСАНИЕ"));
+					
+					resultTable.setBorderWidth(1);
+					int row = 1;
+					for(  Iterator<StudyProxy> iter = studies.iterator(); iter.hasNext(); ) {
+						StudyProxy proxy = iter.next();
+						resultTable.setWidget(row, 0, makeItem(""+row));
+						resultTable.setWidget(row, 1, makeItem(proxy.getPatientName()));
+						resultTable.setWidget(row, 2, makeItem(proxy.getPatientBirthDateAsString(datePatternYEAR)));
+						resultTable.setWidget(row, 3,makeItem(proxy.getStudyViewprotocol()));
+						row++;
+					}
+					resultPanel.add(resultTable);
+					Window.print();
+				}				
+			}
+
+			private HTML makeItem(String s) {
+				// TODO Auto-generated method stub
+				HTML html = new HTML(s);
+				html.addStyleName("WorkListPanelItem");
+				return html;
+				
+			}
+		});
 		
 		resultPanel = new VerticalPanel();
 		mainPanel.add(resultPanel);
@@ -171,7 +219,7 @@ public class WorkListPanel extends Composite {
 		initWidget(mainPanel);
 		//TODO Убрать в css
 		setWidth("100%");
-		searchStudyes();
+		searchStudyes(false);
 
 	}
 
@@ -188,7 +236,7 @@ public class WorkListPanel extends Composite {
 	/**
 	 * Поиск исследований
 	 */
-	private void searchStudyes() {
+	private void searchStudyes(boolean forPrint) {
 
 		Date d = new Date();
 		searchTransactionID = d.getTime();
@@ -281,8 +329,8 @@ public class WorkListPanel extends Composite {
 
 						Application.hideWorkStatusMsg();
 
-						ArrayList<StudyProxy> cortegeList = result.getData();
-						for (Iterator<StudyProxy> it = cortegeList.iterator(); it
+						studies = result.getData();
+						for (Iterator<StudyProxy> it = studies.iterator(); it
 								.hasNext();) {
 
 							StudyProxy studyProxy = it.next();
@@ -315,7 +363,7 @@ public class WorkListPanel extends Composite {
 							
 						}
 						
-						if (cortegeList.size() >= maxResultCount) {
+						if (studies.size() >= maxResultCount) {
 							HTML emptyStr = new HTML();
 							emptyStr.setWidth("900px");
 							emptyStr.setStyleName("DicomItemValue");
@@ -327,7 +375,7 @@ public class WorkListPanel extends Composite {
 							resultPanel.add(emptyStr);
 						}
 
-						if (cortegeList.size() == 0) {
+						if (studies.size() == 0) {
 							showNotFound();
 						}
 
