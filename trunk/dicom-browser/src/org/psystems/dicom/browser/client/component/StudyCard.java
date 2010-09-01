@@ -69,6 +69,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
@@ -269,21 +270,11 @@ public class StudyCard extends Composite {
 			final DcmFileProxy fileProxy = it.next();
 
 			
-//			if(!fileProxy.haveImage()) {
-				
-				
-//				String html = "файлов:" + studyProxy.getFiles().size() + " ";
 				String html =  "<a href='" + "dcm/" + fileProxy.getId()
 					+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> оригинал </a>"
-					
-					
 					+ " :: <a href='" + "dcmtags/" + fileProxy.getId()
 					+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> тэги </a>";
 				
-//				DCMFilesPanel.add(new HTML(html));
-//				FilesPanel.add(new Button(fileProxy.getType()));
-//				continue;
-//			}
 			
 			
 			
@@ -291,19 +282,33 @@ public class StudyCard extends Composite {
 			contentPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 			
 			//TODO переделат на fileProxy.getType
-			if(fileProxy.haveImage()) {
+			if( fileProxy.haveImage() || (fileProxy.getMimeType()!=null && fileProxy.getMimeType().equals("image/jpg"))) {
 				Image imagePreview = makeItemImage(fileProxy);
 				contentPanel.add(imagePreview);
-			}else {
+			}else if (fileProxy.getMimeType()!=null && fileProxy.getMimeType().equals("application/pdf")) {
 				
 				ImageResource imgRes = resources.logoPDF();
-				Image imageLogoTXT = new Image(imgRes);
-				imageLogoTXT.addStyleName("Image");
-				contentPanel.add(imageLogoTXT);
+				Image imageLogoPDF = new Image(imgRes);
+				imageLogoPDF.addStyleName("Image");
+				contentPanel.add(imageLogoPDF);
+				
+				imageLogoPDF.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						Window.open("dcmattach/" + fileProxy.getId()+ ".dcm", "pdf", "_blank");
+					}
+				});
 				
 				String htmlAttach =  "<a href='" + "dcmattach/" + fileProxy.getId()
 				+ ".dcm' target='new' title='"+fileProxy.getFileName()+"'> PDF </a>";
-				contentPanel.add(new HTML(htmlAttach));
+//				contentPanel.add(new HTML(htmlAttach));
+			} else {
+				ImageResource imgRes = resources.logoTXT();
+				Image imageLogoTXT = new Image(imgRes);
+				imageLogoTXT.addStyleName("Image");
+				contentPanel.add(imageLogoTXT);
 			}
 			
 			contentPanel.add(new HTML(html));
@@ -424,6 +429,11 @@ public class StudyCard extends Composite {
 		if(proxy.getStudyResult()!=null && proxy.getStudyResult().length()>0) {
 			result=proxy.getStudyResult();
 		}
+		
+		if(proxy.getStudyViewprotocolDate()==null) {
+			result = "";
+		}
+		
 
 		labelPatientName.setText(proxy.getPatientName() + " (" + sex + ") "
 				+ proxy.getPatientBirthDateAsString(datePattern) + " - "+result+ " ("+proxy.getStudyDateAsString(datePattern)+")");

@@ -72,6 +72,7 @@ public class DcmFileProxy implements Serializable {
 	private long imageSize; // Размер картинки
 	private int imageWidth; //
 	private int imageHeight; //
+	private String mimeType;
 
 	/**
 	 * Инициализация класса
@@ -85,11 +86,12 @@ public class DcmFileProxy implements Serializable {
 	 * @param imageWidth
 	 * @param imageHeight
 	 */
-	public void init(long id, long idStudy, String type, String fileName,
+	public void init(long id, long idStudy, String type, String mimeType, String fileName,
 			long fileSize, long imageSize, int imageWidth, int imageHeight) {
 		this.id = id;
 		this.idStudy = idStudy;
 		this.type = type;
+		this.mimeType = mimeType;
 		this.fileName = fileName;
 		this.fileSize = fileSize;
 		this.imageSize = imageSize;
@@ -146,5 +148,15 @@ public class DcmFileProxy implements Serializable {
 	public int getImageHeight() {
 		return imageHeight;
 	}
+
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
+	}
+	
+	
 
 }

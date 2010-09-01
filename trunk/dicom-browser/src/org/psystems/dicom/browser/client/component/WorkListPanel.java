@@ -175,24 +175,32 @@ public class WorkListPanel extends Composite {
 			public void onClick(ClickEvent event) {
 				if(studies!=null) {
 					resultPanel.clear();
-					Grid resultTable = new Grid(studies.size()+1, 4);
+					
+					
+					Label l = new Label("Количество Исследований: "+studies.size());
+					l.addStyleName("DicomItem");
+					resultPanel.add(l);
+					
+					Grid resultTable = new Grid(studies.size()+1, 5);
 					resultTable.addStyleName("WorkListPanel");
 //					DOM.setStyleAttribute(resultTable.getElement(), "background", "white");
 					
 					
 					resultTable.setWidget(0, 0, makeItem("№"));
-					resultTable.setWidget(0, 1, makeItem("ФИО"));
-					resultTable.setWidget(0, 2, makeItem("ГОД"));
-					resultTable.setWidget(0, 3, makeItem("ОПИСАНИЕ"));
+					resultTable.setWidget(0, 1, makeItem("Врач"));
+					resultTable.setWidget(0, 2, makeItem("ФИО"));
+					resultTable.setWidget(0, 3, makeItem("ГОД"));
+					resultTable.setWidget(0, 4, makeItem("ОПИСАНИЕ"));
 					
 					resultTable.setBorderWidth(1);
 					int row = 1;
 					for(  Iterator<StudyProxy> iter = studies.iterator(); iter.hasNext(); ) {
 						StudyProxy proxy = iter.next();
 						resultTable.setWidget(row, 0, makeItem(""+row));
-						resultTable.setWidget(row, 1, makeItem(proxy.getPatientName()));
-						resultTable.setWidget(row, 2, makeItem(proxy.getPatientBirthDateAsString(datePatternYEAR)));
-						resultTable.setWidget(row, 3,makeItem(proxy.getStudyViewprotocol()));
+						resultTable.setWidget(row, 1, makeItem(proxy.getStudyDoctor()));
+						resultTable.setWidget(row, 2, makeItem(proxy.getPatientName()));
+						resultTable.setWidget(row, 3, makeItem(proxy.getPatientBirthDateAsString(datePatternYEAR)));
+						resultTable.setWidget(row, 4,makeItem(proxy.getStudyViewprotocol()));
 						row++;
 					}
 					resultPanel.add(resultTable);
@@ -330,6 +338,11 @@ public class WorkListPanel extends Composite {
 						Application.hideWorkStatusMsg();
 
 						studies = result.getData();
+						
+						Label l = new Label("Количество Исследований: "+studies.size());
+						l.addStyleName("DicomItem");
+						resultPanel.add(l);
+						
 						for (Iterator<StudyProxy> it = studies.iterator(); it
 								.hasNext();) {
 

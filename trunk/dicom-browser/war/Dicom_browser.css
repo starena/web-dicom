@@ -236,7 +236,8 @@ A.selected {
 }
 
 .WorkListPanelItem {
-	font: 2.167em/ 118% normal Verdana, Tahoma, sans-serif;
+	font: 12pt/10pt sans-serif;
+	/*font: 2.0 em/ 120% normal Verdana, Tahoma, sans-serif;*/
 }
 
 
