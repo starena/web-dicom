@@ -391,6 +391,8 @@ public class Extractor {
 			Study study = Study.getInstance(dcmObj);
 			//!!!!!!!!!!!!!!!!!!!
 			
+			String MIME_TYPE = study.getMimeType();
+			
 			long IMAGE_FILE_SIZE = 0;
 			int IMAGE_WIDTH = 0;
 			int IMAGE_HEIGHT = 0;
@@ -399,7 +401,10 @@ public class Extractor {
 				IMAGE_FILE_SIZE = image.getHeight(); // TODO Реализовать!!!
 				IMAGE_WIDTH = image.getWidth(); // TODO Реализовать!!!
 				IMAGE_HEIGHT = image.getHeight();// TODO Реализовать!!!
+				MIME_TYPE = "image/jpg";
 			}
+			
+			
 			
 			
 			
@@ -540,7 +545,7 @@ public class Extractor {
 								+ "DCM_FILE_SIZE = ?," 
 								+ "IMAGE_FILE_SIZE = ?," 
 								+ "IMAGE_WIDTH = ?," 
-								+ "IMAGE_HEIGHT =?, DATE_MODIFY =? "
+								+ "IMAGE_HEIGHT =?, DATE_MODIFY =?, MIME_TYPE =? "
 								+ " where ID = ?");
 
 				stmt.setLong(1, studyInternalID);
@@ -552,7 +557,8 @@ public class Extractor {
 				stmt.setInt(7, IMAGE_WIDTH);
 				stmt.setInt(8, IMAGE_HEIGHT);
 				stmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
-				stmt.setLong(10, id);
+				stmt.setString(10, MIME_TYPE);
+				stmt.setLong(11, id);
 				stmt.executeUpdate();
 				stmt.close();
 
@@ -569,8 +575,8 @@ public class Extractor {
 						+ "DCM_FILE_SIZE," 
 						+ "IMAGE_FILE_SIZE," 
 						+ "IMAGE_WIDTH," 
-						+ "IMAGE_HEIGHT, DATE_MODIFY )"
-						+ "values (?,?,?,?,?,?,?,?,?)");
+						+ "IMAGE_HEIGHT, DATE_MODIFY, MIME_TYPE )"
+						+ "values (?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setLong(1, studyInternalID);
 				stmt.setString(2, study.getDcmType());
@@ -581,7 +587,8 @@ public class Extractor {
 				stmt.setInt(7, IMAGE_WIDTH);
 				stmt.setInt(8, IMAGE_HEIGHT);
 				stmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
-
+				stmt.setString(10, MIME_TYPE);
+				
 				stmt.executeUpdate();
 
 				// Обновляем статистику

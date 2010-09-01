@@ -35,6 +35,7 @@ public class Study {
 	protected String StudyType = "";
 	protected String StudyResult = "";
 	protected String StudyViewProtocol= "";
+	private String MimeType = "";
 	
 	// TODO Manufacturer в файлах не фигурирует...
 	protected String ManufacturerUID = "not implemented";
@@ -318,6 +319,14 @@ public class Study {
 //			}
 		}
 		
+		
+		// StudyViewProtocol
+		element = dcmObj.get(Tag.MIMETypeOfEncapsulatedDocument);
+		if (element != null) {
+			setMimeType(element.getValueAsString(cs, element
+					.length()));
+		}
+		
 		// StudyCompletionDate
 		if (dcmObj.get(Tag.StudyCompletionDate) != null) {
 			setStudyViewProtocolDate( new java.sql.Date(dcmObj.get(Tag.StudyCompletionDate)
@@ -526,6 +535,16 @@ public class Study {
 	public void setManufacturer(String manufacturer) {
 		Manufacturer = manufacturer;
 	}
+
+	public String getMimeType() {
+		return MimeType;
+	}
+
+	public void setMimeType(String mimeType) {
+		MimeType = mimeType;
+	}
+	
+	
 	
 	
 
