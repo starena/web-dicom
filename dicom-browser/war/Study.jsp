@@ -51,6 +51,9 @@ function openwindow (linka,name,_left,_top,_width,_height) {
 		long dcmId = rs.getLong("ID");
 		/*String href = "../images/"+dcmId+".fullsize";*/
 		String href = "../study/image/"+dcmId;
+		
+		if(rs.getLong("IMAGE_FILE_SIZE")>0 || 
+				(rs.getString("MIME_TYPE")!=null && rs.getString("MIME_TYPE").equals("image/jpg") ) )  {
 %>
 
 
@@ -63,7 +66,19 @@ function openwindow (linka,name,_left,_top,_width,_height) {
 </td>
 
 
-<%
+<%		}
+		
+		if( rs.getString("MIME_TYPE")!=null && rs.getString("MIME_TYPE").equals("application/pdf") )  {
+			href = "../dcmattach/"+dcmId+".dcm";
+		%> 
+		
+		<td>
+		<a href='<%=href%>' onclick="openwindow('<%=href%>','name2',0,0,<%=width %>,<%=height %>); return false"> 
+		<img src="../logoPDF.png" border='0'> </img> 
+		</a>
+		</td>
+		<% 
+		}
 	}
 
 %>
