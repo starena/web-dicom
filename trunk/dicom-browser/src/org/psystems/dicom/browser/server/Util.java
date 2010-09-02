@@ -54,9 +54,12 @@
  */
 package org.psystems.dicom.browser.server;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -66,6 +69,7 @@ import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.ARPCRequest;
 
@@ -88,7 +92,34 @@ public class Util {
 	private static Logger logger = Logger.getLogger(Util.class
 			.getName());
 
-
+	/**
+	 * Журналирование Эксепшина с 
+	 * Получением стека
+	 * @param e
+	 * @return
+	 */
+	public static DefaultGWTRPCException throwPortalException (String msg) {
+		return throwPortalException(msg,new RuntimeException());
+	}
+	
+	/**
+	 * Журналирование Эксепшина с 
+	 * Получением стека
+	 * @param e
+	 * @return
+	 */
+	public static DefaultGWTRPCException throwPortalException (String msg, Throwable e) {
+		
+		String marker =  Thread.currentThread().getId() + "_" + new Date().getTime();
+		StringWriter sw = new StringWriter();
+	    PrintWriter pw = new PrintWriter(sw);
+	    e.printStackTrace(pw);
+	    String stack = sw.toString();
+	    //TODO Сделать через Log4j
+	    System.err.println("Portal Error ["+marker+"] "+e.getMessage()+" stack:\n"+stack);
+	    return new DefaultGWTRPCException(marker,msg,e,stack);
+	    	
+	}
 
 	/**
 	 * @param jdbcName

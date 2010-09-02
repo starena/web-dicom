@@ -140,7 +140,6 @@ public class StudyImpl extends Study {
 			
 		}
 		
-		System.out.println("!!! studyResult=["+studyResult+"]");
 		
 		if (studyResult != null && studyResult.length() > 0) {
 			if (sqlAddon.length() != 0)
@@ -159,7 +158,6 @@ public class StudyImpl extends Study {
 		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
 				+ " order by PATIENT_NAME, STUDY_DATE ";
 
-		System.out.println("!!! SQL:"+sql);
 
 		IllegalArgumentException ex = new IllegalArgumentException(
 				"All query arguments empty! Set any argument's");
@@ -257,7 +255,6 @@ public class StudyImpl extends Study {
 				study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
 				data.add(study);
 				
-				System.out.println("!!! result=["+rs.getString("STUDY_RESULT")+"]");
 
 			}
 			rs.close();

@@ -88,7 +88,6 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		// Create a list to hold our suggestions (pre-set the lengthto the limit
 		// specified by the request)
 
-		System.out.println("!!!! transactionId="+transactionId);
 		
 		List<Suggestion> suggestions;
 		try {
@@ -101,8 +100,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();//TODO Убрать
-			throw new DefaultGWTRPCException(e);
+			throw org.psystems.dicom.browser.server.Util.throwPortalException("Suggestions error! ",e);
 		}
 
 		// Now set the suggestions in the response

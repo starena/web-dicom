@@ -51,7 +51,7 @@ public class WorkListPanel extends Composite {
 	protected String dateEnd;
 	private DateBox studyDateBoxEnd;
 	protected String manufacturerModelName = "RENEXFLUORO3";
-	protected String studyResult;
+	protected String studyResult = "new";
 	protected ArrayList<StudyProxy> studies;
 	
 //	private String datePattern = "dd.MM.yyyy";

@@ -59,26 +59,27 @@ import java.io.Serializable;
 public class DefaultGWTRPCException extends Exception implements Serializable {
 
 	private static final long serialVersionUID = -996480671051412057L;
-	private String text;
+	private String stack;
+	private String logMarker = null;
 
+	
 	public DefaultGWTRPCException() {
+		super();
 	}
 
-	public DefaultGWTRPCException(String message, Throwable cause) {
+	public DefaultGWTRPCException(String logMarker, String message,
+			Throwable cause, String stack) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
+		this.logMarker = logMarker;
+		this.stack = stack;
 	}
 
-	public DefaultGWTRPCException(Throwable cause) {
-		super(cause);
-		// TODO Auto-generated constructor stub
+	public String getStack() {
+		return stack;
 	}
 
-	public DefaultGWTRPCException(String text) {
-		this.text = text;
+	public String getLogMarker() {
+		return logMarker;
 	}
 
-	public String getText() {
-		return this.text;
-	}
 }
