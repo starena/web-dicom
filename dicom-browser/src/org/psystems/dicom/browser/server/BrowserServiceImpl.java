@@ -228,12 +228,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		} catch (SQLException e) {
 			logger.error(e);
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(e.getMessage());
+			throw Util.throwPortalException("Can't find study: ", e);
 		} catch (DataException e) {
 			logger.error(e);
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(e.getMessage());
+			throw Util.throwPortalException("Can't find study: ", e);
 		} finally {
 
 			try {
@@ -243,7 +241,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					psFiles.close();
 			} catch (SQLException e) {
 				logger.error(e);
-				throw new DefaultGWTRPCException(e.getMessage());
+				throw Util.throwPortalException("Can't find study: ", e);
 			}
 		}
 
@@ -361,8 +359,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		} catch (SQLException e) {
 			logger.error(e);
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(e.getMessage());
+			throw Util.throwPortalException("Can't getting tags: ", e);
 		} finally {
 
 			try {
@@ -370,7 +367,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					psSelect.close();
 			} catch (SQLException e) {
 				logger.error(e);
-				throw new DefaultGWTRPCException(e.getMessage());
+				throw Util.throwPortalException("Can't getting tags: ", e);
 			}
 		}
 	}
@@ -403,14 +400,15 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			}
 			rs.close();
 			if (index == 0) {
-				throw new DefaultGWTRPCException("Dcm file not found! id="
+				throw Util.throwPortalException("Dcm file not found! id="
 						+ idDcmFile);
+				
 			}
 			try {
 				return getTagsFromFile(idDcmFile, fileName);
 			} catch (IOException e) {
-				throw new DefaultGWTRPCException("IOException ! id="
-						+ idDcmFile + " file=" + fileName + " " + e);
+				throw Util.throwPortalException("Dcm file I/O error! id="
+						+ idDcmFile);
 			}
 
 			//
@@ -418,8 +416,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			//
 		} catch (SQLException e) {
 			logger.error(e);
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(e.getMessage());
+			throw Util.throwPortalException("Dcm file SQL error! id="
+					+ idDcmFile);
 		} finally {
 
 			try {
@@ -427,7 +425,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					psSelect.close();
 			} catch (SQLException e) {
 				logger.error(e);
-				throw new DefaultGWTRPCException(e.getMessage());
+				throw Util.throwPortalException("Dcm file SQL error! id="
+						+ idDcmFile);
 			}
 		}
 
@@ -581,7 +580,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			data = Storage.getPatients(getServletContext(), req.getQueryStr(),
 					req.getLimit());
 		} catch (SQLException e) {
-			throw new DefaultGWTRPCException(e);
+			throw Util.throwPortalException("Find patients error! ",e);
 		}
 
 		PatientsRPCResponse resp = new PatientsRPCResponse();
@@ -687,12 +686,11 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 		} catch (SQLException e) {
 			logger.error(e);
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(e.getMessage());
+			throw Util.throwPortalException("Find stidy error! ",e);
 		} catch (DataException e) {
 			logger.error(e);
-			e.printStackTrace();
-			throw new DefaultGWTRPCException(e.getMessage());
+			throw Util.throwPortalException("Find stidy error! ",e);
+			
 		} finally {
 
 			try {
@@ -702,7 +700,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 					psFiles.close();
 			} catch (SQLException e) {
 				logger.error(e);
-				throw new DefaultGWTRPCException(e.getMessage());
+				throw Util.throwPortalException("Find stidy error! ",e);
 			}
 		}
 

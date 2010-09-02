@@ -83,10 +83,7 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements
 									"C:\\WORK\\workspace\\dicom-browser\\test\\data\\jpg2dcm.cfg"),
 							true);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			throw new DefaultGWTRPCException(
-					"Не могу найти конфигурационный файл! " + 1);
+			throw org.psystems.dicom.browser.server.Util.throwPortalException("Config file not found! ",e1);
 		}
 		
 

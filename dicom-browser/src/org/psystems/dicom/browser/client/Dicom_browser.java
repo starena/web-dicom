@@ -105,6 +105,7 @@ public class Dicom_browser implements EntryPoint {
 	public static final ManageStydyServiceAsync manageStudyService = GWT
 			.create(ManageStydyService.class);
 
+	
 	private static DialogBox errorDialogBox;
 	private static HTML errorResponseLabel;
 
@@ -179,34 +180,26 @@ public class Dicom_browser implements EntryPoint {
 		History.fireCurrentHistoryState();
 
 	}
-
-	public static void showErrorDlg(Throwable e) {
-		errorResponseLabel.setHTML("Ошибка: " + e);
-		System.err.println("interface error!");
-		e.printStackTrace();
-		errorDialogBox.show();
-		errorDialogBox.center();
-
-	}
-
+	
 	/**
-	 * 
+	 * Диалог выдачи сообщения об ошибке
 	 */
 	private void createErorrDlg() {
 		errorDialogBox = new DialogBox();
 		errorDialogBox.setText("Ошибка!");
 		errorDialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
+		final Button closeButton = new Button("Закрыть окно сообщения");
 		// We can set the id of a widget by accessing its Element
 		closeButton.getElement().setId("closeButton");
 		errorResponseLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
 
+		dialogVPanel.add(closeButton);
 		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
 		dialogVPanel.add(errorResponseLabel);
 		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(closeButton);
+		
 		errorDialogBox.setWidget(dialogVPanel);
 
 		// Add a handler to close the DialogBox
@@ -217,6 +210,24 @@ public class Dicom_browser implements EntryPoint {
 		});
 
 	}
+
+	/**
+	 * Выдача сообщения об ошибке
+	 * @param e
+	 */
+	public static void showErrorDlg(Throwable e) {
+
+		if(e instanceof DefaultGWTRPCException) {
+			DefaultGWTRPCException ex = (DefaultGWTRPCException)e;
+			errorResponseLabel.setHTML(ex.getMessage()+" <br><pre>Ошибка [" + ex.getLogMarker()+ "]\n"+ ex.getStack()+"</pre>");
+		} else {
+			errorResponseLabel.setHTML(e.getMessage());
+		}
+		errorDialogBox.show();
+		errorDialogBox.center();
+	}
+
+	
 
 	/**
 	 * создание диалога состояния поцесса работы
