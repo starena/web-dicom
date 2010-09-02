@@ -140,16 +140,18 @@ public class StudyImpl extends Study {
 			
 		}
 		
+		System.out.println("!!! studyResult=["+studyResult+"]");
+		
 		if (studyResult != null && studyResult.length() > 0) {
 			if (sqlAddon.length() != 0)
 				
 			if(studyResult.equals("new")) {
 				sqlAddon += " AND ";
-				sqlAddon += " (STUDY_RESULT = '' OR STUDY_RESULT is NULL ) ";
+				sqlAddon += " ( STUDY_VIEW_PROTOCOL is NULL OR STUDY_VIEW_PROTOCOL = '' ) ";
 			}
 			if(studyResult.equals("old")) {
 				sqlAddon += " AND ";
-				sqlAddon += " STUDY_RESULT is not null ";
+				sqlAddon += " ( STUDY_VIEW_PROTOCOL IS NOT NULL AND STUDY_VIEW_PROTOCOL != '' )";
 			}
 			
 		}
@@ -157,7 +159,7 @@ public class StudyImpl extends Study {
 		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
 				+ " order by PATIENT_NAME, STUDY_DATE ";
 
-//		System.err.println("SQL:"+sql);
+		System.out.println("!!! SQL:"+sql);
 
 		IllegalArgumentException ex = new IllegalArgumentException(
 				"All query arguments empty! Set any argument's");
@@ -254,6 +256,8 @@ public class StudyImpl extends Study {
 				study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
 				study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
 				data.add(study);
+				
+				System.out.println("!!! result=["+rs.getString("STUDY_RESULT")+"]");
 
 			}
 			rs.close();
