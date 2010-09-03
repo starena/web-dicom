@@ -36,6 +36,7 @@ public class Study {
 	protected String StudyResult = "";
 	protected String StudyViewProtocol= "";
 	private String MimeType = "";
+	private long encapsulatedDocSize = 0;
 	
 	// TODO Manufacturer в файлах не фигурирует...
 	protected String ManufacturerUID = "not implemented";
@@ -320,11 +321,17 @@ public class Study {
 		}
 		
 		
-		// StudyViewProtocol
+		// Mime Type document
 		element = dcmObj.get(Tag.MIMETypeOfEncapsulatedDocument);
 		if (element != null) {
 			setMimeType(element.getValueAsString(cs, element
 					.length()));
+		}
+		
+		// EncapsulatedDocument Size
+		element = dcmObj.get(Tag.EncapsulatedDocument);
+		if (element != null) {
+			setEncapsulatedDocSize(element.getBytes().length);
 		}
 		
 		// StudyCompletionDate
@@ -542,6 +549,14 @@ public class Study {
 
 	public void setMimeType(String mimeType) {
 		MimeType = mimeType;
+	}
+
+	public long getEncapsulatedDocSize() {
+		return encapsulatedDocSize;
+	}
+
+	public void setEncapsulatedDocSize(long encapsulatedDocSize) {
+		this.encapsulatedDocSize = encapsulatedDocSize;
 	}
 	
 	
