@@ -191,7 +191,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
 							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
-							rsFiles.getString("MIME_TYPE"),
+							rsFiles.getString("MIME_TYPE"), rsFiles.getLong("DOCUMENT_SIZE"),
 							rsFiles.getString("DCM_FILE_NAME"), rsFiles
 									.getLong("DCM_FILE_SIZE"), rsFiles
 									.getLong("IMAGE_FILE_SIZE"), rsFiles
@@ -655,7 +655,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
 							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
-							rsFiles.getString("MIME_TYPE"),
+							rsFiles.getString("MIME_TYPE"), rsFiles.getLong("DOCUMENT_SIZE"),
 							rsFiles.getString("DCM_FILE_NAME"), rsFiles
 									.getLong("DCM_FILE_SIZE"), rsFiles
 									.getLong("IMAGE_FILE_SIZE"), rsFiles

@@ -285,7 +285,8 @@ public class StudyCard extends Composite {
 			if( fileProxy.haveImage() || (fileProxy.getMimeType()!=null && fileProxy.getMimeType().equals("image/jpg"))) {
 				Image imagePreview = makeItemImage(fileProxy);
 				contentPanel.add(imagePreview);
-			}else if (fileProxy.getMimeType()!=null && fileProxy.getMimeType().equals("application/pdf")) {
+			}else if (fileProxy.getMimeType()!=null && fileProxy.getMimeType().equals("application/pdf")
+					&& fileProxy.getEncapsulatedDocSize() > 0) {
 				
 				ImageResource imgRes = resources.logoPDF();
 				Image imageLogoPDF = new Image(imgRes);

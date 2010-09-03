@@ -73,6 +73,7 @@ public class DcmFileProxy implements Serializable {
 	private int imageWidth; //
 	private int imageHeight; //
 	private String mimeType;
+	private long encapsulatedDocSize;//Размер вложенного документа
 
 	/**
 	 * Инициализация класса
@@ -86,12 +87,13 @@ public class DcmFileProxy implements Serializable {
 	 * @param imageWidth
 	 * @param imageHeight
 	 */
-	public void init(long id, long idStudy, String type, String mimeType, String fileName,
+	public void init(long id, long idStudy, String type, String mimeType, long encapsulatedDocSize, String fileName,
 			long fileSize, long imageSize, int imageWidth, int imageHeight) {
 		this.id = id;
 		this.idStudy = idStudy;
 		this.type = type;
 		this.mimeType = mimeType;
+		this.encapsulatedDocSize = encapsulatedDocSize;
 		this.fileName = fileName;
 		this.fileSize = fileSize;
 		this.imageSize = imageSize;
@@ -155,6 +157,14 @@ public class DcmFileProxy implements Serializable {
 
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
+	}
+
+	public long getEncapsulatedDocSize() {
+		return encapsulatedDocSize;
+	}
+
+	public void setEncapsulatedDocSize(long encapsulatedDocSize) {
+		this.encapsulatedDocSize = encapsulatedDocSize;
 	}
 	
 	
