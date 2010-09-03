@@ -55,6 +55,7 @@ CREATE TABLE WEBDICOM.DCMFILE (
 	NAME VARCHAR(512) NOT NULL, -- Имя файла (без дополнительного пути)
 	DCM_FILE_SIZE BIGINT NOT NULL,
 	MIME_TYPE VARCHAR(512), -- Тип контента (Null если нет)
+	DOCUMENT_SIZE BIGINT, -- Размер вложенного документа
 	IMAGE_FILE_SIZE BIGINT,
 	IMAGE_WIDTH INTEGER, -- COLUMNS
 	IMAGE_HEIGHT INTEGER, -- ROWS

@@ -392,6 +392,7 @@ public class Extractor {
 			//!!!!!!!!!!!!!!!!!!!
 			
 			String MIME_TYPE = study.getMimeType();
+			long DOCUMENT_SIZE = study.getEncapsulatedDocSize();
 			
 			long IMAGE_FILE_SIZE = 0;
 			int IMAGE_WIDTH = 0;
@@ -545,7 +546,7 @@ public class Extractor {
 								+ "DCM_FILE_SIZE = ?," 
 								+ "IMAGE_FILE_SIZE = ?," 
 								+ "IMAGE_WIDTH = ?," 
-								+ "IMAGE_HEIGHT =?, DATE_MODIFY =?, MIME_TYPE =? "
+								+ "IMAGE_HEIGHT =?, DATE_MODIFY =?, MIME_TYPE =?, DOCUMENT_SIZE =? "
 								+ " where ID = ?");
 
 				stmt.setLong(1, studyInternalID);
@@ -558,7 +559,8 @@ public class Extractor {
 				stmt.setInt(8, IMAGE_HEIGHT);
 				stmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
 				stmt.setString(10, MIME_TYPE);
-				stmt.setLong(11, id);
+				stmt.setLong(11, DOCUMENT_SIZE);
+				stmt.setLong(12, id);
 				stmt.executeUpdate();
 				stmt.close();
 
@@ -575,8 +577,8 @@ public class Extractor {
 						+ "DCM_FILE_SIZE," 
 						+ "IMAGE_FILE_SIZE," 
 						+ "IMAGE_WIDTH," 
-						+ "IMAGE_HEIGHT, DATE_MODIFY, MIME_TYPE )"
-						+ "values (?,?,?,?,?,?,?,?,?,?)");
+						+ "IMAGE_HEIGHT, DATE_MODIFY, MIME_TYPE,DOCUMENT_SIZE )"
+						+ "values (?,?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setLong(1, studyInternalID);
 				stmt.setString(2, study.getDcmType());
@@ -588,6 +590,7 @@ public class Extractor {
 				stmt.setInt(8, IMAGE_HEIGHT);
 				stmt.setTimestamp(9, new Timestamp(new java.util.Date().getTime()));
 				stmt.setString(10, MIME_TYPE);
+				stmt.setLong(11, DOCUMENT_SIZE);
 				
 				stmt.executeUpdate();
 
