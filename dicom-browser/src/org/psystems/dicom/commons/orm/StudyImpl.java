@@ -94,7 +94,7 @@ public class StudyImpl extends Study {
 		if (patientShortName != null && patientShortName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
-			sqlAddon += " PATIENT_SHORTNAME = ? ";
+			sqlAddon += " PATIENT_SHORTNAME = UPPER(?) ";
 		}
 
 		if (patientBirthDate != null && patientBirthDate.length() > 0) {
@@ -159,6 +159,8 @@ public class StudyImpl extends Study {
 				+ " order by PATIENT_NAME, STUDY_DATE ";
 
 
+	
+		
 		IllegalArgumentException ex = new IllegalArgumentException(
 				"All query arguments empty! Set any argument's");
 		if (sqlAddon.length() == 0)
@@ -221,9 +223,12 @@ public class StudyImpl extends Study {
 
 			ArrayList<Study> data = new ArrayList<Study>();
 
-//			System.out.println("!!!! sql="+sql);
+			
 			int counter = 1;
 			while (rs.next()) {
+				
+				
+				
 				//TODO убрать в конфиг
 				if(counter++> WorkListPanel.maxResultCount) break;
 //				System.out.println("!!!!! counter="+counter);
@@ -254,6 +259,7 @@ public class StudyImpl extends Study {
 				study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
 				study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
 				data.add(study);
+				
 				
 
 			}

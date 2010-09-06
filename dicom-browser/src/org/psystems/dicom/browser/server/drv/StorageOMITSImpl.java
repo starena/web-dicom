@@ -100,6 +100,7 @@ public class StorageOMITSImpl extends Storage {
 			
 			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') ";
 			
+			//Если поиск по КБП
 			if(queryStr.matches("^\\D{5}\\d{2}$")) {
 				where = " CODE = UPPER(?) ";
 			}

@@ -93,11 +93,19 @@ public class StorageWebDicomImpl extends Storage {
 
 			Connection connection = org.psystems.dicom.browser.server.Util
 					.getConnection("main", context);
+			
+			String where = " UPPER(PATIENT_NAME) like UPPER(? || '%')";
+			
+			//Если поиск по КБП
+			if(queryStr.matches("^\\D{5}\\d{2}$")) {
+				where = " PATIENT_SHORTNAME = UPPER(?) ";
+			}
+
 
 			psSelect = connection
 					.prepareStatement("SELECT ID, PATIENT_NAME, PATIENT_BIRTH_DATE "
-							+ " FROM WEBDICOM.STUDY "
-							+ "WHERE UPPER(PATIENT_NAME) like UPPER(? || '%')"
+							+ " FROM WEBDICOM.STUDY WHERE "
+							+ where
 							+ " order by PATIENT_NAME ");
 
 			psSelect.setString(1, queryStr);
