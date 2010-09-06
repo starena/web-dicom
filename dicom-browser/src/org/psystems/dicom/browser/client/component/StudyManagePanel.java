@@ -599,7 +599,7 @@ public class StudyManagePanel extends Composite implements
 		// TODO Auto-generated method stub
 		
 //		StudyProxy tmpProxy = StudyManagePanel.this.proxy;
-		verifyHTML.setHTML("проверка отправденных данных...");
+		verifyHTML.setHTML("проверка отправленных данных...");
 		
 		//Вынести в отдельный метод
 		TransactionTimer t = new TransactionTimer() {
