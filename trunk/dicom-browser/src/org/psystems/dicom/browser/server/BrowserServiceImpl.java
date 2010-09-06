@@ -141,8 +141,16 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			}
 			
 			
-			Study[] studies = Study.getStudues(connection, null, manufacturerModelName,queryStr,
+			Study[] studies = null;
+			//Если поиск по КБП
+			if(queryStr.matches("^\\D{5}\\d{2}$")) {
+				
+				studies = Study.getStudues(connection, null, manufacturerModelName,null,
+						queryStr, null, null, studyDB, studyDE, studyResult);
+			} else {
+				studies = Study.getStudues(connection, null, manufacturerModelName,queryStr,
 					null, null, null, studyDB, studyDE, studyResult);
+			}
 			for (int i = 0; i < studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();
 

@@ -126,6 +126,7 @@ public class StudyManagePanel extends Composite implements
 				} else {
 					submitSuccess();
 				}
+				startcheckindStudyModify();
 
 			}
 
@@ -138,7 +139,8 @@ public class StudyManagePanel extends Composite implements
 				// TODO Auto-generated method stub
 				// event.cancel();
 				dataVerifyed(false);
-				startcheckindStudyModify();
+//				startcheckindStudyModify();
+				verifyHTML.setHTML("Отправка данных...");
 			}
 		});
 
@@ -597,7 +599,7 @@ public class StudyManagePanel extends Composite implements
 		// TODO Auto-generated method stub
 		
 //		StudyProxy tmpProxy = StudyManagePanel.this.proxy;
-		verifyHTML.setHTML("Отправка данных...");
+		verifyHTML.setHTML("проверка отправденных данных...");
 		
 		//Вынести в отдельный метод
 		TransactionTimer t = new TransactionTimer() {
@@ -610,11 +612,12 @@ public class StudyManagePanel extends Composite implements
 
 				if(doExit) return;
 				
-				if(counter++>2) {
-					verifyHTML.setHTML("Отправка данных...НЕУДАЧНА!!!");
+				int maxCounter = 5;
+				if(counter++>maxCounter ) {
+					verifyHTML.setHTML("Проверка данных...НЕУДАЧНА!!!");
 					return;
 				}
-				verifyHTML.setHTML("Отправка данных..."+counter);
+				verifyHTML.setHTML("Проверка данных попытка: "+counter + " из "+maxCounter);
 				
 				//TODO Вынести в отдельный метод !!!!
 				browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
@@ -622,7 +625,7 @@ public class StudyManagePanel extends Composite implements
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						verifyHTML.setHTML("Ошибка при верификации данных!!!");
+						verifyHTML.setHTML("Ошибка при проверки данных!!!");
 						doExit=true;
 					}
 
