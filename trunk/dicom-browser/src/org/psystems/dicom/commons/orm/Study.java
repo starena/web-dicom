@@ -330,10 +330,10 @@ public abstract class Study {
 	public static Study[] getStudues(Connection connection,
 			String studyModality, String manufacturerModelName, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
-			String endStudyDate, String studyResult) throws DataException {
+			String endStudyDate, String studyResult, String sortOrder) throws DataException {
 		return StudyImpl.getStudues(connection, studyModality, manufacturerModelName, patientName,
 				patientShortName, patientBirthDate, patientSex, beginStudyDate,
-				endStudyDate, studyResult);
+				endStudyDate, studyResult, sortOrder);
 	}
 	
 	/**

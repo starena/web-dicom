@@ -133,11 +133,13 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			String studyDE = null;
 			String manufacturerModelName = null;
 			String studyResult = null;
+			String sortOrder = null;
 			if (attrs!=null) {
 				studyDB = attrs.get("beginStudyDate");
 				studyDE = attrs.get("endStudyDate");
 				studyResult = attrs.get("studyResult");
 				manufacturerModelName = attrs.get("manufacturerModelName");
+				sortOrder = attrs.get("sortOrder");
 			}
 			
 			
@@ -146,10 +148,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			if(queryStr.matches("^\\D{5}\\d{2}$")) {
 				
 				studies = Study.getStudues(connection, null, manufacturerModelName,null,
-						queryStr, null, null, studyDB, studyDE, studyResult);
+						queryStr, null, null, studyDB, studyDE, studyResult, sortOrder);
 			} else {
 				studies = Study.getStudues(connection, null, manufacturerModelName,queryStr,
-					null, null, null, studyDB, studyDE, studyResult);
+					null, null, null, studyDB, studyDE, studyResult, sortOrder);
 			}
 			for (int i = 0; i < studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();

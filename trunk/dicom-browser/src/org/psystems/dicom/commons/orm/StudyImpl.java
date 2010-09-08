@@ -60,7 +60,7 @@ public class StudyImpl extends Study {
 	public static Study[] getStudues(Connection connection,
 			String studyModality, String manufacturerModelName, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
-			String endStudyDate, String studyResult) throws DataException {
+			String endStudyDate, String studyResult, String sortOrder) throws DataException {
 
 		PreparedStatement psSelect = null;
 
@@ -154,9 +154,13 @@ public class StudyImpl extends Study {
 			}
 			
 		}
+		String order = "PATIENT_NAME, STUDY_DATE";
+		if(sortOrder!=null) {
+			order = sortOrder;
+		}
 
 		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
-				+ " order by PATIENT_NAME, STUDY_DATE ";
+				+ " order by "+order;
 
 
 	

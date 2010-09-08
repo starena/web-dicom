@@ -13,7 +13,6 @@ import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,6 +55,7 @@ public class WorkListPanel extends Composite {
 	
 //	private String datePattern = "dd.MM.yyyy";
 	private String datePatternYEAR = "yyyy";
+	protected String sortOrder = null;
 	public final static int maxResultCount = 300;
 
 	/**
@@ -79,6 +79,7 @@ public class WorkListPanel extends Composite {
 		toolPanel.add(label);
 		
 		studyDateBoxBegin = new DateBox();
+		studyDateBoxBegin.setWidth("80px");
 		studyDateBoxBegin.setFormat(new DateBox.DefaultFormat(
 				Utils.dateFormatUser));
 		studyDateBoxBegin.setValue(new Date());
@@ -100,6 +101,7 @@ public class WorkListPanel extends Composite {
 		toolPanel.add(label);
 
 		studyDateBoxEnd = new DateBox();
+		studyDateBoxEnd.setWidth("80px");
 		studyDateBoxEnd.setFormat(new DateBox.DefaultFormat(
 				Utils.dateFormatUser));
 		studyDateBoxEnd.setValue(new Date());
@@ -139,9 +141,7 @@ public class WorkListPanel extends Composite {
 		
 		toolPanel.add(lbManufacturerModelName);
 		
-		label = new Label(" - ");
-		label.addStyleName("DicomItemValue");
-		toolPanel.add(label);
+		
 		//
 		final ListBox lbStudyResult = new ListBox();
 		lbStudyResult.addItem("Неописанные", "new");
@@ -163,6 +163,24 @@ public class WorkListPanel extends Composite {
 		
 		toolPanel.add(lbStudyResult);
 		
+		//
+		final ListBox lbSortOrder = new ListBox();
+		lbSortOrder.addItem("ФИО", "PATIENT_NAME, STUDY_DATE");
+		lbSortOrder.addItem("ДАТА","STUDY_DATE, PATIENT_NAME");
+		
+		lbSortOrder.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				// TODO Auto-generated method stub
+				int i = lbSortOrder.getSelectedIndex();
+				sortOrder = lbSortOrder.getValue(i);
+				searchStudyes(false);
+			}
+		});
+		
+		
+		toolPanel.add(lbSortOrder);
 		label = new Label("максимум - "+maxResultCount);
 		label.addStyleName("DicomItemValue");
 		toolPanel.add(label);
@@ -313,6 +331,8 @@ public class WorkListPanel extends Composite {
 		attrs.put("endStudyDate", dateEnd);
 		attrs.put("manufacturerModelName", manufacturerModelName);
 		attrs.put("studyResult", studyResult);
+		attrs.put("sortOrder", sortOrder);
+		
 		Application.browserService.findStudy(searchTransactionID,
 				Dicom_browser.version, "%", attrs,
 				new AsyncCallback<RPCDcmProxyEvent>() {
