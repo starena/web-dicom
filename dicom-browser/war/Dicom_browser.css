@@ -230,6 +230,17 @@ A.selected {
 	width: 100%;
 }
 
+.StudyCardTitle {
+	font: 1.8em/ 118% normal Verdana, Tahoma, sans-serif;
+	margin: 5px;
+	color: #000000;
+	/*color: #44639C;*/	
+	cursor: pointer;
+  cursor: hand;
+  width: 100%;
+}
+
+
 
 .WorkListPanel {
 	background: white;
