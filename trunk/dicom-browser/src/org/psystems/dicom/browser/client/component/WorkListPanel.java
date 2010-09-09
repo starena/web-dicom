@@ -167,6 +167,8 @@ public class WorkListPanel extends Composite {
 		final ListBox lbSortOrder = new ListBox();
 		lbSortOrder.addItem("ФИО", "PATIENT_NAME, STUDY_DATE");
 		lbSortOrder.addItem("ДАТА","STUDY_DATE, PATIENT_NAME");
+		lbSortOrder.addItem("МОДИФИКАЦИЯ","DATE_MODIFY, PATIENT_NAME");
+		
 		
 		lbSortOrder.addChangeHandler(new ChangeHandler() {
 			
