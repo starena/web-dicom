@@ -89,6 +89,7 @@ public class StudyManagePanel extends Composite implements
 	private ListBox studyDoctror;
 	private ListBox studyOperator;
 	private int rowCounter;
+	private Hidden studyInstanceUID;
 	public final static String medicalAlertsTitle = "норма";
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
@@ -153,7 +154,7 @@ public class StudyManagePanel extends Composite implements
 		formDataPanel.add(formTable);
 
 		//
-		Hidden studyInstanceUID = new Hidden();
+		studyInstanceUID = new Hidden();
 		studyInstanceUID.setName("0020000D");
 		studyInstanceUID.setValue(proxy.getStudyUID());
 		addFormHidden(studyInstanceUID);
@@ -570,7 +571,10 @@ public class StudyManagePanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				formPanel.submit();
+				
+				if(checkSendingData()) {
+					formPanel.submit();
+				} 
 
 			}
 		});
@@ -589,6 +593,17 @@ public class StudyManagePanel extends Composite implements
 		initWidget(mainPanel);
 
 		patientVerify();
+	}
+
+	protected boolean checkSendingData() {
+
+		if(studyCardPanel!=null) {
+			if(studyInstanceUID.getValue()==null || studyInstanceUID.getValue().length()==0) {
+				verifyHTML.setHTML("Не все данные заполнены! (не задан studyInstanceUID!)");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
