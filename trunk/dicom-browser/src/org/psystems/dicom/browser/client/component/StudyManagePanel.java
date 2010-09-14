@@ -646,7 +646,13 @@ public class StudyManagePanel extends Composite implements
 
 					@Override
 					public void onSuccess(StudyProxy result) {
-						// TODO Auto-generated method stub
+						
+						if(result==null) {
+							verifyHTML.setHTML("Данные не приняты... id исследования: "+StudyManagePanel.this.proxy.getId());
+							doExit=false;
+							return;
+						}
+						
 						if(StudyManagePanel.this.proxy.getStudyDateModify().getTime() != 
 							result.getStudyDateModify().getTime()) {
 						verifyHTML.setHTML("Данные приняты: "+StudyManagePanel.this.proxy.getStudyDateModify()+

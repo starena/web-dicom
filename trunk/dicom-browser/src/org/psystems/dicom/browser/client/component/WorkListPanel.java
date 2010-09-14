@@ -360,8 +360,18 @@ public class WorkListPanel extends Composite {
 						Application.hideWorkStatusMsg();
 
 						studies = result.getData();
+						// Ищем совпадения по ФИО + ДР + ПОЛ
+						HashMap<String, String> uni = new HashMap<String, String>();
+						for (Iterator<StudyProxy> it = studies.iterator(); it
+								.hasNext();) {
+
+							StudyProxy studyProxy = it.next();
+							String k = studyProxy.getPatientName()+"_" + studyProxy.getPatientBirthDate()+"_"+
+							studyProxy.getPatientSex();
+							uni.put(k, k);
+						}						
 						
-						Label l = new Label("Количество Исследований: "+studies.size());
+						Label l = new Label("Количество Исследований: "+studies.size()+"/"+uni.size());
 						l.addStyleName("DicomItem");
 						resultPanel.add(l);
 						
