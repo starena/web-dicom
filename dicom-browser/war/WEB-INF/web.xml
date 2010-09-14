@@ -195,12 +195,25 @@
 		<servlet-class>org.psystems.dicom.browser.server.DcmViewAttachementServlet
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
-
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>DcmViewAttachementServlet</servlet-name>
 		<url-pattern>/dcmattach/*</url-pattern>
+	</servlet-mapping>
+	
+	<!--  Просмотр PDF-вложения   -->
+	
+	<servlet>
+		<servlet-name>DcmViewPDFServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.DcmViewPDFServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DcmViewPDFServlet</servlet-name>
+		<url-pattern>/dcmpdf/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- ************************************************* -->
