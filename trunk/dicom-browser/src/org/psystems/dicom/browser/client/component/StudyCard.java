@@ -292,7 +292,7 @@ public class StudyCard extends Composite {
 					@Override
 					public void onClick(ClickEvent event) {
 						// TODO Auto-generated method stub
-						Window.open("dcmattach/" + fileProxy.getId()+ ".dcm", "pdf", "_blank");
+						Window.open("dcmpdf/" + fileProxy.getId()+ ".pdf", "pdf", "_blank");
 					}
 				});
 				

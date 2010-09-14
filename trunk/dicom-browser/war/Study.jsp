@@ -69,7 +69,7 @@ function openwindow (linka,name,_left,_top,_width,_height) {
 <%		}
 		
 		if( rs.getString("MIME_TYPE")!=null && rs.getString("MIME_TYPE").equals("application/pdf") && rs.getLong("DOCUMENT_SIZE") > 0 )  {
-			href = "../dcmattach/"+dcmId+".dcm";
+			href = "../dcmpdf/"+dcmId+".pdf";
 		%> 
 		
 		<td>
