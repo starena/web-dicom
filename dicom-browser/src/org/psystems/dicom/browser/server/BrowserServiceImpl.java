@@ -618,6 +618,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
 			
 			Study study = Study.getStudyByID(connection, id);
+			if(study==null) return null;
+			
 			StudyProxy studyProxy = new StudyProxy();
 
 				java.util.Date studyDescriptionDate = null;
