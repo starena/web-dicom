@@ -452,6 +452,9 @@ public class Extractor {
 				stmt.setString(3, study.getManufacturerUID());
 				stmt.setDate(4, study.getStudyDate());
 				
+				//TODO Убрать или передалать!
+				LOG.info("UPDATE DB tag: StudyDate: "+study.getStudyDate().toString()+" "+study.getStudyDate().getTime());
+				
 				stmt.setString(5, study.getStudyType());
 				stmt.setString(6, study.getStudyDescription());
 				stmt.setString(7, study.getStudyDoctor());
@@ -964,7 +967,12 @@ public class Extractor {
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(PatientBirthDate);
 			
-			result = matcher.group(1)+matcher.group(2)+matcher.group(3)+(cal.get(Calendar.YEAR) - 1900); 
+			int year = (cal.get(Calendar.YEAR) - 1900);
+			if( year >= 100) year -= 100;
+			String yearS = "" + year;
+			if(year<10) yearS = "0" + yearS;
+				
+			result = matcher.group(1)+matcher.group(2)+matcher.group(3)+yearS; 
 //			System.out.println("!=["+matcher.group(1)+"]["+matcher.group(2)+"]["+matcher.group(3)+"]");
 		}
 		return result;

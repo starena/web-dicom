@@ -259,6 +259,9 @@ public class Study {
 		if (dcmObj.get(Tag.StudyDate) != null) {
 			setStudyDate( new java.sql.Date(dcmObj.get(Tag.StudyDate)
 					.getDate(false).getTime()));
+			
+			//TODO Убрать или передалать!
+			LOG.info("tag: StudyDate: "+getStudyDate().toString()+" "+getStudyDate().getTime());
 		} else {
 			setStudyDate (null);
 			LOG.warn(getDebugStr("Study Date (tag: StudyDate) is empty!"));

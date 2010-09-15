@@ -94,6 +94,27 @@ public class ExtractorTest extends TestCase {
 		date = Date.valueOf("1974-03-01");
 		result = Extractor.makeShortName(name, date);
 		assertEquals("ДЕРДВ74", result);
+		
+		
+		name = "ЯРКОВА ЕЛИЗАВЕТА АЛЕКСЕЕВНА ".toUpperCase();
+		date = Date.valueOf("2002-10-16");
+		result = Extractor.makeShortName(name, date);
+		assertEquals("ЯРКЕА02", result);
+		
+		name = "ЯРКОВА ЕЛИЗАВЕТА АЛЕКСЕЕВНА ".toUpperCase();
+		date = Date.valueOf("2000-10-16");
+		result = Extractor.makeShortName(name, date);
+		assertEquals("ЯРКЕА00", result);
+		
+		name = "ЯРКОВА ЕЛИЗАВЕТА АЛЕКСЕЕВНА ".toUpperCase();
+		date = Date.valueOf("1999-10-16");
+		result = Extractor.makeShortName(name, date);
+		assertEquals("ЯРКЕА99", result);
+		
+		name = "ЯРКОВА ЕЛИЗАВЕТА АЛЕКСЕЕВНА ".toUpperCase();
+		date = Date.valueOf("2099-10-16");
+		result = Extractor.makeShortName(name, date);
+		assertEquals("ЯРКЕА99", result);
 
 	}
 
