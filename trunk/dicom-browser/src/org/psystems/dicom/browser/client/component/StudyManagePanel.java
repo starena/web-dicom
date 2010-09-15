@@ -85,7 +85,7 @@ public class StudyManagePanel extends Composite implements
 	protected HashMap<String, PatientProxy> itemProxies = new HashMap<String, PatientProxy>();
 	private ListBox lbSex;
 	private StudyProxy proxy;
-	private HTML verifyHTML;
+//	private HTML verifyHTML;
 	private ListBox studyDoctror;
 	private ListBox studyOperator;
 	private int rowCounter;
@@ -121,29 +121,26 @@ public class StudyManagePanel extends Composite implements
 				// event.getResults()+"]");
 
 				if (!event.getResults().matches(".+___success___.+")) {
-					submitResult.setHTML("" + event.toDebugString() + "<HR>"
-							+ event.getResults());
-					submitError();
+					submitError(event);
 				} else {
 					submitSuccess();
 				}
-				startcheckindStudyModify();
 
 			}
 
 		});
 
-		formPanel.addSubmitHandler(new SubmitHandler() {
-
-			@Override
-			public void onSubmit(SubmitEvent event) {
-				// TODO Auto-generated method stub
-				// event.cancel();
-				dataVerifyed(false);
-//				startcheckindStudyModify();
-				verifyHTML.setHTML("Отправка данных...");
-			}
-		});
+//		formPanel.addSubmitHandler(new SubmitHandler() {
+//
+//			@Override
+//			public void onSubmit(SubmitEvent event) {
+//				// TODO Auto-generated method stub
+//				// event.cancel();
+//				dataVerifyed(false);
+////				startcheckindStudyModify();
+//				verifyHTML.setHTML("Отправка данных...");
+//			}
+//		});
 
 		formTable = new FlexTable();
 		// TODO Убрать в css
@@ -571,121 +568,27 @@ public class StudyManagePanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
-				if(checkSendingData()) {
-					formPanel.submit();
-				} 
+				submitResult.setHTML("сохранение...");
+				submitBtn.setEnabled(false);
+				formPanel.submit();
 
 			}
 		});
 		addFormRow(rowCounter++, submitBtn);
 
 		//
-		submitResult = new HTML("UID:" + proxy.getStudyUID());
+		submitResult = new HTML();
 		
 		addFormRow(rowCounter++, submitResult);
 		
-		addFormRow(rowCounter++, new HTML(""+proxy.getStudyDateModify()));
 
-		verifyHTML = new HTML("");
-		addFormRow(rowCounter++, verifyHTML);
 		
 		initWidget(mainPanel);
 
 		patientVerify();
 	}
 
-	protected boolean checkSendingData() {
 
-		if(studyCardPanel!=null) {
-			if(studyInstanceUID.getValue()==null || studyInstanceUID.getValue().length()==0) {
-				verifyHTML.setHTML("Не все данные заполнены! (не задан studyInstanceUID!)");
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Запуск процедуры проверки принятия данных системой
-	 * и попапдния их в БД
-	 */
-	protected void startcheckindStudyModify() {
-		// TODO Auto-generated method stub
-		
-//		StudyProxy tmpProxy = StudyManagePanel.this.proxy;
-		verifyHTML.setHTML("проверка отправленных данных...");
-		
-		//Вынести в отдельный метод
-		TransactionTimer t = new TransactionTimer() {
-
-			boolean doExit = false;
-			private int counter = 0;
-
-			public void run() {
-
-
-				if(doExit) return;
-				
-				int maxCounter = 5;
-				if(counter++>maxCounter ) {
-					verifyHTML.setHTML("Проверка данных...НЕУДАЧНА!!!");
-					return;
-				}
-				verifyHTML.setHTML("Проверка данных попытка: "+counter + " из "+maxCounter);
-				
-				//TODO Вынести в отдельный метод !!!!
-				browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						verifyHTML.setHTML("Ошибка при проверки данных!!!");
-						doExit=true;
-					}
-
-					@Override
-					public void onSuccess(StudyProxy result) {
-						
-						if(result==null) {
-							verifyHTML.setHTML("Данные не приняты... id исследования: "+StudyManagePanel.this.proxy.getId());
-							doExit=false;
-							return;
-						}
-						
-						if(StudyManagePanel.this.proxy.getStudyDateModify().getTime() != 
-							result.getStudyDateModify().getTime()) {
-						verifyHTML.setHTML("Данные приняты: "+StudyManagePanel.this.proxy.getStudyDateModify()+
-								" - "+result.getStudyDateModify());
-						
-						if(studyCardPanel!=null) {
-							//TODO Возможно сделать интерфейс для возврата?
-							studyCardPanel.setProxy(result);
-						}
-						
-						Button closeBtn = new Button("Закрыть форму ввода");
-						addFormRow(rowCounter++, closeBtn);
-						
-						closeBtn.addClickHandler(new ClickHandler() {
-							
-							@Override
-							public void onClick(ClickEvent event) {
-								StudyManagePanel.this.removeFromParent();
-							}
-						});
-						
-						doExit=true;
-						}
-						
-					}
-				});
-				
-
-			}
-		};
-		// t.schedule(2000);
-		t.scheduleRepeating(3000);
-	}
 
 	protected void dataVerifyed(boolean b) {
 
@@ -871,8 +774,11 @@ public class StudyManagePanel extends Composite implements
 	/**
 	 * НЕуспешное завершение сохранения исследования
 	 */
-	protected void submitError() {
-		dataVerifyed(true);
+	protected void submitError(SubmitCompleteEvent event) {
+		submitResult.setHTML("" + event.toDebugString() + "<HR>"
+				+ event.getResults());
+		submitBtn.setEnabled(true);
+//		dataVerifyed(true);
 	}
 
 	/**
@@ -880,7 +786,44 @@ public class StudyManagePanel extends Composite implements
 	 */
 	protected void submitSuccess() {
 		// clearForm();
-		dataVerifyed(true);
+		
+		browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Dicom_browser.showErrorDlg(caught);
+			}
+
+			@Override
+			public void onSuccess(StudyProxy result) {
+				
+				
+				if(studyCardPanel!=null) {
+					if(result==null) {
+						Dicom_browser.showErrorDlg(new RuntimeException("Данные не найдены! id исследования: " +StudyManagePanel.this.proxy.getId()));
+						submitResult.setHTML("Данные не найдены! id исследования: "+StudyManagePanel.this.proxy.getId());
+						return;
+					}
+					studyCardPanel.setProxy(result);
+				}
+				
+				submitResult.setHTML("Данные сохранены. можете закрыть форму.");
+				Button closeBtn = new Button("Закрыть форму ввода");
+				submitBtn.setEnabled(true);
+				addFormRow(rowCounter++, closeBtn);
+				
+				closeBtn.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						StudyManagePanel.this.removeFromParent();
+					}
+				});
+				
+				}
+				
+			
+		});
 		
 		
 	}
