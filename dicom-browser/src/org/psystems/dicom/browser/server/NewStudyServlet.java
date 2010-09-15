@@ -32,6 +32,7 @@ public class NewStudyServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 
 		resp.setContentType("text/plain");
+		resp.setCharacterEncoding("UTF-8");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 		System.out.println("isMultipart=" + isMultipart);
 
@@ -71,25 +72,33 @@ public class NewStudyServlet extends HttpServlet {
 					stream = processUploadedFile(item);
 				}
 			}
-			
-//			for (Iterator<Object> iter1 = props.keySet().iterator(); iter1.hasNext();) {
-//				String key = (String) iter1.next();
-//				String value = props.getProperty(key);
-//				
-//				
-//				System.out.println("[1]!!! key=" + key + "; value=" + value);
-//			}
+
 
 			makeDicomFile(props, stream);
+			
+//			if(true) throw new Exception(" Это тест Test Exception ");
+			
+			
+			resp.setStatus(200);
+			resp.getWriter().write("___success___");
 
+			
+			
 		} catch (FileUploadException e) {
-			// TODO Auto-generated catch block
+			
+			//TODO Сделать через LOG4J
 			e.printStackTrace();
+			resp.setStatus(200);
+			DefaultGWTRPCException ex = Util.throwPortalException("Ошибка загрузки вложения", e);
+			resp.getWriter().write("TRACECODE ["+ex.getLogMarker()+"] \n "+ex.getMessage()+" \n "+ex.getStack());
+		}  catch (Exception e) {
+			//TODO Сделать через LOG4J
+			e.printStackTrace();
+			resp.setStatus(200);
+			DefaultGWTRPCException ex = Util.throwPortalException("Ошибка сохранения исследования", e);
+			resp.getWriter().write("TRACECODE ["+ex.getLogMarker()+"] \n "+ex.getMessage()+" \n "+ex.getStack());
 		}
 		
-		resp.setStatus(200);
-		resp.getWriter().write("___success___");
-//		throw new IOException("EXCEPT!!!");
 
 	}
 
@@ -101,15 +110,7 @@ public class NewStudyServlet extends HttpServlet {
 		String contentType = item.getContentType();
 		boolean isInMemory = item.isInMemory();
 		long sizeInBytes = item.getSize();
-		// props.put("image", ""+item);
-		//
-		// File uploadedFile = new File("c:\\temp\\image\\" + fileName);
-		// try {
-		// item.write(uploadedFile);
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+		
 
 		System.out.println("!!! UploadFile: " + fieldName + ";" + fileName
 				+ ";" + contentType + ";" + isInMemory + ";" + sizeInBytes);
@@ -137,6 +138,11 @@ public class NewStudyServlet extends HttpServlet {
 		
 		//TODO Убрать дублирование кода в этих условиях!!!
 		
+		File dcmFileTmp = null;
+		
+		try {
+		
+		String prefix = "" + new Date().getTime()+ "_" + (int)(Math.random()*10000000l);
 		if(contentType.equals("application/pdf")) {
 			
 			Pdf2Dcm pfg2Dcm = new Pdf2Dcm();
@@ -163,34 +169,25 @@ public class NewStudyServlet extends HttpServlet {
 			pfg2Dcm.setCharset("ISO_IR 144");
 			// jpg2Dcm.setCharset("ISO_IR 192");//UTF-8
 
-			String dcmDir = getServletContext().getInitParameter(
-					"webdicom.dir.newdcm");
+//			String dcmDir = getServletContext().getInitParameter(
+//					"webdicom.dir.newdcm");
 
 			String dcmTmpDir = getServletContext().getInitParameter(
 					"webdicom.dir.newdcm.tmp");
 
-			long prefix = new Date().getTime();
-			String dcmFileName = dcmDir + "/" + prefix + ".dcm";
+			
+//			String dcmFileName = dcmDir + "/" + prefix + ".dcm";
 			String tmpFileName = dcmTmpDir + "/" + prefix + ".dcm";
 			// TODO Задать в конфиге
-			File dcmFileTmp = new File(tmpFileName);
+			dcmFileTmp = new File(tmpFileName);
 
 			pfg2Dcm.convert(stream, dcmFileTmp);
 
-			File dcmFile = new File(dcmFileName);
+//			dcmFile = new File(dcmFileName);
 
-			dcmFileTmp.renameTo(dcmFile);
+//			dcmFileTmp.renameTo(dcmFile);
 			System.out.println("!!!! making IMAGE dcm SUCCESS!");
-			
-			try {
-				
-				DcmSnd.sendToArchive("DDV@localhost:11112",dcmFile);
-			} catch (DefaultGWTRPCException e) {
-				// TODO Пробросить наверх эксепшн (выставить статус у респонса?)
-				e.printStackTrace();
-			}
-			
-			System.out.println("!!!! Sending PDF dcm SUCCESS!");
+
 		}
 		
 		//-------------------------------
@@ -222,36 +219,45 @@ public class NewStudyServlet extends HttpServlet {
 			jpg2Dcm.setCharset("ISO_IR 144");
 			// jpg2Dcm.setCharset("ISO_IR 192");//UTF-8
 
-			String dcmDir = getServletContext().getInitParameter(
-					"webdicom.dir.newdcm");
+//			String dcmDir = getServletContext().getInitParameter(
+//					"webdicom.dir.newdcm");
 
 			String dcmTmpDir = getServletContext().getInitParameter(
 					"webdicom.dir.newdcm.tmp");
 
-			long prefix = new Date().getTime();
-			String dcmFileName = dcmDir + "/" + prefix + ".dcm";
+//			String dcmFileName = dcmDir + "/" + prefix + ".dcm";
 			String tmpFileName = dcmTmpDir + "/" + prefix + ".dcm";
 			// TODO Задать в конфиге
-			File dcmFileTmp = new File(tmpFileName);
+			dcmFileTmp = new File(tmpFileName);
 
 			jpg2Dcm.convert(stream, dcmFileTmp);
 
-			File dcmFile = new File(dcmFileName);
+//			dcmFile = new File(dcmFileName);
 
-			dcmFileTmp.renameTo(dcmFile);
+//			dcmFileTmp.renameTo(dcmFile);
 			System.out.println("!!!! making IMAGE dcm SUCCESS!");
 			
-			try {
-				
-				DcmSnd.sendToArchive("DDV@localhost:11112",dcmFile);
-			} catch (DefaultGWTRPCException e) {
-				// TODO Пробросить наверх эксепшн (выставить статус у респонса?)
-				e.printStackTrace();
-			}
 			
-			System.out.println("!!!! Sending IMAGE dcm SUCCESS!");
 
 		}
+		
+		try {
+			String connectionStr = getServletContext().getInitParameter(
+			"webdicom.archive.connection");
+				
+			DcmSnd.sendToArchive(connectionStr,dcmFileTmp);
+		} catch (DefaultGWTRPCException e) {
+			// TODO Пробросить наверх эксепшн (выставить статус у респонса?)
+			e.printStackTrace();
+		} 
+		
+		
+		} finally {
+			if(dcmFileTmp!=null)
+			dcmFileTmp.delete();
+		}
+		
+		System.out.println("!!!! Sending IMAGE dcm SUCCESS!");
 		
 
 	}

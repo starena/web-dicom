@@ -76,10 +76,16 @@
 		<param-value>C:\temp\dcm.tmp</param-value>
 	</context-param>
 
-	<!-- Директория для сохранения DCM-файлов  -->
+	<!-- Директория для сохранения DCM-файлов TODO Не используется! -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm</param-name>
 		<param-value>C:\temp\dcm</param-value>
+	</context-param>
+	
+	<!-- строка соединения с Dicom-архивом для передачи DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.archive.connection</param-name>
+		<param-value>DDV@localhost:11112</param-value>
 	</context-param>
 
 	<!-- Конфиг-прототип для создания JPG - DCM-файлов  -->
