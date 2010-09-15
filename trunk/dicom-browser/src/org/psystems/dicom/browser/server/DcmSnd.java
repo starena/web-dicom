@@ -56,14 +56,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.OptionGroup;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+//import org.apache.commons.cli.CommandLine;
+//import org.apache.commons.cli.GnuParser;
+//import org.apache.commons.cli.HelpFormatter;
+//import org.apache.commons.cli.Option;
+//import org.apache.commons.cli.OptionBuilder;
+//import org.apache.commons.cli.OptionGroup;
+//import org.apache.commons.cli.Options;
+//import org.apache.commons.cli.ParseException;
 import org.dcm4che2.data.BasicDicomObject;
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
@@ -92,6 +92,7 @@ import org.dcm4che2.net.service.StorageCommitmentService;
 import org.dcm4che2.util.CloseUtils;
 import org.dcm4che2.util.StringUtils;
 import org.dcm4che2.util.UIDUtils;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 
 /**
  * @author gunter zeilinger(gunterze@gmail.com)
@@ -421,237 +422,500 @@ public class DcmSnd extends StorageCommitmentService {
         return files;
     }
 
-    private static CommandLine parse(String[] args) {
-        Options opts = new Options();
+//    private static CommandLine parse(String[] args) {
+//        Options opts = new Options();
+//
+//        OptionBuilder.withArgName("name");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "set device name, use DCMSND by default");
+//        opts.addOption(OptionBuilder.create("device"));
+//
+//        OptionBuilder.withArgName("aet[@host][:port]");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "set AET, local address and listening port of local "
+//                + "Application Entity, use device name and pick up any valid "
+//                + "local address to bind the socket by default");
+//        opts.addOption(OptionBuilder.create("L"));
+//
+//        opts.addOption("ts1", false, "offer Default Transfer Syntax in " +
+//                "separate Presentation Context. By default offered with " +
+//                "Explicit VR Little Endian TS in one PC.");
+//
+//        opts.addOption("fileref", false,
+//                "send objects without pixel data, but with a reference to " +
+//                "the DICOM file using DCM4CHE URI Referenced Transfer Syntax " +
+//                "to import DICOM objects on a given file system to a DCM4CHEE " +
+//                "archive.");
+//
+//        OptionBuilder.withArgName("username");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "enable User Identity Negotiation with specified username and "
+//                + " optional passcode");
+//        opts.addOption(OptionBuilder.create("username"));
+//
+//        OptionBuilder.withArgName("passcode");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "optional passcode for User Identity Negotiation, "
+//                + "only effective with option -username");
+//        opts.addOption(OptionBuilder.create("passcode"));
+//
+//        opts.addOption("uidnegrsp", false,
+//                "request positive User Identity Negotation response, "
+//                + "only effective with option -username");
+//                
+//        OptionBuilder.withArgName("NULL|3DES|AES");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "enable TLS connection without, 3DES or AES encryption");
+//        opts.addOption(OptionBuilder.create("tls"));
+//
+//        OptionGroup tlsProtocol = new OptionGroup();
+//        tlsProtocol.addOption(new Option("tls1",
+//                "disable the use of SSLv3 and SSLv2 for TLS connections"));
+//        tlsProtocol.addOption(new Option("ssl3",
+//                "disable the use of TLSv1 and SSLv2 for TLS connections"));
+//        tlsProtocol.addOption(new Option("no_tls1",
+//                "disable the use of TLSv1 for TLS connections"));
+//        tlsProtocol.addOption(new Option("no_ssl3",
+//                "disable the use of SSLv3 for TLS connections"));
+//        tlsProtocol.addOption(new Option("no_ssl2",
+//                "disable the use of SSLv2 for TLS connections"));
+//        opts.addOptionGroup(tlsProtocol);
+//
+//        opts.addOption("noclientauth", false,
+//                "disable client authentification for TLS");
+//
+//        OptionBuilder.withArgName("file|url");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "file path or URL of P12 or JKS keystore, resource:tls/test_sys_2.p12 by default");
+//        opts.addOption(OptionBuilder.create("keystore"));
+//
+//        OptionBuilder.withArgName("password");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "password for keystore file, 'secret' by default");
+//        opts.addOption(OptionBuilder.create("keystorepw"));
+//
+//        OptionBuilder.withArgName("password");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "password for accessing the key in the keystore, keystore password by default");
+//        opts.addOption(OptionBuilder.create("keypw"));
+//
+//        OptionBuilder.withArgName("file|url");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "file path or URL of JKS truststore, resource:tls/mesa_certs.jks by default");
+//        opts.addOption(OptionBuilder.create("truststore"));
+//
+//        OptionBuilder.withArgName("password");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "password for truststore file, 'secret' by default");
+//        opts.addOption(OptionBuilder.create("truststorepw"));
+//
+//        OptionBuilder.withArgName("aet@host:port");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "request storage commitment of (successfully) sent objects " +
+//                "afterwards in new association to specified remote " +
+//                "Application Entity");
+//        opts.addOption(OptionBuilder.create("stgcmtae"));
+//
+//        opts.addOption("stgcmt", false,
+//                "request storage commitment of (successfully) sent objects " +
+//                "afterwards in same association");
+//        
+//        OptionBuilder.withArgName("maxops");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "maximum number of outstanding operations it may invoke " + 
+//                "asynchronously, unlimited by default.");
+//        opts.addOption(OptionBuilder.create("async"));
+//
+//        opts.addOption("pdv1", false,
+//                "send only one PDV in one P-Data-TF PDU, " + 
+//                "pack command and data PDV in one P-DATA-TF PDU by default.");
+//        opts.addOption("tcpdelay", false,
+//                "set TCP_NODELAY socket option to false, true by default");
+//
+//        OptionBuilder.withArgName("ms");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "timeout in ms for TCP connect, no timeout by default");
+//        opts.addOption(OptionBuilder.create("connectTO"));
+//
+//        OptionBuilder.withArgName("ms");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "delay in ms for Socket close after sending A-ABORT, " +
+//                "50ms by default");
+//        opts.addOption(OptionBuilder.create("soclosedelay"));
+//
+//        OptionBuilder.withArgName("ms");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "delay in ms for closing the listening socket, " +
+//                "1000ms by default");
+//        opts.addOption(OptionBuilder.create("shutdowndelay"));
+//
+//        OptionBuilder.withArgName("ms");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "period in ms to check for outstanding DIMSE-RSP, " +
+//                "10s by default");
+//        opts.addOption(OptionBuilder.create("reaper"));
+//
+//        OptionBuilder.withArgName("ms");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "timeout in ms for receiving DIMSE-RSP, 10s by default");
+//        opts.addOption(OptionBuilder.create("rspTO"));
+//
+//        OptionBuilder.withArgName("ms");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "timeout in ms for receiving A-ASSOCIATE-AC, 5s by default");
+//        opts.addOption(OptionBuilder.create("acceptTO"));
+//
+//        OptionBuilder.withArgName("ms");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "timeout in ms for receiving A-RELEASE-RP, 5s by default");
+//        opts.addOption(OptionBuilder.create("releaseTO"));
+//
+//        OptionBuilder.withArgName("KB");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "maximal length in KB of received P-DATA-TF PDUs, 16KB by default");
+//        opts.addOption(OptionBuilder.create("rcvpdulen"));
+//
+//        OptionBuilder.withArgName("KB");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "maximal length in KB of sent P-DATA-TF PDUs, 16KB by default");
+//        opts.addOption(OptionBuilder.create("sndpdulen"));
+//
+//        OptionBuilder.withArgName("KB");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "set SO_RCVBUF socket option to specified value in KB");
+//        opts.addOption(OptionBuilder.create("sorcvbuf"));
+//
+//        OptionBuilder.withArgName("KB");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "set SO_SNDBUF socket option to specified value in KB");
+//        opts.addOption(OptionBuilder.create("sosndbuf"));
+//
+//        OptionBuilder.withArgName("KB");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.withDescription(
+//                "transcoder buffer size in KB, 1KB by default");
+//        opts.addOption(OptionBuilder.create("bufsize"));
+//
+//        opts.addOption("lowprior", false,
+//                "LOW priority of the C-STORE operation, MEDIUM by default");
+//        opts.addOption("highprior", false,
+//                "HIGH priority of the C-STORE operation, MEDIUM by default");
+//        opts.addOption("h", "help", false, "print this message");
+//        opts.addOption("V", "version", false,
+//                "print the version information and exit");
+//        CommandLine cl = null;
+//        try {
+//            cl = new GnuParser().parse(opts, args);
+//        } catch (ParseException e) {
+//            exit("dcmsnd: " + e.getMessage());
+//            throw new RuntimeException("unreachable");
+//        }
+//        if (cl.hasOption('V')) {
+//            Package p = DcmSnd.class.getPackage();
+//            System.out.println("dcmsnd v" + p.getImplementationVersion());
+//            System.exit(0);
+//        }
+//        if (cl.hasOption('h') || cl.getArgList().size() < 2) {
+//            HelpFormatter formatter = new HelpFormatter();
+//            formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
+//            System.exit(0);
+//        }
+//        return cl;
+//    }
 
-        OptionBuilder.withArgName("name");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "set device name, use DCMSND by default");
-        opts.addOption(OptionBuilder.create("device"));
-
-        OptionBuilder.withArgName("aet[@host][:port]");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "set AET, local address and listening port of local "
-                + "Application Entity, use device name and pick up any valid "
-                + "local address to bind the socket by default");
-        opts.addOption(OptionBuilder.create("L"));
-
-        opts.addOption("ts1", false, "offer Default Transfer Syntax in " +
-                "separate Presentation Context. By default offered with " +
-                "Explicit VR Little Endian TS in one PC.");
-
-        opts.addOption("fileref", false,
-                "send objects without pixel data, but with a reference to " +
-                "the DICOM file using DCM4CHE URI Referenced Transfer Syntax " +
-                "to import DICOM objects on a given file system to a DCM4CHEE " +
-                "archive.");
-
-        OptionBuilder.withArgName("username");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "enable User Identity Negotiation with specified username and "
-                + " optional passcode");
-        opts.addOption(OptionBuilder.create("username"));
-
-        OptionBuilder.withArgName("passcode");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "optional passcode for User Identity Negotiation, "
-                + "only effective with option -username");
-        opts.addOption(OptionBuilder.create("passcode"));
-
-        opts.addOption("uidnegrsp", false,
-                "request positive User Identity Negotation response, "
-                + "only effective with option -username");
-                
-        OptionBuilder.withArgName("NULL|3DES|AES");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "enable TLS connection without, 3DES or AES encryption");
-        opts.addOption(OptionBuilder.create("tls"));
-
-        OptionGroup tlsProtocol = new OptionGroup();
-        tlsProtocol.addOption(new Option("tls1",
-                "disable the use of SSLv3 and SSLv2 for TLS connections"));
-        tlsProtocol.addOption(new Option("ssl3",
-                "disable the use of TLSv1 and SSLv2 for TLS connections"));
-        tlsProtocol.addOption(new Option("no_tls1",
-                "disable the use of TLSv1 for TLS connections"));
-        tlsProtocol.addOption(new Option("no_ssl3",
-                "disable the use of SSLv3 for TLS connections"));
-        tlsProtocol.addOption(new Option("no_ssl2",
-                "disable the use of SSLv2 for TLS connections"));
-        opts.addOptionGroup(tlsProtocol);
-
-        opts.addOption("noclientauth", false,
-                "disable client authentification for TLS");
-
-        OptionBuilder.withArgName("file|url");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "file path or URL of P12 or JKS keystore, resource:tls/test_sys_2.p12 by default");
-        opts.addOption(OptionBuilder.create("keystore"));
-
-        OptionBuilder.withArgName("password");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "password for keystore file, 'secret' by default");
-        opts.addOption(OptionBuilder.create("keystorepw"));
-
-        OptionBuilder.withArgName("password");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "password for accessing the key in the keystore, keystore password by default");
-        opts.addOption(OptionBuilder.create("keypw"));
-
-        OptionBuilder.withArgName("file|url");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "file path or URL of JKS truststore, resource:tls/mesa_certs.jks by default");
-        opts.addOption(OptionBuilder.create("truststore"));
-
-        OptionBuilder.withArgName("password");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "password for truststore file, 'secret' by default");
-        opts.addOption(OptionBuilder.create("truststorepw"));
-
-        OptionBuilder.withArgName("aet@host:port");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "request storage commitment of (successfully) sent objects " +
-                "afterwards in new association to specified remote " +
-                "Application Entity");
-        opts.addOption(OptionBuilder.create("stgcmtae"));
-
-        opts.addOption("stgcmt", false,
-                "request storage commitment of (successfully) sent objects " +
-                "afterwards in same association");
+//    @SuppressWarnings("unchecked")
+//    public static void main(String[] args) {
+//        CommandLine cl = parse(args);
+//        DcmSnd dcmsnd = new DcmSnd(cl.hasOption("device") 
+//                ? cl.getOptionValue("device") : "DCMSND");
+//        final List<String> argList = cl.getArgList();
+//        String remoteAE = argList.get(0);
+//        String[] calledAETAddress = split(remoteAE, '@');
+//        dcmsnd.setCalledAET(calledAETAddress[0]);
+//        if (calledAETAddress[1] == null) {
+//            dcmsnd.setRemoteHost("127.0.0.1");
+//            dcmsnd.setRemotePort(104);
+//        } else {
+//            String[] hostPort = split(calledAETAddress[1], ':');
+//            dcmsnd.setRemoteHost(hostPort[0]);
+//            dcmsnd.setRemotePort(toPort(hostPort[1]));
+//        }
+//        if (cl.hasOption("L")) {
+//            String localAE = cl.getOptionValue("L");
+//            String[] localPort = split(localAE, ':');
+//            if (localPort[1] != null) {
+//                dcmsnd.setLocalPort(toPort(localPort[1]));                
+//            }
+//            String[] callingAETHost = split(localPort[0], '@');
+//            dcmsnd.setCalling(callingAETHost[0]);
+//            if (callingAETHost[1] != null) {
+//                dcmsnd.setLocalHost(callingAETHost[1]);
+//            }
+//        }
+//        dcmsnd.setOfferDefaultTransferSyntaxInSeparatePresentationContext(
+//                cl.hasOption("ts1"));
+//        dcmsnd.setSendFileRef(cl.hasOption("fileref"));
+//        if (cl.hasOption("username")) {
+//            String username = cl.getOptionValue("username");
+//            UserIdentity userId;
+//            if (cl.hasOption("passcode")) {
+//                String passcode = cl.getOptionValue("passcode");
+//                userId = new UserIdentity.UsernamePasscode(username,
+//                        passcode.toCharArray());
+//            } else {
+//                userId = new UserIdentity.Username(username);
+//            }
+//            userId.setPositiveResponseRequested(cl.hasOption("uidnegrsp"));
+//            dcmsnd.setUserIdentity(userId);
+//        }
+//        dcmsnd.setStorageCommitment(cl.hasOption("stgcmt"));
+//        String remoteStgCmtAE = null;
+//        if (cl.hasOption("stgcmtae")) {
+//            try {
+//                remoteStgCmtAE = cl.getOptionValue("stgcmtae");
+//                String[] aet_hostport = split(remoteStgCmtAE, '@');
+//                String[] host_port = split(aet_hostport[1], ':');
+//                dcmsnd.setStgcmtCalledAET(aet_hostport[0]);
+//                dcmsnd.setRemoteStgcmtHost(host_port[0]);
+//                dcmsnd.setRemoteStgcmtPort(toPort(host_port[1]));
+//            } catch (Exception e) {
+//                exit("illegal argument of option -stgcmtae");
+//            }
+//        }
+//        if (cl.hasOption("connectTO"))
+//            dcmsnd.setConnectTimeout(parseInt(cl.getOptionValue("connectTO"),
+//                    "illegal argument of option -connectTO", 1,
+//                    Integer.MAX_VALUE));
+//        if (cl.hasOption("reaper"))
+//            dcmsnd.setAssociationReaperPeriod(
+//                    parseInt(cl.getOptionValue("reaper"),
+//                    "illegal argument of option -reaper",
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("rspTO"))
+//            dcmsnd.setDimseRspTimeout(parseInt(cl.getOptionValue("rspTO"),
+//                    "illegal argument of option -rspTO",
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("acceptTO"))
+//            dcmsnd.setAcceptTimeout(parseInt(cl.getOptionValue("acceptTO"),
+//                    "illegal argument of option -acceptTO", 
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("releaseTO"))
+//            dcmsnd.setReleaseTimeout(parseInt(cl.getOptionValue("releaseTO"),
+//                    "illegal argument of option -releaseTO",
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("soclosedelay"))
+//            dcmsnd.setSocketCloseDelay(
+//                    parseInt(cl.getOptionValue("soclosedelay"),
+//                    "illegal argument of option -soclosedelay", 1, 10000));
+//        if (cl.hasOption("shutdowndelay"))
+//            dcmsnd.setShutdownDelay(
+//                    parseInt(cl.getOptionValue("shutdowndelay"),
+//                    "illegal argument of option -shutdowndelay", 1, 10000));
+//        if (cl.hasOption("rcvpdulen"))
+//            dcmsnd.setMaxPDULengthReceive(
+//                    parseInt(cl.getOptionValue("rcvpdulen"),
+//                    "illegal argument of option -rcvpdulen", 1, 10000) * KB);
+//        if (cl.hasOption("sndpdulen"))
+//            dcmsnd.setMaxPDULengthSend(parseInt(cl.getOptionValue("sndpdulen"),
+//                    "illegal argument of option -sndpdulen", 1, 10000) * KB);
+//        if (cl.hasOption("sosndbuf"))
+//            dcmsnd.setSendBufferSize(parseInt(cl.getOptionValue("sosndbuf"),
+//                    "illegal argument of option -sosndbuf", 1, 10000) * KB);
+//        if (cl.hasOption("sorcvbuf"))
+//            dcmsnd.setReceiveBufferSize(parseInt(cl.getOptionValue("sorcvbuf"),
+//                    "illegal argument of option -sorcvbuf", 1, 10000) * KB);
+//        if (cl.hasOption("bufsize"))
+//            dcmsnd.setTranscoderBufferSize(
+//                    parseInt(cl.getOptionValue("bufsize"),
+//                    "illegal argument of option -bufsize", 1, 10000) * KB);
+//        dcmsnd.setPackPDV(!cl.hasOption("pdv1"));
+//        dcmsnd.setTcpNoDelay(!cl.hasOption("tcpdelay"));
+//        if (cl.hasOption("async"))
+//            dcmsnd.setMaxOpsInvoked(parseInt(cl.getOptionValue("async"),
+//                    "illegal argument of option -async", 0, 0xffff));
+//        if (cl.hasOption("lowprior"))
+//            dcmsnd.setPriority(CommandUtils.LOW);
+//        if (cl.hasOption("highprior"))
+//            dcmsnd.setPriority(CommandUtils.HIGH);
+//        System.out.println("Scanning files to send");
+//        long t1 = System.currentTimeMillis();
+//        for (int i = 1, n = argList.size(); i < n; ++i)
+//            dcmsnd.addFile(new File(argList.get(i)));
+//        long t2 = System.currentTimeMillis();
+//        if (dcmsnd.getNumberOfFilesToSend() == 0) {
+//            System.exit(2);
+//        }
+//        System.out.println("\nScanned " + dcmsnd.getNumberOfFilesToSend()
+//                + " files in " + ((t2 - t1) / 1000F) + "s (="
+//                + ((t2 - t1) / dcmsnd.getNumberOfFilesToSend()) + "ms/file)");
+//        dcmsnd.configureTransferCapability();
+//        if (cl.hasOption("tls")) {
+//            String cipher = cl.getOptionValue("tls");
+//            if ("NULL".equalsIgnoreCase(cipher)) {
+//                dcmsnd.setTlsWithoutEncyrption();
+//            } else if ("3DES".equalsIgnoreCase(cipher)) {
+//                dcmsnd.setTls3DES_EDE_CBC();
+//            } else if ("AES".equalsIgnoreCase(cipher)) {
+//                dcmsnd.setTlsAES_128_CBC();
+//            } else {
+//                exit("Invalid parameter for option -tls: " + cipher);
+//            }
+//
+//            if (cl.hasOption("tls1")) {
+//                dcmsnd.setTlsProtocol(TLS1);
+//            } else if (cl.hasOption("ssl3")) {
+//                dcmsnd.setTlsProtocol(SSL3);
+//            } else if (cl.hasOption("no_tls1")) {
+//                dcmsnd.setTlsProtocol(NO_TLS1);
+//            } else if (cl.hasOption("no_ssl3")) {
+//                dcmsnd.setTlsProtocol(NO_SSL3);
+//            } else if (cl.hasOption("no_ssl2")) {
+//                dcmsnd.setTlsProtocol(NO_SSL2);
+//            }
+//            dcmsnd.setTlsNeedClientAuth(!cl.hasOption("noclientauth"));
+//
+//            if (cl.hasOption("keystore")) {
+//                dcmsnd.setKeyStoreURL(cl.getOptionValue("keystore"));
+//            }
+//            if (cl.hasOption("keystorepw")) {
+//                dcmsnd.setKeyStorePassword(
+//                        cl.getOptionValue("keystorepw"));
+//            }
+//            if (cl.hasOption("keypw")) {
+//                dcmsnd.setKeyPassword(cl.getOptionValue("keypw"));
+//            }
+//            if (cl.hasOption("truststore")) {
+//                dcmsnd.setTrustStoreURL(
+//                        cl.getOptionValue("truststore"));
+//            }
+//            if (cl.hasOption("truststorepw")) {
+//                dcmsnd.setTrustStorePassword(
+//                        cl.getOptionValue("truststorepw"));
+//            }
+//            try {
+//                dcmsnd.initTLS();
+//            } catch (Exception e) {
+//                System.err.println("ERROR: Failed to initialize TLS context:"
+//                        + e.getMessage());
+//                System.exit(2);
+//            }
+//        }        
+//        try {
+//            dcmsnd.start();
+//        } catch (Exception e) {
+//            System.err.println("ERROR: Failed to start server for receiving " +
+//                    "Storage Commitment results:" + e.getMessage());
+//            System.exit(2);
+//        }
+//        try {
+//            t1 = System.currentTimeMillis();
+//            try {
+//                dcmsnd.open();
+//            } catch (Exception e) {
+//                System.err.println("ERROR: Failed to establish association:"
+//                        + e.getMessage());
+//                System.exit(2);
+//            }
+//            t2 = System.currentTimeMillis();
+//            System.out.println("Connected to " + remoteAE + " in " 
+//                    + ((t2 - t1) / 1000F) + "s");
+//    
+//            t1 = System.currentTimeMillis();
+//            dcmsnd.send();
+//            t2 = System.currentTimeMillis();
+//            prompt(dcmsnd, (t2 - t1) / 1000F);
+//            if (dcmsnd.isStorageCommitment()) {
+//                t1 = System.currentTimeMillis();
+//                if (dcmsnd.commit()) {
+//                    t2 = System.currentTimeMillis();
+//                    System.out.println("Request Storage Commitment from " 
+//                            + remoteAE + " in " + ((t2 - t1) / 1000F) + "s");
+//                    System.out.println("Waiting for Storage Commitment Result..");
+//                    try {
+//                        DicomObject cmtrslt = dcmsnd.waitForStgCmtResult();
+//                        t1 = System.currentTimeMillis();
+//                        promptStgCmt(cmtrslt, ((t1 - t2) / 1000F));
+//                    } catch (InterruptedException e) {
+//                        System.err.println("ERROR:" + e.getMessage());
+//                    }
+//                }
+//             }
+//            dcmsnd.close();
+//            System.out.println("Released connection to " + remoteAE);
+//            if (remoteStgCmtAE != null) {
+//                t1 = System.currentTimeMillis();
+//                try {
+//                    dcmsnd.openToStgcmtAE();
+//                } catch (Exception e) {
+//                    System.err.println("ERROR: Failed to establish association:"
+//                            + e.getMessage());
+//                    System.exit(2);
+//                }
+//                t2 = System.currentTimeMillis();
+//                System.out.println("Connected to " + remoteStgCmtAE + " in " 
+//                        + ((t2 - t1) / 1000F) + "s");
+//                t1 = System.currentTimeMillis();
+//                if (dcmsnd.commit()) {
+//                    t2 = System.currentTimeMillis();
+//                    System.out.println("Request Storage Commitment from " 
+//                            + remoteStgCmtAE + " in " + ((t2 - t1) / 1000F) + "s");
+//                    System.out.println("Waiting for Storage Commitment Result..");
+//                    try {
+//                        DicomObject cmtrslt = dcmsnd.waitForStgCmtResult();
+//                        t1 = System.currentTimeMillis();
+//                        promptStgCmt(cmtrslt, ((t1 - t2) / 1000F));
+//                    } catch (InterruptedException e) {
+//                        System.err.println("ERROR:" + e.getMessage());
+//                    }
+//                }
+//                dcmsnd.close();
+//                System.out.println("Released connection to " + remoteStgCmtAE);
+//            }
+//        } finally {
+//            dcmsnd.stop();
+//        }
+//    }
+    
+    
+    
+    /**
+     * @param remoteAE - DDV@localhost:11112
+     * @param file
+     * @throws DefaultGWTRPCException
+     */
+    public static void sendToArchive(String remoteAE, File file) throws DefaultGWTRPCException {
+//        CommandLine cl = parse(args);
+//        DcmSnd dcmsnd = new DcmSnd(cl.hasOption("device") 
+//                ? cl.getOptionValue("device") : "DCMSND");
         
-        OptionBuilder.withArgName("maxops");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "maximum number of outstanding operations it may invoke " + 
-                "asynchronously, unlimited by default.");
-        opts.addOption(OptionBuilder.create("async"));
-
-        opts.addOption("pdv1", false,
-                "send only one PDV in one P-Data-TF PDU, " + 
-                "pack command and data PDV in one P-DATA-TF PDU by default.");
-        opts.addOption("tcpdelay", false,
-                "set TCP_NODELAY socket option to false, true by default");
-
-        OptionBuilder.withArgName("ms");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "timeout in ms for TCP connect, no timeout by default");
-        opts.addOption(OptionBuilder.create("connectTO"));
-
-        OptionBuilder.withArgName("ms");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "delay in ms for Socket close after sending A-ABORT, " +
-                "50ms by default");
-        opts.addOption(OptionBuilder.create("soclosedelay"));
-
-        OptionBuilder.withArgName("ms");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "delay in ms for closing the listening socket, " +
-                "1000ms by default");
-        opts.addOption(OptionBuilder.create("shutdowndelay"));
-
-        OptionBuilder.withArgName("ms");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "period in ms to check for outstanding DIMSE-RSP, " +
-                "10s by default");
-        opts.addOption(OptionBuilder.create("reaper"));
-
-        OptionBuilder.withArgName("ms");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "timeout in ms for receiving DIMSE-RSP, 10s by default");
-        opts.addOption(OptionBuilder.create("rspTO"));
-
-        OptionBuilder.withArgName("ms");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "timeout in ms for receiving A-ASSOCIATE-AC, 5s by default");
-        opts.addOption(OptionBuilder.create("acceptTO"));
-
-        OptionBuilder.withArgName("ms");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "timeout in ms for receiving A-RELEASE-RP, 5s by default");
-        opts.addOption(OptionBuilder.create("releaseTO"));
-
-        OptionBuilder.withArgName("KB");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "maximal length in KB of received P-DATA-TF PDUs, 16KB by default");
-        opts.addOption(OptionBuilder.create("rcvpdulen"));
-
-        OptionBuilder.withArgName("KB");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "maximal length in KB of sent P-DATA-TF PDUs, 16KB by default");
-        opts.addOption(OptionBuilder.create("sndpdulen"));
-
-        OptionBuilder.withArgName("KB");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "set SO_RCVBUF socket option to specified value in KB");
-        opts.addOption(OptionBuilder.create("sorcvbuf"));
-
-        OptionBuilder.withArgName("KB");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "set SO_SNDBUF socket option to specified value in KB");
-        opts.addOption(OptionBuilder.create("sosndbuf"));
-
-        OptionBuilder.withArgName("KB");
-        OptionBuilder.hasArg();
-        OptionBuilder.withDescription(
-                "transcoder buffer size in KB, 1KB by default");
-        opts.addOption(OptionBuilder.create("bufsize"));
-
-        opts.addOption("lowprior", false,
-                "LOW priority of the C-STORE operation, MEDIUM by default");
-        opts.addOption("highprior", false,
-                "HIGH priority of the C-STORE operation, MEDIUM by default");
-        opts.addOption("h", "help", false, "print this message");
-        opts.addOption("V", "version", false,
-                "print the version information and exit");
-        CommandLine cl = null;
-        try {
-            cl = new GnuParser().parse(opts, args);
-        } catch (ParseException e) {
-            exit("dcmsnd: " + e.getMessage());
-            throw new RuntimeException("unreachable");
-        }
-        if (cl.hasOption('V')) {
-            Package p = DcmSnd.class.getPackage();
-            System.out.println("dcmsnd v" + p.getImplementationVersion());
-            System.exit(0);
-        }
-        if (cl.hasOption('h') || cl.getArgList().size() < 2) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
-            System.exit(0);
-        }
-        return cl;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static void main(String[] args) {
-        CommandLine cl = parse(args);
-        DcmSnd dcmsnd = new DcmSnd(cl.hasOption("device") 
-                ? cl.getOptionValue("device") : "DCMSND");
-        final List<String> argList = cl.getArgList();
-        String remoteAE = argList.get(0);
+        DcmSnd dcmsnd = new DcmSnd("DCMSND");
+        
+        
+//        final List<String> argList = cl.getArgList();
+//        String remoteAE = argList.get(0);
         String[] calledAETAddress = split(remoteAE, '@');
         dcmsnd.setCalledAET(calledAETAddress[0]);
         if (calledAETAddress[1] == null) {
@@ -662,182 +926,231 @@ public class DcmSnd extends StorageCommitmentService {
             dcmsnd.setRemoteHost(hostPort[0]);
             dcmsnd.setRemotePort(toPort(hostPort[1]));
         }
-        if (cl.hasOption("L")) {
-            String localAE = cl.getOptionValue("L");
-            String[] localPort = split(localAE, ':');
-            if (localPort[1] != null) {
-                dcmsnd.setLocalPort(toPort(localPort[1]));                
-            }
-            String[] callingAETHost = split(localPort[0], '@');
-            dcmsnd.setCalling(callingAETHost[0]);
-            if (callingAETHost[1] != null) {
-                dcmsnd.setLocalHost(callingAETHost[1]);
-            }
-        }
-        dcmsnd.setOfferDefaultTransferSyntaxInSeparatePresentationContext(
-                cl.hasOption("ts1"));
-        dcmsnd.setSendFileRef(cl.hasOption("fileref"));
-        if (cl.hasOption("username")) {
-            String username = cl.getOptionValue("username");
-            UserIdentity userId;
-            if (cl.hasOption("passcode")) {
-                String passcode = cl.getOptionValue("passcode");
-                userId = new UserIdentity.UsernamePasscode(username,
-                        passcode.toCharArray());
-            } else {
-                userId = new UserIdentity.Username(username);
-            }
-            userId.setPositiveResponseRequested(cl.hasOption("uidnegrsp"));
-            dcmsnd.setUserIdentity(userId);
-        }
-        dcmsnd.setStorageCommitment(cl.hasOption("stgcmt"));
+//        if (cl.hasOption("L")) {
+//            String localAE = cl.getOptionValue("L");
+//            String[] localPort = split(localAE, ':');
+//            if (localPort[1] != null) {
+//                dcmsnd.setLocalPort(toPort(localPort[1]));                
+//            }
+//            String[] callingAETHost = split(localPort[0], '@');
+//            dcmsnd.setCalling(callingAETHost[0]);
+//            if (callingAETHost[1] != null) {
+//                dcmsnd.setLocalHost(callingAETHost[1]);
+//            }
+//        }
+        
+        //TODO !!!
+//        dcmsnd.setOfferDefaultTransferSyntaxInSeparatePresentationContext(
+//                cl.hasOption("ts1"));
+        dcmsnd.setOfferDefaultTransferSyntaxInSeparatePresentationContext(false);
+        
+        //TODO !!!
+        dcmsnd.setSendFileRef(false);
+//        dcmsnd.setSendFileRef(cl.hasOption("fileref"));
+        
+        
+//        if (cl.hasOption("username")) {
+//            String username = cl.getOptionValue("username");
+//            UserIdentity userId;
+//            if (cl.hasOption("passcode")) {
+//                String passcode = cl.getOptionValue("passcode");
+//                userId = new UserIdentity.UsernamePasscode(username,
+//                        passcode.toCharArray());
+//            } else {
+//                userId = new UserIdentity.Username(username);
+//            }
+//            userId.setPositiveResponseRequested(cl.hasOption("uidnegrsp"));
+//            dcmsnd.setUserIdentity(userId);
+//        }
+        
+        //TODO !!!
+        dcmsnd.setStorageCommitment(false);
+//        dcmsnd.setStorageCommitment(cl.hasOption("stgcmt"));
+        
         String remoteStgCmtAE = null;
-        if (cl.hasOption("stgcmtae")) {
-            try {
-                remoteStgCmtAE = cl.getOptionValue("stgcmtae");
-                String[] aet_hostport = split(remoteStgCmtAE, '@');
-                String[] host_port = split(aet_hostport[1], ':');
-                dcmsnd.setStgcmtCalledAET(aet_hostport[0]);
-                dcmsnd.setRemoteStgcmtHost(host_port[0]);
-                dcmsnd.setRemoteStgcmtPort(toPort(host_port[1]));
-            } catch (Exception e) {
-                exit("illegal argument of option -stgcmtae");
-            }
-        }
-        if (cl.hasOption("connectTO"))
-            dcmsnd.setConnectTimeout(parseInt(cl.getOptionValue("connectTO"),
-                    "illegal argument of option -connectTO", 1,
-                    Integer.MAX_VALUE));
-        if (cl.hasOption("reaper"))
-            dcmsnd.setAssociationReaperPeriod(
-                    parseInt(cl.getOptionValue("reaper"),
-                    "illegal argument of option -reaper",
-                    1, Integer.MAX_VALUE));
-        if (cl.hasOption("rspTO"))
-            dcmsnd.setDimseRspTimeout(parseInt(cl.getOptionValue("rspTO"),
-                    "illegal argument of option -rspTO",
-                    1, Integer.MAX_VALUE));
-        if (cl.hasOption("acceptTO"))
-            dcmsnd.setAcceptTimeout(parseInt(cl.getOptionValue("acceptTO"),
-                    "illegal argument of option -acceptTO", 
-                    1, Integer.MAX_VALUE));
-        if (cl.hasOption("releaseTO"))
-            dcmsnd.setReleaseTimeout(parseInt(cl.getOptionValue("releaseTO"),
-                    "illegal argument of option -releaseTO",
-                    1, Integer.MAX_VALUE));
-        if (cl.hasOption("soclosedelay"))
-            dcmsnd.setSocketCloseDelay(
-                    parseInt(cl.getOptionValue("soclosedelay"),
-                    "illegal argument of option -soclosedelay", 1, 10000));
-        if (cl.hasOption("shutdowndelay"))
-            dcmsnd.setShutdownDelay(
-                    parseInt(cl.getOptionValue("shutdowndelay"),
-                    "illegal argument of option -shutdowndelay", 1, 10000));
-        if (cl.hasOption("rcvpdulen"))
-            dcmsnd.setMaxPDULengthReceive(
-                    parseInt(cl.getOptionValue("rcvpdulen"),
-                    "illegal argument of option -rcvpdulen", 1, 10000) * KB);
-        if (cl.hasOption("sndpdulen"))
-            dcmsnd.setMaxPDULengthSend(parseInt(cl.getOptionValue("sndpdulen"),
-                    "illegal argument of option -sndpdulen", 1, 10000) * KB);
-        if (cl.hasOption("sosndbuf"))
-            dcmsnd.setSendBufferSize(parseInt(cl.getOptionValue("sosndbuf"),
-                    "illegal argument of option -sosndbuf", 1, 10000) * KB);
-        if (cl.hasOption("sorcvbuf"))
-            dcmsnd.setReceiveBufferSize(parseInt(cl.getOptionValue("sorcvbuf"),
-                    "illegal argument of option -sorcvbuf", 1, 10000) * KB);
-        if (cl.hasOption("bufsize"))
-            dcmsnd.setTranscoderBufferSize(
-                    parseInt(cl.getOptionValue("bufsize"),
-                    "illegal argument of option -bufsize", 1, 10000) * KB);
-        dcmsnd.setPackPDV(!cl.hasOption("pdv1"));
-        dcmsnd.setTcpNoDelay(!cl.hasOption("tcpdelay"));
-        if (cl.hasOption("async"))
-            dcmsnd.setMaxOpsInvoked(parseInt(cl.getOptionValue("async"),
-                    "illegal argument of option -async", 0, 0xffff));
-        if (cl.hasOption("lowprior"))
-            dcmsnd.setPriority(CommandUtils.LOW);
-        if (cl.hasOption("highprior"))
-            dcmsnd.setPriority(CommandUtils.HIGH);
+//        if (cl.hasOption("stgcmtae")) {
+//            try {
+//                remoteStgCmtAE = cl.getOptionValue("stgcmtae");
+//                String[] aet_hostport = split(remoteStgCmtAE, '@');
+//                String[] host_port = split(aet_hostport[1], ':');
+//                dcmsnd.setStgcmtCalledAET(aet_hostport[0]);
+//                dcmsnd.setRemoteStgcmtHost(host_port[0]);
+//                dcmsnd.setRemoteStgcmtPort(toPort(host_port[1]));
+//            } catch (Exception e) {
+//                exit("illegal argument of option -stgcmtae");
+//            }
+//        }
+        
+//        if (cl.hasOption("connectTO"))
+//            dcmsnd.setConnectTimeout(parseInt(cl.getOptionValue("connectTO"),
+//                    "illegal argument of option -connectTO", 1,
+//                    Integer.MAX_VALUE));
+//        if (cl.hasOption("reaper"))
+//            dcmsnd.setAssociationReaperPeriod(
+//                    parseInt(cl.getOptionValue("reaper"),
+//                    "illegal argument of option -reaper",
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("rspTO"))
+//            dcmsnd.setDimseRspTimeout(parseInt(cl.getOptionValue("rspTO"),
+//                    "illegal argument of option -rspTO",
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("acceptTO"))
+//            dcmsnd.setAcceptTimeout(parseInt(cl.getOptionValue("acceptTO"),
+//                    "illegal argument of option -acceptTO", 
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("releaseTO"))
+//            dcmsnd.setReleaseTimeout(parseInt(cl.getOptionValue("releaseTO"),
+//                    "illegal argument of option -releaseTO",
+//                    1, Integer.MAX_VALUE));
+//        if (cl.hasOption("soclosedelay"))
+//            dcmsnd.setSocketCloseDelay(
+//                    parseInt(cl.getOptionValue("soclosedelay"),
+//                    "illegal argument of option -soclosedelay", 1, 10000));
+//        if (cl.hasOption("shutdowndelay"))
+//            dcmsnd.setShutdownDelay(
+//                    parseInt(cl.getOptionValue("shutdowndelay"),
+//                    "illegal argument of option -shutdowndelay", 1, 10000));
+//        if (cl.hasOption("rcvpdulen"))
+//            dcmsnd.setMaxPDULengthReceive(
+//                    parseInt(cl.getOptionValue("rcvpdulen"),
+//                    "illegal argument of option -rcvpdulen", 1, 10000) * KB);
+//        if (cl.hasOption("sndpdulen"))
+//            dcmsnd.setMaxPDULengthSend(parseInt(cl.getOptionValue("sndpdulen"),
+//                    "illegal argument of option -sndpdulen", 1, 10000) * KB);
+//        if (cl.hasOption("sosndbuf"))
+//            dcmsnd.setSendBufferSize(parseInt(cl.getOptionValue("sosndbuf"),
+//                    "illegal argument of option -sosndbuf", 1, 10000) * KB);
+//        if (cl.hasOption("sorcvbuf"))
+//            dcmsnd.setReceiveBufferSize(parseInt(cl.getOptionValue("sorcvbuf"),
+//                    "illegal argument of option -sorcvbuf", 1, 10000) * KB);
+//        if (cl.hasOption("bufsize"))
+//            dcmsnd.setTranscoderBufferSize(
+//                    parseInt(cl.getOptionValue("bufsize"),
+//                    "illegal argument of option -bufsize", 1, 10000) * KB);
+        
+        
+        //TODO !!!!!!!!!! Инверсия !!!!!
+        dcmsnd.setPackPDV(true);
+//        dcmsnd.setPackPDV(!cl.hasOption("pdv1"));
+        
+        
+        //TODO !!!!!!!!!! Инверсия !!!!!
+        dcmsnd.setTcpNoDelay(true);
+//        dcmsnd.setTcpNoDelay(!cl.hasOption("tcpdelay"));
+        
+        
+//        if (cl.hasOption("async"))
+//            dcmsnd.setMaxOpsInvoked(parseInt(cl.getOptionValue("async"),
+//                    "illegal argument of option -async", 0, 0xffff));
+//        
+//        if (cl.hasOption("lowprior"))
+//            dcmsnd.setPriority(CommandUtils.LOW);
+//        if (cl.hasOption("highprior"))
+//            dcmsnd.setPriority(CommandUtils.HIGH);
+
+        
+        
         System.out.println("Scanning files to send");
+
+        
+        
+        //TODO Задаем путь к одному файлу!!!
         long t1 = System.currentTimeMillis();
-        for (int i = 1, n = argList.size(); i < n; ++i)
-            dcmsnd.addFile(new File(argList.get(i)));
+        dcmsnd.addFile(file);
+//        dcmsnd.addFile(new File(fileName));
+        
+//        for (int i = 1, n = argList.size(); i < n; ++i)
+//            dcmsnd.addFile(new File(argList.get(i)));
+        
         long t2 = System.currentTimeMillis();
-        if (dcmsnd.getNumberOfFilesToSend() == 0) {
-            System.exit(2);
-        }
+        
+//        if (dcmsnd.getNumberOfFilesToSend() == 0) {
+//            System.exit(2);
+//        }
+        
         System.out.println("\nScanned " + dcmsnd.getNumberOfFilesToSend()
                 + " files in " + ((t2 - t1) / 1000F) + "s (="
                 + ((t2 - t1) / dcmsnd.getNumberOfFilesToSend()) + "ms/file)");
         dcmsnd.configureTransferCapability();
-        if (cl.hasOption("tls")) {
-            String cipher = cl.getOptionValue("tls");
-            if ("NULL".equalsIgnoreCase(cipher)) {
-                dcmsnd.setTlsWithoutEncyrption();
-            } else if ("3DES".equalsIgnoreCase(cipher)) {
-                dcmsnd.setTls3DES_EDE_CBC();
-            } else if ("AES".equalsIgnoreCase(cipher)) {
-                dcmsnd.setTlsAES_128_CBC();
-            } else {
-                exit("Invalid parameter for option -tls: " + cipher);
-            }
-
-            if (cl.hasOption("tls1")) {
-                dcmsnd.setTlsProtocol(TLS1);
-            } else if (cl.hasOption("ssl3")) {
-                dcmsnd.setTlsProtocol(SSL3);
-            } else if (cl.hasOption("no_tls1")) {
-                dcmsnd.setTlsProtocol(NO_TLS1);
-            } else if (cl.hasOption("no_ssl3")) {
-                dcmsnd.setTlsProtocol(NO_SSL3);
-            } else if (cl.hasOption("no_ssl2")) {
-                dcmsnd.setTlsProtocol(NO_SSL2);
-            }
-            dcmsnd.setTlsNeedClientAuth(!cl.hasOption("noclientauth"));
-
-            if (cl.hasOption("keystore")) {
-                dcmsnd.setKeyStoreURL(cl.getOptionValue("keystore"));
-            }
-            if (cl.hasOption("keystorepw")) {
-                dcmsnd.setKeyStorePassword(
-                        cl.getOptionValue("keystorepw"));
-            }
-            if (cl.hasOption("keypw")) {
-                dcmsnd.setKeyPassword(cl.getOptionValue("keypw"));
-            }
-            if (cl.hasOption("truststore")) {
-                dcmsnd.setTrustStoreURL(
-                        cl.getOptionValue("truststore"));
-            }
-            if (cl.hasOption("truststorepw")) {
-                dcmsnd.setTrustStorePassword(
-                        cl.getOptionValue("truststorepw"));
-            }
-            try {
-                dcmsnd.initTLS();
-            } catch (Exception e) {
-                System.err.println("ERROR: Failed to initialize TLS context:"
-                        + e.getMessage());
-                System.exit(2);
-            }
-        }        
+        
+        
+//        if (cl.hasOption("tls")) {
+//            String cipher = cl.getOptionValue("tls");
+//            if ("NULL".equalsIgnoreCase(cipher)) {
+//                dcmsnd.setTlsWithoutEncyrption();
+//            } else if ("3DES".equalsIgnoreCase(cipher)) {
+//                dcmsnd.setTls3DES_EDE_CBC();
+//            } else if ("AES".equalsIgnoreCase(cipher)) {
+//                dcmsnd.setTlsAES_128_CBC();
+//            } else {
+//                exit("Invalid parameter for option -tls: " + cipher);
+//            }
+//
+//            if (cl.hasOption("tls1")) {
+//                dcmsnd.setTlsProtocol(TLS1);
+//            } else if (cl.hasOption("ssl3")) {
+//                dcmsnd.setTlsProtocol(SSL3);
+//            } else if (cl.hasOption("no_tls1")) {
+//                dcmsnd.setTlsProtocol(NO_TLS1);
+//            } else if (cl.hasOption("no_ssl3")) {
+//                dcmsnd.setTlsProtocol(NO_SSL3);
+//            } else if (cl.hasOption("no_ssl2")) {
+//                dcmsnd.setTlsProtocol(NO_SSL2);
+//            }
+//            dcmsnd.setTlsNeedClientAuth(!cl.hasOption("noclientauth"));
+//
+//            if (cl.hasOption("keystore")) {
+//                dcmsnd.setKeyStoreURL(cl.getOptionValue("keystore"));
+//            }
+//            if (cl.hasOption("keystorepw")) {
+//                dcmsnd.setKeyStorePassword(
+//                        cl.getOptionValue("keystorepw"));
+//            }
+//            if (cl.hasOption("keypw")) {
+//                dcmsnd.setKeyPassword(cl.getOptionValue("keypw"));
+//            }
+//            if (cl.hasOption("truststore")) {
+//                dcmsnd.setTrustStoreURL(
+//                        cl.getOptionValue("truststore"));
+//            }
+//            if (cl.hasOption("truststorepw")) {
+//                dcmsnd.setTrustStorePassword(
+//                        cl.getOptionValue("truststorepw"));
+//            }
+//            try {
+//                dcmsnd.initTLS();
+//            } catch (Exception e) {
+//                System.err.println("ERROR: Failed to initialize TLS context:"
+//                        + e.getMessage());
+//                System.exit(2);
+//            }
+//        }   
+        
+        
         try {
             dcmsnd.start();
         } catch (Exception e) {
-            System.err.println("ERROR: Failed to start server for receiving " +
-                    "Storage Commitment results:" + e.getMessage());
-            System.exit(2);
+            String msg ="ERROR: Failed to start server for receiving " +
+            "Storage Commitment results:" + e.getMessage();
+			System.err.println(msg);
+//            System.exit(2);
+            //TODO Выдать нормальный эксепшн
+            throw Util.throwPortalException (msg,e);
         }
+        
         try {
             t1 = System.currentTimeMillis();
             try {
                 dcmsnd.open();
             } catch (Exception e) {
-                System.err.println("ERROR: Failed to establish association:"
-                        + e.getMessage());
-                System.exit(2);
+            	String msg = "ERROR: Failed to establish association:"
+                    + e.getMessage();
+                System.err.println(msg);
+//                System.exit(2);
+                throw Util.throwPortalException (msg, e);
             }
+            
+            
             t2 = System.currentTimeMillis();
             System.out.println("Connected to " + remoteAE + " in " 
                     + ((t2 - t1) / 1000F) + "s");
@@ -858,6 +1171,8 @@ public class DcmSnd extends StorageCommitmentService {
                         t1 = System.currentTimeMillis();
                         promptStgCmt(cmtrslt, ((t1 - t2) / 1000F));
                     } catch (InterruptedException e) {
+                    	
+                    	//TODO !!!! сдесь бросать эксепшн???
                         System.err.println("ERROR:" + e.getMessage());
                     }
                 }
@@ -869,9 +1184,11 @@ public class DcmSnd extends StorageCommitmentService {
                 try {
                     dcmsnd.openToStgcmtAE();
                 } catch (Exception e) {
-                    System.err.println("ERROR: Failed to establish association:"
-                            + e.getMessage());
-                    System.exit(2);
+                	String msg ="ERROR: Failed to establish association:"
+                        + e.getMessage();
+                    System.err.println(msg);
+//                    System.exit(2);
+                    Util.throwPortalException (msg, e);
                 }
                 t2 = System.currentTimeMillis();
                 System.out.println("Connected to " + remoteStgCmtAE + " in " 
@@ -887,6 +1204,7 @@ public class DcmSnd extends StorageCommitmentService {
                         t1 = System.currentTimeMillis();
                         promptStgCmt(cmtrslt, ((t1 - t2) / 1000F));
                     } catch (InterruptedException e) {
+                    	//TODO !!!! сдесь бросать эксепшн???
                         System.err.println("ERROR:" + e.getMessage());
                     }
                 }
@@ -896,6 +1214,9 @@ public class DcmSnd extends StorageCommitmentService {
         } finally {
             dcmsnd.stop();
         }
+        
+        System.out.println(" DcmSnd sending SUCCESS !!!!");
+        
     }
 
     private static void promptStgCmt(DicomObject cmtrslt, float seconds) {
