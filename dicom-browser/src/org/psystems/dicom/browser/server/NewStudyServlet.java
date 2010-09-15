@@ -181,6 +181,16 @@ public class NewStudyServlet extends HttpServlet {
 
 			dcmFileTmp.renameTo(dcmFile);
 			System.out.println("!!!! making IMAGE dcm SUCCESS!");
+			
+			try {
+				
+				DcmSnd.sendToArchive("DDV@localhost:11112",dcmFile);
+			} catch (DefaultGWTRPCException e) {
+				// TODO Пробросить наверх эксепшн (выставить статус у респонса?)
+				e.printStackTrace();
+			}
+			
+			System.out.println("!!!! Sending PDF dcm SUCCESS!");
 		}
 		
 		//-------------------------------
@@ -230,6 +240,16 @@ public class NewStudyServlet extends HttpServlet {
 
 			dcmFileTmp.renameTo(dcmFile);
 			System.out.println("!!!! making IMAGE dcm SUCCESS!");
+			
+			try {
+				
+				DcmSnd.sendToArchive("DDV@localhost:11112",dcmFile);
+			} catch (DefaultGWTRPCException e) {
+				// TODO Пробросить наверх эксепшн (выставить статус у респонса?)
+				e.printStackTrace();
+			}
+			
+			System.out.println("!!!! Sending IMAGE dcm SUCCESS!");
 
 		}
 		
