@@ -13,7 +13,7 @@ public class StudyImplRenex extends Study {
 	
 	StudyImplRenex(DicomObject dcmObj ) {
 
-		LOG.info(getDebugStr("DICOM Driver 'KRT Electron'"));
+		LOG.info(getDebugStr("DICOM Driver 'Renex'"));
 		
 		//инициализируем общие теги
 		implCommon(dcmObj);
