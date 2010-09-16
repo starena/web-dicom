@@ -91,6 +91,10 @@ public class StudyManagePanel extends Composite implements
 	private int rowCounter;
 	private Hidden studyInstanceUID;
 	public final static String medicalAlertsTitle = "норма";
+	
+	private int timeClose = 5;
+	private String msg;
+	private TransactionTimer timer = null;
 
 	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
 			final BrowserServiceAsync browserService, StudyCard studyCardPanel, StudyProxy proxy) {
@@ -807,18 +811,48 @@ public class StudyManagePanel extends Composite implements
 					studyCardPanel.setProxy(result);
 				}
 				
-				submitResult.setHTML("Данные сохранены. можете закрыть форму.");
-				Button closeBtn = new Button("Закрыть форму ввода");
-				submitBtn.setEnabled(true);
-				addFormRow(rowCounter++, closeBtn);
 				
+				
+				msg = "Исследование изменено. Данные успешно сохранены.";
+				if(studyCardPanel==null) {
+					msg = "Создано новое исследование.";
+					timeClose = 10;
+				}
+				
+//				submitBtn.setEnabled(true);
+				submitBtn.removeFromParent();
+				
+				
+				Button closeBtn = new Button("Закрыть форму ввода");
 				closeBtn.addClickHandler(new ClickHandler() {
 					
 					@Override
 					public void onClick(ClickEvent event) {
 						StudyManagePanel.this.removeFromParent();
+						timer.cancel();
 					}
 				});
+				
+				addFormRow(rowCounter++, closeBtn);
+				
+				timer = new TransactionTimer() {
+					int counter = 0;
+					@Override
+					public void run() {
+						
+						submitResult.setHTML(msg + " форма автоматически закроется через <b>"+(timeClose - counter)+"</b> секунд(ы)");
+						if(counter++ >= timeClose) {
+							
+							StudyManagePanel.this.removeFromParent();
+						}
+					}
+					
+				};
+				
+				
+				timer.scheduleRepeating(1000);
+				
+
 				
 				}
 				

@@ -121,6 +121,12 @@ public class StudyCard extends Composite {
 	private VerticalPanel mainPanel;
 	private FlexTable commonTable;
 
+
+	private StudyManagePanel studyManagePanel;
+
+
+	private Button changeStudyBtn;
+
 	/**
 	 * Карточка исследования
 	 * @param fullMode
@@ -133,6 +139,10 @@ public class StudyCard extends Composite {
 		mainPanel = new VerticalPanel();
 
 		labelPatientName = new Label("");
+//		labelPatientName.setStyleName("StudyCardTitle");
+		labelPatientName.setStyleName("DicomItem");
+		mainPanel.add(labelPatientName);
+		
 		labelPatientName.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -140,31 +150,16 @@ public class StudyCard extends Composite {
 				if(isFullMode()) setFullMode(false); else setFullMode(true);
 			}
 		});
-		labelPatientName.setStyleName("StudyCardTitle");
-		//TODO Убрать в css
-//		labelPatientName.setWidth("100%");
 		
-		HorizontalPanel hp = new HorizontalPanel();
-		hp.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
-		mainPanel.add(hp);
-		
-		hp.add(labelPatientName);
+//		HorizontalPanel hp = new HorizontalPanel();
+//		hp.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+//		mainPanel.add(hp);
+
 		
 		
-		final Button changeStudyBtn = new Button("изменить...");
-		hp.add(changeStudyBtn);
 		
-		changeStudyBtn.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				setFullMode(true);
-				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, StudyCard.this, proxy);
-				mainPanel.add(panel);
-				changeStudyBtn.removeFromParent();
-			}
-		});
-		
+
+
 
 		initWidget(mainPanel);
 		addStyleName("StudyCard");
@@ -187,6 +182,7 @@ public class StudyCard extends Composite {
 //				HorizontalPanel.ALIGN_CENTER, HorizontalPanel.ALIGN_TOP);
 //		table.getFlexCellFormatter().setRowSpan(0, 1, 5);
 
+		
 		createItemName(commonTable, 1, 0, "дата исследования:");
 		labelStudyDate = createItemValue(commonTable, 1, 1, "");
 
@@ -224,7 +220,30 @@ public class StudyCard extends Composite {
 		
 		FilesPanel = new HorizontalPanel();
 		mainPanel.add(FilesPanel);
-//		mainPanel.add(changeStudy);
+		
+		changeStudyBtn = new Button("описать/изменить исследование...");
+		changeStudyBtn.setStyleName("DicomItem");
+		
+		
+		changeStudyBtn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+
+				studyManagePanel = new StudyManagePanel(
+						Dicom_browser.manageStudyService,
+						Dicom_browser.browserService, StudyCard.this, proxy);
+				mainPanel.add(studyManagePanel);
+				// changeStudyBtn.setText("Закрыть форму ввода");
+
+				changeStudyBtn.removeFromParent();
+				changeStudyBtn = null;
+
+			}
+		});
+		
+		
+		mainPanel.add(changeStudyBtn);
 		
 		setProxy(proxy);
 	}
@@ -246,7 +265,19 @@ public class StudyCard extends Composite {
 			makeCommonPanel();
 		else {
 			commonTable.removeFromParent();
+			commonTable = null;
 			FilesPanel.removeFromParent();
+			FilesPanel = null;
+			
+			if(studyManagePanel!=null) {
+				studyManagePanel.removeFromParent();
+				studyManagePanel = null;
+			}
+			
+			if(changeStudyBtn!=null) {
+				changeStudyBtn.removeFromParent();
+				changeStudyBtn = null;
+			}
 		}
 	}
 
