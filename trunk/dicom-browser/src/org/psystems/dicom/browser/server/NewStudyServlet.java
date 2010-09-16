@@ -130,7 +130,7 @@ public class NewStudyServlet extends HttpServlet {
 	}
 
 	private void makeDicomFile(Properties props, InputStream stream)
-			throws IOException {
+			throws IOException, DefaultGWTRPCException {
 		System.out.println("!!!! making dcm...");
 		
 		String contentType = (String) props.get("content_type");
@@ -241,15 +241,12 @@ public class NewStudyServlet extends HttpServlet {
 
 		}
 		
-		try {
-			String connectionStr = getServletContext().getInitParameter(
+		
+		String connectionStr = getServletContext().getInitParameter(
 			"webdicom.archive.connection");
 				
-			DcmSnd.sendToArchive(connectionStr,dcmFileTmp);
-		} catch (DefaultGWTRPCException e) {
-			// TODO Пробросить наверх эксепшн (выставить статус у респонса?)
-			e.printStackTrace();
-		} 
+		DcmSnd.sendToArchive(connectionStr,dcmFileTmp);
+		 
 		
 		
 		} finally {

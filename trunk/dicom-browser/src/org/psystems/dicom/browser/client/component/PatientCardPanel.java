@@ -24,6 +24,7 @@ public class PatientCardPanel extends Composite {
 
 	private PatientProxy patientProxy;
 	private VerticalPanel mainPanel;
+	private StudyManagePanel studyManagePanel;
 
 	public PatientCardPanel(final PatientProxy patientProxy) {
 		this.patientProxy = patientProxy;
@@ -32,32 +33,38 @@ public class PatientCardPanel extends Composite {
 		if("F".equals(patientProxy.getPatientSex())) {
 			sex = "Ж";
 		}
-		Label l = new Label(patientProxy.getPatientName() + " ("
+		
+		Label labelPatient = new Label(patientProxy.getPatientName() + " ("
 				+ sex  + ") "
 				+ patientProxy.getPatientBirthDate());
-		l.setStyleName("DicomItem");
+		labelPatient.setStyleName("DicomItem");
 
-		mainPanel.add(l);
+		mainPanel.add(labelPatient);
 		
-		Button changeStudy = new Button("изменить...");
-		changeStudy.setStyleName("DicomItem");
-		mainPanel.add(changeStudy);
 		
-		changeStudy.addClickHandler(new ClickHandler() {
+		labelPatient.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				StudyProxy proxy = new StudyProxy();
-				proxy.setPatientId(""+patientProxy.getId());
-				proxy.setPatientName(patientProxy.getPatientName());
-				proxy.setPatientSex(patientProxy.getPatientSex());
-				proxy.setPatientBirthDate(patientProxy.getPatientBirthDate());
-				
-				StudyManagePanel panel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, null, proxy);
-				mainPanel.add(panel);
+				if(studyManagePanel==null) {
+					
+					StudyProxy proxy = new StudyProxy();
+					proxy.setPatientId(""+patientProxy.getId());
+					proxy.setPatientName(patientProxy.getPatientName());
+					proxy.setPatientSex(patientProxy.getPatientSex());
+					proxy.setPatientBirthDate(patientProxy.getPatientBirthDate());
+					
+					studyManagePanel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, null, proxy);
+					mainPanel.add(studyManagePanel);
+					
+					} else {
+						studyManagePanel.removeFromParent();
+						studyManagePanel = null;
+					}
 			}
 		});
-
+		
+		
 		initWidget(mainPanel);
 	}
 
