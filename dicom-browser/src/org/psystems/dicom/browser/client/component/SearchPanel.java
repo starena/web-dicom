@@ -86,13 +86,13 @@ public class SearchPanel extends Composite implements
 		resultPanel = panel;
 		
 //		TODO убрать DDVDDV !!!!
-		PatientProxy patientProxy = new PatientProxy();
-		patientProxy.init(1, "DDVDDV", "M", new Date("1974/03/01"));
-		VerticalPanel table = new VerticalPanel();
-		resultPanel.add(table);
-		PatientCardPanel patientCard = new PatientCardPanel(
-				patientProxy);
-		table.add(patientCard);
+//		PatientProxy patientProxy = new PatientProxy();
+//		patientProxy.init(1, "DDVDDV", "M", new Date("1974/03/01"));
+//		VerticalPanel table = new VerticalPanel();
+//		resultPanel.add(table);
+//		PatientCardPanel patientCard = new PatientCardPanel(
+//				patientProxy);
+//		table.add(patientCard);
 
 	}
 
