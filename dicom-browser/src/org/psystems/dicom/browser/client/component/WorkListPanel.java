@@ -127,7 +127,9 @@ public class WorkListPanel extends Composite {
 //		lbCommentsTemplates.setName("00100040");
 		lbManufacturerModelName.addItem("RENEXFLUORO3", "RENEXFLUORO3");
 		lbManufacturerModelName.addItem("КРТ-Электрон","КРТ-Электрон");
-		lbManufacturerModelName.addItem("Мамография","MAMOGRAF");
+		
+		//TODO Убрал из списка
+//		lbManufacturerModelName.addItem("Мамография","MAMMOGRAF");
 		
 		lbManufacturerModelName.addChangeHandler(new ChangeHandler() {
 			

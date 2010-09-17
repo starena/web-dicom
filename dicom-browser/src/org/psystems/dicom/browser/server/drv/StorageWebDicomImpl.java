@@ -55,11 +55,15 @@
 package org.psystems.dicom.browser.server.drv;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 
@@ -96,16 +100,29 @@ public class StorageWebDicomImpl extends Storage {
 			
 			String where = " UPPER(PATIENT_NAME) like UPPER(? || '%')";
 			
+			boolean codeSearch = false; 
+				
 			//Если поиск по КБП
 			if(queryStr.matches("^\\D{5}\\d{2}$")) {
 				where = " PATIENT_SHORTNAME = UPPER(?) ";
+				codeSearch = true;
 			}
 			
-//			
-//			//Если поиск по ФИО + ДР.
-//			if(queryStr.matches("^\\D{5}\\d{2}$")) {
-//				where = " PATIENT_SHORTNAME = UPPER(?) ";
-//			}
+//			Артемьева Наталья Александровна 14.12.1978
+			
+			Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
+			boolean fullSearch = matcher.matches();
+			
+			
+			
+			String fio = null,day = null,month = null,year = null;
+			if (fullSearch) {
+				fio = matcher.group(1);
+				day = matcher.group(2);
+				month = matcher.group(3);
+				year = matcher.group(4);
+				where = " UPPER(PATIENT_NAME) = UPPER(?) AND PATIENT_BIRTH_DATE = ?";
+			}
 
 
 			psSelect = connection
@@ -114,15 +131,33 @@ public class StorageWebDicomImpl extends Storage {
 							+ where
 							+ " order by PATIENT_NAME ");
 
-			psSelect.setString(1, queryStr);
+			if(fullSearch) {
+				psSelect.setString(1, fio);
+				psSelect.setDate(2, java.sql.Date.valueOf(year+"-"+month+"-"+day));
+			} else {
+				psSelect.setString(1, queryStr);
+			}
+			
+			
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
+			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 			while (rs.next()) {
 
 				String name = rs.getString("PATIENT_NAME");
-				String date = "" + rs.getDate("PATIENT_BIRTH_DATE");
-				suggestions.add(new ItemSuggestion(name + " [" + date + "]",
-						name));
+				String date = format.format(rs.getDate("PATIENT_BIRTH_DATE"));
+				
+				String msgAddon = "";
+				if(fullSearch) {
+					msgAddon = "(поиск по ФИО+ДР)";
+				}
+				if(codeSearch) {
+					msgAddon = "(поиск по КБП)";
+				}
+				
+				
+				suggestions.add(new ItemSuggestion(name + " " + date + " " + msgAddon,
+						name + " " + date));
 
 				if (index++ > limit) {
 					break;
