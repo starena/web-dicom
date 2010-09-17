@@ -2,6 +2,8 @@ package org.psystems.dicom.browser.server;
 
 import junit.framework.TestCase;
 import java.security.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class NewStudyServletTest extends TestCase {
@@ -32,6 +34,8 @@ public class NewStudyServletTest extends TestCase {
 
 	}
 	
+	
+	
 	public void testRegexpCODE() {
 		String s = "ИВАЛА56";
 //		System.out.println("S="+s);
@@ -43,12 +47,31 @@ public class NewStudyServletTest extends TestCase {
 //		}
 	}
 	
-	public void testRegexpFIO() {
-		String s = "Деренок Дмитрий Владимирович 01.03.1974";
-		System.out.println("S="+s);
-		if(s.matches("^\\D{5}\\d{2}$")) {
-			System.out.println("!!! find "+s);
+	private boolean _regexpFIO (String s) {
+		
+		Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(s);
+		boolean result = matcher.matches();
+		
+		String fio = null,day = null,month = null,year = null;
+		if (result) {
+			fio = matcher.group(1);
+			day = matcher.group(2);
+			month = matcher.group(3);
+			year = matcher.group(4);
 		}
+		
+		System.out.println("source str ["+s+"] dest=[" +fio+";"+day+";"+month+";"+year+"]");
+		
+		return result;
+	}
+	
+	public void testRegexpFIO() {
+		assertTrue(_regexpFIO("Деренок Дмитрий Владимирович 01.03.1974"));
+		assertTrue(_regexpFIO("Деренок Дмитрий Владимирович 01.03.1974 "));
+		assertTrue(_regexpFIO(" Деренок Дмитрий Владимирович 01.03.1974"));
+		assertTrue(_regexpFIO(" Деренок Дмитрий Владимирович 01.03.1974 "));
+		assertTrue(_regexpFIO(" Деренок Дмитрий Владимирович 01.03.1974  \t  "));
+		assertTrue(_regexpFIO(" \t Деренок Дмитрий Владимирович 01.03.1974  \t  "));
 	}
 
 }

@@ -182,7 +182,7 @@ public class StudyManagePanel extends Composite implements
 		
 		//словари
 		HashMap <String, String>dicModel = new HashMap<String, String>();
-		dicModel.put("MAMOGRAF", "Мамограф" );
+		dicModel.put("MAMMOGRAF", "Маммограф" );
 		dicModel.put("RENTGEN", "Рентген");
 		dicModel.put("ENDOSCP", "Эндоскоп");
 		
@@ -192,6 +192,7 @@ public class StudyManagePanel extends Composite implements
 		dicModality.put("DF", "Рентген");
 		dicModality.put("US", "Узи" );
 		dicModality.put("ES", "Эндоскопия");
+		dicModality.put("MG", "Маммография");
 		
 		if (proxy.getManufacturerModelName() != null) {
 			

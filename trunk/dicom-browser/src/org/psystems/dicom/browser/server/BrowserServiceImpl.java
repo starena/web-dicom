@@ -66,6 +66,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -150,8 +152,26 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			
 			
 			Study[] studies = null;
-			//Если поиск по КБП
-			if(queryStr.matches("^\\D{5}\\d{2}$")) {
+			
+			Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
+			boolean fullSearch = matcher.matches();
+			
+			
+			
+			String fio = null,day = null,month = null,year = null;
+			if (fullSearch) {
+				fio = matcher.group(1);
+				day = matcher.group(2);
+				month = matcher.group(3);
+				year = matcher.group(4);
+//				where = " UPPER(PATIENT_NAME) = UPPER(?) AND PATIENT_BIRTH_DATE = ?";
+			}
+
+			if(fullSearch) {
+				
+				studies = Study.getStudues(connection, null, manufacturerModelName,fio,
+						null, year+"-"+month+"-"+day, null, studyDB, studyDE, studyResult, sortOrder);
+			} else if(queryStr.matches("^\\D{5}\\d{2}$")) { //Если поиск по КБП
 				
 				studies = Study.getStudues(connection, null, manufacturerModelName,null,
 						queryStr, null, null, studyDB, studyDE, studyResult, sortOrder);
@@ -159,6 +179,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 				studies = Study.getStudues(connection, null, manufacturerModelName,queryStr,
 					null, null, null, studyDB, studyDE, studyResult, sortOrder);
 			}
+			
+			
+			
 			for (int i = 0; i < studies.length; i++) {
 				StudyProxy studyProxy = new StudyProxy();
 
