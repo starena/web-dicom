@@ -231,7 +231,6 @@ public class StudyCard extends Composite {
 			public void onClick(ClickEvent event) {
 
 				studyManagePanel = new StudyManagePanel(
-						Dicom_browser.manageStudyService,
 						Dicom_browser.browserService, StudyCard.this, proxy);
 				mainPanel.add(studyManagePanel);
 				// changeStudyBtn.setText("Закрыть форму ввода");

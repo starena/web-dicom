@@ -88,6 +88,9 @@ public class Util {
 	// Версия ПО (используется для проверки на стороне сервере при обновлении
 	// клиента)
 	public static String version = "0.1a"; // TODO Взять из конфига?
+	
+	//Имя атрибута сессии
+	public static String sessionAttrName = "dicom-browser-session";
 
 	private static Logger logger = Logger.getLogger(Util.class
 			.getName());

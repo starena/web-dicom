@@ -13,9 +13,9 @@ import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
-import org.psystems.dicom.browser.client.service.ManageStydyServiceAsync;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -27,9 +27,9 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -49,8 +49,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitHandler;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
@@ -60,7 +58,6 @@ import com.google.gwt.user.datepicker.client.DateBox;
 public class StudyManagePanel extends Composite implements
 		ValueChangeHandler<String> {
 
-	private ManageStydyServiceAsync manageStudyService;
 	private StudyCard studyCardPanel;
 	private HTML submitResult;
 	private Button submitBtn;
@@ -95,14 +92,14 @@ public class StudyManagePanel extends Composite implements
 	private int timeClose = 5;
 	private String msg;
 	private TransactionTimer timer = null;
+	private ListBox studyManufacturerModelName;
+	private ListBox studyModality;
 
-	public StudyManagePanel(final ManageStydyServiceAsync manageStudyService,
-			final BrowserServiceAsync browserService, StudyCard studyCardPanel, StudyProxy proxy) {
+	public StudyManagePanel(final BrowserServiceAsync browserService, StudyCard studyCardPanel, StudyProxy proxy) {
 
 		this.studyCardPanel = studyCardPanel;
 		this.proxy = proxy;
 		this.browserService = browserService;
-		this.manageStudyService = manageStudyService;
 
 		// История
 		History.addValueChangeHandler(this);
@@ -197,9 +194,14 @@ public class StudyManagePanel extends Composite implements
 			// TODO Добавить словарь типов чтобы в интерфейсе показывать не
 			// CR,OT
 			// итп..
-			ListBox studyManufacturerModelName = new ListBox();
+			
+			studyManufacturerModelName = new ListBox();
 			studyManufacturerModelName.setName("00081090");
+			studyManufacturerModelName.addItem("-- выберите аппарат --", "");
 			studyManufacturerModelName.addItem("Мамограф", "MAMOGRAF");
+			studyManufacturerModelName.addItem("Рентген", "RENTGEN");
+			studyManufacturerModelName.addItem("Эндоскоп", "ENDOSCP");
+			
 //			studyManufacturerModelName.addItem("Флюорография", "CR");
 //			if ("CR".equals(proxy.getStudyModality())) {
 //				studyManufacturerModelName.setSelectedIndex(1);
@@ -212,16 +214,22 @@ public class StudyManagePanel extends Composite implements
 		// Тип исследования Modality 00080060
 		// TODO Добавить словарь типов чтобы в интерфейсе показывать не CR,OT
 		// итп..
-		ListBox studyModality = new ListBox();
+		studyModality = new ListBox();
 		studyModality.setName("00080060");
+		studyModality.addItem("-- выберите тип --", "OT");
 		studyModality.addItem("Прочее", "OT");
 		studyModality.addItem("Флюорография", "CR");
+		studyModality.addItem("Рентген", "DF");
+		studyModality.addItem("Узи", "US");
+		studyModality.addItem("Эндоскопия", "ES");
+		
+		//TODO Сделать выбор в списке !!!!
 		if ("CR".equals(proxy.getStudyModality())) {
 			studyModality.setSelectedIndex(1);
 		} else {
 			studyModality.setSelectedIndex(0);
 		}
-		addFormRow(rowCounter++, "Модальность", studyModality);
+		addFormRow(rowCounter++, "Тип исследования(Модальность)", studyModality);
 
 		//
 		patientName = new TextBox();
@@ -572,6 +580,22 @@ public class StudyManagePanel extends Composite implements
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				//TODO Сделать подсветки виджета
+				if(studyManufacturerModelName.getSelectedIndex()<=0) {
+					Window.alert("Выберите аппарат!");
+					studyManufacturerModelName.setFocus(true);
+					return;
+				}
+				
+				//TODO Сделать подсветки виджета
+				if(studyModality.getSelectedIndex()<=0) {
+					Window.alert("Выберите тип исследования!");
+					studyModality.setFocus(true);
+					return;
+				}
+				
+				//TODO Сделать недоступной кнопку "Сохранить"
 				submitResult.setHTML("сохранение...");
 				submitBtn.setEnabled(false);
 				formPanel.submit();
@@ -585,11 +609,85 @@ public class StudyManagePanel extends Composite implements
 		
 		addFormRow(rowCounter++, submitResult);
 		
+		
+		updateFromSession();
 
 		
 		initWidget(mainPanel);
 
 		patientVerify();
+	}
+
+
+
+	/**
+	 * Обновление из сессии
+	 */
+	private void updateFromSession() {
+		
+		submitResult.setHTML("Загрузка конфигурации...");
+		submitBtn.setEnabled(false);
+		
+		Dicom_browser.browserService.getSessionObject(new AsyncCallback<Session>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Dicom_browser.showErrorDlg(caught);
+				submitResult.setHTML("Ошибка загрузка конфигурации!");
+				submitBtn.setEnabled(true);
+			}
+
+			@Override
+			public void onSuccess(Session result) {
+				
+				submitResult.setHTML("");
+//				System.out.println("!!!! Session result="+result);
+				submitBtn.setEnabled(true);	
+				if(result==null) return;
+				
+				String ManufacturerModelName = result.getStudyManagePanel_ManufacturerModelName();
+				String Modality = result.getStudyManagePanel_Modality();
+				
+//				System.out.println("!!!! getStudyManagePanel_ManufacturerModelName="+result.getStudyManagePanel_ManufacturerModelName());
+//				System.out.println("!!!! getStudyManagePanel_Modality="+result.getStudyManagePanel_Modality());
+				
+				for(int i = 0; i<studyManufacturerModelName.getItemCount(); i++) {
+					if(studyManufacturerModelName.getValue(i).equals(ManufacturerModelName)) {
+						studyManufacturerModelName.setSelectedIndex(i);
+						break;
+					}
+				}
+				
+				for(int i = 0; i<studyModality.getItemCount(); i++) {
+					if(studyModality.getValue(i).equals(Modality)) {
+						studyModality.setSelectedIndex(i);
+						break;
+					}
+				}
+				
+				
+			}
+		});
+		
+//		Dicom_browser.browserService.getDcmTagsFromFile(0, Dicom_browser.version, proxy.getId(),
+//				new AsyncCallback<ArrayList<DcmTagProxy>>() {
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						vp.clear();
+//						vp.add(new Label("Ошибка полчения данных! " + caught));
+//					}
+//
+//					@Override
+//					public void onSuccess(ArrayList<DcmTagProxy> result) {
+//						vp.clear();
+//						for (Iterator<DcmTagProxy> it = result.iterator(); it
+//								.hasNext();) {
+//							DcmTagProxy proxy = it.next();
+//							vp.add(new Label("" + proxy));
+//						}
+//					}
+//				});
 	}
 
 
