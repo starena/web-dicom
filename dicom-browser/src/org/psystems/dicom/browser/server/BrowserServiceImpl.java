@@ -67,6 +67,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
@@ -84,6 +87,7 @@ import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
+import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
@@ -99,6 +103,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class BrowserServiceImpl extends RemoteServiceServlet implements
 		BrowserService {
 
+	
+  
 	private int maxReturnRecords = 20; // Максимальное количество возвращаемых
 	// записей
 
@@ -717,6 +723,17 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		}
 
 		
+	}
+
+	@Override
+	public Session getSessionObject() throws DefaultGWTRPCException {
+		
+		HttpServletRequest req = perThreadRequest.get();
+		HttpServletResponse resp = perThreadResponse.get();
+		
+		Session sessionObject = (Session)req.getSession().getAttribute(Util.sessionAttrName);
+		return sessionObject;
+	
 	}
 
 }

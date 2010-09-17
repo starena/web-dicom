@@ -46,7 +46,7 @@ public class PatientCardPanel extends Composite {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				if(studyManagePanel==null) {
+				if(studyManagePanel==null || !studyManagePanel.isAttached()) {
 					
 					StudyProxy proxy = new StudyProxy();
 					proxy.setPatientId(""+patientProxy.getId());
@@ -54,7 +54,7 @@ public class PatientCardPanel extends Composite {
 					proxy.setPatientSex(patientProxy.getPatientSex());
 					proxy.setPatientBirthDate(patientProxy.getPatientBirthDate());
 					
-					studyManagePanel = new StudyManagePanel(Dicom_browser.manageStudyService, Dicom_browser.browserService, null, proxy);
+					studyManagePanel = new StudyManagePanel(Dicom_browser.browserService, null, proxy);
 					mainPanel.add(studyManagePanel);
 					
 					} else {

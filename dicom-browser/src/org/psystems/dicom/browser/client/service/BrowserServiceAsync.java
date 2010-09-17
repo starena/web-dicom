@@ -63,6 +63,7 @@ import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
+import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -84,5 +85,7 @@ public interface BrowserServiceAsync {
 
 	void getStudyByID(long transactionId, String version, Long id,
 			AsyncCallback<StudyProxy> callback);
+
+	void getSessionObject(AsyncCallback<Session> callback);
 
 }

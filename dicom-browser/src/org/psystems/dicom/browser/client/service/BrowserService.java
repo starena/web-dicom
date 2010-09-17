@@ -64,6 +64,7 @@ import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
+import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -100,5 +101,7 @@ public interface BrowserService extends RemoteService {
 
 	StudyProxy getStudyByID(long transactionId, String version, Long id)
 			throws DefaultGWTRPCException;
+	
+	Session getSessionObject() throws DefaultGWTRPCException;
 
 }

@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -21,6 +22,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.psystems.dicom.browser.client.component.StudyManagePanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.Session;
 
 public class NewStudyServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(NewStudyServlet.class
@@ -35,6 +37,7 @@ public class NewStudyServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
 		System.out.println("isMultipart=" + isMultipart);
+		HttpSession session = req.getSession();
 
 		// TODO Вынести в конфиг!!
 		String imgTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.uploadimages");
@@ -74,7 +77,7 @@ public class NewStudyServlet extends HttpServlet {
 			}
 
 
-			makeDicomFile(props, stream);
+			makeDicomFile(session, props, stream);
 			
 //			if(true) throw new Exception(" Это тест Test Exception ");
 			
@@ -129,7 +132,7 @@ public class NewStudyServlet extends HttpServlet {
 		props.put(name, value);
 	}
 
-	private void makeDicomFile(Properties props, InputStream stream)
+	private void makeDicomFile(HttpSession session, Properties props, InputStream stream)
 			throws IOException, DefaultGWTRPCException {
 		System.out.println("!!!! making dcm...");
 		
@@ -162,6 +165,29 @@ public class NewStudyServlet extends HttpServlet {
 				}
 				pfg2Dcm.setCfgProperty(key, value);
 				System.out.println("!!!! key=" + key + "; value=" + value);
+				
+				
+				//  *********** Работа с сессией ***************
+				
+				Session sessionObject = (Session)session.getAttribute(Util.sessionAttrName);
+				if(sessionObject==null) {
+					sessionObject = new Session();
+				}
+				
+				// ManufacturerModelName
+				if (key.equals("00081090")) {
+					sessionObject.setStudyManagePanel_ManufacturerModelName(value);
+				}
+				
+				// Modality
+				if (key.equals("00080060")) {
+					sessionObject.setStudyManagePanel_Modality(value);
+				}
+				
+				session.setAttribute(Util.sessionAttrName,sessionObject);
+				
+				
+				
 			}
 
 			// TODO Сделать сохранение даты через attrs.putDate(...)
