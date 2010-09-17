@@ -100,6 +100,12 @@ public class StorageWebDicomImpl extends Storage {
 			if(queryStr.matches("^\\D{5}\\d{2}$")) {
 				where = " PATIENT_SHORTNAME = UPPER(?) ";
 			}
+			
+//			
+//			//Если поиск по ФИО + ДР.
+//			if(queryStr.matches("^\\D{5}\\d{2}$")) {
+//				where = " PATIENT_SHORTNAME = UPPER(?) ";
+//			}
 
 
 			psSelect = connection

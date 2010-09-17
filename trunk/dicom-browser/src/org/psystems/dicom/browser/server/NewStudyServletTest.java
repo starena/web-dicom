@@ -32,8 +32,19 @@ public class NewStudyServletTest extends TestCase {
 
 	}
 	
-	public void testRegexp() {
+	public void testRegexpCODE() {
 		String s = "ИВАЛА56";
+//		System.out.println("S="+s);
+		boolean result = s.matches("^\\D{5}\\d{2}$");
+		assertTrue(result);
+//		if() {
+//			
+//			System.out.println("!!! find "+s);
+//		}
+	}
+	
+	public void testRegexpFIO() {
+		String s = "Деренок Дмитрий Владимирович 01.03.1974";
 		System.out.println("S="+s);
 		if(s.matches("^\\D{5}\\d{2}$")) {
 			System.out.println("!!! find "+s);

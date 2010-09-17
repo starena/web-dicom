@@ -180,57 +180,84 @@ public class StudyManagePanel extends Composite implements
 
 		rowCounter = 0;
 		
+		//словари
+		HashMap <String, String>dicModel = new HashMap<String, String>();
+		dicModel.put("MAMOGRAF", "Мамограф" );
+		dicModel.put("RENTGEN", "Рентген");
+		dicModel.put("ENDOSCP", "Эндоскоп");
+		
+		HashMap <String, String>dicModality = new HashMap<String, String>();
+		dicModality.put("OT", "Прочее");
+		dicModality.put("CR", "Флюорография");
+		dicModality.put("DF", "Рентген");
+		dicModality.put("US", "Узи" );
+		dicModality.put("ES", "Эндоскопия");
+		
 		if (proxy.getManufacturerModelName() != null) {
-			addFormRow(rowCounter++, "Аппарат", new Label(proxy
-					.getManufacturerModelName()));
+			
+			String model = proxy.getManufacturerModelName();
+			if(dicModel.get(proxy.getManufacturerModelName())!=null) {
+				model = dicModel.get(proxy.getManufacturerModelName());
+			}
+			addFormRow(rowCounter++, "Аппарат", new Label(model));
 			//
 			Hidden manufacturerModelName = new Hidden();
 			manufacturerModelName.setName("00081090");
+			
 			manufacturerModelName.setValue(proxy.getManufacturerModelName());
 			addFormHidden(manufacturerModelName);
 		} else {
-
 			// Тип исследования Modality 00080060
-			// TODO Добавить словарь типов чтобы в интерфейсе показывать не
-			// CR,OT
-			// итп..
-			
 			studyManufacturerModelName = new ListBox();
 			studyManufacturerModelName.setName("00081090");
 			studyManufacturerModelName.addItem("-- выберите аппарат --", "");
-			studyManufacturerModelName.addItem("Мамограф", "MAMOGRAF");
-			studyManufacturerModelName.addItem("Рентген", "RENTGEN");
-			studyManufacturerModelName.addItem("Эндоскоп", "ENDOSCP");
 			
-//			studyManufacturerModelName.addItem("Флюорография", "CR");
-//			if ("CR".equals(proxy.getStudyModality())) {
-//				studyManufacturerModelName.setSelectedIndex(1);
-//			} else {
-//				studyManufacturerModelName.setSelectedIndex(0);
-//			}
+			for( Iterator<String> iter = dicModel.keySet().iterator(); iter.hasNext();) {
+				String key = iter.next();
+				String val = dicModel.get(key);
+				studyManufacturerModelName.addItem(val, key);
+			}
+
 			addFormRow(rowCounter++, "Аппарат", studyManufacturerModelName);
 		}
-
-		// Тип исследования Modality 00080060
-		// TODO Добавить словарь типов чтобы в интерфейсе показывать не CR,OT
-		// итп..
-		studyModality = new ListBox();
-		studyModality.setName("00080060");
-		studyModality.addItem("-- выберите тип --", "OT");
-		studyModality.addItem("Прочее", "OT");
-		studyModality.addItem("Флюорография", "CR");
-		studyModality.addItem("Рентген", "DF");
-		studyModality.addItem("Узи", "US");
-		studyModality.addItem("Эндоскопия", "ES");
 		
-		//TODO Сделать выбор в списке !!!!
-		if ("CR".equals(proxy.getStudyModality())) {
-			studyModality.setSelectedIndex(1);
+		
+		if (proxy.getStudyModality() != null) {
+			
+			String modal = proxy.getStudyModality();
+			if(dicModality.get(proxy.getStudyModality())!=null) {
+				modal = dicModality.get(proxy.getStudyModality());
+			}
+			
+			addFormRow(rowCounter++, "Тип исследования", new Label(modal));
+			//
+			Hidden modality = new Hidden();
+			modality.setName("00080060");
+			
+			modality.setValue(proxy.getStudyModality());
+			addFormHidden(modality);
+			
 		} else {
-			studyModality.setSelectedIndex(0);
-		}
-		addFormRow(rowCounter++, "Тип исследования(Модальность)", studyModality);
+			// Тип исследования Modality 00080060
+			studyModality = new ListBox();
+			studyModality.setName("00080060");
+			studyModality.addItem("-- выберите тип --", "");
+			
+			for( Iterator<String> iter = dicModality.keySet().iterator(); iter.hasNext();) {
+				String key = iter.next();
+				String val = dicModality.get(key);
+				studyModality.addItem(val, key);
+			}
 
+
+		
+			addFormRow(rowCounter++, "Тип исследования",
+					studyModality);
+
+		}
+		
+		
+		
 		//
 		patientName = new TextBox();
 		patientName.setName("00100010");
@@ -582,14 +609,15 @@ public class StudyManagePanel extends Composite implements
 			public void onClick(ClickEvent event) {
 				
 				//TODO Сделать подсветки виджета
-				if(studyManufacturerModelName.getSelectedIndex()<=0) {
+				
+				if(studyManufacturerModelName!=null && studyManufacturerModelName.getSelectedIndex()<=0) {
 					Window.alert("Выберите аппарат!");
 					studyManufacturerModelName.setFocus(true);
 					return;
 				}
 				
 				//TODO Сделать подсветки виджета
-				if(studyModality.getSelectedIndex()<=0) {
+				if(studyModality!=null && studyModality.getSelectedIndex()<=0) {
 					Window.alert("Выберите тип исследования!");
 					studyModality.setFocus(true);
 					return;
