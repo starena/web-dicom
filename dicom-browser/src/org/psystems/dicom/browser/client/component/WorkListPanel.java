@@ -127,6 +127,12 @@ public class WorkListPanel extends Composite {
 //		lbCommentsTemplates.setName("00100040");
 		lbManufacturerModelName.addItem("RENEXFLUORO3", "RENEXFLUORO3");
 		lbManufacturerModelName.addItem("КРТ-Электрон","КРТ-Электрон");
+		lbManufacturerModelName.addItem("Маммограф (LORAD AFFINITY)","LORAD AFFINITY");
+		lbManufacturerModelName.addItem("Эндоскоп (FUJINON EG WR5)","FUJINON EG WR5");
+		lbManufacturerModelName.addItem("Рентген (CLINOMAT)","CLINOMAT");
+		lbManufacturerModelName.addItem("Рентген (РДК 50/6)","РДК 50/6");
+		lbManufacturerModelName.addItem("Рентген (DUODiagnost)","DUODiagnost");
+		
 		
 		//TODO Убрал из списка
 //		lbManufacturerModelName.addItem("Мамография","MAMMOGRAF");

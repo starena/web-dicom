@@ -85,9 +85,9 @@ public class SearchPanel extends Composite implements
 	public void setResultPanel(SearchResultPanel panel) {
 		resultPanel = panel;
 		
-//		TODO убрать DDVDDV !!!!
+//		TODO убрать DDVDDV1 !!!!
 //		PatientProxy patientProxy = new PatientProxy();
-//		patientProxy.init(1, "DDVDDV", "M", new Date("1974/03/01"));
+//		patientProxy.init(1, "DDVDDV1", "M", new Date("1974/03/01"));
 //		VerticalPanel table = new VerticalPanel();
 //		resultPanel.add(table);
 //		PatientCardPanel patientCard = new PatientCardPanel(
