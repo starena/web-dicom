@@ -182,9 +182,13 @@ public class StudyManagePanel extends Composite implements
 		
 		//словари
 		HashMap <String, String>dicModel = new HashMap<String, String>();
-		dicModel.put("MAMMOGRAF", "Маммограф" );
-		dicModel.put("RENTGEN", "Рентген");
-		dicModel.put("ENDOSCP", "Эндоскоп");
+		dicModel.put("LORAD AFFINITY", "Маммограф (LORAD AFFINITY)" );
+		dicModel.put("CLINOMAT", "Рентген (CLINOMAT)");
+		dicModel.put("РДК 50/6", "Рентген (РДК 50/6)");
+		dicModel.put("DUODiagnost", "Рентген (DUODiagnost)");
+		dicModel.put("FUJINON EG WR5", "Эндоскоп (FUJINON EG WR5)");
+		
+		
 		
 		HashMap <String, String>dicModality = new HashMap<String, String>();
 		dicModality.put("OT", "Прочее");
@@ -403,6 +407,8 @@ public class StudyManagePanel extends Composite implements
 		studyDoctror.addItem("Петрова  Н.Н.", "Петрова  Н.Н.");
 		studyDoctror.addItem("Девяткова И.А.", "Девяткова И.А.");
 		studyDoctror.addItem("Солоница В.Д.", "Солоница В.Д.");
+		studyDoctror.addItem("Корж С.С.", "Корж С.С.");
+		
 		
 //		studyDoctror2.addItem("Ввести нового...", "manualinput");
 		
@@ -447,6 +453,8 @@ public class StudyManagePanel extends Composite implements
 		studyOperator.addItem("Михеева И.А.", "Михеева И.А.");
 		studyOperator.addItem("Давыдов В.С.", "Давыдов В.С.");
 		studyOperator.addItem("Тебенев Е.Н.", "Тебенев Е.Н.");
+		studyOperator.addItem("Диденко В.А.", "Диденко В.А.");
+		
 		
 //		studyOperator2.addItem("Ввести нового...", "manualinput");
 		
