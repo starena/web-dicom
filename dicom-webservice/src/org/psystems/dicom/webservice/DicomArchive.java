@@ -191,7 +191,7 @@ public class DicomArchive {
 			try {
 				Study[] studies = Study.getStudues(connection, studyModality, null, patientName, patientShortName,
 						patientBirthDate, patientSex, beginStudyDate,
-						endStudyDate);
+						endStudyDate,null,null);
 				
 				String url = servletContext
 				.getInitParameter("webdicom.ws.viewstudy.url");
@@ -203,9 +203,14 @@ public class DicomArchive {
 				
 				for(int i=0; i<studies.length; i++) {
 					studies[i].setStudyUrl(url+"/"+studies[i].getId());
-					
-					//Фильтруем результаты в которых есть отклонения
-					if(studies[i].getStudyResult()==null || studies[i].getStudyResult().length()==0) {
+
+					////Фильтруем результаты в которых есть отклонения (только для флюшек)
+//					System.out.println("!!! studyModality="+studyModality);
+					if(studies[i].getStudyModality()!=null && studies[i].getStudyModality().equals("CR")) {
+						if(studies[i].getStudyResult()==null || studies[i].getStudyResult().length()==0) {
+							tmpData.add(studies[i]);
+						}
+					} else {
 						tmpData.add(studies[i]);
 					}
 				}
