@@ -208,6 +208,7 @@ public class DicomArchive {
 //					System.out.println("!!! studyModality="+studyModality);
 					if(studies[i].getStudyModality()!=null && studies[i].getStudyModality().equals("CR")) {
 						if(studies[i].getStudyResult()==null || studies[i].getStudyResult().length()==0) {
+							studies[i].setStudyResult("норма");
 							tmpData.add(studies[i]);
 						}
 					} else {
