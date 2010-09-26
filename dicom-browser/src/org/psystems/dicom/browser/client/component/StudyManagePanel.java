@@ -456,7 +456,7 @@ public class StudyManagePanel extends Composite implements
 		studyOperator.setName("00081070");
 		studyOperator.addItem("Выберите лаборанта...", "");
 		studyOperator.addItem("Михеева И.А.", "Михеева И.А.");
-		studyOperator.addItem("Давыдов В.С.", "Давыдов В.С.");
+//		studyOperator.addItem("Давыдов В.С.", "Давыдов В.С.");
 		studyOperator.addItem("Тебенев Е.Н.", "Тебенев Е.Н.");
 		studyOperator.addItem("Диденко В.А.", "Диденко В.А.");
 		

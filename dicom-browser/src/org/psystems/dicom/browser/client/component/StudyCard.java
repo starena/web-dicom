@@ -464,10 +464,20 @@ public class StudyCard extends Composite {
 				+ proxy.getPatientBirthDateAsString(datePattern) + " - "+result+ " ("+proxy.getStudyDateAsString(datePattern)+")");
 		
 		//Установка оповещения неописанного исследования
-		if(result==null || result.length()==0 || proxy.getStudyDescription() == null ||
-				proxy.getStudyDescription().length() ==0 || proxy.getStudyViewprotocol() == null ||
-				proxy.getStudyViewprotocol().length() == 0) {
-			setWarningOfNotResult();
+		
+		if (proxy.getStudyModality() != null
+				&& proxy.getStudyModality().equals("CR")) { //Для флюшки
+			if (result == null || result.length() == 0
+					|| proxy.getStudyDescription() == null
+					|| proxy.getStudyDescription().length() == 0
+					|| proxy.getStudyViewprotocol() == null
+					|| proxy.getStudyViewprotocol().length() == 0) {
+				setWarningOfNotResult();
+			}
+		} else { //Для всех остальных
+			if(proxy.getStudyResult()==null || proxy.getStudyResult().length()==0) {
+				setWarningOfNotResult();
+			}
 		}
 		
 		if(!fullMode) return;
