@@ -50,7 +50,7 @@ public class WorkListPanel extends Composite {
 	protected String dateEnd;
 	private DateBox studyDateBoxEnd;
 	protected String manufacturerModelName = "RENEXFLUORO3";
-	protected String studyResult = "new";
+	protected String studyResult = "all";
 	protected ArrayList<StudyProxy> studies;
 	
 //	private String datePattern = "dd.MM.yyyy";
@@ -159,8 +159,8 @@ public class WorkListPanel extends Composite {
 		
 		//
 		final ListBox lbStudyResult = new ListBox();
-		lbStudyResult.addItem("Неописанные", "new");
 		lbStudyResult.addItem("Все","all");
+		lbStudyResult.addItem("Неописанные", "new");
 		lbStudyResult.addItem("Описанные","old");
 		
 		lbStudyResult.addChangeHandler(new ChangeHandler() {
