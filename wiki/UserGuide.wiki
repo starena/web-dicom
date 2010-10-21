@@ -1,13 +1,25 @@
 #summary Руководство пользователя - узкого специалиста
 
-= Introduction =
+= Введение =
 
-Add your content here.
+Данное руководство предназначено для узких специалистов ЛПУ.
 
+= Процесс работы =
 
-= Details =
+== Вход в систему ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== Поиск информации ==
+
+== Просмотр исследования ==
+
+== Описание исследования ==
+
+== Создание нового исследования ==
+
+=== Прикрепление снимков===
+
+=== Прикрепление описания (PDF) ===
+
+=== Прикрепление описания из openoffice (не реализовано) ===
+
+== Работа с worklist ==
