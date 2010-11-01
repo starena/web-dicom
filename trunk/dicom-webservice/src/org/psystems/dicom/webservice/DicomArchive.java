@@ -60,6 +60,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 
@@ -68,6 +69,7 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.commons.Util;
 import org.psystems.dicom.commons.orm.DataException;
+import org.psystems.dicom.commons.orm.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.Study;
 
 public class DicomArchive {
@@ -230,21 +232,36 @@ public class DicomArchive {
 		}
 
 	}
+	
+	/**
+	 * Получение списка доступных аппаратов
+	 * TODO Сделать загрузку из commons
+	 * @return Список Имя аппарата, тип
+	 */
+	public ManufacturerDevice[] getManufacturers () {
+		
+		ManufacturerDevice device = new ManufacturerDevice();
+		return null;
+	}
+
 
 	/**
 	 * Создание нового исследования
 	 * 
-	 * @param PatientId
+	 * @param transactionId - Идентификатор транзакции (StudyID)
+	 * @param patientId - Идентификатор пациента (PatientID)
+	 * @param studyType - Тип исследования (CR,ES,...)
+	 * @param ManufacturerModelName
 	 * @param PatientName
 	 * @param patientDateBirthday
 	 * @param patientSex
-	 * @param studyType
+	 * @param studyPlanningDate
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public int newStudy(String PatientId, String PatientName,
-			Date patientDateBirthday, String patientSex, String studyType,
-			Date studyPlanningDate) throws DicomWebServiceException {
+	public int newStudy(String transactionId, String patientId, String studyType,
+			String ManufacturerModelName, String PatientName, String patientDateBirthday,
+			String patientSex, String studyPlanningDate) throws DicomWebServiceException {
 		if (PatientName == null)
 			throw new DicomWebServiceException("PatientName is empty!");
 		return 1;
