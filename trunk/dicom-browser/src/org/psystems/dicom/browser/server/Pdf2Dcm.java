@@ -104,11 +104,11 @@ public class Pdf2Dcm {
         this.transferSyntax = transferSyntax;
     }
 
-    void setCfgProperty (String key, String value) {
+    public void setCfgProperty (String key, String value) {
 		cfg.setProperty(key, value);
 	}
     
-    void loadConfiguration(File cfgFile) throws IOException {
+    public void loadConfiguration(File cfgFile) throws IOException {
         Properties tmp = new Properties(cfg);
         InputStream in = new BufferedInputStream(new FileInputStream(cfgFile));
         try {
