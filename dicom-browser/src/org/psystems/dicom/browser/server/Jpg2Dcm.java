@@ -203,11 +203,11 @@ public class Jpg2Dcm {
 	}
 
 	
-	void setCfgProperty (String key, String value) {
+	public void setCfgProperty (String key, String value) {
 		cfg.setProperty(key, value);
 	}
 	
-	void loadConfiguration(File cfgFile, boolean augment)
+	public void loadConfiguration(File cfgFile, boolean augment)
 			throws IOException {
 		Properties tmp = augment ? new Properties(cfg) : new Properties();
 		InputStream in = new BufferedInputStream(new FileInputStream(cfgFile));
