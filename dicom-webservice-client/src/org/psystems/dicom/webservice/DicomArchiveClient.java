@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.apache.axis2.AxisFault;
-import org.psystems.dicom.webservice.DicomArchiveStub.DicomArchive_Tag;
+import org.psystems.dicom.webservice.DicomArchiveStub.DicomTag;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudies;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByTypeResponse;
@@ -16,6 +16,7 @@ import org.psystems.dicom.webservice.DicomArchiveStub.GetStudyResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.ManufacturerDevice;
 import org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal;
 import org.psystems.dicom.webservice.DicomArchiveStub.Study;
+
 
 public class DicomArchiveClient {
 
@@ -193,35 +194,40 @@ public class DicomArchiveClient {
 		!!! FormFiled: 00080020=20100917
 		!!! FormFiled: 00321050=20101101
 		*/
-		ArrayList<DicomArchive_Tag> taglist = new ArrayList<DicomArchive_Tag>();
+		
+		ArrayList<DicomTag> taglist = new ArrayList<DicomTag>();
 		
 	
-		maketag(taglist,"00100010","ДереноККК");
-		maketag(taglist,"00100040","M");
-		maketag(taglist,"00102000","result");
-		maketag(taglist,"0020000D","1.2.40.0.13.1.40452786674097928919318313426061085423");
-		maketag(taglist,"0020000E","1.2.40.0.13.1.40452786674097928919318313426061085423.1288615271531");
-		maketag(taglist,"00081090","ENDOSCP");
-		maketag(taglist,"00080060","ES");
-		maketag(taglist,"00100030","19740302");
-		maketag(taglist,"00080020","20100918");
-		maketag(taglist,"00321050","20101102");
+		//FIXME Небольшой хак. приходится передавать content_type
+		taglist.add(maketag("content_type","application/pdf"));
 		
-		DicomArchive_Tag[] tags = new DicomArchive_Tag[taglist.size()];
-		tags = taglist.toArray(tags);
+		taglist.add(maketag("00100010","Дерено "));
+		taglist.add(maketag("00100040","M"));
+		taglist.add(maketag("00102000","result"));
+		taglist.add(maketag("0020000D","1.2.40.0.13.1.40452786674097928919318313426061085423"));
+		taglist.add(maketag("0020000E","1.2.40.0.13.1.40452786674097928919318313426061085423.1288615271532"));
+		taglist.add(maketag("00081090","ENDOSCP"));
+		taglist.add(maketag("00080060","ES"));
+		taglist.add(maketag("00100030","19740302"));
+		taglist.add(maketag("00080020","20100918"));
+		taglist.add(maketag("00321050","20101102"));
 		
-		query.setTags(tags);
+		DicomTag[] tags = new DicomTag[taglist.size()];
+		taglist.toArray(tags);
+		
+
+		query.setTags(tags );
 		stub.newStudyUniversal(query);
 	
 
 	
 	}
 
-	private static void maketag(ArrayList<DicomArchive_Tag> taglist, String key, String val) {
-		DicomArchive_Tag t = new DicomArchive_Tag();
+	private static DicomTag maketag(String key, String val) {
+		DicomTag t = new DicomTag();
 		t.setTagName(key);
 		t.setTagValue(val);
-		taglist.add(t);
+		return t;
 	}
 	
 
