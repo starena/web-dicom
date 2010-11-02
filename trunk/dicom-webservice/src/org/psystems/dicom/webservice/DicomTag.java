@@ -11,11 +11,6 @@ public class DicomTag {
 	private String tagName;
 	private String tagValue;
 
-	public DicomTag(String tagName, String tagValue) {
-		super();
-		this.tagName = tagName;
-		this.tagValue = tagValue;
-	}
 
 	public void setTagName(String tagName) {
 		this.tagName = tagName;
