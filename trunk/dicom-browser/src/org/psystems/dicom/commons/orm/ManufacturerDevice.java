@@ -35,7 +35,7 @@ public class ManufacturerDevice {
 		ManufacturerDevice device = new ManufacturerDevice();
 		device.setManufacturerModelName("testdevice");
 		device.setManufacturerModelDescription("Тестовы девайс");
-		device.setManufacturerModelType("RC");
+		device.setManufacturerModelType("CR");
 		device.setManufacturerModelTypeDescription("Флюорограф");
 		
 		ArrayList<ManufacturerDevice> result = new ArrayList<ManufacturerDevice>();
@@ -75,6 +75,15 @@ public class ManufacturerDevice {
 	public void setManufacturerModelDescription(
 			String manufacturerModelDescription) {
 		ManufacturerModelDescription = manufacturerModelDescription;
+	}
+
+	@Override
+	public String toString() {
+		return "ManufacturerDevice [ManufacturerModelName="
+				+ ManufacturerModelName + ", ManufacturerModelDescription="
+				+ ManufacturerModelDescription + ", ManufacturerModelType="
+				+ ManufacturerModelType + ", ManufacturerModelTypeDescription="
+				+ ManufacturerModelTypeDescription + "]";
 	}
 	
 	
