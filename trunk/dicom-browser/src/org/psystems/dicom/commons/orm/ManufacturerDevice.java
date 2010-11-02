@@ -1,5 +1,7 @@
 package org.psystems.dicom.commons.orm;
 
+import java.util.ArrayList;
+
 /**
  * Медицинский аппарат
  * 
@@ -20,6 +22,25 @@ public class ManufacturerDevice {
 
 	public ManufacturerDevice() {
 		super();
+	}
+	
+	/**
+	 * Получение списка доступных аппаратов
+	 * TODO !!! Реализовать!!!
+	 * @return
+	 */
+	public static ArrayList<ManufacturerDevice> getAllManufacturerDevices () {
+		
+		//TODO Взять из БД!!!
+		ManufacturerDevice device = new ManufacturerDevice();
+		device.setManufacturerModelName("testdevice");
+		device.setManufacturerModelDescription("Тестовы девайс");
+		device.setManufacturerModelType("RC");
+		device.setManufacturerModelTypeDescription("Флюорограф");
+		
+		ArrayList<ManufacturerDevice> result = new ArrayList<ManufacturerDevice>();
+		result.add(device);
+		return result;
 	}
 
 	public String getManufacturerModelName() {
@@ -55,5 +76,7 @@ public class ManufacturerDevice {
 			String manufacturerModelDescription) {
 		ManufacturerModelDescription = manufacturerModelDescription;
 	}
+	
+	
 
 }
