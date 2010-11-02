@@ -2,17 +2,19 @@
 
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 
 import org.apache.axis2.AxisFault;
+import org.psystems.dicom.webservice.DicomArchiveStub.DicomArchive_Tag;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudies;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByTypeResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesResponse;
+import org.psystems.dicom.webservice.DicomArchiveStub.GetManufacturersResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudy;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudyResponse;
-import org.psystems.dicom.webservice.DicomArchiveStub.NewStudy;
-import org.psystems.dicom.webservice.DicomArchiveStub.NewStudyResponse;
+import org.psystems.dicom.webservice.DicomArchiveStub.ManufacturerDevice;
+import org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal;
 import org.psystems.dicom.webservice.DicomArchiveStub.Study;
 
 public class DicomArchiveClient {
@@ -25,14 +27,17 @@ public class DicomArchiveClient {
 //				testGetStudy();
 //				findStudies();
 				
-//				String host = "http://localhost:8080/dicom-webservice";
-				String host = "http://localhost:38081/dicom-webservice2";
+				String host = "http://localhost:8080/dicom-webservice";
+//				String host = "http://localhost:38081/dicom-webservice2";
 				
 				if(args.length > 0) {
 					host = args[0];
 				}
 				System.out.println("host is "+host);
-				findStudiesByType(host);
+//				findStudiesByType(host);
+				
+//				testGetDevices(host);
+				testNewStudy(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -50,7 +55,7 @@ public class DicomArchiveClient {
 			// System.out.println("RESULT : "+result.getId()+" = "+result.getDescription());
 			//					
 			// DicomDBStub.FindStudies findstudies = new FindStudies();
-			// findstudies.setS("ÔÓËÒÍ searche");
+			// findstudies.setS("–ø–æ–∏—Å–∫ searche");
 			// FindStudiesResponse responce1 = stub.findStudies(findstudies);
 			// Study[] result1 = responce1.get_return();
 			//					
@@ -63,7 +68,7 @@ public class DicomArchiveClient {
 			// StartTransaction();
 			// Study sendedStudy = new Study();
 			// sendedStudy.setId(333);
-			// sendedStudy.setDescription("TTT “ÂÒÚ TTT");
+			// sendedStudy.setDescription("TTT –¢–µ—Å—Ç TTT");
 			// transaction.setStudy(sendedStudy );
 			// StartTransactionResponse transactionResponce =
 			// stub.startTransaction(transaction);
@@ -83,7 +88,7 @@ public class DicomArchiveClient {
 
 		DicomArchiveStub stub = new DicomArchiveStub();
 		DicomArchiveStub.FindStudies studySearchedString = new FindStudies();
-		studySearchedString.setS("ÒÚÓÍ‡ ÔÓËÒÍ‡");
+		studySearchedString.setS("—Å—Ç—Ä–æ–∫–∞ –ø–æ–∏—Å–∫–∞");
 		FindStudiesResponse responceOfSearcheStudies = stub.findStudies(studySearchedString);
 		Study[] result = responceOfSearcheStudies.get_return();
 		
@@ -125,8 +130,8 @@ public class DicomArchiveClient {
 //		
 //		
 //		
-		query.setPatientName("¿%");
-////		query.setPatientName("»‚‡ÌÓ‚");
+		query.setPatientName("–ê%");
+////		query.setPatientName("–ò–≤–∞–Ω–æ–≤");
 //		
 		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
 		Study[] result = responce.get_return();
@@ -151,22 +156,89 @@ public class DicomArchiveClient {
 
 	}
 
+	private static void testGetDevices(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
+		GetManufacturersResponse responce = stub.getManufacturers();
+		ManufacturerDevice[] result = responce.get_return();
+		for(int i=0; i<result.length; i++) {
+			System.out.println("!!! ManufacturerDevice="+result[i].getManufacturerModelName()+
+					"; "+result[i].getManufacturerModelType()+ "; "+result[i].getManufacturerModelDescription()+"; "+
+					result[i].getManufacturerModelTypeDescription());
+		}
+
+	
+	}
+	
+	private static void testNewStudy(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
+		NewStudyUniversal query = new NewStudyUniversal();
+		
+		/*
+		!!! FormFiled: 00100010=–î–ï—Ä–µ–Ω–æ–∫
+		!!! FormFiled: 00100040=M
+		!!! FormFiled: 00080090=
+		!!! FormFiled: 00081070=
+		!!! FormFiled: 00081030=
+		!!! FormFiled: 00102000=123
+		!!! FormFiled: 00324000=
+		!!! FormFiled: content_type=image/jpg
+		!!! UploadFile: upload;alg_shema.jpg;image/jpeg;true;65491
+		!!! FormFiled: 0020000D=1.2.40.0.13.1.40452786674097928919318313426061085423
+		!!! FormFiled: 0020000E=1.2.40.0.13.1.40452786674097928919318313426061085423.1288615271530
+		!!! FormFiled: 00200010=
+		!!! FormFiled: 00100021=
+		!!! FormFiled: 00081090=ENDOSCP
+		!!! FormFiled: 00080060=ES
+		!!! FormFiled: 00100030=19740301
+		!!! FormFiled: 00080020=20100917
+		!!! FormFiled: 00321050=20101101
+		*/
+		ArrayList<DicomArchive_Tag> taglist = new ArrayList<DicomArchive_Tag>();
+		
+	
+		maketag(taglist,"00100010","–î–µ—Ä–µ–Ω–æ–ö–ö–ö");
+		maketag(taglist,"00100040","M");
+		maketag(taglist,"00102000","result");
+		maketag(taglist,"0020000D","1.2.40.0.13.1.40452786674097928919318313426061085423");
+		maketag(taglist,"0020000E","1.2.40.0.13.1.40452786674097928919318313426061085423.1288615271531");
+		maketag(taglist,"00081090","ENDOSCP");
+		maketag(taglist,"00080060","ES");
+		maketag(taglist,"00100030","19740302");
+		maketag(taglist,"00080020","20100918");
+		maketag(taglist,"00321050","20101102");
+		
+		DicomArchive_Tag[] tags = new DicomArchive_Tag[taglist.size()];
+		tags = taglist.toArray(tags);
+		
+		query.setTags(tags);
+		stub.newStudyUniversal(query);
 	
 
-	private static void testNewStudy() throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
-		DicomArchiveStub stub = new DicomArchiveStub();
-
-		DicomArchiveStub.NewStudy newStudy = new NewStudy();
-		newStudy.setPatientName("»‚‡ÌÓ‚ »‚‡Ì");
-		newStudy.setPatientDateBirthday(Calendar.getInstance());
-		newStudy.setPatientId("»¬¿Õ123");
-		newStudy.setPatientSex("M");
-		newStudy.setStudyType("–ÂÌÚ„ÂÌÓ„‡ÙËˇ");
-
-		NewStudyResponse responceOfNewStudy = stub.newStudy(newStudy);
-		int newStudyId = responceOfNewStudy.get_return();
-		System.out.println("newStudyId=" + newStudyId);
+	
 	}
+
+	private static void maketag(ArrayList<DicomArchive_Tag> taglist, String key, String val) {
+		DicomArchive_Tag t = new DicomArchive_Tag();
+		t.setTagName(key);
+		t.setTagValue(val);
+		taglist.add(t);
+	}
+	
+
+//	private static void testNewStudy() throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+//		DicomArchiveStub stub = new DicomArchiveStub();
+//
+//		DicomArchiveStub.NewStudy newStudy = new NewStudy();
+//		newStudy.setPatientName("–ò–≤–∞–Ω–æ–≤ –ò–≤–∞–Ω");
+//		newStudy.setPatientDateBirthday(Calendar.getInstance());
+//		newStudy.setPatientId("–ò–í–ê–ù123");
+//		newStudy.setPatientSex("M");
+//		newStudy.setStudyType("–†–µ–Ω—Ç–≥–µ–Ω–æ–≥—Ä–∞—Ñ–∏—è");
+//
+//		NewStudyResponse responceOfNewStudy = stub.newStudy(newStudy);
+//		int newStudyId = responceOfNewStudy.get_return();
+//		System.out.println("newStudyId=" + newStudyId);
+//	}
 	
 	private static void printStudy(Study findedStudy) {
 		

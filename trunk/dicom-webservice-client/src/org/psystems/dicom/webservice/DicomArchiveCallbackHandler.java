@@ -93,12 +93,42 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for newStudyUniversal method
+            * override this method for handling normal response from newStudyUniversal operation
+            */
+           public void receiveResultnewStudyUniversal(
+                    ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from newStudyUniversal operation
+           */
+            public void receiveErrornewStudyUniversal(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getManufacturers method
+            * override this method for handling normal response from getManufacturers operation
+            */
+           public void receiveResultgetManufacturers(
+                    org.psystems.dicom.webservice.DicomArchiveStub.GetManufacturersResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getManufacturers operation
+           */
+            public void receiveErrorgetManufacturers(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for newStudy method
             * override this method for handling normal response from newStudy operation
             */
            public void receiveResultnewStudy(
-                    org.psystems.dicom.webservice.DicomArchiveStub.NewStudyResponse result
-                        ) {
+                    ) {
            }
 
           /**
