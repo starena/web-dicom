@@ -55,22 +55,21 @@
 package org.psystems.dicom.webservice;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Properties;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
-import org.psystems.dicom.commons.Util;
+import org.psystems.dicom.commons.UtilCommon;
 import org.psystems.dicom.commons.orm.DataException;
-import org.psystems.dicom.commons.orm.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.Study;
+import org.psystems.dicom.commons.orm.ManufacturerDevice;
 
 public class DicomArchive {
 
@@ -135,7 +134,7 @@ public class DicomArchive {
 		System.out.println("!! servlet=" + servletContext);
 
 		try {
-			Connection connection = Util.getConnection(servletContext);
+			Connection connection = UtilCommon.getConnection(servletContext);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,11 +184,13 @@ public class DicomArchive {
 				.getCurrentMessageContext().getProperty(
 						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
 
+	
+		
 		// System.out.println("!! servlet=" + servletContext);
 
 		Connection connection;
 		try {
-			connection = Util.getConnection(servletContext);
+			connection = UtilCommon.getConnection(servletContext);
 			try {
 				Study[] studies = Study.getStudues(connection, studyModality, null, patientName, patientShortName,
 						patientBirthDate, patientSex, beginStudyDate,
@@ -235,18 +236,60 @@ public class DicomArchive {
 	
 	/**
 	 * Получение списка доступных аппаратов
-	 * TODO Сделать загрузку из commons
-	 * @return Список Имя аппарата, тип
+	 * @return
 	 */
 	public ManufacturerDevice[] getManufacturers () {
-		
-		ManufacturerDevice device = new ManufacturerDevice();
-		return null;
+		ArrayList<ManufacturerDevice> devices = ManufacturerDevice.getAllManufacturerDevices();
+		ManufacturerDevice[] result = new ManufacturerDevice[devices.size()];
+		return devices.toArray(result);
+	}
+	
+	/**
+	 * Создание нового исследования (без вложения)
+	 * Универсальный вариант
+	 * 
+	 * @param props - теги
+	 * @throws DicomWebServiceException
+	 */
+	public void newStudy(Properties props) throws DicomWebServiceException {
+
+		try {
+			ServletContext servletContext = (ServletContext) MessageContext
+					.getCurrentMessageContext().getProperty(
+							HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+			/*
+			!!! FormFiled: 00100010=ДЕренок
+			!!! FormFiled: 00100040=M
+			!!! FormFiled: 00080090=
+			!!! FormFiled: 00081070=
+			!!! FormFiled: 00081030=
+			!!! FormFiled: 00102000=123
+			!!! FormFiled: 00324000=
+			!!! FormFiled: content_type=image/jpg
+			!!! UploadFile: upload;alg_shema.jpg;image/jpeg;true;65491
+			!!! FormFiled: 0020000D=1.2.40.0.13.1.40452786674097928919318313426061085423
+			!!! FormFiled: 0020000E=1.2.40.0.13.1.40452786674097928919318313426061085423.1288615271530
+			!!! FormFiled: 00200010=
+			!!! FormFiled: 00100021=
+			!!! FormFiled: 00081090=ENDOSCP
+			!!! FormFiled: 00080060=ES
+			!!! FormFiled: 00100030=19740301
+			!!! FormFiled: 00080020=20100917
+			!!! FormFiled: 00321050=20101101
+			*/
+			
+
+			UtilCommon.makeSendDicomFile(servletContext, props);
+		} catch (Exception e) {
+			throw new DicomWebServiceException(e);
+		}
 	}
 
 
 	/**
 	 * Создание нового исследования
+	 * Узкоспециализированный вариант
 	 * 
 	 * @param transactionId - Идентификатор транзакции (StudyID)
 	 * @param patientId - Идентификатор пациента (PatientID)
@@ -259,12 +302,43 @@ public class DicomArchive {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public int newStudy(String transactionId, String patientId, String studyType,
-			String ManufacturerModelName, String PatientName, String patientDateBirthday,
-			String patientSex, String studyPlanningDate) throws DicomWebServiceException {
-		if (PatientName == null)
-			throw new DicomWebServiceException("PatientName is empty!");
-		return 1;
+	public void newStudy(String transactionId, String patientId,
+			String studyType, String ManufacturerModelName, String PatientName,
+			String patientDateBirthday, String patientSex,
+			String studyPlanningDate) throws DicomWebServiceException {
+
+		try {
+			ServletContext servletContext = (ServletContext) MessageContext
+					.getCurrentMessageContext().getProperty(
+							HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+			/*
+			!!! FormFiled: 00100010=ДЕренок
+			!!! FormFiled: 00100040=M
+			!!! FormFiled: 00080090=
+			!!! FormFiled: 00081070=
+			!!! FormFiled: 00081030=
+			!!! FormFiled: 00102000=123
+			!!! FormFiled: 00324000=
+			!!! FormFiled: content_type=image/jpg
+			!!! UploadFile: upload;alg_shema.jpg;image/jpeg;true;65491
+			!!! FormFiled: 0020000D=1.2.40.0.13.1.40452786674097928919318313426061085423
+			!!! FormFiled: 0020000E=1.2.40.0.13.1.40452786674097928919318313426061085423.1288615271530
+			!!! FormFiled: 00200010=
+			!!! FormFiled: 00100021=
+			!!! FormFiled: 00081090=ENDOSCP
+			!!! FormFiled: 00080060=ES
+			!!! FormFiled: 00100030=19740301
+			!!! FormFiled: 00080020=20100917
+			!!! FormFiled: 00321050=20101101
+			*/
+			
+
+			Properties props = new Properties();
+			UtilCommon.makeSendDicomFile(servletContext, props);
+		} catch (Exception e) {
+			throw new DicomWebServiceException(e);
+		}
 	}
 
 }
