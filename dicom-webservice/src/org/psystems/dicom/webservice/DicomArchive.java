@@ -75,6 +75,9 @@ public class DicomArchive {
 
 	private static Logger logger = Logger.getLogger(DicomArchive.class);
 
+	
+
+	
 	/**
 	 * @param i
 	 * @return
@@ -245,13 +248,15 @@ public class DicomArchive {
 	}
 	
 	/**
-	 * Создание нового исследования (без вложения)
-	 * Универсальный вариант
+	 * Создание нового исследования (без вложения) Универсальный вариант
 	 * 
-	 * @param props - теги
+	 * TODO Это хардкдрный вариант! т.к. моджно выставлять любые теги !!!
+	 * 
+	 * @param props
+	 *            - теги
 	 * @throws DicomWebServiceException
 	 */
-	public void newStudy(Properties props) throws DicomWebServiceException {
+	public void newStudyUniversal(DicomTag[] tags) throws DicomWebServiceException {
 
 		try {
 			ServletContext servletContext = (ServletContext) MessageContext
@@ -278,6 +283,10 @@ public class DicomArchive {
 			!!! FormFiled: 00080020=20100917
 			!!! FormFiled: 00321050=20101101
 			*/
+			Properties props = new Properties();
+			for(int i=0; i<tags.length; i++) {
+				props.put(tags[i].getTagName(), tags[i].getTagValue());
+			}
 			
 
 			UtilCommon.makeSendDicomFile(servletContext, props);
