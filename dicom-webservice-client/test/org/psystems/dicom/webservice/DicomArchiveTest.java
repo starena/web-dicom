@@ -23,12 +23,12 @@
         org.psystems.dicom.webservice.DicomArchiveStub stub =
                     new org.psystems.dicom.webservice.DicomArchiveStub();//the default implementation should point to the right endpoint
 
-           org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType findStudiesByType16=
+           org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType findStudiesByType27=
                                                         (org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType.class);
-                    // TODO : Fill in the findStudiesByType16 here
+                    // TODO : Fill in the findStudiesByType27 here
                 
                         assertNotNull(stub.findStudiesByType(
-                        findStudiesByType16));
+                        findStudiesByType27));
                   
 
 
@@ -40,13 +40,13 @@
          */
         public  void testStartfindStudiesByType() throws java.lang.Exception{
             org.psystems.dicom.webservice.DicomArchiveStub stub = new org.psystems.dicom.webservice.DicomArchiveStub();
-             org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType findStudiesByType16=
+             org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType findStudiesByType27=
                                                         (org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType.class);
-                    // TODO : Fill in the findStudiesByType16 here
+                    // TODO : Fill in the findStudiesByType27 here
                 
 
                 stub.startfindStudiesByType(
-                         findStudiesByType16,
+                         findStudiesByType27,
                     new tempCallbackN65548()
                 );
               
@@ -77,12 +77,12 @@
         org.psystems.dicom.webservice.DicomArchiveStub stub =
                     new org.psystems.dicom.webservice.DicomArchiveStub();//the default implementation should point to the right endpoint
 
-           org.psystems.dicom.webservice.DicomArchiveStub.GetStudy getStudy18=
+           org.psystems.dicom.webservice.DicomArchiveStub.GetStudy getStudy29=
                                                         (org.psystems.dicom.webservice.DicomArchiveStub.GetStudy)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.GetStudy.class);
-                    // TODO : Fill in the getStudy18 here
+                    // TODO : Fill in the getStudy29 here
                 
                         assertNotNull(stub.getStudy(
-                        getStudy18));
+                        getStudy29));
                   
 
 
@@ -94,13 +94,13 @@
          */
         public  void testStartgetStudy() throws java.lang.Exception{
             org.psystems.dicom.webservice.DicomArchiveStub stub = new org.psystems.dicom.webservice.DicomArchiveStub();
-             org.psystems.dicom.webservice.DicomArchiveStub.GetStudy getStudy18=
+             org.psystems.dicom.webservice.DicomArchiveStub.GetStudy getStudy29=
                                                         (org.psystems.dicom.webservice.DicomArchiveStub.GetStudy)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.GetStudy.class);
-                    // TODO : Fill in the getStudy18 here
+                    // TODO : Fill in the getStudy29 here
                 
 
                 stub.startgetStudy(
-                         getStudy18,
+                         getStudy29,
                     new tempCallbackN65602()
                 );
               
@@ -131,12 +131,12 @@
         org.psystems.dicom.webservice.DicomArchiveStub stub =
                     new org.psystems.dicom.webservice.DicomArchiveStub();//the default implementation should point to the right endpoint
 
-           org.psystems.dicom.webservice.DicomArchiveStub.FindStudies findStudies20=
+           org.psystems.dicom.webservice.DicomArchiveStub.FindStudies findStudies31=
                                                         (org.psystems.dicom.webservice.DicomArchiveStub.FindStudies)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.FindStudies.class);
-                    // TODO : Fill in the findStudies20 here
+                    // TODO : Fill in the findStudies31 here
                 
                         assertNotNull(stub.findStudies(
-                        findStudies20));
+                        findStudies31));
                   
 
 
@@ -148,13 +148,13 @@
          */
         public  void testStartfindStudies() throws java.lang.Exception{
             org.psystems.dicom.webservice.DicomArchiveStub stub = new org.psystems.dicom.webservice.DicomArchiveStub();
-             org.psystems.dicom.webservice.DicomArchiveStub.FindStudies findStudies20=
+             org.psystems.dicom.webservice.DicomArchiveStub.FindStudies findStudies31=
                                                         (org.psystems.dicom.webservice.DicomArchiveStub.FindStudies)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.FindStudies.class);
-                    // TODO : Fill in the findStudies20 here
+                    // TODO : Fill in the findStudies31 here
                 
 
                 stub.startfindStudies(
-                         findStudies20,
+                         findStudies31,
                     new tempCallbackN65656()
                 );
               
@@ -180,18 +180,20 @@
         /**
          * Auto generated test method
          */
-        public  void testnewStudy() throws java.lang.Exception{
+        public  void testnewStudyUniversal() throws java.lang.Exception{
 
         org.psystems.dicom.webservice.DicomArchiveStub stub =
                     new org.psystems.dicom.webservice.DicomArchiveStub();//the default implementation should point to the right endpoint
 
-           org.psystems.dicom.webservice.DicomArchiveStub.NewStudy newStudy22=
-                                                        (org.psystems.dicom.webservice.DicomArchiveStub.NewStudy)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.NewStudy.class);
-                    // TODO : Fill in the newStudy22 here
+           org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal newStudyUniversal33=
+                                                        (org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal.class);
+                    // TODO : Fill in the newStudyUniversal33 here
                 
-                        assertNotNull(stub.newStudy(
-                        newStudy22));
-                  
+                    
+                    //There is no output to be tested!
+                    stub.newStudyUniversal(
+                        newStudyUniversal33);
+                    
 
 
 
@@ -200,15 +202,15 @@
          /**
          * Auto generated test method
          */
-        public  void testStartnewStudy() throws java.lang.Exception{
+        public  void testStartnewStudyUniversal() throws java.lang.Exception{
             org.psystems.dicom.webservice.DicomArchiveStub stub = new org.psystems.dicom.webservice.DicomArchiveStub();
-             org.psystems.dicom.webservice.DicomArchiveStub.NewStudy newStudy22=
-                                                        (org.psystems.dicom.webservice.DicomArchiveStub.NewStudy)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.NewStudy.class);
-                    // TODO : Fill in the newStudy22 here
+             org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal newStudyUniversal33=
+                                                        (org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal.class);
+                    // TODO : Fill in the newStudyUniversal33 here
                 
 
-                stub.startnewStudy(
-                         newStudy22,
+                stub.startnewStudyUniversal(
+                         newStudyUniversal33,
                     new tempCallbackN65710()
                 );
               
@@ -219,9 +221,111 @@
         private class tempCallbackN65710  extends org.psystems.dicom.webservice.DicomArchiveCallbackHandler{
             public tempCallbackN65710(){ super(null);}
 
-            public void receiveResultnewStudy(
-                         org.psystems.dicom.webservice.DicomArchiveStub.NewStudyResponse result
+            public void receiveResultnewStudyUniversal(
+                         ) {
+                
+            }
+
+            public void receiveErrornewStudyUniversal(java.lang.Exception e) {
+                fail();
+            }
+
+        }
+      
+        /**
+         * Auto generated test method
+         */
+        public  void testgetManufacturers() throws java.lang.Exception{
+
+        org.psystems.dicom.webservice.DicomArchiveStub stub =
+                    new org.psystems.dicom.webservice.DicomArchiveStub();//the default implementation should point to the right endpoint
+
+           
+                        assertNotNull(stub.getManufacturers(
+                        ));
+                  
+
+
+
+        }
+        
+         /**
+         * Auto generated test method
+         */
+        public  void testStartgetManufacturers() throws java.lang.Exception{
+            org.psystems.dicom.webservice.DicomArchiveStub stub = new org.psystems.dicom.webservice.DicomArchiveStub();
+             
+
+                stub.startgetManufacturers(
+                         
+                    new tempCallbackN65761()
+                );
+              
+
+
+        }
+
+        private class tempCallbackN65761  extends org.psystems.dicom.webservice.DicomArchiveCallbackHandler{
+            public tempCallbackN65761(){ super(null);}
+
+            public void receiveResultgetManufacturers(
+                         org.psystems.dicom.webservice.DicomArchiveStub.GetManufacturersResponse result
                             ) {
+                
+            }
+
+            public void receiveErrorgetManufacturers(java.lang.Exception e) {
+                fail();
+            }
+
+        }
+      
+        /**
+         * Auto generated test method
+         */
+        public  void testnewStudy() throws java.lang.Exception{
+
+        org.psystems.dicom.webservice.DicomArchiveStub stub =
+                    new org.psystems.dicom.webservice.DicomArchiveStub();//the default implementation should point to the right endpoint
+
+           org.psystems.dicom.webservice.DicomArchiveStub.NewStudy newStudy37=
+                                                        (org.psystems.dicom.webservice.DicomArchiveStub.NewStudy)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.NewStudy.class);
+                    // TODO : Fill in the newStudy37 here
+                
+                    
+                    //There is no output to be tested!
+                    stub.newStudy(
+                        newStudy37);
+                    
+
+
+
+        }
+        
+         /**
+         * Auto generated test method
+         */
+        public  void testStartnewStudy() throws java.lang.Exception{
+            org.psystems.dicom.webservice.DicomArchiveStub stub = new org.psystems.dicom.webservice.DicomArchiveStub();
+             org.psystems.dicom.webservice.DicomArchiveStub.NewStudy newStudy37=
+                                                        (org.psystems.dicom.webservice.DicomArchiveStub.NewStudy)getTestObject(org.psystems.dicom.webservice.DicomArchiveStub.NewStudy.class);
+                    // TODO : Fill in the newStudy37 here
+                
+
+                stub.startnewStudy(
+                         newStudy37,
+                    new tempCallbackN65796()
+                );
+              
+
+
+        }
+
+        private class tempCallbackN65796  extends org.psystems.dicom.webservice.DicomArchiveCallbackHandler{
+            public tempCallbackN65796(){ super(null);}
+
+            public void receiveResultnewStudy(
+                         ) {
                 
             }
 
