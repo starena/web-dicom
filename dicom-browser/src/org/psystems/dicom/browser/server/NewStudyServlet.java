@@ -77,10 +77,40 @@ public class NewStudyServlet extends HttpServlet {
 			}
 
 
-			org.psystems.dicom.commons.UtilCommon.makeSendDicomFile(getServletContext(),session, props, stream);
-			
-//			if(true) throw new Exception(" Это тест Test Exception ");
-			
+			org.psystems.dicom.commons.UtilCommon.makeSendDicomFile(
+					getServletContext(), props, stream);
+
+			// *********** Работа с сессией ***************
+			// Сохраняем настройку  состояния
+			// пользовательских контролов
+
+			Session sessionObject = (Session) session
+					.getAttribute(org.psystems.dicom.browser.server.Util.sessionAttrName);
+			if (sessionObject == null) {
+				sessionObject = new Session();
+			}
+
+			for (Iterator<Object> iterProps = props.keySet().iterator(); iterProps
+					.hasNext();) {
+				String key = (String) iterProps.next();
+				String value = props.getProperty(key);
+
+				// ManufacturerModelName
+				if (key.equals("00081090")) {
+					sessionObject
+							.setStudyManagePanel_ManufacturerModelName(value);
+				}
+
+				// Modality
+				if (key.equals("00080060")) {
+					sessionObject.setStudyManagePanel_Modality(value);
+				}
+
+				session.setAttribute(
+						org.psystems.dicom.browser.server.Util.sessionAttrName,
+						sessionObject);
+
+			}
 			
 			resp.setStatus(200);
 			resp.getWriter().write("___success___");

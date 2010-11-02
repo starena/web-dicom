@@ -108,20 +108,34 @@ public class UtilCommon {
 
 		return connection;
 	}
+	
+
+	/**
+	 * Создание и отправка dicom-файла в архив
+	 * 
+	 * @param context
+	 * @param props
+	 * @throws IOException
+	 * @throws DefaultGWTRPCException
+	 */
+	public static void makeSendDicomFile(ServletContext context,
+			Properties props) throws IOException, DefaultGWTRPCException {
+		makeSendDicomFile(context, props, null);
+
+	}
 
 	/**
 	 * 
 	 * Создание и отправка dicom-файла в архив
 	 * 
 	 * @param context
-	 * @param session
 	 * @param props
-	 * @param stream
+	 * @param attachStream null -  если нет вложений
 	 * @throws IOException
 	 * @throws DefaultGWTRPCException
 	 */
-	public static void makeSendDicomFile(ServletContext context, HttpSession session,
-			Properties props, InputStream stream) throws IOException,
+	public static void makeSendDicomFile(ServletContext context,
+			Properties props, InputStream attachStream) throws IOException,
 			DefaultGWTRPCException {
 		System.out.println("!!!! making dcm...");
 
@@ -158,29 +172,7 @@ public class UtilCommon {
 					pfg2Dcm.setCfgProperty(key, value);
 					System.out.println("!!!! key=" + key + "; value=" + value);
 
-					// *********** Работа с сессией ***************
-
-					Session sessionObject = (Session) session
-							.getAttribute(org.psystems.dicom.browser.server.Util.sessionAttrName);
-					if (sessionObject == null) {
-						sessionObject = new Session();
-					}
-
-					// ManufacturerModelName
-					if (key.equals("00081090")) {
-						sessionObject
-								.setStudyManagePanel_ManufacturerModelName(value);
-					}
-
-					// Modality
-					if (key.equals("00080060")) {
-						sessionObject.setStudyManagePanel_Modality(value);
-					}
-
-					session
-							.setAttribute(
-									org.psystems.dicom.browser.server.Util.sessionAttrName,
-									sessionObject);
+				
 
 				}
 
@@ -200,7 +192,7 @@ public class UtilCommon {
 				// TODO Задать в конфиге
 				dcmFileTmp = new File(tmpFileName);
 
-				pfg2Dcm.convert(stream, dcmFileTmp);
+				pfg2Dcm.convert(attachStream, dcmFileTmp);
 
 				// dcmFile = new File(dcmFileName);
 
@@ -251,7 +243,7 @@ public class UtilCommon {
 				// TODO Задать в конфиге
 				dcmFileTmp = new File(tmpFileName);
 
-				jpg2Dcm.convert(stream, dcmFileTmp);
+				jpg2Dcm.convert(attachStream, dcmFileTmp);
 
 				// dcmFile = new File(dcmFileName);
 
