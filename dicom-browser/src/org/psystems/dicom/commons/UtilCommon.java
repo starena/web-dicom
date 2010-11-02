@@ -139,9 +139,20 @@ public class UtilCommon {
 			DefaultGWTRPCException {
 		System.out.println("!!!! making dcm...");
 
+		//FIXME Небольшой хак. приходится передавать content_type
 		String contentType = (String) props.get("content_type");
 		props.remove("content_type");
 
+		//FIXME Небольшой хак. приходится создавать пустой стриам.
+		if(attachStream==null) attachStream = new InputStream() {
+			
+			@Override
+			public int read() throws IOException {
+				// TODO Auto-generated method stub
+				return -1;
+			}
+		};
+		
 		// TODO Убрать дублирование кода в этих условиях!!!
 
 		File dcmFileTmp = null;
@@ -150,7 +161,7 @@ public class UtilCommon {
 
 			String prefix = "" + new Date().getTime() + "_"
 					+ (int) (Math.random() * 10000000l);
-			if (contentType.equals("application/pdf")) {
+			if (contentType!=null && contentType.equals("application/pdf")) {
 
 				Pdf2Dcm pfg2Dcm = new Pdf2Dcm();
 				String cfg = context
@@ -204,7 +215,7 @@ public class UtilCommon {
 			// -------------------------------
 
 			// TODO Убрать дублирование кода в этих условиях!!!
-			if (contentType.equals("image/jpg")) {
+			if (contentType !=null && contentType.equals("image/jpg")) {
 
 				Jpg2Dcm jpg2Dcm = new Jpg2Dcm();
 				String cfg = context
@@ -240,6 +251,7 @@ public class UtilCommon {
 
 				// String dcmFileName = dcmDir + "/" + prefix + ".dcm";
 				String tmpFileName = dcmTmpDir + "/" + prefix + ".dcm";
+				
 				// TODO Задать в конфиге
 				dcmFileTmp = new File(tmpFileName);
 
@@ -252,6 +264,7 @@ public class UtilCommon {
 
 			}
 
+			
 			String connectionStr = context
 					.getInitParameter("webdicom.archive.connection");
 
