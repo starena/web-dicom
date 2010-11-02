@@ -12,6 +12,32 @@
 		<param-value>"http://127.0.0.1:8888/study/</param-value>
 	</context-param>
 	
+	<!-- Директория для сохранения временных DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.tmp</param-name>
+		<param-value>C:\temp\dcm.tmp</param-value>
+	</context-param>
+	
+	<!-- строка соединения с Dicom-архивом для передачи DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.archive.connection</param-name>
+		<param-value>DDV@localhost:11112</param-value>
+	</context-param>
+
+	<!-- Конфиг-прототип для создания JPG - DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.jpg.cfg</param-name>
+		<param-value>C:\WORK\workspace\dicom-browser\test\data\jpg2dcm.cfg</param-value>
+	</context-param>
+	
+	<!-- Конфиг-прототип для создания DFP - DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.pdf.cfg</param-name>
+		<param-value>C:\WORK\workspace\dicom-browser\test\data\pdf2dcm.cfg</param-value>
+	</context-param>
+	
+	
+	
 	<servlet>
 		<display-name>Apache-Axis Servlet</display-name>
 		<servlet-name>AxisServlet</servlet-name>

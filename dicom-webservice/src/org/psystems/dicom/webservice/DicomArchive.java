@@ -61,15 +61,15 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.commons.UtilCommon;
 import org.psystems.dicom.commons.orm.DataException;
-import org.psystems.dicom.commons.orm.Study;
 import org.psystems.dicom.commons.orm.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.Study;
+import org.psystems.dicom.webservice.DicomWebServiceException;
 
 public class DicomArchive {
 
