@@ -12452,16 +12452,16 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"PatientName", namespace);
+                                            xmlWriter.writeStartElement(prefix,"patientName", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"PatientName");
+                                            xmlWriter.writeStartElement(namespace,"patientName");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("PatientName");
+                                        xmlWriter.writeStartElement("patientName");
                                     }
                                 
 
@@ -12768,7 +12768,7 @@
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localManufacturerModelName));
                                     } if (localPatientNameTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
-                                                                      "PatientName"));
+                                                                      "patientName"));
                                  
                                          elementList.add(localPatientName==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientName));
@@ -12977,7 +12977,7 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","PatientName").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","patientName").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
