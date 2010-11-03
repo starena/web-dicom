@@ -14,6 +14,7 @@ import org.psystems.dicom.webservice.DicomArchiveStub.GetManufacturersResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudy;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudyResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.ManufacturerDevice;
+import org.psystems.dicom.webservice.DicomArchiveStub.NewStudy;
 import org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal;
 import org.psystems.dicom.webservice.DicomArchiveStub.Study;
 
@@ -170,7 +171,7 @@ public class DicomArchiveClient {
 	
 	}
 	
-	private static void testNewStudy(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+	private static void testNewStudyUniversal(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
 		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
 		NewStudyUniversal query = new NewStudyUniversal();
 		
@@ -220,6 +221,23 @@ public class DicomArchiveClient {
 		stub.newStudyUniversal(query);
 	
 
+	
+	}
+	
+	private static void testNewStudy(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
+		NewStudy query = new NewStudy();
+		
+		query.setTransactionId("TRANS3");
+		query.setManufacturerModelName("APPARAT Аппарат1");
+		query.setPatientDateBirthday("19760111");
+		query.setPatientId("PATID12");
+		query.setPatientName("derenoooooo");
+		query.setPatientSex("M");
+		query.setStudyPlanningDate("20101220");
+		query.setStudyType("ES");
+		
+		stub.newStudy(query);
 	
 	}
 
