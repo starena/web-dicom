@@ -378,7 +378,7 @@ public class DicomArchive {
 			
 			//FIXME Сделать подстановку номального UID issue#50
 			
-			String  StudyInstanceUID = "1.2.40.0.13.1";
+			String  StudyInstanceUID = "1.2.40.0.13.1" + "." + new Date().getTime();
 			String SeriesInstanceUID = StudyInstanceUID + "." + new Date().getTime();
 			
 			props.put("0020000D", StudyInstanceUID);//StudyInstanceUID
