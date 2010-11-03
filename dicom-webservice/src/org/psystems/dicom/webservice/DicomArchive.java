@@ -304,7 +304,7 @@ public class DicomArchive {
 	 * @param patientId - Идентификатор пациента (PatientID)
 	 * @param studyType - Тип исследования (CR,ES,...)
 	 * @param ManufacturerModelName
-	 * @param PatientName
+	 * @param patientName
 	 * @param patientDateBirthday
 	 * @param patientSex
 	 * @param studyPlanningDate
@@ -312,7 +312,7 @@ public class DicomArchive {
 	 * @throws DicomWebServiceException
 	 */
 	public void newStudy(String transactionId, String patientId,
-			String studyType, String ManufacturerModelName, String PatientName,
+			String studyType, String ManufacturerModelName, String patientName,
 			String patientDateBirthday, String patientSex,
 			String studyPlanningDate) throws DicomWebServiceException {
 
@@ -342,8 +342,53 @@ public class DicomArchive {
 			!!! FormFiled: 00321050=20101101
 			*/
 			
+			/*
+			 * PatientID = 0x00100020;
+			!!! FormFiled: 00081090=DUODiagnost
+			!!! FormFiled: 00080060=DF
+			!!! FormFiled: 00100010=FIO1
+			!!! FormFiled: 00100040=M
+			!!! FormFiled: 00080090=Петрова  Н.Н. врач
+			!!! FormFiled: 00081070=Тебенев Е.Н. лаборант
+			!!! FormFiled: 00081030=Описание
+			!!! FormFiled: 00102000=Результат
+			!!! FormFiled: 00324000=Протокол
+			!!! FormFiled: content_type=application/pdf
+			!!! UploadFile: upload;;application/octet-stream;true;0
+			!!! FormFiled: 0020000D=
+			!!! FormFiled: 0020000E=null.1288778002514
+			!!! FormFiled: 00200010= Study ID
+			!!! FormFiled: 00100021=1
+			!!! FormFiled: 00100030=19740301
+			!!! FormFiled: 00080020=20101102 дата исследования
+			!!! FormFiled: 00321050=20101103 дата описания
+			*/
+			
+//			org.dcm4che2.data.Tag
 
 			Properties props = new Properties();
+			props.put("00200010", transactionId.toUpperCase());//StudyID
+			props.put("00100020", patientId.toUpperCase());//PatientID
+			props.put("00080060", studyType.toUpperCase());//
+			props.put("00081090", ManufacturerModelName.toUpperCase());//ManufacturerModelName
+			props.put("00100010", patientName.toUpperCase());//patientName
+			props.put("00100030", patientDateBirthday.toUpperCase());//patientDateBirthday
+			props.put("00100040", patientSex.toUpperCase());//patientSex
+			props.put("00080020", studyPlanningDate.toUpperCase());//дата исследования
+			
+			//FIXME Сделать подстановку номального UID issue#50
+			
+			String  StudyInstanceUID = "1.2.40.0.13.1";
+			String SeriesInstanceUID = StudyInstanceUID + "." + new Date().getTime();
+			
+			props.put("0020000D", StudyInstanceUID);//StudyInstanceUID
+			props.put("0020000E", SeriesInstanceUID);//Series Instance UID
+			//taglist.add(maketag("0020000D","1.2.40.0.13.1.40452786674097928919318313426061085423"));
+			//taglist.add(maketag("0020000E","1.2.40.0.13.1.40452786674097928919318313426061085423.1288615271532"));
+			
+			//FIXME Небольшой хак. приходится передавать content_type
+			props.put("content_type", "application/pdf");//дата исследования
+			
 			UtilCommon.makeSendDicomFile(servletContext, props);
 		} catch (Exception e) {
 			throw new DicomWebServiceException(e);
