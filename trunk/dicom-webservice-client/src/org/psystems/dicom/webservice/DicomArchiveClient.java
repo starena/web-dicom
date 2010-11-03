@@ -232,7 +232,7 @@ public class DicomArchiveClient {
 		query.setManufacturerModelName("APPARAT Аппарат1");
 		query.setPatientDateBirthday("19760111");
 		query.setPatientId("PATID12");
-		query.setPatientName("derenoooooo");
+		query.setPatientName("деренок1");
 		query.setPatientSex("M");
 		query.setStudyPlanningDate("20101220");
 		query.setStudyType("ES");
