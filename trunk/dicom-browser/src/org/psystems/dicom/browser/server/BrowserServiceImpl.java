@@ -258,7 +258,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			calendar.setTimeInMillis(time);
 
 			Date sqlDate = new java.sql.Date(time);
-			updateDayStatInc(sqlDate, "CLIENT_CONNECTIONS", (long) 1);
+//			updateDayStatInc(sqlDate, "CLIENT_CONNECTIONS", (long) 1);
 			// System.out.println("!!! sqlDate="+sqlDate);
 
 			RPCDcmProxyEvent event = new RPCDcmProxyEvent();
@@ -720,7 +720,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			calendar.setTimeInMillis(time);
 
 			Date sqlDate = new java.sql.Date(time);
-			updateDayStatInc(sqlDate, "CLIENT_CONNECTIONS", (long) 1);
+//			updateDayStatInc(sqlDate, "CLIENT_CONNECTIONS", (long) 1);
 			
 			
 			return studyProxy;
