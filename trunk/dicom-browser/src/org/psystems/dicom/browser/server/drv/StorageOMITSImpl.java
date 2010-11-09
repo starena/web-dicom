@@ -91,18 +91,23 @@ public class StorageOMITSImpl extends Storage {
 			String queryStr, int limit) throws SQLException {
 
 		List<Suggestion> suggestions = new ArrayList<Suggestion>(limit);
+		
+		//если < 3-х символов
+		if(queryStr.length()<3) return suggestions;
+		
 		PreparedStatement psSelect = null;
+		Connection connection = null;
 
 		try {
 
-			Connection connection = org.psystems.dicom.browser.server.Util
+			connection = org.psystems.dicom.browser.server.Util
 					.getConnection("omits", context);
 			
-			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') ";
+			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') AND CODE like substr(?, 1, 3) || '%' ";
 			
 			//Если поиск по КБП
 			if(queryStr.matches("^\\D{5}\\d{2}$")) {
-				where = " CODE = UPPER(?) ";
+				where = " CODE = UPPER(?)  AND CODE like substr(?, 1, 3) || '%' ";
 			}
 
 			psSelect = connection
@@ -112,6 +117,7 @@ public class StorageOMITSImpl extends Storage {
 							+ " order by SUR_NAME ");
 
 			psSelect.setString(1, queryStr);
+			psSelect.setString(2, queryStr.substring(0, 2));
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
 
@@ -130,16 +136,21 @@ public class StorageOMITSImpl extends Storage {
 
 			}
 			rs.close();
+			
 
 		} finally {
 
 			try {
 				if (psSelect != null)
 					psSelect.close();
+				if(connection!=null)
+					connection.close();
 			} catch (SQLException e) {
 				logger.error(e);
 				// throw new DefaultGWTRPCException(e.getMessage());
 			}
+			
+			
 		}
 
 		return suggestions;
@@ -148,19 +159,23 @@ public class StorageOMITSImpl extends Storage {
 	@Override
 	public List<PatientProxy> getPatientsImpl(ServletContext context,
 			String queryStr, int limit) throws SQLException {
-		PreparedStatement psSelect = null;
+		
 
 		ArrayList<PatientProxy> result = new ArrayList<PatientProxy>();
+		//если < 3-х символов
+		if(queryStr.length()<3) return result;
+		PreparedStatement psSelect = null;
+		Connection connection = null;
 
 		try {
 
-			Connection connection = org.psystems.dicom.browser.server.Util
+			connection = org.psystems.dicom.browser.server.Util
 					.getConnection("omits", context);
 			
-			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') ";
+			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') AND CODE like substr(?, 1, 3) || '%' ";
 			
 			if(queryStr.matches("^\\D{5}\\d{2}$")) {
-				where = " CODE = UPPER(?) ";
+				where = " CODE = UPPER(?) AND CODE like substr(?, 1, 3) || '%' ";
 			}
 
 			psSelect = connection
@@ -170,6 +185,7 @@ public class StorageOMITSImpl extends Storage {
 							+ " order by SUR_NAME ");
 
 			psSelect.setString(1, queryStr);
+			psSelect.setString(2, queryStr.substring(0, 2));
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
 
@@ -197,6 +213,8 @@ public class StorageOMITSImpl extends Storage {
 			try {
 				if (psSelect != null)
 					psSelect.close();
+				if(connection!=null)
+					connection.close();
 			} catch (SQLException e) {
 				logger.error(e);
 			}
