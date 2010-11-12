@@ -73,3 +73,20 @@
 == Работа с worklist ==
 
  TODO убрать
+
+
+== Рабочие скриншоты... ==
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide1.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide2.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide3.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide4.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide5.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide6.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide7.png]
+
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-1.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-2.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-3.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-4.png]
+
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide9.png]
