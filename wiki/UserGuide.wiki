@@ -58,7 +58,7 @@
 
 [http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide3.png]
 
-а щелкнув по результату поиска пациента  - можно получить форму ввода нового исследования
+а щелкнув по результату поиска пациента  - можно получить форму ввода нового исследования (форма одна и та же)
 
 [http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide4.png]
 
