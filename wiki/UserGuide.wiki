@@ -126,19 +126,3 @@
  * Обозреватель интернет (Firefox 3.0 и выше, Internet Explorer 4.0 и выше)
  * OpenOffice 3.0 и выше (Для формирования описания исследований в формате PDF)
  * Монитор с разрешением 1280x1024
-
-== Рабочие скриншоты... ==
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide1.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide2.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide3.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide4.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide5.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide6.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide7.png]
-
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-1.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-2.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-3.png]
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-4.png]
-
-[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide9.png]
