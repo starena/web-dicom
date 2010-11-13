@@ -95,10 +95,23 @@
 
 == Работа cо списком исследований ==
 
+Для входа в этот раздел необходимо перейти по ссылке "Список исследований".
+В этом разделе у пользователя доступны следующие функции:
+
  * Фильтрация исследований
  * Просмотр исследования
  * Печать
 
+== Возможные способы фильтрации исследований ==
+
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-1.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-2.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-3.png]
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide8-4.png]
+
+== Распечатка листа исследований ==
+
+[http://web-dicom.googlecode.com/svn/wiki/images/manuals/userguide6.png]
 
 = Требования к рабочему месту =
 
