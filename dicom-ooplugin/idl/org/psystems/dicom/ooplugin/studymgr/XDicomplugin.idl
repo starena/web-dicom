@@ -1,0 +1,14 @@
+#ifndef __org_psystems_dicom_ooplugin_studymgr_xdicomplugin_idl__
+#define __org_psystems_dicom_ooplugin_studymgr_xdicomplugin_idl__
+
+module org { module psystems { module dicom { module ooplugin { module studymgr { 	
+
+	interface XDicomplugin {
+		[attribute] string PORT;
+		string getStudy([in] string url);
+		void sendStudy([in] string url, [in] string data);
+
+	};
+
+ }; }; }; }; };
+#endif
