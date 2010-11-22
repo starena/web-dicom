@@ -180,6 +180,11 @@ public class OOOReportGenerator {
 	public static void main(String[] args) {
 		HashMap<String, String> variableMap = new HashMap<String, String>();
 
+//		if(args.length==0) {
+//			System.err.println("set template file name: sample/sample1.odt");
+//			System.exit(-1);
+//		}
+		
 //		variableMap.put("CONTRACT_NUMBER", "1234567");
 //		variableMap.put("CONTRACT_DATE", "31 декабря 2007 г.");
 //		variableMap.put("EXECUTOR", "ООО \"Рога и Копыта\"");
@@ -192,7 +197,9 @@ public class OOOReportGenerator {
 		try {
 			connect();
 
-			XComponent currentDocument = openDocument(args[0]);
+			
+			XComponent currentDocument = openDocument("sample/sample1.odt");
+//			XComponent currentDocument = openDocument(args[0]);
 
 			XTextFieldsSupplier xTextFieldsSupplier = (XTextFieldsSupplier) UnoRuntime
 					.queryInterface(XTextFieldsSupplier.class, currentDocument);
