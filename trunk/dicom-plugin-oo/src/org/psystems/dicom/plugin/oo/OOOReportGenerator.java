@@ -190,6 +190,7 @@ public class OOOReportGenerator {
 //		variableMap.put("EXECUTOR", "ООО \"Рога и Копыта\"");
 //		variableMap.put("EXECUTOR_PERSON", "Потыкайло Петра Сергеевича");
 //		variableMap.put("CUSTOMER", "Пупкин Василий Иванович");
+		
 
 		variableMap.put("PatientName", "DDV");
 		variableMap.put("StudyUID", "12345");
