@@ -1,7 +1,20 @@
 package org.psystems.dicom.ooplugin.comp.studymgr;
 
+import java.util.HashMap;
+
+import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextFieldsSupplier;
+import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.util.XRefreshable;
+import com.sun.star.beans.NamedValue;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XEnumeration;
+import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.lib.uno.helper.Factory;
+import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.lang.XMultiServiceFactory;
+import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.lib.uno.helper.WeakBase;
@@ -88,5 +101,53 @@ public final class WebdicompluginImpl extends WeakBase
     public String[] getSupportedServiceNames() {
         return m_serviceNames;
     }
+
+	@Override
+	public String updateDocument(String docName, XTextDocument docObj) {
+		HashMap<String, String> variableMap = new HashMap<String, String>();
+		variableMap.put("PatientName", "DDV");
+		variableMap.put("StudyUID", "12345");
+		
+		
+
+		XTextFieldsSupplier xTextFieldsSupplier = (XTextFieldsSupplier) UnoRuntime
+		.queryInterface(XTextFieldsSupplier.class, docObj);
+		
+		// Создадим перечисление всех полей документа
+		XEnumerationAccess xEnumerationAccess = xTextFieldsSupplier
+				.getTextFields();
+		XEnumeration xTextFieldsEnumeration = xEnumerationAccess
+				.createEnumeration();
+		XRefreshable xRefreshable = (XRefreshable) UnoRuntime
+				.queryInterface(XRefreshable.class, xEnumerationAccess);
+
+		
+		try {
+		while (xTextFieldsEnumeration.hasMoreElements()) {
+			Object service = xTextFieldsEnumeration.nextElement();
+			XServiceInfo xServiceInfo = (XServiceInfo) UnoRuntime
+					.queryInterface(XServiceInfo.class, service);
+
+			if (xServiceInfo
+					.supportsService("com.sun.star.text.TextField.SetExpression")) {
+				XPropertySet xPropertySet = (XPropertySet) UnoRuntime
+						.queryInterface(XPropertySet.class, service);
+				String name = (String) xPropertySet
+						.getPropertyValue("VariableName");
+				Object content = variableMap.get(name);
+				xPropertySet.setPropertyValue("SubType", new Short(
+						com.sun.star.text.SetVariableType.STRING));
+				xPropertySet.setPropertyValue("Content",
+						content == null ? " " : content.toString());
+				xPropertySet.setPropertyValue("IsVisible", true);
+			}
+		}
+		xRefreshable.refresh();
+		} catch (Exception ex) {
+			return "Exception! "+ex;
+		}
+		
+        return "!!!! TIS DOC IS : {"+xTextFieldsSupplier+"} URL={"+docName+"}";
+	}
 
 }
