@@ -116,8 +116,8 @@ public class StorageOMITSImpl extends Storage {
 							+ "WHERE " + where
 							+ " order by SUR_NAME ");
 
-			psSelect.setString(1, queryStr);
-			psSelect.setString(2, queryStr.substring(0, 2));
+			psSelect.setString(1, queryStr.toUpperCase());
+			psSelect.setString(2, queryStr.substring(0, 2).toUpperCase());
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
 
@@ -184,8 +184,8 @@ public class StorageOMITSImpl extends Storage {
 							+ "WHERE " + where
 							+ " order by SUR_NAME ");
 
-			psSelect.setString(1, queryStr);
-			psSelect.setString(2, queryStr.substring(0, 2));
+			psSelect.setString(1, queryStr.toUpperCase());
+			psSelect.setString(2, queryStr.substring(0, 2).toUpperCase());
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
 
