@@ -1,14 +1,27 @@
 package org.psystems.dicom.ooplugin.comp.studymgr;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.util.EntityUtils;
+
 
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextFieldsSupplier;
@@ -205,6 +218,88 @@ public final class WebdicompluginImpl extends WeakBase
 	public String sendDocument(String url, String login, String pwd,
 			String pdffile, XTextDocument docObj) {
 		// Отправка PDF
+		
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		
+		//авторизвция
+		 httpclient.getCredentialsProvider().setCredentials(
+				 new AuthScope(url, 80),
+	               // new AuthScope("localhost", 443), 
+	                new UsernamePasswordCredentials("username", "password"));
+	        
+//	        HttpGet httpget = new HttpGet("https://localhost/protected");
+	        
+//	        System.out.println("executing request" + httpget.getRequestLine());
+//	        HttpResponse response = httpclient.execute(httpget);
+//	        HttpEntity entity = response.getEntity();
+
+//	        System.out.println("----------------------------------------");
+//	        System.out.println(response.getStatusLine());
+//	        if (entity != null) {
+//	            System.out.println("Response content length: " + entity.getContentLength());
+//	        }
+//	        if (entity != null) {
+//	            entity.consumeContent();
+//	        }
+		
+		
+		//
+		
+	    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+
+	    HttpPost httppost = new HttpPost("http://localhost:9002/upload.php");
+	    File file = new File("c:/TRASH/zaba_1.jpg");
+
+//	    InputStreamEntity reqEntity = new InputStreamEntity(
+//                new FileInputStream(file), -1);
+//        reqEntity.setContentType("binary/octet-stream");
+//        reqEntity.setChunked(true);
+        
+	    FileEntity reqEntity = new FileEntity(file, "binary/octet-stream");
+
+	    httppost.setEntity(reqEntity);
+	    reqEntity.setContentType("binary/octet-stream");
+	    
+	    
+	    try {
+			StringEntity formfield = new StringEntity("key", "UTF-8");
+			
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return "Exception! "+e1;
+		}
+//	    reqEntity.setContentType("text/html");
+	    
+	    
+	    System.out.println("executing request " + httppost.getRequestLine());
+	    
+	    HttpResponse response;
+		try {
+			response = httpclient.execute(httppost);
+		
+	    HttpEntity resEntity = response.getEntity();
+
+	    System.out.println(response.getStatusLine());
+	    if (resEntity != null) {
+	      System.out.println(EntityUtils.toString(resEntity));
+	    }
+	    if (resEntity != null) {
+	      resEntity.consumeContent();
+	    }
+
+	    httpclient.getConnectionManager().shutdown();
+
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Exception! "+e;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Exception! "+e;
+		}
+        
 		return null;
 	}
 
