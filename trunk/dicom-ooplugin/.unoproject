@@ -1,5 +1,5 @@
 #UNO project configuration file
-#Wed Nov 24 09:12:57 YEKT 2010
+#Thu Nov 25 10:58:52 YEKT 2010
 project.srcdir=/source
 regclassname=org.psystems.dicom.ooplugin.comp.RegistrationHandler
 javaversion=java5

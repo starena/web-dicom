@@ -1,6 +1,14 @@
 package org.psystems.dicom.ooplugin.comp.studymgr;
 
+import java.io.IOException;
 import java.util.HashMap;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextFieldsSupplier;
@@ -102,8 +110,48 @@ public final class WebdicompluginImpl extends WeakBase
         return m_serviceNames;
     }
 
+	/* (non-Javadoc)
+	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#updateDocument(java.lang.String, com.sun.star.text.XTextDocument)
+	 */
 	@Override
 	public String updateDocument(String docName, XTextDocument docObj) {
+		
+		//Обновление тегов
+		
+		String result = null;
+		
+		HttpClient httpclient = new DefaultHttpClient();
+
+        HttpGet httpget = new HttpGet("http://10.130.1.100/"); 
+
+        System.out.println("executing request " + httpget.getURI());
+
+        // Create a response handler
+        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+        String responseBody;
+		try {
+			responseBody = httpclient.execute(httpget, responseHandler);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Exception! "+e;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Exception! "+e;
+			
+		}
+		result = responseBody;
+        
+
+        // When HttpClient instance is no longer needed, 
+        // shut down the connection manager to ensure
+        // immediate deallocation of all system resources
+        httpclient.getConnectionManager().shutdown();        
+		
+		//TODO Сделать регулярку для вычленения ID исследования
+		String studyId = docName;
+		
 		HashMap<String, String> variableMap = new HashMap<String, String>();
 		variableMap.put("PatientName", "DDV");
 		variableMap.put("StudyUID", "12345");
@@ -147,7 +195,17 @@ public final class WebdicompluginImpl extends WeakBase
 			return "Exception! "+ex;
 		}
 		
-        return "!!!! TIS DOC IS : {"+xTextFieldsSupplier+"} URL={"+docName+"}";
+        return "!!!! TIS DOC IS : {"+xTextFieldsSupplier+"} URL={"+docName+"} result="+result;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#sendDocument(java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.sun.star.text.XTextDocument)
+	 */
+	@Override
+	public String sendDocument(String url, String login, String pwd,
+			String pdffile, XTextDocument docObj) {
+		// Отправка PDF
+		return null;
 	}
 
 }
