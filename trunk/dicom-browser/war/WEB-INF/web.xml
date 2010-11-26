@@ -221,6 +221,22 @@
 		<servlet-name>DcmViewPDFServlet</servlet-name>
 		<url-pattern>/dcmpdf/*</url-pattern>
 	</servlet-mapping>
+	
+	<!-- ************************************************* -->
+	<!-- ***           СЕРВЛЕТЫ ДЛЯ OpenOffice         *** -->
+	<!-- ************************************************* -->
+
+	<!--   JSP-Servlet выдачи общей страницы    -->
+
+	<servlet>
+		<servlet-name>oostudy</servlet-name>
+		<jsp-file>/oostudy.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>oostudy</servlet-name>
+		<url-pattern>/oostudy/*</url-pattern>
+	</servlet-mapping>
 
 	<!-- ************************************************* -->
 	<!-- ***    СЕРВЛЕТЫ ОТОБРАЖЕНИЯ КАРТИНКИ В МИС     *** -->
