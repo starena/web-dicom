@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,23 +24,19 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 
-
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XEnumeration;
+import com.sun.star.container.XEnumerationAccess;
+import com.sun.star.lang.XServiceInfo;
+import com.sun.star.lang.XSingleComponentFactory;
+import com.sun.star.lib.uno.helper.Factory;
+import com.sun.star.lib.uno.helper.WeakBase;
+import com.sun.star.registry.XRegistryKey;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextFieldsSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XRefreshable;
-import com.sun.star.beans.NamedValue;
-import com.sun.star.beans.XPropertySet;
-import com.sun.star.container.XEnumeration;
-import com.sun.star.container.XEnumerationAccess;
-import com.sun.star.lib.uno.helper.Factory;
-import com.sun.star.lang.XMultiComponentFactory;
-import com.sun.star.lang.XMultiServiceFactory;
-import com.sun.star.lang.XServiceInfo;
-import com.sun.star.lang.XSingleComponentFactory;
-import com.sun.star.registry.XRegistryKey;
-import com.sun.star.lib.uno.helper.WeakBase;
 
 
 public final class WebdicompluginImpl extends WeakBase
@@ -123,19 +121,73 @@ public final class WebdicompluginImpl extends WeakBase
         return m_serviceNames;
     }
 
+	public static HashMap<String, String> parse(String s) {
+		
+		HashMap<String, String> result = new HashMap<String, String>();
+		
+		String[] strs = s.split("[\n|\r]");
+		String curS = null;
+		String tag = null;
+		for (String string : strs) {
+//			System.out.println(""+string);
+			Matcher matcher = Pattern.compile("^###(.*)###$").matcher(string);	
+			
+			if (matcher.matches()) {
+				if(tag!=null) {
+					result.put(tag, curS);
+					System.out.println(""+tag+"="+curS);
+				}
+				
+				
+				curS = null;//пошел новый тег
+				tag = matcher.group(1);
+			} else {
+				if(curS!=null) curS+=string; else curS=string;
+			}
+			
+			
+		}
+		return result;
+	}
 	/* (non-Javadoc)
 	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#updateDocument(java.lang.String, com.sun.star.text.XTextDocument)
+	 * 
+	 * Обновление тегов
+	 * 
 	 */
 	@Override
-	public String updateDocument(String docName, XTextDocument docObj) {
+	public String updateDocument(String docName, String config, XTextDocument docObj) {
 		
-		//Обновление тегов
+		//TODO !!!!!!!!!! httpclient.getConnectionManager().shutdown(); 
+		// сделать через finally !!!!!!!!!!!!!!
+		
+		String host = null, login = null, password = null, studyId = null, studyType = null;;
+		
+		Matcher matcher = Pattern.compile("^(.*)\\:(.*)\\@(.*)$").matcher(config);
+		if (matcher.matches()) {
+			
+			login = matcher.group(1);
+			password = matcher.group(2);
+			host = matcher.group(3);
+			
+		}
+		
+		matcher = Pattern.compile("^.*[\\|/](\\w+)_(\\d+)\\.odt$").matcher(docName);
+		if (matcher.matches()) {
+			studyType = matcher.group(1);
+			studyId = matcher.group(2);
+			
+		}
+		
+		host += "/" + studyId;
+		
+//		if(true) return "URL=[" + host + "];" + login + ";" + password+";"+docName+";"+studyId+";"+studyType;
 		
 		String result = null;
 		
 		HttpClient httpclient = new DefaultHttpClient();
 
-        HttpGet httpget = new HttpGet("http://10.130.1.100/"); 
+        HttpGet httpget = new HttpGet(host); 
 
         System.out.println("executing request " + httpget.getURI());
 
@@ -147,11 +199,11 @@ public final class WebdicompluginImpl extends WeakBase
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception! "+e;
+			return " Exception! "+e + "host=" + host;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception! "+e;
+			return " Exception! "+e;
 			
 		}
 		result = responseBody;
@@ -160,14 +212,19 @@ public final class WebdicompluginImpl extends WeakBase
         // When HttpClient instance is no longer needed, 
         // shut down the connection manager to ensure
         // immediate deallocation of all system resources
-        httpclient.getConnectionManager().shutdown();        
+		httpclient.getConnectionManager().shutdown();        
 		
-		//TODO Сделать регулярку для вычленения ID исследования
-		String studyId = docName;
-		
+		//Парсим ответ:
 		HashMap<String, String> variableMap = new HashMap<String, String>();
-		variableMap.put("PatientName", "DDV");
-		variableMap.put("StudyUID", "12345");
+		try {
+			variableMap = parse(result.trim());
+		} catch(Exception e) {
+			return "Exception!!! "+e;
+		}
+		
+//		variableMap.put("PatientName", "DDV");
+//		variableMap.put("StudyUID", "12345");
+//		variableMap.put("PATIENT_NAME", "TESTNAME");
 		
 		
 
@@ -208,14 +265,14 @@ public final class WebdicompluginImpl extends WeakBase
 			return "Exception! "+ex;
 		}
 		
-        return "!!!! TIS DOC IS : {"+xTextFieldsSupplier+"} URL={"+docName+"} result="+result;
+        return "result=["+result+"]";
 	}
 
 	/* (non-Javadoc)
 	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#sendDocument(java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.sun.star.text.XTextDocument)
 	 */
 	@Override
-	public String sendDocument(String url, String login, String pwd,
+	public String sendDocument(String url, String config,
 			String pdffile, XTextDocument docObj) {
 		// Отправка PDF
 		
