@@ -8,8 +8,8 @@ module org { module psystems { module dicom { module ooplugin { module studymgr 
 		[attribute] string PORT;
 		string getStudy([in] string url);
 		void sendStudy([in] string url, [in] string data);
-		string updateDocument([in] string docName, [in] com::sun::star::text::XTextDocument docObj);
-		string sendDocument([in] string url, [in] string login, [in] string pwd, [in] string pdffile, [in] com::sun::star::text::XTextDocument docObj);
+		string updateDocument([in] string docName, [in] string config, [in] com::sun::star::text::XTextDocument docObj);
+		string sendDocument([in] string url, [in] string config, [in] string pdffile, [in] com::sun::star::text::XTextDocument docObj);
 
 	};
 
