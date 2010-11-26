@@ -133,12 +133,13 @@ public class WorkListPanel extends Composite {
 		lbManufacturerModelName.addItem("Рентген (РДК 50/6)","РДК 50/6");
 		lbManufacturerModelName.addItem("Рентген (DUODiagnost)","DUODiagnost");
 		
-		lbManufacturerModelName.addItem("УЗИ-1 (SonoScape)","SonoScape-1");
+		lbManufacturerModelName.addItem("УЗИ-1 (SonoScape) ДП 523 каб.","SonoScape-1");
 		lbManufacturerModelName.addItem("УЗИ-2 (SonoScape)","SonoScape-2");
 		lbManufacturerModelName.addItem("УЗИ-3 (SonoScape)","SonoScape-3");
-		
+		lbManufacturerModelName.addItem("УЗИ (VIVID) ДП 527 каб.","VIVID 3");
 		lbManufacturerModelName.addItem("УЗИ (VOLUSON)","VOLUSON 730 BT04 EXPERT");
 
+	
 		
 		
 		//TODO Убрал из списка

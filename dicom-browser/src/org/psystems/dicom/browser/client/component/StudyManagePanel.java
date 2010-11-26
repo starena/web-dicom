@@ -187,9 +187,10 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("РДК 50/6", "Рентген (РДК 50/6)");
 		dicModel.put("DUODiagnost", "Рентген (DUODiagnost)");
 		dicModel.put("FUJINON EG WR5", "Эндоскоп (FUJINON EG WR5)");
-		dicModel.put("SonoScape-1", "УЗИ-1 (SonoScape)");
+		dicModel.put("SonoScape-1", "УЗИ-1 (SonoScape) ДП 523 каб.");
 		dicModel.put("SonoScape-2", "УЗИ-2 (SonoScape)");
 		dicModel.put("SonoScape-3", "УЗИ-3 (SonoScape)");
+		dicModel.put("VIVID 3", "УЗИ (VIVID) ДП 527 каб.");
 		dicModel.put("VOLUSON 730 BT04 EXPERT", "УЗИ (VOLUSON)");
 		
 		
