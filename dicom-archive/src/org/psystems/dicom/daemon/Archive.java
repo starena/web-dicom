@@ -978,7 +978,11 @@ public class Archive extends StorageService {
 			PDVInputStream dataStream, String tsuid)
 			throws DicomServiceException, IOException {
 		final DicomObject rsp = CommandUtils.mkRSP(rq, CommandUtils.SUCCESS);
+		
+		
 		onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
+		
+		
 		if (rspdelay > 0) {
 			executor.execute(new Runnable() {
 				public void run() {
@@ -1001,6 +1005,7 @@ public class Archive extends StorageService {
 			PDVInputStream dataStream, String tsuid, DicomObject rsp)
 			throws IOException, DicomServiceException {
 
+		
 		if (devnull == null && cache.getCacheRootDir() == null) {
 			super.onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
 		} else {
@@ -1105,7 +1110,7 @@ public class Archive extends StorageService {
 				try {
 					// Пишем всю информацию в БД
 					extractor.updateDataBase(as, rename, image);
-
+				
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1142,13 +1147,14 @@ public class Archive extends StorageService {
 					throw new DicomServiceException(rq,
 							Status.ProcessingFailure, e.getMessage());
 
-				}
+				} 
 
 				if (cache.getJournalRootDir() != null) {
 					cache.record(rename);
 				}
 			}
 		}
+		System.out.println("!!! onCStoreRQ [2]");
 	}
 
 	private File mkDir(Association as) {

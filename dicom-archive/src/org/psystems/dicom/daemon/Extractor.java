@@ -365,8 +365,9 @@ public class Extractor {
 	 * @throws IOException
 	 */
 	public void updateDataBase(Association as, File dcmFile, DCMImage image)
-			throws SQLException, IOException {
+			throws SQLException, IOException, WebDicomDataException {
 
+		
 		LOG.info("Calling AE Title: ["+as.getCallingAET()+" : "+as.getLocalAET()+"]; Remote AE Title : ["+as.getRemoteAET()+"]");
 		connection.setAutoCommit(false);
 
@@ -386,10 +387,14 @@ public class Extractor {
 			String NAME = getRelativeDcmFileName(dcmFile);
 			
 			
-			
-			//!!!!!!!!!!!!!!!!!!!!
-			Study study = Study.getInstance(dcmObj);
-			//!!!!!!!!!!!!!!!!!!!
+			Study study = null;
+			//TODO Нужно подробне глянуть. можно-ли еще глубже перекинуть
+			//Эксепшн.. внутрь класса Study
+			try {
+				study = Study.getInstance(dcmObj);
+			}catch(Exception ex) {
+				throw new WebDicomDataException("Error instantination Study", ex);
+			}
 			
 			String MIME_TYPE = study.getMimeType();
 			long DOCUMENT_SIZE = study.getEncapsulatedDocSize();
