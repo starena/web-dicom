@@ -16,27 +16,45 @@
 	while (rs.next()) {
 		
 %>
-###ID###<%=rs.getLong("ID") %>
-###STUDY_ID###<%=rs.getString("STUDY_ID") %>
-###STUDY_UID###<%=rs.getString("STUDY_UID") %>
-###STUDY_MODALITY###<%=rs.getString("STUDY_MODALITY") %>
-###STUDY_TYPE###<%=rs.getString("STUDY_TYPE") %>
-###STUDY_DESCRIPTION###<%=rs.getString("STUDY_DESCRIPTION") %>
-###STUDY_DATE###<%=rs.getString("STUDY_DATE") %>
-###STUDY_MANUFACTURER_UID###<%=rs.getString("STUDY_MANUFACTURER_UID") %>
-###STUDY_MANUFACTURER_MODEL_NAME###<%=rs.getString("STUDY_MANUFACTURER_MODEL_NAME") %>
-###STUDY_DOCTOR###<%=rs.getString("STUDY_DOCTOR") %>
-###STUDY_OPERATOR###<%=rs.getString("STUDY_OPERATOR") %>
-###STUDY_VIEW_PROTOCOL###<%=rs.getString("STUDY_VIEW_PROTOCOL") %>
-###STUDY_VIEW_PROTOCOL_DATE###<%=rs.getString("STUDY_VIEW_PROTOCOL_DATE") %>
-###STUDY_RESULT###<%=rs.getString("STUDY_RESULT") %>
-###DATE_MODIFY###<%=rs.getString("DATE_MODIFY") %>
-###PATIENT_ID###<%=rs.getString("PATIENT_ID") %>
-###PATIENT_NAME###<%=rs.getString("PATIENT_NAME") %>
-###PATIENT_SHORTNAME###<%=rs.getString("PATIENT_SHORTNAME") %>
-###PATIENT_SEX###<%=rs.getString("PATIENT_SEX") %>
-###PATIENT_BIRTH_DATE###<%=rs.getString("PATIENT_BIRTH_DATE") %>
-	
-<%
-	}
-%>
+###ID###
+<%=rs.getLong("ID") %>
+###00200010###
+<%=rs.getString("STUDY_ID") %>
+###0020000D###
+<%=rs.getString("STUDY_UID") %>
+###0020000E###
+<%=rs.getString("STUDY_UID") %>.<%=new java.util.Date().getTime() %>
+###00080060###
+<%=rs.getString("STUDY_MODALITY") %>
+###STUDY_TYPE###
+<%=rs.getString("STUDY_TYPE") %>
+###00081030###
+<%=rs.getString("STUDY_DESCRIPTION") %>
+###00080020###
+<%=rs.getString("STUDY_DATE") %>
+###STUDY_MANUFACTURER_UID###
+<%=rs.getString("STUDY_MANUFACTURER_UID") %>
+###00081090###
+<%=rs.getString("STUDY_MANUFACTURER_MODEL_NAME") %>
+###00080090###
+<%=rs.getString("STUDY_DOCTOR") %>
+###00081070###
+<%=rs.getString("STUDY_OPERATOR") %>
+###00324000###
+<%=rs.getString("STUDY_VIEW_PROTOCOL") %>
+###00321050###
+<%=rs.getString("STUDY_VIEW_PROTOCOL_DATE") %>
+###00102000###
+<%=rs.getString("STUDY_RESULT") %>
+###DATE_MODIFY###
+<%=rs.getString("DATE_MODIFY") %>
+###00100021###
+<%=rs.getString("PATIENT_ID") %>
+###00100010###
+<%=rs.getString("PATIENT_NAME") %>
+###PATIENT_SHORTNAME###
+<%=rs.getString("PATIENT_SHORTNAME") %>
+###00100040###
+<%=rs.getString("PATIENT_SEX") %>
+###00100030###
+<%=rs.getString("PATIENT_BIRTH_DATE")%><%}%>

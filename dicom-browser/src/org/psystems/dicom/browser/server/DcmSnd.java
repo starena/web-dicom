@@ -1172,10 +1172,18 @@ public class DcmSnd extends StorageCommitmentService {
                         promptStgCmt(cmtrslt, ((t1 - t2) / 1000F));
                     } catch (InterruptedException e) {
                     	
-                    	//TODO !!!! сдесь бросать эксепшн???
-                        System.err.println("ERROR:" + e.getMessage());
+                    	String msg = "ERROR:" + e.getMessage();
+						//TODO !!!! сдесь бросать эксепшн???
+                        System.err.println(msg);
+                        throw Util.throwPortalException (msg,e);
                     }
                 }
+             } else {
+            	 
+            	 //TODO Тут вот если ошибка отправки...
+            	 System.out.println(">>>!!!!! Error sending !!!!!!");
+            	 throw Util.throwPortalException ("Error sending data to Archive (dcmsnd.isStorageCommitment() = FALSE)");
+             	
              }
             dcmsnd.close();
             System.out.println("Released connection to " + remoteAE);
@@ -1188,7 +1196,7 @@ public class DcmSnd extends StorageCommitmentService {
                         + e.getMessage();
                     System.err.println(msg);
 //                    System.exit(2);
-                    Util.throwPortalException (msg, e);
+                    throw Util.throwPortalException (msg, e);
                 }
                 t2 = System.currentTimeMillis();
                 System.out.println("Connected to " + remoteStgCmtAE + " in " 
@@ -1205,9 +1213,12 @@ public class DcmSnd extends StorageCommitmentService {
                         promptStgCmt(cmtrslt, ((t1 - t2) / 1000F));
                     } catch (InterruptedException e) {
                     	//TODO !!!! сдесь бросать эксепшн???
-                        System.err.println("ERROR:" + e.getMessage());
+                    	String msg = "ERROR:" + e.getMessage();
+                        System.err.println(msg);
+                        throw Util.throwPortalException (msg,e);
                     }
                 }
+                
                 dcmsnd.close();
                 System.out.println("Released connection to " + remoteStgCmtAE);
             }
@@ -1640,6 +1651,7 @@ public class DcmSnd extends StorageCommitmentService {
         default:
             promptErrRSP("ERROR: Received RSP with Status ", status, info, cmd);
             System.out.print('F');
+            throw new RuntimeException("ERROR: Received RSP with Status " + status + info + cmd);
         }
     }
     

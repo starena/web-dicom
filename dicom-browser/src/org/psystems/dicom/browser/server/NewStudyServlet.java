@@ -121,13 +121,13 @@ public class NewStudyServlet extends HttpServlet {
 			
 			//TODO Сделать через LOG4J
 			e.printStackTrace();
-			resp.setStatus(200);
+			resp.setStatus(400);//200 - ОК
 			DefaultGWTRPCException ex = Util.throwPortalException("Ошибка загрузки вложения", e);
 			resp.getWriter().write("TRACECODE ["+ex.getLogMarker()+"] \n "+ex.getMessage()+" \n "+ex.getStack());
 		}  catch (Exception e) {
 			//TODO Сделать через LOG4J
 			e.printStackTrace();
-			resp.setStatus(200);
+			resp.setStatus(400);
 			DefaultGWTRPCException ex = Util.throwPortalException("Ошибка сохранения исследования", e);
 			resp.getWriter().write("TRACECODE ["+ex.getLogMarker()+"] \n "+ex.getMessage()+" \n "+ex.getStack());
 		}

@@ -49,6 +49,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
@@ -113,14 +114,17 @@ public class StudyManagePanel extends Composite implements
 		formPanel.setMethod(FormPanel.METHOD_POST);
 		mainPanel.setWidget(formPanel);
 
+	
+		
 		formPanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 
 			@Override
 			public void onSubmitComplete(SubmitCompleteEvent event) {
-				// TODO Auto-generated method stub
+				
 				// System.out.println("!!! onSubmitComplete [" +
 				// event.getResults()+"]");
-
+				
+				//TODO Сделать через анализ статуса ответа (200 - ОК)
 				if (!event.getResults().matches(".+___success___.+")) {
 					submitError(event);
 				} else {
