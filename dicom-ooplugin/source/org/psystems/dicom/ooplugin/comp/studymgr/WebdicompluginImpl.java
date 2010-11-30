@@ -3,25 +3,36 @@ package org.psystems.dicom.ooplugin.comp.studymgr;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
+import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import com.sun.star.beans.XPropertySet;
@@ -121,34 +132,37 @@ public final class WebdicompluginImpl extends WeakBase
         return m_serviceNames;
     }
 
+	/**
+	 * Парсер исследования
+	 * @param s
+	 * @return
+	 */
 	public static HashMap<String, String> parse(String s) {
-		
+
 		HashMap<String, String> result = new HashMap<String, String>();
-		
+
 		String[] strs = s.split("[\n|\r]");
 		String curS = null;
 		String tag = null;
 		for (String string : strs) {
-//			System.out.println(""+string);
-			Matcher matcher = Pattern.compile("^###(.*)###$").matcher(string);	
-			
+			Matcher matcher = Pattern.compile("^###(.*)###$").matcher(string);
 			if (matcher.matches()) {
-				if(tag!=null) {
+				if (tag != null) {
 					result.put(tag, curS);
-					System.out.println(""+tag+"="+curS);
 				}
-				
-				
-				curS = null;//пошел новый тег
+				curS = null;// пошел новый тег
 				tag = matcher.group(1);
 			} else {
-				if(curS!=null) curS+=string; else curS=string;
+				if (curS != null)
+					curS += string;
+				else
+					curS = string;
 			}
-			
-			
 		}
 		return result;
 	}
+	
+	
 	/* (non-Javadoc)
 	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#updateDocument(java.lang.String, com.sun.star.text.XTextDocument)
 	 * 
@@ -158,8 +172,6 @@ public final class WebdicompluginImpl extends WeakBase
 	@Override
 	public String updateDocument(String docName, String config, XTextDocument docObj) {
 		
-		//TODO !!!!!!!!!! httpclient.getConnectionManager().shutdown(); 
-		// сделать через finally !!!!!!!!!!!!!!
 		
 		String host = null, login = null, password = null, studyId = null, studyType = null;;
 		
@@ -179,7 +191,7 @@ public final class WebdicompluginImpl extends WeakBase
 			
 		}
 		
-		host += "/" + studyId;
+		host += "/oostudy/" + studyId;
 		
 //		if(true) return "URL=[" + host + "];" + login + ";" + password+";"+docName+";"+studyId+";"+studyType;
 		
@@ -205,14 +217,16 @@ public final class WebdicompluginImpl extends WeakBase
 			e.printStackTrace();
 			return " Exception! "+e;
 			
+		}finally {
+
+	        // When HttpClient instance is no longer needed, 
+	        // shut down the connection manager to ensure
+	        // immediate deallocation of all system resources
+			httpclient.getConnectionManager().shutdown();
 		}
 		result = responseBody;
         
-
-        // When HttpClient instance is no longer needed, 
-        // shut down the connection manager to ensure
-        // immediate deallocation of all system resources
-		httpclient.getConnectionManager().shutdown();        
+       
 		
 		//Парсим ответ:
 		HashMap<String, String> variableMap = new HashMap<String, String>();
@@ -272,17 +286,30 @@ public final class WebdicompluginImpl extends WeakBase
 	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#sendDocument(java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.sun.star.text.XTextDocument)
 	 */
 	@Override
-	public String sendDocument(String url, String config,
+	public String sendDocument(String config,
 			String pdffile, XTextDocument docObj) {
 		// Отправка PDF
+		
+		String resultText = "";
+		
+		String host = null, login = null, password = null, studyId = null, studyType = null;;
+		
+		Matcher matcher = Pattern.compile("^(.*)\\:(.*)\\@(.*)$").matcher(config);
+		if (matcher.matches()) {
+			
+			login = matcher.group(1);
+			password = matcher.group(2);
+			host = matcher.group(3);
+			
+		}
 		
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		
 		//авторизвция
 		 httpclient.getCredentialsProvider().setCredentials(
-				 new AuthScope(url, 80),
+				 new AuthScope(host, 80),
 	               // new AuthScope("localhost", 443), 
-	                new UsernamePasswordCredentials("username", "password"));
+	                new UsernamePasswordCredentials(login, password));
 	        
 //	        HttpGet httpget = new HttpGet("https://localhost/protected");
 	        
@@ -302,32 +329,70 @@ public final class WebdicompluginImpl extends WeakBase
 		
 		//
 		
-	    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-
-	    HttpPost httppost = new HttpPost("http://localhost:9002/upload.php");
-	    File file = new File("c:/TRASH/zaba_1.jpg");
-
-//	    InputStreamEntity reqEntity = new InputStreamEntity(
-//                new FileInputStream(file), -1);
-//        reqEntity.setContentType("binary/octet-stream");
-//        reqEntity.setChunked(true);
-        
-	    FileEntity reqEntity = new FileEntity(file, "binary/octet-stream");
-
-	    httppost.setEntity(reqEntity);
-	    reqEntity.setContentType("binary/octet-stream");
+//		    InputStreamEntity reqEntity = new InputStreamEntity(
+//       new FileInputStream(file), -1);
+//reqEntity.setContentType("binary/octet-stream");
+//reqEntity.setChunked(true);
+		 
+		 
+//	    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+//
+//	    
+		 
+	    HttpPost httppost = new HttpPost(host+"/newstudy/upload");
+	    File file = new File(pdffile);
 	    
+	    MultipartEntity mpEntity = new MultipartEntity();
+	    ContentBody cbFile = new FileBody(file, "application/pdf");
+	    mpEntity.addPart("upload", cbFile);
 	    
 	    try {
-			StringEntity formfield = new StringEntity("key", "UTF-8");
+			mpEntity.addPart("content_type", new StringBody("application/pdf", Charset.forName("UTF-8")));
+			//PATIENT_NAME
+			mpEntity.addPart("00100010", new StringBody("DDVTEST333", Charset.forName("UTF-8")));
 			
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			return "Exception! "+e1;
+			return "Exception!!! "+e1;
 		}
+
+
+	    httppost.setEntity(mpEntity);
+	    System.out.println("executing request " + httppost.getRequestLine());
+
+//
+//
+//        
+//	    FileEntity reqEntity = new FileEntity(file, "binary/octet-stream");
+//
+//	    httppost.setEntity(reqEntity);
+//	    reqEntity.setContentType("binary/octet-stream");
+//	    
+//	    
+//	    try {
+////			StringEntity formfield = new StringEntity("key", "UTF-8");
+//	    	List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+//	        nvps.add(new BasicNameValuePair("IDToken1", "username"));
+//	        nvps.add(new BasicNameValuePair("IDToken2", "password"));
+//	        
+//	        nvps.add(new BasicNameValuePair("content_type", "application/pdf"));
+//	        
+//
+//	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+//
+//			
+//		} catch (UnsupportedEncodingException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//			return "Exception! "+e1;
+//		}
 //	    reqEntity.setContentType("text/html");
 	    
+		 
+		 
+		 
+		 
 	    
 	    System.out.println("executing request " + httppost.getRequestLine());
 	    
@@ -338,8 +403,10 @@ public final class WebdicompluginImpl extends WeakBase
 	    HttpEntity resEntity = response.getEntity();
 
 	    System.out.println(response.getStatusLine());
+	    
 	    if (resEntity != null) {
-	      System.out.println(EntityUtils.toString(resEntity));
+	    	resultText = EntityUtils.toString(resEntity);
+	      System.out.println(resultText);
 	    }
 	    if (resEntity != null) {
 	      resEntity.consumeContent();
@@ -357,7 +424,8 @@ public final class WebdicompluginImpl extends WeakBase
 			return "Exception! "+e;
 		}
         
-		return null;
+		
+		return "["+response.getStatusLine().getStatusCode()+"]\n"+resultText;
 	}
 
 }
