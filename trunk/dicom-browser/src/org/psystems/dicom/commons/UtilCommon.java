@@ -270,7 +270,11 @@ public class UtilCommon {
 
 			DcmSnd.sendToArchive(connectionStr, dcmFileTmp);
 
-		} finally {
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new IOException(e);
+		}
+		finally {
 			if (dcmFileTmp != null)
 				dcmFileTmp.delete();
 		}
