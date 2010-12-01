@@ -35,9 +35,12 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
@@ -172,6 +175,7 @@ public final class WebdicompluginImpl extends WeakBase
 	@Override
 	public String updateDocument(String docName, String config, XTextDocument docObj) {
 		
+		//TODO сделать проброс эксепшинов
 		
 		String host = null, login = null, password = null, studyId = null, studyType = null;;
 		
@@ -290,6 +294,7 @@ public final class WebdicompluginImpl extends WeakBase
 			String pdffile, XTextDocument docObj) {
 		// Отправка PDF
 		
+		//TODO сделать проброс эксепшинов
 		String resultText = "";
 		
 		String host = null, login = null, password = null, studyId = null, studyType = null;;
@@ -311,33 +316,7 @@ public final class WebdicompluginImpl extends WeakBase
 	               // new AuthScope("localhost", 443), 
 	                new UsernamePasswordCredentials(login, password));
 	        
-//	        HttpGet httpget = new HttpGet("https://localhost/protected");
-	        
-//	        System.out.println("executing request" + httpget.getRequestLine());
-//	        HttpResponse response = httpclient.execute(httpget);
-//	        HttpEntity entity = response.getEntity();
-
-//	        System.out.println("----------------------------------------");
-//	        System.out.println(response.getStatusLine());
-//	        if (entity != null) {
-//	            System.out.println("Response content length: " + entity.getContentLength());
-//	        }
-//	        if (entity != null) {
-//	            entity.consumeContent();
-//	        }
-		
-		
-		//
-		
-//		    InputStreamEntity reqEntity = new InputStreamEntity(
-//       new FileInputStream(file), -1);
-//reqEntity.setContentType("binary/octet-stream");
-//reqEntity.setChunked(true);
-		 
-		 
-//	    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-//
-//	    
+	    
 		 
 	    HttpPost httppost = new HttpPost(host+"/newstudy/upload");
 	    File file = new File(pdffile);
@@ -347,49 +326,65 @@ public final class WebdicompluginImpl extends WeakBase
 	    mpEntity.addPart("upload", cbFile);
 	    
 	    try {
+	    	
+	    	XTextFieldsSupplier xTextFieldsSupplier = (XTextFieldsSupplier) UnoRuntime
+			.queryInterface(XTextFieldsSupplier.class, docObj);
+	    	
+			// Создадим перечисление всех полей документа
+			XEnumerationAccess xEnumerationAccess = xTextFieldsSupplier
+					.getTextFields();
+			XEnumeration xTextFieldsEnumeration = xEnumerationAccess
+					.createEnumeration();
+
 			mpEntity.addPart("content_type", new StringBody("application/pdf", Charset.forName("UTF-8")));
 			//PATIENT_NAME
 			mpEntity.addPart("00100010", new StringBody("DDVTEST333", Charset.forName("UTF-8")));
 			
-		} catch (UnsupportedEncodingException e1) {
+			
+			while (xTextFieldsEnumeration.hasMoreElements()) {
+				Object service = xTextFieldsEnumeration.nextElement();
+				XServiceInfo xServiceInfo = (XServiceInfo) UnoRuntime
+						.queryInterface(XServiceInfo.class, service);
+
+				if (xServiceInfo.supportsService("com.sun.star.text.TextField.SetExpression")) {
+					XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, service);
+					
+					String name = (String) xPropertySet.getPropertyValue("VariableName");
+					String value = (String) xPropertySet.getPropertyValue("Content");
+					
+					mpEntity.addPart(name, new StringBody(value, Charset.forName("UTF-8")));
+					
+//					xPropertySet.setPropertyValue("SubType", new Short(
+//							com.sun.star.text.SetVariableType.STRING));
+//					xPropertySet.setPropertyValue("Content",
+//							content == null ? " " : content.toString());
+//					xPropertySet.setPropertyValue("IsVisible", true);
+				}
+			}
+			
+			
+			
+		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return "Exception!!! "+e1;
+			e.printStackTrace();
+			return "Exception!!! "+e;
+		} catch (NoSuchElementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Exception!!! "+e;
+		} catch (WrappedTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Exception!!! "+e;
+		} catch (UnknownPropertyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Exception!!! "+e;
 		}
 
 
 	    httppost.setEntity(mpEntity);
-	    System.out.println("executing request " + httppost.getRequestLine());
-
-//
-//
-//        
-//	    FileEntity reqEntity = new FileEntity(file, "binary/octet-stream");
-//
-//	    httppost.setEntity(reqEntity);
-//	    reqEntity.setContentType("binary/octet-stream");
-//	    
-//	    
-//	    try {
-////			StringEntity formfield = new StringEntity("key", "UTF-8");
-//	    	List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-//	        nvps.add(new BasicNameValuePair("IDToken1", "username"));
-//	        nvps.add(new BasicNameValuePair("IDToken2", "password"));
-//	        
-//	        nvps.add(new BasicNameValuePair("content_type", "application/pdf"));
-//	        
-//
-//	        httppost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-//
-//			
-//		} catch (UnsupportedEncodingException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//			return "Exception! "+e1;
-//		}
-//	    reqEntity.setContentType("text/html");
-	    
-		 
+	    System.out.println("executing request " + httppost.getRequestLine()); 
 		 
 		 
 		 
