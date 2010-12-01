@@ -57,4 +57,6 @@
 ###00100040###
 <%=rs.getString("PATIENT_SEX") %>
 ###00100030###
-<%=rs.getString("PATIENT_BIRTH_DATE")%><%}%>
+<%=rs.getString("PATIENT_BIRTH_DATE")%>
+###00000000###
+<%}%>
