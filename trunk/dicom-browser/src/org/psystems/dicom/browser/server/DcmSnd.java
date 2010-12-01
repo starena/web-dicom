@@ -48,6 +48,7 @@ import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -910,7 +911,7 @@ public class DcmSnd extends StorageCommitmentService {
 //        CommandLine cl = parse(args);
 //        DcmSnd dcmsnd = new DcmSnd(cl.hasOption("device") 
 //                ? cl.getOptionValue("device") : "DCMSND");
-        
+    	StringBuffer monitor = new StringBuffer();
         DcmSnd dcmsnd = new DcmSnd("DCMSND");
         
         
@@ -1156,7 +1157,15 @@ public class DcmSnd extends StorageCommitmentService {
                     + ((t2 - t1) / 1000F) + "s");
     
             t1 = System.currentTimeMillis();
-            dcmsnd.send();
+            try {
+            	
+				dcmsnd.send(monitor);
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				throw Util.throwPortalException ("ERROR:",e1);
+			}
             t2 = System.currentTimeMillis();
             prompt(dcmsnd, (t2 - t1) / 1000F);
             if (dcmsnd.isStorageCommitment()) {
@@ -1173,7 +1182,7 @@ public class DcmSnd extends StorageCommitmentService {
                     } catch (InterruptedException e) {
                     	
                     	String msg = "ERROR:" + e.getMessage();
-						//TODO !!!! сдесь бросать эксепшн???
+						//TODO !!!! здесь бросать эксепшн???
                         System.err.println(msg);
                         throw Util.throwPortalException (msg,e);
                     }
@@ -1181,10 +1190,11 @@ public class DcmSnd extends StorageCommitmentService {
              } else {
             	 
             	 //TODO Тут вот если ошибка отправки...
-            	 System.out.println(">>>!!!!! Error sending !!!!!!");
-            	 throw Util.throwPortalException ("Error sending data to Archive (dcmsnd.isStorageCommitment() = FALSE)");
+//            	 System.out.println(">>>!!!!! Error sending !!!!!!");
+//            	 throw Util.throwPortalException ("Error sending data to Archive (dcmsnd.isStorageCommitment() = FALSE)");
              	
              }
+            
             dcmsnd.close();
             System.out.println("Released connection to " + remoteAE);
             if (remoteStgCmtAE != null) {
@@ -1226,7 +1236,14 @@ public class DcmSnd extends StorageCommitmentService {
             dcmsnd.stop();
         }
         
-        System.out.println(" DcmSnd sending SUCCESS !!!!");
+        
+        if(monitor.toString().length()>0) {
+        	System.out.println(" DcmSnd sending ERROR !!!! CODE:"+monitor.toString());
+        	//TODO Выбрать нормальынй exception
+        	throw Util.throwPortalException ("ERROR:",new RuntimeException("error send data"));
+        } else {
+        	System.out.println(" DcmSnd sending SUCCESS !!!! CODE:"+monitor.toString());
+        }
         
     }
 
@@ -1415,7 +1432,7 @@ public class DcmSnd extends StorageCommitmentService {
         assoc = ae.connect(remoteStgcmtAE, executor);
     }
 
-    public void send() {
+    public void send(final StringBuffer monitor) throws IOException {
         for (int i = 0, n = files.size(); i < n; ++i) {
             FileInfo info = files.get(i);
             TransferCapability tc = assoc.getTransferCapabilityAsSCU(info.cuid);
@@ -1446,7 +1463,14 @@ public class DcmSnd extends StorageCommitmentService {
                     @Override
                     public void onDimseRSP(Association as, DicomObject cmd,
                             DicomObject data) {
-                        DcmSnd.this.onDimseRSP(cmd);
+                    	try {
+                    		DcmSnd.this.onDimseRSP(cmd);
+                        
+                    	}catch(Exception ex) {
+                    		ex.printStackTrace();
+                    		monitor.append("F");
+                    	}
+                        
                     }
                 };
 
@@ -1456,14 +1480,17 @@ public class DcmSnd extends StorageCommitmentService {
                 System.err.println("WARNING: " + e.getMessage()
                         + " - cannot send " + info.f);
                 System.out.print('F');
+                throw new IOException("Error send data",e);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.err.println("ERROR: Failed to send - " + info.f + ": "
                         + e.getMessage());
                 System.out.print('F');
+                throw new IOException("Error send data",e);
             } catch (InterruptedException e) {
                 // should not happen
                 e.printStackTrace();
+                throw new IOException("Error send data",e);
             }
         }
         try {
@@ -1471,6 +1498,7 @@ public class DcmSnd extends StorageCommitmentService {
         } catch (InterruptedException e) {
             // should not happen
             e.printStackTrace();
+            throw new IOException("Error send data",e);
         }
     }
 
