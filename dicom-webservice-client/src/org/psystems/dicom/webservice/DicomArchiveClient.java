@@ -230,11 +230,11 @@ public class DicomArchiveClient {
 		
 		query.setTransactionId("TRANS3");
 		query.setManufacturerModelName("APPARAT Аппарат1");
-		query.setPatientDateBirthday("19760111");
+		query.setPatientDateBirthday("1976-01-11");
 		query.setPatientId("PATID12");
 		query.setPatientName("деренок1");
 		query.setPatientSex("M");
-		query.setStudyPlanningDate("20101220");
+		query.setStudyPlanningDate("2010-12-20");
 		query.setStudyType("ES");
 		
 		stub.newStudy(query);
