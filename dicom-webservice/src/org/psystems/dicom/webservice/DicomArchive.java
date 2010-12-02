@@ -305,9 +305,9 @@ public class DicomArchive {
 	 * @param studyType - Тип исследования (CR,ES,...)
 	 * @param ManufacturerModelName
 	 * @param patientName
-	 * @param patientDateBirthday
-	 * @param patientSex
-	 * @param studyPlanningDate
+	 * @param patientDateBirthday формат: YYYY-MM-DD
+	 * @param patientSex формат: M|F
+	 * @param studyPlanningDate формат: YYYY-MM-DD
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
@@ -372,9 +372,9 @@ public class DicomArchive {
 			props.put("00080060", studyType.toUpperCase());//
 			props.put("00081090", ManufacturerModelName.toUpperCase());//ManufacturerModelName
 			props.put("00100010", patientName.toUpperCase());//patientName
-			props.put("00100030", patientDateBirthday.toUpperCase());//patientDateBirthday
+			props.put("00100030", Utils.SqlDate2DicomDate(patientDateBirthday.toUpperCase()));//patientDateBirthday
 			props.put("00100040", patientSex.toUpperCase());//patientSex
-			props.put("00080020", studyPlanningDate.toUpperCase());//дата исследования
+			props.put("00080020", Utils.SqlDate2DicomDate(studyPlanningDate.toUpperCase()));//дата исследования
 			
 			//FIXME Сделать подстановку номального UID issue#50
 			

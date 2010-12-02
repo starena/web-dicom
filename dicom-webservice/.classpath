@@ -18,5 +18,6 @@
 			<attribute name="owner.project.facets" value="jst.java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
