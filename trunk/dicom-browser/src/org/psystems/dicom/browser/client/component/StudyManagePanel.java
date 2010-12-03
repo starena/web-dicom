@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
+import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
@@ -49,7 +50,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
@@ -95,7 +95,9 @@ public class StudyManagePanel extends Composite implements
 	private TransactionTimer timer = null;
 	private ListBox studyManufacturerModelName;
 	private ListBox studyModality;
-
+	
+	private HTML ooTemplatePanel = new HTML();
+	
 	public StudyManagePanel(final BrowserServiceAsync browserService, StudyCard studyCardPanel, StudyProxy proxy) {
 
 		this.studyCardPanel = studyCardPanel;
@@ -316,7 +318,26 @@ public class StudyManagePanel extends Composite implements
 		formTable.setWidget(rowCounter - 1, 2, patientNameCheck);
 		formTable.getCellFormatter().setVerticalAlignment(rowCounter - 1, 2,
 				HasVerticalAlignment.ALIGN_TOP);
-		formTable.getFlexCellFormatter().setRowSpan(rowCounter - 1, 2, 20);
+		formTable.getFlexCellFormatter().setRowSpan(rowCounter - 1, 2, 4);
+		
+		formTable.setWidget(rowCounter + 5, 2,
+				makeItemLabel("Шаблоны"));
+		formTable.getCellFormatter().setHorizontalAlignment(rowCounter + 5, 2,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		
+		
+		ooTemplatePanel.setHTML("загрузка шаблонов...");
+		
+		formTable.setWidget(rowCounter + 6, 2,
+				ooTemplatePanel);
+		formTable.getCellFormatter().setHorizontalAlignment(rowCounter + 6, 2,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		
+		if(proxy!=null) {
+			initTemplates(proxy.getStudyModality());
+		}else {
+			initTemplates(null);
+		}
 
 		//
 		lbSex = new ListBox();
@@ -1004,6 +1025,34 @@ public class StudyManagePanel extends Composite implements
 			
 		});
 		
+		
+	}
+	
+	/**
+	 * Получение списка шаблонов
+	 * @param modality
+	 * @return
+	 */
+	void initTemplates(String modality) {
+		
+		browserService.getOOTemplates(modality, new AsyncCallback<ArrayList<OOTemplateProxy>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Dicom_browser.showErrorDlg(caught);
+			}
+
+			@Override
+			public void onSuccess(ArrayList<OOTemplateProxy> result) {
+				
+				String tmpls = "";
+				for(int i=0; i<result.size(); i++) {
+					tmpls += "<a href='"+result.get(i).getUrl()+"?id="+proxy.getId()+"'>" + result.get(i).getTitle() +"</a><br>";
+				}
+				
+				ooTemplatePanel.setHTML(tmpls);
+			}
+		});
 		
 	}
 

@@ -60,6 +60,7 @@ import java.util.HashMap;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
@@ -87,5 +88,8 @@ public interface BrowserServiceAsync {
 			AsyncCallback<StudyProxy> callback);
 
 	void getSessionObject(AsyncCallback<Session> callback);
+
+	void getOOTemplates(String modality,
+			AsyncCallback<ArrayList<OOTemplateProxy>> callback);
 
 }

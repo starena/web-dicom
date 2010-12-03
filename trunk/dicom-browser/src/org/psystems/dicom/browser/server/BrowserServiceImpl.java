@@ -85,6 +85,7 @@ import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
@@ -757,6 +758,46 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		Session sessionObject = (Session)req.getSession().getAttribute(Util.sessionAttrName);
 		return sessionObject;
 	
+	}
+
+	@Override
+	public ArrayList<OOTemplateProxy> getOOTemplates(String modality)
+			throws DefaultGWTRPCException {
+		
+		ArrayList<OOTemplateProxy> result = new ArrayList<OOTemplateProxy>();
+		
+		String ootmplRootDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+		
+		
+		File[] files = new File(ootmplRootDir).listFiles();
+        for(int i = 0; i < files.length; i++) {
+        	if(files[i].isDirectory()) {
+        		
+        		String dirName = files[i].getName();
+        		
+        		System.out.println(">> DIR: " + dirName);
+        		
+        		
+//				if (modality == null || modality.equalsIgnoreCase("dirName")) {
+
+					File[] tmpls = files[i].listFiles();
+					for (int j = 0; j < tmpls.length; j++) {
+						File tmpl = tmpls[j];
+						String fileName = tmpl.getName();
+						System.out.println(">>>>> TMPL: [" + fileName + "]"+modality);
+
+						OOTemplateProxy tmplProxy = new OOTemplateProxy();
+						tmplProxy.setModality(dirName);
+						tmplProxy.setTitle(tmpl.getName());
+						tmplProxy.setUrl("ootmpl/" + dirName + "/" + fileName);
+						result.add(tmplProxy);
+					}
+//				}
+        		
+        	}
+        }
+
+		return result;
 	}
 
 }
