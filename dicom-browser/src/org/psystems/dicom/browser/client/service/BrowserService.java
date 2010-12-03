@@ -61,6 +61,7 @@ import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
@@ -103,5 +104,7 @@ public interface BrowserService extends RemoteService {
 			throws DefaultGWTRPCException;
 	
 	Session getSessionObject() throws DefaultGWTRPCException;
+	
+	ArrayList<OOTemplateProxy> getOOTemplates(String modality)  throws DefaultGWTRPCException;
 
 }
