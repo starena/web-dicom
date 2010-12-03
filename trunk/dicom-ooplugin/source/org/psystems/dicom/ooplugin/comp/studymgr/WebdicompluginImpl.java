@@ -166,6 +166,32 @@ public final class WebdicompluginImpl extends WeakBase
 	}
 	
 	
+	/**
+	 * Определение ID исследования по URL документа
+	 * @param url
+	 * @return
+	 */
+	public static String getIdFormURL(String url) {
+
+		Matcher matcher = Pattern.compile("^.*[\\|/](\\d+)\\.odt$")
+				.matcher(url);
+		String studyId = null;
+		if (matcher.matches()) {
+			studyId = matcher.group(1);
+		} else {
+
+			matcher = Pattern.compile("^.*[\\|/](\\d+)-(\\d+)\\.odt$").matcher(
+					url);
+			if (matcher.matches()) {
+				studyId = matcher.group(1);
+				String prefix = matcher.group(2);
+			}
+		}
+
+		return studyId;
+
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#updateDocument(java.lang.String, com.sun.star.text.XTextDocument)
 	 * 
@@ -188,12 +214,8 @@ public final class WebdicompluginImpl extends WeakBase
 			
 		}
 		
-		matcher = Pattern.compile("^.*[\\|/](\\w+)_(\\d+)\\.odt$").matcher(docName);
-		if (matcher.matches()) {
-			studyType = matcher.group(1);
-			studyId = matcher.group(2);
-			
-		}
+		studyId = getIdFormURL(docName);
+		
 		
 		host += "/oostudy/" + studyId;
 		
@@ -252,6 +274,9 @@ public final class WebdicompluginImpl extends WeakBase
 		// Создадим перечисление всех полей документа
 		XEnumerationAccess xEnumerationAccess = xTextFieldsSupplier
 				.getTextFields();
+		
+		
+		
 		XEnumeration xTextFieldsEnumeration = xEnumerationAccess
 				.createEnumeration();
 		XRefreshable xRefreshable = (XRefreshable) UnoRuntime
