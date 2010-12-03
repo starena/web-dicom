@@ -159,6 +159,9 @@ public class NewStudyServlet extends HttpServlet {
 
 		System.out.println("!!! FormFiled: " + name + "=" + value);
 
+		//Исключаем не IDCOM поля
+		if(name.equalsIgnoreCase("ID")) return;
+		
 		props.put(name, value);
 	}
 

@@ -93,13 +93,18 @@
 		<param-name>webdicom.dir.newdcm.jpg.cfg</param-name>
 		<param-value>C:\WORK\workspace\dicom-browser\test\data\jpg2dcm.cfg</param-value>
 	</context-param>
-	
+
 	<!-- Конфиг-прототип для создания DFP - DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm.pdf.cfg</param-name>
 		<param-value>C:\WORK\workspace\dicom-browser\test\data\pdf2dcm.cfg</param-value>
 	</context-param>
 
+	<!-- Директория с шаблонами openoffice  -->
+	<context-param>
+		<param-name>webdicom.dir.ootmpl</param-name>
+		<param-value>C:\temp\dcm.oo</param-value>
+	</context-param>
 
 
 	<!-- ************************************************* -->
@@ -236,6 +241,20 @@
 	<servlet-mapping>
 		<servlet-name>oostudy</servlet-name>
 		<url-pattern>/oostudy/*</url-pattern>
+	</servlet-mapping>
+	
+	<!--  Получение openoffice шаблона   -->
+	
+	<servlet>
+		<servlet-name>DcmGetOOTemplateServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.DcmGetOOTemplateServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DcmGetOOTemplateServlet</servlet-name>
+		<url-pattern>/ootmpl/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- ************************************************* -->
