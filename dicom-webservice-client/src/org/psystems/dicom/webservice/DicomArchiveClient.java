@@ -29,8 +29,9 @@ public class DicomArchiveClient {
 //				testGetStudy();
 //				findStudies();
 				
-				String host = "http://localhost:8080/dicom-webservice";
-//				String host = "http://localhost:38081/dicom-webservice2";
+//				String host = "http://localhost:8080/dicom-webservice";
+//				String host = "http://localhost:38081/dicom-webservice";
+				String host = "https://proxy.gp1.psystems.org:38081/dicom-webservice";
 				
 				if(args.length > 0) {
 					host = args[0];
@@ -38,8 +39,21 @@ public class DicomArchiveClient {
 				System.out.println("host is "+host);
 //				findStudiesByType(host);
 				
-//				testGetDevices(host);
-				testNewStudy(host);
+				System.setProperty("javax.net.debug", "all");
+				
+//				"C:\Program Files\Java\jre6\bin\keytool.exe" -genkey -alias asu -keystore client.jks
+//				"C:\Program Files\Java\jre6\bin\keytool.exe" -list -v -keystore client.jks
+//				"C:\Program Files\Java\jre6\bin\keytool.exe" -keystore client.jks -import -trustcacerts -alias proxy_gp1 -file proxy.cer
+				
+				
+				System.setProperty("javax.net.ssl.keyStore", "client.jks");
+				System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
+				System.setProperty("javax.net.ssl.keyStoreType", "JKS");
+				System.setProperty("javax.net.ssl.trustStore", "client.jks");
+				System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
+				
+				testGetDevices(host);
+//				testNewStudy(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -159,6 +173,8 @@ public class DicomArchiveClient {
 	}
 
 	private static void testGetDevices(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+		
+//		
 		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
 		GetManufacturersResponse responce = stub.getManufacturers();
 		ManufacturerDevice[] result = responce.get_return();
