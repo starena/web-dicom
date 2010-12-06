@@ -202,6 +202,7 @@ public final class WebdicompluginImpl extends WeakBase
 	public String updateDocument(String docName, String config, XTextDocument docObj) {
 		
 		//TODO сделать проброс эксепшинов
+//		https://proxy.gp1.psystems.org:38081/browser.01/ootmpl/ES/issled_n_1.odt?id=8402
 		
 		String host = null, login = null, password = null, studyId = null, studyType = null;;
 		
@@ -337,6 +338,7 @@ public final class WebdicompluginImpl extends WeakBase
 		
 		//авторизвция
 		 httpclient.getCredentialsProvider().setCredentials(
+				 //Для тестирования можно забить "localhost"
 				 new AuthScope(host, 80),
 	               // new AuthScope("localhost", 443), 
 	                new UsernamePasswordCredentials(login, password));
