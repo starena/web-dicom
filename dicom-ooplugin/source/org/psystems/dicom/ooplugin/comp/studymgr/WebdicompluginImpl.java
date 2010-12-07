@@ -4,35 +4,36 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
+import org.apache.http.auth.AuthScheme;
 import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.AuthState;
+import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.ExecutionContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import com.sun.star.beans.UnknownPropertyException;
@@ -192,6 +193,29 @@ public final class WebdicompluginImpl extends WeakBase
 
 	}
 	
+	public static HashMap<String, String> getConfiguration(String config) {
+		
+//		String cfg = "dicomuser:dicom@https://proxy.gp1.psystems.org:38081/browser.01";
+		Matcher matcher = Pattern.compile("^(.*)\\:(.*)\\@(.*)\\://(.*)\\:(.*)/(.*)$").matcher(config);
+		HashMap<String, String> result = new HashMap<String, String>();
+		if (matcher.matches()) {
+			
+			result.put("login", matcher.group(1));
+			result.put("password", matcher.group(2));
+			result.put("protocol", matcher.group(3));
+			result.put("host", matcher.group(4));
+			result.put("port", matcher.group(5));
+			result.put("url", matcher.group(6));
+			
+		}
+		return result;
+		
+	}
+	
+	public static String getConfigURL(HashMap<String, String> cfg) {
+		return cfg.get("protocol")+"://"+cfg.get("host")+":"+cfg.get("port")+"/"+cfg.get("url");
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#updateDocument(java.lang.String, com.sun.star.text.XTextDocument)
 	 * 
@@ -204,20 +228,24 @@ public final class WebdicompluginImpl extends WeakBase
 		//TODO сделать проброс эксепшинов
 //		https://proxy.gp1.psystems.org:38081/browser.01/ootmpl/ES/issled_n_1.odt?id=8402
 		
-		String host = null, login = null, password = null, studyId = null, studyType = null;;
+		//TODO Убрать жесткие пути
+//		System.setProperty("javax.net.ssl.keyStore", "C:\\temp\\111\\client.jks");
+//		System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
+//		System.setProperty("javax.net.ssl.keyStoreType", "JKS");
+//		System.setProperty("javax.net.ssl.trustStore", "C:\\temp\\111\\client.jks");
+//		System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
 		
-		Matcher matcher = Pattern.compile("^(.*)\\:(.*)\\@(.*)$").matcher(config);
-		if (matcher.matches()) {
-			
-			login = matcher.group(1);
-			password = matcher.group(2);
-			host = matcher.group(3);
-			
-		}
+		String studyId = null, studyType = null;
 		
+
+		HashMap<String, String> cfg = getConfiguration(config);
+
+		String login = cfg.get("login");
+		String password = cfg.get("password");
+		String host = getConfigURL(cfg);
+
 		studyId = getIdFormURL(docName);
-		
-		
+
 		host += "/oostudy/" + studyId;
 		
 //		if(true) return "URL=[" + host + "];" + login + ";" + password+";"+docName+";"+studyId+";"+studyType;
@@ -323,23 +351,32 @@ public final class WebdicompluginImpl extends WeakBase
 		//TODO сделать проброс эксепшинов
 		String resultText = "";
 		
-		String host = null, login = null, password = null, studyId = null, studyType = null;;
+		String studyId = null, studyType = null;;
 		
-		Matcher matcher = Pattern.compile("^(.*)\\:(.*)\\@(.*)$").matcher(config);
-		if (matcher.matches()) {
-			
-			login = matcher.group(1);
-			password = matcher.group(2);
-			host = matcher.group(3);
-			
-		}
+	
+		HashMap<String, String> cfg = getConfiguration(config);
+
+		String login = cfg.get("login");
+		String password = cfg.get("password");
+		String host = getConfigURL(cfg);
+		
+		//TODO сделать проброс эксепшинов
+//		https://proxy.gp1.psystems.org:38081/browser.01/ootmpl/ES/issled_n_1.odt?id=8402
+		
+//		System.setProperty("javax.net.ssl.keyStore", "C:\\temp\\111\\client.jks");
+//		System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
+//		System.setProperty("javax.net.ssl.keyStoreType", "JKS");
+//		System.setProperty("javax.net.ssl.trustStore", "C:\\temp\\111\\client.jks");
+//		System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
+		
 		
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		
 		//авторизвция
 		 httpclient.getCredentialsProvider().setCredentials(
 				 //Для тестирования можно забить "localhost"
-				 new AuthScope(host, 80),
+				 new AuthScope(cfg.get("host"), Integer.valueOf(cfg.get("port"))),
+//				 new AuthScope(host, 38081),
 	               // new AuthScope("localhost", 443), 
 	                new UsernamePasswordCredentials(login, password));
 	        
@@ -449,5 +486,46 @@ public final class WebdicompluginImpl extends WeakBase
 		
 		return "["+response.getStatusLine().getStatusCode()+"]\n"+resultText;
 	}
+	
+	   /**
+	 * @author dima_d
+	 * 
+	 * Класс для аутентификации
+	 *
+	 */
+	static class PreemptiveAuth implements HttpRequestInterceptor {
+
+	        public void process(
+	                final HttpRequest request, 
+	                final HttpContext context) throws HttpException, IOException {
+	            
+	            AuthState authState = (AuthState) context.getAttribute(
+	                    ClientContext.TARGET_AUTH_STATE);
+	            
+	            // If no auth scheme avaialble yet, try to initialize it preemptively
+	            if (authState.getAuthScheme() == null) {
+	                AuthScheme authScheme = (AuthScheme) context.getAttribute(
+	                        "preemptive-auth");
+	                CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(
+	                        ClientContext.CREDS_PROVIDER);
+	                HttpHost targetHost = (HttpHost) context.getAttribute(
+	                        ExecutionContext.HTTP_TARGET_HOST);
+	                if (authScheme != null) {
+	                    Credentials creds = credsProvider.getCredentials(
+	                            new AuthScope(
+	                                    targetHost.getHostName(), 
+	                                    targetHost.getPort()));
+	                    if (creds == null) {
+	                        throw new HttpException("No credentials for preemptive authentication");
+	                    }
+	                    authState.setAuthScheme(authScheme);
+	                    authState.setCredentials(creds);
+	                }
+	            }
+	            
+	        }
+	        
+	    }
+
 
 }
