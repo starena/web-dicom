@@ -49,43 +49,43 @@ public class WebdicompluginImplTest extends TestCase {
 		super.tearDown();
 	}
 
-	public void testUpdateDocument() {
-//		fail("Not yet implemented");
-
-		
-		HttpClient httpclient = new DefaultHttpClient();
-		String host = "http://127.0.0.1:8888/oostudy/1"; 
-		HttpGet httpget = new HttpGet(host); 
-
-        System.out.println("executing request " + httpget.getURI());
-
-        // Create a response handler
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        String responseBody = null;
-		try {
-			responseBody = httpclient.execute(httpget, responseHandler);
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
-		String result = responseBody;
-		System.out.println("executing result " + result);
-		
-		httpclient.getConnectionManager().shutdown(); 
-		
-		HashMap<String, String> d = WebdicompluginImpl.parse(result);
-//		assertEquals(6, d.size());
-//		assertEquals(d.get("ID"),"1");
-//		assertEquals(d.get("STUDY_ID"),"94286");
-//		assertEquals(d.get("STUDY_UID"),"1.2.826.0.1.3680043.2.634.30.1.94286.20100401164900");
-//		assertEquals(d.get("STUDY_VIEW_PROTOCOL"),"Органы грудной полости без видимых патологических изменений (придуманная)придуманное - не согласие!!!!!!!!!!!");
-//		assertEquals(d.get("STUDY_VIEW_PROTOCOL_DATE"),"2010-04-01");
-//		assertEquals(d.get("STUDY_RESULT"),"");
-	}
+//	public void testUpdateDocument() {
+////		fail("Not yet implemented");
+//
+//		
+//		HttpClient httpclient = new DefaultHttpClient();
+//		String host = "http://127.0.0.1:8888/oostudy/1"; 
+//		HttpGet httpget = new HttpGet(host); 
+//
+//        System.out.println("executing request " + httpget.getURI());
+//
+//        // Create a response handler
+//        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+//        String responseBody = null;
+//		try {
+//			responseBody = httpclient.execute(httpget, responseHandler);
+//		} catch (ClientProtocolException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			
+//		}
+//		String result = responseBody;
+//		System.out.println("executing result " + result);
+//		
+//		httpclient.getConnectionManager().shutdown(); 
+//		
+//		HashMap<String, String> d = WebdicompluginImpl.parse(result);
+////		assertEquals(6, d.size());
+////		assertEquals(d.get("ID"),"1");
+////		assertEquals(d.get("STUDY_ID"),"94286");
+////		assertEquals(d.get("STUDY_UID"),"1.2.826.0.1.3680043.2.634.30.1.94286.20100401164900");
+////		assertEquals(d.get("STUDY_VIEW_PROTOCOL"),"Органы грудной полости без видимых патологических изменений (придуманная)придуманное - не согласие!!!!!!!!!!!");
+////		assertEquals(d.get("STUDY_VIEW_PROTOCOL_DATE"),"2010-04-01");
+////		assertEquals(d.get("STUDY_RESULT"),"");
+//	}
 
 	public void testSendDocument() {
 //		fail("Not yet implemented");
@@ -93,7 +93,22 @@ public class WebdicompluginImplTest extends TestCase {
 		assertEquals("123", WebdicompluginImpl.getIdFormURL("file:///C:/Documents%20and%20Settings/dima_d/Local%20Settings/Temp/123-18.odt"));
 	}
 	
-	
+	public void testgetConfiguration() {
+		String cfg = "dicomuser:dicom@https://proxy.gp1.psystems.org:38081/browser.01";
+		HashMap<String, String> result = WebdicompluginImpl.getConfiguration(cfg);
+		assertEquals(result.get("login"), "dicomuser");
+		assertEquals(result.get("password"), "dicom");
+		assertEquals(result.get("protocol"), "https");
+		assertEquals(result.get("host"), "proxy.gp1.psystems.org");
+		assertEquals(result.get("port"), "38081");
+		assertEquals(result.get("url"), "browser.01");
+		
+		assertEquals("https://proxy.gp1.psystems.org:38081/browser.01",
+				WebdicompluginImpl.getConfigURL(result));
+	}
+		
+		
+
 	
 
 }
