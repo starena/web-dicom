@@ -302,9 +302,9 @@ public class DicomArchive {
 	 * 
 	 * @param transactionId - Идентификатор транзакции (StudyID)
 	 * @param patientId - Идентификатор пациента (PatientID)
-	 * @param studyType - Тип исследования (CR,ES,...)
-	 * @param ManufacturerModelName
-	 * @param patientName
+	 * @param studyModality - Тип исследования (CR,ES,...)
+	 * @param ManufacturerModelName - Аппарат (может быть NULL)
+	 * @param patientName ФИО
 	 * @param patientDateBirthday формат: YYYY-MM-DD
 	 * @param patientSex формат: M|F
 	 * @param studyPlanningDate формат: YYYY-MM-DD
@@ -312,10 +312,33 @@ public class DicomArchive {
 	 * @throws DicomWebServiceException
 	 */
 	public void newStudy(String transactionId, String patientId,
-			String studyType, String ManufacturerModelName, String patientName,
+			String studyModality, String ManufacturerModelName, String patientName,
 			String patientDateBirthday, String patientSex,
 			String studyPlanningDate) throws DicomWebServiceException {
 
+		if(transactionId==null || transactionId.length() == 0)
+			throw new DicomWebServiceException("Illegal argument transactionId");
+		
+		if(patientId==null || patientId.length() == 0)
+			throw new DicomWebServiceException("Illegal argument patientId");
+		
+		if(studyModality==null || studyModality.length() == 0)
+			throw new DicomWebServiceException("Illegal argument studyModality");
+		
+		if(patientName==null || patientName.length() == 0)
+			throw new DicomWebServiceException("Illegal argument patientName");
+		
+		if(patientDateBirthday==null || patientDateBirthday.length() == 0)
+			throw new DicomWebServiceException("Illegal argument patientDateBirthday");
+		
+		if(patientSex==null || patientSex.length() == 0)
+			throw new DicomWebServiceException("Illegal argument patientSex");
+		
+		if(studyPlanningDate==null || studyPlanningDate.length() == 0)
+			throw new DicomWebServiceException("Illegal argument studyPlanningDate");
+		
+		
+		
 		try {
 			ServletContext servletContext = (ServletContext) MessageContext
 					.getCurrentMessageContext().getProperty(
@@ -369,8 +392,10 @@ public class DicomArchive {
 			Properties props = new Properties();
 			props.put("00200010", transactionId.toUpperCase());//StudyID
 			props.put("00100020", patientId.toUpperCase());//PatientID
-			props.put("00080060", studyType.toUpperCase());//
-			props.put("00081090", ManufacturerModelName.toUpperCase());//ManufacturerModelName
+			props.put("00080060", studyModality.toUpperCase());//
+			if(ManufacturerModelName!=null) {
+				props.put("00081090", ManufacturerModelName.toUpperCase());//ManufacturerModelName
+			}
 			props.put("00100010", patientName.toUpperCase());//patientName
 			props.put("00100030", Utils.SqlDate2DicomDate(patientDateBirthday.toUpperCase()));//patientDateBirthday
 			props.put("00100040", patientSex.toUpperCase());//patientSex
