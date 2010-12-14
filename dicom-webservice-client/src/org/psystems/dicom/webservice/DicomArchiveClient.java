@@ -29,9 +29,9 @@ public class DicomArchiveClient {
 //				testGetStudy();
 //				findStudies();
 				
-//				String host = "http://localhost:8080/dicom-webservice";
+				String host = "http://localhost:8080/dicom-webservice";
 //				String host = "http://localhost:38081/dicom-webservice";
-				String host = "https://proxy.gp1.psystems.org:38081/dicom-webservice";
+//				String host = "https://proxy.gp1.psystems.org:38081/dicom-webservice";
 				
 				if(args.length > 0) {
 					host = args[0];
@@ -52,8 +52,8 @@ public class DicomArchiveClient {
 				System.setProperty("javax.net.ssl.trustStore", "client.jks");
 				System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
 				
-				testGetDevices(host);
-//				testNewStudy(host);
+//				testGetDevices(host);
+				testNewStudy(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -251,7 +251,7 @@ public class DicomArchiveClient {
 		query.setPatientName("деренок1");
 		query.setPatientSex("M");
 		query.setStudyPlanningDate("2010-12-20");
-		query.setStudyType("ES");
+		query.setStudyModality("ES");
 		
 		stub.newStudy(query);
 	
