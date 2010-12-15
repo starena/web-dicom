@@ -84,4 +84,32 @@
 		<error-code>500</error-code>
 		<location>/axis2-web/Error/error500.jsp</location>
 	</error-page>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Web Service Authentication</web-resource-name>
+			<url-pattern>/services/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>studymanager</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Axis Basic Authentication Area</realm-name>
+	</login-config>
+
+	<security-role>
+		<description>The web-service-user has full access to all web services
+  </description>
+		<role-name>studymanager</role-name>
+	</security-role>
+
+	<!--
+
+		<user-data-constraint>
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	-->
 </web-app>
