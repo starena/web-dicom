@@ -58,6 +58,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,8 +82,17 @@ public class DcmGetOOTemplateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		String charset = System.getProperty("encoding");
+		
+		Locale l = Locale.getDefault();
+		
 		String fileName = req.getPathInfo().replaceFirst("/", "");
 		String id = req.getParameter("id");
+		System.out.println("!!![1] DcmGetOOTemplateServlet file=["+fileName+"]"+l);
+		
+		//ХАк для подмены кодировки
+		fileName = new String((fileName).getBytes("ISO-8859-1"),"UTF-8");
+		System.out.println("!!![2] DcmGetOOTemplateServlet file=["+fileName+"]"+l);
 
 		Matcher matcher = Pattern.compile("^(.*).pdf$").matcher(fileName);
 		if (matcher.matches()) {
