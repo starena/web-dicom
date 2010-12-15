@@ -55,7 +55,7 @@
     <parameter name="DrillDownToRootCauseForFaultReason">false</parameter>
 
     <parameter name="userName">admin</parameter>
-    <parameter name="password">axis2</parameter>
+    <parameter name="password">axis2dicom</parameter>
 
     <!--To override repository/services you need to uncomment following parameter and value SHOULD be absolute file path.-->
     <!--ServicesDirectory only works on the following cases-->
