@@ -5,6 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.apache.axis2.AxisFault;
+import org.apache.axis2.client.Options;
+import org.apache.axis2.description.AxisService;
+import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.transport.http.HttpTransportProperties;
 import org.psystems.dicom.webservice.DicomArchiveStub.DicomTag;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudies;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType;
@@ -29,9 +33,9 @@ public class DicomArchiveClient {
 //				testGetStudy();
 //				findStudies();
 				
-				String host = "http://localhost:8080/dicom-webservice";
+//				String host = "http://localhost:8080/dicom-webservice";
 //				String host = "http://localhost:38081/dicom-webservice";
-//				String host = "https://proxy.gp1.psystems.org:38081/dicom-webservice";
+				String host = "https://proxy.gp1.psystems.org:38081/dicom-webservice";
 				
 				if(args.length > 0) {
 					host = args[0];
@@ -52,8 +56,8 @@ public class DicomArchiveClient {
 				System.setProperty("javax.net.ssl.trustStore", "client.jks");
 				System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
 				
-//				testGetDevices(host);
-				testNewStudy(host);
+				testGetDevices(host);
+//				testNewStudy(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -174,8 +178,17 @@ public class DicomArchiveClient {
 
 	private static void testGetDevices(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
 		
-//		
+		
 		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
+		
+	    HttpTransportProperties.Authenticator basicAuth = new HttpTransportProperties.Authenticator();
+	    basicAuth.setUsername("dicomuser");
+	    basicAuth.setPassword("dicomtest");
+	    basicAuth.setPreemptiveAuthentication(true);
+	    final Options clientOptions = stub._getServiceClient().getOptions();
+	    clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
+
+		
 		GetManufacturersResponse responce = stub.getManufacturers();
 		ManufacturerDevice[] result = responce.get_return();
 		for(int i=0; i<result.length; i++) {
