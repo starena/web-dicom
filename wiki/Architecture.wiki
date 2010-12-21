@@ -35,6 +35,9 @@
  * dicom-webservice - Набор интеграционных сервисов
  * dicom-ooplugin - Плагин для openoffice
 
+= Структурная схема взаимодействия компонентов =
+http://web-dicom.googlecode.com/svn/wiki/images/architecture.png
+
 
 = Диаграммы полученные при проработке пилотного проекта (могут быть уже неактуальны) =
 
