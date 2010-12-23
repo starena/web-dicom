@@ -359,6 +359,40 @@ public class StudyCard extends Composite {
 			VerticalPanel contentPanel = new VerticalPanel();
 			contentPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 			
+//			if(fileProxy.getDateRemoved()!=null) {
+//				contentPanel.add(new Label("удален"));
+//			}
+			
+			Button deleteBtn = new Button( fileProxy.getDateRemoved()==null ? "Удалить" : "Вернуть");
+			deleteBtn.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					Dicom_browser.manageStudyService.dcmFileRemoveRestore (fileProxy.getId(),
+							fileProxy.getDateRemoved() == null ? true : false,
+							new AsyncCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+									
+								}
+
+								@Override
+								public void onSuccess(Void result) {
+									refreshPanel(proxy.getId());
+								}
+					});
+
+				}
+			});
+			
+			
+			contentPanel.add(deleteBtn);
+			
+			contentPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+			
 			//TODO переделат на fileProxy.getType
 			if( fileProxy.haveImage() || (fileProxy.getMimeType()!=null && fileProxy.getMimeType().equals("image/jpg"))) {
 				Image imagePreview = makeItemImage(fileProxy);

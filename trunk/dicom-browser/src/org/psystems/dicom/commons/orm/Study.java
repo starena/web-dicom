@@ -31,11 +31,15 @@
 package org.psystems.dicom.commons.orm;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
 public abstract class Study {
@@ -374,12 +378,36 @@ public abstract class Study {
 	public static void studyRemoveRestore(Connection connection, long idStudy, boolean removed) throws DataException {
 		StudyImplDerby.studyRemoveRestore(connection, idStudy, removed);
 	}
+	
+	/**
+	 * Показ/скрытие файла в исследовании 
+	 * @param connection
+	 * @param idDcmFile
+	 * @param removed
+	 * @throws DataException
+	 */
+	public static void dcmFileRemoveRestore(Connection connection, long idDcmFile, boolean removed) throws DataException {
+		StudyImplDerby.dcmFileRemoveRestore(connection, idDcmFile, removed);
+	}
 
+
+	/**
+	 * Получение прокси-классов для файла исследования
+	 * 
+	 * @param connection
+	 * @param idStudy
+	 * @return
+	 * @throws DataException
+	 */
+	public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection connection, long idStudy) throws DataException {
+		return StudyImplDerby.getDcmFileProxies(connection,idStudy);
+	} 
+	
 	/**
 	 * Получение прокси-класса
 	 * @return
 	 */
-	public StudyProxy getProxy() {
+	public StudyProxy getStudyProxy() {
 
 		StudyProxy proxy = new StudyProxy();
 		proxy.setId(getId());
@@ -414,5 +442,7 @@ public abstract class Study {
 		
 		return proxy;
 	}
+	
+	
 
 }
