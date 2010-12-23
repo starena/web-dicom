@@ -124,16 +124,12 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		// проверка версии клиента
 		Util.checkClentVersion(version);
 
-		PreparedStatement psFiles = null;
 		PreparedStatement psSelect = null;
 
 		try {
 
 			Connection connection = Util.getConnection("main",
 					getServletContext());
-
-			psFiles = connection
-					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
 
 			ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
 			
@@ -184,33 +180,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			
 			
 			for (int i = 0; i < studies.length; i++) {
-				StudyProxy studyProxy = studies[i].getProxy();
-
+				StudyProxy studyProxy = studies[i].getStudyProxy();
 				// Получаем список файлов
-				// TODO Перенести этот код в dicom-common ???
-				//
-
-				psFiles.setLong(1, studies[i].getId());
-				ResultSet rsFiles = psFiles.executeQuery();
-
-				ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
-				while (rsFiles.next()) {
-
-					DcmFileProxy dcmfileProxy = new DcmFileProxy();
-
-					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
-							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
-							rsFiles.getString("MIME_TYPE"), rsFiles.getLong("DOCUMENT_SIZE"),
-							rsFiles.getString("DCM_FILE_NAME"), rsFiles
-									.getLong("DCM_FILE_SIZE"), rsFiles
-									.getLong("IMAGE_FILE_SIZE"), rsFiles
-									.getInt("IMAGE_WIDTH"), rsFiles
-									.getInt("IMAGE_HEIGHT"));
-					files.add(dcmfileProxy);
-				}
-				rsFiles.close();
-				studyProxy.setFiles(files);
-
+				//Сделана раздельная загрузка исследования и файлов для экономии траффика
+				studyProxy.setFiles(Study.getDcmFileProxies(connection,studyProxy.getId()));
 				data.add(studyProxy);
 			}
 
@@ -246,8 +219,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			try {
 				if (psSelect != null)
 					psSelect.close();
-				if (psFiles != null)
-					psFiles.close();
 			} catch (SQLException e) {
 				logger.error(e);
 				throw Util.throwPortalException("Can't find study: ", e);
@@ -606,48 +577,18 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		// проверка версии клиента
 		Util.checkClentVersion(version);
 
-		PreparedStatement psFiles = null;
 		PreparedStatement psSelect = null;
 
 		try {
 
 			Connection connection = Util.getConnection("main",getServletContext());
 			
-			psFiles = connection
-			.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
-			
 			Study study = Study.getStudyByID(connection, id);
 			if(study==null) return null;
 			
-			StudyProxy studyProxy = study.getProxy();
-			
-				// Получаем список файлов
-				// TODO Выделить в общую часть с методом findStudy(....)
-				//
-
-				psFiles.setLong(1, study.getId());
-				ResultSet rsFiles = psFiles.executeQuery();
-
-				ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
-				while (rsFiles.next()) {
-
-					DcmFileProxy dcmfileProxy = new DcmFileProxy();
-
-					dcmfileProxy.init(rsFiles.getLong("ID"), rsFiles
-							.getLong("FID_STUDY"), rsFiles.getString("TYPE"),
-							rsFiles.getString("MIME_TYPE"), rsFiles.getLong("DOCUMENT_SIZE"),
-							rsFiles.getString("DCM_FILE_NAME"), rsFiles
-									.getLong("DCM_FILE_SIZE"), rsFiles
-									.getLong("IMAGE_FILE_SIZE"), rsFiles
-									.getInt("IMAGE_WIDTH"), rsFiles
-									.getInt("IMAGE_HEIGHT"));
-					files.add(dcmfileProxy);
-				}
-				rsFiles.close();
-				studyProxy.setFiles(files);
-
-			
-			
+			StudyProxy studyProxy = study.getStudyProxy();
+			//Сделана раздельная загрузка исследования и файлов для экономии траффика
+			studyProxy.setFiles(Study.getDcmFileProxies(connection,studyProxy.getId()));
 
 			Calendar calendar = Calendar.getInstance();
 
@@ -676,8 +617,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			try {
 				if (psSelect != null)
 					psSelect.close();
-				if (psFiles != null)
-					psFiles.close();
 			} catch (SQLException e) {
 				logger.error(e);
 				throw Util.throwPortalException("Find stidy error! ",e);

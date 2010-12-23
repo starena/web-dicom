@@ -55,6 +55,7 @@
 package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author dima_d
@@ -73,7 +74,8 @@ public class DcmFileProxy implements Serializable {
 	private int imageWidth; //
 	private int imageHeight; //
 	private String mimeType;
-	private long encapsulatedDocSize;//Размер вложенного документа
+	private long encapsulatedDocSize;// Размер вложенного документа
+	private Date dateRemoved; // Дата удаления фала
 
 	/**
 	 * Инициализация класса
@@ -87,29 +89,20 @@ public class DcmFileProxy implements Serializable {
 	 * @param imageWidth
 	 * @param imageHeight
 	 */
-	public void init(long id, long idStudy, String type, String mimeType, long encapsulatedDocSize, String fileName,
-			long fileSize, long imageSize, int imageWidth, int imageHeight) {
-		this.id = id;
-		this.idStudy = idStudy;
-		this.type = type;
-		this.mimeType = mimeType;
-		this.encapsulatedDocSize = encapsulatedDocSize;
-		this.fileName = fileName;
-		this.fileSize = fileSize;
-		this.imageSize = imageSize;
-		this.imageWidth = imageWidth;
-		this.imageHeight = imageHeight;
-	}
-
-	public void init(long id, long idStudy, String type, String fileName,
-			long fileSize) {
-		this.id = id;
-		this.idStudy = idStudy;
-		this.type = type;
-		this.fileName = fileName;
-		this.fileSize = fileSize;
-
-	}
+//	public void init(long id, long idStudy, String type, String mimeType,
+//			long encapsulatedDocSize, String fileName, long fileSize,
+//			long imageSize, int imageWidth, int imageHeight) {
+//		this.id = id;
+//		this.idStudy = idStudy;
+//		this.type = type;
+//		this.mimeType = mimeType;
+//		this.encapsulatedDocSize = encapsulatedDocSize;
+//		this.fileName = fileName;
+//		this.fileSize = fileSize;
+//		this.imageSize = imageSize;
+//		this.imageWidth = imageWidth;
+//		this.imageHeight = imageHeight;
+//	}
 
 	public boolean haveImage() {
 		return true ? (imageSize > 0) : false;
@@ -165,6 +158,47 @@ public class DcmFileProxy implements Serializable {
 
 	public void setEncapsulatedDocSize(long encapsulatedDocSize) {
 		this.encapsulatedDocSize = encapsulatedDocSize;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setIdStudy(long idStudy) {
+		this.idStudy = idStudy;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+
+	public void setImageSize(long imageSize) {
+		this.imageSize = imageSize;
+	}
+
+	public void setImageWidth(int imageWidth) {
+		this.imageWidth = imageWidth;
+	}
+
+	public void setImageHeight(int imageHeight) {
+		this.imageHeight = imageHeight;
+	}
+
+	public Date getDateRemoved() {
+		return dateRemoved;
+	}
+
+	public void setDateRemoved(Date dateRemoved) {
+		this.dateRemoved = dateRemoved;
 	}
 	
 	

@@ -34,11 +34,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.psystems.dicom.browser.client.component.WorkListPanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 /**
  * @author dima_d
@@ -92,6 +92,63 @@ public class StudyImplDerby extends Study {
 		study.setStudyDateRemoved(rs.getTimestamp("REMOVED"));
 		
 		return study;
+		
+	}
+	
+	/**
+	 * Получение прокси-класса для файла исследования
+	 * @param connection
+	 * @param idFile
+	 * @return
+	 * @throws SQLException
+	 */
+	public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection connection, long idStudy)
+			throws DataException {
+		
+		PreparedStatement psFiles = null;
+		
+		try {
+		psFiles = connection.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
+		psFiles.setLong(1, idStudy);
+		ResultSet rs = psFiles.executeQuery();
+
+			ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
+			while (rs.next()) {
+				DcmFileProxy dcmfileProxy = new DcmFileProxy();
+				
+				dcmfileProxy.setId(rs.getLong("ID"));
+				dcmfileProxy.setIdStudy(rs.getLong("FID_STUDY"));
+				dcmfileProxy.setType(rs.getString("TYPE"));
+				dcmfileProxy.setMimeType(rs.getString("MIME_TYPE"));
+				dcmfileProxy.setEncapsulatedDocSize(rs.getLong("DOCUMENT_SIZE"));
+				dcmfileProxy.setFileName(rs.getString("DCM_FILE_NAME"));
+				dcmfileProxy.setFileSize(rs.getLong("DCM_FILE_SIZE"));
+				dcmfileProxy.setImageSize(rs.getLong("IMAGE_FILE_SIZE"));
+				dcmfileProxy.setImageWidth(rs.getInt("IMAGE_WIDTH"));
+				dcmfileProxy.setImageHeight(rs.getInt("IMAGE_HEIGHT"));
+				
+				dcmfileProxy.setDateRemoved(null);
+				if(rs.getTimestamp("REMOVED")!=null)
+					dcmfileProxy.setDateRemoved(rs.getTimestamp("REMOVED"));
+				
+				files.add(dcmfileProxy);
+				
+			}
+			return files;
+		}
+		catch(SQLException e) {
+			throw new DataException(e);
+		}
+		finally {
+
+			try {
+				if (psFiles != null)
+					psFiles.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
 		
 	}
 	
@@ -370,5 +427,42 @@ public class StudyImplDerby extends Study {
 			}
 		}
 	}
+	
+	
+	/**
+	 * 
+	 */
+	public static void dcmFileRemoveRestore(Connection  connection, long idDcmFile, boolean removed) throws DataException {
+		
+		PreparedStatement psSelect = null;
+		String sql = null;
+		if (removed)
+			sql = "UPDATE WEBDICOM.DCMFILE SET REMOVED = CURRENT_TIMESTAMP WHERE ID = ?";
+		else
+			sql = "UPDATE WEBDICOM.DCMFILE SET REMOVED = NULL WHERE ID = ?";
+
+		try {
+
+			psSelect = connection.prepareStatement(sql);
+			psSelect.setLong(1, idDcmFile);
+			connection.setAutoCommit(false);
+			int count = psSelect.executeUpdate();
+			connection.commit();
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+	}
+	
+	
 
 }

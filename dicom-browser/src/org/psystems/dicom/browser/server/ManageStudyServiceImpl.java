@@ -147,7 +147,17 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public void dcmFileRemoveRestore(long idDcmFile, boolean removed)
 			throws DefaultGWTRPCException {
-		// TODO Auto-generated method stub
+		try {
+			Connection connection = Util.getConnection("main",getServletContext());
+			Study.dcmFileRemoveRestore(connection, idDcmFile, removed);
+		} catch (SQLException e) {
+			logger.error(e);
+			throw Util.throwPortalException("Study DCM file Remove/Restore! ",e);
+		} catch (DataException e) {
+			logger.error(e);
+			throw Util.throwPortalException("Study DCM file Remove/Restore! ",e);
+		}
+		
 		
 	}
 
