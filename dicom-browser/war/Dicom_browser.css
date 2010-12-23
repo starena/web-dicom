@@ -194,6 +194,10 @@ A.selected {
 	color: red;
 }
 
+.DicomItemRemoved {
+	color: lightGray;
+}
+
 .DicomItemName {
 	font: 1.4em/ 78% normal Verdana, Tahoma, sans-serif;
 	margin: 2px;

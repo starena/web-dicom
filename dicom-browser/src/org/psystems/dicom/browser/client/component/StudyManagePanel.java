@@ -79,7 +79,6 @@ public class StudyManagePanel extends Composite implements
 	private DateBox studyViewProtocolDateBox;
 	private Hidden studyViewProtocolDateHidden;
 	private ListBox patientNameCheck;
-	private BrowserServiceAsync browserService;
 	protected HashMap<String, PatientProxy> itemProxies = new HashMap<String, PatientProxy>();
 	private ListBox lbSex;
 	private StudyProxy proxy;
@@ -98,11 +97,10 @@ public class StudyManagePanel extends Composite implements
 	
 	private HTML ooTemplatePanel = new HTML();
 	
-	public StudyManagePanel(final BrowserServiceAsync browserService, StudyCard studyCardPanel, StudyProxy proxy) {
+	public StudyManagePanel(StudyCard studyCardPanel, StudyProxy proxy) {
 
 		this.studyCardPanel = studyCardPanel;
 		this.proxy = proxy;
-		this.browserService = browserService;
 
 		// История
 		History.addValueChangeHandler(this);
@@ -160,13 +158,13 @@ public class StudyManagePanel extends Composite implements
 		//
 		studyInstanceUID = new Hidden();
 		studyInstanceUID.setName("0020000D");
-		studyInstanceUID.setValue(proxy.getStudyUID());
+		studyInstanceUID.setValue(proxy.getStudyInstanceUID());
 		addFormHidden(studyInstanceUID);
 
 		//
 		Hidden studySeriesUID = new Hidden();
 		studySeriesUID.setName("0020000E");
-		studySeriesUID.setValue(proxy.getStudyUID() + "."
+		studySeriesUID.setValue(proxy.getStudyInstanceUID() + "."
 				+ new Date().getTime());
 		addFormHidden(studySeriesUID);
 
@@ -779,7 +777,7 @@ public class StudyManagePanel extends Composite implements
 		req.setQueryStr(patientName.getText() + "%");
 		req.setLimit(20);
 
-		browserService.getPatients(req,
+		Dicom_browser.browserService.getPatients(req,
 				new AsyncCallback<PatientsRPCResponse>() {
 
 					private Object patientProxy;
@@ -957,7 +955,7 @@ public class StudyManagePanel extends Composite implements
 	protected void submitSuccess() {
 		// clearForm();
 		
-		browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
+		Dicom_browser.browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(), new AsyncCallback<StudyProxy>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -1035,7 +1033,7 @@ public class StudyManagePanel extends Composite implements
 	 */
 	void initTemplates(String modality) {
 		
-		browserService.getOOTemplates(modality, new AsyncCallback<ArrayList<OOTemplateProxy>>() {
+		Dicom_browser.browserService.getOOTemplates(modality, new AsyncCallback<ArrayList<OOTemplateProxy>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {

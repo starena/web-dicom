@@ -184,38 +184,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			
 			
 			for (int i = 0; i < studies.length; i++) {
-				StudyProxy studyProxy = new StudyProxy();
-
-				java.util.Date studyDescriptionDate = null;
-				java.util.Date studyDate = null;
-				java.util.Date patientBirthDate = null;
-
-				if (studies[i].getStudyViewprotocolDate() != null)
-					studyDescriptionDate = new java.util.Date(studies[i]
-							.getStudyViewprotocolDate().getTime());
-
-				if (studies[i].getStudyDate() != null)
-					studyDate = new java.util.Date(studies[i].getStudyDate()
-							.getTime());
-
-				if (studies[i].getPatientBirthDate() != null)
-					patientBirthDate = new java.util.Date(studies[i]
-							.getPatientBirthDate().getTime());
-
-				studyProxy.init(studies[i].getId(), studies[i].getStudyModality(), studies[i]
-						.getStudyInstanceUID(), studies[i]
-						.getManufacturerModelName(), studies[i]
-						.getPatientName(), studies[i].getPatientSex(),
-						studies[i].getPatientId(), patientBirthDate, studies[i]
-								.getStudyId(), studies[i].getStudyType(),
-						studyDate, studyDescriptionDate, studies[i]
-								.getStudyDoctor(), studies[i]
-								.getStudyOperator(), studies[i]
-								.getStudyDescription(), studies[i]
-								.getStudyViewprotocol(), studies[i]
-								.getStudyResult());
-				
-				studyProxy.setStudyDateModify(studies[i].getStudyDateModify());
+				StudyProxy studyProxy = studies[i].getProxy();
 
 				// Получаем список файлов
 				// TODO Перенести этот код в dicom-common ???
@@ -650,39 +619,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			Study study = Study.getStudyByID(connection, id);
 			if(study==null) return null;
 			
-			StudyProxy studyProxy = new StudyProxy();
-
-				java.util.Date studyDescriptionDate = null;
-				java.util.Date studyDate = null;
-				java.util.Date patientBirthDate = null;
-
-				if (study.getStudyViewprotocolDate() != null)
-					studyDescriptionDate = new java.util.Date(study
-							.getStudyViewprotocolDate().getTime());
-
-				if (study.getStudyDate() != null)
-					studyDate = new java.util.Date(study.getStudyDate()
-							.getTime());
-
-				if (study.getPatientBirthDate() != null)
-					patientBirthDate = new java.util.Date(study
-							.getPatientBirthDate().getTime());
-
-				studyProxy.init(study.getId(), study.getStudyModality(), study
-						.getStudyInstanceUID(), study
-						.getManufacturerModelName(), study
-						.getPatientName(), study.getPatientSex(),
-						study.getPatientId(), patientBirthDate, study
-								.getStudyId(), study.getStudyType(),
-						studyDate, studyDescriptionDate, study
-								.getStudyDoctor(), study
-								.getStudyOperator(), study
-								.getStudyDescription(), study
-								.getStudyViewprotocol(), study
-								.getStudyResult());
-				
-				studyProxy.setStudyDateModify(study.getStudyDateModify());
-
+			StudyProxy studyProxy = study.getProxy();
+			
 				// Получаем список файлов
 				// TODO Выделить в общую часть с методом findStudy(....)
 				//

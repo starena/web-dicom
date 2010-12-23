@@ -70,7 +70,7 @@ public class StudyProxy implements Serializable {
 
 	private long id; // ID
 	private String studyModality; // Modality
-	private String studyUID; // UID
+	private String studyInstanceUID; // UID
 	private String patientName; // ФИО пациента
 	private String patientSex; // Пол пациента
 	private String patientId; // ID пациента
@@ -86,6 +86,8 @@ public class StudyProxy implements Serializable {
 	private String studyResult;// Результат исследования.
 	private String ManufacturerModelName; // Аппарат
 	private Date studyDateModify; // Дата модификации
+	private Date studyDateRemoved; // Дата удаления исследования
+	
 
 	// Файлы связанные с исследованием
 	private ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
@@ -111,32 +113,32 @@ public class StudyProxy implements Serializable {
 	 * @param studyViewprotocol
 	 * @param studyResult
 	 */
-	public void init(long id, String studyModality, String studyUID, String ManufacturerModelName,
-			String patientName, String patientSex, String patientId,
-			Date patientBirthDate, String studyId, String studyType,
-			Date studyDate, Date studyViewprotocolDate, String studyDoctor,
-			String studyOperator, String studyDescription,
-			String studyViewprotocol, String studyResult) {
-
-		this.id = id;
-		this.studyModality = studyModality;
-		this.studyUID = studyUID;
-		this.ManufacturerModelName = ManufacturerModelName;
-		this.patientName = patientName;
-		this.patientSex = patientSex;
-		this.patientId = patientId;
-		this.patientBirthDate = patientBirthDate;
-		this.studyId = studyId;
-		this.studyType = studyType;
-		this.studyDate = studyDate;
-		this.studyViewprotocolDate = studyViewprotocolDate;
-		this.studyDoctor = studyDoctor;
-		this.studyOperator = studyOperator;
-		this.studyDescription = studyDescription;
-		this.studyViewprotocol = studyViewprotocol;
-		this.studyResult = studyResult;
-
-	}
+//	public void init(long id, String studyModality, String studyUID, String ManufacturerModelName,
+//			String patientName, String patientSex, String patientId,
+//			Date patientBirthDate, String studyId, String studyType,
+//			Date studyDate, Date studyViewprotocolDate, String studyDoctor,
+//			String studyOperator, String studyDescription,
+//			String studyViewprotocol, String studyResult) {
+//
+//		this.id = id;
+//		this.studyModality = studyModality;
+//		this.studyUID = studyUID;
+//		this.ManufacturerModelName = ManufacturerModelName;
+//		this.patientName = patientName;
+//		this.patientSex = patientSex;
+//		this.patientId = patientId;
+//		this.patientBirthDate = patientBirthDate;
+//		this.studyId = studyId;
+//		this.studyType = studyType;
+//		this.studyDate = studyDate;
+//		this.studyViewprotocolDate = studyViewprotocolDate;
+//		this.studyDoctor = studyDoctor;
+//		this.studyOperator = studyOperator;
+//		this.studyDescription = studyDescription;
+//		this.studyViewprotocol = studyViewprotocol;
+//		this.studyResult = studyResult;
+//
+//	}
 
 	public long getId() {
 		return id;
@@ -229,8 +231,8 @@ public class StudyProxy implements Serializable {
 		this.files = files;
 	}
 
-	public String getStudyUID() {
-		return studyUID;
+	public String getStudyInstanceUID() {
+		return studyInstanceUID;
 	}
 	
 	
@@ -249,8 +251,8 @@ public class StudyProxy implements Serializable {
 		this.studyModality = studyModality;
 	}
 
-	public void setStudyUID(String studyUID) {
-		this.studyUID = studyUID;
+	public void setStudyInstanceUID(String studyInstanceUID) {
+		this.studyInstanceUID = studyInstanceUID;
 	}
 
 	public void setPatientName(String patientName) {
@@ -317,6 +319,16 @@ public class StudyProxy implements Serializable {
 
 	public void setStudyDateModify(Date studyDateModify) {
 		this.studyDateModify = studyDateModify;
+	}
+	
+	
+
+	public Date getStudyDateRemoved() {
+		return studyDateRemoved;
+	}
+
+	public void setStudyDateRemoved(Date studyDateRemoved) {
+		this.studyDateRemoved = studyDateRemoved;
 	}
 
 	@Override

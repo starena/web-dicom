@@ -57,9 +57,14 @@ package org.psystems.dicom.browser.server;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.service.ManageStydyService;
+import org.psystems.dicom.commons.orm.DataException;
+import org.psystems.dicom.commons.orm.Study;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -69,6 +74,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class ManageStudyServiceImpl extends RemoteServiceServlet implements
 		ManageStydyService {
+	
+	private static Logger logger = Logger.getLogger(ManageStudyServiceImpl.class);
 
 	@Override
 	public void newStudy(String patientName) throws DefaultGWTRPCException {
@@ -119,5 +126,33 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements
 //					"Не могу создать файл с исследованием! " + e);
 //		}
 	}
+
+	
+	@Override
+	public void studyRemoveRestore(long idStudy, boolean removed)
+			throws DefaultGWTRPCException {
+		try {
+			Connection connection = Util.getConnection("main",getServletContext());
+			Study.studyRemoveRestore(connection, idStudy, removed);
+		} catch (SQLException e) {
+			logger.error(e);
+			throw Util.throwPortalException("Study Remove/Restore! ",e);
+		} catch (DataException e) {
+			logger.error(e);
+			throw Util.throwPortalException("Study Remove/Restore! ",e);
+		}
+		
+	}
+	
+	@Override
+	public void dcmFileRemoveRestore(long idDcmFile, boolean removed)
+			throws DefaultGWTRPCException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+
 
 }

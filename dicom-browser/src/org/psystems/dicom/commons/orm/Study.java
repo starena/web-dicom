@@ -35,6 +35,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.StudyProxy;
+
 public abstract class Study {
 
 	private Long id; // Внутренний ID
@@ -74,9 +77,11 @@ public abstract class Study {
 	private String studyUrl; // URL для открытия в обозревателе
 	private Long[] dcmFiles; // Связанные DCM-файлы
 	private String dateFormat = "yyyy-MM-dd";
+	private String userDateTimeFormat = "dd-MM-yyyy H:m:s";
 	
-	private Date studyDateModify; 
-
+	private Date studyDateModify;//Дата модификации исследования 
+	private Date studyDateRemoved;//Дата удаления исследования
+	
 	public Long getId() {
 		return id;
 	}
@@ -288,16 +293,28 @@ public abstract class Study {
 	public void setStudyDateModify(Date studyDateModidy) {
 		this.studyDateModify = studyDateModidy;
 	}
+	
+	
 
-	/**
-	 * Получение экземпляра
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public static Study getInstance(long id) {
-		return StudyImpl.getInstance(id);
+	public Date getStudyDateRemoved() {
+		return studyDateRemoved;
 	}
+
+	public void setStudyDateRemoved(Date studyDateRemoved) {
+		this.studyDateRemoved = studyDateRemoved;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getStudyDateRemovedAsString() {
+		if (studyDateRemoved == null)
+			return null;
+		SimpleDateFormat formatLevel = new SimpleDateFormat(userDateTimeFormat);
+		return formatLevel.format(studyViewprotocolDate);
+	}
+
+
 
 	/**
 	 * Получение списка исследований
@@ -308,7 +325,7 @@ public abstract class Study {
 	 * @return
 	 */
 	public static List<Study> getStudues(String query) {
-		return StudyImpl.getStudues(query);
+		return StudyImplDerby.getStudues(query);
 	}
 
 	/**
@@ -331,18 +348,71 @@ public abstract class Study {
 			String studyModality, String manufacturerModelName, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
 			String endStudyDate, String studyResult, String sortOrder) throws DataException {
-		return StudyImpl.getStudues(connection, studyModality, manufacturerModelName, patientName,
+		return StudyImplDerby.getStudues(connection, studyModality, manufacturerModelName, patientName,
 				patientShortName, patientBirthDate, patientSex, beginStudyDate,
 				endStudyDate, studyResult, sortOrder);
 	}
 	
 	/**
+	 * 
 	 * @param connection
 	 * @param findId
 	 * @return
 	 */
 	public static Study getStudyByID (Connection connection, Long findId)  throws DataException {
-		return StudyImpl.getStudyByID(connection, findId);
+		return StudyImplDerby.getStudyByID(connection, findId);
+	}
+	
+	
+	/**
+	 * Показ/скрытие исследования
+	 * @param connection
+	 * @param idStudy
+	 * @param removed
+	 * @throws DefaultGWTRPCException
+	 */
+	public static void studyRemoveRestore(Connection connection, long idStudy, boolean removed) throws DataException {
+		StudyImplDerby.studyRemoveRestore(connection, idStudy, removed);
+	}
+
+	/**
+	 * Получение прокси-класса
+	 * @return
+	 */
+	public StudyProxy getProxy() {
+
+		StudyProxy proxy = new StudyProxy();
+		proxy.setId(getId());
+		proxy.setStudyModality(getStudyModality());
+		
+		//TODO переименовать setStudyUID -> getStudyInstanceUID()
+		proxy.setStudyInstanceUID(getStudyInstanceUID());
+		proxy.setManufacturerModelName(getManufacturerModelName());
+		proxy.setPatientName(getPatientName());
+		proxy.setPatientSex(getPatientSex());
+		proxy.setPatientId(getPatientId());
+		proxy
+				.setPatientBirthDate(getPatientBirthDate() != null ? new java.util.Date(
+						getPatientBirthDate().getTime())
+						: null);
+		proxy.setStudyId(getStudyId());
+		proxy.setStudyType(getStudyType());
+		proxy.setStudyDate(getStudyDate() != null ? new java.util.Date(
+				getStudyDate().getTime()) : null);
+		proxy
+				.setStudyViewprotocolDate(getStudyViewprotocolDate() != null ? new java.util.Date(
+						getStudyViewprotocolDate().getTime())
+						: null);
+		
+		proxy.setStudyDoctor(getStudyDoctor());
+		proxy.setStudyOperator(getStudyOperator());
+		proxy.setStudyDescription(getStudyDescription());
+		proxy.setStudyViewprotocol(getStudyViewprotocol());
+		proxy.setStudyResult(getStudyResult());
+		proxy.setStudyDateModify(getStudyDateModify());
+		proxy.setStudyDateRemoved(getStudyDateRemoved());
+		
+		return proxy;
 	}
 
 }
