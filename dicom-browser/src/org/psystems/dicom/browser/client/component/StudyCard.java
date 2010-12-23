@@ -126,6 +126,7 @@ public class StudyCard extends Composite {
 
 
 	private Button changeStudyBtn;
+	private Button removeStudyBtn = new Button("Удалить");
 
 	/**
 	 * Карточка исследования
@@ -220,6 +221,8 @@ public class StudyCard extends Composite {
 		
 		FilesPanel = new HorizontalPanel();
 		mainPanel.add(FilesPanel);
+		HorizontalPanel buttonsPanel = new HorizontalPanel();
+		mainPanel.add(buttonsPanel);
 		
 		changeStudyBtn = new Button("описать/изменить исследование...");
 		changeStudyBtn.setStyleName("DicomItem");
@@ -241,9 +244,9 @@ public class StudyCard extends Composite {
 		});
 		
 		
-		mainPanel.add(changeStudyBtn);
+		buttonsPanel.add(changeStudyBtn);
 		
-		Button removeStudyBtn = new Button("Удалить");
+		
 		removeStudyBtn.setStyleName("DicomItem");
 		
 		
@@ -252,7 +255,8 @@ public class StudyCard extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				Dicom_browser.manageStudyService.studyRemoveRestore(proxy.getId(), true,
+				Dicom_browser.manageStudyService.studyRemoveRestore(proxy.getId(),
+						proxy.getStudyDateRemoved() == null ? true : false,
 						new AsyncCallback<Void>() {
 
 							@Override
@@ -270,37 +274,9 @@ public class StudyCard extends Composite {
 			}
 		});
 		
-		mainPanel.add(removeStudyBtn);
-		
-		removeStudyBtn = new Button("Вернуть");
-		removeStudyBtn.setStyleName("DicomItem");
+		buttonsPanel.add(removeStudyBtn);
 		
 		
-		removeStudyBtn.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				Dicom_browser.manageStudyService.studyRemoveRestore(proxy.getId(), false,
-						new AsyncCallback<Void>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
-
-							@Override
-							public void onSuccess(Void result) {
-								refreshPanel(proxy.getId());
-							}
-				});
-
-			}
-		});
-		
-		
-		mainPanel.add(removeStudyBtn);
 		
 		setProxy(proxy);
 	}
@@ -601,10 +577,14 @@ public class StudyCard extends Composite {
 	 * Установка режима показывающего что иследование удалено
 	 */
 	private void setRemovedStyle(boolean removed) {
-		if(removed)
+		if(removed) {
 			labelPatientName.addStyleName("DicomItemRemoved");
-		else
+			removeStudyBtn.setText("Восстановить");
+		}
+		else {
 			labelPatientName.removeStyleName("DicomItemRemoved");
+			removeStudyBtn.setText("Удалить");
+		}
 	}
 
 
