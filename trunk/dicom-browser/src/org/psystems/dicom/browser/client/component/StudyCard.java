@@ -230,8 +230,7 @@ public class StudyCard extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				studyManagePanel = new StudyManagePanel(
-						Dicom_browser.browserService, StudyCard.this, proxy);
+				studyManagePanel = new StudyManagePanel(StudyCard.this, proxy);
 				mainPanel.add(studyManagePanel);
 				// changeStudyBtn.setText("Закрыть форму ввода");
 
@@ -244,11 +243,90 @@ public class StudyCard extends Composite {
 		
 		mainPanel.add(changeStudyBtn);
 		
+		Button removeStudyBtn = new Button("Удалить");
+		removeStudyBtn.setStyleName("DicomItem");
+		
+		
+		removeStudyBtn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Dicom_browser.manageStudyService.studyRemoveRestore(proxy.getId(), true,
+						new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								refreshPanel(proxy.getId());
+							}
+				});
+
+			}
+		});
+		
+		mainPanel.add(removeStudyBtn);
+		
+		removeStudyBtn = new Button("Вернуть");
+		removeStudyBtn.setStyleName("DicomItem");
+		
+		
+		removeStudyBtn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				Dicom_browser.manageStudyService.studyRemoveRestore(proxy.getId(), false,
+						new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								refreshPanel(proxy.getId());
+							}
+				});
+
+			}
+		});
+		
+		
+		mainPanel.add(removeStudyBtn);
+		
 		setProxy(proxy);
 	}
 	
 	
 
+	/**
+	 * Обновление данных в панели
+	 * @param idStudy
+	 */
+	public void refreshPanel(long idStudy) {
+		
+		Dicom_browser.browserService.getStudyByID(1, Dicom_browser.version, idStudy, new AsyncCallback<StudyProxy>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Dicom_browser.showErrorDlg(caught);
+			}
+
+			@Override
+			public void onSuccess(StudyProxy result) {
+				setProxy(result);
+			}
+		});
+		
+	}
 	
 	public boolean isFullMode() {
 		return fullMode;
@@ -461,7 +539,8 @@ public class StudyCard extends Composite {
 		
 
 		labelPatientName.setText(proxy.getPatientName() + " (" + sex + ") "
-				+ proxy.getPatientBirthDateAsString(datePattern) + " - "+result+ " ("+proxy.getStudyDateAsString(datePattern)+")");
+				+ proxy.getPatientBirthDateAsString(datePattern) + " - "+result+ " ("+proxy.getStudyDateAsString(datePattern)+")"+
+				(proxy.getStudyDateRemoved() !=null ? " удален " + proxy.getStudyDateRemoved() : ""));
 		
 		//Установка оповещения неописанного исследования
 		
@@ -472,13 +551,16 @@ public class StudyCard extends Composite {
 					|| proxy.getStudyDescription().length() == 0
 					|| proxy.getStudyViewprotocol() == null
 					|| proxy.getStudyViewprotocol().length() == 0) {
-				setWarningOfNotResult();
+				setStyleWarningOfNotResult();
 			}
 		} else { //Для всех остальных
 			if(proxy.getStudyResult()==null || proxy.getStudyResult().length()==0) {
-				setWarningOfNotResult();
+				setStyleWarningOfNotResult();
 			}
 		}
+		
+		//Задаем свойство "удален"
+		if(proxy.getStudyDateRemoved()!=null) setRemovedStyle(true); else setRemovedStyle(false);
 		
 		if(!fullMode) return;
 		
@@ -511,8 +593,18 @@ public class StudyCard extends Composite {
 	/**
 	 * Установка режима показывающего что иследование не описано
 	 */
-	private void setWarningOfNotResult() {
+	private void setStyleWarningOfNotResult() {
 		labelPatientName.addStyleName("DicomItemWarn");
+	}
+	
+	/**
+	 * Установка режима показывающего что иследование удалено
+	 */
+	private void setRemovedStyle(boolean removed) {
+		if(removed)
+			labelPatientName.addStyleName("DicomItemRemoved");
+		else
+			labelPatientName.removeStyleName("DicomItemRemoved");
 	}
 
 

@@ -66,10 +66,30 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface ManageStydyService extends RemoteService {
 
 	/**
-	 * Управление исследованиями
-	 * @return 
+	 * Создание исследования (TODO сейчас пока не используется)
+	 * 
+	 * @return
 	 */
 	void newStudy(String patientName) throws DefaultGWTRPCException;
-	
+
+	/**
+	 * Показ/скрытие исследования
+	 * 
+	 * @param idStudy
+	 *            removed visible
+	 * @throws DefaultGWTRPCException
+	 */
+	void studyRemoveRestore(long idStudy, boolean removed)
+			throws DefaultGWTRPCException;
+
+	/**
+	 * Показ/скрытие исследования DCM файла
+	 * 
+	 * @param idDcmFile
+	 * @param removed
+	 * @throws DefaultGWTRPCException
+	 */
+	void dcmFileRemoveRestore(long idDcmFile, boolean removed)
+			throws DefaultGWTRPCException;
 
 }

@@ -38,24 +38,62 @@ import java.util.Date;
 import java.util.List;
 
 import org.psystems.dicom.browser.client.component.WorkListPanel;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 
 /**
  * @author dima_d
  * 
  */
-public class StudyImpl extends Study {
+public class StudyImplDerby extends Study {
 
-	public static Study getInstance(long id) {
-		StudyImpl stub = new StudyImpl();
-		stub.setId(id);
-		return stub;
-	}
+	
 
 	public static List<Study> getStudues(String query) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Создание экземпляра из БД
+	 * @param rs
+	 * @return
+	 * @throws SQLException 
+	 */
+	private static Study getInstance(ResultSet rs) throws SQLException {
+		
+		Study study = new StudyImplDerby();
+		study.setId(rs.getLong("ID"));
+		study.setStudyInstanceUID(rs.getString("STUDY_UID"));
+		study.setStudyModality(rs.getString("STUDY_MODALITY"));
+		study.setStudyType(rs.getString("STUDY_TYPE"));
+		study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
+		study.setStudyDate(rs.getDate("STUDY_DATE"));
+		study.setManufacturerModelUID(rs
+				.getString("STUDY_MANUFACTURER_UID"));
+		study.setManufacturerModelName(rs
+				.getString("STUDY_MANUFACTURER_MODEL_NAME"));
+		study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
+		study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
+		study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
+		study.setStudyViewprotocolDate(rs.getDate("STUDY_VIEW_PROTOCOL_DATE"));
+		study.setStudyId(rs.getString("STUDY_ID"));
+		study.setPatientName(rs.getString("PATIENT_NAME"));
+		study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
+		study.setPatientSex(rs.getString("PATIENT_SEX"));
+		study.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+		study.setPatientId(rs.getString("PATIENT_ID"));
+		study.setStudyResult(rs.getString("STUDY_RESULT"));
+		study.setStudyUrl("");// TODO сделать!!
+		study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
+		study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
+		
+		study.setStudyDateRemoved(null);
+		if(rs.getTimestamp("REMOVED")!=null)
+		study.setStudyDateRemoved(rs.getTimestamp("REMOVED"));
+		
+		return study;
+		
+	}
 	
 	public static Study[] getStudues(Connection connection,
 			String studyModality, String manufacturerModelName, String patientName, String patientShortName,
@@ -230,42 +268,9 @@ public class StudyImpl extends Study {
 			
 			int counter = 1;
 			while (rs.next()) {
-				
-				
-				
 				//TODO убрать в конфиг
 				if(counter++> WorkListPanel.maxResultCount) break;
-//				System.out.println("!!!!! counter="+counter);
-
-				Study study = new StudyImpl();
-				study.setId(rs.getLong("ID"));
-				study.setStudyInstanceUID(rs.getString("STUDY_UID"));
-				study.setStudyModality(rs.getString("STUDY_MODALITY"));
-				study.setStudyType(rs.getString("STUDY_TYPE"));
-				study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
-				study.setStudyDate(rs.getDate("STUDY_DATE"));
-				study.setManufacturerModelUID(rs
-						.getString("STUDY_MANUFACTURER_UID"));
-				study.setManufacturerModelName(rs
-						.getString("STUDY_MANUFACTURER_MODEL_NAME"));
-				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
-				study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
-				study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
-				study.setStudyViewprotocolDate(rs.getDate("STUDY_VIEW_PROTOCOL_DATE"));
-				study.setStudyId(rs.getString("STUDY_ID"));
-				study.setPatientName(rs.getString("PATIENT_NAME"));
-				study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
-				study.setPatientSex(rs.getString("PATIENT_SEX"));
-				study.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
-				study.setPatientId(rs.getString("PATIENT_ID"));
-				study.setStudyResult(rs.getString("STUDY_RESULT"));
-				study.setStudyUrl("");// TODO сделать!!
-				study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
-				study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
-				data.add(study);
-				
-				
-
+				data.add(getInstance(rs));
 			}
 			rs.close();
 
@@ -288,6 +293,8 @@ public class StudyImpl extends Study {
 
 	}
 
+	
+	
 	/**
 	 * @param connection
 	 * @param findId
@@ -305,34 +312,7 @@ public class StudyImpl extends Study {
 			ResultSet rs = psSelect.executeQuery();
 
 			while (rs.next()) {
-
-				Study study = new StudyImpl();
-				study.setId(rs.getLong("ID"));
-				study.setStudyInstanceUID(rs.getString("STUDY_UID"));
-				study.setStudyModality(rs.getString("STUDY_MODALITY"));
-				study.setStudyType(rs.getString("STUDY_TYPE"));
-				study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
-				study.setStudyDate(rs.getDate("STUDY_DATE"));
-				study.setManufacturerModelUID(rs
-						.getString("STUDY_MANUFACTURER_UID"));
-				study.setManufacturerModelName(rs
-						.getString("STUDY_MANUFACTURER_MODEL_NAME"));
-				study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
-				study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
-				study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
-				study.setStudyViewprotocolDate(rs.getDate("STUDY_VIEW_PROTOCOL_DATE"));
-				study.setStudyId(rs.getString("STUDY_ID"));
-				study.setPatientName(rs.getString("PATIENT_NAME"));
-				study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
-				study.setPatientSex(rs.getString("PATIENT_SEX"));
-				study.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
-				study.setPatientId(rs.getString("PATIENT_ID"));
-				study.setStudyResult(rs.getString("STUDY_RESULT"));
-				study.setStudyUrl("");// TODO сделать!!
-				study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
-				study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
-				return study;
-
+				return getInstance(rs);
 			}
 			rs.close();
 
@@ -353,4 +333,42 @@ public class StudyImpl extends Study {
 
 	}
 	
+	/**
+	 * @param connection
+	 * @param idStudy
+	 * @param removed
+	 * @throws DefaultGWTRPCException
+	 */
+	public static void studyRemoveRestore(Connection connection, long idStudy,
+			boolean removed) throws DataException {
+		
+		PreparedStatement psSelect = null;
+		String sql = null;
+		if (removed)
+			sql = "UPDATE WEBDICOM.STUDY SET REMOVED = CURRENT_TIMESTAMP WHERE ID = ?";
+		else
+			sql = "UPDATE WEBDICOM.STUDY SET REMOVED = NULL WHERE ID = ?";
+
+		try {
+
+			psSelect = connection.prepareStatement(sql);
+			psSelect.setLong(1, idStudy);
+			connection.setAutoCommit(false);
+			int count = psSelect.executeUpdate();
+			connection.commit();
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+	}
+
 }
