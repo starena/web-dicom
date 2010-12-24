@@ -128,6 +128,9 @@ public class StudyCard extends Composite {
 	private Button changeStudyBtn;
 	private Button removeStudyBtn = new Button("Удалить");
 
+
+	private boolean showDeletedDcmFiles = false;
+
 	/**
 	 * Карточка исследования
 	 * @param fullMode
@@ -220,6 +223,7 @@ public class StudyCard extends Composite {
 	
 		
 		FilesPanel = new HorizontalPanel();
+		FilesPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 		mainPanel.add(FilesPanel);
 		HorizontalPanel buttonsPanel = new HorizontalPanel();
 		mainPanel.add(buttonsPanel);
@@ -343,9 +347,16 @@ public class StudyCard extends Composite {
 		
 		FilesPanel.clear();
 		
+		boolean hasRemoved = false;
+		
 		for (Iterator<DcmFileProxy> it = proxy.getFiles().iterator(); it
 				.hasNext();) {
 			final DcmFileProxy fileProxy = it.next();
+			
+			if(fileProxy.getDateRemoved()!=null) {
+				hasRemoved = true;
+				if(!showDeletedDcmFiles) continue;
+			}
 
 			
 				String html =  "<a href='" + "dcm/" + fileProxy.getId()
@@ -359,12 +370,15 @@ public class StudyCard extends Composite {
 			VerticalPanel contentPanel = new VerticalPanel();
 			contentPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 			
-//			if(fileProxy.getDateRemoved()!=null) {
-//				contentPanel.add(new Label("удален"));
-//			}
 			
-			Button deleteBtn = new Button( fileProxy.getDateRemoved()==null ? "Удалить" : "Вернуть");
-			deleteBtn.addClickHandler(new ClickHandler() {
+			
+//			Button deleteBtn = new Button( fileProxy.getDateRemoved()==null ? "Удалить" : "Вернуть");
+			
+			Label l = new Label( fileProxy.getDateRemoved()==null ? "Удалить" : "Вернуть");
+			FilesPanel.add(l);
+			l.addStyleName("LabelLink"); 
+			
+			l.addClickHandler(new ClickHandler() {
 				
 				@Override
 				public void onClick(ClickEvent event) {
@@ -389,7 +403,7 @@ public class StudyCard extends Composite {
 			});
 			
 			
-			contentPanel.add(deleteBtn);
+			contentPanel.add(l);
 			
 			contentPanel.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 			
@@ -431,6 +445,23 @@ public class StudyCard extends Composite {
 			FilesPanel.add(contentPanel);
 
 		}
+		
+		if(hasRemoved) {
+			Label l = new Label((!showDeletedDcmFiles ? "Показать" : "Скрыть") + " удаленные данные");
+			FilesPanel.add(l);
+			l.addStyleName("LabelLink"); 
+			l.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					showDeletedDcmFiles = showDeletedDcmFiles ? false : true;
+					refreshPanel(proxy.getId());
+				}
+			});
+			
+		}
+		
+		
 	}
 
 	

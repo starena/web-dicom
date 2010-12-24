@@ -255,4 +255,10 @@ A.selected {
 	/*font: 2.0 em/ 120% normal Verdana, Tahoma, sans-serif;*/
 }
 
+.LabelLink {
+	color: #0000AA;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 
