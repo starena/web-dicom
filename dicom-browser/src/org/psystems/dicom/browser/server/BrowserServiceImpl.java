@@ -651,25 +651,22 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
         	if(files[i].isDirectory()) {
         		
         		String dirName = files[i].getName();
+//        		System.out.println(">> DIR: ["+dirName+"] modality=["+modality+"]");
         		
-        		System.out.println(">> DIR: " + dirName);
-        		
-        		
-//				if (modality == null || modality.equalsIgnoreCase("dirName")) {
+				if (modality == null || modality.equalsIgnoreCase(dirName)) {
 
 					File[] tmpls = files[i].listFiles();
 					for (int j = 0; j < tmpls.length; j++) {
 						File tmpl = tmpls[j];
 						String fileName = tmpl.getName();
-						System.out.println(">>>>> TMPL: [" + fileName + "]"+modality);
-
+//						System.out.println(">>>>> TMPL: [" + fileName + "]"+modality);
 						OOTemplateProxy tmplProxy = new OOTemplateProxy();
 						tmplProxy.setModality(dirName);
 						tmplProxy.setTitle(tmpl.getName());
 						tmplProxy.setUrl("ootmpl/" + dirName + "/" + fileName);
 						result.add(tmplProxy);
 					}
-//				}
+				}
         		
         	}
         }
