@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -61,6 +62,9 @@ public class SearchPanel extends Composite implements
 
 	// Идентификатор транзакции (Время последнего запроса)
 	private long searchTransactionID;
+
+	protected boolean showRemovedStudies = false;//показ удаленных исследований
+	protected ArrayList<StudyProxy> removedCards = new ArrayList<StudyProxy>();
 
 	/**
 	 * @param application
@@ -466,39 +470,49 @@ public class SearchPanel extends Composite implements
 						Application.hideWorkStatusMsg();
 
 						ArrayList<StudyProxy> cortegeList = result.getData();
+						removedCards.clear();
+						
+						int removed = 0;
 						for (Iterator<StudyProxy> it = cortegeList.iterator(); it
 								.hasNext();) {
 
 							StudyProxy studyProxy = it.next();
-//							VerticalPanel table = new VerticalPanel();
-
-							// if(cortege.getDcmProxies().size()>1) {
-							// DecoratorPanel item = new DecoratorPanel();
-							// DOM.setStyleAttribute(item.getElement(),
-							// "margin",
-							// "5px");
-							// RootPanel.get("resultContainer").add(item);
-							// item.setWidget(table);
-							// } else {
-							// RootPanel.get("resultContainer").add(table);
-							// }
-
-//							resultPanel.add(table);
-
+							
+							if(studyProxy.getStudyDateRemoved()!=null)  { 
+								removed++;
+								if(!showRemovedStudies ) {
+									removedCards.add(studyProxy);
+									continue;
+								}
+							}
+							
+							
+							
 							StudyCard s = new StudyCard(true);
 							s.setProxy(studyProxy);
 							resultPanel.add(s);
-//							table.add(s);
-
-							// for (Iterator<DcmFileProxy> iter = studyProxy
-							// .getFiles().iterator(); iter.hasNext();) {
-							// DcmFileProxy dcmfileProxy = iter.next();
-							// SearchedItem s = new SearchedItem(
-							// browserService, dcmfileProxy);
-							// table.add(s);
-							// }
 						}
-
+						
+						if(removed >0) {
+							final Label l = new Label("Показать "+removed+" уделенное(ых) исследований");
+							l.removeFromParent();
+							resultPanel.add(l);
+							l.addStyleName("LabelLink"); 
+							l.addClickHandler(new ClickHandler() {
+								
+								@Override
+								public void onClick(ClickEvent event) {
+									
+									for(int i=0; i<removedCards.size(); i++) {
+										StudyCard s = new StudyCard(true);
+										s.setProxy(removedCards.get(i));
+										resultPanel.add(s);
+									}
+									
+									l.removeFromParent();
+								}
+							});
+						}
 						if (cortegeList.size() == 0) {
 							showNotFound();
 						}
