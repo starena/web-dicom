@@ -42,6 +42,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Hidden;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -151,8 +152,14 @@ public class StudyManagePanel extends Composite implements
 		// TODO Убрать в css
 		DOM.setStyleAttribute(formPanel.getElement(), "background", "#E9EDF5");
 
+		HorizontalPanel hpMain = new HorizontalPanel();
+		hpMain.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
+		hpMain.setVerticalAlignment(HorizontalPanel.ALIGN_TOP);
+		
 		formDataPanel = new VerticalPanel();
-		formPanel.add(formDataPanel);
+		
+		formPanel.add(hpMain);
+		hpMain.add(formDataPanel);
 		formDataPanel.add(formTable);
 
 		//
@@ -308,34 +315,7 @@ public class StudyManagePanel extends Composite implements
 			}
 		});
 
-		formTable.setWidget(rowCounter - 2, 2,
-				makeItemLabel("Сверка имени (Click - выбор)"));
-		formTable.getCellFormatter().setHorizontalAlignment(rowCounter - 2, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
-
-		formTable.setWidget(rowCounter - 1, 2, patientNameCheck);
-		formTable.getCellFormatter().setVerticalAlignment(rowCounter - 1, 2,
-				HasVerticalAlignment.ALIGN_TOP);
-		formTable.getFlexCellFormatter().setRowSpan(rowCounter - 1, 2, 4);
-		
-		formTable.setWidget(rowCounter + 5, 2,
-				makeItemLabel("Шаблоны"));
-		formTable.getCellFormatter().setHorizontalAlignment(rowCounter + 5, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
-		
-		
-		ooTemplatePanel.setHTML("загрузка шаблонов...");
-		
-		formTable.setWidget(rowCounter + 6, 2,
-				ooTemplatePanel);
-		formTable.getCellFormatter().setHorizontalAlignment(rowCounter + 6, 2,
-				HasHorizontalAlignment.ALIGN_CENTER);
-		
-		if(proxy!=null) {
-			initTemplates(proxy.getStudyModality());
-		}else {
-			initTemplates(null);
-		}
+	
 
 		//
 		lbSex = new ListBox();
@@ -669,13 +649,55 @@ public class StudyManagePanel extends Composite implements
 			}
 		});
 		addFormRow(rowCounter++, submitBtn);
+		
 
 		//
 		submitResult = new HTML();
 		
 		addFormRow(rowCounter++, submitResult);
 		
+		//Добавление правой части панели
 		
+//		formTable.getFlexCellFormatter().setRowSpan(0, 2, 17);
+		int row = 0;
+		
+		
+		VerticalPanel vpRight = new VerticalPanel();
+		vpRight.setVerticalAlignment(VerticalPanel.ALIGN_TOP);
+		vpRight.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+		formTable.setWidget(row, 2,vpRight);
+		
+		hpMain.add(vpRight);
+		
+//		vpRight.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+//		formTable.getCellFormatter().setHorizontalAlignment(row, 2,
+//				VerticalPanel.ALIGN_LEFT);
+//		formTable.getCellFormatter().setVerticalAlignment(row, 2, VerticalPanel.ALIGN_TOP);
+		
+		vpRight.add(makeItemLabel("Сверка имени (Click - выбор)"));
+		vpRight.add( patientNameCheck);
+		
+		vpRight.add(makeItemLabel("Шаблоны"));
+		ooTemplatePanel.setHTML("загрузка шаблонов...");
+		vpRight.add(ooTemplatePanel);
+		
+		
+		
+		
+		if(proxy!=null && proxy.getId()>0) {
+			initTemplates(proxy.getStudyModality());
+		}else {
+			ooTemplatePanel.setHTML("Прикрепление шаблона доступно только в существующем исследовании");
+		}
+		
+		formTable.getFlexCellFormatter().setRowSpan(0, 2, rowCounter);
+		
+//		System.out.println("!!! rowCounter="+rowCounter);
+//		formTable.getFlexCellFormatter().setRowSpan(rowCounter, 1 , 17);
+		
+		
+		
+		//
 		updateFromSession();
 
 		
@@ -1033,6 +1055,7 @@ public class StudyManagePanel extends Composite implements
 	 */
 	void initTemplates(String modality) {
 		
+		System.out.println("!!! modality="+modality);
 		Dicom_browser.browserService.getOOTemplates(modality, new AsyncCallback<ArrayList<OOTemplateProxy>>() {
 
 			@Override
@@ -1047,6 +1070,10 @@ public class StudyManagePanel extends Composite implements
 				for(int i=0; i<result.size(); i++) {
 					tmpls += "<a href='"+result.get(i).getUrl()+"?id="+proxy.getId()+"'>" + result.get(i).getTitle() +"</a><br>";
 				}
+				
+//				for(int i=0; i<100; i++) {
+//					tmpls += "<a href='"+"?id="+proxy.getId()+"'>" + i +"</a><br>";	
+//				}
 				
 				ooTemplatePanel.setHTML(tmpls);
 			}
