@@ -1,5 +1,7 @@
 <project name="archive.daemon" default="distrib" basedir=".">
 
+
+
 	<target name="init">
 
 		<property name="extlib_dir" value="lib" />
@@ -11,7 +13,7 @@
 		<property name="dist_jar" value="dcmarchive.jar" />
 
 		<property name="dist_lib_dir" value="lib" />
-		
+
 		<property name="log4j" value="${extlib_dir}/log4j-1.2.13.jar"/>
 		<property name="junit" value="${extlib_dir}/junit.jar"/>
 		<property name="dcm4che" value="${extlib_dir}/dcm4che-core-2.0.21.jar"/>
@@ -19,15 +21,15 @@
 		<property name="dcm4che.image" value="${extlib_dir}/dcm4che-image-2.0.21.jar"/>
 		<property name="dcm4che.filecache" value="${extlib_dir}/dcm4che-filecache-2.0.21.jar"/>
 		<property name="dcm4che.net" value="${extlib_dir}/dcm4che-net-2.0.21.jar"/>
-		
+
 		<property name="slf4j" value="${extlib_dir}/slf4j-api-1.5.0.jar"/>
 		<property name="slf4j.log4j" value="${extlib_dir}/slf4j-log4j12-1.5.0.jar"/>
-		
-		
+
+
 		<property name="commons-cli" value="${extlib_dir}/commons-cli-1.2.jar"/>
 		<property name="jai_imageio" value="${extlib_dir}/jai_imageio.jar"/>
 		<property name="clibwrapper_jiio" value="${extlib_dir}/clibwrapper_jiio.jar"/>
-		
+
 
 		<path id="build.classpath">
 			<pathelement location="${log4j}"/>
@@ -101,6 +103,34 @@
 
 	</target>
 
+
+	<!-- start test database -->
+	<target name="startdb">
+		<java classname="org.apache.derby.drda.NetworkServerControl">
+			<arg value="start"/>
+			<sysproperty key="derby.system.home" value="database/instance"/>
+			<classpath>
+				<pathelement location="lib/derby.jar"/>
+				<pathelement location="lib/derbynet.jar"/>
+				<pathelement path="${java.class.path}"/>
+			</classpath>
+		</java>
+	</target>
+
+	<!-- make test database -->
+	<target name="makedb">
+		<java classname="org.apache.derby.tools.ij">
+			<arg value="database/derby/db.sql" />
+			<sysproperty key="derby.system.home" value="database/instance" />
+			<classpath>
+				<pathelement location="lib/derby.jar" />
+				<pathelement location="lib/derbynet.jar" />
+				<pathelement location="lib/derbytools.jar" />
+				<pathelement location="lib/derbyclient.jar" />
+				<pathelement path="${java.class.path}" />
+			</classpath>
+		</java>
+	</target>
 
 
 
