@@ -131,6 +131,31 @@
 			</classpath>
 		</java>
 	</target>
+	
+	<!-- fill database -->
+		<target name="filldb">
+			<java classname="org.dcm4che2.tool.dcmsnd.DcmSnd">
+				<arg value="DDV@localhost:11112" />
+				<arg value="test/data/renex/31.dcm" />
+				<classpath>
+					       
+					<pathelement location="lib/dcm4che-audit-2.0.21.jar" />
+					<pathelement location="lib/dcm4che-core-2.0.21.jar " />
+					<pathelement location="lib/ dcm4che-filecache-2.0.21.jar" />
+					<pathelement location="lib/dcm4che-hp-2.0.21.jar" />
+					<pathelement location="lib/dcm4che-image-2.0.21.jar" />
+					<pathelement location="lib/dcm4che-iod-2.0.21.jar" />
+					<pathelement location="lib/dcm4che-net-2.0.21.jar" />
+					<pathelement location="lib/commons-cli-1.2.jar" />
+					<pathelement location="lib/slf4j-api-1.5.0.jar" />
+					<pathelement location="lib/slf4j-log4j12-1.5.0.jar" />
+					<pathelement location="lib/org.apache.log4j_1.2.13.v200806030600.jar" />
+					<pathelement location="test/dcm4che-tool-dcmsnd-2.0.21.jar" />
+					
+					<pathelement path="${java.class.path}" />
+				</classpath>
+			</java>
+		</target>
 
 
 
