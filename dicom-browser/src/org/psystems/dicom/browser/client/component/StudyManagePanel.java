@@ -412,11 +412,13 @@ public class StudyManagePanel extends Composite implements
 		
 		studyDoctror = new ListBox();
 		studyDoctror.setName("00080090");
+		//TODO Вынести в конфиг!!!
 		studyDoctror.addItem("Выберите врача...", "");
 		studyDoctror.addItem("Петрова  Н.Н.", "Петрова  Н.Н.");
 		studyDoctror.addItem("Девяткова И.А.", "Девяткова И.А.");
 		studyDoctror.addItem("Солоница В.Д.", "Солоница В.Д.");
 		studyDoctror.addItem("Корж С.С.", "Корж С.С.");
+		studyDoctror.addItem("Кузнецов Е.А.", "Кузнецов Е.А.");
 		
 		
 //		studyDoctror2.addItem("Ввести нового...", "manualinput");
@@ -456,6 +458,7 @@ public class StudyManagePanel extends Composite implements
 //		studyOperator.setText(proxy.getStudyOperator());
 //		addFormRow(rowCounter++, "Лаборант", studyOperator);
 		
+		//TODO Вынести в конфиг!!!
 		studyOperator = new ListBox();
 		studyOperator.setName("00081070");
 		studyOperator.addItem("Выберите лаборанта...", "");
