@@ -8,11 +8,15 @@
 
 
 
+
 	<property name="dir.src" value="src" />
+	<property name="dir.bin" value="bin" />
 	<property name="dir.classes" value="classes" />
 	<property name="dir.doc" value="doc" />
 	<property name="dir.doc.api" value="${dir.doc}/api" />
 	<property name="dir.distrib" value="distrib" />
+	<property name="dir.instance" value="database/instance" />
+
 	<property name="distrib.jar" value="dcmarchive.jar" />
 
 	<path id="derby.classpath">
@@ -49,6 +53,10 @@
 		<pathelement location="test/dcm4che-tool-dcmsnd-2.0.21.jar" />
 	</path>
 
+	<path id="archive.classpath">
+		<path refid="build.classpath" />
+		<pathelement location="${dir.bin}" />
+	</path>
 
 
 
@@ -113,17 +121,41 @@
 		<echo message="Запуск БД" />
 		<java classname="org.apache.derby.drda.NetworkServerControl">
 			<arg value="start" />
-			<sysproperty key="derby.system.home" value="database/instance" />
+			<sysproperty key="derby.system.home" value="${dir.instance}" />
 			<classpath refid="derby.classpath" />
 		</java>
+	</target>
+
+
+	<!-- drop test database -->
+	<target name="db.dropinstance">
+		<delete>
+			<fileset dir="${dir.instance}" includes="**/**"/>
+		</delete>
 	</target>
 
 	<!-- make test database -->
 	<target name="db.makeinstance">
 		<java classname="org.apache.derby.tools.ij">
 			<arg value="database/derby/db.sql" />
-			<sysproperty key="derby.system.home" value="database/instance" />
+			<sysproperty key="derby.system.home" value="${dir.instance}"  />
 			<classpath refid="derby.classpath" />
+		</java>
+	</target>
+
+	<!-- start archive -->
+	<target name="archve.start" description="Запуск архива">
+
+		<java classname="org.psystems.dicom.daemon.Archive" >
+			<arg value="DDV@localhost:11112" />
+			<arg value="-config" />
+			<arg value="distrib/dcmarcive-conf.xml" />
+			<arg value="-dest" />
+			<arg value="database\instance\dcm.data" />
+			<arg value="-jdbcconnect" />
+			<arg value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM" />
+
+			<classpath refid="archive.classpath" />
 		</java>
 	</target>
 
