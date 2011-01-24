@@ -1,0 +1,7 @@
+#summary Руководство разработчика
+
+= Библиотеки =
+
+ * JAI https://jai-imageio.dev.java.net/binary-builds.html
+
+
