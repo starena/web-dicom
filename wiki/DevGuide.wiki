@@ -1,7 +1,6 @@
 #summary Руководство разработчика
+#labels Restrict-AddWikiComment-Commit
 
 = Библиотеки =
 
  * JAI https://jai-imageio.dev.java.net/binary-builds.html
-
-
