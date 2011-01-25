@@ -1,4 +1,2 @@
 #summary Скриншоты
 
-== Главное окно ==
-[http://web-dicom.googlecode.com/svn/wiki/images/screenshot1.png]
