@@ -12,6 +12,12 @@
  * Apache Tomcat (6.0.24) http://tomcat.apache.org/download-60.cgi
 
 
+== Настройка eclipse 3.5 ==
+
+ * Необходимо прописать в среде JDK1.6.x под именем jdk1.6 (тип Standard VM)
+
+ [eclipse] -> Window -> Prefference -> Java-> Installed JREs
+
 == AXIS ==
 
  * Необходимо прописать путь к Axis2 
