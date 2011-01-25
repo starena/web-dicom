@@ -23,6 +23,7 @@
  * Необходимо зарегистрировать Runtime сервер Tomcat v6.0 с именем "Apache Tomcat v6.0"
  [eclipse] -> Window -> Prefference -> Server -> Runtime Enviroment 
 
+ http://web-dicom.googlecode.com/svn/wiki/images/DevGuide/eclipse_tomcat.png
 
 
 == AXIS ==
@@ -40,6 +41,9 @@ path=C:\\java\\axis2-1.4
 
  http://web-dicom.googlecode.com/svn/wiki/images/DevGuide/eclipse_axis.png
 
+ Настройка AXIS в фасете проекта:
+
+ http://web-dicom.googlecode.com/svn/wiki/images/DevGuide/project_axis.png
 
 
 == OpenOffice SDK ==
@@ -62,3 +66,5 @@ sdkpath0=C\:\\java\\openoffice\\SDK\\Basis\\sdk
 oooname0=OpenOffice.org 3.2
 ooopath0=C\:\\Program Files\\OpenOffice.org 3
 </pre>
+
+ http://web-dicom.googlecode.com/svn/wiki/images/DevGuide/eclipse_openoffice.png
