@@ -4,6 +4,44 @@
 = Библиотеки =
 
  * JAI https://jai-imageio.dev.java.net/binary-builds.html
- * AXIS2
+ * AXIS2 1.4 http://axis.apache.org/axis2/java/core/download.cgi
  * Derby
  * DCM2CHE
+ * OpenOffice 3.2
+ * OpenOffice SDK
+
+= Настройка окружения =
+
+== AXIS ==
+
+ * Необходимо прописать путь к Axis2 
+
+[eclipse] -> Prefference -> Web Services -> Axis2 preference
+
+Вот примерный файл полученной конфигурации:
+C:\WORK\workspace.new\.metadata\.plugins\org.apache.axis2.facet\server.properties 
+
+<pre>
+path=C:\\java\\axis2-1.4
+</pre>
+
+== OpenOffice UNO ==
+
+ * Необходимо установить OpenOffice 3.2
+ * Необходимо установить OpenOffice 3.2 SKD Можно взять отсюда:
+http://code.google.com/p/web-dicom/downloads/detail?name=openoffice-plugin-update.zip
+
+ * Необходимо прописать путь к SDK и OpenOffice
+
+[eclipse] -> Prefference -> OpenOffice.org.plugin -> SDK Configuration
+
+Вот примерный файл полученной конфигурации:
+.metadata\.plugins\org.openoffice.ide.eclipse.core\.ooo_config
+ 
+<pre>
+#
+#Mon Nov 22 10:09:46 YEKT 2010
+sdkpath0=C\:\\java\\openoffice\\SDK\\Basis\\sdk
+oooname0=OpenOffice.org 3.2
+ooopath0=C\:\\Program Files\\OpenOffice.org 3
+</pre>
