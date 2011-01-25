@@ -4,3 +4,6 @@
 = Библиотеки =
 
  * JAI https://jai-imageio.dev.java.net/binary-builds.html
+ * AXIS2
+ * Derby
+ * DCM2CHE
