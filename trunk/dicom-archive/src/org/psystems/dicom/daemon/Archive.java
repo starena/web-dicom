@@ -95,6 +95,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.derby.drda.NetworkServerControl;
 import org.dcm4che2.data.BasicDicomObject;
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
@@ -482,6 +483,8 @@ public class Archive extends StorageService {
 		OptionBuilder.withDescription("config file <config> .\n example: "
 				+ Extractor.configStr);
 		opts.addOption(OptionBuilder.create("config"));
+		
+		opts.addOption("startdb", false, "Start 'Derby Network Server' set JavaVM Args: -Dderby.system.home=dtabase/instance -Dderby.drda.startNetworkServer=true -Dderby.drda.portNumber=1527 -Dderby.drda.host=localhost");
 
 		OptionBuilder.withArgName("file|url");
 		OptionBuilder.hasArg();
@@ -677,6 +680,17 @@ public class Archive extends StorageService {
 		
 		}
 		
+		if (cl.hasOption("startdb")) {
+			NetworkServerControl server;
+			try {
+				server = new NetworkServerControl();
+				server.start(null);
+			} catch (Exception ex) {
+				LOG.error("Can't start Database! " + ex);
+			}
+			System.out.println("Derby 'Network Server' started.");
+		}
+		
 
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));
@@ -805,6 +819,8 @@ public class Archive extends StorageService {
 				System.exit(2);
 			}
 		}
+		
+		
 		try {
 			dcmrcv.start();
 		} catch (IOException e) {

@@ -117,7 +117,7 @@
 
 	<!-- start test database -->
 	<target name="db.start" description="Запуск БД">
-
+		<mkdir dir="${dir.instance}"/>
 		<echo message="Запуск БД" />
 		<java classname="org.apache.derby.drda.NetworkServerControl">
 			<arg value="start" />
@@ -129,8 +129,8 @@
 
 	<!-- drop test database -->
 	<target name="db.dropinstance">
-		<delete>
-			<fileset dir="${dir.instance}" includes="**/**"/>
+		<delete includeemptydirs="yes">
+			<fileset dir="${dir.instance}"/>
 		</delete>
 	</target>
 
