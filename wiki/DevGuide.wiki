@@ -11,36 +11,38 @@
  * OpenOffice SDK
  * Apache Tomcat (6.0.24) http://tomcat.apache.org/download-60.cgi
 
-= Настройка окружения =
 
 == AXIS ==
 
  * Необходимо прописать путь к Axis2 
 
-[eclipse] -> Prefference -> Web Services -> Axis2 preference
+ [eclipse] -> Window -> Prefference -> Web Services -> Axis2 preference
 
-Вот примерный файл полученной конфигурации:
-C:\WORK\workspace.new\.metadata\.plugins\org.apache.axis2.facet\server.properties 
+ Вот примерный файл полученной конфигурации:
+ C:\WORK\workspace.new\.metadata\.plugins\org.apache.axis2.facet\server.properties 
 
-<pre>
+ <pre>
 path=C:\\java\\axis2-1.4
-</pre>
+ </pre>
 
-== OpenOffice UNO ==
+ * Необходимо зарегистрировать Runtime сервер Tomcat v6.0 с именем "Apache Tomcat v6.0"
+ [eclipse] -> Window -> Prefference -> Server -> Runtime Enviroment 
+
+== OpenOffice SDK ==
 
  * Необходимо установить OpenOffice 3.2
  * Необходимо установить OpenOffice 3.2 SKD Можно взять отсюда:
-http://code.google.com/p/web-dicom/downloads/detail?name=openoffice-plugin-update.zip
+ http://code.google.com/p/web-dicom/downloads/detail?name=openoffice-plugin-update.zip
 
  * Необходимо прописать путь к SDK и OpenOffice
 
-[eclipse] -> Prefference -> OpenOffice.org.plugin -> SDK Configuration
+ [eclipse] -> Window -> Prefference -> OpenOffice.org.plugin -> SDK Configuration
 
-Вот примерный файл полученной конфигурации:
-.metadata\.plugins\org.openoffice.ide.eclipse.core\.ooo_config
+ Вот примерный файл полученной конфигурации:
+ .metadata\.plugins\org.openoffice.ide.eclipse.core\.ooo_config
  
-<pre>
-#
+ <pre>
+ #
 #Mon Nov 22 10:09:46 YEKT 2010
 sdkpath0=C\:\\java\\openoffice\\SDK\\Basis\\sdk
 oooname0=OpenOffice.org 3.2
