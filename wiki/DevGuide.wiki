@@ -18,6 +18,13 @@
 
  [eclipse] -> Window -> Prefference -> Java-> Installed JREs
 
+ http://web-dicom.googlecode.com/svn/wiki/images/DevGuide/eclipse_java.png
+
+ * Необходимо зарегистрировать Runtime сервер Tomcat v6.0 с именем "Apache Tomcat v6.0"
+ [eclipse] -> Window -> Prefference -> Server -> Runtime Enviroment 
+
+
+
 == AXIS ==
 
  * Необходимо прописать путь к Axis2 
@@ -31,8 +38,9 @@
 path=C:\\java\\axis2-1.4
  </pre>
 
- * Необходимо зарегистрировать Runtime сервер Tomcat v6.0 с именем "Apache Tomcat v6.0"
- [eclipse] -> Window -> Prefference -> Server -> Runtime Enviroment 
+ http://web-dicom.googlecode.com/svn/wiki/images/DevGuide/eclipse_axis.png
+
+
 
 == OpenOffice SDK ==
 
