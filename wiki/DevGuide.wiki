@@ -8,7 +8,10 @@
  * Derby (10.5.3) http://db.apache.org/derby/derby_downloads.html
  * DCM2CHE (2.0.21) http://sourceforge.net/projects/dcm4che/files/dcm4che2/
  * OpenOffice 3.2 http://www.openoffice.org/ или http://i-rs.ru/download
- * OpenOffice SDK
+ * OpenOffice SDK 
+ * OpenOffice eclipse plugin 
+ # http://wiki.services.openoffice.org/wiki/JavaEclipseTuto
+ # http://cedric.bosdonnat.free.fr/wordpress/?page_id=11&lp_lang_view=en
  * Apache Tomcat (6.0.24) http://tomcat.apache.org/download-60.cgi
 
 
