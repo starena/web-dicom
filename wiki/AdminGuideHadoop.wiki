@@ -18,3 +18,23 @@
 * !!! Внимание  !!! * в версии 0.21 появились изменения!
 
  # Переименовали конфигурационный файл hadoop-site.xml в hdfs-site.xml
+ # 
+ # Копируем файл hdfs-default.xml изи папки ${HADOOP_ROOT}hdfs\src\java\
+ и добавляем в него:
+   # hbase.rootdir must read e.g. file:///C:/cygwin/root/tmp/hbase/data
+   # hbase.tmp.dir must read C:/cygwin/root/tmp/hbase/tmp
+   # hbase.zookeeper.quorum must read 127.0.0.1 because for some reason localhost doesn't seem to resolve properly on Cygwin.
+
+# В hadoop-config.sh добавить трансляцию символа разделтеля Java CLASSPATH ':' -> ';' (строка 190 примерно) по топику http://lucene.472066.n3.nabble.com/Hadoop-installation-on-Windows-tt1883975.html#a1891882
+{{{
+# cygwin path translation
+if $cygwin; then
+  HADOOP_COMMON_HOME=`cygpath -w "$HADOOP_COMMON_HOME"`
+  HADOOP_LOG_DIR=`cygpath -w "$HADOOP_LOG_DIR"`
+
+  # *** Fix CLASSPATH BEGIN  ***
+  CLASSPATH=`cygpath -p -w "$CLASSPATH"` 
+  # *** Fix CLASSPATH END ***
+
+fi
+}}}
