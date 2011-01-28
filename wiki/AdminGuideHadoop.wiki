@@ -16,6 +16,8 @@
 $ export HADOOP_HOME=/home/dima_d/hadoop-0.21.0
 }}}
 
+Создать папку {HADOOP_HOME}/logs (#chmod 777)
+
 Установка-настройка cygwin (номер ревизии брать последний) http://hbase.apache.org/docs/r0.89.20100924/cygwin.html
 
 Установку проводим по руководству http://v-lad.org/Tutorials/Hadoop/00%20-%20Intro.html
