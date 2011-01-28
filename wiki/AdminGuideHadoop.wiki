@@ -1,0 +1,16 @@
+#summary Настройка и инсталляция Apache Hadoop
+#labels Restrict-AddWikiComment-Commit
+
+= Ссылки на документы по этой теме =
+ * Основной Wiki [http://wiki.apache.org/hadoop/]
+ * Eclipse plugin http://wiki.apache.org/hadoop/EclipsePlugIn
+
+
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
