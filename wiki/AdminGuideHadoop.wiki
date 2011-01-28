@@ -3,15 +3,16 @@
 
 = Ссылки на документы по этой теме =
  * Основной Wiki http://wiki.apache.org/hadoop/
- * Eclipse plugin http://wiki.apache.org/hadoop/EclipsePlugIn http://wiki.apache.org/hadoop/EclipseEnvironment
+ * Eclipse plugin 
+ # http://wiki.apache.org/hadoop/EclipsePlugIn
+ # http://wiki.apache.org/hadoop/EclipseEnvironment
  * Руководство но настройке под Windows Hadoop + Eclipse http://v-lad.org/Tutorials/Hadoop/00%20-%20Intro.html
 
 
+= Установка на Windows машинках =
 
+Установку проводим по руководству http://v-lad.org/Tutorials/Hadoop/00%20-%20Intro.html
 
-= Details =
+* !!! Внимание  !!! * в версии 0.21 появились изменения!
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ # Переименовали конфигурационный файл hadoop-site.xml в hdfs-site.xml
