@@ -2,8 +2,9 @@
 #labels Restrict-AddWikiComment-Commit
 
 = Ссылки на документы по этой теме =
- * Основной Wiki [http://wiki.apache.org/hadoop/]
+ * Основной Wiki http://wiki.apache.org/hadoop/
  * Eclipse plugin http://wiki.apache.org/hadoop/EclipsePlugIn
+ * Руководство но настройке под Windows Hadoop + Eclipse http://v-lad.org/Tutorials/Hadoop/00%20-%20Intro.html
 
 
 
