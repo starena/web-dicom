@@ -25,7 +25,7 @@
    # hbase.tmp.dir must read C:/cygwin/root/tmp/hbase/tmp
    # hbase.zookeeper.quorum must read 127.0.0.1 because for some reason localhost doesn't seem to resolve properly on Cygwin.
 
-# В hadoop-config.sh добавить трансляцию символа разделтеля Java CLASSPATH ':' -> ';' (строка 190 примерно) по топику http://lucene.472066.n3.nabble.com/Hadoop-installation-on-Windows-tt1883975.html#a1891882
+ # В hadoop-config.sh добавить трансляцию символа разделтеля Java CLASSPATH ':' -> ';' (строка 190 примерно) по топику http://lucene.472066.n3.nabble.com/Hadoop-installation-on-Windows-tt1883975.html#a1891882
 {{{
 # cygwin path translation
 if $cygwin; then
@@ -37,4 +37,22 @@ if $cygwin; then
   # *** Fix CLASSPATH END ***
 
 fi
+}}}
+
+ # Создать папку для хранения данных (она будет форматирована) 
+{{{
+ #mkdir /tmp/hadoop-dima_d/dfs/name
+}}}
+
+ # Добавить в конфиг hdfs-site.xml 
+{{{
+	<property>
+		<name>hadoop.tmp.dir</name>
+		<value>/tmp/hadoop-${user.name}</value>
+	</property>
+	
+	<property>
+		<name>mapred.child.java.opts</name>
+		<value>-Xmx512m</value>
+	</property>
 }}}
