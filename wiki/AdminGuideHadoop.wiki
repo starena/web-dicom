@@ -3,7 +3,7 @@
 
 = Ссылки на документы по этой теме =
  * Основной Wiki http://wiki.apache.org/hadoop/
- * Eclipse plugin http://wiki.apache.org/hadoop/EclipsePlugIn
+ * Eclipse plugin http://wiki.apache.org/hadoop/EclipsePlugIn http://wiki.apache.org/hadoop/EclipseEnvironment
  * Руководство но настройке под Windows Hadoop + Eclipse http://v-lad.org/Tutorials/Hadoop/00%20-%20Intro.html
 
 
