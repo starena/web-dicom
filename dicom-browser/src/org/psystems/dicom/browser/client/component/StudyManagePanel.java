@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
+import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
@@ -810,7 +811,25 @@ public class StudyManagePanel extends Composite implements
 					public void onFailure(Throwable caught) {
 
 						// transactionFinished();
-						Dicom_browser.showErrorDlg(caught);
+//						Dicom_browser.showErrorDlg(caught);
+						patientNameCheck.clear();
+						patientNameCheck.addItem("Ошибка поиска из внешней системы!");
+						VerticalPanel panel = (VerticalPanel)patientNameCheck.getParent();
+						
+//						HTML msg = new HTML();
+						TextArea msg = new TextArea();
+						msg.setSize("450px", "20em");
+						if(caught instanceof DefaultGWTRPCException) {
+							DefaultGWTRPCException ex = (DefaultGWTRPCException)caught;
+							msg.setText("Ошибка поиска из внешней системы !!!! \n" + ex.getMessage()+
+									"\n[" + ex.getLogMarker()+ "]\n"+ ex.getStack()+"</pre>");
+						} else {
+							msg.setText(caught.getMessage());
+						}
+						
+						
+						
+						panel.add(msg);
 
 					}
 
