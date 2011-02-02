@@ -53,7 +53,7 @@
 	<!-- Корневая папка файлов исследований -->
 	<context-param>
 		<param-name>webdicom.dir.src</param-name>
-		<param-value>C:\temp\data</param-value>
+		<param-value>../../dicom-archive/database/instance/dcm.data</param-value>
 	</context-param>
 
 	<!--
@@ -61,26 +61,27 @@
 	-->
 	<context-param>
 		<param-name>webdicom.dir.dst</param-name>
-		<param-value>C:\temp\data</param-value>
+		<param-value>../../dicom-archive/database/instance/dcm.data</param-value>
 	</context-param>
 
 	<!-- Директория для сохранения временных заугружаемых картинок -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm.uploadimages</param-name>
-		<param-value>C:\temp</param-value>
+		<param-value>../tmp</param-value>
 	</context-param>
 
 	<!-- Директория для сохранения временных DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm.tmp</param-name>
-		<param-value>C:\temp\dcm.tmp</param-value>
+		<param-value>../tmp</param-value>
+	</context-param>
+	
+	<!-- Директория с шаблонами openoffice  -->
+	<context-param>
+		<param-name>webdicom.dir.ootmpl</param-name>
+		<param-value>../test/ootmpl</param-value>
 	</context-param>
 
-	<!-- Директория для сохранения DCM-файлов TODO Не используется! -->
-	<context-param>
-		<param-name>webdicom.dir.newdcm</param-name>
-		<param-value>C:\temp\dcm</param-value>
-	</context-param>
 	
 	<!-- строка соединения с Dicom-архивом для передачи DCM-файлов  -->
 	<context-param>
@@ -91,20 +92,16 @@
 	<!-- Конфиг-прототип для создания JPG - DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm.jpg.cfg</param-name>
-		<param-value>C:\WORK\workspace\dicom-browser\test\data\jpg2dcm.cfg</param-value>
+		<param-value>../test/data/jpg2dcm.cfg</param-value>
 	</context-param>
 
 	<!-- Конфиг-прототип для создания DFP - DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.dir.newdcm.pdf.cfg</param-name>
-		<param-value>C:\WORK\workspace\dicom-browser\test\data\pdf2dcm.cfg</param-value>
+		<param-value>../test/data/pdf2dcm.cfg</param-value>
 	</context-param>
 
-	<!-- Директория с шаблонами openoffice  -->
-	<context-param>
-		<param-name>webdicom.dir.ootmpl</param-name>
-		<param-value>C:\temp\dcm.oo</param-value>
-	</context-param>
+	
 
 
 	<!-- ************************************************* -->

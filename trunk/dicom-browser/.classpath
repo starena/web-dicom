@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dcm4che-net-2.0.21.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dicom-archive"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
