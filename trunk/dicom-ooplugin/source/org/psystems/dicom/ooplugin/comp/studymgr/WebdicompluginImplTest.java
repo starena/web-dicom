@@ -106,7 +106,23 @@ public class WebdicompluginImplTest extends TestCase {
 		assertEquals("https://proxy.gp1.psystems.org:38081/browser.01",
 				WebdicompluginImpl.getConfigURL(result));
 	}
+	
+	public void testgetConfiguration_local () {
 		
+		String cfg = "dicomuser:dicom@http://localhost:8888/";
+		HashMap<String, String> result = WebdicompluginImpl.getConfiguration(cfg);
+		assertEquals(result.get("login"), "dicomuser");
+		assertEquals(result.get("password"), "dicom");
+		assertEquals(result.get("protocol"), "http");
+		assertEquals(result.get("host"), "localhost");
+		assertEquals(result.get("port"), "8888");
+		assertEquals(result.get("url"), "");
+		
+		assertEquals("http://localhost:8888",
+				WebdicompluginImpl.getConfigURL(result));
+	}
+	
+
 		
 
 	

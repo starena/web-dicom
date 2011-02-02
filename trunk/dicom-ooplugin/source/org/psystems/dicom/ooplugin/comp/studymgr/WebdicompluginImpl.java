@@ -213,7 +213,13 @@ public final class WebdicompluginImpl extends WeakBase
 	}
 	
 	public static String getConfigURL(HashMap<String, String> cfg) {
-		return cfg.get("protocol")+"://"+cfg.get("host")+":"+cfg.get("port")+"/"+cfg.get("url");
+		String s = cfg.get("protocol")+"://"+cfg.get("host")+":"+cfg.get("port");
+		if(cfg.get("url")==null || cfg.get("url").equals("")) {
+			
+		}else {
+			s += "/"+cfg.get("url");
+		}
+		return s;
 	}
 	
 	/* (non-Javadoc)
