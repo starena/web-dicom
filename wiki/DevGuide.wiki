@@ -71,3 +71,8 @@ ooopath0=C\:\\Program Files\\OpenOffice.org 3
 </pre>
 
  http://web-dicom.googlecode.com/svn/wiki/images/DevGuide/eclipse_openoffice.png
+
+
+== Настройка Окружения ==
+
+ * Необходима временная папка c:\temp
