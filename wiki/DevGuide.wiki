@@ -74,5 +74,3 @@ ooopath0=C\:\\Program Files\\OpenOffice.org 3
 
 
 == Настройка Окружения ==
-
- * Необходима временная папка c:\temp
