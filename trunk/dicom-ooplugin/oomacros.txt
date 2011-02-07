@@ -1,0 +1,103 @@
+' *********************************************************
+' *      WEB-DICOM JAVA Plugin macros library             *
+' *      www.psystems.org/web-dicom                       *
+' *                                                       *
+' *********************************************************
+
+sub Main
+
+	printLog("dddd")
+
+end sub
+
+
+' ********************************************************
+' Печать отладочной информации в элемент формы TextLogging
+' ********************************************************
+sub printLog (msg As String)
+
+	oDoc = ThisComponent
+	oForm = oDoc.DrawPage.Forms.GetbyIndex(0) 
+	oCtl=oForm.GetByName("TextLogging")
+	'TODO Проверить на наличие отладочного поля
+	oCtl.Text = oCtl.Text  & chr (10)  & msg
+
+end sub
+
+' ********************************************************
+' Получение конфигурации
+' ********************************************************
+Sub dicomConfig As String
+
+	REM определение конфигурации
+	Dim Provider
+	Dim nodeArgs(0) As New com.sun.star.beans.PropertyValue
+	nodeArgs(0).Name = "nodepath"
+	nodeArgs(0).Value = "/org.openoffice.UserProfile/Data"
+	nodeArgs(0).State = com.sun.star.beans.PropertyState.DEFAULT_VALUE
+	nodeArgs(0).Handle = -1
+	Provider = createUnoService("com.sun.star.comp.configuration.ConfigurationProvider")
+	oService = Provider.createInstanceWithArguments("com.sun.star.configuration.ConfigurationAccess", nodeArgs())
+	tel = oService.telephonenumber
+	org = oService.o
+	mail = 	oService.mail
+	dicomConfig = mail
+	
+End Sub
+
+' ********************************************************
+' Импорт информации по исследованию
+' ********************************************************
+Sub dicomImport
+	
+	oUNOPlugin = createUnoService( "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
+	'print ThisComponent.getImplementationName();
+	'print ThisComponent.getURL()
+	'MsgBox 
+	oUNOPlugin.updateDocument(ThisComponent.getURL(), dicomConfig, ThisComponent)
+	'print "!!!!" + dicomConfig;
+	
+End Sub
+
+
+
+
+' ********************************************************
+' Экспорт информации по исследованию
+' ********************************************************
+sub dicomExport
+rem ----------------------------------------------------------------------
+rem define variables
+dim document   as object
+dim dispatcher as object
+rem ----------------------------------------------------------------------
+rem get access to the document
+document   = ThisComponent.CurrentController.Frame
+dispatcher = createUnoService("com.sun.star.frame.DispatchHelper")
+
+
+rem ----------------------------------------------------------------------
+dim args2(2) as new com.sun.star.beans.PropertyValue
+args2(0).Name = "URL"
+args2(0).Value = "file:///C:/temp/study.pdf"
+args2(1).Name = "FilterName"
+args2(1).Value = "writer_pdf_Export"
+args2(2).Name = "FilterData"
+args2(2).Value = Array(Array("UseLosslessCompression",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("Quality",0,90,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ReduceImageResolution",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("MaxImageResolution",0,300,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("UseTaggedPDF",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("SelectPdfVersion",0,0,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ExportNotes",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ExportBookmarks",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("OpenBookmarkLevels",0,-1,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("UseTransitionEffects",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("IsSkipEmptyPages",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("IsAddStream",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("FormsType",0,0,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ExportFormFields",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("HideViewerToolbar",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("HideViewerMenubar",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("HideViewerWindowControls",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ResizeWindowToInitialPage",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("CenterWindow",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("OpenInFullScreenMode",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("DisplayPDFDocumentTitle",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("InitialView",0,0,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("Magnification",0,0,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("Zoom",0,100,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("PageLayout",0,0,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("FirstPageOnLeft",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("InitialPage",0,1,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("Printing",0,2,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("Changes",0,4,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("EnableCopyingOfContent",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("EnableTextAccessForAccessibilityTools",0,true,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ExportLinksRelativeFsys",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("PDFViewSelection",0,0,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ConvertOOoTargetToPDFTarget",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("ExportBookmarksToPDFDestination",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("_OkButtonString",0,"",com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("EncryptFile",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("DocumentOpenPassword",0,"",com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("RestrictPermissions",0,false,com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("PermissionPassword",0,"",com.sun.star.beans.PropertyState.DIRECT_VALUE),Array("",0,,com.sun.star.beans.PropertyState.DIRECT_VALUE))
+
+dispatcher.executeDispatch(document, ".uno:ExportToPDF", "", 0, args2())
+
+printLog ("Отправка данных...")
+
+
+oUNOPlugin = createUnoService( "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
+'print ThisComponent.getImplementationName();
+dim resultStr As String
+resultStr = oUNOPlugin.sendDocument(dicomConfig, "C:/temp/study.pdf", ThisComponent)
+
+printLog ("результат отправки:" + resultStr)
+
+end sub
+
+
+
