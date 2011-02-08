@@ -1,11 +1,13 @@
 #summary Разработка шаблонов для openoffice
 
-= Формитирование шаблона =
+= Форматирование шаблона =
 
  * Поля именуются в соответствии с имененем dicom тега и имеют тип "Текст", например: тег 00100010 - Это ФИО (PatientName)
  http://web-dicom.googlecode.com/svn/wiki/images/DevGuideOOTemplate/make_field.png
  * Области данных в которых предусмотрен ввод текста должны располагаться в специальном разделе (Меню: Вставка -> Раздел) с заданием свойства "Разрешить правку в защищенном от записи документе"
  http://web-dicom.googlecode.com/svn/wiki/images/DevGuideOOTemplate/make_razdel.png
+ * Размещение полей выбора (выпадающих списков) производится через (Меню: Вставка -> Поля -> Дополнительно -> Функции : Список)
+ http://web-dicom.googlecode.com/svn/wiki/images/DevGuideOOTemplate/make_field_choice.png
 
 
 = Перечень обязательных компонентов шаблона =
