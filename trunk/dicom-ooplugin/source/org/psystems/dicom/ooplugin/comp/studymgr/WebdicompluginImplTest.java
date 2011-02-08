@@ -1,6 +1,7 @@
 package org.psystems.dicom.ooplugin.comp.studymgr;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -122,6 +123,21 @@ public class WebdicompluginImplTest extends TestCase {
 				WebdicompluginImpl.getConfigURL(result));
 	}
 	
+	public void testFormatDate() {
+//		fail("Not yet implemented");
+		try {
+			assertEquals("25.12.2000", WebdicompluginImpl.Dicomdate2Localdate("2000-12-25"));
+			assertEquals("2000-12-25", WebdicompluginImpl.Localdate2Dicomdate("25.12.2000"));
+			assertEquals("М", WebdicompluginImpl.DicomSex2LocalSex("M"));
+			assertEquals("Ж", WebdicompluginImpl.DicomSex2LocalSex("F"));
+			assertEquals("F", WebdicompluginImpl.LocalSex2DicomSex("Ж"));
+			assertEquals("M", WebdicompluginImpl.LocalSex2DicomSex("М"));
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 		
 
