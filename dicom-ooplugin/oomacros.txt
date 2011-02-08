@@ -50,13 +50,15 @@ End Sub
 ' ********************************************************
 Sub dicomImport
 	
-	oUNOPlugin = createUnoService( "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
-	'print ThisComponent.getImplementationName();
-	'print ThisComponent.getURL()
-	'MsgBox 
-	oUNOPlugin.updateDocument(ThisComponent.getURL(), dicomConfig, ThisComponent)
-	'print "!!!!" + dicomConfig;
-	
+ 	oUNOPlugin = createUnoService( "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
+ 	'print ThisComponent.getImplementationName();
+ 	'print ThisComponent.getURL()
+ 	'MsgBox
+ 	dim resultStr As String 
+ 	resultStr = oUNOPlugin.dicomImport(ThisComponent.getURL(), dicomConfig, ThisComponent)
+ 	printLog(resultStr)
+ 	'print "!!!!" + ThisComponent.getURL();
+ 	
 End Sub
 
 
@@ -93,8 +95,9 @@ printLog ("Отправка данных...")
 oUNOPlugin = createUnoService( "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
 'print ThisComponent.getImplementationName();
 dim resultStr As String
-resultStr = oUNOPlugin.sendDocument(dicomConfig, "C:/temp/study.pdf", ThisComponent)
-
+'TODO Сделать создание PDF-ки во временной папке пользователя
+resultStr = oUNOPlugin.dicomExport(dicomConfig, "C:/temp/study.pdf", ThisComponent)
+'TODO Сделать удаление PDF-ки
 printLog ("результат отправки:" + resultStr)
 
 end sub
