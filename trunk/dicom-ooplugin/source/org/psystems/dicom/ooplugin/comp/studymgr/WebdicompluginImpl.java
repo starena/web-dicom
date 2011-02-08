@@ -230,7 +230,7 @@ public final class WebdicompluginImpl extends WeakBase implements
 	 * Обновление тегов
 	 */
 	@Override
-	public String updateDocument(String docName, String config,
+	public String dicomImport(String docName, String config,
 			XTextDocument docObj) {
 
 		// TODO сделать проброс эксепшинов
@@ -383,7 +383,7 @@ public final class WebdicompluginImpl extends WeakBase implements
 	 * com.sun.star.text.XTextDocument)
 	 */
 	@Override
-	public String sendDocument(String config, String pdffile,
+	public String dicomExport(String config, String pdffile,
 			XTextDocument docObj) {
 		// Отправка PDF
 
