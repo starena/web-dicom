@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,6 +65,10 @@ public final class WebdicompluginImpl extends WeakBase implements
 			.getName();
 	private static final String[] m_serviceNames = { "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" };
 
+	
+	static SimpleDateFormat dateFormatDicom = new SimpleDateFormat("yyyy-MM-dd");
+	static  SimpleDateFormat dateFormatLocal = new SimpleDateFormat("dd.MM.yyyy");
+	
 	public WebdicompluginImpl(XComponentContext context) {
 		m_xContext = context;
 	};
@@ -159,6 +166,58 @@ public final class WebdicompluginImpl extends WeakBase implements
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * форматирование даты DICOM -> Локальное
+	 * @param s
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String Dicomdate2Localdate (String s) throws ParseException {
+		Date d = dateFormatDicom.parse(s);
+		return dateFormatLocal.format(d);
+	} 
+	
+	/**
+	 * форматирование даты Локальное -> DICOM 
+	 * @param s
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String Localdate2Dicomdate (String s) throws ParseException {
+		Date d = dateFormatLocal.parse(s);
+		return dateFormatDicom.format(d);
+	} 
+	
+	/**
+	 * форматирование пола DICOM -> Локальное
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String DicomSex2LocalSex(String s) {
+		if (s.equalsIgnoreCase("M")) {
+			return "М";
+		} else if (s.equalsIgnoreCase("F")) {
+			return "Ж";
+		} else
+			return s;
+	}
+
+	/**
+	 * форматирование пола Локальное -> DICOM
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String LocalSex2DicomSex(String s) {
+		if (s.equalsIgnoreCase("М")) {
+			return "M";
+		} else if (s.equalsIgnoreCase("Ж")) {
+			return "F";
+		} else
+			return s;
 	}
 
 	/**
@@ -300,6 +359,42 @@ public final class WebdicompluginImpl extends WeakBase implements
 		} catch (Exception e) {
 			return "Exception!!! " + e;
 		}
+		
+		//----------------
+		//   Конвертации
+		//----------------
+		
+		try {
+			
+			//Конвертация даты исследования
+			String tag = "00080020";
+			if (variableMap.get(tag) != null) {
+				variableMap.put(tag, Dicomdate2Localdate(variableMap.get(tag)));
+			}
+			
+			//Конвертация даты рождения
+			tag = "00100030";
+			if (variableMap.get(tag) != null) {
+				variableMap.put(tag, Dicomdate2Localdate(variableMap.get(tag)));
+			}
+			
+			//Конвертация пола
+			tag = "00100040";
+			if (variableMap.get(tag) != null) {
+				variableMap.put(tag, DicomSex2LocalSex(variableMap.get(tag)));
+			}
+			
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			// TODO сделать проброс Эксепшинов
+			e.printStackTrace();
+		}
+		
+		//----------------
+		//   Конвертации
+		//----------------
+		
 
 		// variableMap.put("PatientName", "DDV");
 		// variableMap.put("StudyUID", "12345");
@@ -462,6 +557,45 @@ public final class WebdicompluginImpl extends WeakBase implements
 					String value = (String) xPropertySet
 							.getPropertyValue("Content");
 
+					
+					//----------------
+					//   Конвертации
+					//----------------
+					
+					try {
+						//Конвертация даты исследования
+						String tag = "00080020";
+						if (tag.equals(name)) {
+							value = Localdate2Dicomdate(value);
+//							value = "2010-01-25";
+						}
+						//Конвертация даты рождения
+						tag = "00100030";
+						if (tag.equals(name)) {
+							value = Localdate2Dicomdate(value);
+//							value = "2010-01-25";
+						}
+						
+						//Конвертация пола
+						tag = "00100040";
+						if (tag.equals(name)) {
+							value = LocalSex2DicomSex(value);
+							
+						}
+						
+//					} catch (ParseException e) {
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						// TODO сделать проброс Эксепшинов
+						e.printStackTrace();
+					}
+					
+
+					//----------------
+					//   Конвертации
+					//----------------
+					
+					
 					mpEntity.addPart(name, new StringBody(value, Charset
 							.forName("UTF-8")));
 
@@ -479,6 +613,15 @@ public final class WebdicompluginImpl extends WeakBase implements
 					String name = (String) xPropertySet.getPropertyValue("Name");
 					String[] items = (String[])xPropertySet.getPropertyValue("Items");
 					String selectedItem = (String) xPropertySet.getPropertyValue("SelectedItem");
+					
+					//TODO Убрать !!!
+					//Конвертация пола
+					String tag = "00100040";
+					if (tag.equals(name)) {
+						selectedItem = LocalSex2DicomSex(selectedItem);
+						
+					}
+					
 					mpEntity.addPart(name, new StringBody(selectedItem, Charset
 							.forName("UTF-8")));
 					
