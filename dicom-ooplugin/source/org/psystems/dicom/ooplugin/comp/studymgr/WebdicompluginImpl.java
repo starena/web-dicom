@@ -41,6 +41,7 @@ import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
+import com.sun.star.container.XNameAccess;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
@@ -53,91 +54,85 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XRefreshable;
 
+public final class WebdicompluginImpl extends WeakBase implements
+		org.psystems.dicom.ooplugin.studymgr.XDicomplugin,
+		com.sun.star.lang.XServiceInfo {
+	private final XComponentContext m_xContext;
+	private static final String m_implementationName = WebdicompluginImpl.class
+			.getName();
+	private static final String[] m_serviceNames = { "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" };
 
-public final class WebdicompluginImpl extends WeakBase
-   implements org.psystems.dicom.ooplugin.studymgr.XDicomplugin,
-              com.sun.star.lang.XServiceInfo
-{
-    private final XComponentContext m_xContext;
-    private static final String m_implementationName = WebdicompluginImpl.class.getName();
-    private static final String[] m_serviceNames = {
-        "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" };
+	public WebdicompluginImpl(XComponentContext context) {
+		m_xContext = context;
+	};
 
+	public static XSingleComponentFactory __getComponentFactory(
+			String sImplementationName) {
+		XSingleComponentFactory xFactory = null;
 
-    public WebdicompluginImpl( XComponentContext context )
-    {
-        m_xContext = context;
-    };
+		if (sImplementationName.equals(m_implementationName))
+			xFactory = Factory.createComponentFactory(WebdicompluginImpl.class,
+					m_serviceNames);
+		return xFactory;
+	}
 
-    public static XSingleComponentFactory __getComponentFactory( String sImplementationName ) {
-        XSingleComponentFactory xFactory = null;
+	public static boolean __writeRegistryServiceInfo(XRegistryKey xRegistryKey) {
+		return Factory.writeRegistryServiceInfo(m_implementationName,
+				m_serviceNames, xRegistryKey);
+	}
 
-        if ( sImplementationName.equals( m_implementationName ) )
-            xFactory = Factory.createComponentFactory(WebdicompluginImpl.class, m_serviceNames);
-        return xFactory;
-    }
+	// org.psystems.dicom.ooplugin.studymgr.XDicomplugin:
+	public String getPORT() {
+		return new String("http://localhost/blablabla/");
+	}
 
-    public static boolean __writeRegistryServiceInfo( XRegistryKey xRegistryKey ) {
-        return Factory.writeRegistryServiceInfo(m_implementationName,
-                                                m_serviceNames,
-                                                xRegistryKey);
-    }
+	public void setPORT(String the_value) {
 
-    // org.psystems.dicom.ooplugin.studymgr.XDicomplugin:
-    public String getPORT()
-    {
-        return new String("http://localhost/blablabla/");
-    }
+	}
 
-    public void setPORT(String the_value)
-    {
+	public String getStudy(String url) {
+		// TODO: Exchange the default return implementation for "getStudy" !!!
+		// NOTE: Default initialized polymorphic structs can cause problems
+		// because of missing default initialization of primitive types of
+		// some C++ compilers or different Any initialization in Java and C++
+		// polymorphic structs.
 
-    }
+		// Sub testDicomPlugin
+		// oDicomPlugin = createUnoService(
+		// "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
+		// print oDicomPlugin.getStudy( "test" );
+		// print oDicomPlugin.PORT( "port" );
+		// End Sub
 
-    public String getStudy(String url)
-    {
-        // TODO: Exchange the default return implementation for "getStudy" !!!
-        // NOTE: Default initialized polymorphic structs can cause problems
-        // because of missing default initialization of primitive types of
-        // some C++ compilers or different Any initialization in Java and C++
-        // polymorphic structs.
-   
-    	
-//    	Sub testDicomPlugin
-//    		oDicomPlugin = createUnoService( "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
-//    		print oDicomPlugin.getStudy( "test" );
-//    		print oDicomPlugin.PORT( "port" );
-//    	End Sub
-    
-        return new String("get взяли: url="+url);
-    }
+		return new String("get взяли: url=" + url);
+	}
 
-    public void sendStudy(String url, String data)
-    {
-        // TODO: Insert your implementation for "sendStudy" here.
-    }
+	public void sendStudy(String url, String data) {
+		// TODO: Insert your implementation for "sendStudy" here.
+	}
 
-    // com.sun.star.lang.XServiceInfo:
-    public String getImplementationName() {
-         return m_implementationName;
-    }
+	// com.sun.star.lang.XServiceInfo:
+	public String getImplementationName() {
+		return m_implementationName;
+	}
 
-    public boolean supportsService( String sService ) {
-        int len = m_serviceNames.length;
+	public boolean supportsService(String sService) {
+		int len = m_serviceNames.length;
 
-        for( int i=0; i < len; i++) {
-            if (sService.equals(m_serviceNames[i]))
-                return true;
-        }
-        return false;
-    }
+		for (int i = 0; i < len; i++) {
+			if (sService.equals(m_serviceNames[i]))
+				return true;
+		}
+		return false;
+	}
 
-    public String[] getSupportedServiceNames() {
-        return m_serviceNames;
-    }
+	public String[] getSupportedServiceNames() {
+		return m_serviceNames;
+	}
 
 	/**
 	 * Парсер исследования
+	 * 
 	 * @param s
 	 * @return
 	 */
@@ -165,10 +160,10 @@ public final class WebdicompluginImpl extends WeakBase
 		}
 		return result;
 	}
-	
-	
+
 	/**
 	 * Определение ID исследования по URL документа
+	 * 
 	 * @param url
 	 * @return
 	 */
@@ -192,57 +187,65 @@ public final class WebdicompluginImpl extends WeakBase
 		return studyId;
 
 	}
-	
+
 	public static HashMap<String, String> getConfiguration(String config) {
-		
-//		String cfg = "dicomuser:dicom@https://proxy.gp1.psystems.org:38081/browser.01";
-		Matcher matcher = Pattern.compile("^(.*)\\:(.*)\\@(.*)\\://(.*)\\:(.*)/(.*)$").matcher(config);
+
+		// String cfg =
+		// "dicomuser:dicom@https://proxy.gp1.psystems.org:38081/browser.01";
+		Matcher matcher = Pattern.compile(
+				"^(.*)\\:(.*)\\@(.*)\\://(.*)\\:(.*)/(.*)$").matcher(config);
 		HashMap<String, String> result = new HashMap<String, String>();
 		if (matcher.matches()) {
-			
+
 			result.put("login", matcher.group(1));
 			result.put("password", matcher.group(2));
 			result.put("protocol", matcher.group(3));
 			result.put("host", matcher.group(4));
 			result.put("port", matcher.group(5));
 			result.put("url", matcher.group(6));
-			
+
 		}
 		return result;
-		
+
 	}
-	
+
 	public static String getConfigURL(HashMap<String, String> cfg) {
-		String s = cfg.get("protocol")+"://"+cfg.get("host")+":"+cfg.get("port");
-		if(cfg.get("url")==null || cfg.get("url").equals("")) {
-			
-		}else {
-			s += "/"+cfg.get("url");
+		String s = cfg.get("protocol") + "://" + cfg.get("host") + ":"
+				+ cfg.get("port");
+		if (cfg.get("url") == null || cfg.get("url").equals("")) {
+
+		} else {
+			s += "/" + cfg.get("url");
 		}
 		return s;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#updateDocument(java.lang.String, com.sun.star.text.XTextDocument)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.psystems.dicom.ooplugin.studymgr.XDicomplugin#updateDocument(java
+	 * .lang.String, com.sun.star.text.XTextDocument)
 	 * 
 	 * Обновление тегов
-	 * 
 	 */
 	@Override
-	public String updateDocument(String docName, String config, XTextDocument docObj) {
-		
-		//TODO сделать проброс эксепшинов
-//		https://proxy.gp1.psystems.org:38081/browser.01/ootmpl/ES/issled_n_1.odt?id=8402
-		
-		//TODO Убрать жесткие пути
-//		System.setProperty("javax.net.ssl.keyStore", "C:\\temp\\111\\client.jks");
-//		System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
-//		System.setProperty("javax.net.ssl.keyStoreType", "JKS");
-//		System.setProperty("javax.net.ssl.trustStore", "C:\\temp\\111\\client.jks");
-//		System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
-		
+	public String updateDocument(String docName, String config,
+			XTextDocument docObj) {
+
+		// TODO сделать проброс эксепшинов
+		// https://proxy.gp1.psystems.org:38081/browser.01/ootmpl/ES/issled_n_1.odt?id=8402
+
+		// TODO Убрать жесткие пути
+		// System.setProperty("javax.net.ssl.keyStore",
+		// "C:\\temp\\111\\client.jks");
+		// System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
+		// System.setProperty("javax.net.ssl.keyStoreType", "JKS");
+		// System.setProperty("javax.net.ssl.trustStore",
+		// "C:\\temp\\111\\client.jks");
+		// System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
+
 		String studyId = null, studyType = null;
-		
 
 		HashMap<String, String> cfg = getConfiguration(config);
 
@@ -251,287 +254,332 @@ public final class WebdicompluginImpl extends WeakBase
 		String host = getConfigURL(cfg);
 
 		studyId = getIdFormURL(docName);
+		if (studyId == null)
+			return "Study ID is not set!";
 
 		host += "/oostudy/" + studyId;
-		
-//		if(true) return "URL=[" + host + "];" + login + ";" + password+";"+docName+";"+studyId+";"+studyType;
-		
+
+		// if(true) return "URL=[" + host + "];" + login + ";" +
+		// password+";"+docName+";"+studyId+";"+studyType;
+
 		String result = null;
-		
+
 		HttpClient httpclient = new DefaultHttpClient();
 
-        HttpGet httpget = new HttpGet(host); 
+		HttpGet httpget = new HttpGet(host);
 
-        System.out.println("executing request " + httpget.getURI());
+		System.out.println("executing request " + httpget.getURI());
 
-        // Create a response handler
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-        String responseBody;
+		// Create a response handler
+		ResponseHandler<String> responseHandler = new BasicResponseHandler();
+		String responseBody;
 		try {
 			responseBody = httpclient.execute(httpget, responseHandler);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return " Exception! "+e + "host=" + host;
+			return " Exception! " + e + "host=" + host;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return " Exception! "+e;
-			
-		}finally {
+			return " Exception! " + e;
 
-	        // When HttpClient instance is no longer needed, 
-	        // shut down the connection manager to ensure
-	        // immediate deallocation of all system resources
+		} finally {
+
+			// When HttpClient instance is no longer needed,
+			// shut down the connection manager to ensure
+			// immediate deallocation of all system resources
 			httpclient.getConnectionManager().shutdown();
 		}
 		result = responseBody;
-        
-       
-		
-		//Парсим ответ:
+
+		// Парсим ответ:
 		HashMap<String, String> variableMap = new HashMap<String, String>();
 		try {
 			variableMap = parse(result.trim());
-		} catch(Exception e) {
-			return "Exception!!! "+e;
+		} catch (Exception e) {
+			return "Exception!!! " + e;
 		}
-		
-//		variableMap.put("PatientName", "DDV");
-//		variableMap.put("StudyUID", "12345");
-//		variableMap.put("PATIENT_NAME", "TESTNAME");
-		
-		
+
+		// variableMap.put("PatientName", "DDV");
+		// variableMap.put("StudyUID", "12345");
+		// variableMap.put("PATIENT_NAME", "TESTNAME");
 
 		XTextFieldsSupplier xTextFieldsSupplier = (XTextFieldsSupplier) UnoRuntime
-		.queryInterface(XTextFieldsSupplier.class, docObj);
-		
+				.queryInterface(XTextFieldsSupplier.class, docObj);
+
 		// Создадим перечисление всех полей документа
 		XEnumerationAccess xEnumerationAccess = xTextFieldsSupplier
 				.getTextFields();
-		
-		
-		
+
+		// XNameAccess masters = xTextFieldsSupplier.getTextFieldMasters();
+
 		XEnumeration xTextFieldsEnumeration = xEnumerationAccess
 				.createEnumeration();
-		XRefreshable xRefreshable = (XRefreshable) UnoRuntime
-				.queryInterface(XRefreshable.class, xEnumerationAccess);
+		XRefreshable xRefreshable = (XRefreshable) UnoRuntime.queryInterface(
+				XRefreshable.class, xEnumerationAccess);
 
-		
 		try {
-		while (xTextFieldsEnumeration.hasMoreElements()) {
-			Object service = xTextFieldsEnumeration.nextElement();
-			XServiceInfo xServiceInfo = (XServiceInfo) UnoRuntime
-					.queryInterface(XServiceInfo.class, service);
+			while (xTextFieldsEnumeration.hasMoreElements()) {
+				Object service = xTextFieldsEnumeration.nextElement();
+				XServiceInfo xServiceInfo = (XServiceInfo) UnoRuntime
+						.queryInterface(XServiceInfo.class, service);
 
-			if (xServiceInfo
-					.supportsService("com.sun.star.text.TextField.SetExpression")) {
-				XPropertySet xPropertySet = (XPropertySet) UnoRuntime
+				// Если это текстовое поле
+				if (xServiceInfo.supportsService("com.sun.star.text.TextField.SetExpression")) {
+					
+					XPropertySet xPropertySet = (XPropertySet) UnoRuntime
+							.queryInterface(XPropertySet.class, service);
+					String name = (String) xPropertySet
+							.getPropertyValue("VariableName");
+					Object content = variableMap.get(name);
+					xPropertySet.setPropertyValue("SubType", new Short(
+							com.sun.star.text.SetVariableType.STRING));
+					xPropertySet.setPropertyValue("Content",
+							content == null ? " " : content.toString());
+					xPropertySet.setPropertyValue("IsVisible", true);
+				} else {
+
+					// Если это выпадающий список
+					if (xServiceInfo.supportsService("com.sun.star.text.TextField.DropDown")) {
+						
+						XPropertySet xPropertySet = (XPropertySet) UnoRuntime
 						.queryInterface(XPropertySet.class, service);
-				String name = (String) xPropertySet
-						.getPropertyValue("VariableName");
-				Object content = variableMap.get(name);
-				xPropertySet.setPropertyValue("SubType", new Short(
-						com.sun.star.text.SetVariableType.STRING));
-				xPropertySet.setPropertyValue("Content",
-						content == null ? " " : content.toString());
-				xPropertySet.setPropertyValue("IsVisible", true);
+						String name = (String) xPropertySet.getPropertyValue("Name");
+						String[] items = (String[])xPropertySet.getPropertyValue("Items");
+						String selectedItem = (String) xPropertySet.getPropertyValue("SelectedItem");
+						Object content = variableMap.get(name);
+						
+						//TODO Сделать проверку на наличие в списке нужного значения !!!
+						//TODO При отсутствии выводить в поле списка "Нет значения" или типа того...
+						
+						xPropertySet.setPropertyValue("SelectedItem", content == null ? "" : content.toString());
+						
+//						result += "\n[!!!]DropDown [" + name + "][";
+//						for( int i=0; i< items.length; i++) {
+//							result += items[i] + ";";
+//						}
+//						 result += "] " + selectedItem + "]\n";
+						 
+						
+					}
+
+				}
 			}
-		}
-		xRefreshable.refresh();
+			xRefreshable.refresh();
 		} catch (Exception ex) {
-			return "Exception! "+ex;
+			return "Exception! " + ex;
 		}
-		
-        return "result=["+result+"]";
+
+		return "result=[" + result + "]";
 	}
 
-	/* (non-Javadoc)
-	 * @see org.psystems.dicom.ooplugin.studymgr.XDicomplugin#sendDocument(java.lang.String, java.lang.String, java.lang.String, java.lang.String, com.sun.star.text.XTextDocument)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.psystems.dicom.ooplugin.studymgr.XDicomplugin#sendDocument(java.lang
+	 * .String, java.lang.String, java.lang.String, java.lang.String,
+	 * com.sun.star.text.XTextDocument)
 	 */
 	@Override
-	public String sendDocument(String config,
-			String pdffile, XTextDocument docObj) {
+	public String sendDocument(String config, String pdffile,
+			XTextDocument docObj) {
 		// Отправка PDF
-		
-		//TODO сделать проброс эксепшинов
+
+		// TODO сделать проброс эксепшинов
 		String resultText = "";
-		
-		String studyId = null, studyType = null;;
-		
-	
+
+		String studyId = null, studyType = null;
+		;
+
 		HashMap<String, String> cfg = getConfiguration(config);
 
 		String login = cfg.get("login");
 		String password = cfg.get("password");
 		String host = getConfigURL(cfg);
-		
-		//TODO сделать проброс эксепшинов
-//		https://proxy.gp1.psystems.org:38081/browser.01/ootmpl/ES/issled_n_1.odt?id=8402
-		
-//		System.setProperty("javax.net.ssl.keyStore", "C:\\temp\\111\\client.jks");
-//		System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
-//		System.setProperty("javax.net.ssl.keyStoreType", "JKS");
-//		System.setProperty("javax.net.ssl.trustStore", "C:\\temp\\111\\client.jks");
-//		System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
-		
-		
+
+		// TODO сделать проброс эксепшинов
+		// https://proxy.gp1.psystems.org:38081/browser.01/ootmpl/ES/issled_n_1.odt?id=8402
+
+		// System.setProperty("javax.net.ssl.keyStore",
+		// "C:\\temp\\111\\client.jks");
+		// System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
+		// System.setProperty("javax.net.ssl.keyStoreType", "JKS");
+		// System.setProperty("javax.net.ssl.trustStore",
+		// "C:\\temp\\111\\client.jks");
+		// System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
+
 		DefaultHttpClient httpclient = new DefaultHttpClient();
-		
-		//авторизвция
-		 httpclient.getCredentialsProvider().setCredentials(
-				 //Для тестирования можно забить "localhost"
-				 new AuthScope(cfg.get("host"), Integer.valueOf(cfg.get("port"))),
-//				 new AuthScope(host, 38081),
-	               // new AuthScope("localhost", 443), 
-	                new UsernamePasswordCredentials(login, password));
-	        
-	    
-		 
-	    HttpPost httppost = new HttpPost(host+"/newstudy/upload");
-	    File file = new File(pdffile);
-	    
-	    MultipartEntity mpEntity = new MultipartEntity();
-	    ContentBody cbFile = new FileBody(file, "application/pdf");
-	    mpEntity.addPart("upload", cbFile);
-	    
-	    try {
-	    	
-	    	XTextFieldsSupplier xTextFieldsSupplier = (XTextFieldsSupplier) UnoRuntime
-			.queryInterface(XTextFieldsSupplier.class, docObj);
-	    	
+
+		// авторизвция
+		httpclient.getCredentialsProvider()
+				.setCredentials(
+				// Для тестирования можно забить "localhost"
+						new AuthScope(cfg.get("host"), Integer.valueOf(cfg
+								.get("port"))),
+						// new AuthScope(host, 38081),
+						// new AuthScope("localhost", 443),
+						new UsernamePasswordCredentials(login, password));
+
+		HttpPost httppost = new HttpPost(host + "/newstudy/upload");
+		File file = new File(pdffile);
+
+		MultipartEntity mpEntity = new MultipartEntity();
+		ContentBody cbFile = new FileBody(file, "application/pdf");
+		mpEntity.addPart("upload", cbFile);
+
+		try {
+
+			XTextFieldsSupplier xTextFieldsSupplier = (XTextFieldsSupplier) UnoRuntime
+					.queryInterface(XTextFieldsSupplier.class, docObj);
+
 			// Создадим перечисление всех полей документа
 			XEnumerationAccess xEnumerationAccess = xTextFieldsSupplier
 					.getTextFields();
 			XEnumeration xTextFieldsEnumeration = xEnumerationAccess
 					.createEnumeration();
 
-			mpEntity.addPart("content_type", new StringBody("application/pdf", Charset.forName("UTF-8")));
-			//PATIENT_NAME
-			mpEntity.addPart("00100010", new StringBody("DDVTEST333", Charset.forName("UTF-8")));
-			
-			
+			mpEntity.addPart("content_type", new StringBody("application/pdf",
+					Charset.forName("UTF-8")));
+			// PATIENT_NAME
+			mpEntity.addPart("00100010", new StringBody("DDVTEST333", Charset
+					.forName("UTF-8")));
+
 			while (xTextFieldsEnumeration.hasMoreElements()) {
 				Object service = xTextFieldsEnumeration.nextElement();
 				XServiceInfo xServiceInfo = (XServiceInfo) UnoRuntime
 						.queryInterface(XServiceInfo.class, service);
 
-				if (xServiceInfo.supportsService("com.sun.star.text.TextField.SetExpression")) {
-					XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, service);
+				// Если это текстовое поле
+				if (xServiceInfo
+						.supportsService("com.sun.star.text.TextField.SetExpression")) {
+					XPropertySet xPropertySet = (XPropertySet) UnoRuntime
+							.queryInterface(XPropertySet.class, service);
+
+					String name = (String) xPropertySet
+							.getPropertyValue("VariableName");
+					String value = (String) xPropertySet
+							.getPropertyValue("Content");
+
+					mpEntity.addPart(name, new StringBody(value, Charset
+							.forName("UTF-8")));
+
+					// xPropertySet.setPropertyValue("SubType", new Short(
+					// com.sun.star.text.SetVariableType.STRING));
+					// xPropertySet.setPropertyValue("Content",
+					// content == null ? " " : content.toString());
+					// xPropertySet.setPropertyValue("IsVisible", true);
+				}
+				// Если это выпадающий список
+				if (xServiceInfo.supportsService("com.sun.star.text.TextField.DropDown")) {
 					
-					String name = (String) xPropertySet.getPropertyValue("VariableName");
-					String value = (String) xPropertySet.getPropertyValue("Content");
+					XPropertySet xPropertySet = (XPropertySet) UnoRuntime
+					.queryInterface(XPropertySet.class, service);
+					String name = (String) xPropertySet.getPropertyValue("Name");
+					String[] items = (String[])xPropertySet.getPropertyValue("Items");
+					String selectedItem = (String) xPropertySet.getPropertyValue("SelectedItem");
+					mpEntity.addPart(name, new StringBody(selectedItem, Charset
+							.forName("UTF-8")));
 					
-					mpEntity.addPart(name, new StringBody(value, Charset.forName("UTF-8")));
+					 
 					
-//					xPropertySet.setPropertyValue("SubType", new Short(
-//							com.sun.star.text.SetVariableType.STRING));
-//					xPropertySet.setPropertyValue("Content",
-//							content == null ? " " : content.toString());
-//					xPropertySet.setPropertyValue("IsVisible", true);
 				}
 			}
-			
-			
-			
+
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception!!! "+e;
+			return "Exception!!! " + e;
 		} catch (NoSuchElementException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception!!! "+e;
+			return "Exception!!! " + e;
 		} catch (WrappedTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception!!! "+e;
+			return "Exception!!! " + e;
 		} catch (UnknownPropertyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception!!! "+e;
+			return "Exception!!! " + e;
 		}
 
+		httppost.setEntity(mpEntity);
+		System.out.println("executing request " + httppost.getRequestLine());
 
-	    httppost.setEntity(mpEntity);
-	    System.out.println("executing request " + httppost.getRequestLine()); 
-		 
-		 
-		 
-	    
-	    System.out.println("executing request " + httppost.getRequestLine());
-	    
-	    HttpResponse response;
+		System.out.println("executing request " + httppost.getRequestLine());
+
+		HttpResponse response;
 		try {
 			response = httpclient.execute(httppost);
-		
-	    HttpEntity resEntity = response.getEntity();
 
-	    System.out.println(response.getStatusLine());
-	    
-	    if (resEntity != null) {
-	    	resultText = EntityUtils.toString(resEntity);
-	      System.out.println(resultText);
-	    }
-	    if (resEntity != null) {
-	      resEntity.consumeContent();
-	    }
+			HttpEntity resEntity = response.getEntity();
 
-	    httpclient.getConnectionManager().shutdown();
+			System.out.println(response.getStatusLine());
+
+			if (resEntity != null) {
+				resultText = EntityUtils.toString(resEntity);
+				System.out.println(resultText);
+			}
+			if (resEntity != null) {
+				resEntity.consumeContent();
+			}
+
+			httpclient.getConnectionManager().shutdown();
 
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception! "+e;
+			return "Exception! " + e;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Exception! "+e;
+			return "Exception! " + e;
 		}
-        
-		
-		return "["+response.getStatusLine().getStatusCode()+"]\n"+resultText;
+
+		return "[" + response.getStatusLine().getStatusCode() + "]\n"
+				+ resultText;
 	}
-	
-	   /**
+
+	/**
 	 * @author dima_d
 	 * 
-	 * Класс для аутентификации
-	 *
+	 *         Класс для аутентификации
+	 * 
 	 */
 	static class PreemptiveAuth implements HttpRequestInterceptor {
 
-	        public void process(
-	                final HttpRequest request, 
-	                final HttpContext context) throws HttpException, IOException {
-	            
-	            AuthState authState = (AuthState) context.getAttribute(
-	                    ClientContext.TARGET_AUTH_STATE);
-	            
-	            // If no auth scheme avaialble yet, try to initialize it preemptively
-	            if (authState.getAuthScheme() == null) {
-	                AuthScheme authScheme = (AuthScheme) context.getAttribute(
-	                        "preemptive-auth");
-	                CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(
-	                        ClientContext.CREDS_PROVIDER);
-	                HttpHost targetHost = (HttpHost) context.getAttribute(
-	                        ExecutionContext.HTTP_TARGET_HOST);
-	                if (authScheme != null) {
-	                    Credentials creds = credsProvider.getCredentials(
-	                            new AuthScope(
-	                                    targetHost.getHostName(), 
-	                                    targetHost.getPort()));
-	                    if (creds == null) {
-	                        throw new HttpException("No credentials for preemptive authentication");
-	                    }
-	                    authState.setAuthScheme(authScheme);
-	                    authState.setCredentials(creds);
-	                }
-	            }
-	            
-	        }
-	        
-	    }
+		public void process(final HttpRequest request, final HttpContext context)
+				throws HttpException, IOException {
 
+			AuthState authState = (AuthState) context
+					.getAttribute(ClientContext.TARGET_AUTH_STATE);
+
+			// If no auth scheme avaialble yet, try to initialize it
+			// preemptively
+			if (authState.getAuthScheme() == null) {
+				AuthScheme authScheme = (AuthScheme) context
+						.getAttribute("preemptive-auth");
+				CredentialsProvider credsProvider = (CredentialsProvider) context
+						.getAttribute(ClientContext.CREDS_PROVIDER);
+				HttpHost targetHost = (HttpHost) context
+						.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+				if (authScheme != null) {
+					Credentials creds = credsProvider
+							.getCredentials(new AuthScope(targetHost
+									.getHostName(), targetHost.getPort()));
+					if (creds == null) {
+						throw new HttpException(
+								"No credentials for preemptive authentication");
+					}
+					authState.setAuthScheme(authScheme);
+					authState.setCredentials(creds);
+				}
+			}
+
+		}
+
+	}
 
 }
