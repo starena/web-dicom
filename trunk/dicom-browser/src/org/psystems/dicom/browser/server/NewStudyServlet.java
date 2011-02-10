@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -20,7 +19,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.psystems.dicom.browser.client.component.StudyManagePanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.Session;
 
@@ -31,7 +29,7 @@ public class NewStudyServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 
 		resp.setContentType("text/plain");
 		resp.setCharacterEncoding("UTF-8");
@@ -39,7 +37,7 @@ public class NewStudyServlet extends HttpServlet {
 		System.out.println("isMultipart=" + isMultipart);
 		HttpSession session = req.getSession();
 
-		// TODO Вынести в конфиг!!
+		
 		String imgTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.uploadimages");
 		
 		// Create a factory for disk-based file items
