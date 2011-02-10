@@ -5,6 +5,8 @@ import java.security.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.psystems.dicom.commons.UtilCommon;
+
 
 public class NewStudyServletTest extends TestCase {
 
@@ -73,5 +75,17 @@ public class NewStudyServletTest extends TestCase {
 		assertTrue(_regexpFIO(" Деренок Дмитрий Владимирович 01.03.1974  \t  "));
 		assertTrue(_regexpFIO(" \t Деренок Дмитрий Владимирович 01.03.1974  \t  "));
 	}
+	
+	public void testisValidTagname() {
+		assertTrue(UtilCommon.isValidTagname("00000000"));
+		assertTrue(UtilCommon.isValidTagname("0000000E"));
+		assertTrue(UtilCommon.isValidTagname("0009000E"));
+		assertTrue(UtilCommon.isValidTagname("0009F00E"));
+		
+		assertFalse(UtilCommon.isValidTagname("0009000M"));
+		assertFalse(UtilCommon.isValidTagname("0009000"));
+	}
+	
+	
 
 }

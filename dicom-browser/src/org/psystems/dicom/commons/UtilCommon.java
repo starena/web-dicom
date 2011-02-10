@@ -38,6 +38,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -53,6 +55,8 @@ import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.server.DcmSnd;
 import org.psystems.dicom.browser.server.Jpg2Dcm;
 import org.psystems.dicom.browser.server.Pdf2Dcm;
+
+import com.sun.xml.internal.ws.api.pipe.NextAction;
 
 /**
  * Утилитный класс
@@ -172,6 +176,13 @@ public class UtilCommon {
 						.hasNext();) {
 					String key = (String) iter.next();
 					String value = props.getProperty(key);
+					
+					
+					if(!isValidTagname(key)) {
+						logger.warn("Not dicom standart tag name! tag["+key+"]");
+						continue; 
+					}
+					
 
 					// Заточка пот значение тега = 'норма'
 					if (key.equals("00102000")
@@ -281,6 +292,17 @@ public class UtilCommon {
 
 		System.out.println("!!!! Sending IMAGE dcm SUCCESS!");
 
+	}
+
+
+	/**
+	 * Проверка на валидносить имени тега
+	 * @param key
+	 * @return
+	 */
+	public static boolean isValidTagname(String key) {
+		Matcher matcher = Pattern.compile("^\\p{XDigit}{8}$").matcher(key);
+		return matcher.matches();
 	}
 
 }
