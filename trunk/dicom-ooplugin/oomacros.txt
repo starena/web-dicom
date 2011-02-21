@@ -12,12 +12,104 @@ end sub
 
 
 ' ********************************************************
+' Проверка, является ли документ шаблоном web-dicom
+' ********************************************************
+sub isWebdicomDocument () As Boolean
+
+	REM Проверяем наличие поля ID
+	FName = "ID"
+	oFieldMaster = ThisComponent.TextFieldMasters
+	'oField       = oFieldMaster.getByName("com.sun.star.text.fieldmaster.SetExpression." & FName)
+	'stDTF        = oField.DependentTextFields
+	If Not oFieldMaster.HasByName("com.sun.star.text.fieldmaster.SetExpression." & FName) Then
+		isWebdicomDocument = False
+		exit sub
+	end if
+	
+	
+	REM Проверяем наличие формы
+	oDoc = ThisComponent
+	oForm = oDoc.DrawPage.Forms.GetbyIndex(0) 
+	if IsNull(oForm) then
+		isWebdicomDocument = False
+		exit sub
+	else
+		REM Проверяем наличие на форме компонента TextLogging
+		If Not oForm.HasByName("TextLogging") Then
+			isWebdicomDocument = False
+			exit sub
+		end if
+	end if
+	
+	isWebdicomDocument = True
+end sub
+
+
+' ********************************************************
+' Проверка, запущени ли шаблон в рабочем режиме (не дизайна)
+' ********************************************************
+sub isRuntimeMode () As Boolean
+	REM Проверяем наличие поля ID
+	FName = "ID"
+	oFieldMaster = ThisComponent.TextFieldMasters
+	
+	If Not oFieldMaster.HasByName("com.sun.star.text.fieldmaster.SetExpression." & FName) Then
+		isRuntimeMode = False
+		exit sub
+	end if
+	
+	oField = oFieldMaster.getByName("com.sun.star.text.fieldmaster.SetExpression." & FName)
+	stDTF = oField.DependentTextFields
+	oTextField = stDTF(0)
+
+	if (IsNumeric(oTextField.Content) and oTextField.Content > 0)  then
+		isRuntimeMode = True
+	else
+		isRuntimeMode = False
+		exit sub
+	end if
+	
+	isRuntimeMode = True
+end sub
+
+
+
+' ********************************************************
+' Очистка элемента формы TextLogging
+' ********************************************************
+sub clearLog ()
+
+	'Проверка является ли документ шаблоном web-dicom
+	IF Not isWebdicomDocument THEN
+		exit sub
+	END IF
+	
+	'Проверка запущен ли документ в RunTime режиме
+	'IF Not isRuntimeMode THEN
+	'	exit sub
+	'END IF
+
+	oDoc = ThisComponent
+	oForm = oDoc.DrawPage.Forms.GetbyIndex(0) 
+	oCtl=oForm.GetByName("TextLogging")
+	oCtl.Text = "Статус обработки задания:"  & chr (10)
+
+end sub
+
+' ********************************************************
 ' Печать отладочной информации в элемент формы TextLogging
 ' ********************************************************
 sub printLog (msg As String)
 
+	'Проверка является ли документ шаблоном web-dicom
+	IF Not isWebdicomDocument THEN
+		exit sub
+	END IF
+	
+
 	oDoc = ThisComponent
 	oForm = oDoc.DrawPage.Forms.GetbyIndex(0) 
+	'print "oForm=" + oForm
 	oCtl=oForm.GetByName("TextLogging")
 	'TODO Проверить на наличие отладочного поля
 	oCtl.Text = oCtl.Text  & chr (10)  & msg
@@ -28,6 +120,12 @@ end sub
 ' Получение конфигурации
 ' ********************************************************
 Sub dicomConfig As String
+
+	'Проверка является ли документ шаблоном web-dicom
+	IF Not isWebdicomDocument THEN
+		exit sub
+	END IF
+	
 
 	REM определение конфигурации
 	Dim Provider
@@ -49,6 +147,16 @@ End Sub
 ' Импорт информации по исследованию
 ' ********************************************************
 Sub dicomImport
+
+	'Проверка является ли документ шаблоном web-dicom
+	IF Not isWebdicomDocument THEN
+		exit sub
+	END IF
+	
+
+	
+	clearLog
+	printLog("Импорт данных")
 	
  	oUNOPlugin = createUnoService( "org.psystems.dicom.ooplugin.studymgr.Webdicomplugin" )
  	'print ThisComponent.getImplementationName();
@@ -68,6 +176,16 @@ End Sub
 ' Экспорт информации по исследованию
 ' ********************************************************
 sub dicomExport
+
+	'Проверка является ли документ шаблоном web-dicom
+	IF Not isWebdicomDocument THEN
+		exit sub
+	END IF
+	
+	
+	clearLog
+	printLog("Экспорт данных")
+	
 rem ----------------------------------------------------------------------
 rem define variables
 dim document   as object
