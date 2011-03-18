@@ -204,6 +204,7 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("SonoScape-3", "УЗИ-3 (SonoScape)");
 		dicModel.put("VIVID 3", "УЗИ (VIVID) ДП 527 каб.");
 		dicModel.put("VOLUSON 730 BT04 EXPERT", "УЗИ (VOLUSON)");
+		dicModel.put("УЗИ (Acucon Sequoia) каб.408","Acucon Sequoia)");
 		
 		
 		
@@ -419,7 +420,8 @@ public class StudyManagePanel extends Composite implements
 		studyDoctror.addItem("Девяткова И.А.", "Девяткова И.А.");
 		studyDoctror.addItem("Солоница В.Д.", "Солоница В.Д.");
 		studyDoctror.addItem("Корж С.С.", "Корж С.С.");
-		studyDoctror.addItem("Кузнецов Е.А.", "Кузнецов Е.А.");
+		studyDoctror.addItem("Кузнецова Е.А.", "Кузнецова Е.А.");
+		studyDoctror.addItem("Лызлова И.Е", "Лызлова И.Е");
 		
 		
 //		studyDoctror2.addItem("Ввести нового...", "manualinput");

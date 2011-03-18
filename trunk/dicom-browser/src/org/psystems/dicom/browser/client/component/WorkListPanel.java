@@ -138,6 +138,7 @@ public class WorkListPanel extends Composite {
 		lbManufacturerModelName.addItem("УЗИ-3 (SonoScape)","SonoScape-3");
 		lbManufacturerModelName.addItem("УЗИ (VIVID) ДП 527 каб.","VIVID 3");
 		lbManufacturerModelName.addItem("УЗИ (VOLUSON)","VOLUSON 730 BT04 EXPERT");
+		lbManufacturerModelName.addItem("УЗИ (Acucon Sequoia) каб.408","Acucon Sequoia)");
 
 	
 		
