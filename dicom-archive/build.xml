@@ -109,6 +109,7 @@
 				</section>
 			</manifest>
 			<exclude name="**/*Test*" />
+			<exclude name="**/log4j.properties " />
 		</jar>
 		<delete dir="${dir.classes}" />
 
