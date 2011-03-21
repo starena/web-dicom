@@ -25,9 +25,11 @@ CREATE TABLE WEBDICOM.STUDY (
 	PATIENT_SHORTNAME CHAR(7) NOT NULL, -- Это КБП. ФФФИОГГ
 	PATIENT_BIRTH_DATE DATE NOT NULL,
 	PATIENT_SEX VARCHAR(1)  NOT NULL,
+	FID_DIRECTION BIGINT, -- ссылка на исследование
 	DATE_MODIFY TIMESTAMP NOT NULL, -- дата измения
 	REMOVED TIMESTAMP, -- дата удаления
 	CONSTRAINT WEBDICOM.PK_STUDY PRIMARY KEY (ID),
+	CONSTRAINT WEBDICOM.FK_DIRECTION_STUDY FOREIGN KEY (FID_DIRECTION) REFERENCES WEBDICOM.DIRECTION (ID),
 	UNIQUE (STUDY_UID)
 );
 
@@ -80,7 +82,44 @@ CREATE TABLE WEBDICOM.DCMFILE_TAG (
 	CONSTRAINT WEBDICOM.FK_DCMFILE_TAG_DCMFILE FOREIGN KEY (FID_DCMFILE) REFERENCES WEBDICOM.DCMFILE (ID)	
 );
 
-
+--
+-- Таблица "Направление"
+-- Вопросы: соотношение направление-исследование-врачи какое?
+--
+CREATE TABLE WEBDICOM.DIRECTION (
+	ID BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+	DIRECTION_ID VARCHAR(512), -- штрих код
+	DOCTOR_DIRECT_NAME  VARCHAR(512), -- Имя врача который направил
+	DOCTOR_DIRECT_CODE  VARCHAR(512), -- Код врача который направил
+	DIAGNOSIS_DIRECT  VARCHAR(512), -- Диагнозы при направлении
+	DATE_DIRECTION DATE, -- Дата направления пациента
+	SERVICES_DIRECTED  VARCHAR(512), -- Услуги направленные (коды через ";")
+	DEVICE  VARCHAR(512), -- Аппарат (STUDY_MANUFACTURER_MODEL_NAME)
+	DIRECTION_DATE_PLANNED TIMESTAMP, -- Плановая дата и время выполнения исследования
+	
+	--TODO Может взять врача из Study? тем более что исследований может быть несколько
+	DOCTOR_PERFOMED_NAME  VARCHAR(512), -- врач который выполнил
+	DOCTOR_PERFOMED_CODE  VARCHAR(512), -- врач который выполнил (код)
+	 
+	--TODO Нежен ли здесь? 
+	DIRECTION_CODE  VARCHAR(512), -- Идентификатор случая заболевания 
+	--TODO Нежен ли здесь? 
+	DIRECTION_CABINET  VARCHAR(512), -- Кабинет
+	
+	DIAGNOSIS_PERFOMED  VARCHAR(512), -- Диагнозы после обследования (через ";")
+	SERVICES_PERFOMED  VARCHAR(512), -- Услуги выполненные (коды через ";")
+	DATE_PERFOMED DATE, -- Дата выполнения
+	
+	-- по пациенту
+	PATIENT_ID VARCHAR(512), -- код пациента
+	PATIENT_NAME VARCHAR(512) NOT NULL,-- ФИО пациента
+	PATIENT_BIRTH_DATE DATE NOT NULL, -- д.р пациента
+	PATIENT_SEX VARCHAR(1)  NOT NULL, -- пол пациента (M/F)
+	DATE_MODIFY TIMESTAMP NOT NULL, -- дата измения
+	REMOVED TIMESTAMP, -- дата удаления
+	CONSTRAINT WEBDICOM.PK_DIRECTION PRIMARY KEY (ID),
+	UNIQUE (DIRECTION_ID)
+);
 
 --
 -- Статистические таблицы
