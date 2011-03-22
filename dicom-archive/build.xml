@@ -135,9 +135,10 @@
 		</delete>
 	</target>
 
-	<!-- make test database -->
+	<!-- make test database  -->
+	<!-- !!! TODO сделать обработку ошибок создания БД !!!! -->
 	<target name="db.makeinstance">
-		<java classname="org.apache.derby.tools.ij">
+		<java classname="org.apache.derby.tools.ij" output="${dir.instance}/makedb.log">
 			<arg value="database/derby/db.sql" />
 			<sysproperty key="derby.system.home" value="${dir.instance}"  />
 			<classpath refid="derby.classpath" />

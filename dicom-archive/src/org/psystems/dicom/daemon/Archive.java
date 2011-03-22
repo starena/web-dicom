@@ -1041,8 +1041,10 @@ public class Archive extends StorageService {
 
 					String f = iuid + Extractor.dcmFileExt;
 					// System.out.println("[0]!!!! finded in DB " + f);
+					LOG.info("Check file name");
 					findName = extractor.getDCMFileNamefromDB(f);
 					// System.out.println("[1]!!!! finded in DB " + findName);
+					LOG.info("File name in database: "+findName);
 
 					if (findName != null) {	
 
@@ -1063,7 +1065,7 @@ public class Archive extends StorageService {
 					}
 
 				} catch (SQLException e) {
-					throw new IOException("SQL Exception! " + e);
+					throw new IOException("SQL Exception!!! " + e);
 				}
 
 				if (findName == null) {
