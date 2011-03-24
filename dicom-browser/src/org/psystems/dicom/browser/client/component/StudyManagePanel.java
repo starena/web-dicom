@@ -422,7 +422,8 @@ public class StudyManagePanel extends Composite implements
 		studyDoctror.addItem("Корж С.С.", "Корж С.С.");
 		studyDoctror.addItem("Кузнецова Е.А.", "Кузнецова Е.А.");
 		studyDoctror.addItem("Лызлова И.Е", "Лызлова И.Е");
-		
+		studyDoctror.addItem("Шешеня Т.В.", "Шешеня Т.В.");
+		studyDoctror.addItem("Тимошенко С.А.", "Тимошенко С.А.");
 		
 //		studyDoctror2.addItem("Ввести нового...", "manualinput");
 		
