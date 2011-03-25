@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="dicom/solr/Dcm2Solr.java|dicom/solr/DCMHandler.java" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/apache-solr-cell-1.5-dev.jar"/>
+	<classpathentry kind="lib" path="lib/apache-solr-clustering-1.5-dev.jar"/>
+	<classpathentry kind="lib" path="lib/apache-solr-core-1.5-dev.jar"/>
+	<classpathentry kind="lib" path="lib/apache-solr-dataimporthandler-1.5-dev.jar"/>
+	<classpathentry kind="lib" path="lib/apache-solr-dataimporthandler-extras-1.5-dev.jar"/>
+	<classpathentry kind="lib" path="lib/apache-solr-solrj-1.5-dev.jar"/>
+	<classpathentry kind="lib" path="lib/geonames-1.0.1-java5.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-core-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/lucene-spatial-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.5.5.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
