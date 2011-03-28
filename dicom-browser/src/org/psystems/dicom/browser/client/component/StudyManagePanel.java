@@ -204,10 +204,22 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("SonoScape-3", "УЗИ-3 (SonoScape)");
 		dicModel.put("VIVID 3", "УЗИ (VIVID) ДП 527 каб.");
 		dicModel.put("VOLUSON 730 BT04 EXPERT", "УЗИ (VOLUSON)");
-		dicModel.put("УЗИ (Acucon Sequoia) каб.408","Acucon Sequoia)");
-		
-		
-		
+		dicModel.put("УЗИ (Acucon Sequoia) каб.408","Acucon Sequoia");
+
+		//TODO Уточнить имена и кабинеты
+		dicModel.put("SSI-1000","SSI-1000");
+		dicModel.put("Эхоэнцефалоскоп-ЭЭС-25-ЭМА","Эхоэнцефалоскоп-ЭЭС-25-ЭМА");
+		dicModel.put("Электроэнцефалограф-Alliance","Электроэнцефалограф-Alliance");
+		dicModel.put("Companion III","Companion III");
+		dicModel.put("Microvit","Microvit");
+		dicModel.put("СМАД, Schiller AG","СМАД, Schiller AG");
+		dicModel.put("ЭКГ-Schiller Medical S.A.","ЭКГ-Schiller Medical S.A.");
+		dicModel.put("ЭКГ-Cardiovit AT-2 plus C","ЭКГ-Cardiovit AT-2 plus C");
+		dicModel.put("Велоэргометрия-АТ- 104 Schiller","Велоэргометрия-АТ- 104 Schiller");
+		dicModel.put("Voluson 730 Expert","Voluson 730 Expert");
+		dicModel.put("SSD-3500","SSD-3500");
+		dicModel.put("Спирометр-Spirovit SP-1","Спирометр-Spirovit SP-1");
+		dicModel.put("Спиро-Спектр 2","Спиро-Спектр 2");
 		
 		
 		

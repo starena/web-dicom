@@ -138,9 +138,23 @@ public class WorkListPanel extends Composite {
 		lbManufacturerModelName.addItem("УЗИ-3 (SonoScape)","SonoScape-3");
 		lbManufacturerModelName.addItem("УЗИ (VIVID) ДП 527 каб.","VIVID 3");
 		lbManufacturerModelName.addItem("УЗИ (VOLUSON)","VOLUSON 730 BT04 EXPERT");
-		lbManufacturerModelName.addItem("УЗИ (Acucon Sequoia) каб.408","Acucon Sequoia)");
+		lbManufacturerModelName.addItem("УЗИ (Acucon Sequoia) каб.408","Acucon Sequoia");
 
-	
+		//TODO Уточнить имена и кабинеты
+		lbManufacturerModelName.addItem("SSI-1000");
+		lbManufacturerModelName.addItem("Эхоэнцефалоскоп-ЭЭС-25-ЭМА");
+		lbManufacturerModelName.addItem("Электроэнцефалограф-Alliance");
+		lbManufacturerModelName.addItem("Companion III");
+		lbManufacturerModelName.addItem("Microvit");
+		lbManufacturerModelName.addItem("СМАД, Schiller AG");
+		lbManufacturerModelName.addItem("ЭКГ-Schiller Medical S.A.");
+		lbManufacturerModelName.addItem("ЭКГ-Cardiovit AT-2 plus C");
+		lbManufacturerModelName.addItem("Велоэргометрия-АТ- 104 Schiller");
+		lbManufacturerModelName.addItem("Voluson 730 Expert");
+		lbManufacturerModelName.addItem("SSD-3500");
+		lbManufacturerModelName.addItem("Спирометр-Spirovit SP-1");
+		lbManufacturerModelName.addItem("Спиро-Спектр 2");
+		
 		
 		
 		//TODO Убрал из списка
