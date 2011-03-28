@@ -209,6 +209,8 @@ public class StudyManagePanel extends Composite implements
 		
 		
 		
+		
+		
 		HashMap <String, String>dicModality = new HashMap<String, String>();
 		dicModality.put("OT", "Прочее");
 		dicModality.put("CR", "Флюорография");
@@ -424,6 +426,10 @@ public class StudyManagePanel extends Composite implements
 		studyDoctror.addItem("Лызлова И.Е", "Лызлова И.Е");
 		studyDoctror.addItem("Шешеня Т.В.", "Шешеня Т.В.");
 		studyDoctror.addItem("Тимошенко С.А.", "Тимошенко С.А.");
+		
+		studyDoctror.addItem("Батрак С.И.", "Батрак С.И.");
+		studyDoctror.addItem("Леткина З.Ю.", "Леткина З.Ю.");
+		studyDoctror.addItem("Перлова Е.В.", "Перлова Е.В.");
 		
 //		studyDoctror2.addItem("Ввести нового...", "manualinput");
 		
