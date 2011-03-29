@@ -17,6 +17,12 @@
 || ФИО || Tag.ReferringPhysicianName || (0008,0090) VR=PN, VM=1 Referring Physician's Name ||
 
 || Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
+|| Запрашиваемая процедура (описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
+|| Код запрашиваемой процедуры || Tag.RequestedProcedureID || (0040,1001) VR=SH, VM=1 Requested Procedure ID ||
+|| Код запрашиваемой процедуры || Tag.RequestedProcedureCodeSequence || (0032,1064) VR=SQ, VM=1 Requested Procedure Code Sequence *TODO Вариант2*  ||
+|| Место выполнения запрашиваемой процедуры || Tag.RequestedProcedureLocation || (0040,1005) VR=LO, VM=1 Requested Procedure Location ||
+|| Комментарий запрашиваемой процедуры || Tag.RequestedProcedureComments || (0040,1400) VR=LT, VM=1 Requested Procedure Comments ||
+
 
 Массив услуг "код,наименование,синоним(это наименование исследования)"
 
