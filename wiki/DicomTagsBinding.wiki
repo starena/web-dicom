@@ -24,10 +24,13 @@
 || Комментарий запрашиваемой процедуры || Tag.RequestedProcedureComments || (0040,1400) VR=LT, VM=1 Requested Procedure Comments ||
 
 
+
 Массив услуг "код,наименование,синоним(это наименование исследования)"
 
 || Запрашиваемый Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician ||
 || Код запрашиваемого врача || Tag.RequestingPhysicianIdentificationSequence || Requesting Physician Identification Sequence ||
+|| AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
+|| Аттрибуты запроса || Tag.RequestAttributesSequence || (0040,0275) VR=SQ, VM=1 Request Attributes Sequence ||
 
 Диагноз
 
