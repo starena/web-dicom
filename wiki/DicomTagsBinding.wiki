@@ -3,11 +3,14 @@
 
 = Поля для создание направления: = 
 
-StudyID (штрих-код)
+|| *Наименование* || *Тег* || *Dicom-расшифровка* ||
+|| Номер направления (штрих-код) || Tag.StudyID || (0020,0010) VR=SH, VM=1 Study ID ||
+|| Код пациента || Tag.PatientID || (0010,0020) VR=LO, VM=1 Patient ID ||
+|| ФИО пациента || Tag.PatientName || (0010,0010) VR=PN, VM=1 Patient's Name ||
+|| Дата рождения пациента || Tag.PatientBirthDate || (0010,0030) VR=DA, VM=1 Patient's Birth Date  ||
+|| Пол пациента || Tag.PatientSex || (0010,0040) VR=CS, VM=1 Patient's Sex ||
 
-PatientID (код пациента)
 
-PatientName (ФИО пациента + дата рождения + пол)
 
 Кабинет
 
