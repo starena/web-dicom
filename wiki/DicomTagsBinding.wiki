@@ -5,11 +5,15 @@
 
 || *Наименование* || *Тег* || *Dicom-расшифровка* ||
 || Номер направления (штрих-код) || Tag.StudyID || (0020,0010) VR=SH, VM=1 Study ID ||
+|| *Пациент* || || ||
 || Код пациента || Tag.PatientID || (0010,0020) VR=LO, VM=1 Patient ID ||
 || ФИО пациента || Tag.PatientName || (0010,0010) VR=PN, VM=1 Patient's Name ||
 || Дата рождения пациента || Tag.PatientBirthDate || (0010,0030) VR=DA, VM=1 Patient's Birth Date  ||
 || Пол пациента || Tag.PatientSex || (0010,0040) VR=CS, VM=1 Patient's Sex ||
-
+|| *Врач выполнивший исследование* || || ||
+|| № кабинета || Tag.ReferringPhysicianAddress || (0008,0092) VR=ST, VM=1 Referring Physician's Address ||
+|| код (табельный номер) || Tag.ReferringPhysicianIdentificationSequence || (0008,0096) VR=SQ, VM=1 Referring Physician Identification Sequence  *TODO выбрать другой тег?* ||
+|| ФИО || Tag.ReferringPhysicianName || (0008,0090) VR=PN, VM=1 Referring Physician's Name ||
 
 
 Кабинет
