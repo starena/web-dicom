@@ -11,11 +11,6 @@
 || Дата рождения пациента || Tag.PatientBirthDate || (0010,0030) VR=DA, VM=1 Patient's Birth Date  ||
 || Пол пациента || Tag.PatientSex || (0010,0040) VR=CS, VM=1 Patient's Sex ||
 
-|| *Врач выполнивший исследование* || || ||
-|| № кабинета || Tag.ReferringPhysicianAddress || (0008,0092) VR=ST, VM=1 Referring Physician's Address ||
-|| код (табельный номер) || Tag.ReferringPhysicianIdentificationSequence || (0008,0096) VR=SQ, VM=1 Referring Physician Identification Sequence  *TODO выбрать другой тег?* ||
-|| ФИО || Tag.ReferringPhysicianName || (0008,0090) VR=PN, VM=1 Referring Physician's Name ||
-
 
 || Запрашиваемая процедура (описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
 || Код запрашиваемой процедуры || Tag.RequestedProcedureID || (0040,1001) VR=SH, VM=1 Requested Procedure ID ||
@@ -23,6 +18,13 @@
 || Место выполнения запрашиваемой процедуры || Tag.RequestedProcedureLocation || (0040,1005) VR=LO, VM=1 Requested Procedure Location ||
 || Комментарий запрашиваемой процедуры || Tag.RequestedProcedureComments || (0040,1400) VR=LT, VM=1 Requested Procedure Comments ||
 || Аттрибуты запроса || Tag.RequestAttributesSequence || (0040,0275) VR=SQ, VM=1 Request Attributes Sequence ||
+
+
+
+|| *Врач выполнивший исследование* || || ||
+|| № кабинета || Tag.ReferringPhysicianAddress || (0008,0092) VR=ST, VM=1 Referring Physician's Address ||
+|| код (табельный номер) || Tag.ReferringPhysicianIdentificationSequence || (0008,0096) VR=SQ, VM=1 Referring Physician Identification Sequence  *TODO выбрать другой тег?* ||
+|| ФИО || Tag.ReferringPhysicianName || (0008,0090) VR=PN, VM=1 Referring Physician's Name ||
 
 
 Массив услуг "код,наименование,синоним(это наименование исследования)"
