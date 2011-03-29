@@ -12,6 +12,13 @@
 || Пол пациента || Tag.PatientSex || (0010,0040) VR=CS, VM=1 Patient's Sex ||
 
 
+
+|| Запрашиваемый Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician ||
+|| Код запрашиваемого врача || Tag.RequestingPhysicianIdentificationSequence || Requesting Physician Identification Sequence ||
+|| AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
+|| Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
+
+
 || Запрашиваемая процедура (описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
 || Код запрашиваемой процедуры || Tag.RequestedProcedureID || (0040,1001) VR=SH, VM=1 Requested Procedure ID ||
 || Код запрашиваемой процедуры || Tag.RequestedProcedureCodeSequence || (0032,1064) VR=SQ, VM=1 Requested Procedure Code Sequence *TODO Вариант2*  ||
@@ -29,10 +36,6 @@
 
 Массив услуг "код,наименование,синоним(это наименование исследования)"
 
-|| Запрашиваемый Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician ||
-|| Код запрашиваемого врача || Tag.RequestingPhysicianIdentificationSequence || Requesting Physician Identification Sequence ||
-|| AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
-|| Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
 
 Диагноз
 
