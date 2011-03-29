@@ -13,7 +13,7 @@
 
 
 
-|| Запрашиваемый Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician ||
+|| Направивший  Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician ||
 || Код запрашиваемого врача || Tag.RequestingPhysicianIdentificationSequence || Requesting Physician Identification Sequence ||
 || AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
 || Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
