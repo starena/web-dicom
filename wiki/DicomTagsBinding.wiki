@@ -31,23 +31,27 @@ Location - размещение (где проводится исследова�
 || Код направившего врача || Tag.RequestingPhysicianIdentificationSequence || (0032,1031) VR=SQ, VM=1 Requesting Physician Identification Sequence ||
 
 
-|| AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
-|| Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
-|| Имя аппарата || Tag.StationName || (0008,1010) VR=SH, VM=1 Station Name [http://dicomlookup.com/lookup.asp?sw=Ttable&q=C.7-8&Submit=Display дока] ||
+
 
 || *Врач выполнивший исследование* || || ||
 || № кабинета || Tag.PerformedLocation|| (0040,0243) VR=SH, VM=1 Performed Location ||
 || код (табельный номер) || Tag.PerformingPhysicianIdentificationSequence || (0008,1052) VR=SQ, VM=1 Performing Physician Identification Sequence  *TODO выбрать другой тег?* ||
 || ФИО || Tag.PerformingPhysicianName|| ((0008,1050) VR=PN, VM=1-n Performing Physician's Name  ||
 
+|| *Исследование* || || ||
+|| Запрашиваемое исследование(описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
+|| ID запрашиваемого исследования (штрих код? *TODO а как же StudyID?*) || Tag.RequestedProcedureID || (0040,1001) VR=SH, VM=1 Requested Procedure ID ||
+|| Код запрашиваемого исследования|| Tag.RequestedProcedureCodeSequence || (0032,1064) VR=SQ, VM=1 Requested Procedure Code Sequence *TODO Вариант2*  ||
+|| Место выполнения исследования || Tag.RequestedProcedureLocation || (0040,1005) VR=LO, VM=1 Requested Procedure Location ||
+|| Комментарий исследования || Tag.RequestedProcedureComments || (0040,1400) VR=LT, VM=1 Requested Procedure Comments ||
 
-|| Запрашиваемая процедура (описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
-|| Код запрашиваемой процедуры || Tag.RequestedProcedureID || (0040,1001) VR=SH, VM=1 Requested Procedure ID ||
-|| Код запрашиваемой процедуры || Tag.RequestedProcedureCodeSequence || (0032,1064) VR=SQ, VM=1 Requested Procedure Code Sequence *TODO Вариант2*  ||
-|| Место выполнения запрашиваемой процедуры || Tag.RequestedProcedureLocation || (0040,1005) VR=LO, VM=1 Requested Procedure Location ||
-|| Комментарий запрашиваемой процедуры || Tag.RequestedProcedureComments || (0040,1400) VR=LT, VM=1 Requested Procedure Comments ||
 || Аттрибуты запроса || Tag.RequestAttributesSequence || (0040,0275) VR=SQ, VM=1 Request Attributes Sequence ||
+|| AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
+|| Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
+|| Имя аппарата || Tag.StationName || (0008,1010) VR=SH, VM=1 Station Name [http://dicomlookup.com/lookup.asp?sw=Ttable&q=C.7-8&Submit=Display дока] ||
 
+|| Дата начала выполнения процедуры || Tag.PerformedProcedureStepStartDate || (0040,0244) VR=DA, VM=1 Performed Procedure Step Start Date ||
+|| Дата окончания выполнения исследования || Tag.PerformedProcedureStepEndDate || (0040,0250) VR=DA, VM=1 Performed Procedure Step End Date ||
 
 
 
