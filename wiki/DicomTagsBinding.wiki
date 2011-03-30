@@ -49,6 +49,9 @@ Location - размещение (где проводится исследова�
 || ФИО || Tag.PerformingPhysicianName|| ((0008,1050) VR=PN, VM=1-n Performing Physician's Name  ||
 
 
+|| Плановая дата начала исследования || Tag.ScheduledProcedureStepStartDate || 0040,0002) VR=DA, VM=1 Scheduled Procedure Step Start Date ||
+|| Выполненная дата окончания исследования || Tag.PerformedProcedureStepEndDate || (0040,0250) VR=DA, VM=1 Performed Procedure Step End Date ||
+
 Массив услуг "код,наименование,синоним(это наименование исследования)"
 
 
