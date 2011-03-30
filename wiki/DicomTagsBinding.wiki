@@ -1,6 +1,16 @@
 #summary Маппинг Сущностей и Dicom-тегов
 
 
+Physician - врач
+
+Requesting - запрашивающий
+
+Requested - запрошенный
+
+Performing - выполнение (исполнительный)
+
+
+
 = Поля для создание направления: = 
 
 || *Наименование* || *Тег* || *Dicom-расшифровка* ||
@@ -30,9 +40,9 @@
 
 
 || *Врач выполнивший исследование* || || ||
-|| № кабинета || Tag.ReferringPhysicianAddress || (0008,0092) VR=ST, VM=1 Referring Physician's Address ||
-|| код (табельный номер) || Tag.ReferringPhysicianIdentificationSequence || (0008,0096) VR=SQ, VM=1 Referring Physician Identification Sequence  *TODO выбрать другой тег?* ||
-|| ФИО || Tag.ReferringPhysicianName || (0008,0090) VR=PN, VM=1 Referring Physician's Name ||
+|| № кабинета || Tag.PerformedLocation|| (0040,0243) VR=SH, VM=1 Performed Location ||
+|| код (табельный номер) || Tag.PerformingPhysicianIdentificationSequence || (0008,1052) VR=SQ, VM=1 Performing Physician Identification Sequence  *TODO выбрать другой тег?* ||
+|| ФИО || Tag.PerformingPhysicianName|| ((0008,1050) VR=PN, VM=1-n Performing Physician's Name  ||
 
 
 Массив услуг "код,наименование,синоним(это наименование исследования)"
