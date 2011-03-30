@@ -26,12 +26,19 @@ Location - размещение (где проводится исследова�
 || Пол пациента || Tag.PatientSex || (0010,0040) VR=CS, VM=1 Patient's Sex ||
 
 
-
+|| *Направивший  Врач* || || ||
 || Направивший  Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician ||
 || Код направившего врача || Tag.RequestingPhysicianIdentificationSequence || (0032,1031) VR=SQ, VM=1 Requesting Physician Identification Sequence ||
+
+
 || AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
 || Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
 || Имя аппарата || Tag.StationName || (0008,1010) VR=SH, VM=1 Station Name [http://dicomlookup.com/lookup.asp?sw=Ttable&q=C.7-8&Submit=Display дока] ||
+
+|| *Врач выполнивший исследование* || || ||
+|| № кабинета || Tag.PerformedLocation|| (0040,0243) VR=SH, VM=1 Performed Location ||
+|| код (табельный номер) || Tag.PerformingPhysicianIdentificationSequence || (0008,1052) VR=SQ, VM=1 Performing Physician Identification Sequence  *TODO выбрать другой тег?* ||
+|| ФИО || Tag.PerformingPhysicianName|| ((0008,1050) VR=PN, VM=1-n Performing Physician's Name  ||
 
 
 || Запрашиваемая процедура (описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
@@ -43,10 +50,7 @@ Location - размещение (где проводится исследова�
 
 
 
-|| *Врач выполнивший исследование* || || ||
-|| № кабинета || Tag.PerformedLocation|| (0040,0243) VR=SH, VM=1 Performed Location ||
-|| код (табельный номер) || Tag.PerformingPhysicianIdentificationSequence || (0008,1052) VR=SQ, VM=1 Performing Physician Identification Sequence  *TODO выбрать другой тег?* ||
-|| ФИО || Tag.PerformingPhysicianName|| ((0008,1050) VR=PN, VM=1-n Performing Physician's Name  ||
+
 
 
 || Плановая дата начала исследования || Tag.ScheduledProcedureStepStartDate || 0040,0002) VR=DA, VM=1 Scheduled Procedure Step Start Date ||
