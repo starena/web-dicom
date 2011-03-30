@@ -17,6 +17,7 @@
 || Код направившего врача || Tag.RequestingPhysicianIdentificationSequence || Requesting Physician Identification Sequence ||
 || AE запрашиваемой процедуры || Tag.RequestingAE || (0074,1236) VR=AE, VM=1 Requesting AE *TODO Использовать как идентификатор апарата?* ||
 || Запрашиваемая услуга || Tag.RequestingService || (0032,1033) VR=LO, VM=1 Requesting Service ||
+|| Имя аппарата || Tag.StationName || (0008,1010) VR=SH, VM=1 Station Name [http://dicomlookup.com/lookup.asp?sw=Ttable&q=C.7-8&Submit=Display дока] ||
 
 
 || Запрашиваемая процедура (описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
