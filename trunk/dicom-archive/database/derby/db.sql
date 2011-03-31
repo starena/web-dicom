@@ -6,26 +6,33 @@ CONNECT 'jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true';
 --
 CREATE TABLE WEBDICOM.DIRECTION (
 	ID BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-	DIRECTION_ID VARCHAR(512), -- штрих код
+	DIRECTION_ID VARCHAR(512), -- штрих код (это StudyID)
 	DOCTOR_DIRECT_NAME  VARCHAR(512), -- Имя врача который направил
-	DOCTOR_DIRECT_CODE  VARCHAR(512), -- Код врача который направил
-	DIAGNOSIS_DIRECT  VARCHAR(512), -- Диагнозы при направлении
-	DATE_DIRECTION DATE, -- Дата направления пациента
-	SERVICES_DIRECTED  VARCHAR(512), -- Услуги направленные (коды через ";")
+	-- формат строки Код^ФИО
+	/* DOCTOR_DIRECT_CODE  VARCHAR(512), -- Код врача который направил */
+	DIAGNOSIS_DIRECT  VARCHAR(1024), -- Диагнозы при направлении
+	-- формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
+	DATE_DIRECTION DATE, -- Дата направления пациента (дата выписки направления)
+	SERVICES_DIRECTED  VARCHAR(1024), -- Услуги направленные (коды через ";")
+	-- формат строки услуг: Код^Синоним^Расшифровка|...
 	DEVICE  VARCHAR(512), -- Аппарат (STUDY_MANUFACTURER_MODEL_NAME)
 	DIRECTION_DATE_PLANNED TIMESTAMP, -- Плановая дата и время выполнения исследования
 	
 	--TODO Может взять врача из Study? тем более что исследований может быть несколько
 	DOCTOR_PERFOMED_NAME  VARCHAR(512), -- врач который выполнил
-	DOCTOR_PERFOMED_CODE  VARCHAR(512), -- врач который выполнил (код)
+	-- формат строки Код^ФИО
+	/*DOCTOR_PERFOMED_CODE  VARCHAR(512), -- врач который выполнил (код)*/
 	 
-	--TODO Нежен ли здесь? 
 	DIRECTION_CODE  VARCHAR(512), -- Идентификатор случая заболевания 
 	--TODO Нежен ли здесь? 
 	DIRECTION_CABINET  VARCHAR(512), -- Кабинет
 	
-	DIAGNOSIS_PERFOMED  VARCHAR(512), -- Диагнозы после обследования (через ";")
-	SERVICES_PERFOMED  VARCHAR(512), -- Услуги выполненные (коды через ";")
+	DIAGNOSIS_PERFOMED  VARCHAR(512), -- Диагнозы после обследования
+	-- (по умолчанию копируются из поля DIAGNOSIS_DIRECT)
+	-- формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
+	SERVICES_PERFOMED  VARCHAR(512), -- Услуги выполненные
+	-- формат строки услуг: Код^Синоним^Расшифровка|...
+	-- (по умолчанию копируются из поля SERVICES_DIRECTED)
 	DATE_PERFOMED DATE, -- Дата выполнения
 	
 	-- по пациенту
