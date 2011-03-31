@@ -2,7 +2,6 @@ CONNECT 'jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true';
 
 --
 -- Таблица "Направление"
--- Вопросы: соотношение направление-исследование-врачи какое?
 --
 CREATE TABLE WEBDICOM.DIRECTION (
 	ID BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
