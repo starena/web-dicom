@@ -19,26 +19,24 @@ Location - размещение (где проводится исследова�
 
 = Поля для создание направления: = 
 
-|| *Наименование* || *Тег* || *Dicom-расшифровка* ||
-|| Номер направления (штрих-код) || Tag.StudyID || (0020,0010) VR=SH, VM=1 Study ID ||
-|| *Пациент* || || ||
-|| Код пациента || Tag.PatientID || (0010,0020) VR=LO, VM=1 Patient ID ||
-|| ФИО пациента || Tag.PatientName || (0010,0010) VR=PN, VM=1 Patient's Name ||
-|| Дата рождения пациента || Tag.PatientBirthDate || (0010,0030) VR=DA, VM=1 Patient's Birth Date  ||
-|| Пол пациента || Tag.PatientSex || (0010,0040) VR=CS, VM=1 Patient's Sex ||
+|| *Наименование* || *Тег* || *Dicom-расшифровка* || *Поле в БД* ||
+|| Номер направления (штрих-код) || Tag.StudyID || (0020,0010) VR=SH, VM=1 Study ID || STUDY.STUDY_ID ||
+|| *Пациент* || || || ||
+|| Код пациента || Tag.PatientID || (0010,0020) VR=LO, VM=1 Patient ID || STUDY.PATIENT_ID ||
+|| ФИО пациента || Tag.PatientName || (0010,0010) VR=PN, VM=1 Patient's Name || STUDY.PATIENT_NAME ||
+|| Дата рождения пациента || Tag.PatientBirthDate || (0010,0030) VR=DA, VM=1 Patient's Birth Date  || STUDY.PATIENT_BIRTH_DATE ||
+|| Пол пациента || Tag.PatientSex || (0010,0040) VR=CS, VM=1 Patient's Sex || STUDY.PATIENT_SEX ||
 
 
-|| *Направивший  Врач* || || ||
-|| Направивший  Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician ||
-|| Код направившего врача || Tag.RequestingPhysicianIdentificationSequence || (0032,1031) VR=SQ, VM=1 Requesting Physician Identification Sequence ||
+|| *Направивший  Врач* || || || || ||
+|| Направивший  Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician || STUDY.STUDY_DOCTOR_REQUEST || формат: "ФИО {ТАБЕЛЬНЫЙ}" ||
 
 
 
 
-|| *Врач выполнивший исследование* || || ||
-|| № кабинета || Tag.PerformedLocation|| (0040,0243) VR=SH, VM=1 Performed Location ||
-|| код (табельный номер) || Tag.PerformingPhysicianIdentificationSequence || (0008,1052) VR=SQ, VM=1 Performing Physician Identification Sequence  *TODO выбрать другой тег?* ||
-|| ФИО || Tag.PerformingPhysicianName|| ((0008,1050) VR=PN, VM=1-n Performing Physician's Name  ||
+|| *Врач выполнивший исследование* || || || || ||
+|| ФИО || Tag.PerformingPhysicianName|| ((0008,1050) VR=PN, VM=1-n Performing Physician's Name  || STUDY.STUDY_DOCTOR_PERFORM || формат: "ФИО {ТАБЕЛЬНЫЙ}" ||
+|| Место выполнения || Tag.PerformedLocation || (0040,0243) VR=SH, VM=1 Performed Location || STUDY.STUDY_LOCATION || формат: "КОРПУС-КАБИНЕТ" ||
 
 || *Исследование* || || ||
 || Запрашиваемое исследование(описание) || Tag.RequestedProcedureDescription || (0032,1060) VR=LO, VM=1 Requested Procedure Description ||
