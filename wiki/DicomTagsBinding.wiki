@@ -29,7 +29,8 @@ Location - размещение (где проводится исследова�
 
 
 || *Направивший  Врач* || || || || ||
-|| Направивший  Врач || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician || STUDY.STUDY_DOCTOR_REQUEST || формат: "ФИО {ТАБЕЛЬНЫЙ}" ||
+|| Имя || Tag.ReferringPhysicianName || (0008,0090) VR=PN, VM=1 Referring Physician's Name || STUDY.STUDY_DOCTOR_REQUEST || формат: "ФИО {ТАБЕЛЬНЫЙ}" ||
+|| Направивший  Врач *TODO Удалить?* || Tag.RequestingPhysician || (0032,1032) VR=PN, VM=1 Requesting Physician || STUDY.STUDY_DOCTOR_REQUEST || формат: "ФИО {ТАБЕЛЬНЫЙ}" ||
 
 
 
