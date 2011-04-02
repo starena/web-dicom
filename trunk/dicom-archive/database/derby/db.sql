@@ -18,28 +18,28 @@ CREATE TABLE WEBDICOM.DIRECTION (
 	DIRECTION_DATE_PLANNED TIMESTAMP, -- Плановая дата и время выполнения исследования
 	
 	--TODO Может взять врача из Study? тем более что исследований может быть несколько
-	DOCTOR_PERFOMED_NAME  VARCHAR(512), -- врач который выполнил
+	DOCTOR_PERFORMED_NAME  VARCHAR(512), -- врач который выполнил
 	-- формат строки Код^ФИО
-	/*DOCTOR_PERFOMED_CODE  VARCHAR(512), -- врач который выполнил (код)*/
+	/*DOCTOR_PERFORMED_CODE  VARCHAR(512), -- врач который выполнил (код)*/
 	 
 	DIRECTION_CODE  VARCHAR(512), -- Идентификатор случая заболевания 
 	--TODO Нежен ли здесь? 
 	DIRECTION_CABINET  VARCHAR(512), -- Кабинет
 	
-	DIAGNOSIS_PERFOMED  VARCHAR(512), -- Диагнозы после обследования
+	DIAGNOSIS_PERFORMED  VARCHAR(512), -- Диагнозы после обследования
 	-- (по умолчанию копируются из поля DIAGNOSIS_DIRECT)
 	-- формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
-	SERVICES_PERFOMED  VARCHAR(512), -- Услуги выполненные
+	SERVICES_PERFORMED  VARCHAR(512), -- Услуги выполненные
 	-- формат строки услуг: Код^Синоним^Расшифровка|...
 	-- (по умолчанию копируются из поля SERVICES_DIRECTED)
-	DATE_PERFOMED DATE, -- Дата выполнения
+	DATE_PERFORMED DATE, -- Дата выполнения
 	
 	-- по пациенту
 	PATIENT_ID VARCHAR(512), -- код пациента
 	PATIENT_NAME VARCHAR(512) NOT NULL,-- ФИО пациента
 	PATIENT_BIRTH_DATE DATE NOT NULL, -- д.р пациента
 	PATIENT_SEX VARCHAR(1)  NOT NULL, -- пол пациента (M/F)
-	DATE_MODIFY TIMESTAMP NOT NULL, -- дата измения
+	DATE_MODIFIED TIMESTAMP NOT NULL, -- дата измения
 	REMOVED TIMESTAMP, -- дата удаления
 	CONSTRAINT WEBDICOM.PK_DIRECTION PRIMARY KEY (ID),
 	UNIQUE (DIRECTION_ID)
@@ -69,7 +69,7 @@ CREATE TABLE WEBDICOM.STUDY (
 	PATIENT_BIRTH_DATE DATE NOT NULL,
 	PATIENT_SEX VARCHAR(1)  NOT NULL,
 	FID_DIRECTION BIGINT, -- ссылка на исследование
-	DATE_MODIFY TIMESTAMP NOT NULL, -- дата измения
+	DATE_MODIFIED TIMESTAMP NOT NULL, -- дата измения
 	REMOVED TIMESTAMP, -- дата удаления
 	CONSTRAINT WEBDICOM.PK_STUDY PRIMARY KEY (ID),
 	CONSTRAINT WEBDICOM.FK_DIRECTION_STUDY FOREIGN KEY (FID_DIRECTION) REFERENCES WEBDICOM.DIRECTION (ID),
@@ -105,7 +105,7 @@ CREATE TABLE WEBDICOM.DCMFILE (
 	IMAGE_FILE_SIZE BIGINT,
 	IMAGE_WIDTH INTEGER, -- COLUMNS
 	IMAGE_HEIGHT INTEGER, -- ROWS
-	DATE_MODIFY TIMESTAMP NOT NULL, -- дата измения
+	DATE_MODIFIED TIMESTAMP NOT NULL, -- дата измения
 	REMOVED TIMESTAMP, -- дата удаления
 	CONSTRAINT WEBDICOM.PK_DCMFILE PRIMARY KEY (ID),
 	CONSTRAINT WEBDICOM.FK_DCMFILE_STUDY FOREIGN KEY (FID_STUDY) REFERENCES WEBDICOM.STUDY (ID),
