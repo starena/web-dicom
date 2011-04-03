@@ -1,14 +1,13 @@
 package org.psystems.dicom.commons.orm;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-
-import org.psystems.dicom.commons.IDataSource;
 
 /**
  * @author dima_d Направление на исследование
  */
-public class Direction {
+public class Direction implements Serializable {
 
 	private Long id; // Внутренний ID
 	private String directionId; // штрих код
@@ -28,14 +27,13 @@ public class Direction {
 	private Date dateModified;// Планируемая дата выполнения исследования
 	private Date dateRemoved;// Планируемая дата выполнения исследования
 
-	public Direction getDirectionbyID(String directionId, IDataSource ds) {
-		return null;
-
-	}
+	
+	
 
 	public Long getId() {
 		return id;
 	}
+	
 
 	public void setId(Long id) {
 		this.id = id;
