@@ -18,6 +18,7 @@
 		<property name="log4j" value="${dist_lib_dir}/log4j-1.2.13.jar"/>
 		<property name="dcm4che-core" value="${dist_lib_dir}/dcm4che-core-2.0.21.jar"/>
 		<property name="dcm4che-net" value="${dist_lib_dir}/dcm4che-net-2.0.21.jar "/>
+		<property name="junit" value="${extlib_dir}/junit.jar "/>
 		
 		<path id="build.classpath">
 			<pathelement location="${gwt.sdk}/gwt-user.jar"/>
@@ -25,6 +26,7 @@
 			<pathelement location="${log4j}"/>
 			<pathelement location="${dcm4che-core}"/>
 			<pathelement location="${dcm4che-net}"/>
+			<pathelement location="${junit}}"/>
 		</path>
 
 	</target>

@@ -1,5 +1,6 @@
 package org.psystems.dicom.commons.orm;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,8 +9,12 @@ import java.util.Date;
  * @author dima_d
  * 
  */
-public class Patient {
+public class Patient implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1336950569742992093L;
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
 	private String patientShortName; // КБП пациента
