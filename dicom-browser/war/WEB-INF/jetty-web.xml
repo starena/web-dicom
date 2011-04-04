@@ -20,7 +20,7 @@
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">org.apache.derby.jdbc.ClientDriver</Set>
-				<Set name="url">jdbc:derby://localhost:1527//WORKDB/WEBDICOM</Set>
+				<Set name="url">jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</Set>
 				<Set name="username">jdbc.user</Set>
 				<Set name="password">jdbc.pass</Set>
 			</New>
