@@ -113,6 +113,8 @@ public class UtilCommon {
 		return connection;
 	}
 	
+	
+	
 
 	/**
 	 * Создание и отправка dicom-файла в архив
