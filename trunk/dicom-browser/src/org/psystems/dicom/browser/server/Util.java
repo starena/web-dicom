@@ -176,6 +176,29 @@ public class Util {
 
 		return connection;
 	}
+	
+	/**
+	 * @param servletContext
+	 * @return
+	 * @throws SQLException
+	 */
+	public  Connection getConnection2(ServletContext servletContext)
+			throws SQLException {
+
+		Connection connection = null;
+
+		// for Tomcat
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
+			connection = ds.getConnection();
+		} catch (NamingException e) {
+			throw new SQLException("JNDI error " + e);
+		}
+
+		return connection;
+	}
 
 	/**
 	 * TODO !!! Убрать !!! Проверка версии клиентског запроса
