@@ -1,5 +1,6 @@
 package org.psystems.dicom.commons.orm;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,12 @@ import java.util.ArrayList;
  * @author dima_d
  * 
  */
-public class ManufacturerDevice {
+public class ManufacturerDevice implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2089006109459477701L;
 	// Модель аппарат (по тегу из Dicom-файла)
 	private String ManufacturerModelName;
 	// CR,ES,...

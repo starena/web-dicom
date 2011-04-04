@@ -1,12 +1,18 @@
 package org.psystems.dicom.commons.orm;
 
+import java.io.Serializable;
+
 /**
  * Услуга
  * 
  * @author dima_d
  */
-public class Service {
+public class Service implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5146546219455184305L;
 	private String serviceCode;// Код
 	private String serviceAlias;// краткий код для врача
 	private String serviceDescription;// Описание

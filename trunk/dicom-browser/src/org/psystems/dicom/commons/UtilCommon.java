@@ -45,18 +45,14 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.component.StudyManagePanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.server.DcmSnd;
 import org.psystems.dicom.browser.server.Jpg2Dcm;
 import org.psystems.dicom.browser.server.Pdf2Dcm;
-
-import com.sun.xml.internal.ws.api.pipe.NextAction;
 
 /**
  * Утилитный класс

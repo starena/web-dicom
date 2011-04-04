@@ -1,12 +1,18 @@
 package org.psystems.dicom.commons.orm;
 
+import java.io.Serializable;
+
 /**
  * Диагноз
  * 
  * @author dima_d
  */
-public class Diagnosis {
+public class Diagnosis implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2133521701334810608L;
 	public static final String TYPE_MAIN = "ОСНОВНОЙ";
 	public static final String TYPE_INVOLVEMENT = "ОСЛОЖНЕНИЕ";
 	public static final String TYPE_ACCOMPANYING = "СОПУТСТВУЮЩИЙ";

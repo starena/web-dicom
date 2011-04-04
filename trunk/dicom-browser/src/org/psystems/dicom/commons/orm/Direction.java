@@ -9,6 +9,10 @@ import java.util.Date;
  */
 public class Direction implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2840335603832244555L;
 	private Long id; // Внутренний ID
 	private String directionId; // штрих код
 	private Employe doctorDirect;// Направивший врач
@@ -18,8 +22,8 @@ public class Direction implements Serializable {
 	private ManufacturerDevice device;// Аппарат
 	private Date datePlanned;// Планируемая дата выполнения исследования
 	private Employe doctorPerformed;// Врач выполнивший исследование
-	private String dirrectionCode;// Идентификатор случая заболевания
-	private String dirrectionRoom;// Кабинет
+	private String directionCode;// Идентификатор случая заболевания
+	private String directionRoom;// Кабинет
 	private ArrayList<Diagnosis> diagnosisPerformed;// Диагнозы при направлении
 	private ArrayList<Service> servicesPerformed;// Выполненные услуги
 	private Date datePerformed;// Дата выполнения исследования
@@ -27,13 +31,9 @@ public class Direction implements Serializable {
 	private Date dateModified;// Планируемая дата выполнения исследования
 	private Date dateRemoved;// Планируемая дата выполнения исследования
 
-	
-	
-
 	public Long getId() {
 		return id;
 	}
-	
 
 	public void setId(Long id) {
 		this.id = id;
@@ -103,20 +103,20 @@ public class Direction implements Serializable {
 		this.doctorPerformed = doctorPerformed;
 	}
 
-	public String getDirrectionCode() {
-		return dirrectionCode;
+	public String getDirectionCode() {
+		return directionCode;
 	}
 
-	public void setDirrectionCode(String dirrectionCode) {
-		this.dirrectionCode = dirrectionCode;
+	public void setDirectionCode(String directionCode) {
+		this.directionCode = directionCode;
 	}
 
-	public String getDirrectionRoom() {
-		return dirrectionRoom;
+	public String getDirectionRoom() {
+		return directionRoom;
 	}
 
-	public void setDirrectionRoom(String dirrectionRoom) {
-		this.dirrectionRoom = dirrectionRoom;
+	public void setDirectionRoom(String directionRoom) {
+		this.directionRoom = directionRoom;
 	}
 
 	public ArrayList<Diagnosis> getDiagnosisPerformed() {
@@ -175,8 +175,8 @@ public class Direction implements Serializable {
 				+ dateRemoved + ", device=" + device + ", diagnosisDirect="
 				+ diagnosisDirect + ", diagnosisPerformed="
 				+ diagnosisPerformed + ", directionId=" + directionId
-				+ ", dirrectionCode=" + dirrectionCode + ", dirrectionRoom="
-				+ dirrectionRoom + ", doctorDirect=" + doctorDirect
+				+ ", dirrectionCode=" + directionCode + ", dirrectionRoom="
+				+ directionRoom + ", doctorDirect=" + doctorDirect
 				+ ", doctorPerformed=" + doctorPerformed + ", id=" + id
 				+ ", patient=" + patient + ", servicesDirect=" + servicesDirect
 				+ ", servicesPerformed=" + servicesPerformed + "]";
