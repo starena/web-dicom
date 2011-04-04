@@ -85,7 +85,7 @@
 		<location>/axis2-web/Error/error500.jsp</location>
 	</error-page>
 
-	<security-constraint>
+	<!--<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Web Service Authentication</web-resource-name>
 			<url-pattern>/services/*</url-pattern>
@@ -106,7 +106,7 @@
 		<role-name>studymanager</role-name>
 	</security-role>
 
-	<!--
+	--><!--
 
 		<user-data-constraint>
 		<transport-guarantee>CONFIDENTIAL</transport-guarantee>
