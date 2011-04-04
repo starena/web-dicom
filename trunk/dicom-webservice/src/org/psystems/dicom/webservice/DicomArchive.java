@@ -67,8 +67,13 @@ import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.commons.UtilCommon;
 import org.psystems.dicom.commons.orm.DataException;
+import org.psystems.dicom.commons.orm.Diagnosis;
+import org.psystems.dicom.commons.orm.Employe;
 import org.psystems.dicom.commons.orm.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.Patient;
+import org.psystems.dicom.commons.orm.Service;
 import org.psystems.dicom.commons.orm.Study;
+import org.psystems.dicom.commons.orm.Direction;
 import org.psystems.dicom.webservice.DicomWebServiceException;
 
 public class DicomArchive {
@@ -85,20 +90,21 @@ public class DicomArchive {
 	 */
 	public Study getStudy(long i) throws DicomWebServiceException {
 
-		Study study = Study.getInstance(i);
-		// study.setId(i);
-		study.setStudyDate(new Date());
-		study
-				.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
-		study.setStudyDoctor("Врач №1");
-		study.setStudyId("studyID=" + i);
-		study.setPatientName("Пациент №1");
-		study.setPatientId("patientID=ХХХ");
-		study.setStudyResult("Результат 'норма'");
-		study.setStudyType("флюорография");
-		study.setStudyUrl("http://localhost/" + i + ".dcm");
-
-		return study;
+//		Study study = Study.getInstance(i);
+//		// study.setId(i);
+//		study.setStudyDate(new Date());
+//		study
+//				.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
+//		study.setStudyDoctor("Врач №1");
+//		study.setStudyId("studyID=" + i);
+//		study.setPatientName("Пациент №1");
+//		study.setPatientId("patientID=ХХХ");
+//		study.setStudyResult("Результат 'норма'");
+//		study.setStudyType("флюорография");
+//		study.setStudyUrl("http://localhost/" + i + ".dcm");
+//
+//		return study;
+		return null;
 	}
 
 	/**
@@ -144,21 +150,21 @@ public class DicomArchive {
 		}
 
 		ArrayList<Study> data = new ArrayList<Study>();
-		for (long i = 0; i < 10; i++) {
-			Study study = Study.getInstance(i);
-			study.setId(i);
-			study.setStudyDate(new Date());
-			study
-					.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
-			study.setStudyDoctor("Врач №1");
-			study.setStudyId("studyID=" + i);
-			study.setPatientName("Пациент №1");
-			study.setPatientId("patientID=ХХХ");
-			study.setStudyResult("Результат 'норма'");
-			study.setStudyType("флюорография");
-			study.setStudyUrl("http://localhost/" + i + ".dcm");
-			data.add(study);
-		}
+//		for (long i = 0; i < 10; i++) {
+//			Study study = Study.getInstance(i);
+//			study.setId(i);
+//			study.setStudyDate(new Date());
+//			study
+//					.setManufacturerModelUID("1.2.826.0.1.3680043.2.634.0.64717.2010225.13460.1");
+//			study.setStudyDoctor("Врач №1");
+//			study.setStudyId("studyID=" + i);
+//			study.setPatientName("Пациент №1");
+//			study.setPatientId("patientID=ХХХ");
+//			study.setStudyResult("Результат 'норма'");
+//			study.setStudyType("флюорография");
+//			study.setStudyUrl("http://localhost/" + i + ".dcm");
+//			data.add(study);
+//		}
 
 		Study[] result = new Study[data.size()];
 		return data.toArray(result);
@@ -418,6 +424,71 @@ public class DicomArchive {
 		} catch (Exception e) {
 			throw new DicomWebServiceException(e);
 		}
+	}
+	
+	/**
+	 * @param directionId штрих код
+	 * @param doctorDirect Направивший врач
+	 * @param diagnosisDirect Диагнозы при направлении
+	 * @param servicesDirect Услуги при направлении
+	 * @param dateDirection Дата направления (YYYY-MM-DD)
+	 * @param device Аппарат
+	 * @param datePlanned Планируемая дата выполнения исследования (YYYY-MM-DD)
+	 * @param dirrectionCode Идентификатор случая заболевания
+	 * @param dirrectionRoom Кабинет
+	 * @param patient Пациент
+	 * @throws DicomWebServiceException
+	 */
+	public void makeDirection(String directionId, Employe doctorDirect,ArrayList<Diagnosis> diagnosisDirect,
+			ArrayList<Service> servicesDirect, String dateDirection, ManufacturerDevice device,
+			String datePlanned, String dirrectionCode, String dirrectionRoom,
+			Patient patient) throws DicomWebServiceException {
+		
+		//TODO Реализовать!!!
+	}
+	
+	/**
+	 * @param directionId
+	 * @return
+	 * @throws DicomWebServiceException
+	 */
+	public Direction getDirectionByDirectionId (String directionId) throws DicomWebServiceException {
+		
+		Direction drn = new Direction();
+		drn.setDateDirection(new Date());
+		ManufacturerDevice device = new ManufacturerDevice();
+		device.setManufacturerModelName("TestModel");
+		drn.setDevice(device);
+		ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
+		Diagnosis dia = new Diagnosis();
+		dia.setDiagnosisCode("Z01.1");
+		dia.setDiagnosisType("Test diagnoz");
+		diagnosisDirect.add(dia);
+		drn.setDiagnosisDirect(diagnosisDirect);
+		drn.setDirectionCode("Test code");
+		drn.setDirectionId("123456");
+		drn.setDirectionRoom("605");
+		Employe doctorDirect = new Employe();
+		doctorDirect.setEmployeCode("123123");
+		doctorDirect.setEmployeName("Test Doctor FIO");
+		doctorDirect.setEmployeType(Employe.TYPE_PHYSICIAN);
+		drn.setDoctorDirect(doctorDirect);
+		Patient patient = new Patient();
+		patient.setPatientBirthDate(new Date());
+		patient.setPatientId("123123");
+		patient.setPatientName("TEST PATIENT");
+		patient.setPatientSex("M");
+		patient.setPatientShortName("TESTT74");
+		drn.setPatient(patient);
+		ArrayList<Service> servicesDirect = new ArrayList<Service>();
+		Service srv = new Service();
+		srv.setServiceCode("CODE1");
+		srv.setServiceAlias("COOLSERVICE");
+		srv.setServiceDescription("This is cool service");
+		servicesDirect.add(srv);
+		drn.setServicesDirect(servicesDirect);
+		return drn;
+		
 	}
 
 }
