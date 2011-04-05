@@ -20,7 +20,7 @@ CREATE TABLE WEBDICOM.DIRECTION (
 	--TODO Может взять врача из Study? тем более что исследований может быть несколько
 	DOCTOR_PERFORMED_NAME  VARCHAR(512), -- врач который выполнил
 	-- формат строки Код^ФИО
-	/*DOCTOR_PERFORMED_CODE  VARCHAR(512), -- врач который выполнил (код)*/
+
 	 
 	DIRECTION_CODE  VARCHAR(512), -- Идентификатор случая заболевания 
 	--TODO Нежен ли здесь? 
