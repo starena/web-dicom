@@ -17,8 +17,19 @@ public class Employe implements Serializable {
 	private String employeName;// Имя
 	private String employeCode;// Код, таб.номер
 	
-	public static String TYPE_PHYSICIAN = "PHYSICIAN";
+	public static String TYPE_DOCTOR = "DOCTOR";
 	public static String TYPE_OPERATOR = "OPERATOR";
+	
+	String persistentDelimeter = "|";//разделитель структур
+
+	/**
+	 * формат строки Код^ФИО
+	 * @return
+	 */
+	public String toPersistentString() {
+		return employeCode + "^" + employeName;
+	}
+	
 
 	public String getEmployeType() {
 		return employeType;

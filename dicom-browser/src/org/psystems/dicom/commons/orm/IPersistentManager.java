@@ -6,10 +6,13 @@ public interface IPersistentManager {
 
 	/**
 	 * Сохранение сущности
+	 * 
 	 * @param obj
+	 * @return
+	 * @throws DataException
 	 */
-	public void makePesistent(Serializable obj);
-	
+	public long makePesistent(Serializable obj) throws DataException;
+
 	/**
 	 * Получение экземпляра сущности по id
 	 * 
@@ -17,9 +20,10 @@ public interface IPersistentManager {
 	 * @return
 	 */
 	public Serializable getObjectbyID(Long id);
-	
+
 	/**
-	 * Получение экземпляра сущности по uid 
+	 * Получение экземпляра сущности по uid
+	 * 
 	 * @param uid
 	 * @return
 	 */
