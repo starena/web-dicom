@@ -8,6 +8,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 public class PersistentManagerDerby implements IPersistentManager {
 
@@ -237,13 +240,40 @@ public class PersistentManagerDerby implements IPersistentManager {
 	}
 
 	@Override
-	public Serializable getObjectbyID(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Serializable getObjectbyID(Long id) throws DataException {
+		
+		Direction drn = new Direction();
+		
+		PreparedStatement psFiles = null;
+
+		try {
+			psFiles = connection
+					.prepareStatement("SELECT * FROM WEBDICOM.DIRECTION WHERE ID = ? ");
+			psFiles.setLong(1, id);
+			ResultSet rs = psFiles.executeQuery();
+
+			!!1 TODO Сделать десериализацию. и юниттест сделать. !!!
+			while (rs.next()) {
+				
+
+			}
+			return drn;
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psFiles != null)
+					psFiles.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
 	}
 
 	@Override
-	public Serializable getObjectbyUID(String uid) {
+	public Serializable getObjectbyUID(String uid)  throws DataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
