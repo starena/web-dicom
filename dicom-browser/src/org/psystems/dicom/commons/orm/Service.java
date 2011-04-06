@@ -1,6 +1,7 @@
 package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Услуга
@@ -16,6 +17,29 @@ public class Service implements Serializable {
 	private String serviceCode;// Код
 	private String serviceAlias;// краткий код для врача
 	private String serviceDescription;// Описание
+	static String persistentDelimeter = "|";//разделитель структур
+	
+	/**
+	 * формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
+	 * @return
+	 */
+	public String toPersistentString() {
+		return serviceCode + "^" + serviceAlias + "^" + serviceDescription;
+	}
+	
+	/**
+	 * Получение коллекции в строковом варианте для сохранения
+	 * @param servicelist
+	 * @return
+	 */
+	public static String toPersistentCollectionString(ArrayList<Service> servicelist) {
+		StringBuffer sb = new StringBuffer();
+		for (Service service : servicelist) {
+			if(sb.length()!=0) sb.append(persistentDelimeter);
+			sb.append(service.toPersistentString());
+		}
+		return sb.toString();	
+	}
 
 	public String getServiceCode() {
 		return serviceCode;
