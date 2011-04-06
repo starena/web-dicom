@@ -253,6 +253,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 			ResultSet rs = psFiles.executeQuery();
 
 			!!1 TODO Сделать десериализацию. и юниттест сделать. !!!
+			!!! 
+			TODO Сделать в архиве связку исследования с направлением через Foreign key
 			while (rs.next()) {
 				
 
