@@ -449,7 +449,7 @@ public class Extractor {
 										"PATIENT_SHORTNAME =?," +
 										"PATIENT_BIRTH_DATE =?, " +
 										"PATIENT_SEX =?," +
-										"DATE_MODIFY =? "
+										"DATE_MODIFIED =? "
 								+ " where ID = ?");
 
 				stmt.setString(1, study.getStudyID());
@@ -501,7 +501,7 @@ public class Extractor {
 								+ "PATIENT_SHORTNAME, "
 								+ "PATIENT_BIRTH_DATE, "
 								+ "PATIENT_SEX,"
-								+ "DATE_MODIFY)"
+								+ "DATE_MODIFIED)"
 								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setString(1, study.getStudyInstanceUID());
@@ -554,7 +554,7 @@ public class Extractor {
 								+ "DCM_FILE_SIZE = ?," 
 								+ "IMAGE_FILE_SIZE = ?," 
 								+ "IMAGE_WIDTH = ?," 
-								+ "IMAGE_HEIGHT =?, DATE_MODIFY =?, MIME_TYPE =?, DOCUMENT_SIZE =? "
+								+ "IMAGE_HEIGHT =?, DATE_MODIFIED =?, MIME_TYPE =?, DOCUMENT_SIZE =? "
 								+ " where ID = ?");
 
 				stmt.setLong(1, studyInternalID);
@@ -585,7 +585,7 @@ public class Extractor {
 						+ "DCM_FILE_SIZE," 
 						+ "IMAGE_FILE_SIZE," 
 						+ "IMAGE_WIDTH," 
-						+ "IMAGE_HEIGHT, DATE_MODIFY, MIME_TYPE,DOCUMENT_SIZE )"
+						+ "IMAGE_HEIGHT, DATE_MODIFIED, MIME_TYPE,DOCUMENT_SIZE )"
 						+ "values (?,?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setLong(1, studyInternalID);
