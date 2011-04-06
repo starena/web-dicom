@@ -7,8 +7,8 @@ CREATE TABLE WEBDICOM.DIRECTION (
 	ID BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	DIRECTION_ID VARCHAR(512), -- штрих код (это StudyID)
 	DOCTOR_DIRECT_NAME  VARCHAR(512), -- Имя врача который направил
-	-- формат строки Код^ФИО
-	/* DOCTOR_DIRECT_CODE  VARCHAR(512), -- Код врача который направил */
+	DOCTOR_DIRECT_CODE  VARCHAR(512), -- Код врача который направил
+
 	DIAGNOSIS_DIRECT  VARCHAR(1024), -- Диагнозы при направлении
 	-- формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
 	DATE_DIRECTION DATE, -- Дата направления пациента (дата выписки направления)
@@ -17,14 +17,12 @@ CREATE TABLE WEBDICOM.DIRECTION (
 	DEVICE  VARCHAR(512), -- Аппарат (STUDY_MANUFACTURER_MODEL_NAME)
 	DIRECTION_DATE_PLANNED TIMESTAMP, -- Плановая дата и время выполнения исследования
 	
-	--TODO Может взять врача из Study? тем более что исследований может быть несколько
 	DOCTOR_PERFORMED_NAME  VARCHAR(512), -- врач который выполнил
-	-- формат строки Код^ФИО
+	DOCTOR_PERFORMED_CODE  VARCHAR(512), -- Код врача который выполнил
 
-	 
 	DIRECTION_CODE  VARCHAR(512), -- Идентификатор случая заболевания 
-	--TODO Нежен ли здесь? 
-	DIRECTION_CABINET  VARCHAR(512), -- Кабинет
+ 
+	DIRECTION_LOCATION  VARCHAR(512), -- Кабинет
 	
 	DIAGNOSIS_PERFORMED  VARCHAR(512), -- Диагнозы после обследования
 	-- (по умолчанию копируются из поля DIAGNOSIS_DIRECT)
