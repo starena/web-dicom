@@ -19,7 +19,7 @@ public interface IPersistentManager {
 	 * @param id
 	 * @return
 	 */
-	public Serializable getObjectbyID(Long id);
+	public Serializable getObjectbyID(Long id) throws DataException;
 
 	/**
 	 * Получение экземпляра сущности по uid
@@ -27,5 +27,5 @@ public interface IPersistentManager {
 	 * @param uid
 	 * @return
 	 */
-	public Serializable getObjectbyUID(String uid);
+	public Serializable getObjectbyUID(String uid) throws DataException;
 }
