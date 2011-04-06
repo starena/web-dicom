@@ -1,5 +1,6 @@
 package org.psystems.dicom.commons.orm;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 
+			String rndId = ""+Math.random();
 			Direction drn = new Direction();
 			drn.setDateDirection(new Date());
 
@@ -64,7 +66,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 			drn.setDiagnosisDirect(diagnosisDirect);
 
 			drn.setDirectionCode("Test code");
-			drn.setDirectionId("123456");
+			drn.setDirectionId(rndId);
 			drn.setDirectionLocation("605");
 
 			Employe doctorDirect = new Employe();
@@ -104,17 +106,19 @@ public class PersistentManagerDerbyTest extends TestCase {
 			servicesDirect.add(srv);
 
 			drn.setServicesDirect(servicesDirect);
+			long newId = pm.makePesistent(drn);
 			
-			try {
-				pm.makePesistent(drn);
-			} catch (DataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			Direction newDrn = (Direction) pm.getObjectbyID(newId);
+			assertEquals( rndId, newDrn.getDirectionId());
+			
+			
 
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
