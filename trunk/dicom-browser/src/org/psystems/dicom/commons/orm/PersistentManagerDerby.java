@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 
 public class PersistentManagerDerby implements IPersistentManager {
@@ -185,6 +187,24 @@ public class PersistentManagerDerby implements IPersistentManager {
 				
 				connection.setAutoCommit(false);
 				int count = pstmt.executeUpdate();
+				
+				Statement stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("values IDENTITY_VAL_LOCAL()");
+				ResultSetMetaData rsmd = rs.getMetaData();
+				while (rs.next()) {
+					
+//					for (int i = 1; i < rsmd.getColumnCount() + 1; i++) {
+//						String columnName = rsmd.getColumnName(i);
+//						// Get the name of the column's table name
+//						String tableName = rsmd.getTableName(i);
+//						System.out.println("!!!!!!! ID = columnName [" + columnName + "]["+tableName+"]");
+//					}
+
+					resultId = rs.getLong("1");
+//					System.out.println("!!!!!!! ID  [" + resultId + "]");
+					
+				}
+				
 				connection.commit();
 				
 				//TODO Не работает!!!
