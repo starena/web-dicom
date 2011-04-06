@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -179,14 +180,17 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(18, java.sql.Types.DATE);
 				}
 
-				pstmt.setDate(20, java.sql.Date.valueOf(formatSQL
-						.format(new java.util.Date())));// sysdate
+				//TODO проверить, нужно ли делать TIMESTAMP
+				pstmt.setTimestamp(20, new Timestamp(new java.util.Date().getTime()));//sysdate
+//				pstmt.setDate(20, java.sql.Date.valueOf(formatSQL
+//						.format(new java.util.Date())));// sysdate
 
+				//TODO проверить, нужно ли делать TIMESTAMP
 				if (drn.getDateRemoved() != null)
-					pstmt.setDate(21, java.sql.Date.valueOf(formatSQL
-							.format(drn.getDateRemoved())));
+					pstmt.setTimestamp(21, new Timestamp(java.sql.Date.valueOf(formatSQL
+							.format(drn.getDateRemoved())).getTime()));
 				else 
-					pstmt.setNull(21, java.sql.Types.DATE);
+					pstmt.setNull(21, java.sql.Types.TIMESTAMP);
 				
 				connection.setAutoCommit(false);
 				int count = pstmt.executeUpdate();
@@ -243,21 +247,64 @@ public class PersistentManagerDerby implements IPersistentManager {
 	public Serializable getObjectbyID(Long id) throws DataException {
 		
 		Direction drn = new Direction();
-		
-		PreparedStatement psFiles = null;
+		PreparedStatement pstmt = null;
 
 		try {
-			psFiles = connection
+			pstmt = connection
 					.prepareStatement("SELECT * FROM WEBDICOM.DIRECTION WHERE ID = ? ");
-			psFiles.setLong(1, id);
-			ResultSet rs = psFiles.executeQuery();
+			pstmt.setLong(1, id);
+			ResultSet rs = pstmt.executeQuery();
 
-			!!1 TODO Сделать десериализацию. и юниттест сделать. !!!
-			!!! 
-			TODO Сделать в архиве связку исследования с направлением через Foreign key
+			// !!1 TODO Сделать десериализацию. и юниттест сделать. !!!
+			// !!!
+			// TODO Сделать в архиве связку исследования с направлением через
+			// Foreign key
 			while (rs.next()) {
+				drn.setId(rs.getLong("ID"));
+				drn.setDirectionId(rs.getString("DIRECTION_ID"));
+				Employe doctorDirect = new Employe();
+				doctorDirect.setEmployeCode(rs.getString("DOCTOR_DIRECT_CODE"));
+				doctorDirect.setEmployeName(rs.getString("DOCTOR_DIRECT_NAME"));
+				doctorDirect.setEmployeType(Employe.TYPE_DOCTOR);
+				drn.setDoctorDirect(doctorDirect);
+				drn.setDiagnosisDirect(Diagnosis
+						.getCollectionFromPersistentString(rs
+								.getString("DIAGNOSIS_DIRECT")));
+				drn.setDateDirection(rs.getDate("DATE_DIRECTION"));
+				drn.setServicesDirect(Service
+						.getCollectionFromPersistentString(rs
+								.getString("SERVICES_DIRECTED")));
+				ManufacturerDevice dev = new ManufacturerDevice();
+				//TODO Остальные поля десериализовать?
+				dev.setManufacturerModelName(rs.getString("DEVICE"));
+				drn.setDevice(dev);
+				drn.setDatePlanned(rs.getDate("DIRECTION_DATE_PLANNED"));
 				
-
+				Employe doctorPerformed = new Employe();
+				doctorPerformed.setEmployeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
+				doctorPerformed.setEmployeName(rs.getString("DOCTOR_PERFORMED_NAME"));
+				drn.setDoctorPerformed(doctorPerformed);
+				drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
+				drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
+				
+				drn.setDiagnosisPerformed(Diagnosis
+						.getCollectionFromPersistentString(rs
+								.getString("DIAGNOSIS_PERFORMED")));
+				drn.setServicesPerformed(Service
+						.getCollectionFromPersistentString(rs
+								.getString("SERVICES_PERFORMED")));
+				drn.setDatePerformed(rs.getDate("DATE_PERFORMED"));
+				
+				Patient patient = new Patient();
+				patient.setPatientId(rs.getString("PATIENT_ID"));
+				patient.setPatientName(rs.getString("PATIENT_NAME"));
+				patient.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+				patient.setPatientSex(rs.getString("PATIENT_SEX"));
+				drn.setPatient(patient);
+				
+				drn.setDateModified(rs.getTimestamp("DATE_MODIFIED"));
+				drn.setDateRemoved(rs.getTimestamp("REMOVED"));
+				
 			}
 			return drn;
 		} catch (SQLException e) {
@@ -265,8 +312,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 		} finally {
 
 			try {
-				if (psFiles != null)
-					psFiles.close();
+				if (pstmt != null)
+					pstmt.close();
 
 			} catch (SQLException e) {
 				throw new DataException(e);

@@ -1,6 +1,8 @@
 package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Сотрудник
@@ -27,7 +29,34 @@ public class Employe implements Serializable {
 	 * @return
 	 */
 	public String toPersistentString() {
-		return employeCode + "^" + employeName;
+		return employeCode + "^" + employeType + "^" + employeName;
+	}
+	
+	/**
+	 * Создание экземпляра из строки
+	 * @param data
+	 * @return
+	 */
+	public static Employe getFromPersistentString (String data) {
+		
+		String[] d = data.split("\\^");
+		Employe emp = new Employe();
+		emp.setEmployeCode(d[0]);
+		emp.setEmployeName(d[2]);
+		emp.setEmployeType(d[1]);
+		
+		
+//		Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
+//		boolean fullSearch = matcher.matches();
+//		String fio = null,day = null,month = null,year = null;
+//		if (fullSearch) {
+//			fio = matcher.group(1);
+//			day = matcher.group(2);
+//			month = matcher.group(3);
+//			year = matcher.group(4);
+//		}
+		return emp;
+		
 	}
 	
 
