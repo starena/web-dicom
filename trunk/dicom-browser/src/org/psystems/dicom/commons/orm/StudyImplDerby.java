@@ -85,7 +85,7 @@ public class StudyImplDerby extends Study {
 		study.setStudyResult(rs.getString("STUDY_RESULT"));
 		study.setStudyUrl("");// TODO сделать!!
 		study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
-		study.setStudyDateModify(rs.getTimestamp("DATE_MODIFY"));
+		study.setStudyDateModify(rs.getTimestamp("DATE_MODIFIED"));
 		
 		study.setStudyDateRemoved(null);
 		if(rs.getTimestamp("REMOVED")!=null)
