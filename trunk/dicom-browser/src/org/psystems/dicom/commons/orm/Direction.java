@@ -23,7 +23,7 @@ public class Direction implements Serializable {
 	private Date datePlanned;// Планируемая дата выполнения исследования
 	private Employe doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
-	private String directionRoom;// Кабинет
+	private String directionLocation;// Кабинет
 	private ArrayList<Diagnosis> diagnosisPerformed;// Диагнозы при направлении
 	private ArrayList<Service> servicesPerformed;// Выполненные услуги
 	private Date datePerformed;// Дата выполнения исследования
@@ -111,12 +111,12 @@ public class Direction implements Serializable {
 		this.directionCode = directionCode;
 	}
 
-	public String getDirectionRoom() {
-		return directionRoom;
+	public String getDirectionLocation() {
+		return directionLocation;
 	}
 
-	public void setDirectionRoom(String directionRoom) {
-		this.directionRoom = directionRoom;
+	public void setDirectionLocation(String directionLocation) {
+		this.directionLocation = directionLocation;
 	}
 
 	public ArrayList<Diagnosis> getDiagnosisPerformed() {
@@ -176,7 +176,7 @@ public class Direction implements Serializable {
 				+ diagnosisDirect + ", diagnosisPerformed="
 				+ diagnosisPerformed + ", directionId=" + directionId
 				+ ", dirrectionCode=" + directionCode + ", dirrectionRoom="
-				+ directionRoom + ", doctorDirect=" + doctorDirect
+				+ directionLocation + ", doctorDirect=" + doctorDirect
 				+ ", doctorPerformed=" + doctorPerformed + ", id=" + id
 				+ ", patient=" + patient + ", servicesDirect=" + servicesDirect
 				+ ", servicesPerformed=" + servicesPerformed + "]";
