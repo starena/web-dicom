@@ -203,8 +203,8 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("SonoScape-2", "УЗИ-2 (SonoScape)");
 		dicModel.put("SonoScape-3", "УЗИ-3 (SonoScape)");
 		dicModel.put("VIVID 3", "УЗИ (VIVID) ДП 527 каб.");
-		dicModel.put("VOLUSON 730 BT04 EXPERT", "УЗИ (VOLUSON)");
-		dicModel.put("УЗИ (Acucon Sequoia) каб.408","Acucon Sequoia");
+		dicModel.put("УЗИ (VOLUSON)", "VOLUSON 730 BT04 EXPERT");
+		dicModel.put("Acuson Sequoia", "УЗИ (Acuson Sequoia) каб.408");
 
 		//TODO Уточнить имена и кабинеты
 		dicModel.put("SSI-1000","SSI-1000");
