@@ -33,15 +33,15 @@ public class DicomArchiveClient {
 //				testGetStudy();
 //				findStudies();
 				
-//				String host = "http://localhost:8080/dicom-webservice";
+				String host = "http://localhost:8080/dicom-webservice";
 //				String host = "http://localhost:38081/dicom-webservice";
-				String host = "https://proxy.gp1.psystems.org:38081/dicom-webservice";
+//				String host = "https://proxy.gp1.psystems.org:38081/dicom-webservice";
 				
 				if(args.length > 0) {
 					host = args[0];
 				}
 				System.out.println("host is "+host);
-//				findStudiesByType(host);
+				findStudiesByType(host);
 				
 				System.setProperty("javax.net.debug", "all");
 				
@@ -56,7 +56,7 @@ public class DicomArchiveClient {
 				System.setProperty("javax.net.ssl.trustStore", "client.jks");
 				System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
 				
-				testGetDevices(host);
+//				testGetDevices(host);
 //				testNewStudy(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
@@ -150,17 +150,19 @@ public class DicomArchiveClient {
 //		
 //		
 //		
-		query.setPatientName("А%");
+		query.setPatientName("%");
 ////		query.setPatientName("Иванов");
 //		
 		FindStudiesByTypeResponse responce = stub.findStudiesByType(query );
 		Study[] result = responce.get_return();
 		
 		System.out.println("Finded Studies : " + result);
+		
 //		System.out.println("Calendar:"+Calendar.getInstance());
 		if(result==null) return;
 		 for(int i = 0; i<result.length; i++) {
 			 printStudy(result[i]);
+			 System.out.println("TYPE:" + result[i].getStudyType() + " DESCR:" + result[i].getStudyDescription());
 		 }
 	}
 
