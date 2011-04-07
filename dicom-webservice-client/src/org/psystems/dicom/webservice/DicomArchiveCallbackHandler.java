@@ -45,6 +45,21 @@
 
         
            /**
+            * auto generated Axis2 call back method for makeDirection method
+            * override this method for handling normal response from makeDirection operation
+            */
+           public void receiveResultmakeDirection(
+                    ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from makeDirection operation
+           */
+            public void receiveErrormakeDirection(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for findStudiesByType method
             * override this method for handling normal response from findStudiesByType operation
             */
@@ -136,6 +151,22 @@
            * override this method for handling error response from newStudy operation
            */
             public void receiveErrornewStudy(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getDirectionByDirectionId method
+            * override this method for handling normal response from getDirectionByDirectionId operation
+            */
+           public void receiveResultgetDirectionByDirectionId(
+                    org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByDirectionIdResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getDirectionByDirectionId operation
+           */
+            public void receiveErrorgetDirectionByDirectionId(java.lang.Exception e) {
             }
                 
 
