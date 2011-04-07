@@ -70,7 +70,7 @@ import org.apache.log4j.Logger;
 import org.psystems.dicom.commons.UtilCommon;
 import org.psystems.dicom.commons.orm.DataException;
 import org.psystems.dicom.commons.orm.Diagnosis;
-import org.psystems.dicom.commons.orm.Employe;
+import org.psystems.dicom.commons.orm.Employee;
 import org.psystems.dicom.commons.orm.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.Patient;
 import org.psystems.dicom.commons.orm.Service;
@@ -441,7 +441,7 @@ public class DicomArchive {
 	 *            Пациент
 	 * @throws DicomWebServiceException
 	 */
-	public void makeDirection(String directionId, Employe doctorDirect,
+	public void makeDirection(String directionId, Employee doctorDirect,
 			ArrayList<Diagnosis> diagnosisDirect,
 			ArrayList<Service> servicesDirect, String dateDirection,
 			ManufacturerDevice device, String datePlanned,
@@ -489,12 +489,12 @@ public class DicomArchive {
 
 		drn.setDirectionCode("Test code");
 		drn.setDirectionId("123456");
-		drn.setDirectionRoom("605");
+		drn.setDirectionLocation("605");
 		
-		Employe doctorDirect = new Employe();
+		Employee doctorDirect = new Employee();
 		doctorDirect.setEmployeCode("123");
 		doctorDirect.setEmployeName("Врач Петров И.И.");
-		doctorDirect.setEmployeType(Employe.TYPE_PHYSICIAN);
+		doctorDirect.setEmployeType(Employee.TYPE_DOCTOR);
 		drn.setDoctorDirect(doctorDirect);
 		
 		Patient patient = new Patient();
