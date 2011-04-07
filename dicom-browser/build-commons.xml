@@ -49,6 +49,7 @@
 			<classpath refid="build.classpath" />
 			<include name="org/psystems/dicom/commons/**"/>
 			<exclude name="test*/*"/>
+			<exclude name="**/*Test.java"/>
 		</javac>
 	</target>
 
