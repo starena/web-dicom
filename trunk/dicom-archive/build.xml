@@ -41,6 +41,7 @@
 		<pathelement location="lib/slf4j-api-1.5.0.jar" />
 		<pathelement location="lib/slf4j-log4j12-1.5.0.jar" />
 		<pathelement location="lib/org.apache.log4j_1.2.13.v200806030600.jar" />
+		<pathelement location="lib/derbynet.jar" />
 	</path>
 
 	<path id="build.classpath">
