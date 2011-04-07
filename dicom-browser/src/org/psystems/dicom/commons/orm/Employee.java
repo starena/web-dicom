@@ -9,15 +9,15 @@ import java.util.regex.Pattern;
  * 
  * @author dima_d
  */
-public class Employe implements Serializable {
+public class Employee implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5003881435162510751L;
-	private String employeType;// Тип сотрудника (врач,оператор,..)
-	private String employeName;// Имя
-	private String employeCode;// Код, таб.номер
+	private String employeeType;// Тип сотрудника (врач,оператор,..)
+	private String employeeName;// Имя
+	private String employeeCode;// Код, таб.номер
 	
 	public static String TYPE_DOCTOR = "DOCTOR";
 	public static String TYPE_OPERATOR = "OPERATOR";
@@ -29,7 +29,7 @@ public class Employe implements Serializable {
 	 * @return
 	 */
 	public String toPersistentString() {
-		return employeCode + "^" + employeType + "^" + employeName;
+		return employeeCode + "^" + employeeType + "^" + employeeName;
 	}
 	
 	/**
@@ -37,10 +37,10 @@ public class Employe implements Serializable {
 	 * @param data
 	 * @return
 	 */
-	public static Employe getFromPersistentString (String data) {
+	public static Employee getFromPersistentString (String data) {
 		
 		String[] d = data.split("\\^");
-		Employe emp = new Employe();
+		Employee emp = new Employee();
 		emp.setEmployeCode(d[0]);
 		emp.setEmployeName(d[2]);
 		emp.setEmployeType(d[1]);
@@ -61,33 +61,33 @@ public class Employe implements Serializable {
 	
 
 	public String getEmployeType() {
-		return employeType;
+		return employeeType;
 	}
 
 	public void setEmployeType(String employeType) {
-		this.employeType = employeType;
+		this.employeeType = employeType;
 	}
 
 	public String getEmployeName() {
-		return employeName;
+		return employeeName;
 	}
 
 	public void setEmployeName(String employeName) {
-		this.employeName = employeName;
+		this.employeeName = employeName;
 	}
 
 	public String getEmployeCode() {
-		return employeCode;
+		return employeeCode;
 	}
 
 	public void setEmployeCode(String employeCode) {
-		this.employeCode = employeCode;
+		this.employeeCode = employeCode;
 	}
 
 	@Override
 	public String toString() {
-		return "Employe [employeCode=" + employeCode + ", employeName="
-				+ employeName + ", employeType=" + employeType + "]";
+		return "Employee [employeeCode=" + employeeCode + ", employeeName="
+				+ employeeName + ", employeeType=" + employeeType + "]";
 	}
 
 }

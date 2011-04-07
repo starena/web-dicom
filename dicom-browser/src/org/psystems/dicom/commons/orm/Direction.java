@@ -15,13 +15,13 @@ public class Direction implements Serializable {
 	private static final long serialVersionUID = -2840335603832244555L;
 	private Long id; // Внутренний ID
 	private String directionId; // штрих код
-	private Employe doctorDirect;// Направивший врач
+	private Employee doctorDirect;// Направивший врач
 	private ArrayList<Diagnosis> diagnosisDirect;// Диагнозы при направлении
 	private ArrayList<Service> servicesDirect;// Услуги при направлении
 	private Date dateDirection;// Дата направления
 	private ManufacturerDevice device;// Аппарат
 	private Date datePlanned;// Планируемая дата выполнения исследования
-	private Employe doctorPerformed;// Врач выполнивший исследование
+	private Employee doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
 	private String directionLocation;// Кабинет
 	private ArrayList<Diagnosis> diagnosisPerformed;// Диагнозы при направлении
@@ -47,11 +47,11 @@ public class Direction implements Serializable {
 		this.directionId = directionId;
 	}
 
-	public Employe getDoctorDirect() {
+	public Employee getDoctorDirect() {
 		return doctorDirect;
 	}
 
-	public void setDoctorDirect(Employe doctorDirect) {
+	public void setDoctorDirect(Employee doctorDirect) {
 		this.doctorDirect = doctorDirect;
 	}
 
@@ -95,11 +95,11 @@ public class Direction implements Serializable {
 		this.datePlanned = datePlanned;
 	}
 
-	public Employe getDoctorPerformed() {
+	public Employee getDoctorPerformed() {
 		return doctorPerformed;
 	}
 
-	public void setDoctorPerformed(Employe doctorPerformed) {
+	public void setDoctorPerformed(Employee doctorPerformed) {
 		this.doctorPerformed = doctorPerformed;
 	}
 
