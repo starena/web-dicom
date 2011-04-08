@@ -52,32 +52,29 @@ public class PersistentManagerDerbyTest extends TestCase {
 			device.setManufacturerModelTypeDescription("Эндоскоп");
 			drn.setDevice(device);
 
-			ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
 
 			Diagnosis dia = new Diagnosis();
 			dia.setDiagnosisCode("M01.1");
 			dia.setDiagnosisType(Diagnosis.TYPE_MAIN);// основной
 			dia.setDiagnosisDescription("Заболевание такое-то...");
 			dia.setDiagnosisSubType("Предварительный");
-			diagnosisDirect.add(dia);
 
 			Diagnosis dia1 = new Diagnosis();
 			dia1.setDiagnosisCode("K01.1");
 			dia1.setDiagnosisType(Diagnosis.TYPE_ACCOMPANYING);// сопутствующий
 			dia1.setDiagnosisDescription("Еще одно заболевание такое-то...");
 			dia1.setDiagnosisSubType("Предварительный");
-			diagnosisDirect.add(dia1);
 
-			drn.setDiagnosisDirect(diagnosisDirect);
+			drn.setDiagnosisDirect(new Diagnosis[] {dia,dia1});
 
 			drn.setDirectionCode("Test code");
 			drn.setDirectionId(rndId);
 			drn.setDirectionLocation("605");
 
 			Employee doctorDirect = new Employee();
-			doctorDirect.setEmployeCode("123");
-			doctorDirect.setEmployeName("Врач Петров И.И.");
-			doctorDirect.setEmployeType(Employee.TYPE_DOCTOR);
+			doctorDirect.setEmployeeCode("123");
+			doctorDirect.setEmployeeName("Врач Петров И.И.");
+			doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
 			drn.setDoctorDirect(doctorDirect);
 
 			Patient patient = new Patient();
@@ -95,22 +92,19 @@ public class PersistentManagerDerbyTest extends TestCase {
 			patient.setPatientShortName("ИВАИВ74");
 			drn.setPatient(patient);
 
-			ArrayList<Service> servicesDirect = new ArrayList<Service>();
 			Service srv = new Service();
 			srv.setServiceCode("A.03.16.001.01");
 			srv.setServiceAlias("ЭГДС");
 			srv
 					.setServiceDescription("Эзофагогастродуоденоскопия диагностическая");
-			servicesDirect.add(srv);
 
 			Service srv1 = new Service();
 			srv1.setServiceCode("A.02.12.002.02");
 			srv1.setServiceAlias("СМАД");
 			srv1
 					.setServiceDescription("Суточное мониторирование артериального давления");
-			servicesDirect.add(srv1);
 
-			drn.setServicesDirect(servicesDirect);
+			drn.setServicesDirect(new Service[] {srv,srv1});
 			long newId = pm.makePesistent(drn);
 
 			// **************************
@@ -122,9 +116,9 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			// Diagnosis
 
-			ArrayList<Diagnosis> newDiaList = newDrn.getDiagnosisDirect();
+			Diagnosis[] newDiaList = newDrn.getDiagnosisDirect();
 
-			Diagnosis newDia = newDiaList.get(0);
+			Diagnosis newDia = newDiaList[0];
 			assertEquals(newDia.getDiagnosisCode(), dia.getDiagnosisCode());
 			assertEquals(newDia.getDiagnosisType(), dia.getDiagnosisType());
 			assertEquals(newDia.getDiagnosisSubType(), dia
@@ -132,7 +126,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 			assertEquals(newDia.getDiagnosisDescription(), dia
 					.getDiagnosisDescription());
 
-			Diagnosis newDia1 = newDiaList.get(1);
+			Diagnosis newDia1 = newDiaList[1];
 			assertEquals(newDia1.getDiagnosisCode(), dia1.getDiagnosisCode());
 			assertEquals(newDia1.getDiagnosisType(), dia1.getDiagnosisType());
 			assertEquals(newDia1.getDiagnosisSubType(), dia1
@@ -142,15 +136,15 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			// Service
 
-			ArrayList<Service> newServicesDirect = newDrn.getServicesDirect();
+			Service[] newServicesDirect = newDrn.getServicesDirect();
 
-			Service newSrv = newServicesDirect.get(0);
+			Service newSrv = newServicesDirect[0];
 			assertEquals(newSrv.getServiceAlias(), srv.getServiceAlias());
 			assertEquals(newSrv.getServiceCode(), srv.getServiceCode());
 			assertEquals(newSrv.getServiceDescription(), srv
 					.getServiceDescription());
 
-			Service newSrv1 = newServicesDirect.get(1);
+			Service newSrv1 = newServicesDirect[1];
 			assertEquals(newSrv1.getServiceAlias(), srv1.getServiceAlias());
 			assertEquals(newSrv1.getServiceCode(), srv1.getServiceCode());
 			assertEquals(newSrv1.getServiceDescription(), srv1
@@ -168,9 +162,9 @@ public class PersistentManagerDerbyTest extends TestCase {
 			pm.makePesistent(newDrn);
 			
 			Direction drn3 = (Direction) pm.getObjectbyID(newDrn.getId());
-			ArrayList<Diagnosis> diaList3 = drn3.getDiagnosisDirect();
+			Diagnosis[] diaList3 = drn3.getDiagnosisDirect();
 			
-			Diagnosis newDia3 = diaList3.get(1);
+			Diagnosis newDia3 = diaList3[1];
 			assertEquals(newDia3.getDiagnosisCode(), newDia1.getDiagnosisCode());
 			assertEquals(newDia3.getDiagnosisType(), newDia1.getDiagnosisType());
 			assertEquals(newDia3.getDiagnosisSubType(), newDia1

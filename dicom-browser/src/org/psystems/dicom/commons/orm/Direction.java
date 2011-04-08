@@ -2,6 +2,7 @@ package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -16,16 +17,16 @@ public class Direction implements Serializable {
 	private Long id; // Внутренний ID
 	private String directionId; // штрих код
 	private Employee doctorDirect;// Направивший врач
-	private ArrayList<Diagnosis> diagnosisDirect;// Диагнозы при направлении
-	private ArrayList<Service> servicesDirect;// Услуги при направлении
+	private Diagnosis[] diagnosisDirect;// Диагнозы при направлении
+	private Service[] servicesDirect;// Услуги при направлении
 	private Date dateDirection;// Дата направления
 	private ManufacturerDevice device;// Аппарат
 	private Date datePlanned;// Планируемая дата выполнения исследования
 	private Employee doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
 	private String directionLocation;// Кабинет
-	private ArrayList<Diagnosis> diagnosisPerformed;// Диагнозы при направлении
-	private ArrayList<Service> servicesPerformed;// Выполненные услуги
+	private Diagnosis[] diagnosisPerformed;// Диагнозы при направлении
+	private Service[] servicesPerformed;// Выполненные услуги
 	private Date datePerformed;// Дата выполнения исследования
 	private Patient patient;
 	private Date dateModified;// Планируемая дата выполнения исследования
@@ -55,19 +56,19 @@ public class Direction implements Serializable {
 		this.doctorDirect = doctorDirect;
 	}
 
-	public ArrayList<Diagnosis> getDiagnosisDirect() {
+	public Diagnosis[] getDiagnosisDirect() {
 		return diagnosisDirect;
 	}
 
-	public void setDiagnosisDirect(ArrayList<Diagnosis> diagnosisDirect) {
+	public void setDiagnosisDirect(Diagnosis[] diagnosisDirect) {
 		this.diagnosisDirect = diagnosisDirect;
 	}
 
-	public ArrayList<Service> getServicesDirect() {
+	public Service[] getServicesDirect() {
 		return servicesDirect;
 	}
 
-	public void setServicesDirect(ArrayList<Service> servicesDirect) {
+	public void setServicesDirect(Service[] servicesDirect) {
 		this.servicesDirect = servicesDirect;
 	}
 
@@ -119,19 +120,19 @@ public class Direction implements Serializable {
 		this.directionLocation = directionLocation;
 	}
 
-	public ArrayList<Diagnosis> getDiagnosisPerformed() {
+	public Diagnosis[] getDiagnosisPerformed() {
 		return diagnosisPerformed;
 	}
 
-	public void setDiagnosisPerformed(ArrayList<Diagnosis> diagnosisPerformed) {
+	public void setDiagnosisPerformed(Diagnosis[] diagnosisPerformed) {
 		this.diagnosisPerformed = diagnosisPerformed;
 	}
 
-	public ArrayList<Service> getServicesPerformed() {
+	public Service[] getServicesPerformed() {
 		return servicesPerformed;
 	}
 
-	public void setServicesPerformed(ArrayList<Service> servicesPerformed) {
+	public void setServicesPerformed(Service[] servicesPerformed) {
 		this.servicesPerformed = servicesPerformed;
 	}
 
@@ -173,13 +174,15 @@ public class Direction implements Serializable {
 				+ dateModified + ", datePerformed=" + datePerformed
 				+ ", datePlanned=" + datePlanned + ", dateRemoved="
 				+ dateRemoved + ", device=" + device + ", diagnosisDirect="
-				+ diagnosisDirect + ", diagnosisPerformed="
-				+ diagnosisPerformed + ", directionId=" + directionId
-				+ ", dirrectionCode=" + directionCode + ", dirrectionRoom="
-				+ directionLocation + ", doctorDirect=" + doctorDirect
-				+ ", doctorPerformed=" + doctorPerformed + ", id=" + id
-				+ ", patient=" + patient + ", servicesDirect=" + servicesDirect
-				+ ", servicesPerformed=" + servicesPerformed + "]";
+				+ Arrays.toString(diagnosisDirect) + ", diagnosisPerformed="
+				+ Arrays.toString(diagnosisPerformed) + ", directionCode="
+				+ directionCode + ", directionId=" + directionId
+				+ ", directionLocation=" + directionLocation
+				+ ", doctorDirect=" + doctorDirect + ", doctorPerformed="
+				+ doctorPerformed + ", id=" + id + ", patient=" + patient
+				+ ", servicesDirect=" + Arrays.toString(servicesDirect)
+				+ ", servicesPerformed=" + Arrays.toString(servicesPerformed)
+				+ "]";
 	}
 
 }

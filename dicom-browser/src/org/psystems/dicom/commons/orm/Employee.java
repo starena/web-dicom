@@ -41,9 +41,9 @@ public class Employee implements Serializable {
 		
 		String[] d = data.split("\\^");
 		Employee emp = new Employee();
-		emp.setEmployeCode(d[0]);
-		emp.setEmployeName(d[2]);
-		emp.setEmployeType(d[1]);
+		emp.setEmployeeCode(d[0]);
+		emp.setEmployeeName(d[2]);
+		emp.setEmployeeType(d[1]);
 		
 		
 //		Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
@@ -58,30 +58,29 @@ public class Employee implements Serializable {
 		return emp;
 		
 	}
-	
 
-	public String getEmployeType() {
+	public String getEmployeeType() {
 		return employeeType;
 	}
 
-	public void setEmployeType(String employeType) {
-		this.employeeType = employeType;
+	public void setEmployeeType(String employeeType) {
+		this.employeeType = employeeType;
 	}
 
-	public String getEmployeName() {
+	public String getEmployeeName() {
 		return employeeName;
 	}
 
-	public void setEmployeName(String employeName) {
-		this.employeeName = employeName;
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
 
-	public String getEmployeCode() {
+	public String getEmployeeCode() {
 		return employeeCode;
 	}
 
-	public void setEmployeCode(String employeCode) {
-		this.employeeCode = employeCode;
+	public void setEmployeeCode(String employeeCode) {
+		this.employeeCode = employeeCode;
 	}
 
 	@Override
@@ -89,5 +88,8 @@ public class Employee implements Serializable {
 		return "Employee [employeeCode=" + employeeCode + ", employeeName="
 				+ employeeName + ", employeeType=" + employeeType + "]";
 	}
+	
+
+	
 
 }

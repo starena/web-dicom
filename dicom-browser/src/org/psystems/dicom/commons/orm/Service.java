@@ -35,7 +35,7 @@ public class Service implements Serializable {
 	 * @return
 	 */
 	public static String toPersistentCollectionString(
-			ArrayList<Service> servicelist) {
+			Service[] servicelist) {
 		StringBuffer sb = new StringBuffer();
 		for (Service service : servicelist) {
 			if (sb.length() != 0)
@@ -66,7 +66,7 @@ public class Service implements Serializable {
 	 * @param data
 	 * @return
 	 */
-	public static ArrayList<Service> getCollectionFromPersistentString(
+	public static Service[] getCollectionFromPersistentString(
 			String data) {
 		if(data==null) return null;
 		ArrayList<Service> srvs = new ArrayList<Service>();
@@ -74,7 +74,8 @@ public class Service implements Serializable {
 		for (int i = 0; i < d.length; i++) {
 			srvs.add(getFromPersistentString(d[i]));
 		}
-		return srvs;
+		Service[] result = new Service[srvs.size()];
+		return srvs.toArray(result);
 	}
 
 	public String getServiceCode() {

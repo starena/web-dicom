@@ -70,7 +70,7 @@ public class Diagnosis implements Serializable {
 	 * @param data
 	 * @return
 	 */
-	public static ArrayList<Diagnosis> getCollectionFromPersistentString(
+	public static Diagnosis[] getCollectionFromPersistentString(
 			String data) {
 		if(data==null) return null;
 		
@@ -79,7 +79,8 @@ public class Diagnosis implements Serializable {
 		for (int i = 0; i < d.length; i++) {
 			dias.add(getFromPersistentString(d[i]));
 		}
-		return dias;
+		Diagnosis[] result = new Diagnosis[dias.size()];
+		return dias.toArray(result);
 	}
 
 	/**
@@ -89,7 +90,7 @@ public class Diagnosis implements Serializable {
 	 * @return
 	 */
 	public static String toPersistentCollectionString(
-			ArrayList<Diagnosis> dialist) {
+			Diagnosis[] dialist) {
 		StringBuffer sb = new StringBuffer();
 		for (Diagnosis diagnosis : dialist) {
 			if (sb.length() != 0)
