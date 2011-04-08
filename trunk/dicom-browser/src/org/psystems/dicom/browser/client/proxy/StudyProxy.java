@@ -58,7 +58,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+//import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * @author dima_d
@@ -152,10 +152,10 @@ public class StudyProxy implements Serializable {
 		return patientBirthDate;
 	}
 
-	public String getPatientBirthDateAsString(String pattern) {
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
-		return dateFormat.format(patientBirthDate);
-	}
+//	public String getPatientBirthDateAsString(String pattern) {
+//		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
+//		return dateFormat.format(patientBirthDate);
+//	}
 
 	public String getPatientSex() {
 		return patientSex;
@@ -173,11 +173,11 @@ public class StudyProxy implements Serializable {
 		return studyDate;
 	}
 
-	public String getStudyDateAsString(String pattern) {
-		if(studyDate==null) return null;
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
-		return dateFormat.format(studyDate);
-	}
+//	public String getStudyDateAsString(String pattern) {
+//		if(studyDate==null) return null;
+//		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
+//		return dateFormat.format(studyDate);
+//	}
 
 	public String getStudyDoctor() {
 		return studyDoctor;
@@ -201,11 +201,11 @@ public class StudyProxy implements Serializable {
 		return studyViewprotocolDate;
 	}
 
-	public String getStudyViewprotocolDateAsString(String pattern) {
-		if(studyViewprotocolDate==null) return null;
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
-		return dateFormat.format(studyViewprotocolDate);
-	}
+//	public String getStudyViewprotocolDateAsString(String pattern) {
+//		if(studyViewprotocolDate==null) return null;
+//		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
+//		return dateFormat.format(studyViewprotocolDate);
+//	}
 
 	public String getStudyType() {
 		return studyType;

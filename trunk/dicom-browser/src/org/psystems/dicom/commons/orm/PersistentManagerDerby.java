@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
-import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 
 public class PersistentManagerDerby implements IPersistentManager {
 
@@ -88,12 +85,12 @@ public class PersistentManagerDerby implements IPersistentManager {
 				pstmt.setString(1, drn.getDirectionId());
 				
 				if (drn.getDoctorDirect() != null)
-					pstmt.setString(2, drn.getDoctorDirect().getEmployeName());
+					pstmt.setString(2, drn.getDoctorDirect().getEmployeeName());
 				else
 					pstmt.setNull(2, java.sql.Types.VARCHAR);
 
 				if (drn.getDoctorDirect() != null)
-					pstmt.setString(3, drn.getDoctorDirect().getEmployeCode());
+					pstmt.setString(3, drn.getDoctorDirect().getEmployeeCode());
 				else
 					pstmt.setNull(3, java.sql.Types.VARCHAR);
 
@@ -131,9 +128,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 				if (drn.getDoctorPerformed() != null) {
 					pstmt.setString(9, drn.getDoctorPerformed()
-							.getEmployeName());
+							.getEmployeeName());
 					pstmt.setString(10, drn.getDoctorPerformed()
-							.getEmployeCode());
+							.getEmployeeCode());
 				} else {
 					pstmt.setNull(9, java.sql.Types.VARCHAR);
 					pstmt.setNull(10, java.sql.Types.VARCHAR);
@@ -248,12 +245,12 @@ public class PersistentManagerDerby implements IPersistentManager {
 				pstmt.setString(1, drn.getDirectionId());
 
 				if (drn.getDoctorDirect() != null)
-					pstmt.setString(2, drn.getDoctorDirect().getEmployeName());
+					pstmt.setString(2, drn.getDoctorDirect().getEmployeeName());
 				else
 					pstmt.setNull(2, java.sql.Types.VARCHAR);
 
 				if (drn.getDoctorDirect() != null)
-					pstmt.setString(3, drn.getDoctorDirect().getEmployeCode());
+					pstmt.setString(3, drn.getDoctorDirect().getEmployeeCode());
 				else
 					pstmt.setNull(3, java.sql.Types.VARCHAR);
 
@@ -291,9 +288,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 				if (drn.getDoctorPerformed() != null) {
 					pstmt.setString(9, drn.getDoctorPerformed()
-							.getEmployeName());
+							.getEmployeeName());
 					pstmt.setString(10, drn.getDoctorPerformed()
-							.getEmployeCode());
+							.getEmployeeCode());
 				} else {
 					pstmt.setNull(9, java.sql.Types.VARCHAR);
 					pstmt.setNull(10, java.sql.Types.VARCHAR);
@@ -400,9 +397,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 				drn.setId(rs.getLong("ID"));
 				drn.setDirectionId(rs.getString("DIRECTION_ID"));
 				Employee doctorDirect = new Employee();
-				doctorDirect.setEmployeCode(rs.getString("DOCTOR_DIRECT_CODE"));
-				doctorDirect.setEmployeName(rs.getString("DOCTOR_DIRECT_NAME"));
-				doctorDirect.setEmployeType(Employee.TYPE_DOCTOR);
+				doctorDirect.setEmployeeCode(rs.getString("DOCTOR_DIRECT_CODE"));
+				doctorDirect.setEmployeeName(rs.getString("DOCTOR_DIRECT_NAME"));
+				doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
 				drn.setDoctorDirect(doctorDirect);
 				drn.setDiagnosisDirect(Diagnosis
 						.getCollectionFromPersistentString(rs
@@ -418,8 +415,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 				drn.setDatePlanned(rs.getDate("DIRECTION_DATE_PLANNED"));
 				
 				Employee doctorPerformed = new Employee();
-				doctorPerformed.setEmployeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
-				doctorPerformed.setEmployeName(rs.getString("DOCTOR_PERFORMED_NAME"));
+				doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
+				doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
 				drn.setDoctorPerformed(doctorPerformed);
 				drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
 				drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));

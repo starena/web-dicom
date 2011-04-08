@@ -66,6 +66,7 @@ import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
@@ -104,6 +105,7 @@ public class StudyCard extends Composite {
 
 
 	private String datePattern = "dd.MM.yyyy";
+	DateTimeFormat dateFormat = DateTimeFormat.getFormat(datePattern);
 	StudyProxy proxy = null;
 	private Label labelPatientName;
 	private Label labelStudyDate;
@@ -504,9 +506,9 @@ public class StudyCard extends Composite {
 				vp.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 
 				Label lTitle = new Label(proxy.getPatientName() + " ["
-						+ proxy.getPatientBirthDateAsString(datePattern)
+						+ dateFormat.format(proxy.getPatientBirthDate())
 						+ "]" + " исследование от "
-						+ proxy.getStudyDateAsString(datePattern));
+						+ dateFormat.format(proxy.getStudyDate()));
 
 				lTitle.setStyleName("DicomItemValue");
 
@@ -580,7 +582,7 @@ public class StudyCard extends Composite {
 		
 
 		labelPatientName.setText(proxy.getPatientName() + " (" + sex + ") "
-				+ proxy.getPatientBirthDateAsString(datePattern) + " - "+result+ " ("+proxy.getStudyDateAsString(datePattern)+")"+
+				+ dateFormat.format(proxy.getPatientBirthDate()) + " - "+result+ " ("+  dateFormat.format(proxy.getStudyDate()) +")"+
 				(proxy.getStudyDateRemoved() !=null ? " удален " + proxy.getStudyDateRemoved() : ""));
 		
 		//Установка оповещения неописанного исследования
@@ -605,8 +607,8 @@ public class StudyCard extends Composite {
 		
 		if(!fullMode) return;
 		
-		labelStudyDate.setText(proxy.getStudyDateAsString(datePattern));
-		labelStudyViewProtocolDate.setText(proxy.getStudyViewprotocolDateAsString(datePattern));
+		labelStudyDate.setText(dateFormat.format(proxy.getStudyDate()));
+		labelStudyViewProtocolDate.setText(dateFormat.format(proxy.getStudyViewprotocolDate()));
 		labelPatientId.setText(proxy.getPatientId());
 		labelManufacturerModelName.setText(proxy.getManufacturerModelName());
 		labelStudyDoctor.setText(proxy.getStudyDoctor());
@@ -617,7 +619,7 @@ public class StudyCard extends Composite {
 		
 		String resultStr = "";
 		if(proxy.getStudyViewprotocolDate()!=null) {
-			resultStr = proxy.getStudyViewprotocolDateAsString("dd.MM.yyyy");  
+			resultStr = dateFormat.format(proxy.getStudyViewprotocolDate());  
 		}
 		resultStr += " , "+ result;
 		labelResult.setText(resultStr);
