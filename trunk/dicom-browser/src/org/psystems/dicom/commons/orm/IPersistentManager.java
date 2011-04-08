@@ -14,6 +14,14 @@ public interface IPersistentManager {
 	public long makePesistent(Serializable obj) throws DataException;
 
 	/**
+	 * Получение экземпляра сущности по его внутренему Id (PtudyId,PatientId,...)
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Serializable getObjectbyInternalID(String internalID) throws DataException;
+	
+	/**
 	 * Получение экземпляра сущности по id
 	 * 
 	 * @param id
