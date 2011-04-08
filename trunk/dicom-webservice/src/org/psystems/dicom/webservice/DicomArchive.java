@@ -73,6 +73,7 @@ import org.psystems.dicom.commons.orm.Diagnosis;
 import org.psystems.dicom.commons.orm.Employee;
 import org.psystems.dicom.commons.orm.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.Patient;
+import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.Service;
 import org.psystems.dicom.commons.orm.Study;
 import org.psystems.dicom.commons.orm.Direction;
@@ -451,85 +452,129 @@ public class DicomArchive {
 		// TODO Реализовать!!!
 	}
 
+	
 	/**
 	 * @param directionId
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Direction getDirectionByDirectionId(String directionId)
+	public Direction getDirectionByInternalId(String internalID)
 			throws DicomWebServiceException {
+		
+		
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
 
-		Direction drn = new Direction();
-		drn.setDateDirection(new Date());
 
-		ManufacturerDevice device = new ManufacturerDevice();
-		device.setManufacturerModelName("TestModel");
-		device.setManufacturerModelDescription("Тестовый аппарат");
-		device.setManufacturerModelType("ES");
-		device.setManufacturerModelTypeDescription("Эндоскоп");
-		drn.setDevice(device);
-
-		ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
-
-		Diagnosis dia = new Diagnosis();
-		dia.setDiagnosisCode("M01.1");
-		dia.setDiagnosisType(Diagnosis.TYPE_MAIN);// основной
-		dia.setDiagnosisDescription("Заболевание такое-то...");
-		dia.setDiagnosisSubType("Предварительный");
-		diagnosisDirect.add(dia);
-		
-		dia = new Diagnosis();
-		dia.setDiagnosisCode("K01.1");
-		dia.setDiagnosisType(Diagnosis.TYPE_ACCOMPANYING);// сопутствующий
-		dia.setDiagnosisDescription("Еще одно заболевание такое-то...");
-		dia.setDiagnosisSubType("Предварительный");
-		diagnosisDirect.add(dia);
-		
-		drn.setDiagnosisDirect(diagnosisDirect);
-
-		drn.setDirectionCode("Test code");
-		drn.setDirectionId("123456");
-		drn.setDirectionLocation("605");
-		
-		Employee doctorDirect = new Employee();
-		doctorDirect.setEmployeCode("123");
-		doctorDirect.setEmployeName("Врач Петров И.И.");
-		doctorDirect.setEmployeType(Employee.TYPE_DOCTOR);
-		drn.setDoctorDirect(doctorDirect);
-		
-		Patient patient = new Patient();
-		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-		
-		
+		Connection connection;
 		try {
-			patient.setPatientBirthDate(format.parse("01-03-1974"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			connection = UtilCommon.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			return (Direction) pm.getObjectbyInternalID(internalID);
+
+		} catch (SQLException e) {
+			logger.warn("Error get direction: " + e);
+			throw new DicomWebServiceException(e);
+		} catch (DataException e) {
+			logger.warn("Error get direction: " + e);
+			throw new DicomWebServiceException(e);
 		}
-		patient.setPatientId("123123");
-		patient.setPatientName("Иванов Иван Иванович");
-		patient.setPatientSex("M");
-		patient.setPatientShortName("ИВАИВ74");
-		drn.setPatient(patient);
+	}
 		
-		ArrayList<Service> servicesDirect = new ArrayList<Service>();
-		Service srv = new Service();
-		srv.setServiceCode("A.03.16.001.01");
-		srv.setServiceAlias("ЭГДС");
-		srv.setServiceDescription("Эзофагогастродуоденоскопия диагностическая");
-		servicesDirect.add(srv);
-		
-		srv = new Service();
-		srv.setServiceCode("A.02.12.002.02");
-		srv.setServiceAlias("СМАД");
-		srv.setServiceDescription("Суточное мониторирование артериального давления");
-		servicesDirect.add(srv);
-		
-		drn.setServicesDirect(servicesDirect);
+	/**
+	 * @param directionId
+	 * @return
+	 * @throws DicomWebServiceException
+	 */
+	public Direction getDirectionById(long id)
+			throws DicomWebServiceException {
 		
 		
-		return drn;
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+
+		Connection connection;
+		try {
+			connection = UtilCommon.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			return (Direction) pm.getObjectbyID(id);
+
+		} catch (SQLException e) {
+			logger.warn("Error get direction: " + e);
+			throw new DicomWebServiceException(e);
+		} catch (DataException e) {
+			logger.warn("Error get direction: " + e);
+			throw new DicomWebServiceException(e);
+		}
+
+//		Direction drn = new Direction();
+//		drn.setDateDirection(new Date());
+//
+//		ManufacturerDevice device = new ManufacturerDevice();
+//		device.setManufacturerModelName("TestModel");
+//		device.setManufacturerModelDescription("Тестовый аппарат");
+//		device.setManufacturerModelType("ES");
+//		device.setManufacturerModelTypeDescription("Эндоскоп");
+//		drn.setDevice(device);
+//
+//
+//		Diagnosis dia = new Diagnosis();
+//		dia.setDiagnosisCode("M01.1");
+//		dia.setDiagnosisType(Diagnosis.TYPE_MAIN);// основной
+//		dia.setDiagnosisDescription("Заболевание такое-то...");
+//		dia.setDiagnosisSubType("Предварительный");
+//		
+//		Diagnosis dia1 = new Diagnosis();
+//		dia1.setDiagnosisCode("K01.1");
+//		dia1.setDiagnosisType(Diagnosis.TYPE_ACCOMPANYING);// сопутствующий
+//		dia1.setDiagnosisDescription("Еще одно заболевание такое-то...");
+//		dia1.setDiagnosisSubType("Предварительный");
+//		
+//		drn.setDiagnosisDirect(new Diagnosis[] {dia,dia1});
+//
+//		drn.setDirectionCode("Test code");
+//		drn.setDirectionId("123456");
+//		drn.setDirectionLocation("605");
+//		
+//		Employee doctorDirect = new Employee();
+//		doctorDirect.setEmployeeCode("123");
+//		doctorDirect.setEmployeeName("Врач Петров И.И.");
+//		doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
+//		drn.setDoctorDirect(doctorDirect);
+//		
+//		Patient patient = new Patient();
+//		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+//		
+//		
+//		try {
+//			patient.setPatientBirthDate(format.parse("01-03-1974"));
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		patient.setPatientId("123123");
+//		patient.setPatientName("Иванов Иван Иванович");
+//		patient.setPatientSex("M");
+//		patient.setPatientShortName("ИВАИВ74");
+//		drn.setPatient(patient);
+//		
+//		Service srv = new Service();
+//		srv.setServiceCode("A.03.16.001.01");
+//		srv.setServiceAlias("ЭГДС");
+//		srv.setServiceDescription("Эзофагогастродуоденоскопия диагностическая");
+//		
+//		Service srv1 = new Service();
+//		srv1.setServiceCode("A.02.12.002.02");
+//		srv1.setServiceAlias("СМАД");
+//		srv1.setServiceDescription("Суточное мониторирование артериального давления");
+//		
+//		drn.setServicesDirect(new Service[] { srv,srv1});
+//		
+//		
+//		return drn;
 
 	}
 
