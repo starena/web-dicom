@@ -455,6 +455,15 @@ public class PersistentManagerDerby implements IPersistentManager {
 		}
 	}
 
+	
+
+	@Override
+	public Serializable getObjectbyInternalID(String internalID)
+			throws DataException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public Serializable getObjectbyUID(String uid)  throws DataException {
 		// TODO Auto-generated method stub
