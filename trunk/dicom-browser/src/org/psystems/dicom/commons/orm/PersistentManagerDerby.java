@@ -460,8 +460,76 @@ public class PersistentManagerDerby implements IPersistentManager {
 	@Override
 	public Serializable getObjectbyInternalID(String internalID)
 			throws DataException {
-		// TODO Auto-generated method stub
-		return null;
+
+		Direction drn = new Direction();
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = connection
+					.prepareStatement("SELECT * FROM WEBDICOM.DIRECTION WHERE DIRECTION_ID = ? ");
+			pstmt.setString(1, internalID);
+			ResultSet rs = pstmt.executeQuery();
+		
+			while (rs.next()) {
+				drn.setId(rs.getLong("ID"));
+				drn.setDirectionId(rs.getString("DIRECTION_ID"));
+				Employee doctorDirect = new Employee();
+				doctorDirect.setEmployeeCode(rs.getString("DOCTOR_DIRECT_CODE"));
+				doctorDirect.setEmployeeName(rs.getString("DOCTOR_DIRECT_NAME"));
+				doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
+				drn.setDoctorDirect(doctorDirect);
+				drn.setDiagnosisDirect(Diagnosis
+						.getCollectionFromPersistentString(rs
+								.getString("DIAGNOSIS_DIRECT")));
+				drn.setDateDirection(rs.getDate("DATE_DIRECTION"));
+				drn.setServicesDirect(Service
+						.getCollectionFromPersistentString(rs
+								.getString("SERVICES_DIRECTED")));
+				ManufacturerDevice dev = new ManufacturerDevice();
+				//TODO Остальные поля десериализовать?
+				dev.setManufacturerModelName(rs.getString("DEVICE"));
+				drn.setDevice(dev);
+				drn.setDatePlanned(rs.getDate("DIRECTION_DATE_PLANNED"));
+				
+				Employee doctorPerformed = new Employee();
+				doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
+				doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
+				drn.setDoctorPerformed(doctorPerformed);
+				drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
+				drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
+				
+				drn.setDiagnosisPerformed(Diagnosis
+						.getCollectionFromPersistentString(rs
+								.getString("DIAGNOSIS_PERFORMED")));
+				drn.setServicesPerformed(Service
+						.getCollectionFromPersistentString(rs
+								.getString("SERVICES_PERFORMED")));
+				drn.setDatePerformed(rs.getDate("DATE_PERFORMED"));
+				
+				Patient patient = new Patient();
+				patient.setPatientId(rs.getString("PATIENT_ID"));
+				patient.setPatientName(rs.getString("PATIENT_NAME"));
+				patient.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+				patient.setPatientSex(rs.getString("PATIENT_SEX"));
+				drn.setPatient(patient);
+				
+				drn.setDateModified(rs.getTimestamp("DATE_MODIFIED"));
+				drn.setDateRemoved(rs.getTimestamp("REMOVED"));
+				
+			}
+			return drn;
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (pstmt != null)
+					pstmt.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
 	}
 	
 	@Override
