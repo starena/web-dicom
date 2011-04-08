@@ -76,6 +76,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getDirectionByInternalId method
+            * override this method for handling normal response from getDirectionByInternalId operation
+            */
+           public void receiveResultgetDirectionByInternalId(
+                    org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByInternalIdResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getDirectionByInternalId operation
+           */
+            public void receiveErrorgetDirectionByInternalId(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getStudy method
             * override this method for handling normal response from getStudy operation
             */
@@ -139,6 +155,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getDirectionById method
+            * override this method for handling normal response from getDirectionById operation
+            */
+           public void receiveResultgetDirectionById(
+                    org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByIdResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getDirectionById operation
+           */
+            public void receiveErrorgetDirectionById(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for newStudy method
             * override this method for handling normal response from newStudy operation
             */
@@ -151,22 +183,6 @@
            * override this method for handling error response from newStudy operation
            */
             public void receiveErrornewStudy(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for getDirectionByDirectionId method
-            * override this method for handling normal response from getDirectionByDirectionId operation
-            */
-           public void receiveResultgetDirectionByDirectionId(
-                    org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByDirectionIdResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getDirectionByDirectionId operation
-           */
-            public void receiveErrorgetDirectionByDirectionId(java.lang.Exception e) {
             }
                 
 

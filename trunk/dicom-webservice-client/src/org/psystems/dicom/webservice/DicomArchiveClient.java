@@ -6,14 +6,18 @@ import java.util.ArrayList;
 
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
-import org.apache.axis2.description.AxisService;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.axis2.transport.http.HttpTransportProperties;
 import org.psystems.dicom.webservice.DicomArchiveStub.DicomTag;
+import org.psystems.dicom.webservice.DicomArchiveStub.Direction;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudies;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByType;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesByTypeResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.FindStudiesResponse;
+import org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionById;
+import org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByIdResponse;
+import org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByInternalId;
+import org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByInternalIdResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetManufacturersResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudy;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudyResponse;
@@ -41,7 +45,7 @@ public class DicomArchiveClient {
 					host = args[0];
 				}
 				System.out.println("host is "+host);
-				findStudiesByType(host);
+//				findStudiesByType(host);
 				
 				System.setProperty("javax.net.debug", "all");
 				
@@ -56,7 +60,9 @@ public class DicomArchiveClient {
 				System.setProperty("javax.net.ssl.trustStore", "client.jks");
 				System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
 				
-//				testGetDevices(host);
+				testGetDevices(host);
+				testGetdirectionById(host);
+				testGetdirectionByInternalId(host);
 //				testNewStudy(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
@@ -279,6 +285,60 @@ public class DicomArchiveClient {
 		return t;
 	}
 	
+	
+	private static void testGetdirectionByInternalId(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+		
+		
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
+		
+	    HttpTransportProperties.Authenticator basicAuth = new HttpTransportProperties.Authenticator();
+	    basicAuth.setUsername("dicomuser");
+	    basicAuth.setPassword("dicomtest");
+	    basicAuth.setPreemptiveAuthentication(true);
+	    
+	    GetDirectionByInternalId query = new GetDirectionByInternalId();
+	    query.setInternalID("0.9372958175669753");
+		GetDirectionByInternalIdResponse responce = stub.getDirectionByInternalId(query);
+		Direction direction = responce.get_return();
+	    
+		System.out.println("!!! direction="+direction.getPatient().getPatientName());
+		}
+	
+	private static void testGetdirectionById(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+		
+		
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
+		
+	    HttpTransportProperties.Authenticator basicAuth = new HttpTransportProperties.Authenticator();
+	    basicAuth.setUsername("dicomuser");
+	    basicAuth.setPassword("dicomtest");
+	    basicAuth.setPreemptiveAuthentication(true);
+	    
+	    GetDirectionById query = new GetDirectionById();
+	    query.setId(19);
+		GetDirectionByIdResponse responce = stub.getDirectionById(query);
+		Direction direction = responce.get_return();
+	    
+		System.out.println("!!! direction="+direction.getId());
+		
+//		GetDirectionByDirectionIdResponse responce = stub.getDirectionByDirectionId(directionId);
+//		Direction direction = responce.get_return();
+		
+	    
+//	    final Options clientOptions = stub._getServiceClient().getOptions();
+//	    clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
+//
+//		
+//		GetManufacturersResponse responce = stub.getManufacturers();
+//		ManufacturerDevice[] result = responce.get_return();
+//		for(int i=0; i<result.length; i++) {
+//			System.out.println("!!! ManufacturerDevice="+result[i].getManufacturerModelName()+
+//					"; "+result[i].getManufacturerModelType()+ "; "+result[i].getManufacturerModelDescription()+"; "+
+//					result[i].getManufacturerModelTypeDescription());
+//		}
+
+	
+	}
 
 //	private static void testNewStudy() throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
 //		DicomArchiveStub stub = new DicomArchiveStub();
