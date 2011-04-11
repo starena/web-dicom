@@ -1,12 +1,13 @@
 package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
 /**
- * @author dima_d Направление на исследование
+ * Направление на исследование
+ * 
+ * @author dima_d
  */
 public class Direction implements Serializable {
 
@@ -25,7 +26,8 @@ public class Direction implements Serializable {
 	private Employee doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
 	private String directionLocation;// Кабинет
-	private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения исследования
+	private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения
+	// исследования
 	private Service[] servicesPerformed;// Выполненные услуги
 	private Date datePerformed;// Дата выполнения исследования
 	private Patient patient; // Пациент
