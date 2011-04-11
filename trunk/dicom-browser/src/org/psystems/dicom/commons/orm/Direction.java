@@ -28,9 +28,9 @@ public class Direction implements Serializable {
 	private Diagnosis[] diagnosisPerformed;// Диагнозы при направлении
 	private Service[] servicesPerformed;// Выполненные услуги
 	private Date datePerformed;// Дата выполнения исследования
-	private Patient patient;
-	private Date dateModified;// Планируемая дата выполнения исследования
-	private Date dateRemoved;// Планируемая дата выполнения исследования
+	private Patient patient; // Пациент
+	private Date dateModified;// Дата модификации
+	private Date dateRemoved;// Дата удаления
 
 	public Long getId() {
 		return id;
