@@ -25,7 +25,7 @@ public class Direction implements Serializable {
 	private Employee doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
 	private String directionLocation;// Кабинет
-	private Diagnosis[] diagnosisPerformed;// Диагнозы при направлении
+	private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения исследования
 	private Service[] servicesPerformed;// Выполненные услуги
 	private Date datePerformed;// Дата выполнения исследования
 	private Patient patient; // Пациент
