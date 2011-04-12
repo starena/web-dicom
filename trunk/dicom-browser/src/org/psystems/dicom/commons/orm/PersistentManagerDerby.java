@@ -9,10 +9,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class PersistentManagerDerby implements IPersistentManager {
 
 	private Connection connection;
+	SimpleDateFormat formatSQL = new SimpleDateFormat("yyyy-MM-dd");
 
 	/**
 	 * @param connection
@@ -48,7 +50,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 		PreparedStatement pstmt = null;
 		String sql = null;
-		SimpleDateFormat formatSQL = new SimpleDateFormat("yyyy-MM-dd");
 		
 		long resultId = 0;
 
@@ -377,6 +378,61 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 	}
 
+	
+	/**
+	 * Получение экземпляра исследования из Record Set
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
+	private Direction getDirectionFromRs(ResultSet rs) throws SQLException {
+		Direction drn = new Direction();
+		drn.setId(rs.getLong("ID"));
+		drn.setDirectionId(rs.getString("DIRECTION_ID"));
+		Employee doctorDirect = new Employee();
+		doctorDirect.setEmployeeCode(rs.getString("DOCTOR_DIRECT_CODE"));
+		doctorDirect.setEmployeeName(rs.getString("DOCTOR_DIRECT_NAME"));
+		doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
+		drn.setDoctorDirect(doctorDirect);
+		drn.setDiagnosisDirect(Diagnosis.getCollectionFromPersistentString(rs
+				.getString("DIAGNOSIS_DIRECT")));
+		drn.setDateDirection(rs.getDate("DATE_DIRECTION"));
+		drn.setServicesDirect(Service.getCollectionFromPersistentString(rs
+				.getString("SERVICES_DIRECTED")));
+		ManufacturerDevice dev = new ManufacturerDevice();
+		// TODO Остальные поля десериализовать?
+		dev.setManufacturerModelName(rs.getString("DEVICE"));
+		drn.setDevice(dev);
+		drn.setDatePlanned(rs.getDate("DIRECTION_DATE_PLANNED"));
+
+		Employee doctorPerformed = new Employee();
+		doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
+		doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
+		drn.setDoctorPerformed(doctorPerformed);
+		drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
+		drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
+
+		drn.setDiagnosisPerformed(Diagnosis
+				.getCollectionFromPersistentString(rs
+						.getString("DIAGNOSIS_PERFORMED")));
+		drn.setServicesPerformed(Service.getCollectionFromPersistentString(rs
+				.getString("SERVICES_PERFORMED")));
+		drn.setDatePerformed(rs.getDate("DATE_PERFORMED"));
+
+		Patient patient = new Patient();
+		patient.setPatientId(rs.getString("PATIENT_ID"));
+		patient.setPatientName(rs.getString("PATIENT_NAME"));
+		patient.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+		patient.setPatientSex(rs.getString("PATIENT_SEX"));
+		drn.setPatient(patient);
+
+		drn.setDateModified(rs.getTimestamp("DATE_MODIFIED"));
+		drn.setDateRemoved(rs.getTimestamp("REMOVED"));
+
+		return drn;
+	}
+	
+	
 	@Override
 	public Serializable getObjectbyID(Long id) throws DataException {
 		
@@ -389,56 +445,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 			pstmt.setLong(1, id);
 			ResultSet rs = pstmt.executeQuery();
 
-			// !!1 TODO Сделать десериализацию. и юниттест сделать. !!!
-			// !!!
-			// TODO Сделать в архиве связку исследования с направлением через
-			// Foreign key
 			while (rs.next()) {
-				drn.setId(rs.getLong("ID"));
-				drn.setDirectionId(rs.getString("DIRECTION_ID"));
-				Employee doctorDirect = new Employee();
-				doctorDirect.setEmployeeCode(rs.getString("DOCTOR_DIRECT_CODE"));
-				doctorDirect.setEmployeeName(rs.getString("DOCTOR_DIRECT_NAME"));
-				doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
-				drn.setDoctorDirect(doctorDirect);
-				drn.setDiagnosisDirect(Diagnosis
-						.getCollectionFromPersistentString(rs
-								.getString("DIAGNOSIS_DIRECT")));
-				drn.setDateDirection(rs.getDate("DATE_DIRECTION"));
-				drn.setServicesDirect(Service
-						.getCollectionFromPersistentString(rs
-								.getString("SERVICES_DIRECTED")));
-				ManufacturerDevice dev = new ManufacturerDevice();
-				//TODO Остальные поля десериализовать?
-				dev.setManufacturerModelName(rs.getString("DEVICE"));
-				drn.setDevice(dev);
-				drn.setDatePlanned(rs.getDate("DIRECTION_DATE_PLANNED"));
-				
-				Employee doctorPerformed = new Employee();
-				doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
-				doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
-				drn.setDoctorPerformed(doctorPerformed);
-				drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
-				drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
-				
-				drn.setDiagnosisPerformed(Diagnosis
-						.getCollectionFromPersistentString(rs
-								.getString("DIAGNOSIS_PERFORMED")));
-				drn.setServicesPerformed(Service
-						.getCollectionFromPersistentString(rs
-								.getString("SERVICES_PERFORMED")));
-				drn.setDatePerformed(rs.getDate("DATE_PERFORMED"));
-				
-				Patient patient = new Patient();
-				patient.setPatientId(rs.getString("PATIENT_ID"));
-				patient.setPatientName(rs.getString("PATIENT_NAME"));
-				patient.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
-				patient.setPatientSex(rs.getString("PATIENT_SEX"));
-				drn.setPatient(patient);
-				
-				drn.setDateModified(rs.getTimestamp("DATE_MODIFIED"));
-				drn.setDateRemoved(rs.getTimestamp("REMOVED"));
-				
+				drn = getDirectionFromRs(rs);
 			}
 			return drn;
 		} catch (SQLException e) {
@@ -471,51 +479,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 			ResultSet rs = pstmt.executeQuery();
 		
 			while (rs.next()) {
-				drn.setId(rs.getLong("ID"));
-				drn.setDirectionId(rs.getString("DIRECTION_ID"));
-				Employee doctorDirect = new Employee();
-				doctorDirect.setEmployeeCode(rs.getString("DOCTOR_DIRECT_CODE"));
-				doctorDirect.setEmployeeName(rs.getString("DOCTOR_DIRECT_NAME"));
-				doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
-				drn.setDoctorDirect(doctorDirect);
-				drn.setDiagnosisDirect(Diagnosis
-						.getCollectionFromPersistentString(rs
-								.getString("DIAGNOSIS_DIRECT")));
-				drn.setDateDirection(rs.getDate("DATE_DIRECTION"));
-				drn.setServicesDirect(Service
-						.getCollectionFromPersistentString(rs
-								.getString("SERVICES_DIRECTED")));
-				ManufacturerDevice dev = new ManufacturerDevice();
-				//TODO Остальные поля десериализовать?
-				dev.setManufacturerModelName(rs.getString("DEVICE"));
-				drn.setDevice(dev);
-				drn.setDatePlanned(rs.getDate("DIRECTION_DATE_PLANNED"));
-				
-				Employee doctorPerformed = new Employee();
-				doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
-				doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
-				drn.setDoctorPerformed(doctorPerformed);
-				drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
-				drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
-				
-				drn.setDiagnosisPerformed(Diagnosis
-						.getCollectionFromPersistentString(rs
-								.getString("DIAGNOSIS_PERFORMED")));
-				drn.setServicesPerformed(Service
-						.getCollectionFromPersistentString(rs
-								.getString("SERVICES_PERFORMED")));
-				drn.setDatePerformed(rs.getDate("DATE_PERFORMED"));
-				
-				Patient patient = new Patient();
-				patient.setPatientId(rs.getString("PATIENT_ID"));
-				patient.setPatientName(rs.getString("PATIENT_NAME"));
-				patient.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
-				patient.setPatientSex(rs.getString("PATIENT_SEX"));
-				drn.setPatient(patient);
-				
-				drn.setDateModified(rs.getTimestamp("DATE_MODIFIED"));
-				drn.setDateRemoved(rs.getTimestamp("REMOVED"));
-				
+				drn = getDirectionFromRs(rs);
 			}
 			return drn;
 		} catch (SQLException e) {
@@ -538,4 +502,103 @@ public class PersistentManagerDerby implements IPersistentManager {
 		return null;
 	}
 
+	@Override
+	public ArrayList<Direction> queryDirections(QueryDirection request)
+			throws DataException {
+
+		ArrayList<Direction> result = new ArrayList<Direction>();
+		PreparedStatement pstmt = null;
+		String sql = "SELECT * FROM WEBDICOM.DIRECTION WHERE ";
+
+		try {
+
+			// Разбор полей
+
+			int counterArguments = 0;
+			if (request.getId() != null) {
+				if (counterArguments++ == 0)
+					sql += " AND ";
+				sql += " ID = ? ";
+			}
+			if (request.getDirectionId() != null) {
+				if (counterArguments++ == 0)
+					sql += " AND ";
+				sql += " DIRECTION_ID = ? ";
+			}
+			if (request.getDateDirectionAsString() != null) {
+				if (counterArguments++ == 0)
+					sql += " AND ";
+				sql += " DATE_DIRECTION = ? ";
+			}
+			if (request.getPatientBirthDate() != null) {
+				if (counterArguments++ == 0)
+					sql += " AND ";
+				sql += " PATIENT_BIRTH_DATE = ? ";
+			}
+			if (request.getPatientId() != null) {
+				if (counterArguments++ == 0)
+					sql += " AND ";
+				sql += " PATIENT_ID = ? ";
+			}
+			if (request.getPatientName() != null) {
+				if (counterArguments++ == 0)
+					sql += " AND ";
+				sql += " PATIENT_NAME = ? ";
+			}
+			if (request.getPatientSex() != null) {
+				if (counterArguments++ == 0)
+					sql += " AND ";
+				sql += " PATIENT_SEX = ? ";
+			}
+			
+			pstmt = connection.prepareStatement(sql);
+			counterArguments = 1;
+			
+			if (request.getId() != null) {
+				pstmt.setLong(counterArguments++, request.getId());
+			}
+			if (request.getDirectionId() != null) {
+				pstmt.setString(counterArguments++, request.getDirectionId());
+			}
+			if (request.getDateDirectionAsString() != null) {
+				pstmt.setDate(counterArguments++,
+						java.sql.Date.valueOf(request.getDateDirectionAsString()));
+			}
+			if (request.getPatientBirthDate() != null) {
+				pstmt.setDate(counterArguments++,
+						java.sql.Date.valueOf(request.getPatientBirthDate()));
+			}
+			if (request.getPatientId() != null) {
+				pstmt.setString(counterArguments++, request.getPatientId());
+			}
+			if (request.getPatientName() != null) {
+				pstmt.setString(counterArguments++, request.getPatientName());
+			}
+			if (request.getPatientSex() != null) {
+				pstmt.setString(counterArguments++, request.getPatientSex());
+			}
+			
+			// pstmt.setString(1, internalID);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				result.add(getDirectionFromRs(rs));
+			}
+			return result;
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (pstmt != null)
+					pstmt.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+
+	}
+	
+	
 }
