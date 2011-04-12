@@ -1,6 +1,7 @@
 package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public interface IPersistentManager {
 
@@ -14,13 +15,15 @@ public interface IPersistentManager {
 	public long makePesistent(Serializable obj) throws DataException;
 
 	/**
-	 * Получение экземпляра сущности по его внутренему Id (PtudyId,PatientId,...)
+	 * Получение экземпляра сущности по его внутренему Id
+	 * (PtudyId,PatientId,...)
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public Serializable getObjectbyInternalID(String internalID) throws DataException;
-	
+	public Serializable getObjectbyInternalID(String internalID)
+			throws DataException;
+
 	/**
 	 * Получение экземпляра сущности по id
 	 * 
@@ -36,4 +39,15 @@ public interface IPersistentManager {
 	 * @return
 	 */
 	public Serializable getObjectbyUID(String uid) throws DataException;
+
+
+	/**
+	 * Получение коллекции направлений
+	 * 
+	 * @param request
+	 * @return
+	 * @throws DataException
+	 */
+	public ArrayList<Direction> queryDirections(QueryDirection request)
+			throws DataException;
 }
