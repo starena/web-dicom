@@ -1,6 +1,7 @@
 package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -20,6 +21,9 @@ public class Patient implements Serializable {
 	private String patientShortName; // КБП пациента
 	private String patientSex; // Пол пациента (M/F)
 	private Date patientBirthDate; // Дата рождения пациента
+	
+	public static SimpleDateFormat formatSQL = new SimpleDateFormat(
+	"yyyy-MM-dd");
 
 	public String getPatientId() {
 		return patientId;
@@ -52,6 +56,16 @@ public class Patient implements Serializable {
 	public void setPatientSex(String patientSex) {
 		this.patientSex = patientSex;
 	}
+
+	public String getPatientBirthDateAsString() {
+		return formatSQL.format(patientBirthDate);
+	}
+
+	public void setPatientBirthDateAsString(String date) {
+		this.patientBirthDate = java.sql.Date.valueOf(date);
+	}
+	
+	
 
 	public Date getPatientBirthDate() {
 		return patientBirthDate;
