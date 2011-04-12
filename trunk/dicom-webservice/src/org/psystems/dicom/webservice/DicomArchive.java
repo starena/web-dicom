@@ -59,6 +59,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 
@@ -74,6 +75,7 @@ import org.psystems.dicom.commons.orm.Employee;
 import org.psystems.dicom.commons.orm.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.Patient;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
+import org.psystems.dicom.commons.orm.QueryDirection;
 import org.psystems.dicom.commons.orm.Service;
 import org.psystems.dicom.commons.orm.Study;
 import org.psystems.dicom.commons.orm.Direction;
@@ -434,22 +436,54 @@ public class DicomArchive {
 	 *            Аппарат
 	 * @param datePlanned
 	 *            Планируемая дата выполнения исследования (YYYY-MM-DD)
-	 * @param dirrectionCode
+	 * @param directionCode
 	 *            Идентификатор случая заболевания
-	 * @param dirrectionRoom
+	 * @param directionLocation
 	 *            Кабинет
 	 * @param patient
 	 *            Пациент
 	 * @throws DicomWebServiceException
 	 */
-	public void makeDirection(String directionId, Employee doctorDirect,
-			ArrayList<Diagnosis> diagnosisDirect,
-			ArrayList<Service> servicesDirect, String dateDirection,
+	public long makeDirection(String directionId, Employee doctorDirect,
+			Diagnosis[] diagnosisDirect,
+			Service[] servicesDirect, String dateDirection,
 			ManufacturerDevice device, String datePlanned,
-			String dirrectionCode, String dirrectionRoom, Patient patient)
+			String directionCode, String directionLocation, Patient patient)
 			throws DicomWebServiceException {
 
-		// TODO Реализовать!!!
+		ServletContext servletContext = (ServletContext) MessageContext
+		.getCurrentMessageContext().getProperty(
+				HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+		Connection connection;
+		try {
+			connection = UtilCommon.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			Direction drn = new Direction();
+			drn.setDirectionId(directionId);
+			drn.setDoctorDirect(doctorDirect);
+			drn.setDiagnosisDirect(diagnosisDirect);
+			drn.setServicesDirect(servicesDirect);
+			drn.setDateDirection(Utils.formatSQL.parse(dateDirection));
+			drn.setDevice(device);
+			drn.setDatePlanned(Utils.formatSQL.parse(datePlanned));
+			drn.setDirectionCode(directionCode);
+			drn.setDirectionLocation(directionLocation);
+			drn.setPatient(patient);
+
+			return pm.makePesistent(drn);
+			// return (Direction) pm.getObjectbyInternalID(internalID);
+
+		} catch (SQLException e) {
+			logger.warn("Error make direction: " + e);
+			throw new DicomWebServiceException(e);
+		} catch (DataException e) {
+			logger.warn("Error make direction: " + e);
+			throw new DicomWebServiceException(e);
+		} catch (ParseException e) {
+			logger.warn("Error make direction: " + e);
+			throw new DicomWebServiceException(e);
+		}
 	}
 
 	
@@ -472,6 +506,29 @@ public class DicomArchive {
 			connection = UtilCommon.getConnection(servletContext);
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 			return (Direction) pm.getObjectbyInternalID(internalID);
+
+		} catch (SQLException e) {
+			logger.warn("Error get direction: " + e);
+			throw new DicomWebServiceException(e);
+		} catch (DataException e) {
+			logger.warn("Error get direction: " + e);
+			throw new DicomWebServiceException(e);
+		}
+	}
+	
+	public Direction[] queryDirection(QueryDirection query)
+			throws DicomWebServiceException {
+
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+		Connection connection;
+		try {
+			connection = UtilCommon.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			ArrayList<Direction> directions = pm.queryDirections(query);
+			return directions.toArray(new Direction[directions.size()]);
 
 		} catch (SQLException e) {
 			logger.warn("Error get direction: " + e);
