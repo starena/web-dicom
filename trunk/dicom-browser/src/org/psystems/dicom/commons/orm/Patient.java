@@ -19,7 +19,7 @@ public class Patient implements Serializable {
 	private String patientName; // ФИО пациента
 	private String patientShortName; // КБП пациента
 	private String patientSex; // Пол пациента (M/F)
-	private Date patientBirthDate; // Дата рождения пациента (0016,0048) DA
+	private Date patientBirthDate; // Дата рождения пациента
 
 	public String getPatientId() {
 		return patientId;
