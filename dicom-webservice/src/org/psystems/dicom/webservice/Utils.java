@@ -6,10 +6,10 @@ import java.util.Date;
 
 public class Utils {
 
-	private static String dateFormatSQL = "yyyy-MM-dd";
-	private static SimpleDateFormat formatSQL = new SimpleDateFormat(dateFormatSQL);
-	private static String dateFormatDicom = "yyyyMMdd";
-	private static SimpleDateFormat formatDicom = new SimpleDateFormat(dateFormatDicom);
+	public final static String dateFormatSQL = "yyyy-MM-dd";
+	public final  static SimpleDateFormat formatSQL = new SimpleDateFormat(dateFormatSQL);
+	public final  static String dateFormatDicom = "yyyyMMdd";
+	public final  static SimpleDateFormat formatDicom = new SimpleDateFormat(dateFormatDicom);
 	
 	/**
 	 * Конвертация даты из формата YYYY-MM-DD в форма YYYYMMDD
