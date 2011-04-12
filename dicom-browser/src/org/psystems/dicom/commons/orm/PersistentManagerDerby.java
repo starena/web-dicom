@@ -170,10 +170,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(19, java.sql.Types.VARCHAR);
 				}
 				
-				if (drn.getPatient() != null && drn.getPatient().getPatientBirthDate() != null) {
+				if (drn.getPatient() != null && drn.getPatient().getPatientBirthDateAsString() != null) {
 					pstmt.setDate(18, java.sql.Date
-							.valueOf(formatSQL.format(drn.getPatient()
-									.getPatientBirthDate())));
+							.valueOf(drn.getPatient().getPatientBirthDateAsString()));
 				} else {
 					pstmt.setNull(18, java.sql.Types.DATE);
 				}
@@ -331,9 +330,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 				}
 
 				if (drn.getPatient() != null
-						&& drn.getPatient().getPatientBirthDate() != null) {
-					pstmt.setDate(18, java.sql.Date.valueOf(formatSQL
-							.format(drn.getPatient().getPatientBirthDate())));
+						&& drn.getPatient().getPatientBirthDateAsString() != null) {
+					pstmt.setDate(18, java.sql.Date.valueOf(drn.getPatient().getPatientBirthDateAsString()));
 				} else {
 					pstmt.setNull(18, java.sql.Types.DATE);
 				}
@@ -422,7 +420,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 		Patient patient = new Patient();
 		patient.setPatientId(rs.getString("PATIENT_ID"));
 		patient.setPatientName(rs.getString("PATIENT_NAME"));
-		patient.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+		//TODO проверить, корректно ли возвращается дата !!!
+		patient.setPatientBirthDateAsString(rs.getString("PATIENT_BIRTH_DATE"));
 		patient.setPatientSex(rs.getString("PATIENT_SEX"));
 		drn.setPatient(patient);
 

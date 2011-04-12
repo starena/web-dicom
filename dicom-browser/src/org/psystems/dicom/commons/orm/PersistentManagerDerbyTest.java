@@ -78,14 +78,10 @@ public class PersistentManagerDerbyTest extends TestCase {
 			drn.setDoctorDirect(doctorDirect);
 
 			Patient patient = new Patient();
-			SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+			
 
-			try {
-				patient.setPatientBirthDate(format.parse("01-03-1974"));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			patient.setPatientBirthDateAsString("1974-03-01");
+			
 			patient.setPatientId("123123");
 			patient.setPatientName("Иванов Иван Иванович");
 			patient.setPatientSex("M");
