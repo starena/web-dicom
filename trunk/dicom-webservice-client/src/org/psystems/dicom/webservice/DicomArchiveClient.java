@@ -21,9 +21,12 @@ import org.psystems.dicom.webservice.DicomArchiveStub.GetDirectionByInternalIdRe
 import org.psystems.dicom.webservice.DicomArchiveStub.GetManufacturersResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudy;
 import org.psystems.dicom.webservice.DicomArchiveStub.GetStudyResponse;
+import org.psystems.dicom.webservice.DicomArchiveStub.MakeDirection;
+import org.psystems.dicom.webservice.DicomArchiveStub.MakeDirectionResponse;
 import org.psystems.dicom.webservice.DicomArchiveStub.ManufacturerDevice;
 import org.psystems.dicom.webservice.DicomArchiveStub.NewStudy;
 import org.psystems.dicom.webservice.DicomArchiveStub.NewStudyUniversal;
+import org.psystems.dicom.webservice.DicomArchiveStub.Patient;
 import org.psystems.dicom.webservice.DicomArchiveStub.Study;
 
 
@@ -60,9 +63,10 @@ public class DicomArchiveClient {
 				System.setProperty("javax.net.ssl.trustStore", "client.jks");
 				System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
 				
-				testGetDevices(host);
-				testGetdirectionById(host);
-				testGetdirectionByInternalId(host);
+				makeDirection(host);
+//				testGetDevices(host);
+//				testGetdirectionById(host);
+//				testGetdirectionByInternalId(host);
 //				testNewStudy(host);
 			} catch (DicomWebServiceExceptionException0 e) {
 				// TODO Auto-generated catch block
@@ -208,6 +212,36 @@ public class DicomArchiveClient {
 	
 	}
 	
+	private static void makeDirection(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
+		
+		
+		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
+		
+	    HttpTransportProperties.Authenticator basicAuth = new HttpTransportProperties.Authenticator();
+	    basicAuth.setUsername("dicomuser");
+	    basicAuth.setPassword("dicomtest");
+	    basicAuth.setPreemptiveAuthentication(true);
+	    final Options clientOptions = stub._getServiceClient().getOptions();
+	    clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
+
+		
+	    MakeDirection query = new MakeDirection();
+	    Patient patient = new Patient();
+	    patient.setPatientName("Деренок");
+	    patient.setPatientId("12345");
+	    patient.setPatientSex("M");
+//	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    
+	    patient.setPatientBirthDateAsString("1974-03-01");
+		query.setPatient(patient );
+		MakeDirectionResponse responce = stub.makeDirection(query);
+		long id = responce.get_return();
+		System.out.println(" makeDirection id="+id);
+	    
+	    
+			
+	}
+	
 	private static void testNewStudyUniversal(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {
 		DicomArchiveStub stub = new DicomArchiveStub(host+"/services/DicomArchive" );
 		NewStudyUniversal query = new NewStudyUniversal();
@@ -301,7 +335,7 @@ public class DicomArchiveClient {
 		GetDirectionByInternalIdResponse responce = stub.getDirectionByInternalId(query);
 		Direction direction = responce.get_return();
 	    
-		System.out.println("!!! direction="+direction.getPatient().getPatientName());
+		System.out.println("!!! direction="+direction.getPatient());
 		}
 	
 	private static void testGetdirectionById(String host) throws AxisFault, RemoteException, DicomWebServiceExceptionException0 {

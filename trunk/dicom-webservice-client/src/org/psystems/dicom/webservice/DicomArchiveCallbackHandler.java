@@ -49,7 +49,8 @@
             * override this method for handling normal response from makeDirection operation
             */
            public void receiveResultmakeDirection(
-                    ) {
+                    org.psystems.dicom.webservice.DicomArchiveStub.MakeDirectionResponse result
+                        ) {
            }
 
           /**
@@ -121,6 +122,22 @@
            * override this method for handling error response from findStudies operation
            */
             public void receiveErrorfindStudies(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for queryDirection method
+            * override this method for handling normal response from queryDirection operation
+            */
+           public void receiveResultqueryDirection(
+                    org.psystems.dicom.webservice.DicomArchiveStub.QueryDirectionResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from queryDirection operation
+           */
+            public void receiveErrorqueryDirection(java.lang.Exception e) {
             }
                 
            /**
