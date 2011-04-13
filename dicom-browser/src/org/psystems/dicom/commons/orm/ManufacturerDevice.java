@@ -34,7 +34,7 @@ public class ManufacturerDevice implements Serializable {
 	 * TODO !!! Реализовать!!!
 	 * @return
 	 */
-	public static ArrayList<ManufacturerDevice> getAllManufacturerDevices () {
+	public static ManufacturerDevice[] getAllManufacturerDevices () {
 		
 		//TODO Взять из БД!!!
 		ManufacturerDevice device = new ManufacturerDevice();
@@ -45,7 +45,7 @@ public class ManufacturerDevice implements Serializable {
 		
 		ArrayList<ManufacturerDevice> result = new ArrayList<ManufacturerDevice>();
 		result.add(device);
-		return result;
+		return result.toArray(new ManufacturerDevice[result.size()]);
 	}
 
 	public String getManufacturerModelName() {
