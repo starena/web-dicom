@@ -251,10 +251,11 @@ public class DicomArchive {
 	 * @return
 	 */
 	public ManufacturerDevice[] getManufacturers() {
-		ArrayList<ManufacturerDevice> devices = ManufacturerDevice
-				.getAllManufacturerDevices();
-		ManufacturerDevice[] result = new ManufacturerDevice[devices.size()];
-		return devices.toArray(result);
+		return null;
+//		ArrayList<ManufacturerDevice> devices = ManufacturerDevice
+//				.getAllManufacturerDevices();
+//		ManufacturerDevice[] result = new ManufacturerDevice[devices.size()];
+//		return devices.toArray(result);
 	}
 
 	/**
@@ -444,11 +445,11 @@ public class DicomArchive {
 	 *            Пациент
 	 * @throws DicomWebServiceException
 	 */
-	public long makeDirection(String directionId, Employee doctorDirect,
-			Diagnosis[] diagnosisDirect,
-			Service[] servicesDirect, String dateDirection,
-			ManufacturerDevice device, String datePlanned,
-			String directionCode, String directionLocation, Patient patient)
+	public long makeDirection(String directionId, String doctorDirectStruct,
+			String diagnosisDirectStructList,
+			String servicesDirectStructList, String dateDirection,
+			String manufacturerModelName, String datePlanned,
+			String directionCode, String directionLocation, String patientStruct)
 			throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) MessageContext
@@ -457,22 +458,40 @@ public class DicomArchive {
 
 		Connection connection;
 		try {
+			
 			connection = UtilCommon.getConnection(servletContext);
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 			Direction drn = new Direction();
 			drn.setDirectionId(directionId);
-			drn.setDoctorDirect(doctorDirect);
-			drn.setDiagnosisDirect(diagnosisDirect);
-			drn.setServicesDirect(servicesDirect);
-			drn.setDateDirection(Utils.formatSQL.parse(dateDirection));
+			drn.setDoctorDirect(Employee.getFromPersistentString(doctorDirectStruct));
+			if(diagnosisDirectStructList!=null)
+				drn.setDiagnosisDirect(Diagnosis.getCollectionFromPersistentString(diagnosisDirectStructList));
+			if(servicesDirectStructList!=null)
+				drn.setServicesDirect(Service.getCollectionFromPersistentString(servicesDirectStructList));
+			if (dateDirection != null)
+				drn.setDateDirection(dateDirection);
+			
+			ManufacturerDevice device = new ManufacturerDevice();
+			device.setManufacturerModelName(manufacturerModelName);
 			drn.setDevice(device);
-			drn.setDatePlanned(Utils.formatSQL.parse(datePlanned));
+			if (datePlanned != null)
+				drn.setDatePlanned(datePlanned);
 			drn.setDirectionCode(directionCode);
 			drn.setDirectionLocation(directionLocation);
+			
+			
+			
+			System.out.println("!!!!! patientStruct="+patientStruct);
+			System.out.println("!!!!! datePlanned="+datePlanned);
+			Patient patient = Patient.getFromPersistentString(patientStruct);
+			
 			drn.setPatient(patient);
+			
+			System.out.println("!!!! patient = " + patient);
+			
+//			return -1;
 
 			return pm.makePesistent(drn);
-			// return (Direction) pm.getObjectbyInternalID(internalID);
 
 		} catch (SQLException e) {
 			logger.warn("Error make direction: " + e);
@@ -480,7 +499,8 @@ public class DicomArchive {
 		} catch (DataException e) {
 			logger.warn("Error make direction: " + e);
 			throw new DicomWebServiceException(e);
-		} catch (ParseException e) {
+		} 
+		 catch (Exception e) {
 			logger.warn("Error make direction: " + e);
 			throw new DicomWebServiceException(e);
 		}
