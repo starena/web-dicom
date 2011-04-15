@@ -105,8 +105,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(4, java.sql.Types.VARCHAR);
 
 				if (drn.getDateDirection() != null)
-					pstmt.setDate(5, java.sql.Date.valueOf(formatSQL.format(drn
-							.getDateDirection())));
+					pstmt.setDate(5, java.sql.Date.valueOf(drn
+							.getDateDirection()));
 				else
 					pstmt.setNull(5, java.sql.Types.DATE);
 
@@ -124,8 +124,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(7, java.sql.Types.VARCHAR);
 
 				if (drn.getDatePlanned() != null)
-					pstmt.setDate(8, java.sql.Date.valueOf(formatSQL.format(drn
-							.getDatePlanned())));
+					pstmt.setDate(8, java.sql.Date.valueOf(drn
+							.getDatePlanned()));
 				else
 					pstmt.setNull(8, java.sql.Types.DATE);
 
@@ -157,8 +157,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(14, java.sql.Types.VARCHAR);
 
 				if (drn.getDatePerformed() != null)
-					pstmt.setDate(15, java.sql.Date.valueOf(formatSQL
-							.format(drn.getDatePerformed())));
+					pstmt.setDate(15, java.sql.Date.valueOf(drn.getDatePerformed()));
 				else
 					pstmt.setNull(15, java.sql.Types.DATE);
 
@@ -186,8 +185,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 				//TODO проверить, нужно ли делать TIMESTAMP
 				if (drn.getDateRemoved() != null)
-					pstmt.setTimestamp(21, new Timestamp(java.sql.Date.valueOf(formatSQL
-							.format(drn.getDateRemoved())).getTime()));
+					pstmt.setTimestamp(21, new Timestamp(java.sql.Date.valueOf(drn.getDateRemoved()).getTime()));
 				else 
 					pstmt.setNull(21, java.sql.Types.TIMESTAMP);
 				
@@ -264,8 +262,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(4, java.sql.Types.VARCHAR);
 
 				if (drn.getDateDirection() != null)
-					pstmt.setDate(5, java.sql.Date.valueOf(formatSQL.format(drn
-							.getDateDirection())));
+					pstmt.setDate(5, java.sql.Date.valueOf(drn
+							.getDateDirection()));
 				else
 					pstmt.setNull(5, java.sql.Types.DATE);
 
@@ -283,8 +281,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(7, java.sql.Types.VARCHAR);
 
 				if (drn.getDatePlanned() != null)
-					pstmt.setDate(8, java.sql.Date.valueOf(formatSQL.format(drn
-							.getDatePlanned())));
+					pstmt.setDate(8, java.sql.Date.valueOf(drn
+							.getDatePlanned()));
 				else
 					pstmt.setNull(8, java.sql.Types.DATE);
 
@@ -316,8 +314,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(14, java.sql.Types.VARCHAR);
 
 				if (drn.getDatePerformed() != null)
-					pstmt.setDate(15, java.sql.Date.valueOf(formatSQL
-							.format(drn.getDatePerformed())));
+					pstmt.setDate(15, java.sql.Date.valueOf(drn.getDatePerformed()));
 				else
 					pstmt.setNull(15, java.sql.Types.DATE);
 
@@ -346,8 +343,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 				// TODO проверить, нужно ли делать TIMESTAMP
 				if (drn.getDateRemoved() != null)
-					pstmt.setTimestamp(21, new Timestamp(java.sql.Date.valueOf(
-							formatSQL.format(drn.getDateRemoved())).getTime()));
+					pstmt.setTimestamp(21, new Timestamp(java.sql.Date.valueOf(drn.getDateRemoved()).getTime()));
 				else
 					pstmt.setNull(21, java.sql.Types.TIMESTAMP);
 				
@@ -396,7 +392,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 		drn.setDoctorDirect(doctorDirect);
 		drn.setDiagnosisDirect(Diagnosis.getCollectionFromPersistentString(rs
 				.getString("DIAGNOSIS_DIRECT")));
-		drn.setDateDirection(rs.getDate("DATE_DIRECTION"));
+		
+		drn.setDateDirection(UtilCommon.utilDateToSQLDateString(rs.getDate("DATE_DIRECTION")));
 		drn.setServicesDirect(Service.getCollectionFromPersistentString(rs
 				.getString("SERVICES_DIRECTED")));
 		ManufacturerDevice dev = new ManufacturerDevice();
