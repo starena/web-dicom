@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
@@ -12,7 +12,6 @@ import javax.servlet.ServletContext;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
-import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.commons.orm.DataException;
 import org.psystems.dicom.commons.orm.Diagnosis;
 import org.psystems.dicom.commons.orm.Direction;
@@ -21,11 +20,28 @@ import org.psystems.dicom.commons.orm.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.Patient;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
+import org.psystems.dicom.commons.orm.QueryDirection;
 import org.psystems.dicom.commons.orm.Service;
 
 public class WebDicom {
 
 	private static Logger logger = Logger.getLogger(WebDicom.class);
+
+	private void throwPortalException(String msg, Throwable e)
+			throws DicomWebServiceException {
+		String marker = Thread.currentThread().getId() + "_"
+				+ new Date().getTime();
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		String stack = sw.toString();
+		logger.warn("WEBSERVICE ERROR [" + marker + "] " + msg + " " + e
+				+ " stack trace:\n" + stack);
+		throw new DicomWebServiceException("WEBSERVICE ERROR [" + marker + "] "
+				+ msg + " " + e, e);
+		// System.err.println("Portal Error ["+marker+"] "+e.getMessage()+" stack:\n"+stack);
+		// return new DefaultGWTRPCException(marker,msg,e,stack);
+	}
 
 	/**
 	 * @param directionId
@@ -99,19 +115,78 @@ public class WebDicom {
 
 	}
 
-	private void throwPortalException(String msg, Throwable e)
+	/**
+	 * @param directionId
+	 * @return
+	 * @throws DicomWebServiceException
+	 */
+	public Direction getDirectionBydirectionId(String directionId)
 			throws DicomWebServiceException {
-		String marker = Thread.currentThread().getId() + "_"
-				+ new Date().getTime();
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		String stack = sw.toString();
-		logger.warn("WEBSERVICE ERROR [" + marker + "] " + msg + " " + e
-				+ " stack trace:\n" + stack);
-		throw new DicomWebServiceException("WEBSERVICE ERROR [" + marker + "] "
-				+ msg + " " + e, e);
-		// System.err.println("Portal Error ["+marker+"] "+e.getMessage()+" stack:\n"+stack);
-		// return new DefaultGWTRPCException(marker,msg,e,stack);
+
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+		Connection connection;
+		try {
+			connection = ORMUtil.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			return (Direction) pm.getObjectbyInternalID(directionId);
+
+		} catch (SQLException e) {
+			throwPortalException("get direction error:", e);
+		} catch (DataException e) {
+			throwPortalException("get direction error:", e);
+		}
+		return null;
 	}
+
+	/**
+	 * @param id
+	 * @return
+	 * @throws DicomWebServiceException
+	 */
+	public Direction getDirectionById(long id) throws DicomWebServiceException {
+
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+		Connection connection;
+		try {
+			connection = ORMUtil.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			return (Direction) pm.getObjectbyID(id);
+
+		} catch (SQLException e) {
+			throwPortalException("get direction error:", e);
+		} catch (DataException e) {
+			throwPortalException("get direction error:", e);
+		}
+		return null;
+
+	}
+
+	public Direction[] queryDirection(QueryDirection query)
+			throws DicomWebServiceException {
+
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+		Connection connection;
+		try {
+			connection = ORMUtil.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			ArrayList<Direction> directions = pm.queryDirections(query);
+			return directions.toArray(new Direction[directions.size()]);
+
+		} catch (SQLException e) {
+			throwPortalException("query direction error:", e);
+		} catch (DataException e) {
+			throwPortalException("query direction error:", e);
+		}
+		return null;
+	}
+
 }
