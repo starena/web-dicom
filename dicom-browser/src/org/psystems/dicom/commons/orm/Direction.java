@@ -2,7 +2,6 @@ package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.psystems.dicom.commons.UtilCommon;
 
@@ -22,7 +21,7 @@ public class Direction implements Serializable {
 	private Employee doctorDirect;// Направивший врач
 	private Diagnosis[] diagnosisDirect;// Диагнозы при направлении
 	private Service[] servicesDirect;// Услуги при направлении
-	private Date dateDirection;// Дата направления
+	private String dateDirection;// Дата направления
 	private ManufacturerDevice device;// Аппарат
 	private String datePlanned;// Планируемая дата выполнения исследования
 	private Employee doctorPerformed;// Врач выполнивший исследование
@@ -76,11 +75,12 @@ public class Direction implements Serializable {
 		this.servicesDirect = servicesDirect;
 	}
 
-	public Date getDateDirection() {
+	public String getDateDirection() {
 		return dateDirection;
 	}
 
-	public void setDateDirection(Date dateDirection) {
+	public void setDateDirection(String dateDirection) {
+		UtilCommon.dateSQLToUtilDate(dateDirection);
 		this.dateDirection = dateDirection;
 	}
 

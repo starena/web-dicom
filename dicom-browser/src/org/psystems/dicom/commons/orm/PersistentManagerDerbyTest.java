@@ -43,7 +43,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			String rndId = "" + Math.random();
 			Direction drn = new Direction();
-			drn.setDateDirection(new Date());
+			drn.setDateDirection("2011-04-13");
 
 			ManufacturerDevice device = new ManufacturerDevice();
 			device.setManufacturerModelName("TestModel");
