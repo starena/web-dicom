@@ -8,15 +8,14 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import org.psystems.dicom.commons.UtilCommon;
 
 public class PersistentManagerDerby implements IPersistentManager {
 
 	private Connection connection;
-	SimpleDateFormat formatSQL = new SimpleDateFormat("yyyy-MM-dd");
+	
+	
+	
 
 	/**
 	 * @param connection
@@ -26,10 +25,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 		this.connection = connection;
 	}
 
-	// void Test() {
-	// makePesistent(Direction.class);
-	// }
-
+	
 	@Override
 	public long makePesistent(Serializable obj) throws DataException {
 
@@ -393,14 +389,14 @@ public class PersistentManagerDerby implements IPersistentManager {
 		drn.setDiagnosisDirect(Diagnosis.getCollectionFromPersistentString(rs
 				.getString("DIAGNOSIS_DIRECT")));
 		
-		drn.setDateDirection(UtilCommon.utilDateToSQLDateString(rs.getDate("DATE_DIRECTION")));
+		drn.setDateDirection(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_DIRECTION")));
 		drn.setServicesDirect(Service.getCollectionFromPersistentString(rs
 				.getString("SERVICES_DIRECTED")));
 		ManufacturerDevice dev = new ManufacturerDevice();
 		// TODO Остальные поля десериализовать?
 		dev.setManufacturerModelName(rs.getString("DEVICE"));
 		drn.setDevice(dev);
-		drn.setDatePlanned(UtilCommon.utilDateToSQLDateString(rs.getDate("DIRECTION_DATE_PLANNED")) );
+		drn.setDatePlanned(ORMUtil.utilDateToSQLDateString(rs.getDate("DIRECTION_DATE_PLANNED")) );
 
 		Employee doctorPerformed = new Employee();
 		doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
@@ -415,19 +411,19 @@ public class PersistentManagerDerby implements IPersistentManager {
 		drn.setServicesPerformed(Service.getCollectionFromPersistentString(rs
 				.getString("SERVICES_PERFORMED")));
 		
-		drn.setDatePerformed(UtilCommon.utilDateToSQLDateString(rs.getDate("DATE_PERFORMED")));
+		drn.setDatePerformed(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_PERFORMED")));
 
 		Patient patient = new Patient();
 		patient.setPatientId(rs.getString("PATIENT_ID"));
 		patient.setPatientName(rs.getString("PATIENT_NAME"));
 		//TODO проверить, корректно ли возвращается дата !!!
 		
-		patient.setPatientBirthDate(UtilCommon.utilDateToSQLDateString(rs.getDate("PATIENT_BIRTH_DATE")));
+		patient.setPatientBirthDate(ORMUtil.utilDateToSQLDateString(rs.getDate("PATIENT_BIRTH_DATE")));
 		patient.setPatientSex(rs.getString("PATIENT_SEX"));
 		drn.setPatient(patient);
 
-		drn.setDateModified(UtilCommon.utilDateToSQLDateString(rs.getDate("DATE_MODIFIED")));
-		drn.setDateRemoved(UtilCommon.utilDateToSQLDateString(rs.getDate("REMOVED")));
+		drn.setDateModified(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_MODIFIED")));
+		drn.setDateRemoved(ORMUtil.utilDateToSQLDateString(rs.getDate("REMOVED")));
 
 		return drn;
 	}

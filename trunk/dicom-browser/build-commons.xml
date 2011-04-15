@@ -47,7 +47,7 @@
 		<!-- javac srcdir="${source_dir}" destdir="${classes_dir}" debug="on" encoding="UTF-8" -->
 		<javac srcdir="${source_dir}" destdir="${classes_dir}" debug="on" nowarn="on">
 			<classpath refid="build.classpath" />
-			<include name="org/psystems/dicom/commons/**"/>
+			<include name="org/psystems/dicom/commons/orm/**"/>
 			<exclude name="test*/*"/>
 			<exclude name="**/*Test.java"/>
 		</javac>
@@ -63,11 +63,6 @@
 			<format property="today" pattern="yyyy/MM/dd HH:mm:ss" locale="en"/>
 		</tstamp>
 
-		<copy todir="${classes_dir}">
-			<fileset dir="${source_dir}">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
 
 		<jar destfile="${dist_dir}/${dist_jar}" basedir="${classes_dir}">
 			<manifest>

@@ -5,7 +5,7 @@ import java.security.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.psystems.dicom.commons.UtilCommon;
+import org.psystems.dicom.commons.CommonUtil;
 
 
 public class NewStudyServletTest extends TestCase {
@@ -77,13 +77,13 @@ public class NewStudyServletTest extends TestCase {
 	}
 	
 	public void testisValidTagname() {
-		assertTrue(UtilCommon.isValidTagname("00000000"));
-		assertTrue(UtilCommon.isValidTagname("0000000E"));
-		assertTrue(UtilCommon.isValidTagname("0009000E"));
-		assertTrue(UtilCommon.isValidTagname("0009F00E"));
+		assertTrue(CommonUtil.isValidTagname("00000000"));
+		assertTrue(CommonUtil.isValidTagname("0000000E"));
+		assertTrue(CommonUtil.isValidTagname("0009000E"));
+		assertTrue(CommonUtil.isValidTagname("0009F00E"));
 		
-		assertFalse(UtilCommon.isValidTagname("0009000M"));
-		assertFalse(UtilCommon.isValidTagname("0009000"));
+		assertFalse(CommonUtil.isValidTagname("0009000M"));
+		assertFalse(CommonUtil.isValidTagname("0009000"));
 	}
 	
 	

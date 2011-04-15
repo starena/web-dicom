@@ -3,8 +3,6 @@ package org.psystems.dicom.commons.orm;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.psystems.dicom.commons.UtilCommon;
-
 /**
  * Направление на исследование
  * 
@@ -80,7 +78,7 @@ public class Direction implements Serializable {
 	}
 
 	public void setDateDirection(String dateDirection) {
-		UtilCommon.dateSQLToUtilDate(dateDirection);
+		ORMUtil.dateSQLToUtilDate(dateDirection);
 		this.dateDirection = dateDirection;
 	}
 
@@ -97,7 +95,7 @@ public class Direction implements Serializable {
 	}
 
 	public void setDatePlanned(String datePlanned) {
-		UtilCommon.dateSQLToUtilDate(datePlanned);
+		ORMUtil.dateSQLToUtilDate(datePlanned);
 		this.datePlanned = datePlanned;
 	}
 
@@ -146,7 +144,7 @@ public class Direction implements Serializable {
 	}
 
 	public void setDatePerformed(String datePerformed) {
-		UtilCommon.dateSQLToUtilDate(datePerformed);
+		ORMUtil.dateSQLToUtilDate(datePerformed);
 		this.datePerformed = datePerformed;
 	}
 
@@ -163,7 +161,7 @@ public class Direction implements Serializable {
 	}
 
 	public void setDateModified(String dateModified) {
-		UtilCommon.dateSQLToUtilDate(dateModified);
+		ORMUtil.dateSQLToUtilDate(dateModified);
 		this.dateModified = dateModified;
 	}
 
@@ -172,7 +170,7 @@ public class Direction implements Serializable {
 	}
 
 	public void setDateRemoved(String dateRemoved) {
-		UtilCommon.dateSQLToUtilDate(dateModified);
+		ORMUtil.dateSQLToUtilDate(dateModified);
 		this.dateRemoved = dateRemoved;
 	}
 

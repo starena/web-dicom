@@ -2,8 +2,6 @@ package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
 
-import org.psystems.dicom.commons.UtilCommon;
-
 /**
  * Пациент
  * 
@@ -42,9 +40,9 @@ public class Patient implements Serializable {
 		patient.setPatientId(d[0]);
 		patient.setPatientName(d[1]);
 		patient.setPatientSex(d[3]);
-		UtilCommon.dateSQLToUtilDate(d[4]);
+		ORMUtil.dateSQLToUtilDate(d[4]);
 		patient.setPatientBirthDate(d[4]);
-		UtilCommon.makeShortName(patient.getPatientName(), patient
+		ORMUtil.makeShortName(patient.getPatientName(), patient
 				.getPatientBirthDate());
 		return patient;
 	}
