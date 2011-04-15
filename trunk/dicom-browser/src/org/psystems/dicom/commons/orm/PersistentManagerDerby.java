@@ -512,37 +512,37 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 			int counterArguments = 0;
 			if (request.getId() != null) {
-				if (counterArguments++ == 0)
+				if (counterArguments++ > 0)
 					sql += " AND ";
 				sql += " ID = ? ";
 			}
 			if (request.getDirectionId() != null) {
-				if (counterArguments++ == 0)
+				if (counterArguments++ > 0)
 					sql += " AND ";
 				sql += " DIRECTION_ID = ? ";
 			}
 			if (request.getDateDirection() != null) {
-				if (counterArguments++ == 0)
+				if (counterArguments++ > 0)
 					sql += " AND ";
 				sql += " DATE_DIRECTION = ? ";
 			}
 			if (request.getPatientBirthDate() != null) {
-				if (counterArguments++ == 0)
+				if (counterArguments++ > 0)
 					sql += " AND ";
 				sql += " PATIENT_BIRTH_DATE = ? ";
 			}
 			if (request.getPatientId() != null) {
-				if (counterArguments++ == 0)
+				if (counterArguments++ > 0)
 					sql += " AND ";
 				sql += " PATIENT_ID = ? ";
 			}
 			if (request.getPatientName() != null) {
-				if (counterArguments++ == 0)
+				if (counterArguments++ > 0)
 					sql += " AND ";
 				sql += " PATIENT_NAME = ? ";
 			}
 			if (request.getPatientSex() != null) {
-				if (counterArguments++ == 0)
+				if (counterArguments++ > 0)
 					sql += " AND ";
 				sql += " PATIENT_SEX = ? ";
 			}
