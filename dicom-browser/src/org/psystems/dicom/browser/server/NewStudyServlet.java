@@ -75,7 +75,7 @@ public class NewStudyServlet extends HttpServlet {
 			}
 
 
-			org.psystems.dicom.commons.UtilCommon.makeSendDicomFile(
+			org.psystems.dicom.commons.CommonUtil.makeSendDicomFile(
 					getServletContext(), props, stream);
 
 			// *********** Работа с сессией ***************

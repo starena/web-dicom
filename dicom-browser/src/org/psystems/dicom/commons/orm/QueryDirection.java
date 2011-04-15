@@ -1,6 +1,5 @@
 package org.psystems.dicom.commons.orm;
 
-import org.psystems.dicom.commons.UtilCommon;
 
 /**
  * Запрос на исследование
@@ -49,7 +48,7 @@ public class QueryDirection {
 	 * @param date
 	 */
 	public void setDateDirection(String dateDirection) {
-		UtilCommon.dateSQLToUtilDate(dateDirection);
+		ORMUtil.dateSQLToUtilDate(dateDirection);
 		this.dateDirection = dateDirection;
 	}
 
@@ -92,7 +91,7 @@ public class QueryDirection {
 	 * @param date
 	 */
 	public void setPatientBirthDate(String patientBirthDate) {
-		UtilCommon.dateSQLToUtilDate(patientBirthDate);
+		ORMUtil.dateSQLToUtilDate(patientBirthDate);
 		this.patientBirthDate = patientBirthDate;
 	}
 

@@ -3,10 +3,6 @@ package org.psystems.dicom.commons.orm;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Properties;
 
 import junit.framework.TestCase;

@@ -35,9 +35,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
@@ -63,7 +60,7 @@ import org.psystems.dicom.browser.server.Pdf2Dcm;
  * @author dima_d
  * 
  */
-public class UtilCommon {
+public class CommonUtil {
 
 	// static Connection connection;
 	// static String connectionStr =
@@ -72,10 +69,9 @@ public class UtilCommon {
 	// Версия ПО (используется для проверки на стороне сервере при обновлении
 	// клиента)
 	public static String version = "0.1a"; // TODO Взять из конфига?
-	public static SimpleDateFormat dateFormatSQL = new SimpleDateFormat(
-	"yyyy-MM-dd");
+	
 
-	private static Logger logger = Logger.getLogger(UtilCommon.class.getName());
+	private static Logger logger = Logger.getLogger(CommonUtil.class.getName());
 
 	/**
 	 * Получение соединения внутри сервлета
@@ -309,56 +305,10 @@ public class UtilCommon {
 	}
 	
 
-	/**
-	 * Конвертация SQL даты с проверкой строки с датой на валидность
-	 * @param dateStr
-	 * @return
-	 */
-	public static Date dateSQLToUtilDate(String dateStr) {
-		if(dateStr==null) return null;
-		try {
-			return dateFormatSQL.parse(dateStr);
-		} catch (ParseException e) {
-			throw new RuntimeException("Date bad format! ", e);
-		}
 	
-	}
 	
-	/**
-	 * Конвертация Util даты
-	 * 
-	 * @param date
-	 * @return
-	 */
-	public static String utilDateToSQLDateString(Date date) {
-		if(date==null) return null;
-		return dateFormatSQL.format(date);
-	}
 	
-	/**
-	 * Получение КБП
-	 * @param PatientName
-	 * @param PatientBirthDate
-	 * @return
-	 */
-	public static String makeShortName (String PatientName, String PatientBirthDate) {
-		
-		String result = null;
-		Matcher matcher = Pattern.compile("\\s*(...).*?\\s+(.).*?\\s+(.).*?").matcher(PatientName.toUpperCase());
-		if (matcher.matches()) {
-			Calendar cal = Calendar.getInstance();
-			Date date = dateSQLToUtilDate(PatientBirthDate);
-			cal.setTime(date );
-			
-			int year = (cal.get(Calendar.YEAR) - 1900);
-			if( year >= 100) year -= 100;
-			String yearS = "" + year;
-			if(year<10) yearS = "0" + yearS;
-				
-			result = matcher.group(1)+matcher.group(2)+matcher.group(3)+yearS; 
-		}
-		return result;
-		
-	}
+	
+	
 
 }
