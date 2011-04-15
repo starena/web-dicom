@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import org.psystems.dicom.commons.UtilCommon;
+
 public class PersistentManagerDerby implements IPersistentManager {
 
 	private Connection connection;
@@ -170,9 +172,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(19, java.sql.Types.VARCHAR);
 				}
 				
-				if (drn.getPatient() != null && drn.getPatient().getPatientBirthDateAsString() != null) {
+				if (drn.getPatient() != null && drn.getPatient().getPatientBirthDate() != null) {
 					pstmt.setDate(18, java.sql.Date
-							.valueOf(drn.getPatient().getPatientBirthDateAsString()));
+							.valueOf(drn.getPatient().getPatientBirthDate()));
 				} else {
 					pstmt.setNull(18, java.sql.Types.DATE);
 				}
@@ -330,8 +332,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 				}
 
 				if (drn.getPatient() != null
-						&& drn.getPatient().getPatientBirthDateAsString() != null) {
-					pstmt.setDate(18, java.sql.Date.valueOf(drn.getPatient().getPatientBirthDateAsString()));
+						&& drn.getPatient().getPatientBirthDate() != null) {
+					pstmt.setDate(18, java.sql.Date.valueOf(drn.getPatient().getPatientBirthDate()));
 				} else {
 					pstmt.setNull(18, java.sql.Types.DATE);
 				}
@@ -401,7 +403,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 		// TODO Остальные поля десериализовать?
 		dev.setManufacturerModelName(rs.getString("DEVICE"));
 		drn.setDevice(dev);
-		drn.setDatePlanned(rs.getDate("DIRECTION_DATE_PLANNED"));
+		drn.setDatePlanned(UtilCommon.utilDateToSQLDateString(rs.getDate("DIRECTION_DATE_PLANNED")) );
 
 		Employee doctorPerformed = new Employee();
 		doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
@@ -415,18 +417,20 @@ public class PersistentManagerDerby implements IPersistentManager {
 						.getString("DIAGNOSIS_PERFORMED")));
 		drn.setServicesPerformed(Service.getCollectionFromPersistentString(rs
 				.getString("SERVICES_PERFORMED")));
-		drn.setDatePerformed(rs.getDate("DATE_PERFORMED"));
+		
+		drn.setDatePerformed(UtilCommon.utilDateToSQLDateString(rs.getDate("DATE_PERFORMED")));
 
 		Patient patient = new Patient();
 		patient.setPatientId(rs.getString("PATIENT_ID"));
 		patient.setPatientName(rs.getString("PATIENT_NAME"));
 		//TODO проверить, корректно ли возвращается дата !!!
-		patient.setPatientBirthDateAsString(rs.getString("PATIENT_BIRTH_DATE"));
+		
+		patient.setPatientBirthDate(UtilCommon.utilDateToSQLDateString(rs.getDate("PATIENT_BIRTH_DATE")));
 		patient.setPatientSex(rs.getString("PATIENT_SEX"));
 		drn.setPatient(patient);
 
-		drn.setDateModified(rs.getTimestamp("DATE_MODIFIED"));
-		drn.setDateRemoved(rs.getTimestamp("REMOVED"));
+		drn.setDateModified(UtilCommon.utilDateToSQLDateString(rs.getDate("DATE_MODIFIED")));
+		drn.setDateRemoved(UtilCommon.utilDateToSQLDateString(rs.getDate("REMOVED")));
 
 		return drn;
 	}
@@ -524,7 +528,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 					sql += " AND ";
 				sql += " DIRECTION_ID = ? ";
 			}
-			if (request.getDateDirectionAsString() != null) {
+			if (request.getDateDirection() != null) {
 				if (counterArguments++ == 0)
 					sql += " AND ";
 				sql += " DATE_DIRECTION = ? ";
@@ -559,9 +563,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 			if (request.getDirectionId() != null) {
 				pstmt.setString(counterArguments++, request.getDirectionId());
 			}
-			if (request.getDateDirectionAsString() != null) {
+			if (request.getDateDirection() != null) {
 				pstmt.setDate(counterArguments++,
-						java.sql.Date.valueOf(request.getDateDirectionAsString()));
+						java.sql.Date.valueOf(request.getDateDirection()));
 			}
 			if (request.getPatientBirthDate() != null) {
 				pstmt.setDate(counterArguments++,

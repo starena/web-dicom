@@ -80,7 +80,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 			Patient patient = new Patient();
 			
 
-			patient.setPatientBirthDateAsString("1974-03-01");
+			patient.setPatientBirthDate("1974-03-01");
 			
 			patient.setPatientId("123123");
 			patient.setPatientName("Иванов Иван Иванович");
