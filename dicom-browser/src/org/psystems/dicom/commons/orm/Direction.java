@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.psystems.dicom.commons.UtilCommon;
+
 /**
  * Направление на исследование
  * 
@@ -22,17 +24,17 @@ public class Direction implements Serializable {
 	private Service[] servicesDirect;// Услуги при направлении
 	private Date dateDirection;// Дата направления
 	private ManufacturerDevice device;// Аппарат
-	private Date datePlanned;// Планируемая дата выполнения исследования
+	private String datePlanned;// Планируемая дата выполнения исследования
 	private Employee doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
 	private String directionLocation;// Кабинет
 	private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения
 	// исследования
 	private Service[] servicesPerformed;// Выполненные услуги
-	private Date datePerformed;// Дата выполнения исследования
+	private String datePerformed;// Дата выполнения исследования
 	private Patient patient; // Пациент
-	private Date dateModified;// Дата модификации
-	private Date dateRemoved;// Дата удаления
+	private String dateModified;// Дата модификации
+	private String dateRemoved;// Дата удаления
 
 	public Long getId() {
 		return id;
@@ -90,11 +92,12 @@ public class Direction implements Serializable {
 		this.device = device;
 	}
 
-	public Date getDatePlanned() {
+	public String getDatePlanned() {
 		return datePlanned;
 	}
 
-	public void setDatePlanned(Date datePlanned) {
+	public void setDatePlanned(String datePlanned) {
+		UtilCommon.dateSQLToUtilDate(datePlanned);
 		this.datePlanned = datePlanned;
 	}
 
@@ -138,11 +141,12 @@ public class Direction implements Serializable {
 		this.servicesPerformed = servicesPerformed;
 	}
 
-	public Date getDatePerformed() {
+	public String getDatePerformed() {
 		return datePerformed;
 	}
 
-	public void setDatePerformed(Date datePerformed) {
+	public void setDatePerformed(String datePerformed) {
+		UtilCommon.dateSQLToUtilDate(datePerformed);
 		this.datePerformed = datePerformed;
 	}
 
@@ -154,19 +158,21 @@ public class Direction implements Serializable {
 		this.patient = patient;
 	}
 
-	public Date getDateModified() {
+	public String getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(Date dateModified) {
+	public void setDateModified(String dateModified) {
+		UtilCommon.dateSQLToUtilDate(dateModified);
 		this.dateModified = dateModified;
 	}
 
-	public Date getDateRemoved() {
+	public String getDateRemoved() {
 		return dateRemoved;
 	}
 
-	public void setDateRemoved(Date dateRemoved) {
+	public void setDateRemoved(String dateRemoved) {
+		UtilCommon.dateSQLToUtilDate(dateModified);
 		this.dateRemoved = dateRemoved;
 	}
 

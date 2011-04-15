@@ -1,8 +1,8 @@
 package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import org.psystems.dicom.commons.UtilCommon;
 
 /**
  * Пациент
@@ -12,18 +12,42 @@ import java.util.Date;
  */
 public class Patient implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1336950569742992093L;
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
 	private String patientShortName; // КБП пациента
 	private String patientSex; // Пол пациента (M/F)
-	private Date patientBirthDate; // Дата рождения пациента
-	
-	public static SimpleDateFormat formatSQL = new SimpleDateFormat(
-	"yyyy-MM-dd");
+	private String patientBirthDate; // Дата рождения пациента
+	static String persistentDelimeter = "|";// разделитель структур
+
+	/**
+	 * формат строки пациента: ID^ФИО^МКБ^ПОЛ^ДР;
+	 * 
+	 * @return
+	 */
+	public String toPersistentString() {
+		return patientId + "^" + patientName + "^" + patientSex + "^"
+				+ getPatientBirthDate();
+	}
+
+	/**
+	 * Создание экземпляра из строки
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static Patient getFromPersistentString(String data) {
+		String[] d = data.split("\\^");
+		Patient patient = new Patient();
+		patient.setPatientId(d[0]);
+		patient.setPatientName(d[1]);
+		patient.setPatientSex(d[3]);
+		UtilCommon.dateSQLToUtilDate(d[4]);
+		patient.setPatientBirthDate(d[4]);
+		UtilCommon.makeShortName(patient.getPatientName(), patient
+				.getPatientBirthDate());
+		return patient;
+	}
 
 	public String getPatientId() {
 		return patientId;
@@ -57,22 +81,12 @@ public class Patient implements Serializable {
 		this.patientSex = patientSex;
 	}
 
-	public String getPatientBirthDateAsString() {
-		return formatSQL.format(patientBirthDate);
-	}
-
-	public void setPatientBirthDateAsString(String date) {
-		this.patientBirthDate = java.sql.Date.valueOf(date);
-	}
-	
-	
-
-	public Date getPatientBirthDate() {
-		return patientBirthDate;
-	}
-
-	public void setPatientBirthDate(Date patientBirthDate) {
+	public void setPatientBirthDate(String patientBirthDate) {
 		this.patientBirthDate = patientBirthDate;
+	}
+
+	public String getPatientBirthDate() {
+		return patientBirthDate;
 	}
 
 	@Override

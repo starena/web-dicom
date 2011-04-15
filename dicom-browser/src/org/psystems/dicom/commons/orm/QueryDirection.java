@@ -1,7 +1,6 @@
 package org.psystems.dicom.commons.orm;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.psystems.dicom.commons.UtilCommon;
 
 /**
  * Запрос на исследование
@@ -14,15 +13,12 @@ public class QueryDirection {
 	private static final long serialVersionUID = -2840335603832244555L;
 	private Long id; // Внутренний ID
 	private String directionId; // штрих код
-	private Date dateDirection;// Дата направления
+	private String dateDirection;// Дата направления
 
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
 	private String patientSex; // Пол пациента (M/F)
-	private Date patientBirthDate; // Дата рождения пациента (0016,0048) DA
-
-	public static SimpleDateFormat formatSQL = new SimpleDateFormat(
-			"yyyy-MM-dd");
+	private String patientBirthDate; // Дата рождения пациента (0016,0048) DA
 
 	public Long getId() {
 		return id;
@@ -43,8 +39,8 @@ public class QueryDirection {
 	/**
 	 * @return Формат SQL Date - "гггг.дд.мм"
 	 */
-	public String getDateDirectionAsString() {
-		return formatSQL.format(dateDirection);
+	public String getDateDirection() {
+		return dateDirection;
 	}
 
 	/**
@@ -52,8 +48,9 @@ public class QueryDirection {
 	 * 
 	 * @param date
 	 */
-	public void setDateDirectionAsString(String date) {
-		this.dateDirection = java.sql.Date.valueOf(formatSQL.format(date));
+	public void setDateDirection(String dateDirection) {
+		UtilCommon.dateSQLToUtilDate(dateDirection);
+		this.dateDirection = dateDirection;
 	}
 
 	public String getPatientId() {
@@ -86,7 +83,7 @@ public class QueryDirection {
 	 * @return
 	 */
 	public String getPatientBirthDate() {
-		return formatSQL.format(patientBirthDate);
+		return patientBirthDate;
 	}
 
 	/**
@@ -94,8 +91,20 @@ public class QueryDirection {
 	 * 
 	 * @param date
 	 */
-	public void setPatientBirthDate(Date date) {
-		this.patientBirthDate = java.sql.Date.valueOf(formatSQL.format(date));
+	public void setPatientBirthDate(String patientBirthDate) {
+		UtilCommon.dateSQLToUtilDate(patientBirthDate);
+		this.patientBirthDate = patientBirthDate;
 	}
+
+	@Override
+	public String toString() {
+		return "QueryDirection [dateDirection=" + dateDirection
+				+ ", directionId=" + directionId + ", id=" + id
+				+ ", patientBirthDate=" + patientBirthDate + ", patientId="
+				+ patientId + ", patientName=" + patientName + ", patientSex="
+				+ patientSex + "]";
+	}
+	
+	
 
 }
