@@ -401,45 +401,7 @@ public abstract class Study {
 		return StudyImplDerby.getDcmFileProxies(connection,idStudy);
 	} 
 	
-	/**
-	 * Получение прокси-класса
-	 * @return
-	 */
-	public StudyProxy getStudyProxy() {
-
-		StudyProxy proxy = new StudyProxy();
-		proxy.setId(getId());
-		proxy.setStudyModality(getStudyModality());
-		
-		//TODO переименовать setStudyUID -> getStudyInstanceUID()
-		proxy.setStudyInstanceUID(getStudyInstanceUID());
-		proxy.setManufacturerModelName(getManufacturerModelName());
-		proxy.setPatientName(getPatientName());
-		proxy.setPatientSex(getPatientSex());
-		proxy.setPatientId(getPatientId());
-		proxy
-				.setPatientBirthDate(getPatientBirthDate() != null ? new java.util.Date(
-						getPatientBirthDate().getTime())
-						: null);
-		proxy.setStudyId(getStudyId());
-		proxy.setStudyType(getStudyType());
-		proxy.setStudyDate(getStudyDate() != null ? new java.util.Date(
-				getStudyDate().getTime()) : null);
-		proxy
-				.setStudyViewprotocolDate(getStudyViewprotocolDate() != null ? new java.util.Date(
-						getStudyViewprotocolDate().getTime())
-						: null);
-		
-		proxy.setStudyDoctor(getStudyDoctor());
-		proxy.setStudyOperator(getStudyOperator());
-		proxy.setStudyDescription(getStudyDescription());
-		proxy.setStudyViewprotocol(getStudyViewprotocol());
-		proxy.setStudyResult(getStudyResult());
-		proxy.setStudyDateModify(getStudyDateModify());
-		proxy.setStudyDateRemoved(getStudyDateRemoved());
-		
-		return proxy;
-	}
+	
 	
 	
 

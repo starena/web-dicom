@@ -2,7 +2,7 @@ package org.psystems.dicom.commons.orm;
 
 
 /**
- * Запрос на исследование
+ * Запрос направлений
  * 
  * @author dima_d
  * 
@@ -35,17 +35,13 @@ public class QueryDirection {
 		this.directionId = directionId;
 	}
 
-	/**
-	 * @return Формат SQL Date - "гггг.дд.мм"
-	 */
 	public String getDateDirection() {
 		return dateDirection;
 	}
 
+	
 	/**
-	 * Формат SQL Date - "гггг.дд.мм"
-	 * 
-	 * @param date
+	 * @param dateDirection Формат SQL Date - "гггг.дд.мм"
 	 */
 	public void setDateDirection(String dateDirection) {
 		ORMUtil.dateSQLToUtilDate(dateDirection);
@@ -76,19 +72,14 @@ public class QueryDirection {
 		this.patientSex = patientSex;
 	}
 
-	/**
-	 * Формат SQL Date - "гггг.дд.мм"
-	 * 
-	 * @return
-	 */
+	
 	public String getPatientBirthDate() {
 		return patientBirthDate;
 	}
 
+	
 	/**
-	 * Формат SQL Date - "гггг.дд.мм"
-	 * 
-	 * @param date
+	 * @param patientBirthDate Формат SQL Date - "гггг.дд.мм"
 	 */
 	public void setPatientBirthDate(String patientBirthDate) {
 		ORMUtil.dateSQLToUtilDate(patientBirthDate);

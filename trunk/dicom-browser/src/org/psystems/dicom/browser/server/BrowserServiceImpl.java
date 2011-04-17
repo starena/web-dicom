@@ -180,7 +180,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			
 			
 			for (int i = 0; i < studies.length; i++) {
-				StudyProxy studyProxy = studies[i].getStudyProxy();
+				StudyProxy studyProxy = getStudyProxy(studies[i]);
 				// Получаем список файлов
 				//Сделана раздельная загрузка исследования и файлов для экономии траффика
 				studyProxy.setFiles(Study.getDcmFileProxies(connection,studyProxy.getId()));
@@ -586,7 +586,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			Study study = Study.getStudyByID(connection, id);
 			if(study==null) return null;
 			
-			StudyProxy studyProxy = study.getStudyProxy();
+			StudyProxy studyProxy = getStudyProxy(study);
 			//Сделана раздельная загрузка исследования и файлов для экономии траффика
 			studyProxy.setFiles(Study.getDcmFileProxies(connection,studyProxy.getId()));
 
@@ -672,6 +672,48 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
         }
 
 		return result;
+	}
+	
+	
+	
+	/**
+	 * Получение прокси-класса
+	 * @return
+	 */
+	public StudyProxy getStudyProxy(Study study) {
+
+		StudyProxy proxy = new StudyProxy();
+		proxy.setId(study.getId());
+		proxy.setStudyModality(study.getStudyModality());
+		
+		//TODO переименовать setStudyUID -> getStudyInstanceUID()
+		proxy.setStudyInstanceUID(study.getStudyInstanceUID());
+		proxy.setManufacturerModelName(study.getManufacturerModelName());
+		proxy.setPatientName(study.getPatientName());
+		proxy.setPatientSex(study.getPatientSex());
+		proxy.setPatientId(study.getPatientId());
+		proxy
+				.setPatientBirthDate(study.getPatientBirthDate() != null ? new java.util.Date(
+						study.getPatientBirthDate().getTime())
+						: null);
+		proxy.setStudyId(study.getStudyId());
+		proxy.setStudyType(study.getStudyType());
+		proxy.setStudyDate(study.getStudyDate() != null ? new java.util.Date(
+				study.getStudyDate().getTime()) : null);
+		proxy
+				.setStudyViewprotocolDate(study.getStudyViewprotocolDate() != null ? new java.util.Date(
+						study.getStudyViewprotocolDate().getTime())
+						: null);
+		
+		proxy.setStudyDoctor(study.getStudyDoctor());
+		proxy.setStudyOperator(study.getStudyOperator());
+		proxy.setStudyDescription(study.getStudyDescription());
+		proxy.setStudyViewprotocol(study.getStudyViewprotocol());
+		proxy.setStudyResult(study.getStudyResult());
+		proxy.setStudyDateModify(study.getStudyDateModify());
+		proxy.setStudyDateRemoved(study.getStudyDateRemoved());
+		
+		return proxy;
 	}
 
 }
