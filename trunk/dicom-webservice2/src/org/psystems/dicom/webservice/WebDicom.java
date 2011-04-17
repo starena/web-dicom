@@ -21,8 +21,14 @@ import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.Patient;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.QueryDirection;
+import org.psystems.dicom.commons.orm.QueryStudy;
 import org.psystems.dicom.commons.orm.Service;
+import org.psystems.dicom.commons.orm.Study;
 
+/**
+ * @author dima_d
+ * 
+ */
 public class WebDicom {
 
 	private static Logger logger = Logger.getLogger(WebDicom.class);
@@ -188,5 +194,68 @@ public class WebDicom {
 		}
 		return null;
 	}
+
+	/**
+	 * Поиск Исследований
+	 * 
+	 * @param query
+	 * @return
+	 * @throws DicomWebServiceException
+	 */
+	public Study[] queryStudy(QueryStudy query) throws DicomWebServiceException {
+
+		ServletContext servletContext = (ServletContext) MessageContext
+				.getCurrentMessageContext().getProperty(
+						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
+
+		Connection connection;
+		try {
+
+			connection = ORMUtil.getConnection(servletContext);
+
+			Study[] studies = Study.getStudues(connection, query
+					.getStudyModality(), null, query.getPatientName(), query
+					.getPatientShortName(), query.getPatientBirthDate(), query
+					.getPatientSex(), query.getBeginStudyDate(), query
+					.getEndStudyDate(), null, null);
+
+			String url = servletContext
+					.getInitParameter("webdicom.ws.viewstudy.url");
+
+			// "http://127.0.0.1:8888/study/"
+			ArrayList<Study> tmpData = new ArrayList<Study>();
+
+			for (int i = 0; i < studies.length; i++) {
+				studies[i].setStudyUrl(url + "/" + studies[i].getId());
+
+				// //Фильтруем результаты в которых есть отклонения (только
+				// для флюшек)
+				// System.out.println("!!! studyModality="+studyModality);
+				if (studies[i].getStudyModality() != null
+						&& studies[i].getStudyModality().equals("CR")) {
+					if (studies[i].getStudyResult() == null
+							|| studies[i].getStudyResult().length() == 0) {
+						studies[i].setStudyResult("норма");
+						tmpData.add(studies[i]);
+					}
+				} else {
+					tmpData.add(studies[i]);
+				}
+			}
+
+			studies = new Study[tmpData.size()];
+			tmpData.toArray(studies);
+
+			return studies;
+
+		} catch (SQLException e) {
+			throwPortalException("query study error:", e);
+		} catch (DataException e) {
+			throwPortalException("query study error:", e);
+		}
+		return null;
+	}
+
+	
 
 }
