@@ -3,6 +3,9 @@ package org.psystems.dicom.webservice;
 import java.rmi.RemoteException;
 
 import org.apache.axis2.AxisFault;
+import org.apache.axis2.client.Options;
+import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.transport.http.HttpTransportProperties;
 import org.psystems.dicom.webservice.WebDicomStub.Diagnosis;
 import org.psystems.dicom.webservice.WebDicomStub.Direction;
 import org.psystems.dicom.webservice.WebDicomStub.Employee;
@@ -13,169 +16,203 @@ import org.psystems.dicom.webservice.WebDicomStub.ManufacturerDevice;
 import org.psystems.dicom.webservice.WebDicomStub.Patient;
 import org.psystems.dicom.webservice.WebDicomStub.QueryDirection;
 import org.psystems.dicom.webservice.WebDicomStub.QueryDirectionE;
-import org.psystems.dicom.webservice.WebDicomStub.QueryDirectionResponse;
+import org.psystems.dicom.webservice.WebDicomStub.QueryStudy;
+import org.psystems.dicom.webservice.WebDicomStub.QueryStudyE;
 import org.psystems.dicom.webservice.WebDicomStub.Service;
+import org.psystems.dicom.webservice.WebDicomStub.Study;
 
 public class Test {
+
+	private WebDicomStub stub;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-		// testMakeDirection();
-		// testgetdirectionById();
-		// testgetdirectionBydirectionId();
-		testqueryDirection();
+		new Test();
 	}
 
-	private static void testqueryDirection() {
+	public Test() {
+
+		String url = "/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/";
+		String host = "http://localhost:8080" + url;
+		// String host = "http://localhost:38081/dicom-webservice2";
+		// String host = "https://proxy.gp1.psystems.org:38081" + url;
+
+		// Вывод отладочной информации по SSL-соединению
+		// System.setProperty("javax.net.debug", "all");
+
+		// "C:\Program Files\Java\jre6\bin\keytool.exe" -genkey -alias asu
+		// -keystore client.jks
+		// "C:\Program Files\Java\jre6\bin\keytool.exe" -list -v -keystore
+		// client.jks
+		// "C:\Program Files\Java\jre6\bin\keytool.exe" -keystore client.jks
+		// -import -trustcacerts -alias proxy_gp1 -file proxy.cer
+
+		System.setProperty("javax.net.ssl.keyStore", "client.jks");
+		System.setProperty("javax.net.ssl.keyStorePassword", "derenok");
+		System.setProperty("javax.net.ssl.keyStoreType", "JKS");
+		System.setProperty("javax.net.ssl.trustStore", "client.jks");
+		System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
+
 		try {
-			WebDicomStub stub = new WebDicomStub();
-			QueryDirectionE query = new QueryDirectionE();
-			QueryDirection request = new QueryDirection();
-			
-			request.setPatientId("PATID1234");
-			
-			query.setQuery(request );
-			Direction[] data = stub.queryDirection(query).get_return();
+			stub = new WebDicomStub(host);
+
+			// авторизация
+			HttpTransportProperties.Authenticator basicAuth = new HttpTransportProperties.Authenticator();
+			basicAuth.setUsername("dicomuser");
+			basicAuth.setPassword("dicomtest");
+			basicAuth.setPreemptiveAuthentication(true);
+			final Options clientOptions = stub._getServiceClient().getOptions();
+			clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
+
+			// testMakeDirection();
+			// testgetdirectionById();
+			// testetdirectionBydirectionId();
+			// testQueryDirection();
+			// testFindStudiesByType();
+			testQueryStudy();
+
+		} catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DicomWebServiceExceptionException0 e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void testQueryDirection() throws RemoteException,
+			DicomWebServiceExceptionException0 {
+
+		QueryDirectionE query = new QueryDirectionE();
+		QueryDirection request = new QueryDirection();
+
+		request.setPatientId("PATID1234");
+
+		query.setQuery(request);
+		Direction[] data = stub.queryDirection(query).get_return();
+		if (data != null) {
 			for (Direction direction : data) {
-				System.out.println("direction: "+direction);
+				System.out.println("direction: " + direction);
 			}
-
-		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DicomWebServiceExceptionException0 e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void testgetdirectionBydirectionId() {
-		try {
-			WebDicomStub stub = new WebDicomStub();
-			GetDirectionBydirectionId query = new GetDirectionBydirectionId();
-			query.setDirectionId("DIRID12312345");
-
-			System.out.println("direction = "
-					+ stub.getDirectionBydirectionId(query).get_return()
-							.getId());
-
-		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DicomWebServiceExceptionException0 e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void testgetdirectionById() {
-
-		try {
-			WebDicomStub stub = new WebDicomStub();
-			GetDirectionById query = new GetDirectionById();
-			query.setId(33l);
-			System.out.println("direction = "
-					+ stub.getDirectionById(query).get_return()
-							.getDirectionId());
-
-		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DicomWebServiceExceptionException0 e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} else {
+			System.out.println("No data");
 		}
 	}
 
-	private static void testMakeDirection() {
-		try {
-			// host+"/services/WebDicom"
-			WebDicomStub stub = new WebDicomStub();
+	public void testgetdirectionBydirectionId() throws RemoteException,
+			DicomWebServiceExceptionException0 {
 
-			MakeDirection query = new MakeDirection();
+		GetDirectionBydirectionId query = new GetDirectionBydirectionId();
+		query.setDirectionId("DIRID12312345");
 
-			//
-			query.setDirectionId("DIRID12312345");
+		System.out.println("direction = "
+				+ stub.getDirectionBydirectionId(query).get_return().getId());
 
-			//
+	}
 
-			Employee doctor = new Employee();
-			doctor.setEmployeeName("Врач doctor1");
-			query.setDoctorDirect(doctor);
+	public void testgetdirectionById() throws RemoteException,
+			DicomWebServiceExceptionException0 {
 
-			//
-			Diagnosis dia1 = new Diagnosis();
-			dia1.setDiagnosisCode("Z01");
-			dia1.setDiagnosisDescription("Диагноз1");
-			Diagnosis dia2 = new Diagnosis();
+		GetDirectionById query = new GetDirectionById();
+		query.setId(33l);
+		System.out.println("direction = "
+				+ stub.getDirectionById(query).get_return().getDirectionId());
+	}
 
-			dia2.setDiagnosisCode("Z02");
-			dia2.setDiagnosisDescription("Диагноз2");
-			query.setDiagnosisDirect(new Diagnosis[] { dia1, dia2 });
+	public void testMakeDirection() throws RemoteException,
+			DicomWebServiceExceptionException0 {
 
-			//
-			Service service1 = new Service();
-			service1.setServiceCode("code1");
-			service1.setServiceDescription("Описание1");
+		MakeDirection query = new MakeDirection();
 
-			Service service2 = new Service();
-			service2.setServiceCode("code2");
-			service2.setServiceDescription("Описание2");
+		//
+		query.setDirectionId("DIRID12312345");
 
-			query.setServicesDirect(new Service[] { service1, service2 });
+		//
 
-			//
-			query.setDateDirection("2011-05-06");
+		Employee doctor = new Employee();
+		doctor.setEmployeeName("Врач doctor1");
+		query.setDoctorDirect(doctor);
 
-			//
-			ManufacturerDevice device = new ManufacturerDevice();
-			device.setManufacturerModelType("CR");
-			device.setManufacturerModelName("Электрон");
-			query.setDevice(device);
+		//
+		Diagnosis dia1 = new Diagnosis();
+		dia1.setDiagnosisCode("Z01");
+		dia1.setDiagnosisDescription("Диагноз1");
+		Diagnosis dia2 = new Diagnosis();
 
-			//
-			query.setDatePlanned("2011-05-20");
+		dia2.setDiagnosisCode("Z02");
+		dia2.setDiagnosisDescription("Диагноз2");
+		query.setDiagnosisDirect(new Diagnosis[] { dia1, dia2 });
 
-			//
-			query.setDirectionCode("CODE123");
+		//
+		Service service1 = new Service();
+		service1.setServiceCode("code1");
+		service1.setServiceDescription("Описание1");
 
-			//
-			query.setDirectionLocation("GP1-ROOM515");
+		Service service2 = new Service();
+		service2.setServiceCode("code2");
+		service2.setServiceDescription("Описание2");
 
-			//
-			Patient patient = new Patient();
-			patient.setPatientName("Деренок Derenok");
-			patient.setPatientId("PATID1234");
-			patient.setPatientSex("M");
-			patient.setPatientBirthDate("1974-03-01");
-			query.setPatient(patient);
+		query.setServicesDirect(new Service[] { service1, service2 });
 
-			System.out
-					.println("!!!! " + stub.makeDirection(query).get_return());
+		//
+		query.setDateDirection("2011-05-06");
 
-		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DicomWebServiceExceptionException0 e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//
+		ManufacturerDevice device = new ManufacturerDevice();
+		device.setManufacturerModelType("CR");
+		device.setManufacturerModelName("Электрон");
+		query.setDevice(device);
+
+		//
+		query.setDatePlanned("2011-05-20");
+
+		//
+		query.setDirectionCode("CODE123");
+
+		//
+		query.setDirectionLocation("GP1-ROOM515");
+
+		//
+		Patient patient = new Patient();
+		patient.setPatientName("Деренок Derenok");
+		patient.setPatientId("PATID1234");
+		patient.setPatientSex("M");
+		patient.setPatientBirthDate("1974-03-01");
+		query.setPatient(patient);
+
+		System.out.println("!!!! " + stub.makeDirection(query).get_return());
+
+	}
+
+	// public void testFindStudiesByType() throws AxisFault, RemoteException,
+	// DicomWebServiceExceptionException0 {
+	//
+	// FindStudiesByType query = new FindStudiesByType();
+	// query.setStudyModality("CR");
+	// stub.findStudiesByType(query);
+	//
+	// }
+
+	public void testQueryStudy() throws RemoteException,
+			DicomWebServiceExceptionException0 {
+
+		QueryStudyE query = new QueryStudyE();
+		QueryStudy request = new QueryStudy();
+		request.setStudyModality("CR");
+		
+		query.setQuery(request);
+		Study[] studies = stub.queryStudy(query ).get_return();
+		if(studies!=null) {
+			for (Study study : studies) {
+				System.out.println("!!! study="+study);
+			}
 		}
 	}
 
