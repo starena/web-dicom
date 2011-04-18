@@ -152,8 +152,8 @@ public class StudyImplDerby extends Study {
 		
 	}
 	
-	public static Study[] getStudues(Connection connection,
-			String studyModality, String manufacturerModelName, String patientName, String patientShortName,
+	public static Study[] getStudues(Connection connection, Long id,
+			String studyModality, String manufacturerModelName, String patientId, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
 			String endStudyDate, String studyResult, String sortOrder) throws DataException {
 
@@ -167,6 +167,13 @@ public class StudyImplDerby extends Study {
 
 		String sqlAddon = "";
 
+		
+		if (id != null) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " ID = ? ";
+		}
+		
 		if (studyModality != null && studyModality.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
@@ -179,6 +186,14 @@ public class StudyImplDerby extends Study {
 			sqlAddon += " STUDY_MANUFACTURER_MODEL_NAME = ? ";
 		}
 
+		
+		
+		if (patientId != null && patientId.length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " UPPER(PATIENT_ID) like UPPER( ? || '%') ";
+		}
+		
 		if (patientName != null && patientName.length() > 0) {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
@@ -269,6 +284,10 @@ public class StudyImplDerby extends Study {
 
 			psSelect = connection.prepareStatement(sql);
 			int index = 1;
+			
+			if (id != null) {
+				psSelect.setLong(index++, id);
+			}
 
 			if (studyModality != null && studyModality.length() > 0) {
 				psSelect.setString(index++, studyModality);
@@ -276,6 +295,10 @@ public class StudyImplDerby extends Study {
 			
 			if (manufacturerModelName != null && manufacturerModelName.length() > 0) {
 				psSelect.setString(index++, manufacturerModelName);
+			}
+			
+			if (patientId != null && patientId.length() > 0) {
+				psSelect.setString(index++, patientId);
 			}
 
 			if (patientName != null && patientName.length() > 0) {
