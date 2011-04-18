@@ -36,9 +36,9 @@ public class Test {
 	public Test() {
 
 		String url = "/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/";
-		String host = "http://localhost:8080" + url;
+//		String host = "http://localhost:8080" + url;
 //		 String host = "http://localhost:38081" + url;
-//		 String host = "https://proxy.gp1.psystems.org:38081" + url;
+		 String host = "https://proxy.gp1.psystems.org:38081" + url;
 
 		// Вывод отладочной информации по SSL-соединению
 		// System.setProperty("javax.net.debug", "all");
@@ -67,12 +67,12 @@ public class Test {
 			final Options clientOptions = stub._getServiceClient().getOptions();
 			clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
 
-			 testMakeDirection();
+//			 testMakeDirection();
 			// testgetdirectionById();
 			// testetdirectionBydirectionId();
 			// testQueryDirection();
 			// testFindStudiesByType();
-//			testQueryStudy();
+			testQueryStudy();
 
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
@@ -205,7 +205,9 @@ public class Test {
 
 		QueryStudyE query = new QueryStudyE();
 		QueryStudy request = new QueryStudy();
-		request.setStudyModality("US");
+		request.setPatientId("LAB");
+//		request.setStudyModality("US");
+//		request.setPatientSex("M");
 		
 		query.setQuery(request);
 		Study[] studies = stub.queryStudy(query ).get_return();
@@ -213,6 +215,9 @@ public class Test {
 			for (Study study : studies) {
 				System.out.println("!!! study="+study);
 			}
+			System.out.println("count: "+studies.length);
+		}else {
+			System.out.println("no data");
 		}
 	}
 

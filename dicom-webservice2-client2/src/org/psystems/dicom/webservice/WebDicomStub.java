@@ -19602,88 +19602,6 @@
         
 
                         /**
-                        * field for AllManufacturerDevices
-                        * This was an Array!
-                        */
-
-                        
-                                    protected ManufacturerDevice[] localAllManufacturerDevices ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localAllManufacturerDevicesTracker = false ;
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return ManufacturerDevice[]
-                           */
-                           public  ManufacturerDevice[] getAllManufacturerDevices(){
-                               return localAllManufacturerDevices;
-                           }
-
-                           
-                        
-
-
-                               
-                              /**
-                               * validate the array for AllManufacturerDevices
-                               */
-                              protected void validateAllManufacturerDevices(ManufacturerDevice[] param){
-                             
-                              }
-
-
-                             /**
-                              * Auto generated setter method
-                              * @param param AllManufacturerDevices
-                              */
-                              public void setAllManufacturerDevices(ManufacturerDevice[] param){
-                              
-                                   validateAllManufacturerDevices(param);
-
-                               
-                                          if (param != null){
-                                             //update the setting tracker
-                                             localAllManufacturerDevicesTracker = true;
-                                          } else {
-                                             localAllManufacturerDevicesTracker = true;
-                                                 
-                                          }
-                                      
-                                      this.localAllManufacturerDevices=param;
-                              }
-
-                               
-                             
-                             /**
-                             * Auto generated add method for the array for convenience
-                             * @param param ManufacturerDevice
-                             */
-                             public void addAllManufacturerDevices(ManufacturerDevice param){
-                                   if (localAllManufacturerDevices == null){
-                                   localAllManufacturerDevices = new ManufacturerDevice[]{};
-                                   }
-
-                            
-                                 //update the setting tracker
-                                localAllManufacturerDevicesTracker = true;
-                            
-
-                               java.util.List list =
-                            org.apache.axis2.databinding.utils.ConverterUtil.toList(localAllManufacturerDevices);
-                               list.add(param);
-                               this.localAllManufacturerDevices =
-                             (ManufacturerDevice[])list.toArray(
-                            new ManufacturerDevice[list.size()]);
-
-                             }
-                             
-
-                        /**
                         * field for ManufacturerModelDescription
                         */
 
@@ -19955,69 +19873,7 @@
 
                
                    }
-                if (localAllManufacturerDevicesTracker){
-                                       if (localAllManufacturerDevices!=null){
-                                            for (int i = 0;i < localAllManufacturerDevices.length;i++){
-                                                if (localAllManufacturerDevices[i] != null){
-                                                 localAllManufacturerDevices[i].serialize(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","allManufacturerDevices"),
-                                                           factory,xmlWriter);
-                                                } else {
-                                                   
-                                                            // write null attribute
-                                                            java.lang.String namespace2 = "http://orm.commons.dicom.psystems.org/xsd";
-                                                            if (! namespace2.equals("")) {
-                                                                java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
-
-                                                                if (prefix2 == null) {
-                                                                    prefix2 = generatePrefix(namespace2);
-
-                                                                    xmlWriter.writeStartElement(prefix2,"allManufacturerDevices", namespace2);
-                                                                    xmlWriter.writeNamespace(prefix2, namespace2);
-                                                                    xmlWriter.setPrefix(prefix2, namespace2);
-
-                                                                } else {
-                                                                    xmlWriter.writeStartElement(namespace2,"allManufacturerDevices");
-                                                                }
-
-                                                            } else {
-                                                                xmlWriter.writeStartElement("allManufacturerDevices");
-                                                            }
-
-                                                           // write the nil attribute
-                                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                           xmlWriter.writeEndElement();
-                                                    
-                                                }
-
-                                            }
-                                     } else {
-                                        
-                                                // write null attribute
-                                                java.lang.String namespace2 = "http://orm.commons.dicom.psystems.org/xsd";
-                                                if (! namespace2.equals("")) {
-                                                    java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
-
-                                                    if (prefix2 == null) {
-                                                        prefix2 = generatePrefix(namespace2);
-
-                                                        xmlWriter.writeStartElement(prefix2,"allManufacturerDevices", namespace2);
-                                                        xmlWriter.writeNamespace(prefix2, namespace2);
-                                                        xmlWriter.setPrefix(prefix2, namespace2);
-
-                                                    } else {
-                                                        xmlWriter.writeStartElement(namespace2,"allManufacturerDevices");
-                                                    }
-
-                                                } else {
-                                                    xmlWriter.writeStartElement("allManufacturerDevices");
-                                                }
-
-                                               // write the nil attribute
-                                               writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                               xmlWriter.writeEndElement();
-                                        
-                                    }
-                                 } if (localManufacturerModelDescriptionTracker){
+                if (localManufacturerModelDescriptionTracker){
                                     namespace = "http://orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -20315,32 +20171,7 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localAllManufacturerDevicesTracker){
-                             if (localAllManufacturerDevices!=null) {
-                                 for (int i = 0;i < localAllManufacturerDevices.length;i++){
-
-                                    if (localAllManufacturerDevices[i] != null){
-                                         elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
-                                                                          "allManufacturerDevices"));
-                                         elementList.add(localAllManufacturerDevices[i]);
-                                    } else {
-                                        
-                                                elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
-                                                                          "allManufacturerDevices"));
-                                                elementList.add(null);
-                                            
-                                    }
-
-                                 }
-                             } else {
-                                 
-                                        elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
-                                                                          "allManufacturerDevices"));
-                                        elementList.add(localAllManufacturerDevices);
-                                    
-                             }
-
-                        } if (localManufacturerModelDescriptionTracker){
+                 if (localManufacturerModelDescriptionTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd",
                                                                       "manufacturerModelDescription"));
                                  
@@ -20440,66 +20271,6 @@
                     
                     reader.next();
                 
-                        java.util.ArrayList list1 = new java.util.ArrayList();
-                    
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","allManufacturerDevices").equals(reader.getName())){
-                                
-                                    
-                                    
-                                    // Process the array and step past its final element's end.
-                                    
-                                                          nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                                          if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                              list1.add(null);
-                                                              reader.next();
-                                                          } else {
-                                                        list1.add(ManufacturerDevice.Factory.parse(reader));
-                                                                }
-                                                        //loop until we find a start element that is not part of this array
-                                                        boolean loopDone1 = false;
-                                                        while(!loopDone1){
-                                                            // We should be at the end element, but make sure
-                                                            while (!reader.isEndElement())
-                                                                reader.next();
-                                                            // Step out of this element
-                                                            reader.next();
-                                                            // Step to next element event.
-                                                            while (!reader.isStartElement() && !reader.isEndElement())
-                                                                reader.next();
-                                                            if (reader.isEndElement()){
-                                                                //two continuous end elements means we are exiting the xml structure
-                                                                loopDone1 = true;
-                                                            } else {
-                                                                if (new javax.xml.namespace.QName("http://orm.commons.dicom.psystems.org/xsd","allManufacturerDevices").equals(reader.getName())){
-                                                                    
-                                                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                                          list1.add(null);
-                                                                          reader.next();
-                                                                      } else {
-                                                                    list1.add(ManufacturerDevice.Factory.parse(reader));
-                                                                        }
-                                                                }else{
-                                                                    loopDone1 = true;
-                                                                }
-                                                            }
-                                                        }
-                                                        // call the converter utility  to convert and set the array
-                                                        
-                                                        object.setAllManufacturerDevices((ManufacturerDevice[])
-                                                            org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                                                                ManufacturerDevice.class,
-                                                                list1));
-                                                            
-                              }  // End of if for expected property start element
-                                
-                                    else {
-                                        
-                                    }
-                                
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
