@@ -313,7 +313,7 @@ public abstract class Study {
 		if (studyDateRemoved == null)
 			return null;
 		SimpleDateFormat formatLevel = new SimpleDateFormat(userDateTimeFormat);
-		return formatLevel.format(studyViewprotocolDate);
+		return formatLevel.format(studyDateRemoved);
 	}
 
 
