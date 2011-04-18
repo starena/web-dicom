@@ -494,7 +494,7 @@ public class SearchPanel extends Composite implements
 						}
 						
 						if(removed >0) {
-							final Label l = new Label("Показать "+removed+" уделенное(ых) исследований");
+							final Label l = new Label("Показать удаленные исследования ( " + removed + " шт.)");
 							l.removeFromParent();
 							resultPanel.add(l);
 							l.addStyleName("LabelLink"); 
