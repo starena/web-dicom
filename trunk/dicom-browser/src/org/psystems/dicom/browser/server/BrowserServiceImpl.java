@@ -95,6 +95,7 @@ import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
 import org.psystems.dicom.commons.orm.DataException;
+import org.psystems.dicom.commons.orm.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.Study;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -166,14 +167,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 			if(fullSearch) {
 				
-				studies = Study.getStudues(connection, null, manufacturerModelName,fio,
+				studies = Study.getStudues(connection, null, null, manufacturerModelName, null, fio,
 						null, year+"-"+month+"-"+day, null, studyDB, studyDE, studyResult, sortOrder);
 			} else if(queryStr.matches("^\\D{5}\\d{2}$")) { //Если поиск по КБП
 				
-				studies = Study.getStudues(connection, null, manufacturerModelName,null,
+				studies = Study.getStudues(connection, null, null, manufacturerModelName, null, null,
 						queryStr, null, null, studyDB, studyDE, studyResult, sortOrder);
 			} else {
-				studies = Study.getStudues(connection, null, manufacturerModelName,queryStr,
+				studies = Study.getStudues(connection, null, null, manufacturerModelName, null, queryStr,
 					null, null, null, studyDB, studyDE, studyResult, sortOrder);
 			}
 			
@@ -714,6 +715,25 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		proxy.setStudyDateRemoved(study.getStudyDateRemoved());
 		
 		return proxy;
+	}
+	
+	/**
+	 * Получение списка доступных аппаратов
+	 * TODO !!! Реализовать!!!
+	 * @return
+	 */
+	public static ManufacturerDevice[] getAllManufacturerDevices () {
+		
+		//TODO Взять из БД!!!
+		ManufacturerDevice device = new ManufacturerDevice();
+		device.setManufacturerModelName("testdevice");
+		device.setManufacturerModelDescription("Тестовы девайс");
+		device.setManufacturerModelType("CR");
+		device.setManufacturerModelTypeDescription("Флюорограф");
+		
+		ArrayList<ManufacturerDevice> result = new ArrayList<ManufacturerDevice>();
+		result.add(device);
+		return result.toArray(new ManufacturerDevice[result.size()]);
 	}
 
 }
