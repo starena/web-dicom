@@ -29,24 +29,6 @@ public class ManufacturerDevice implements Serializable {
 		super();
 	}
 	
-	/**
-	 * Получение списка доступных аппаратов
-	 * TODO !!! Реализовать!!!
-	 * @return
-	 */
-	public static ManufacturerDevice[] getAllManufacturerDevices () {
-		
-		//TODO Взять из БД!!!
-		ManufacturerDevice device = new ManufacturerDevice();
-		device.setManufacturerModelName("testdevice");
-		device.setManufacturerModelDescription("Тестовы девайс");
-		device.setManufacturerModelType("CR");
-		device.setManufacturerModelTypeDescription("Флюорограф");
-		
-		ArrayList<ManufacturerDevice> result = new ArrayList<ManufacturerDevice>();
-		result.add(device);
-		return result.toArray(new ManufacturerDevice[result.size()]);
-	}
 
 	public String getManufacturerModelName() {
 		return ManufacturerModelName;
