@@ -418,6 +418,21 @@ public class Extractor {
 			// ----------- Вставка в БД ------------------
 
 			PreparedStatement stmt = null;
+			Long directionID = null;
+			//TODO Ищем соответствующее направление (по StudyId)
+			PreparedStatement psSelect = connection
+			.prepareStatement("SELECT ID FROM WEBDICOM.DIRECTION  WHERE DIRECTION_ID = ?");
+			try {
+				psSelect.setString(1, study.getStudyID());
+				ResultSet rs = psSelect.executeQuery();
+				while (rs.next()) {
+					directionID = rs.getLong("ID");
+				}
+
+			} finally {
+				if (psSelect != null)
+					psSelect.close();
+			}
 
 			// STUDY
 
@@ -449,7 +464,8 @@ public class Extractor {
 										"PATIENT_SHORTNAME =?," +
 										"PATIENT_BIRTH_DATE =?, " +
 										"PATIENT_SEX =?," +
-										"DATE_MODIFIED =? "
+										"DATE_MODIFIED =?, " +
+										"FID_DIRECTION = ?"
 								+ " where ID = ?");
 
 				stmt.setString(1, study.getStudyID());
@@ -474,7 +490,13 @@ public class Extractor {
 				stmt.setDate(16, study.getPatientBirthDate());
 				stmt.setString(17, study.getPatientSex());
 				stmt.setTimestamp(18, new Timestamp(new java.util.Date().getTime()));
-				stmt.setLong(19, studyInternalID);
+				
+				if(directionID!=null)
+					stmt.setLong(19, directionID);
+				else
+					stmt.setNull(19, java.sql.Types.BIGINT);
+				
+				stmt.setLong(20, studyInternalID);
 				stmt.executeUpdate();
 				stmt.close();
 
@@ -501,8 +523,9 @@ public class Extractor {
 								+ "PATIENT_SHORTNAME, "
 								+ "PATIENT_BIRTH_DATE, "
 								+ "PATIENT_SEX,"
-								+ "DATE_MODIFIED)"
-								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+								+ "DATE_MODIFIED,"
+								+ "FID_DIRECTION)"
+								+ " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 				stmt.setString(1, study.getStudyInstanceUID());
 				stmt.setString(2, study.getModality());
@@ -523,6 +546,11 @@ public class Extractor {
 				stmt.setDate(17, study.getPatientBirthDate());
 				stmt.setString(18, study.getPatientSex());
 				stmt.setTimestamp(19, new Timestamp(new java.util.Date().getTime()));
+				
+				if(directionID!=null)
+					stmt.setLong(20, directionID);
+				else
+					stmt.setNull(20, java.sql.Types.BIGINT);
 
 				stmt.executeUpdate();
 
