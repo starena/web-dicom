@@ -152,10 +152,12 @@ public class StudyImplDerby extends Study {
 		
 	}
 	
-	public static Study[] getStudues(Connection connection, Long id,
-			String studyModality, String manufacturerModelName, String patientId, String patientName, String patientShortName,
+	public static Study[] getStudues(Connection connection, Long id, String studyId,
+			String studyModality, String manufacturerModelName,
+			String patientId, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
-			String endStudyDate, String studyResult, String sortOrder) throws DataException {
+			String endStudyDate, String studyResult, String sortOrder)
+			throws DataException {
 
 		PreparedStatement psSelect = null;
 
@@ -172,6 +174,12 @@ public class StudyImplDerby extends Study {
 			if (sqlAddon.length() != 0)
 				sqlAddon += " AND ";
 			sqlAddon += " ID = ? ";
+		}
+		
+		if (studyId != null && studyId.length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_ID = ? ";
 		}
 		
 		if (studyModality != null && studyModality.length() > 0) {
@@ -287,6 +295,10 @@ public class StudyImplDerby extends Study {
 			
 			if (id != null) {
 				psSelect.setLong(index++, id);
+			}
+
+			if (studyId != null && studyId.length() > 0) {
+				psSelect.setString(index++, studyId);
 			}
 
 			if (studyModality != null && studyModality.length() > 0) {

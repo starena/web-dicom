@@ -13,6 +13,8 @@ import java.util.ArrayList;
 public class PersistentManagerDerby implements IPersistentManager {
 
 	private Connection connection;
+	//TODO Убрать в конфиг!!!
+	private int maxResponsRecords = 300;//Максимальное количество возвращаемых записей
 	
 	
 	
@@ -547,6 +549,10 @@ public class PersistentManagerDerby implements IPersistentManager {
 				sql += " PATIENT_SEX = ? ";
 			}
 			
+			if(counterArguments==0)
+				throw new DataException("All query arguments empty! Set any argument's");
+			
+			
 			pstmt = connection.prepareStatement(sql);
 			counterArguments = 1;
 			
@@ -576,9 +582,10 @@ public class PersistentManagerDerby implements IPersistentManager {
 			
 			// pstmt.setString(1, internalID);
 			ResultSet rs = pstmt.executeQuery();
-
+			int counter = 0;
 			while (rs.next()) {
 				result.add(getDirectionFromRs(rs));
+				if(counter>maxResponsRecords) break;
 			}
 			return result;
 		} catch (SQLException e) {

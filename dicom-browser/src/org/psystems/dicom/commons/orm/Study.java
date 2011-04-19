@@ -346,11 +346,11 @@ public abstract class Study {
 	 * @return
 	 * @throws DataException
 	 */
-	public static Study[] getStudues(Connection connection, Long id,
+	public static Study[] getStudues(Connection connection, Long id,  String studyId,
 			String studyModality, String manufacturerModelName, String patientId, String patientName, String patientShortName,
 			String patientBirthDate, String patientSex, String beginStudyDate,
 			String endStudyDate, String studyResult, String sortOrder) throws DataException {
-		return StudyImplDerby.getStudues(connection,  id, studyModality, manufacturerModelName, patientId, patientName,
+		return StudyImplDerby.getStudues(connection,  id, studyId, studyModality, manufacturerModelName, patientId, patientName,
 				patientShortName, patientBirthDate, patientSex, beginStudyDate,
 				endStudyDate, studyResult, sortOrder);
 	}
