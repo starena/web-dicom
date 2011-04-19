@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="Dicom_browser" default="war ligth" basedir=".">
-  <!-- Configure path to GWT SDK -->
+	<!-- Configure path to GWT SDK -->
+
+	<path id="svnant.classpath">
+		<fileset dir="lib/svnant">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.classpath" />
+
 	<!-- TODO Задать путь через переменную проекта !!! -->
-  <property name="gwt.sdk" location="C:\eclipse\3.5\plugins\com.google.gwt.eclipse.sdkbundle.2.0.3_2.0.3.v201002191036\gwt-2.0.3" />
+	<property name="gwt.sdk" location="C:\eclipse\3.5\plugins\com.google.gwt.eclipse.sdkbundle.2.0.3_2.0.3.v201002191036\gwt-2.0.3" />
 	<property name="version" value=""/>
 
-  <path id="project.class.path">
-    <pathelement location="war/WEB-INF/classes"/>
-    <pathelement location="${gwt.sdk}/gwt-user.jar"/>
-    <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
-    <!-- Add any additional non-server libs (such as JUnit) -->
-    <fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
-  </path>
+	<path id="project.class.path">
+		<pathelement location="war/WEB-INF/classes"/>
+		<pathelement location="${gwt.sdk}/gwt-user.jar"/>
+		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
+		<!-- Add any additional non-server libs (such as JUnit) -->
+		<fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
+	</path>
 
-  <target name="libs" description="Copy libs to WEB-INF/lib">
-    <mkdir dir="war/WEB-INF/lib" />
-    <copy todir="war/WEB-INF/lib" file="${gwt.sdk}/gwt-servlet.jar" />
-    <!-- Add any additional server libs that need to be copied -->
-  </target>
+	<target name="libs" description="Copy libs to WEB-INF/lib">
+		<mkdir dir="war/WEB-INF/lib" />
+		<copy todir="war/WEB-INF/lib" file="${gwt.sdk}/gwt-servlet.jar" />
+		<!-- Add any additional server libs that need to be copied -->
+	</target>
 
-  <target name="javac" depends="libs" description="Compile java source">
-    <mkdir dir="war/WEB-INF/classes"/>
-    <javac srcdir="src" includes="**" encoding="utf-8"
+	<target name="javac" depends="libs" description="Compile java source">
+		<mkdir dir="war/WEB-INF/classes"/>
+		<javac srcdir="src" includes="**" encoding="utf-8"
         destdir="war/WEB-INF/classes"
         source="1.5" target="1.5" nowarn="true"
         debug="true" debuglevel="lines,vars,source">
-      <classpath refid="project.class.path"/>
-    </javac>
-    <copy todir="war/WEB-INF/classes">
-      <fileset dir="src" excludes="**/*.java"/>
-    </copy>
-  </target>
+			<classpath refid="project.class.path"/>
+		</javac>
+		<copy todir="war/WEB-INF/classes">
+			<fileset dir="src" excludes="**/*.java"/>
+		</copy>
+	</target>
 
-  <target name="gwtc" depends="javac" description="GWT compile to JavaScript">
-    <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
-      <classpath>
-        <pathelement location="src"/>
-        <path refid="project.class.path"/>
-      </classpath>
-      <!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
-      <jvmarg value="-Xmx256M"/>
-      <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
-      <arg value="org.psystems.dicom.browser.Dicom_browser"/>
-    </java>
-  </target>
+	<target name="gwtc" depends="javac" description="GWT compile to JavaScript">
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+			<classpath>
+				<pathelement location="src"/>
+				<path refid="project.class.path"/>
+			</classpath>
+			<!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
+			<jvmarg value="-Xmx256M"/>
+			<!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+			<arg value="org.psystems.dicom.browser.Dicom_browser"/>
+		</java>
+	</target>
 
-  <target name="devmode" depends="javac" description="Run development mode">
-    <java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">
-      <classpath>
-        <pathelement location="src"/>
-        <path refid="project.class.path"/>
-      </classpath>
-      <jvmarg value="-Xmx256M"/>
-      <arg value="-startupUrl"/>
-      <arg value="Dicom_browser.html"/>
-      <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
-      <arg value="org.psystems.dicom.browser.Dicom_browser"/>
-    </java>
-  </target>
+	<target name="devmode" depends="javac" description="Run development mode">
+		<java failonerror="true" fork="true" classname="com.google.gwt.dev.DevMode">
+			<classpath>
+				<pathelement location="src"/>
+				<path refid="project.class.path"/>
+			</classpath>
+			<jvmarg value="-Xmx256M"/>
+			<arg value="-startupUrl"/>
+			<arg value="Dicom_browser.html"/>
+			<!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+			<arg value="org.psystems.dicom.browser.Dicom_browser"/>
+		</java>
+	</target>
 
-<!--
+	<!--
 Test targets suppressed because -junit argument was not specified when running webAppCreator.
 
   <target name="javac.tests" depends="javac" description="Compiles test code">
@@ -121,33 +129,36 @@ Test targets suppressed because -junit argument was not specified when running w
   </target>
 -->
 
-  <target name="hosted" depends="devmode" description="Run development mode (NOTE: the 'hosted' target is deprecated)" />
+	<target name="hosted" depends="devmode" description="Run development mode (NOTE: the 'hosted' target is deprecated)" />
 
-  <target name="build" depends="gwtc" description="Build this project" />
+	<target name="build" depends="gwtc" description="Build this project">
+		<property name="source-root" value="." />
+		<property name="repository.URL" value="http://sources.example.com" />
+		<java classname="org.tmatesoft.svn.cli.SVN" dir="${source-root}/src" fork="true" classpathref="svnant.classpath" output="war/revision.txt">
+			<arg value="info" />
+		</java>
+	</target>
 
-  <target name="war" depends="build" description="Create a war file">
-    <zip destfile="distrib/browser${version}.war" basedir="war"/>
-  </target>
-	
+	<target name="war" depends="build" description="Create a war file">
+		<zip destfile="distrib/browser${version}.war" basedir="war"/>
+	</target>
+
 	<target name="war ligth" depends="build" description="Create a war file">
-	    <zip destfile="distrib/browser${version}.war" basedir="war"
-	    	includes="**/**, WEB-INF/lib/gwt-servlet.jar"
-	    	excludes="WEB-INF/lib/**, **/todo.html"
 
-	    >
-	    	
-	    	<!--
+		<zip destfile="distrib/browser${version}.war" basedir="war" includes="**/**, WEB-INF/lib/gwt-servlet.jar" excludes="WEB-INF/lib/**, **/todo.html">
+
+			<!--
 	    	<zipfileset dir="war/WEB-INF/lib/" includes="gwt-servlet.jar" prefix="WEB-INF/lib/"/>
 	    	<zipfileset dir="war/WEB-INF/lib/" includes="dcm4che-net-2.0.21.jar" prefix="WEB-INF/lib/"/>
 	    	-->
 
 		</zip>
-	  </target>
-		
+	</target>
 
-  <target name="clean" description="Cleans this project">
-    <delete dir="war/WEB-INF/classes" failonerror="false" />
-    <delete dir="war/dicom_browser" failonerror="false" />
-  </target>
+
+	<target name="clean" description="Cleans this project">
+		<delete dir="war/WEB-INF/classes" failonerror="false" />
+		<delete dir="war/dicom_browser" failonerror="false" />
+	</target>
 
 </project>
