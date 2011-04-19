@@ -167,14 +167,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 			if(fullSearch) {
 				
-				studies = Study.getStudues(connection, null, null, manufacturerModelName, null, fio,
+				studies = Study.getStudues(connection, null, null,  null, manufacturerModelName, null, fio,
 						null, year+"-"+month+"-"+day, null, studyDB, studyDE, studyResult, sortOrder);
 			} else if(queryStr.matches("^\\D{5}\\d{2}$")) { //Если поиск по КБП
 				
-				studies = Study.getStudues(connection, null, null, manufacturerModelName, null, null,
+				studies = Study.getStudues(connection, null, null, null, manufacturerModelName, null, null,
 						queryStr, null, null, studyDB, studyDE, studyResult, sortOrder);
 			} else {
-				studies = Study.getStudues(connection, null, null, manufacturerModelName, null, queryStr,
+				studies = Study.getStudues(connection, null, null, null, manufacturerModelName, null, queryStr,
 					null, null, null, studyDB, studyDE, studyResult, sortOrder);
 			}
 			
