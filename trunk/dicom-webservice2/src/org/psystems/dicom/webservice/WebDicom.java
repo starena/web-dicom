@@ -213,7 +213,7 @@ public class WebDicom {
 
 			connection = ORMUtil.getConnection(servletContext);
 
-			Study[] studies = Study.getStudues(connection, query.getId(), query
+			Study[] studies = Study.getStudues(connection, query.getId(), query.getStudyId(),  query
 					.getStudyModality(), null, query.getPatientId(), query.getPatientName(), query
 					.getPatientShortName(), query.getPatientBirthDate(), query
 					.getPatientSex(), query.getBeginStudyDate(), query
