@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Dicom Web Service" default="war" basedir=".">
+	
+	<property name="version" value="2"/>
+	<property name="distfile" value="distrib/dicom-webservice${version}.war"/>
+	
+	
+	 <target name="clean" description="Cleans this project">
+	    <delete file="${distfile}" failonerror="true" />
+	  </target>
+	
+	<target name="build" description="Build this project" depends="clean">
+		<echo> ******* TODO ******** </echo>
+		<echo> *  Make Build Task  * </echo>
+		<echo> ******* TODO ******** </echo>
+	</target>
+	
+	<target name="war" depends="build" description="Create a war file">
+		<zip destfile="${distfile}" 
+			basedir="WebContent" includes="**/**" 
+			excludes="**/todo.html">
+		</zip>
+	</target>
+
+</project>
