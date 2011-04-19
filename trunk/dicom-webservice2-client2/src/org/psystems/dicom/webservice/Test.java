@@ -36,9 +36,9 @@ public class Test {
 	public Test() {
 
 		String url = "/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/";
-//		String host = "http://localhost:8080" + url;
+		String host = "http://localhost:8080" + url;
 //		 String host = "http://localhost:38081" + url;
-		 String host = "https://proxy.gp1.psystems.org:38081" + url;
+//		 String host = "https://proxy.gp1.psystems.org:38081" + url;
 
 		// Вывод отладочной информации по SSL-соединению
 		// System.setProperty("javax.net.debug", "all");
@@ -132,7 +132,7 @@ public class Test {
 		MakeDirection query = new MakeDirection();
 
 		//
-		query.setDirectionId("DIRID123123456");
+		query.setDirectionId("88273");
 
 		//
 
@@ -181,9 +181,9 @@ public class Test {
 
 		//
 		Patient patient = new Patient();
-		patient.setPatientName("Деренок Derenok");
+		patient.setPatientName("Артемьева Наталья Александровна");
 		patient.setPatientId("PATID1234");
-		patient.setPatientSex("M");
+		patient.setPatientSex("F");
 		patient.setPatientBirthDate("1974-03-01");
 		query.setPatient(patient);
 
@@ -205,9 +205,12 @@ public class Test {
 
 		QueryStudyE query = new QueryStudyE();
 		QueryStudy request = new QueryStudy();
-		request.setPatientId("LAB");
 //		request.setStudyModality("US");
-//		request.setPatientSex("M");
+		
+//		request.setPatientId("123");//All query arguments empty! Set any argument's
+//		request.setPatientSex("F");//Работает.
+//		request.setId(1);
+		request.setStudyId("123");
 		
 		query.setQuery(request);
 		Study[] studies = stub.queryStudy(query ).get_return();
@@ -215,9 +218,8 @@ public class Test {
 			for (Study study : studies) {
 				System.out.println("!!! study="+study);
 			}
-			System.out.println("count: "+studies.length);
-		}else {
-			System.out.println("no data");
+		} else {
+			System.out.println("No data");
 		}
 	}
 

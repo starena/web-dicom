@@ -176,7 +176,7 @@
      */
     public WebDicomStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this(configurationContext,"http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -185,7 +185,7 @@
      */
     public WebDicomStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this("http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -1610,7 +1610,7 @@
         }
         return false;
     }
-     //http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
+     //http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
         public static class Patient
         implements org.apache.axis2.databinding.ADBBean{
         /* This type was generated from the piece of schema that had
