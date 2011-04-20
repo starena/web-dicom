@@ -51,6 +51,19 @@ public class PersistentManagerDerby implements IPersistentManager {
 		PreparedStatement pstmt = null;
 		String sql = null;
 		
+		if (drn.getPatient() == null) {
+			throw new DataException("Patient could not be null.");
+		} else {
+			if (drn.getPatient().getPatientName() == null)
+				throw new DataException("Patient Name could not be null.");
+			if (drn.getPatient().getPatientSex() == null)
+				throw new DataException("Patient Sex could not be null.");
+			if (drn.getPatient().getPatientBirthDate() == null)
+				throw new DataException("Patient Birth Date could not be null.");
+			if (drn.getPatient().getPatientName() == null)
+				throw new DataException("Patient Name could not be null.");
+		}
+
 		long resultId = 0;
 
 			try {

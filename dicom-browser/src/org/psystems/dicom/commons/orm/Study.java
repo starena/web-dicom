@@ -80,6 +80,7 @@ public abstract class Study {
 	private Long[] dcmFiles; // Связанные DCM-файлы
 	private String dateFormat = "yyyy-MM-dd";
 	private String userDateTimeFormat = "dd-MM-yyyy H:m:s";
+	private String sqlTimestampFormat = "yyyy-MM-dd H:m:s";
 	
 	private Date studyDateModify;//Дата модификации исследования 
 	private Date studyDateRemoved;//Дата удаления исследования
@@ -312,7 +313,7 @@ public abstract class Study {
 	public String getStudyDateRemovedAsString() {
 		if (studyDateRemoved == null)
 			return null;
-		SimpleDateFormat formatLevel = new SimpleDateFormat(userDateTimeFormat);
+		SimpleDateFormat formatLevel = new SimpleDateFormat(sqlTimestampFormat);
 		return formatLevel.format(studyDateRemoved);
 	}
 
