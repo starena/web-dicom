@@ -36,7 +36,7 @@ public class WebDicom {
 	private void throwPortalException(String msg, Throwable e)
 			throws DicomWebServiceException {
 		String marker = Thread.currentThread().getId() + "_"
-				+ new Date().getTime();
+				+ Math.random() + " [" + new Date() + "]";
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
