@@ -205,12 +205,22 @@ public class Test {
 
 		QueryStudyE query = new QueryStudyE();
 		QueryStudy request = new QueryStudy();
-//		request.setStudyModality("US");
 		
-//		request.setPatientId("123");//All query arguments empty! Set any argument's
-//		request.setPatientSex("F");//Работает.
-//		request.setId(1);
+		request.setId(1);
 		request.setStudyId("123");
+		
+		request.setPatientId("123");
+		request.setPatientName("1212");
+		request.setPatientBirthDate("1974-03-01");
+		request.setPatientShortName("SSSS");
+		request.setPatientSex("F");//Работает.
+		
+		request.setStudyModality("US");
+		
+		request.setBeginStudyDate("2011-05-01");
+		request.setEndStudyDate("2011-05-02");
+		
+	
 		
 		query.setQuery(request);
 		Study[] studies = stub.queryStudy(query ).get_return();
