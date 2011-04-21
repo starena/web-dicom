@@ -71,6 +71,7 @@ public class WebDicom {
 	 * @param patient
 	 *            Пациент
 	 * @throws DicomWebServiceException
+	 * 
 	 */
 	public long makeDirection(String directionId, Employee doctorDirect,
 			Diagnosis[] diagnosisDirect, Service[] servicesDirect,
