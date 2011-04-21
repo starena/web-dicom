@@ -24,6 +24,7 @@
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
         <mkdir dir="${lib}"/>
+        <mkdir dir="${test}"/>
     </target>
     <target name="pre.compile.test" depends="init">
         <!--Test the classpath for the availability of necesary classes-->
@@ -66,7 +67,7 @@
             <fileset excludes="**/Test.class" dir="${classes}"/>
         </jar>
     </target>
-    <target name="jar.client" if="jars.ok" depends="compile.src">
+    <target name="jar.client" if="jars.ok" depends="compile.test">
         <jar destfile="${lib}/${name}-test-client.jar">
             <fileset dir="${classes}">
                 <exclude name="**/META-INF/*.*"/>
