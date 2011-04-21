@@ -62,6 +62,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 				throw new DataException("Patient Birth Date could not be null.");
 			if (drn.getPatient().getPatientName() == null)
 				throw new DataException("Patient Name could not be null.");
+			
 		}
 
 		long resultId = 0;
