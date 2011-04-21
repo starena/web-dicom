@@ -79,8 +79,8 @@ public abstract class Study {
 	private String studyUrl; // URL для открытия в обозревателе
 	private Long[] dcmFiles; // Связанные DCM-файлы
 	private String dateFormat = "yyyy-MM-dd";
-	private String userDateTimeFormat = "dd-MM-yyyy H:m:s";
-	private String sqlTimestampFormat = "yyyy-MM-dd H:m:s";
+//	private String userDateTimeFormat = "dd-MM-yyyy HH:mm:ss";
+	private String sqlTimestampFormat = "yyyy-MM-dd HH:mm:ss";
 	
 	private Date studyDateModify;//Дата модификации исследования 
 	private Date studyDateRemoved;//Дата удаления исследования

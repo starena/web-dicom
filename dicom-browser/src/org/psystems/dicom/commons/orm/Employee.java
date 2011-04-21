@@ -62,6 +62,10 @@ public class Employee implements Serializable {
 	}
 
 	public void setEmployeeType(String employeeType) {
+		if(employeeType==null)
+			throw new IllegalArgumentException("Employee type argument could not be null.");
+		if(!employeeType.equals(TYPE_DOCTOR) && !employeeType.equals(TYPE_OPERATOR))
+			throw new IllegalArgumentException("Employee type argument must be "+TYPE_DOCTOR+" or "+TYPE_OPERATOR);
 		this.employeeType = employeeType;
 	}
 
