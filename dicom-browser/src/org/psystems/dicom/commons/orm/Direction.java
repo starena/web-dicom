@@ -195,9 +195,19 @@ public class Direction implements Serializable {
 				field = "dateRemoved";
 				ORMUtil.dateTimeSQLToUtilDate(dateRemoved);
 			}
+			
+			field = "patient";
+			if(patient!=null) patient.chechEntity();
+			field = "doctorDirect";
+			if(doctorDirect!=null) doctorDirect.chechEntity();
+			field = "doctorPerformed";
+			if(doctorPerformed!=null) doctorPerformed.chechEntity();
+			
 		} catch (IllegalArgumentException ex) {
-			throw new IllegalArgumentException("field " + field + " ", ex);
+			throw new IllegalArgumentException("Direction field " + field + " " + ex.getMessage(), ex);
 		}
+		
+		
 	}
 
 	@Override

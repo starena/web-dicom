@@ -95,10 +95,8 @@ public class Patient implements Serializable {
 			if (patientBirthDate != null) {
 				ORMUtil.dateSQLToUtilDate(patientBirthDate);
 			}
-
 		} catch (IllegalArgumentException ex) {
-
-			throw new IllegalArgumentException("Patient Birth Date ", ex);
+			throw new IllegalArgumentException("Patient field Birth Date wrong format: "+ex.getMessage(), ex);
 		}
 
 	}
