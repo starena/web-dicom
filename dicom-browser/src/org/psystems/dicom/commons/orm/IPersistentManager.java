@@ -50,4 +50,14 @@ public interface IPersistentManager {
 	 */
 	public ArrayList<Direction> queryDirections(QueryDirection request)
 			throws DataException;
+	
+	/**
+	 * Получение коллекции исследований
+	 * 
+	 * @param request
+	 * @return
+	 * @throws DataException
+	 */
+	public ArrayList<Study> queryStudies(QueryStudy request)
+			throws DataException;
 }

@@ -78,7 +78,6 @@ public class Direction implements Serializable {
 	}
 
 	public void setDateDirection(String dateDirection) {
-		ORMUtil.dateSQLToUtilDate(dateDirection);
 		this.dateDirection = dateDirection;
 	}
 
@@ -95,7 +94,6 @@ public class Direction implements Serializable {
 	}
 
 	public void setDatePlanned(String datePlanned) {
-		ORMUtil.dateSQLToUtilDate(datePlanned);
 		this.datePlanned = datePlanned;
 	}
 
@@ -144,7 +142,6 @@ public class Direction implements Serializable {
 	}
 
 	public void setDatePerformed(String datePerformed) {
-		ORMUtil.dateSQLToUtilDate(datePerformed);
 		this.datePerformed = datePerformed;
 	}
 
@@ -161,7 +158,6 @@ public class Direction implements Serializable {
 	}
 
 	public void setDateModified(String dateModified) {
-		ORMUtil.dateSQLToUtilDate(dateModified);
 		this.dateModified = dateModified;
 	}
 
@@ -170,8 +166,38 @@ public class Direction implements Serializable {
 	}
 
 	public void setDateRemoved(String dateRemoved) {
-		ORMUtil.dateSQLToUtilDate(dateModified);
 		this.dateRemoved = dateRemoved;
+	}
+	
+	/**
+	 * Проверка всех полей.
+	 */
+	public void chechEntity() {
+		String field = null;
+		try {
+			if (dateDirection != null) {
+				field = "dateDirection";
+				ORMUtil.dateSQLToUtilDate(dateDirection);
+			}
+			if (datePlanned != null) {
+				field = "datePlanned";
+				ORMUtil.dateSQLToUtilDate(datePlanned);
+			}
+			if (datePerformed != null) {
+				field = "datePerformed";
+				ORMUtil.dateSQLToUtilDate(datePerformed);
+			}
+			if (dateModified != null) {
+				field = "dateModified";
+				ORMUtil.dateTimeSQLToUtilDate(dateModified);
+			}
+			if (dateRemoved != null) {
+				field = "dateRemoved";
+				ORMUtil.dateTimeSQLToUtilDate(dateRemoved);
+			}
+		} catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException("field " + field + " ", ex);
+		}
 	}
 
 	@Override
