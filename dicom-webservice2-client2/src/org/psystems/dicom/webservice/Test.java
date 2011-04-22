@@ -36,9 +36,9 @@ public class Test {
 	public Test() {
 
 		String url = "/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/";
-//		String host = "http://localhost:8080" + url;
+		String host = "http://localhost:8080" + url;
 //		 String host = "http://localhost:38081" + url;
-		 String host = "https://proxy.gp1.psystems.org:38081" + url;
+//		 String host = "https://proxy.gp1.psystems.org:38081" + url;
 
 		// Вывод отладочной информации по SSL-соединению
 		// System.setProperty("javax.net.debug", "all");
@@ -131,16 +131,21 @@ public class Test {
 
 		MakeDirection query = new MakeDirection();
 
+		
 		//
-		query.setDirectionId("88412");
+		query.setDirectionId("884312");
 
 		//
+		
+		
 		Employee doctor = new Employee();
 		doctor.setEmployeeName("Врач doctor1");
 		doctor.setEmployeeType("DOCTOR");
 		doctor.setEmployeeCode("123");
 		query.setDoctorDirect(doctor);
-
+		
+		query.setDiagnosisDirect(new Diagnosis[] {new Diagnosis()});
+/*
 		//
 		Diagnosis dia1 = new Diagnosis();
 		dia1.setDiagnosisCode("Z01");
@@ -151,6 +156,7 @@ public class Test {
 		dia2.setDiagnosisDescription("Диагноз2");
 		query.setDiagnosisDirect(new Diagnosis[] { dia1, dia2 });
 
+*/
 		//
 		Service service1 = new Service();
 		service1.setServiceCode("code1");
@@ -185,7 +191,7 @@ public class Test {
 		patient.setPatientName("Артемьева Наталья Александровна");
 		patient.setPatientId("PATID1234");
 		patient.setPatientSex("F");
-		patient.setPatientBirthDate("1974-03-01");
+		patient.setPatientBirthDate("1974-33-33");
 		patient.setPatientShortName("qwe12");
 		query.setPatient(patient);
 		
