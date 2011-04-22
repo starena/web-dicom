@@ -10,6 +10,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.apache.commons.httpclient.methods.GetMethod;
+
 public class PersistentManagerDerby implements IPersistentManager {
 
 	private Connection connection;
@@ -66,6 +68,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 		PreparedStatement pstmt = null;
 		String sql = null;
+		
+		drn.chechEntity();
 		
 		if (drn.getPatient() == null) {
 			throw new DataException("Patient could not be null.");
@@ -151,11 +155,17 @@ public class PersistentManagerDerby implements IPersistentManager {
 				else
 					pstmt.setNull(7, java.sql.Types.VARCHAR);
 
-				if (drn.getDatePlanned() != null)
-					pstmt.setDate(8, java.sql.Date.valueOf(drn
-							.getDatePlanned()));
-				else
-					pstmt.setNull(8, java.sql.Types.DATE);
+				try {
+					if (drn.getDatePlanned() != null)
+						pstmt.setDate(8, java.sql.Date.valueOf(drn
+								.getDatePlanned()));
+					else
+						pstmt.setNull(8, java.sql.Types.DATE);
+
+				} catch (IllegalArgumentException ex) {
+					throw new DataException("field Date Planned wrong format: "
+							+ drn.getDatePlanned(), ex);
+				}
 
 				if (drn.getDoctorPerformed() != null) {
 					pstmt.setString(9, drn.getDoctorPerformed()
@@ -184,10 +194,18 @@ public class PersistentManagerDerby implements IPersistentManager {
 				else
 					pstmt.setNull(14, java.sql.Types.VARCHAR);
 
-				if (drn.getDatePerformed() != null)
-					pstmt.setDate(15, java.sql.Date.valueOf(drn.getDatePerformed()));
-				else
-					pstmt.setNull(15, java.sql.Types.DATE);
+				try {
+					if (drn.getDatePerformed() != null)
+						pstmt.setDate(15, java.sql.Date.valueOf(drn
+								.getDatePerformed()));
+					else
+						pstmt.setNull(15, java.sql.Types.DATE);
+
+				} catch (IllegalArgumentException ex) {
+					throw new DataException("field Date Performed wrong format: "
+							+ drn.getDatePerformed(), ex);
+				}
+
 
 				if (drn.getPatient() != null) {
 					pstmt.setString(16, drn.getPatient().getPatientId());
@@ -199,11 +217,19 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(19, java.sql.Types.VARCHAR);
 				}
 				
-				if (drn.getPatient() != null && drn.getPatient().getPatientBirthDate() != null) {
-					pstmt.setDate(18, java.sql.Date
-							.valueOf(drn.getPatient().getPatientBirthDate()));
-				} else {
-					pstmt.setNull(18, java.sql.Types.DATE);
+				try {
+					if (drn.getPatient() != null
+							&& drn.getPatient().getPatientBirthDate() != null) {
+						pstmt.setDate(18, java.sql.Date.valueOf(drn
+								.getPatient().getPatientBirthDate()));
+					} else {
+						pstmt.setNull(18, java.sql.Types.DATE);
+					}
+				} catch (IllegalArgumentException ex) {
+					throw new DataException(
+							"Patient field Birth Date wrong format: "
+									+ drn.getPatient().getPatientBirthDate(),
+							ex);
 				}
 
 				//TODO проверить, нужно ли делать TIMESTAMP
@@ -211,11 +237,16 @@ public class PersistentManagerDerby implements IPersistentManager {
 //				pstmt.setDate(20, java.sql.Date.valueOf(formatSQL
 //						.format(new java.util.Date())));// sysdate
 
-				//TODO проверить, нужно ли делать TIMESTAMP
-				if (drn.getDateRemoved() != null)
-					pstmt.setTimestamp(21, new Timestamp(java.sql.Date.valueOf(drn.getDateRemoved()).getTime()));
-				else 
-					pstmt.setNull(21, java.sql.Types.TIMESTAMP);
+				try {
+					if (drn.getDateRemoved() != null)
+						pstmt.setTimestamp(21, new Timestamp(java.sql.Date
+								.valueOf(drn.getDateRemoved()).getTime()));
+					else
+						pstmt.setNull(21, java.sql.Types.TIMESTAMP);
+				} catch (IllegalArgumentException ex) {
+					throw new DataException("field Date Removed wrong format: "
+							+ drn.getDateRemoved(), ex);
+				}
 				
 				connection.setAutoCommit(false);
 				int count = pstmt.executeUpdate();
@@ -289,11 +320,18 @@ public class PersistentManagerDerby implements IPersistentManager {
 				else
 					pstmt.setNull(4, java.sql.Types.VARCHAR);
 
-				if (drn.getDateDirection() != null)
-					pstmt.setDate(5, java.sql.Date.valueOf(drn
-							.getDateDirection()));
-				else
-					pstmt.setNull(5, java.sql.Types.DATE);
+				try {
+					if (drn.getDateDirection() != null)
+						pstmt.setDate(5, java.sql.Date.valueOf(drn
+								.getDateDirection()));
+					else
+						pstmt.setNull(5, java.sql.Types.DATE);
+
+				} catch (IllegalArgumentException ex) {
+					throw new DataException(
+							"field Date Direction wrong format: "
+									+ drn.getDateDirection(), ex);
+				}
 
 				if (drn.getServicesDirect() != null)
 					pstmt.setString(6, Service.toPersistentCollectionString(drn
@@ -308,11 +346,16 @@ public class PersistentManagerDerby implements IPersistentManager {
 				else
 					pstmt.setNull(7, java.sql.Types.VARCHAR);
 
-				if (drn.getDatePlanned() != null)
-					pstmt.setDate(8, java.sql.Date.valueOf(drn
-							.getDatePlanned()));
-				else
-					pstmt.setNull(8, java.sql.Types.DATE);
+				try {
+					if (drn.getDatePlanned() != null)
+						pstmt.setDate(8, java.sql.Date.valueOf(drn
+								.getDatePlanned()));
+					else
+						pstmt.setNull(8, java.sql.Types.DATE);
+				} catch (IllegalArgumentException ex) {
+					throw new DataException("field Date Planned wrong format: "
+							+ drn.getDatePlanned(), ex);
+				}
 
 				if (drn.getDoctorPerformed() != null) {
 					pstmt.setString(9, drn.getDoctorPerformed()
@@ -341,10 +384,17 @@ public class PersistentManagerDerby implements IPersistentManager {
 				else
 					pstmt.setNull(14, java.sql.Types.VARCHAR);
 
-				if (drn.getDatePerformed() != null)
-					pstmt.setDate(15, java.sql.Date.valueOf(drn.getDatePerformed()));
-				else
-					pstmt.setNull(15, java.sql.Types.DATE);
+				try {
+					if (drn.getDatePerformed() != null)
+						pstmt.setDate(15, java.sql.Date.valueOf(drn
+								.getDatePerformed()));
+					else
+						pstmt.setNull(15, java.sql.Types.DATE);
+				} catch (IllegalArgumentException ex) {
+					throw new DataException(
+							"field Date Performed wrong format: "
+									+ drn.getDatePlanned(), ex);
+				}
 
 				if (drn.getPatient() != null) {
 					pstmt.setString(16, drn.getPatient().getPatientId());
@@ -356,11 +406,19 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setNull(19, java.sql.Types.VARCHAR);
 				}
 
-				if (drn.getPatient() != null
-						&& drn.getPatient().getPatientBirthDate() != null) {
-					pstmt.setDate(18, java.sql.Date.valueOf(drn.getPatient().getPatientBirthDate()));
-				} else {
-					pstmt.setNull(18, java.sql.Types.DATE);
+				try {
+					if (drn.getPatient() != null
+							&& drn.getPatient().getPatientBirthDate() != null) {
+						pstmt.setDate(18, java.sql.Date.valueOf(drn
+								.getPatient().getPatientBirthDate()));
+					} else {
+						pstmt.setNull(18, java.sql.Types.DATE);
+					}
+				} catch (IllegalArgumentException ex) {
+					throw new DataException(
+							"Patient field Birth Date wrong format: "
+									+ drn.getPatient().getPatientBirthDate(),
+							ex);
 				}
 
 				// TODO проверить, нужно ли делать TIMESTAMP
@@ -369,11 +427,16 @@ public class PersistentManagerDerby implements IPersistentManager {
 				// pstmt.setDate(20, java.sql.Date.valueOf(formatSQL
 				// .format(new java.util.Date())));// sysdate
 
-				// TODO проверить, нужно ли делать TIMESTAMP
-				if (drn.getDateRemoved() != null)
-					pstmt.setTimestamp(21, new Timestamp(java.sql.Date.valueOf(drn.getDateRemoved()).getTime()));
-				else
-					pstmt.setNull(21, java.sql.Types.TIMESTAMP);
+				try {
+					if (drn.getDateRemoved() != null)
+						pstmt.setTimestamp(21, new Timestamp(java.sql.Date
+								.valueOf(drn.getDateRemoved()).getTime()));
+					else
+						pstmt.setNull(21, java.sql.Types.TIMESTAMP);
+				} catch (IllegalArgumentException ex) {
+					throw new DataException("field Date Removed wrong format: "
+							+ drn.getDateRemoved(), ex);
+				}
 				
 				pstmt.setLong(22, drn.getId());
 
@@ -386,8 +449,11 @@ public class PersistentManagerDerby implements IPersistentManager {
 			}
 
 			} catch (SQLException e) {
-				throw new DataException(e);
-			} finally {
+				throw new DataException("SQL Error " + e.getMessage(),e);
+			} catch (IllegalArgumentException e) {
+				throw new DataException("Internal error "+ e.getMessage(),e);
+			}
+			finally {
 
 				try {
 					if (pstmt != null)
@@ -534,6 +600,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 	public ArrayList<Direction> queryDirections(QueryDirection request)
 			throws DataException {
 
+		request.chechEntity();
+		
 		ArrayList<Direction> result = new ArrayList<Direction>();
 		PreparedStatement pstmt = null;
 		String sql = "SELECT * FROM WEBDICOM.DIRECTION WHERE ";
