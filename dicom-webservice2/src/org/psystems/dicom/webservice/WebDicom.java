@@ -36,7 +36,7 @@ public class WebDicom {
 	private void throwPortalException(String msg, Throwable e)
 			throws DicomWebServiceException {
 		String marker = Thread.currentThread().getId() + "_"
-				+ Math.random() + " [" + new Date() + "]";
+				+ Math.random() + " - " + new Date() ;
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
@@ -79,14 +79,18 @@ public class WebDicom {
 			String datePlanned, String directionCode, String directionLocation,
 			Patient patient) throws DicomWebServiceException {
 
-		System.out.println("!!!! patient=" + patient + " doctorDirect="
-				+ doctorDirect + " servicesDirect=" + servicesDirect);
-		for (Service service : servicesDirect) {
-			System.out.println("!! service=" + service);
-		}
-		for (Diagnosis dia : diagnosisDirect) {
-			System.out.println("!! dia=" + dia);
-		}
+//		System.out.println("!!!! patient=" + patient + " doctorDirect="
+//				+ doctorDirect + " servicesDirect=" + servicesDirect);
+//		for (Service service : servicesDirect) {
+//			System.out.println("!! service=" + service);
+//		}
+//		for (Diagnosis dia : diagnosisDirect) {
+//			System.out.println("!! dia=" + dia);
+//		}
+		
+		//Проверки
+		doctorDirect.chechEntity();
+		patient.chechEntity();
 
 		ServletContext servletContext = (ServletContext) MessageContext
 				.getCurrentMessageContext().getProperty(
@@ -177,6 +181,9 @@ public class WebDicom {
 	public Direction[] queryDirection(QueryDirection query)
 			throws DicomWebServiceException {
 
+		
+		query.chechEntity();
+		
 		ServletContext servletContext = (ServletContext) MessageContext
 				.getCurrentMessageContext().getProperty(
 						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
@@ -205,6 +212,8 @@ public class WebDicom {
 	 */
 	public Study[] queryStudy(QueryStudy query) throws DicomWebServiceException {
 
+		query.chechEntity();
+		
 		ServletContext servletContext = (ServletContext) MessageContext
 				.getCurrentMessageContext().getProperty(
 						HTTPConstants.MC_HTTP_SERVLETCONTEXT);
