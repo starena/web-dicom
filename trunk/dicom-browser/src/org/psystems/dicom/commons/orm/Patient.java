@@ -86,6 +86,22 @@ public class Patient implements Serializable {
 	public String getPatientBirthDate() {
 		return patientBirthDate;
 	}
+	
+	/**
+	 * Проверка всех полей.
+	 */
+	public void chechEntity() {
+		try {
+			if (patientBirthDate != null) {
+				ORMUtil.dateSQLToUtilDate(patientBirthDate);
+			}
+
+		} catch (IllegalArgumentException ex) {
+
+			throw new IllegalArgumentException("Patient Birth Date ", ex);
+		}
+
+	}
 
 	@Override
 	public String toString() {

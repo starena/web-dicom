@@ -22,6 +22,9 @@ public class ORMUtil {
 	public static SimpleDateFormat dateFormatSQL = new SimpleDateFormat(
 			"yyyy-MM-dd");
 	
+	public static SimpleDateFormat dateTimeFormatSQL = new SimpleDateFormat(
+	"yyyy-MM-dd HH:mm:ss");
+	
 	/**
 	 * Конвертация Util даты
 	 * 
@@ -33,6 +36,8 @@ public class ORMUtil {
 		return dateFormatSQL.format(date);
 	}
 	
+	
+	
 	/**
 	 * Конвертация SQL даты с проверкой строки с датой на валидность
 	 * @param dateStr
@@ -43,10 +48,38 @@ public class ORMUtil {
 		try {
 			return dateFormatSQL.parse(dateStr);
 		} catch (ParseException e) {
-			throw new RuntimeException("Date bad format! ", e);
+			throw new IllegalArgumentException("string with a date has wrong format " +
+					dateFormatSQL.toPattern() + " input string: [" + dateStr + "]", e);
 		}
-	
 	}
+	
+	/**
+	 * Конвертация Util даты+время
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String utilDateTimeToSQLDateTimeString(Date date) {
+		if(date==null) return null;
+		return dateTimeFormatSQL.format(date);
+	}
+	
+	/**
+	 * Конвертация SQL даты+время с проверкой строки с датой на валидность
+	 * @param dateStr
+	 * @return
+	 */
+	public static Date dateTimeSQLToUtilDate(String dateStr) {
+		if(dateStr==null) return null;
+		try {
+			return dateTimeFormatSQL.parse(dateStr);
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("string with a date and time has wrong format " +
+					dateTimeFormatSQL.toPattern() + " input string: [" + dateStr + "]", e);
+		}
+	}
+	
+	
 	
 	/**
 	 * Получение КБП

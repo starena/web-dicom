@@ -35,10 +35,26 @@ public class PersistentManagerDerby implements IPersistentManager {
 		if (obj instanceof Direction) {
 			return makePesistentDirection((Direction) obj);
 		}
+		// сохранение направления
+		if (obj instanceof Study) {
+			return makePesistentStudy((Study) obj);
+		}
 		return 0;
-		// TODO Auto-generated method stub
 
 	}
+
+	/**
+	 * Сохранение исследования
+	 * TODO Не реализовано !!!
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	private long makePesistentStudy(Study obj) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 	/**
 	 * Сохранение направления
@@ -615,6 +631,14 @@ public class PersistentManagerDerby implements IPersistentManager {
 			}
 		}
 
+	}
+
+
+	@Override
+	public ArrayList<Study> queryStudies(QueryStudy request)
+			throws DataException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -12,8 +12,10 @@ public class QueryStudy {
 	private Long id; // Внутренний ID
 	private String studyId; // штрих код
 	private String studyModality;// модальность
-	private String beginStudyDate;// Дата начала интервала поиска по дате исследования
-	private String endStudyDate;// Дата окончания интервала поиска по дате исследования
+	private String beginStudyDate;// Дата начала интервала поиска по дате
+									// исследования
+	private String endStudyDate;// Дата окончания интервала поиска по дате
+								// исследования
 
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
@@ -54,7 +56,6 @@ public class QueryStudy {
 	 *            Формат SQL Date - "гггг.дд.мм"
 	 */
 	public void setBeginStudyDate(String beginStudyDate) {
-		ORMUtil.dateSQLToUtilDate(beginStudyDate);
 		this.beginStudyDate = beginStudyDate;
 	}
 
@@ -67,7 +68,6 @@ public class QueryStudy {
 	 *            Формат SQL Date - "гггг.дд.мм"
 	 */
 	public void setEndStudyDate(String endStudyDate) {
-		ORMUtil.dateSQLToUtilDate(endStudyDate);
 		this.endStudyDate = endStudyDate;
 	}
 
@@ -104,7 +104,6 @@ public class QueryStudy {
 	 *            Формат SQL Date - "гггг.дд.мм"
 	 */
 	public void setPatientBirthDate(String patientBirthDate) {
-		ORMUtil.dateSQLToUtilDate(patientBirthDate);
 		this.patientBirthDate = patientBirthDate;
 	}
 
@@ -114,6 +113,29 @@ public class QueryStudy {
 
 	public void setPatientShortName(String patientShortName) {
 		this.patientShortName = patientShortName;
+	}
+
+	/**
+	 * Проверка всех полей.
+	 */
+	public void chechEntity() {
+		String field = null;
+		try {
+			if (beginStudyDate != null) {
+				field = "beginStudyDate";
+				ORMUtil.dateSQLToUtilDate(beginStudyDate);
+			}
+			if (endStudyDate != null) {
+				field = "endStudyDate";
+				ORMUtil.dateSQLToUtilDate(endStudyDate);
+			}
+			if (patientBirthDate != null) {
+				field = "patientBirthDate";
+				ORMUtil.dateSQLToUtilDate(patientBirthDate);
+			}
+		} catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException("field " + field + " ", ex);
+		}
 	}
 
 	@Override

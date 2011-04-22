@@ -44,7 +44,6 @@ public class QueryDirection {
 	 * @param dateDirection Формат SQL Date - "гггг.дд.мм"
 	 */
 	public void setDateDirection(String dateDirection) {
-		ORMUtil.dateSQLToUtilDate(dateDirection);
 		this.dateDirection = dateDirection;
 	}
 
@@ -82,8 +81,26 @@ public class QueryDirection {
 	 * @param patientBirthDate Формат SQL Date - "гггг.дд.мм"
 	 */
 	public void setPatientBirthDate(String patientBirthDate) {
-		ORMUtil.dateSQLToUtilDate(patientBirthDate);
 		this.patientBirthDate = patientBirthDate;
+	}
+	
+	/**
+	 * Проверка всех полей.
+	 */
+	public void chechEntity() {
+		String field = null;
+		try {
+			if (dateDirection != null) {
+				field = "dateDirection";
+				ORMUtil.dateSQLToUtilDate(dateDirection);
+			}
+			if (patientBirthDate != null) {
+				field = "patientBirthDate";
+				ORMUtil.dateSQLToUtilDate(patientBirthDate);
+			}
+		} catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException("field " + field + " ", ex);
+		}
 	}
 
 	@Override
