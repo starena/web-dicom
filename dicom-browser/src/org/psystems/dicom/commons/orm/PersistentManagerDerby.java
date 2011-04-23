@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.psystems.dicom.browser.client.component.WorkListPanel;
 
 public class PersistentManagerDerby implements IPersistentManager {
 
@@ -31,15 +32,15 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 	
 	@Override
-	public long makePesistent(Serializable obj) throws DataException {
+	public long pesistentDirection(Serializable Direction) throws DataException {
 
 		// сохранение направления
-		if (obj instanceof Direction) {
-			return makePesistentDirection((Direction) obj);
+		if (Direction instanceof Direction) {
+			return makePesistentDirection((Direction) Direction);
 		}
 		// сохранение направления
-		if (obj instanceof Study) {
-			return makePesistentStudy((Study) obj);
+		if (Direction instanceof Study) {
+			return makePesistentStudy((Study) Direction);
 		}
 		return 0;
 
@@ -49,10 +50,10 @@ public class PersistentManagerDerby implements IPersistentManager {
 	 * Сохранение исследования
 	 * TODO Не реализовано !!!
 	 * 
-	 * @param obj
+	 * @param study
 	 * @return
 	 */
-	private long makePesistentStudy(Study obj) {
+	private long makePesistentStudy(Study study) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -470,7 +471,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 	
 	/**
-	 * Получение экземпляра исследования из Record Set
+	 * Получение экземпляра Направления из Record Set
 	 * @param rs
 	 * @return
 	 * @throws SQLException
@@ -496,10 +497,13 @@ public class PersistentManagerDerby implements IPersistentManager {
 		drn.setDevice(dev);
 		drn.setDatePlanned(ORMUtil.utilDateToSQLDateString(rs.getDate("DIRECTION_DATE_PLANNED")) );
 
-		Employee doctorPerformed = new Employee();
-		doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
-		doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
-		drn.setDoctorPerformed(doctorPerformed);
+		if(rs.getString("DOCTOR_PERFORMED_NAME")!=null) {
+			Employee doctorPerformed = new Employee();
+			doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
+			doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
+			drn.setDoctorPerformed(doctorPerformed);
+		}
+		
 		drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
 		drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
 
@@ -520,15 +524,15 @@ public class PersistentManagerDerby implements IPersistentManager {
 		patient.setPatientSex(rs.getString("PATIENT_SEX"));
 		drn.setPatient(patient);
 
-		drn.setDateModified(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_MODIFIED")));
-		drn.setDateRemoved(ORMUtil.utilDateToSQLDateString(rs.getDate("REMOVED")));
+		drn.setDateModified(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
+		drn.setDateRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
 
 		return drn;
 	}
 	
 	
 	@Override
-	public Serializable getObjectbyID(Long id) throws DataException {
+	public Direction getDirectionByID(Long id) throws DataException {
 		
 		Direction drn = new Direction();
 		PreparedStatement pstmt = null;
@@ -542,6 +546,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 			while (rs.next()) {
 				drn = getDirectionFromRs(rs);
 			}
+			
 			return drn;
 		} catch (SQLException e) {
 			throw new DataException(e);
@@ -560,7 +565,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 	
 
 	@Override
-	public Serializable getObjectbyInternalID(String internalID)
+	public Direction getDirectionByDirectionId(String internalID)
 			throws DataException {
 
 		Direction drn = new Direction();
@@ -591,7 +596,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 	}
 	
 	@Override
-	public Serializable getObjectbyUID(String uid)  throws DataException {
+	public Study getStudyByUID(String uid)  throws DataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -600,6 +605,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 	public ArrayList<Direction> queryDirections(QueryDirection request)
 			throws DataException {
 
+		if(request==null) throw new IllegalArgumentException("Request could not be null.");
+		
+		//проверяем валидность направления
 		request.chechEntity();
 		
 		ArrayList<Direction> result = new ArrayList<Direction>();
@@ -702,12 +710,315 @@ public class PersistentManagerDerby implements IPersistentManager {
 	}
 
 
+	/**
+	 * Получение экземпляра исследования из Record Set
+	 * 
+	 * @param rs
+	 * @return
+	 * @throws SQLException 
+	 */
+	private Study getStudyFromRs(ResultSet rs) throws SQLException {
+		
+		Study study = new StudyImplDerby();
+		study.setId(rs.getLong("ID"));
+		study.setStudyInstanceUID(rs.getString("STUDY_UID"));
+		study.setStudyModality(rs.getString("STUDY_MODALITY"));
+		study.setStudyType(rs.getString("STUDY_TYPE"));
+		study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
+		study.setStudyDate(rs.getDate("STUDY_DATE"));
+		study.setManufacturerModelUID(rs
+				.getString("STUDY_MANUFACTURER_UID"));
+		study.setManufacturerModelName(rs
+				.getString("STUDY_MANUFACTURER_MODEL_NAME"));
+		study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
+		study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
+		study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
+		study.setStudyViewprotocolDate(rs.getDate("STUDY_VIEW_PROTOCOL_DATE"));
+		study.setStudyId(rs.getString("STUDY_ID"));
+		study.setPatientName(rs.getString("PATIENT_NAME"));
+		study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
+		study.setPatientSex(rs.getString("PATIENT_SEX"));
+		study.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+		study.setPatientId(rs.getString("PATIENT_ID"));
+		study.setStudyResult(rs.getString("STUDY_RESULT"));
+		study.setStudyUrl("");// TODO сделать!!
+		study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
+		study.setStudyDateModify(rs.getTimestamp("DATE_MODIFIED"));
+		
+		study.setStudyDateRemoved(null);
+		if(rs.getTimestamp("REMOVED")!=null)
+		study.setStudyDateRemoved(rs.getTimestamp("REMOVED"));
+		
+		return study;
+	}
+	
+
+
 	@Override
-	public ArrayList<Study> queryStudies(QueryStudy request)
-			throws DataException {
-		// TODO Auto-generated method stub
+	public Study getStudyByID(Long id) throws DataException {
+		PreparedStatement psSelect = null;
+		String sql = "SELECT * FROM WEBDICOM.STUDY WHERE ID = ?";
+
+		try {
+
+			psSelect = connection.prepareStatement(sql);
+			psSelect.setLong(1, id);
+			ResultSet rs = psSelect.executeQuery();
+
+			while (rs.next()) {
+				return getStudyFromRs(rs);
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
 		return null;
 	}
 	
+
+
+	@Override
+	public ArrayList<Study> queryStudies(QueryStudy request)
+			throws DataException {
+		
+		if(request==null) throw new IllegalArgumentException("Request could not be null.");
+		
+		//проверяем валидность направления
+		request.chechEntity();
+		
+		PreparedStatement psSelect = null;
+
+		// TODO Сделать ограничение на количество возвращаемых строк
+
+		// "SELECT * FROM WEBDICOM.STUDY"
+		// + " WHERE UPPER(PATIENT_NAME) like UPPER( ? || '%')"
+		// + " order by PATIENT_NAME, STUDY_DATE "
+
+		String sqlAddon = "";
+
+		
+		if (request.getId() != null) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " ID = ? ";
+		}
+		
+		if (request.getStudyId() != null && request.getStudyId().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_ID = ? ";
+		}
+		
+		if (request.getStudyModality() != null && request.getStudyModality().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_MODALITY = ? ";
+		}
+		
+		if (request.getManufacturerModelName() != null && request.getManufacturerModelName().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_MANUFACTURER_MODEL_NAME = ? ";
+		}
+
+		
+		
+		if (request.getPatientId() != null && request.getPatientId().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " UPPER(PATIENT_ID) like UPPER( ? || '%') ";
+		}
+		
+		if (request.getPatientName() != null && request.getPatientName().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " UPPER(PATIENT_NAME) like UPPER( ? || '%') ";
+		}
+		
+		
+		if (request.getPatientShortName() != null && request.getPatientShortName().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " PATIENT_SHORTNAME = UPPER(?) ";
+		}
+
+		if (request.getPatientBirthDate() != null && request.getPatientBirthDate().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " PATIENT_BIRTH_DATE = ? ";
+		}
+
+		if (request.getPatientSex() != null && request.getPatientSex().length() > 0) {
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " PATIENT_SEX = ? ";
+		}
+
+		if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
+				&& request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0) {
+
+			//TODO Вынести в chekEntity
+			if (java.sql.Date.valueOf(request.getBeginStudyDate()).getTime() > java.sql.Date
+					.valueOf(request.getEndStudyDate()).getTime()) {
+				throw new DataException(new IllegalArgumentException(
+						"beginStudyDate > endStudyDate"));
+			}
+
+			if (sqlAddon.length() != 0)
+				sqlAddon += " AND ";
+			sqlAddon += " STUDY_DATE BETWEEN ? AND ? ";
+		} else {
+
+			if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
+					&& (request.getEndStudyDate() == null || request.getEndStudyDate().length() > 0)) {
+				if (sqlAddon.length() != 0)
+					sqlAddon += " AND ";
+				sqlAddon += " STUDY_DATE > ? ";
+			}
+
+			if (request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0
+					&& (request.getBeginStudyDate() == null || request.getBeginStudyDate().length() > 0)) {
+				if (sqlAddon.length() != 0)
+					sqlAddon += " AND ";
+				sqlAddon += " STUDY_DATE < ?  ";
+			}
+			
+			
+		}
+		
+		
+		//TODO странная конструкция. пересмотреть..сделать isOld или isNew...
+		if (request.getStudyResult() != null && request.getStudyResult().length() > 0) {
+			if (sqlAddon.length() != 0)
+				
+			if(request.getStudyResult().equals("new")) {
+				sqlAddon += " AND ";
+				sqlAddon += " ( STUDY_VIEW_PROTOCOL is NULL OR STUDY_VIEW_PROTOCOL = '' ) ";
+			}
+			if(request.getStudyResult().equals("old")) {
+				sqlAddon += " AND ";
+				sqlAddon += " ( STUDY_VIEW_PROTOCOL IS NOT NULL AND STUDY_VIEW_PROTOCOL != '' )";
+			}
+			
+		}
+		String order = "PATIENT_NAME, STUDY_DATE";
+		if(request.getSortOrder()!=null) {
+			order = request.getSortOrder();
+		}
+
+		String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon
+				+ " order by "+order;
+
+
+	
+		
+		IllegalArgumentException ex = new IllegalArgumentException(
+				"All query arguments empty! Set any argument's");
+		if (sqlAddon.length() == 0)
+			throw new DataException(ex);
+
+		try {
+
+			psSelect = connection.prepareStatement(sql);
+			int index = 1;
+			
+			if (request.getId() != null) {
+				psSelect.setLong(index++, request.getId());
+			}
+
+			if (request.getStudyId() != null && request.getStudyId().length() > 0) {
+				psSelect.setString(index++, request.getStudyId());
+			}
+
+			if (request.getStudyModality() != null && request.getStudyModality().length() > 0) {
+				psSelect.setString(index++, request.getStudyModality());
+			}
+			
+			if (request.getManufacturerModelName() != null && request.getManufacturerModelName().length() > 0) {
+				psSelect.setString(index++, request.getManufacturerModelName());
+			}
+			
+			if (request.getPatientId() != null && request.getPatientId().length() > 0) {
+				psSelect.setString(index++, request.getPatientId());
+			}
+
+			if (request.getPatientName() != null && request.getPatientName().length() > 0) {
+				psSelect.setString(index++, request.getPatientName());
+			}
+
+			if (request.getPatientShortName() != null && request.getPatientShortName().length() > 0) {
+				psSelect.setString(index++, request.getPatientShortName());
+			}
+
+			if (request.getPatientBirthDate() != null && request.getPatientBirthDate().length() > 0) {
+				psSelect.setDate(index++, java.sql.Date
+						.valueOf(request.getPatientBirthDate()));
+			}
+
+			if (request.getPatientSex() != null && request.getPatientSex().length() > 0) {
+				psSelect.setString(index++, request.getPatientSex());
+			}
+
+			if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
+					&& request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0) {
+				psSelect
+						.setDate(index++, java.sql.Date.valueOf(request.getBeginStudyDate()));
+				psSelect.setDate(index++, java.sql.Date.valueOf(request.getEndStudyDate()));
+			}else {
+				
+				if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
+						&& (request.getEndStudyDate() == null || request.getEndStudyDate().length() > 0)) {
+					psSelect
+					.setDate(index++, java.sql.Date.valueOf(request.getBeginStudyDate()));
+				}
+
+				if (request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0
+						&& (request.getBeginStudyDate() == null || request.getBeginStudyDate().length() > 0)) {
+					psSelect
+					.setDate(index++, java.sql.Date.valueOf(request.getEndStudyDate()));
+				}
+			}
+			
+			
+		
+
+			ResultSet rs = psSelect.executeQuery();
+
+			ArrayList<Study> data = new ArrayList<Study>();
+
+			
+			int counter = 1;
+			while (rs.next()) {
+				//TODO убрать в конфиг
+				if(counter++> WorkListPanel.maxResultCount) break;
+				data.add(getStudyFromRs(rs));
+			}
+			rs.close();
+
+			return data;
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+	}
 	
 }

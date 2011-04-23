@@ -2,16 +2,36 @@ package org.psystems.dicom.commons.orm;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
 public class PersistentManagerDerbyTest extends TestCase {
 
+	private Direction drnMaster;
+	private long drnMasterID;
+	
+	private String rndId;
+	
+	private Diagnosis dia1;
+	private Service srv;
+	private Service srv1;
+	private Connection connection;
+	
+
+
 	protected void setUp() throws Exception {
 		super.setUp();
 		//TODO Сделать старт тестовой НЕСЕТЕВОЙ инстанции БД
+		
+		Properties props = new Properties(); // connection properties
+		props.put("user", "user1"); // FIXME взять из конфига
+		props.put("password", "user1"); // FIXME взять из конфига
+
+		connection = DriverManager.getConnection(
+				"jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM"
+						+ ";create=true", props);
 	}
 
 	protected void tearDown() throws Exception {
@@ -26,52 +46,48 @@ public class PersistentManagerDerbyTest extends TestCase {
 			
 			//TODO Доделать тест по всем полям и разить тест на несколько функций
 			
-			Properties props = new Properties(); // connection properties
-			props.put("user", "user1"); // FIXME взять из конфига
-			props.put("password", "user1"); // FIXME взять из конфига
-			Connection connection;
-
-			connection = DriverManager.getConnection(
-					"jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM"
-							+ ";create=true", props);
+			
 
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 
-			String rndId = "" + Math.random();
-			Direction drn = new Direction();
-			drn.setDateDirection("2011-04-13");
+			rndId = "" + Math.random();
+			drnMaster = new Direction();
+			drnMaster.setDateDirection("2011-04-13");
 
 			ManufacturerDevice device = new ManufacturerDevice();
 			device.setManufacturerModelName("TestModel");
 			device.setManufacturerModelDescription("Тестовый аппарат");
 			device.setManufacturerModelType("ES");
 			device.setManufacturerModelTypeDescription("Эндоскоп");
-			drn.setDevice(device);
+			drnMaster.setDevice(device);
 
+			ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
 
 			Diagnosis dia = new Diagnosis();
 			dia.setDiagnosisCode("M01.1");
 			dia.setDiagnosisType(Diagnosis.TYPE_MAIN);// основной
 			dia.setDiagnosisDescription("Заболевание такое-то...");
 			dia.setDiagnosisSubType("Предварительный");
+			diagnosisDirect.add(dia);
 
-			Diagnosis dia1 = new Diagnosis();
-			dia1.setDiagnosisCode("K01.1");
-			dia1.setDiagnosisType(Diagnosis.TYPE_ACCOMPANYING);// сопутствующий
-			dia1.setDiagnosisDescription("Еще одно заболевание такое-то...");
-			dia1.setDiagnosisSubType("Предварительный");
+			dia = new Diagnosis();
+			dia.setDiagnosisCode("K01.1");
+			dia.setDiagnosisType(Diagnosis.TYPE_ACCOMPANYING);// сопутствующий
+			dia.setDiagnosisDescription("Еще одно заболевание такое-то...");
+			dia.setDiagnosisSubType("Предварительный");
+			diagnosisDirect.add(dia);
 
-			drn.setDiagnosisDirect(new Diagnosis[] {dia,dia1});
+			drnMaster.setDiagnosisDirect(diagnosisDirect.toArray(new Diagnosis[diagnosisDirect.size()]));
 
-			drn.setDirectionCode("Test code");
-			drn.setDirectionId(rndId);
-			drn.setDirectionLocation("605");
+			drnMaster.setDirectionCode("Test code");
+			drnMaster.setDirectionId(rndId);
+			drnMaster.setDirectionLocation("605");
 
 			Employee doctorDirect = new Employee();
 			doctorDirect.setEmployeeCode("123");
 			doctorDirect.setEmployeeName("Врач Петров И.И.");
 			doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
-			drn.setDoctorDirect(doctorDirect);
+			drnMaster.setDoctorDirect(doctorDirect);
 
 			Patient patient = new Patient();
 			
@@ -82,49 +98,91 @@ public class PersistentManagerDerbyTest extends TestCase {
 			patient.setPatientName("Иванов Иван Иванович");
 			patient.setPatientSex("M");
 			patient.setPatientShortName("ИВАИВ74");
-			drn.setPatient(patient);
+			drnMaster.setPatient(patient);
 
-			Service srv = new Service();
+			srv = new Service();
 			srv.setServiceCode("A.03.16.001.01");
 			srv.setServiceAlias("ЭГДС");
 			srv
 					.setServiceDescription("Эзофагогастродуоденоскопия диагностическая");
 
-			Service srv1 = new Service();
+			srv1 = new Service();
 			srv1.setServiceCode("A.02.12.002.02");
 			srv1.setServiceAlias("СМАД");
 			srv1
 					.setServiceDescription("Суточное мониторирование артериального давления");
 
-			drn.setServicesDirect(new Service[] {srv,srv1});
-			long newId = pm.makePesistent(drn);
+			drnMaster.setServicesDirect(new Service[] {srv,srv1});
+			drnMasterID = pm.pesistentDirection(drnMaster);
+			
+			
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void testGetDirectionByID() {
+
+		try {
+			
+			testMakePesistent();
+			
+			//TODO Сделать старт тестовой НЕСЕТЕВОЙ инстанции БД
+			
+			//TODO Доделать тест по всем полям и разить тест на несколько функций
+			
+
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+
+						
+			
 
 			// **************************
 			// Десериализация
 			// *************************
 
-			Direction newDrn = (Direction) pm.getObjectbyID(newId);
+			
+			
+			Direction newDrn = pm.getDirectionByID(drnMasterID);
 			assertEquals(rndId, newDrn.getDirectionId());
 
+			
 			// Diagnosis
 
-			Diagnosis[] newDiaList = newDrn.getDiagnosisDirect();
+			
+			assertEquals(newDrn.getDiagnosisDirect()[0].getDiagnosisCode(),
+					drnMaster.getDiagnosisDirect()[0].getDiagnosisCode());
 
-			Diagnosis newDia = newDiaList[0];
-			assertEquals(newDia.getDiagnosisCode(), dia.getDiagnosisCode());
-			assertEquals(newDia.getDiagnosisType(), dia.getDiagnosisType());
-			assertEquals(newDia.getDiagnosisSubType(), dia
-					.getDiagnosisSubType());
-			assertEquals(newDia.getDiagnosisDescription(), dia
-					.getDiagnosisDescription());
+			assertEquals(newDrn.getDiagnosisDirect()[0].getDiagnosisType(),
+					drnMaster.getDiagnosisDirect()[0].getDiagnosisType());
 
-			Diagnosis newDia1 = newDiaList[1];
-			assertEquals(newDia1.getDiagnosisCode(), dia1.getDiagnosisCode());
-			assertEquals(newDia1.getDiagnosisType(), dia1.getDiagnosisType());
-			assertEquals(newDia1.getDiagnosisSubType(), dia1
-					.getDiagnosisSubType());
-			assertEquals(newDia1.getDiagnosisDescription(), dia1
-					.getDiagnosisDescription());
+			assertEquals(newDrn.getDiagnosisDirect()[0].getDiagnosisSubType(),
+					drnMaster.getDiagnosisDirect()[0].getDiagnosisSubType());
+
+			assertEquals(newDrn.getDiagnosisDirect()[0]
+					.getDiagnosisDescription(),
+					drnMaster.getDiagnosisDirect()[0].getDiagnosisDescription());
+			
+			//
+			
+			assertEquals(newDrn.getDiagnosisDirect()[1].getDiagnosisCode(),
+					drnMaster.getDiagnosisDirect()[1].getDiagnosisCode());
+
+			assertEquals(newDrn.getDiagnosisDirect()[1].getDiagnosisType(),
+					drnMaster.getDiagnosisDirect()[1].getDiagnosisType());
+
+			assertEquals(newDrn.getDiagnosisDirect()[1].getDiagnosisSubType(),
+					drnMaster.getDiagnosisDirect()[1].getDiagnosisSubType());
+
+			assertEquals(newDrn.getDiagnosisDirect()[1]
+					.getDiagnosisDescription(),
+					drnMaster.getDiagnosisDirect()[1].getDiagnosisDescription());
+			
+
+
+
 
 			// Service
 
@@ -142,32 +200,51 @@ public class PersistentManagerDerbyTest extends TestCase {
 			assertEquals(newSrv1.getServiceDescription(), srv1
 					.getServiceDescription());
 			
+
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void testUpdateDirection() {
+
+		try {
+
+			testMakePesistent();
+
+			// TODO Сделать старт тестовой НЕСЕТЕВОЙ инстанции БД
+
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+
+			Direction newDrn = pm.getDirectionByID(drnMasterID);
 			
+			System.out.println("!!! doctorPerformed:" + newDrn.getDoctorPerformed());
+
 			// Проверка обновления направления
-			
-//			newDia1 = new Diagnosis();
-			newDia1.setDiagnosisCode("K11.2");
-			newDia1.setDiagnosisType(Diagnosis.TYPE_ACCOMPANYING);// сопутствующий
-			newDia1.setDiagnosisDescription("И Еще одно заболевание такое-то...");
-			newDia1.setDiagnosisSubType("Непонятный");
-			
-			pm.makePesistent(newDrn);
-			
-			Direction drn3 = (Direction) pm.getObjectbyID(newDrn.getId());
+			ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
+			Diagnosis dia = new Diagnosis();
+			dia.setDiagnosisCode("K11.2");
+			dia.setDiagnosisType(Diagnosis.TYPE_ACCOMPANYING);// сопутствующий
+			dia.setDiagnosisDescription("И Еще одно заболевание такое-то...");
+			dia.setDiagnosisSubType("Непонятный");
+
+			newDrn.setDiagnosisDirect(diagnosisDirect
+					.toArray(new Diagnosis[diagnosisDirect.size()]));
+
+			pm.pesistentDirection(newDrn);
+
+			Direction drn3 = (Direction) pm.getDirectionByID(newDrn.getId());
 			Diagnosis[] diaList3 = drn3.getDiagnosisDirect();
-			
+
 			Diagnosis newDia3 = diaList3[1];
-			assertEquals(newDia3.getDiagnosisCode(), newDia1.getDiagnosisCode());
-			assertEquals(newDia3.getDiagnosisType(), newDia1.getDiagnosisType());
-			assertEquals(newDia3.getDiagnosisSubType(), newDia1
+			assertEquals(newDia3.getDiagnosisCode(), dia.getDiagnosisCode());
+			assertEquals(newDia3.getDiagnosisType(), dia.getDiagnosisType());
+			assertEquals(newDia3.getDiagnosisSubType(), dia
 					.getDiagnosisSubType());
-			assertEquals(newDia3.getDiagnosisDescription(), newDia1
+			assertEquals(newDia3.getDiagnosisDescription(), dia
 					.getDiagnosisDescription());
 
-
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
