@@ -22,6 +22,11 @@ public class QueryStudy {
 	private String patientSex; // Пол пациента (M/F)
 	private String patientBirthDate; // Дата рождения пациента
 	private String patientShortName; // код краткого поиска
+	
+	private String manufacturerModelName; //имя аппарата
+	private String studyResult;//TODO странное поле :-( new | old используется
+	//для фильтра в worklist типа сделать 
+	private String sortOrder;//TODO странное поле :-( идут перечисления полей в БД... переделать..
 
 	public Long getId() {
 		return id;
@@ -114,6 +119,26 @@ public class QueryStudy {
 	public void setPatientShortName(String patientShortName) {
 		this.patientShortName = patientShortName;
 	}
+	
+	
+
+	public String getManufacturerModelName() {
+		return manufacturerModelName;
+	}
+
+	public void setManufacturerModelName(String manufacturerModelName) {
+		this.manufacturerModelName = manufacturerModelName;
+	}
+	
+	
+
+	public String getStudyResult() {
+		return studyResult;
+	}
+
+	public void setStudyResult(String studyResult) {
+		this.studyResult = studyResult;
+	}
 
 	/**
 	 * Проверка всех полей.
@@ -133,20 +158,50 @@ public class QueryStudy {
 				field = "patientBirthDate";
 				ORMUtil.dateSQLToUtilDate(patientBirthDate);
 			}
+			
+			//TODO Сделать остальные проверки (studyModality итп..)
+			//TODO сделать проверку на длинну и корретность строк...
+			
+//			
+//			if (java.sql.Date.valueOf(request.getBeginStudyDate()).getTime() > java.sql.Date
+//					.valueOf(request.getEndStudyDate()).getTime()) {
+//				throw new DataException(new IllegalArgumentException(
+//						"beginStudyDate > endStudyDate"));
+//			}
+			
 		} catch (IllegalArgumentException ex) {
 			throw new IllegalArgumentException("field " + field + " ", ex);
 		}
+	}
+	
+	
+
+	public String getSortOrder() {
+		return sortOrder;
+	}
+
+	public void setSortOrder(String sortOrder) {
+		this.sortOrder = sortOrder;
 	}
 
 	@Override
 	public String toString() {
 		return "QueryStudy [beginStudyDate=" + beginStudyDate
 				+ ", endStudyDate=" + endStudyDate + ", id=" + id
+				+ ", manufacturerModelName=" + manufacturerModelName
 				+ ", patientBirthDate=" + patientBirthDate + ", patientId="
 				+ patientId + ", patientName=" + patientName + ", patientSex="
 				+ patientSex + ", patientShortName=" + patientShortName
-				+ ", studyId=" + studyId + ", studyModality=" + studyModality
-				+ "]";
+				+ ", sortOrder=" + sortOrder + ", studyId=" + studyId
+				+ ", studyModality=" + studyModality + ", studyResult="
+				+ studyResult + "]";
 	}
+
+	
+
+	
+
+
+
 
 }

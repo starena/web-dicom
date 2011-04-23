@@ -44,6 +44,8 @@ public class Diagnosis implements Serializable {
 	 */
 	public static Diagnosis getFromPersistentString(String data) {
 
+		if(data==null) return null;
+		
 		String[] d = data.split("\\^");
 		Diagnosis dia = new Diagnosis();
 		dia.setDiagnosisType(d[0]);

@@ -6,39 +6,47 @@ import java.util.ArrayList;
 public interface IPersistentManager {
 
 	/**
-	 * Сохранение сущности
+	 * Сохранение направления
 	 * 
-	 * @param obj
+	 * @param Direction
 	 * @return
 	 * @throws DataException
 	 */
-	public long makePesistent(Serializable obj) throws DataException;
+	public long pesistentDirection(Serializable Direction) throws DataException;
 
 	/**
-	 * Получение экземпляра сущности по его внутренему Id
+	 * Получение экземпляра направления по его внутренему Id
 	 * (PtudyId,PatientId,...)
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public Serializable getObjectbyInternalID(String internalID)
+	public Direction getDirectionByDirectionId(String internalID)
 			throws DataException;
 
 	/**
-	 * Получение экземпляра сущности по id
+	 * Получение экземпляра направления по id
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public Serializable getObjectbyID(Long id) throws DataException;
+	public Direction getDirectionByID(Long id) throws DataException;
+	
+	/**
+	 * Получение экземпляра исследования по id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Study getStudyByID(Long id) throws DataException;
 
 	/**
-	 * Получение экземпляра сущности по uid
+	 * Получение экземпляра исследования по uid
 	 * 
 	 * @param uid
 	 * @return
 	 */
-	public Serializable getObjectbyUID(String uid) throws DataException;
+	public Study getStudyByUID(String uid) throws DataException;
 
 
 	/**
