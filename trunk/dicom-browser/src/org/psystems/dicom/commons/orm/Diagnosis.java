@@ -2,6 +2,8 @@ package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Диагноз
@@ -27,13 +29,40 @@ public class Diagnosis implements Serializable {
 	private String diagnosisDescription;// Описание
 
 	/**
+	 * Экранирование спец символов ^ и |
+	 * @param s
+	 * @return
+	 */
+	private static String toPersistString (String s) {
+		s = s.replaceAll("\\^", "#####");
+		s = s.replaceAll("\\|", "@@@@@");
+		return s;
+	}
+
+	/**
+	 * Де-Экранирование спец символов ^ и |
+	 * @param s
+	 * @return
+	 */
+	private static String fromPersistString (String s) {
+		s = s.replaceAll("#####", "\\^");
+		s = s.replaceAll("@@@@@","\\|");
+		return s;
+		
+	}
+	
+	/**
 	 * формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
 	 * 
 	 * @return
 	 */
 	public String toPersistentString() {
-		return diagnosisType + "^" + diagnosisSubType + "^" + diagnosisCode
-				+ "^" + diagnosisDescription;
+
+		return toPersistString(diagnosisType) + "^"
+				+ toPersistString(diagnosisSubType) + "^"
+				+ toPersistString(diagnosisCode) + "^"
+				+ toPersistString(diagnosisDescription);
+
 	}
 
 	/**
@@ -44,25 +73,25 @@ public class Diagnosis implements Serializable {
 	 */
 	public static Diagnosis getFromPersistentString(String data) {
 
-		if(data==null) return null;
-		
-		String[] d = data.split("\\^");
-		Diagnosis dia = new Diagnosis();
-		dia.setDiagnosisType(d[0]);
-		dia.setDiagnosisSubType(d[1]);
-		dia.setDiagnosisCode(d[2]);
-		dia.setDiagnosisDescription(d[3]);
+		if (data == null || data.length() == 0)
+			return null;
 
-		// Matcher matcher =
-		// Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
-		// boolean fullSearch = matcher.matches();
-		// String fio = null,day = null,month = null,year = null;
-		// if (fullSearch) {
-		// fio = matcher.group(1);
-		// day = matcher.group(2);
-		// month = matcher.group(3);
-		// year = matcher.group(4);
-		// }
+		Diagnosis dia = new Diagnosis();
+
+		Matcher matcher = Pattern.compile("^(.+)\\^(.+)\\^(.+)\\^(.+)$")
+				.matcher(data);
+		if (matcher.matches()) {
+			dia.setDiagnosisType(fromPersistString(matcher.group(1)));
+			dia.setDiagnosisSubType(fromPersistString(matcher.group(2)));
+			dia.setDiagnosisCode(fromPersistString(matcher.group(3)));
+			dia.setDiagnosisDescription(fromPersistString(matcher.group(4)));
+
+		} else {
+			throw new IllegalArgumentException(
+					"Wrong string pattern [diagnosisType^diagnosisSubType^diagnosisCode^diagnosisDescription] for ["
+							+ data + "]");
+		}
+
 		return dia;
 	}
 
