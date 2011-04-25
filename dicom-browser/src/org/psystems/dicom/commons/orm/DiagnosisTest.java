@@ -67,20 +67,6 @@ public class DiagnosisTest extends TestCase {
 		
 	}
 
-	public void testGetCollectionFromPersistentString() {
-		Diagnosis[] dias = Diagnosis
-				.getCollectionFromPersistentString("ОСНОВНОЙ^Предварительный^M01.1^Заболевание M01.1|СОПУТСТВУЮЩИЙ^Заключительный^K01.1^Заболевание K01.1");
-		assertEquals(dias[0].getDiagnosisCode(), "M01.1");
-		assertEquals(dias[0].getDiagnosisType(), "ОСНОВНОЙ");
-		assertEquals(dias[0].getDiagnosisSubType(), "Предварительный");
-		assertEquals(dias[0].getDiagnosisDescription(), "Заболевание M01.1");
-		
-		assertEquals(dias[1].getDiagnosisCode(), "K01.1");
-		assertEquals(dias[1].getDiagnosisType(), "СОПУТСТВУЮЩИЙ");
-		assertEquals(dias[1].getDiagnosisSubType(), "Заключительный");
-		assertEquals(dias[1].getDiagnosisDescription(), "Заболевание K01.1");
-	}
-
 	public void testToPersistentCollectionString() {
 
 		ArrayList<Diagnosis> dias = new ArrayList<Diagnosis>();
@@ -104,6 +90,22 @@ public class DiagnosisTest extends TestCase {
 						.toArray(new Diagnosis[dias.size()])),
 				"ОСНОВНОЙ^Предварительный^M01.1^Заболевание M01.1|СОПУТСТВУЮЩИЙ^Заключительный^K01.1^Заболевание K01.1");
 
+	}
+	
+	public void testGetCollectionFromPersistentString() {
+
+		Diagnosis[] dias = Diagnosis
+				.getCollectionFromPersistentString("ОСНОВНОЙ^Предварительный^M01.1^Заболевание M01.1|СОПУТСТВУЮЩИЙ^Заключительный^K01.1^Заболевание K01.1");
+
+		assertEquals(dias[0].getDiagnosisCode(), "M01.1");
+		assertEquals(dias[0].getDiagnosisType(), "ОСНОВНОЙ");
+		assertEquals(dias[0].getDiagnosisSubType(), "Предварительный");
+		assertEquals(dias[0].getDiagnosisDescription(), "Заболевание M01.1");
+
+		assertEquals(dias[1].getDiagnosisCode(), "K01.1");
+		assertEquals(dias[1].getDiagnosisType(), "СОПУТСТВУЮЩИЙ");
+		assertEquals(dias[1].getDiagnosisSubType(), "Заключительный");
+		assertEquals(dias[1].getDiagnosisDescription(), "Заболевание K01.1");
 	}
 
 }

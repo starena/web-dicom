@@ -28,28 +28,7 @@ public class Diagnosis implements Serializable {
 	private String diagnosisCode;// Код (по МКБ)
 	private String diagnosisDescription;// Описание
 
-	/**
-	 * Экранирование спец символов ^ и |
-	 * @param s
-	 * @return
-	 */
-	private static String toPersistString (String s) {
-		s = s.replaceAll("\\^", "#####");
-		s = s.replaceAll("\\|", "@@@@@");
-		return s;
-	}
-
-	/**
-	 * Де-Экранирование спец символов ^ и |
-	 * @param s
-	 * @return
-	 */
-	private static String fromPersistString (String s) {
-		s = s.replaceAll("#####", "\\^");
-		s = s.replaceAll("@@@@@","\\|");
-		return s;
-		
-	}
+	
 	
 	/**
 	 * формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
@@ -58,10 +37,10 @@ public class Diagnosis implements Serializable {
 	 */
 	public String toPersistentString() {
 
-		return toPersistString(diagnosisType) + "^"
-				+ toPersistString(diagnosisSubType) + "^"
-				+ toPersistString(diagnosisCode) + "^"
-				+ toPersistString(diagnosisDescription);
+		return ORMUtil.toPersistString(diagnosisType) + "^"
+				+ ORMUtil.toPersistString(diagnosisSubType) + "^"
+				+ ORMUtil.toPersistString(diagnosisCode) + "^"
+				+ ORMUtil.toPersistString(diagnosisDescription);
 
 	}
 
@@ -81,10 +60,10 @@ public class Diagnosis implements Serializable {
 		Matcher matcher = Pattern.compile("^(.+)\\^(.+)\\^(.+)\\^(.+)$")
 				.matcher(data);
 		if (matcher.matches()) {
-			dia.setDiagnosisType(fromPersistString(matcher.group(1)));
-			dia.setDiagnosisSubType(fromPersistString(matcher.group(2)));
-			dia.setDiagnosisCode(fromPersistString(matcher.group(3)));
-			dia.setDiagnosisDescription(fromPersistString(matcher.group(4)));
+			dia.setDiagnosisType(ORMUtil.fromPersistString(matcher.group(1)));
+			dia.setDiagnosisSubType(ORMUtil.fromPersistString(matcher.group(2)));
+			dia.setDiagnosisCode(ORMUtil.fromPersistString(matcher.group(3)));
+			dia.setDiagnosisDescription(ORMUtil.fromPersistString(matcher.group(4)));
 
 		} else {
 			throw new IllegalArgumentException(

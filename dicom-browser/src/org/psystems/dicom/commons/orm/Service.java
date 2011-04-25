@@ -2,6 +2,8 @@ package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Услуга
@@ -25,7 +27,9 @@ public class Service implements Serializable {
 	 * @return
 	 */
 	public String toPersistentString() {
-		return serviceCode + "^" + serviceAlias + "^" + serviceDescription;
+		return ORMUtil.toPersistString(serviceCode) + "^"
+				+ ORMUtil.toPersistString(serviceAlias) + "^"
+				+ ORMUtil.toPersistString(serviceDescription);
 	}
 
 	/**
@@ -52,11 +56,25 @@ public class Service implements Serializable {
 	 * @return
 	 */
 	public static Service getFromPersistentString(String data) {
-		String[] d = data.split("\\^");
+
+		if (data == null || data.length() == 0)
+			return null;
+
 		Service srv = new Service();
-		srv.setServiceCode(d[0]);
-		srv.setServiceAlias(d[1]);
-		srv.setServiceDescription(d[2]);
+
+		Matcher matcher = Pattern.compile("^(.+)\\^(.+)\\^(.+)$").matcher(data);
+		if (matcher.matches()) {
+			srv.setServiceCode(ORMUtil.fromPersistString(matcher.group(1)));
+			srv.setServiceAlias(ORMUtil.fromPersistString(matcher.group(2)));
+			srv.setServiceDescription(ORMUtil.fromPersistString(matcher
+					.group(3)));
+
+		} else {
+			throw new IllegalArgumentException(
+					"Wrong string pattern [serviceCode^serviceAlias^serviceDescription] for ["
+							+ data + "]");
+		}
+
 		return srv;
 	}
 
