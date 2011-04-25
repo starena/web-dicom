@@ -43,6 +43,15 @@ public class ServiceTest extends TestCase {
 		assertEquals(srv.getServiceCode(), "SR ^ | V1");
 		assertEquals(srv.getServiceAlias(), "SA^|");
 		assertEquals(srv.getServiceDescription(), "Услуга | ^ номер 1");
+		
+		try {
+			Service.getFromPersistentString("SRV1^SA^");
+			fail("Wrong pattern");
+		} catch (IllegalArgumentException ex) {}
+		try {
+			Service.getFromPersistentString("SRV1^^Услуга номер 1");
+			fail("Wrong pattern");
+		} catch (IllegalArgumentException ex) {}
 	}
 
 	public void testToPersistentCollectionString() {
