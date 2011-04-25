@@ -57,11 +57,11 @@ public class DiagnosisTest extends TestCase {
 		assertEquals(dia.getDiagnosisDescription(), "Описание ^ | диагноза");
 		
 		try {
-			dia = Diagnosis.getFromPersistentString("ОСНОВНОЙ^Предварительный^M01.1^");
+			Diagnosis.getFromPersistentString("ОСНОВНОЙ^Предварительный^M01.1^");
 			fail("Wrong pattern");
 		} catch (IllegalArgumentException ex) {}
 		try {
-			dia = Diagnosis.getFromPersistentString("ОСНОВНОЙ^Предварительный^M01.1^");
+			Diagnosis.getFromPersistentString("ОСНОВНОЙ^Предварительный^M01.1^");
 			fail("Wrong pattern");
 		} catch (IllegalArgumentException ex) {}
 		

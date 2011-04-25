@@ -1,6 +1,8 @@
 package org.psystems.dicom.commons.orm;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Сотрудник
@@ -16,45 +18,48 @@ public class Employee implements Serializable {
 	private String employeeType;// Тип сотрудника (врач,оператор,..)
 	private String employeeName;// Имя
 	private String employeeCode;// Код, таб.номер
-	
+
 	public static String TYPE_DOCTOR = "DOCTOR";
 	public static String TYPE_OPERATOR = "OPERATOR";
-	
-	String persistentDelimeter = "|";//разделитель структур
+
+	String persistentDelimeter = "|";// разделитель структур
 
 	/**
 	 * формат строки Код^ФИО
+	 * 
 	 * @return
 	 */
 	public String toPersistentString() {
-		return employeeCode + "^" + employeeType + "^" + employeeName;
+		chechEntity();
+		return ORMUtil.toPersistString(employeeCode) + "^" + ORMUtil.toPersistString(employeeType)
+		+ "^" + ORMUtil.toPersistString(employeeName);
 	}
-	
+
 	/**
 	 * Создание экземпляра из строки
+	 * 
 	 * @param data
 	 * @return
 	 */
-	public static Employee getFromPersistentString (String data) {
-		
-		String[] d = data.split("\\^");
+	public static Employee getFromPersistentString(String data) {
+
+		if (data == null || data.length() == 0)
+			return null;
+
 		Employee emp = new Employee();
-		emp.setEmployeeCode(d[0]);
-		emp.setEmployeeName(d[2]);
-		emp.setEmployeeType(d[1]);
-		
-		
-//		Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
-//		boolean fullSearch = matcher.matches();
-//		String fio = null,day = null,month = null,year = null;
-//		if (fullSearch) {
-//			fio = matcher.group(1);
-//			day = matcher.group(2);
-//			month = matcher.group(3);
-//			year = matcher.group(4);
-//		}
+
+		Matcher matcher = Pattern.compile("^(.+)\\^(.+)\\^(.+)$").matcher(data);
+		if (matcher.matches()) {
+			emp.setEmployeeCode(ORMUtil.fromPersistString(matcher.group(1)));
+			emp.setEmployeeType(ORMUtil.fromPersistString(matcher.group(2)));
+			emp.setEmployeeName(ORMUtil.fromPersistString(matcher.group(3)));
+
+		} else {
+			throw new IllegalArgumentException(
+					"Wrong string pattern [employeeCode^employeeType^employeeName] for ["
+							+ data + "]");
+		}
 		return emp;
-		
 	}
 
 	public String getEmployeeType() {
@@ -80,7 +85,7 @@ public class Employee implements Serializable {
 	public void setEmployeeCode(String employeeCode) {
 		this.employeeCode = employeeCode;
 	}
-	
+
 	/**
 	 * Проверка всех полей.
 	 */
@@ -92,7 +97,7 @@ public class Employee implements Serializable {
 				&& !employeeType.equals(TYPE_OPERATOR))
 			throw new IllegalArgumentException(
 					"Employee type argument must be " + TYPE_DOCTOR + " or "
-							+ TYPE_OPERATOR);
+							+ TYPE_OPERATOR + "[" + employeeType + "]");
 	}
 
 	@Override
@@ -100,8 +105,5 @@ public class Employee implements Serializable {
 		return "Employee [employeeCode=" + employeeCode + ", employeeName="
 				+ employeeName + ", employeeType=" + employeeType + "]";
 	}
-	
-
-	
 
 }
