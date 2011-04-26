@@ -85,37 +85,37 @@ public class PersistentManagerDerby implements IPersistentManager {
 				throw new DataException("Patient Name could not be null.");
 			
 		}
+		
+		
 
 		long resultId = 0;
 
 			try {
+				
+				connection.setAutoCommit(false);
 				
 				if (drn.getId() == null) { // делаем вставку
 					sql = "INSERT INTO WEBDICOM.DIRECTION ("
 							+ "DIRECTION_ID," //1
 							+ "DOCTOR_DIRECT_NAME," //2
 							+ "DOCTOR_DIRECT_CODE," //3
-							+ "DIAGNOSIS_DIRECT," //4
-							+ "DATE_DIRECTION," //5
-							+ "SERVICES_DIRECTED," //6
-							+ "DEVICE," //7
-							+ "DIRECTION_DATE_PLANNED," //8
-							+ "DOCTOR_PERFORMED_NAME," //9
-							+ "DOCTOR_PERFORMED_CODE," //10
-							+ "DIRECTION_CODE," //11
-							+ "DIRECTION_LOCATION," //12
-							+ "DIAGNOSIS_PERFORMED," //13
-							+ "SERVICES_PERFORMED," //14
-							+ "DATE_PERFORMED," //15
-							+ "PATIENT_ID," //16
-							+ "PATIENT_NAME," //17
-							+ "PATIENT_BIRTH_DATE," //18
-							+ "PATIENT_SEX," //19
-							+ "DATE_MODIFIED," //20
-							+ "REMOVED" //21
+							+ "DATE_DIRECTION," //4
+							+ "DEVICE," //5
+							+ "DIRECTION_DATE_PLANNED," //6
+							+ "DOCTOR_PERFORMED_NAME," //7
+							+ "DOCTOR_PERFORMED_CODE," //8
+							+ "DIRECTION_CODE," //9
+							+ "DIRECTION_LOCATION," //10
+							+ "DATE_PERFORMED," //11
+							+ "PATIENT_ID," //12
+							+ "PATIENT_NAME," //13
+							+ "PATIENT_SEX," //14
+							+ "PATIENT_BIRTH_DATE," //15
+							+ "DATE_MODIFIED," //16
+							+ "REMOVED" //17
 							+") VALUES "
 							+ "(?,?,?,?,?,?,?,?,?,?," +
-								"?,?,?,?,?,?,?,?,?,?,?)";
+								"?,?,?,?,?,?,?)";
 					
 				pstmt = connection.prepareStatement(sql);
 				pstmt.setString(1, drn.getDirectionId());
@@ -129,39 +129,27 @@ public class PersistentManagerDerby implements IPersistentManager {
 					pstmt.setString(3, drn.getDoctorDirect().getEmployeeCode());
 				else
 					pstmt.setNull(3, java.sql.Types.VARCHAR);
-
-				if (drn.getDiagnosisDirect() != null)
-					pstmt.setString(4, Diagnosis
-							.toPersistentCollectionString(drn
-									.getDiagnosisDirect()));
-				else
-					pstmt.setNull(4, java.sql.Types.VARCHAR);
+				
 
 				if (drn.getDateDirection() != null)
-					pstmt.setDate(5, java.sql.Date.valueOf(drn
+					pstmt.setDate(4, java.sql.Date.valueOf(drn
 							.getDateDirection()));
 				else
-					pstmt.setNull(5, java.sql.Types.DATE);
-
-				if (drn.getServicesDirect() != null)
-					pstmt.setString(6, Service.toPersistentCollectionString(drn
-							.getServicesDirect()));
-				else
-					pstmt.setNull(6, java.sql.Types.VARCHAR);
-
-				// TODO device Может сделать доп. поля ^...^ как в услугах?
+					pstmt.setNull(4, java.sql.Types.DATE);
+				
+				
 				if (drn.getDevice() != null)
-					pstmt.setString(7, drn.getDevice()
+					pstmt.setString(5, drn.getDevice()
 							.getManufacturerModelName());
 				else
-					pstmt.setNull(7, java.sql.Types.VARCHAR);
+					pstmt.setNull(5, java.sql.Types.VARCHAR);
 
 				try {
 					if (drn.getDatePlanned() != null)
-						pstmt.setDate(8, java.sql.Date.valueOf(drn
+						pstmt.setDate(6, java.sql.Date.valueOf(drn
 								.getDatePlanned()));
 					else
-						pstmt.setNull(8, java.sql.Types.DATE);
+						pstmt.setNull(6, java.sql.Types.DATE);
 
 				} catch (IllegalArgumentException ex) {
 					throw new DataException("field Date Planned wrong format: "
@@ -169,62 +157,51 @@ public class PersistentManagerDerby implements IPersistentManager {
 				}
 
 				if (drn.getDoctorPerformed() != null) {
-					pstmt.setString(9, drn.getDoctorPerformed()
+					pstmt.setString(7, drn.getDoctorPerformed()
 							.getEmployeeName());
-					pstmt.setString(10, drn.getDoctorPerformed()
+					pstmt.setString(8, drn.getDoctorPerformed()
 							.getEmployeeCode());
 				} else {
-					pstmt.setNull(9, java.sql.Types.VARCHAR);
-					pstmt.setNull(10, java.sql.Types.VARCHAR);
+					pstmt.setNull(7, java.sql.Types.VARCHAR);
+					pstmt.setNull(8, java.sql.Types.VARCHAR);
 				}
 
-				pstmt.setString(11, drn.getDirectionCode());
-				pstmt.setString(12, drn.getDirectionLocation());
+				pstmt.setString(9, drn.getDirectionCode());
+				pstmt.setString(10, drn.getDirectionLocation());
 
-				if (drn.getDiagnosisPerformed() != null)
-					pstmt.setString(13, Diagnosis
-							.toPersistentCollectionString(drn
-									.getDiagnosisPerformed()));
-				else
-					pstmt.setNull(13, java.sql.Types.VARCHAR);
+			
 
-				if (drn.getServicesPerformed() != null)
-					pstmt.setString(14, Service
-							.toPersistentCollectionString(drn
-									.getServicesPerformed()));
-				else
-					pstmt.setNull(14, java.sql.Types.VARCHAR);
 
 				try {
 					if (drn.getDatePerformed() != null)
-						pstmt.setDate(15, java.sql.Date.valueOf(drn
+						pstmt.setDate(11, java.sql.Date.valueOf(drn
 								.getDatePerformed()));
 					else
-						pstmt.setNull(15, java.sql.Types.DATE);
+						pstmt.setNull(11, java.sql.Types.DATE);
 
 				} catch (IllegalArgumentException ex) {
 					throw new DataException("field Date Performed wrong format: "
 							+ drn.getDatePerformed(), ex);
 				}
-
+				
 
 				if (drn.getPatient() != null) {
-					pstmt.setString(16, drn.getPatient().getPatientId());
-					pstmt.setString(17, drn.getPatient().getPatientName());
-					pstmt.setString(19, drn.getPatient().getPatientSex());
+					pstmt.setString(12, drn.getPatient().getPatientId());
+					pstmt.setString(13, drn.getPatient().getPatientName());
+					pstmt.setString(14, drn.getPatient().getPatientSex());
 				} else {
-					pstmt.setNull(16, java.sql.Types.VARCHAR);
-					pstmt.setNull(17, java.sql.Types.VARCHAR);
-					pstmt.setNull(19, java.sql.Types.VARCHAR);
+					pstmt.setNull(12, java.sql.Types.VARCHAR);
+					pstmt.setNull(13, java.sql.Types.VARCHAR);
+					pstmt.setNull(14, java.sql.Types.VARCHAR);
 				}
 				
 				try {
 					if (drn.getPatient() != null
 							&& drn.getPatient().getPatientBirthDate() != null) {
-						pstmt.setDate(18, java.sql.Date.valueOf(drn
+						pstmt.setDate(15, java.sql.Date.valueOf(drn
 								.getPatient().getPatientBirthDate()));
 					} else {
-						pstmt.setNull(18, java.sql.Types.DATE);
+						pstmt.setNull(15, java.sql.Types.DATE);
 					}
 				} catch (IllegalArgumentException ex) {
 					throw new DataException(
@@ -232,44 +209,30 @@ public class PersistentManagerDerby implements IPersistentManager {
 									+ drn.getPatient().getPatientBirthDate(),
 							ex);
 				}
-
-				//TODO проверить, нужно ли делать TIMESTAMP
-				pstmt.setTimestamp(20, new Timestamp(new java.util.Date().getTime()));//sysdate
-//				pstmt.setDate(20, java.sql.Date.valueOf(formatSQL
-//						.format(new java.util.Date())));// sysdate
+				
+				pstmt.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));//sysdate
 
 				try {
 					if (drn.getDateRemoved() != null)
-						pstmt.setTimestamp(21, new Timestamp(java.sql.Date
+						pstmt.setTimestamp(17, new Timestamp(java.sql.Date
 								.valueOf(drn.getDateRemoved()).getTime()));
 					else
-						pstmt.setNull(21, java.sql.Types.TIMESTAMP);
+						pstmt.setNull(17, java.sql.Types.TIMESTAMP);
 				} catch (IllegalArgumentException ex) {
 					throw new DataException("field Date Removed wrong format: "
 							+ drn.getDateRemoved(), ex);
 				}
 				
-				connection.setAutoCommit(false);
+				
 				int count = pstmt.executeUpdate();
 				
 				Statement stmt = connection.createStatement();
 				ResultSet rs = stmt.executeQuery("values IDENTITY_VAL_LOCAL()");
-				ResultSetMetaData rsmd = rs.getMetaData();
 				while (rs.next()) {
-					
-//					for (int i = 1; i < rsmd.getColumnCount() + 1; i++) {
-//						String columnName = rsmd.getColumnName(i);
-//						// Get the name of the column's table name
-//						String tableName = rsmd.getTableName(i);
-//						System.out.println("!!!!!!! ID = columnName [" + columnName + "]["+tableName+"]");
-//					}
-
 					resultId = rs.getLong("1");
-//					System.out.println("!!!!!!! ID  [" + resultId + "]");
-					
 				}
 				
-				connection.commit();
+				
 				
 			} else { //Делаем update
 				
@@ -281,25 +244,21 @@ public class PersistentManagerDerby implements IPersistentManager {
 					+ "DIRECTION_ID = ?," //1
 					+ "DOCTOR_DIRECT_NAME = ?," //2
 					+ "DOCTOR_DIRECT_CODE = ?," //3
-					+ "DIAGNOSIS_DIRECT = ?," //4
-					+ "DATE_DIRECTION = ?," //5
-					+ "SERVICES_DIRECTED = ?," //6
-					+ "DEVICE = ?," //7
-					+ "DIRECTION_DATE_PLANNED = ?," //8
-					+ "DOCTOR_PERFORMED_NAME = ?," //9
-					+ "DOCTOR_PERFORMED_CODE = ?," //10
-					+ "DIRECTION_CODE = ?," //11
-					+ "DIRECTION_LOCATION = ?," //12
-					+ "DIAGNOSIS_PERFORMED = ?," //13
-					+ "SERVICES_PERFORMED = ?," //14
-					+ "DATE_PERFORMED = ?," //15
-					+ "PATIENT_ID = ?," //16
-					+ "PATIENT_NAME = ?," //17
-					+ "PATIENT_BIRTH_DATE = ?," //18
-					+ "PATIENT_SEX = ?," //19
-					+ "DATE_MODIFIED = ?," //20
-					+ "REMOVED = ?" //21
-					+" WHERE ID = ?"; //22
+					+ "DATE_DIRECTION = ?," //4
+					+ "DEVICE = ?," //5
+					+ "DIRECTION_DATE_PLANNED = ?," //6
+					+ "DOCTOR_PERFORMED_NAME = ?," //7
+					+ "DOCTOR_PERFORMED_CODE = ?," //8
+					+ "DIRECTION_CODE = ?," //9
+					+ "DIRECTION_LOCATION = ?," //10
+					+ "DATE_PERFORMED = ?," //11
+					+ "PATIENT_ID = ?," //12
+					+ "PATIENT_NAME = ?," //13
+					+ "PATIENT_SEX = ?," //14
+					+ "PATIENT_BIRTH_DATE = ?," //15
+					+ "DATE_MODIFIED = ?," //16
+					+ "REMOVED = ?" //17
+					+" WHERE ID = ?"; //18
 			
 				pstmt = connection.prepareStatement(sql);
 				pstmt.setString(1, drn.getDirectionId());
@@ -314,19 +273,14 @@ public class PersistentManagerDerby implements IPersistentManager {
 				else
 					pstmt.setNull(3, java.sql.Types.VARCHAR);
 
-				if (drn.getDiagnosisDirect() != null)
-					pstmt.setString(4, Diagnosis
-							.toPersistentCollectionString(drn
-									.getDiagnosisDirect()));
-				else
-					pstmt.setNull(4, java.sql.Types.VARCHAR);
+				
 
 				try {
 					if (drn.getDateDirection() != null)
-						pstmt.setDate(5, java.sql.Date.valueOf(drn
+						pstmt.setDate(4, java.sql.Date.valueOf(drn
 								.getDateDirection()));
 					else
-						pstmt.setNull(5, java.sql.Types.DATE);
+						pstmt.setNull(4, java.sql.Types.DATE);
 
 				} catch (IllegalArgumentException ex) {
 					throw new DataException(
@@ -334,63 +288,44 @@ public class PersistentManagerDerby implements IPersistentManager {
 									+ drn.getDateDirection(), ex);
 				}
 
-				if (drn.getServicesDirect() != null)
-					pstmt.setString(6, Service.toPersistentCollectionString(drn
-							.getServicesDirect()));
-				else
-					pstmt.setNull(6, java.sql.Types.VARCHAR);
-
-				// TODO device Может сделать доп. поля ^...^ как в услугах?
+				
 				if (drn.getDevice() != null)
-					pstmt.setString(7, drn.getDevice()
+					pstmt.setString(5, drn.getDevice()
 							.getManufacturerModelName());
 				else
-					pstmt.setNull(7, java.sql.Types.VARCHAR);
+					pstmt.setNull(5, java.sql.Types.VARCHAR);
 
 				try {
 					if (drn.getDatePlanned() != null)
-						pstmt.setDate(8, java.sql.Date.valueOf(drn
+						pstmt.setDate(6, java.sql.Date.valueOf(drn
 								.getDatePlanned()));
 					else
-						pstmt.setNull(8, java.sql.Types.DATE);
+						pstmt.setNull(6, java.sql.Types.DATE);
 				} catch (IllegalArgumentException ex) {
 					throw new DataException("field Date Planned wrong format: "
 							+ drn.getDatePlanned(), ex);
 				}
 
 				if (drn.getDoctorPerformed() != null) {
-					pstmt.setString(9, drn.getDoctorPerformed()
+					pstmt.setString(7, drn.getDoctorPerformed()
 							.getEmployeeName());
-					pstmt.setString(10, drn.getDoctorPerformed()
+					pstmt.setString(8, drn.getDoctorPerformed()
 							.getEmployeeCode());
 				} else {
-					pstmt.setNull(9, java.sql.Types.VARCHAR);
-					pstmt.setNull(10, java.sql.Types.VARCHAR);
+					pstmt.setNull(7, java.sql.Types.VARCHAR);
+					pstmt.setNull(8, java.sql.Types.VARCHAR);
 				}
 
-				pstmt.setString(11, drn.getDirectionCode());
-				pstmt.setString(12, drn.getDirectionLocation());
+				pstmt.setString(9, drn.getDirectionCode());
+				pstmt.setString(10, drn.getDirectionLocation());
 
-				if (drn.getDiagnosisPerformed() != null)
-					pstmt.setString(13, Diagnosis
-							.toPersistentCollectionString(drn
-									.getDiagnosisPerformed()));
-				else
-					pstmt.setNull(13, java.sql.Types.VARCHAR);
-
-				if (drn.getServicesPerformed() != null)
-					pstmt.setString(14, Service
-							.toPersistentCollectionString(drn
-									.getServicesPerformed()));
-				else
-					pstmt.setNull(14, java.sql.Types.VARCHAR);
 
 				try {
 					if (drn.getDatePerformed() != null)
-						pstmt.setDate(15, java.sql.Date.valueOf(drn
+						pstmt.setDate(11, java.sql.Date.valueOf(drn
 								.getDatePerformed()));
 					else
-						pstmt.setNull(15, java.sql.Types.DATE);
+						pstmt.setNull(11, java.sql.Types.DATE);
 				} catch (IllegalArgumentException ex) {
 					throw new DataException(
 							"field Date Performed wrong format: "
@@ -398,22 +333,22 @@ public class PersistentManagerDerby implements IPersistentManager {
 				}
 
 				if (drn.getPatient() != null) {
-					pstmt.setString(16, drn.getPatient().getPatientId());
-					pstmt.setString(17, drn.getPatient().getPatientName());
-					pstmt.setString(19, drn.getPatient().getPatientSex());
+					pstmt.setString(12, drn.getPatient().getPatientId());
+					pstmt.setString(13, drn.getPatient().getPatientName());
+					pstmt.setString(14, drn.getPatient().getPatientSex());
 				} else {
-					pstmt.setNull(16, java.sql.Types.VARCHAR);
-					pstmt.setNull(17, java.sql.Types.VARCHAR);
-					pstmt.setNull(19, java.sql.Types.VARCHAR);
+					pstmt.setNull(12, java.sql.Types.VARCHAR);
+					pstmt.setNull(13, java.sql.Types.VARCHAR);
+					pstmt.setNull(14, java.sql.Types.VARCHAR);
 				}
 
 				try {
 					if (drn.getPatient() != null
 							&& drn.getPatient().getPatientBirthDate() != null) {
-						pstmt.setDate(18, java.sql.Date.valueOf(drn
+						pstmt.setDate(15, java.sql.Date.valueOf(drn
 								.getPatient().getPatientBirthDate()));
 					} else {
-						pstmt.setNull(18, java.sql.Types.DATE);
+						pstmt.setNull(15, java.sql.Types.DATE);
 					}
 				} catch (IllegalArgumentException ex) {
 					throw new DataException(
@@ -422,48 +357,125 @@ public class PersistentManagerDerby implements IPersistentManager {
 							ex);
 				}
 
-				// TODO проверить, нужно ли делать TIMESTAMP
-				pstmt.setTimestamp(20, new Timestamp(new java.util.Date()
+				pstmt.setTimestamp(16, new Timestamp(new java.util.Date()
 						.getTime()));// sysdate
-				// pstmt.setDate(20, java.sql.Date.valueOf(formatSQL
-				// .format(new java.util.Date())));// sysdate
 
 				try {
 					if (drn.getDateRemoved() != null)
-						pstmt.setTimestamp(21, new Timestamp(java.sql.Date
+						pstmt.setTimestamp(17, new Timestamp(java.sql.Date
 								.valueOf(drn.getDateRemoved()).getTime()));
 					else
-						pstmt.setNull(21, java.sql.Types.TIMESTAMP);
+						pstmt.setNull(17, java.sql.Types.TIMESTAMP);
 				} catch (IllegalArgumentException ex) {
 					throw new DataException("field Date Removed wrong format: "
 							+ drn.getDateRemoved(), ex);
 				}
 				
-				pstmt.setLong(22, drn.getId());
-
-				connection.setAutoCommit(false);
+				pstmt.setLong(18, drn.getId());
 				int count = pstmt.executeUpdate();
 				resultId = drn.getId();
 
-				connection.commit();
-
 			}
+				
+				
+			
+			// удаляем-обновляем диагнозы и услуги
+			pstmt.close();
+
+			sql = "DELETE FROM WEBDICOM.DIRECTION_DIAGNOSIS WHERE FID_DIRECTION = ?";
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setLong(1, resultId);
+			int count = pstmt.executeUpdate();
+
+			pstmt.close();
+			sql = "DELETE FROM WEBDICOM.DIRECTION_SERVICE WHERE FID_DIRECTION = ?";
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setLong(1, resultId);
+			count = pstmt.executeUpdate();
+			
+			//Сохраняем диагнозы
+			pstmt.close();
+			sql = "INSERT INTO WEBDICOM.DIRECTION_DIAGNOSIS (" +
+					"FID_DIRECTION," + //1
+					"TYPE_ON_DIRECTION," + //2
+					"DIAGNOSIS_CODE," + //3
+					"DIAGNOSIS_TYPE," + //4
+					"DIAGNOSIS_SUBTYPE," + //5
+					"DIAGNOSIS_DESCRIPTION" + //6
+					") VALUES (?,?,?,?,?,?)";
+			pstmt = connection.prepareStatement(sql);
+			
+			if (drn.getDiagnosisDirect() != null)
+				for (Diagnosis diagnosis : drn.getDiagnosisDirect()) {
+					pstmt.setLong(1, resultId);
+					pstmt.setString(2, "D");
+					pstmt.setString(3, diagnosis.getDiagnosisCode());
+					pstmt.setString(4, diagnosis.getDiagnosisType());
+					pstmt.setString(5, diagnosis.getDiagnosisSubType());
+					pstmt.setString(6, diagnosis.getDiagnosisDescription());
+					count = pstmt.executeUpdate();
+				}
+
+			if (drn.getDiagnosisPerformed() != null)
+				for (Diagnosis diagnosis : drn.getDiagnosisPerformed()) {
+					pstmt.setLong(1, resultId);
+					pstmt.setString(2, "P");
+					pstmt.setString(3, diagnosis.getDiagnosisCode());
+					pstmt.setString(4, diagnosis.getDiagnosisType());
+					pstmt.setString(5, diagnosis.getDiagnosisSubType());
+					pstmt.setString(6, diagnosis.getDiagnosisDescription());
+					count = pstmt.executeUpdate();
+				}
+			
+			
+			
+			//Сохраняем услуги
+			pstmt.close();
+			sql = "INSERT INTO WEBDICOM.DIRECTION_SERVICE (" +
+					"FID_DIRECTION," + //1
+					"TYPE_ON_DIRECTION," + //2
+					"SERVICE_CODE," + //3
+					"SERVICE_ALIAS," + //4
+					"SERVICE_DESCRIPTION" + //5
+					") VALUES (?,?,?,?,?)";
+			pstmt = connection.prepareStatement(sql);
+			
+			if (drn.getServicesDirect() != null)
+				for (Service srv : drn.getServicesDirect()) {
+					pstmt.setLong(1, resultId);
+					pstmt.setString(2, "D");
+					pstmt.setString(3, srv.getServiceCode());
+					pstmt.setString(4, srv.getServiceAlias());
+					pstmt.setString(5, srv.getServiceDescription());
+					count = pstmt.executeUpdate();
+				}
+			if (drn.getServicesPerformed() != null)
+				for (Service srv : drn.getServicesPerformed()) {
+					pstmt.setLong(1, resultId);
+					pstmt.setString(2, "P");
+					pstmt.setString(3, srv.getServiceCode());
+					pstmt.setString(4, srv.getServiceAlias());
+					pstmt.setString(5, srv.getServiceDescription());
+					count = pstmt.executeUpdate();
+				}
+
+				
+			connection.commit();
+
+		} catch (SQLException e) {
+			throw new DataException("SQL Error " + e.getMessage(), e);
+		} catch (IllegalArgumentException e) {
+			throw new DataException("Internal error " + e.getMessage(), e);
+		} finally {
+
+			try {
+				if (pstmt != null)
+					pstmt.close();
 
 			} catch (SQLException e) {
-				throw new DataException("SQL Error " + e.getMessage(),e);
-			} catch (IllegalArgumentException e) {
-				throw new DataException("Internal error "+ e.getMessage(),e);
+				throw new DataException(e);
 			}
-			finally {
-
-				try {
-					if (pstmt != null)
-						pstmt.close();
-
-				} catch (SQLException e) {
-					throw new DataException(e);
-				}
-			}
+		}
 		return resultId;
 		// TODO Auto-generated method stub
 
@@ -485,12 +497,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 		doctorDirect.setEmployeeName(rs.getString("DOCTOR_DIRECT_NAME"));
 		doctorDirect.setEmployeeType(Employee.TYPE_DOCTOR);
 		drn.setDoctorDirect(doctorDirect);
-		drn.setDiagnosisDirect(Diagnosis.getCollectionFromPersistentString(rs
-				.getString("DIAGNOSIS_DIRECT")));
 		
 		drn.setDateDirection(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_DIRECTION")));
-		drn.setServicesDirect(Service.getCollectionFromPersistentString(rs
-				.getString("SERVICES_DIRECTED")));
 		ManufacturerDevice dev = new ManufacturerDevice();
 		// TODO Остальные поля десериализовать?
 		dev.setManufacturerModelName(rs.getString("DEVICE"));
@@ -506,12 +514,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 		
 		drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
 		drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
-
-		drn.setDiagnosisPerformed(Diagnosis
-				.getCollectionFromPersistentString(rs
-						.getString("DIAGNOSIS_PERFORMED")));
-		drn.setServicesPerformed(Service.getCollectionFromPersistentString(rs
-				.getString("SERVICES_PERFORMED")));
 		
 		drn.setDatePerformed(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_PERFORMED")));
 
@@ -527,9 +529,102 @@ public class PersistentManagerDerby implements IPersistentManager {
 		drn.setDateModified(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
 		drn.setDateRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
 
+		//наполняем диагнозами
+		setDirectionDiagnosis(drn);
+		//наполняем услугами
+		setDirectionServices(drn);
 		return drn;
 	}
 	
+	
+	/**
+	 * Дополнение направления диагнозами
+	 * 
+	 * @param drn
+	 * @return
+	 * @throws SQLException
+	 */
+	private Direction setDirectionDiagnosis(Direction drn) throws SQLException {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection
+					.prepareStatement("SELECT * FROM WEBDICOM.DIRECTION_DIAGNOSIS WHERE FID_DIRECTION = ? ");
+			pstmt.setLong(1, drn.getId());
+			ResultSet rs = pstmt.executeQuery();
+
+			ArrayList<Diagnosis> diasDirrect = new ArrayList<Diagnosis>();
+			ArrayList<Diagnosis> diasPerformed = new ArrayList<Diagnosis>();
+			while (rs.next()) {
+				
+				Diagnosis dia = new Diagnosis();
+				dia.setDiagnosisCode(rs.getString("DIAGNOSIS_CODE"));
+				dia.setDiagnosisType(rs.getString("DIAGNOSIS_TYPE"));
+				dia.setDiagnosisSubType(rs.getString("DIAGNOSIS_SUBTYPE"));
+				dia.setDiagnosisDescription(rs.getString("DIAGNOSIS_DESCRIPTION"));
+				
+				// направленные
+				if (rs.getString("TYPE_ON_DIRECTION").equals("D")) {
+					diasDirrect.add(dia);
+
+				}// выполненные
+				else if (rs.getString("TYPE_ON_DIRECTION").equals("P")) {
+					diasPerformed.add(dia);
+				}
+			}
+			
+			drn.setDiagnosisDirect(diasDirrect.toArray(new Diagnosis[diasDirrect.size()]));
+			drn.setDiagnosisPerformed(diasPerformed.toArray(new Diagnosis[diasPerformed.size()]));
+			return drn;
+
+		} finally {
+			if (pstmt != null)
+				pstmt.close();
+		}
+	}
+	
+	/**
+	 * Дополнение направления услугами
+	 * 
+	 * @param drn
+	 * @return
+	 * @throws SQLException
+	 */
+	private Direction setDirectionServices(Direction drn) throws SQLException {
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = connection
+					.prepareStatement("SELECT * FROM WEBDICOM.DIRECTION_SERVICE WHERE FID_DIRECTION = ? ");
+			pstmt.setLong(1, drn.getId());
+			ResultSet rs = pstmt.executeQuery();
+
+			ArrayList<Service> servDirrect = new ArrayList<Service>();
+			ArrayList<Service> servPerformed = new ArrayList<Service>();
+			while (rs.next()) {
+				
+				Service srv = new Service();
+				srv.setServiceCode(rs.getString("SERVICE_CODE"));
+				srv.setServiceAlias(rs.getString("SERVICE_ALIAS"));
+				srv.setServiceDescription(rs.getString("SERVICE_DESCRIPTION"));
+				
+				// направленные
+				if (rs.getString("TYPE_ON_DIRECTION").equals("D")) {
+					servDirrect.add(srv);
+
+				}// выполненные
+				else if (rs.getString("TYPE_ON_DIRECTION").equals("P")) {
+					servPerformed.add(srv);
+				}
+			}
+			
+			drn.setServicesDirect(servDirrect.toArray(new Service[servDirrect.size()]));
+			drn.setServicesPerformed(servPerformed.toArray(new Service[servPerformed.size()]));
+			return drn;
+
+		} finally {
+			if (pstmt != null)
+				pstmt.close();
+		}
+	}
 	
 	@Override
 	public Direction getDirectionByID(Long id) throws DataException {
