@@ -6,31 +6,19 @@ CONNECT 'jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true';
 CREATE TABLE WEBDICOM.DIRECTION (
 	ID BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 	DIRECTION_ID VARCHAR(512), -- штрих код (это StudyID)
-	DOCTOR_DIRECT_NAME  VARCHAR(512), -- Имя врача который направил
-	DOCTOR_DIRECT_CODE  VARCHAR(512), -- Код врача который направил
-
-	DIAGNOSIS_DIRECT  VARCHAR(1024), -- Диагнозы при направлении
-	-- формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
-	DATE_DIRECTION DATE, -- Дата направления пациента (дата выписки направления)
-	SERVICES_DIRECTED  VARCHAR(1024), -- Услуги направленные (коды через ";")
-	-- формат строки услуг: Код^Синоним^Расшифровка|...
-	DEVICE  VARCHAR(512), -- Аппарат (STUDY_MANUFACTURER_MODEL_NAME)
+	DIRECTION_CODE  VARCHAR(512), -- Идентификатор случая заболевания
 	DIRECTION_DATE_PLANNED TIMESTAMP, -- Плановая дата и время выполнения исследования
 	
-	DOCTOR_PERFORMED_NAME  VARCHAR(512), -- врач который выполнил
-	DOCTOR_PERFORMED_CODE  VARCHAR(512), -- Код врача который выполнил
-
-	DIRECTION_CODE  VARCHAR(512), -- Идентификатор случая заболевания 
- 
+	DEVICE  VARCHAR(512), -- Аппарат (STUDY_MANUFACTURER_MODEL_NAME)
 	DIRECTION_LOCATION  VARCHAR(512), -- Кабинет
 	
-	DIAGNOSIS_PERFORMED  VARCHAR(512), -- Диагнозы после обследования
-	-- (по умолчанию копируются из поля DIAGNOSIS_DIRECT)
-	-- формат строки диагнозов: Тип^подтип^МКБ^Описание|...;
-	SERVICES_PERFORMED  VARCHAR(512), -- Услуги выполненные
-	-- формат строки услуг: Код^Синоним^Расшифровка|...
-	-- (по умолчанию копируются из поля SERVICES_DIRECTED)
+	DATE_DIRECTION DATE, -- Дата направления пациента (дата выписки направления)
+	DOCTOR_DIRECT_NAME  VARCHAR(512), -- Имя врача который направил
+	DOCTOR_DIRECT_CODE  VARCHAR(512), -- Код врача который направил
+	
 	DATE_PERFORMED DATE, -- Дата выполнения
+	DOCTOR_PERFORMED_NAME  VARCHAR(512), -- врач который выполнил
+	DOCTOR_PERFORMED_CODE  VARCHAR(512), -- Код врача который выполнил
 	
 	-- по пациенту
 	PATIENT_ID VARCHAR(512), -- код пациента
@@ -42,6 +30,32 @@ CREATE TABLE WEBDICOM.DIRECTION (
 	CONSTRAINT WEBDICOM.PK_DIRECTION PRIMARY KEY (ID),
 	UNIQUE (DIRECTION_ID)
 );
+
+--
+-- Таблица диагнозов в "Направлении"
+--
+CREATE TABLE WEBDICOM.DIRECTION_DIAGNOSIS (
+	FID_DIRECTION BIGINT, -- ссылка на исследование
+	TYPE_ON_DIRECTION CHAR(1), -- Тип в направлении D|P (Dirrect Performed)
+	DIAGNOSIS_CODE VARCHAR(50), -- Код (по МКБ)
+	DIAGNOSIS_TYPE VARCHAR(100), -- Тип
+	DIAGNOSIS_SUBTYPE VARCHAR(100), -- ПодтипТип
+	DIAGNOSIS_DESCRIPTION VARCHAR(512), -- Описание
+	CONSTRAINT WEBDICOM.FK_DIRECTION_DIAGNOSIS_DIRECTION FOREIGN KEY (FID_DIRECTION) REFERENCES WEBDICOM.DIRECTION (ID)
+);
+
+--
+-- Таблица услуг в "Направлении"
+--
+CREATE TABLE WEBDICOM.DIRECTION_SERVICE (
+	FID_DIRECTION BIGINT, -- ссылка на исследование
+	TYPE_ON_DIRECTION CHAR(1), -- Тип в направлении D|P (Dirrect Performed)
+	SERVICE_CODE VARCHAR(50), -- Код
+	SERVICE_ALIAS VARCHAR(100), -- Алиас
+	SERVICE_DESCRIPTION VARCHAR(512), -- Описание
+	CONSTRAINT WEBDICOM.FK_DIRECTION_SERVICE_DIRECTION FOREIGN KEY (FID_DIRECTION) REFERENCES WEBDICOM.DIRECTION (ID)
+);
+
 --
 -- Таблица "исследование"
 --
