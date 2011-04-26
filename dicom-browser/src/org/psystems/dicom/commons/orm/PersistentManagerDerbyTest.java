@@ -219,7 +219,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			Direction newDrn = pm.getDirectionByID(drnMasterID);
 			
-			System.out.println("!!! doctorPerformed:" + newDrn.getDoctorPerformed());
+//			System.out.println("!!! doctorPerformed:" + newDrn.getDoctorPerformed());
 
 			// Проверка обновления направления
 			ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
@@ -232,10 +232,13 @@ public class PersistentManagerDerbyTest extends TestCase {
 			newDrn.setDiagnosisDirect(diagnosisDirect
 					.toArray(new Diagnosis[diagnosisDirect.size()]));
 
+			
 			pm.pesistentDirection(newDrn);
 
 			Direction drn3 = (Direction) pm.getDirectionByID(newDrn.getId());
 			Diagnosis[] diaList3 = drn3.getDiagnosisDirect();
+			
+			System.out.println("!!! newDrn="+newDrn.getId());
 
 			Diagnosis newDia3 = diaList3[1];
 			assertEquals(newDia3.getDiagnosisCode(), dia.getDiagnosisCode());
@@ -250,5 +253,6 @@ public class PersistentManagerDerbyTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
+	
 
 }

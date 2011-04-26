@@ -24,7 +24,7 @@ public class Diagnosis implements Serializable {
 	public static final String SUBTYPE_MAIN = "";
 
 	private String diagnosisType;// Тип
-	private String diagnosisSubType;// Тип
+	private String diagnosisSubType;// ПодтипТип
 	private String diagnosisCode;// Код (по МКБ)
 	private String diagnosisDescription;// Описание
 
