@@ -39,6 +39,8 @@ import java.util.List;
 import org.psystems.dicom.browser.client.component.WorkListPanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
+import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Study;
 
 /**
  * @author dima_d

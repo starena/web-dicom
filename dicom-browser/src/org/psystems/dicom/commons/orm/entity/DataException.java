@@ -27,7 +27,7 @@
     Java(TM), hosted at http://sourceforge.net/projects/dcm4che.
     
  */
-package org.psystems.dicom.commons.orm;
+package org.psystems.dicom.commons.orm.entity;
 
 public class DataException extends Throwable {
 

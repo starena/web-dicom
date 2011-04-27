@@ -10,6 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Diagnosis;
+import org.psystems.dicom.commons.orm.entity.Direction;
+import org.psystems.dicom.commons.orm.entity.Employee;
+import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.entity.Service;
+
 import junit.framework.TestCase;
 
 public class PersistentManagerDerbyTest extends TestCase {

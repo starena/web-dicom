@@ -3,6 +3,12 @@ package org.psystems.dicom.commons.orm;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Direction;
+import org.psystems.dicom.commons.orm.entity.QueryDirection;
+import org.psystems.dicom.commons.orm.entity.QueryStudy;
+import org.psystems.dicom.commons.orm.entity.Study;
+
 public interface IPersistentManager {
 
 	/**

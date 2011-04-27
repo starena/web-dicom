@@ -63,8 +63,8 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.service.ManageStydyService;
-import org.psystems.dicom.commons.orm.DataException;
-import org.psystems.dicom.commons.orm.Study;
+import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Study;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

@@ -28,7 +28,7 @@
     
  */
 
-package org.psystems.dicom.commons.orm;
+package org.psystems.dicom.commons.orm.entity;
 
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
@@ -39,6 +39,7 @@ import java.util.List;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
+import org.psystems.dicom.commons.orm.StudyImplDerby;
 
 public abstract class Study {
 
