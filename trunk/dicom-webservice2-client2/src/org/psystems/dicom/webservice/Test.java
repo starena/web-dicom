@@ -68,9 +68,9 @@ public class Test {
 			clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
 
 			 testMakeDirection();
-			// testgetdirectionById();
-			// testetdirectionBydirectionId();
-			// testQueryDirection();
+//			 testgetdirectionById();
+//			 testetdirectionBydirectionId();
+//			 testQueryDirection();
 			// testFindStudiesByType();
 //			testQueryStudy();
 
@@ -178,7 +178,7 @@ public class Test {
 		query.setDevice(device);
 
 		//
-		query.setDatePlanned("2011-05-20");
+		query.setDatePlanned("2011-05-20 10:00:00");
 
 		//
 		query.setDirectionCode("CODE123");
