@@ -140,15 +140,15 @@ public class PersistentManagerDerby {
 					pstmt.setNull(5, java.sql.Types.VARCHAR);
 
 				try {
-					if (drn.getDatePlanned() != null)
-						pstmt.setDate(6, java.sql.Date.valueOf(drn
-								.getDatePlanned()));
+					if (drn.getDateTimePlanned() != null)
+					pstmt.setTimestamp(6, new Timestamp(java.sql.Timestamp
+							.valueOf(drn.getDateTimePlanned()).getTime()));
 					else
 						pstmt.setNull(6, java.sql.Types.DATE);
 
 				} catch (IllegalArgumentException ex) {
-					throw new DataException("field Date Planned wrong format: "
-							+ drn.getDatePlanned(), ex);
+					throw new DataException("field Date Time Planned wrong format: "
+							+ drn.getDateTimePlanned(), ex);
 				}
 
 				if (drn.getDoctorPerformed() != null) {
@@ -209,7 +209,7 @@ public class PersistentManagerDerby {
 
 				try {
 					if (drn.getDateTimeRemoved() != null)
-						pstmt.setTimestamp(17, new Timestamp(java.sql.Date
+						pstmt.setTimestamp(17, new Timestamp(java.sql.Timestamp
 								.valueOf(drn.getDateTimeRemoved()).getTime()));
 					else
 						pstmt.setNull(17, java.sql.Types.TIMESTAMP);
@@ -291,14 +291,14 @@ public class PersistentManagerDerby {
 					pstmt.setNull(5, java.sql.Types.VARCHAR);
 
 				try {
-					if (drn.getDatePlanned() != null)
-						pstmt.setDate(6, java.sql.Date.valueOf(drn
-								.getDatePlanned()));
+					if (drn.getDateTimePlanned() != null)
+						pstmt.setTimestamp(6, new Timestamp(java.sql.Timestamp
+								.valueOf(drn.getDateTimePlanned()).getTime()));
 					else
 						pstmt.setNull(6, java.sql.Types.DATE);
 				} catch (IllegalArgumentException ex) {
-					throw new DataException("field Date Planned wrong format: "
-							+ drn.getDatePlanned(), ex);
+					throw new DataException("field Date Time Planned wrong format: "
+							+ drn.getDateTimePlanned(), ex);
 				}
 
 				if (drn.getDoctorPerformed() != null) {
@@ -324,7 +324,7 @@ public class PersistentManagerDerby {
 				} catch (IllegalArgumentException ex) {
 					throw new DataException(
 							"field Date Performed wrong format: "
-									+ drn.getDatePlanned(), ex);
+									+ drn.getDatePerformed(), ex);
 				}
 
 				if (drn.getPatient() != null) {
@@ -357,7 +357,7 @@ public class PersistentManagerDerby {
 
 				try {
 					if (drn.getDateTimeRemoved() != null)
-						pstmt.setTimestamp(17, new Timestamp(java.sql.Date
+						pstmt.setTimestamp(17, new Timestamp(java.sql.Timestamp
 								.valueOf(drn.getDateTimeRemoved()).getTime()));
 					else
 						pstmt.setNull(17, java.sql.Types.TIMESTAMP);
@@ -495,10 +495,10 @@ public class PersistentManagerDerby {
 		
 		drn.setDateDirection(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_DIRECTION")));
 		ManufacturerDevice dev = new ManufacturerDevice();
-		// TODO Остальные поля десериализовать?
 		dev.setManufacturerModelName(rs.getString("DEVICE"));
 		drn.setDevice(dev);
-		drn.setDatePlanned(ORMUtil.utilDateToSQLDateString(rs.getDate("DIRECTION_DATE_PLANNED")) );
+		//TODO Сделать rs.getTimestamp???
+		drn.setDateTimePlanned(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DIRECTION_DATE_PLANNED")) );
 
 		if(rs.getString("DOCTOR_PERFORMED_NAME")!=null) {
 			Employee doctorPerformed = new Employee();
@@ -521,7 +521,9 @@ public class PersistentManagerDerby {
 		patient.setPatientSex(rs.getString("PATIENT_SEX"));
 		drn.setPatient(patient);
 
+		//TODO Сделать rs.getTimestamp???
 		drn.setDateTimeModified(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
+		//TODO Сделать rs.getTimestamp???
 		drn.setDateTimeRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
 
 		//наполняем диагнозами
