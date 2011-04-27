@@ -15,6 +15,7 @@ import org.psystems.dicom.commons.orm.entity.Diagnosis;
 import org.psystems.dicom.commons.orm.entity.Direction;
 import org.psystems.dicom.commons.orm.entity.Employee;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.entity.Patient;
 import org.psystems.dicom.commons.orm.entity.Service;
 
 import junit.framework.TestCase;

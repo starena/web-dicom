@@ -345,10 +345,11 @@ public class StudyManagePanel extends Composite implements
 		}
 		addFormRow(rowCounter++, "Пол", lbSex);
 
+		
 		//
 		birstdayDox = new DateBox();
 		birstdayDox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
-		birstdayDox.setValue(proxy.getPatientBirthDate());
+		birstdayDox.setValue(Utils.dateFormatSql.parse(proxy.getPatientBirthDate()));
 		birstdayDox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
 			@Override
@@ -362,8 +363,7 @@ public class StudyManagePanel extends Composite implements
 		patientBirthDateHidden.setName("00100030");
 		addFormHidden(patientBirthDateHidden);
 		if(proxy.getPatientBirthDate()!=null)
-			patientBirthDateHidden.setValue(Utils.dateFormatDicom.format(proxy
-				.getPatientBirthDate()));
+			patientBirthDateHidden.setValue(Utils.dateFormatDicom.format(Utils.dateFormatSql.parse(proxy.getPatientBirthDate())));
 
 		addFormRow(rowCounter++, "Дата рождения", birstdayDox);
 
@@ -373,8 +373,8 @@ public class StudyManagePanel extends Composite implements
 		
 		if(proxy.getStudyDate()==null) {
 			studyDateBox.setValue(new Date());
-		} else {
-			studyDateBox.setValue(proxy.getStudyDate());
+		} else { 
+			studyDateBox.setValue(Utils.dateFormatSql.parse(proxy.getStudyDate()));
 		}
 		studyDateBox.addValueChangeHandler(new ValueChangeHandler<Date>() {
 
@@ -892,13 +892,16 @@ public class StudyManagePanel extends Composite implements
 							}
 							// String d =
 							// Utils.dateFormatDicom.format(event.getValue());
+							
+							
+							
 							patientNameCheck.addItem(patientProxy
 									.getPatientName()
 									+ " ("
 									+ sex 
 									+ ") "
-									+ Utils.dateFormatUser.format(patientProxy
-											.getPatientBirthDate()),""+patientProxy
+									+ Utils.dateFormatUser.format(Utils.dateFormatSql.parse(patientProxy.getPatientBirthDate())),
+									""+patientProxy
 											.getId());
 							
 							itemProxies.put(""+patientProxy.getId(), patientProxy);
@@ -931,7 +934,8 @@ public class StudyManagePanel extends Composite implements
 	protected void applyVerifyedData(PatientProxy lastPatientProxy) {
 		if(lastPatientProxy==null) return;
 		patientName.setValue(lastPatientProxy.getPatientName());
-		birstdayDox.setValue(lastPatientProxy.getPatientBirthDate());
+		
+		birstdayDox.setValue(Utils.dateFormatSql.parse(lastPatientProxy.getPatientBirthDate()));
 		if("M".equals(lastPatientProxy.getPatientSex()))
 			lbSex.setSelectedIndex(0);
 		else

@@ -53,9 +53,6 @@ public class WorkListPanel extends Composite {
 	protected String studyResult = "all";
 	protected ArrayList<StudyProxy> studies;
 	
-//	private String datePattern = "dd.MM.yyyy";
-	private String datePatternYEAR = "yyyy";
-	DateTimeFormat dateFormatYEAR = DateTimeFormat.getFormat(datePatternYEAR);
 	
 	protected String sortOrder = null;
 	public final static int maxResultCount = 300;
@@ -252,7 +249,8 @@ public class WorkListPanel extends Composite {
 						resultTable.setWidget(row, 0, makeItem(""+row));
 						resultTable.setWidget(row, 1, makeItem(proxy.getStudyDoctor()));
 						resultTable.setWidget(row, 2, makeItem(proxy.getPatientName()));
-						resultTable.setWidget(row, 3, makeItem(dateFormatYEAR.format(proxy.getPatientBirthDate())));
+						
+						resultTable.setWidget(row, 3, makeItem(Utils.dateFormatYEARONLY.format(Utils.dateFormatSql.parse(proxy.getPatientBirthDate()))));
 						resultTable.setWidget(row, 4,makeItem(proxy.getStudyViewprotocol()));
 						row++;
 					}

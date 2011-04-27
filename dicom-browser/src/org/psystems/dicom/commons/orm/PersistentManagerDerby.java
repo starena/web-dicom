@@ -15,6 +15,7 @@ import org.psystems.dicom.commons.orm.entity.Diagnosis;
 import org.psystems.dicom.commons.orm.entity.Direction;
 import org.psystems.dicom.commons.orm.entity.Employee;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.entity.Patient;
 import org.psystems.dicom.commons.orm.entity.QueryDirection;
 import org.psystems.dicom.commons.orm.entity.QueryStudy;
 import org.psystems.dicom.commons.orm.entity.Service;
@@ -815,7 +816,9 @@ public class PersistentManagerDerby implements IPersistentManager {
 		study.setStudyModality(rs.getString("STUDY_MODALITY"));
 		study.setStudyType(rs.getString("STUDY_TYPE"));
 		study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
-		study.setStudyDate(rs.getDate("STUDY_DATE"));
+		
+		study.setStudyDate(ORMUtil.utilDateToSQLDateString(rs.getDate("STUDY_DATE")));
+		
 		study.setManufacturerModelUID(rs
 				.getString("STUDY_MANUFACTURER_UID"));
 		study.setManufacturerModelName(rs
@@ -823,21 +826,28 @@ public class PersistentManagerDerby implements IPersistentManager {
 		study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
 		study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
 		study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
-		study.setStudyViewprotocolDate(rs.getDate("STUDY_VIEW_PROTOCOL_DATE"));
+		
+		
+		study.setStudyViewprotocolDate(ORMUtil.utilDateToSQLDateString(rs.getDate("STUDY_VIEW_PROTOCOL_DATE")));
+		
 		study.setStudyId(rs.getString("STUDY_ID"));
 		study.setPatientName(rs.getString("PATIENT_NAME"));
 		study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
 		study.setPatientSex(rs.getString("PATIENT_SEX"));
-		study.setPatientBirthDate(rs.getDate("PATIENT_BIRTH_DATE"));
+		
+		
+		study.setPatientBirthDate(ORMUtil.utilDateToSQLDateString(rs.getDate("PATIENT_BIRTH_DATE")));
+		
 		study.setPatientId(rs.getString("PATIENT_ID"));
 		study.setStudyResult(rs.getString("STUDY_RESULT"));
 		study.setStudyUrl("");// TODO сделать!!
-		study.setDcmFiles(new Long[] { 1l, 2l, 3l });// TODO сделать!!
-		study.setStudyDateModify(rs.getTimestamp("DATE_MODIFIED"));
+		study.setDcmFilesId(new Long[] { 1l, 2l, 3l });// TODO сделать!!
 		
-		study.setStudyDateRemoved(null);
+		
+		study.setStudyDateTimeModify(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
+		study.setStudyDateTimeRemoved(null);
 		if(rs.getTimestamp("REMOVED")!=null)
-		study.setStudyDateRemoved(rs.getTimestamp("REMOVED"));
+		study.setStudyDateTimeRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
 		
 		return study;
 	}

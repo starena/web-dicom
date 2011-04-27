@@ -70,7 +70,7 @@ public class PatientProxy implements Serializable {
 	private long id; // ID
 	private String patientName; // ФИО пациента
 	private String patientSex; // Пол пациента
-	private Date patientBirthDate; // Дата рождения пациента
+	private String patientBirthDate; // Дата рождения пациента
 
 	/**
 	 * Инициализация класса
@@ -81,7 +81,7 @@ public class PatientProxy implements Serializable {
 	 * @param patientBirthDate
 	 */
 	public void init(long id, String patientName, String patientSex,
-			Date patientBirthDate) {
+			String patientBirthDate) {
 		this.id = id;
 		this.patientName = patientName;
 		this.patientSex = patientSex;
@@ -100,7 +100,7 @@ public class PatientProxy implements Serializable {
 		return patientSex;
 	}
 
-	public Date getPatientBirthDate() {
+	public String getPatientBirthDate() {
 		return patientBirthDate;
 	}
 

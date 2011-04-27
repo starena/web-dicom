@@ -1,6 +1,8 @@
-package org.psystems.dicom.commons.orm;
+package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
+
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 /**
  * Пациент
@@ -16,36 +18,7 @@ public class Patient implements Serializable {
 	private String patientShortName; // КБП пациента
 	private String patientSex; // Пол пациента (M/F)
 	private String patientBirthDate; // Дата рождения пациента
-	static String persistentDelimeter = "|";// разделитель структур
-
-	/**
-	 * формат строки пациента: ID^ФИО^МКБ^ПОЛ^ДР;
-	 * 
-	 * @return
-	 */
-	public String toPersistentString() {
-		return patientId + "^" + patientName + "^" + patientSex + "^"
-				+ getPatientBirthDate();
-	}
-
-	/**
-	 * Создание экземпляра из строки
-	 * 
-	 * @param data
-	 * @return
-	 */
-	public static Patient getFromPersistentString(String data) {
-		String[] d = data.split("\\^");
-		Patient patient = new Patient();
-		patient.setPatientId(d[0]);
-		patient.setPatientName(d[1]);
-		patient.setPatientSex(d[3]);
-		ORMUtil.dateSQLToUtilDate(d[4]);
-		patient.setPatientBirthDate(d[4]);
-		ORMUtil.makeShortName(patient.getPatientName(), patient
-				.getPatientBirthDate());
-		return patient;
-	}
+	
 
 	public String getPatientId() {
 		return patientId;

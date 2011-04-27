@@ -478,7 +478,7 @@ public class SearchPanel extends Composite implements
 
 							StudyProxy studyProxy = it.next();
 							
-							if(studyProxy.getStudyDateRemoved()!=null)  { 
+							if(studyProxy.getStudyDateTimeRemoved()!=null)  { 
 								removed++;
 								if(!showRemovedStudies ) {
 									removedCards.add(studyProxy);

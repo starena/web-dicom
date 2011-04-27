@@ -32,12 +32,14 @@ package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Arrays;
+
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class Study implements Serializable {
 
 	private static final long serialVersionUID = -3660580692585603011L;
-	 
+
 	private Long id; // Внутренний ID
 	private String patientId; // ID пациента (0016,0032) LO 'Patient ID' =
 	// LAB_ID64936
@@ -47,19 +49,19 @@ public class Study implements Serializable {
 
 	private String patientSex; // Пол пациента (0016,0064) CS "Patient's Sex" =
 	// M/F
-	private Date patientBirthDate; // Дата рождения пациента (0016,0048) DA
+	private String patientBirthDate; // Дата рождения пациента (0016,0048) DA
 	// "Patient's Birth Date" = 19670811
 	private String studyId; // ID исследования (0032,0016) SH 'Study ID' = 89729
 	private String studyInstanceUID; // UID исследования (0032,0013) UI 'Study
 	// Instance UID' =
 	// 1.2.826.0.1.3680043.2.634.30.1.89729.20100305113905
-	private Date studyDate; // Дата исследования (0008,0032) DA 'Study Date' =
+	private String studyDate; // Дата исследования (0008,0032) DA 'Study Date' =
 	// 20100225
 	private String studyDoctor; // Врач исследования (0008,0144) PN
 	// "Referring Physician's Name" = Куницкий В.Н
 	private String studyOperator; // Оператор исследования (0008,4208) PN
 	// "Operators' Name" = Гаврилова Н.Г.
-	private Date studyViewprotocolDate;// Дата описания исследования.
+	private String studyViewprotocolDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
 	private String studyModality;// модальность (0008,0060).
@@ -73,14 +75,14 @@ public class Study implements Serializable {
 	// "Manufacturer's Model Name" =
 	// КРТ-Электрон
 	private String studyUrl; // URL для открытия в обозревателе
-	private Long[] dcmFiles; // Связанные DCM-файлы
+	private Long[] dcmFilesId; // Связанные DCM-файлы
 	private String dateFormat = "yyyy-MM-dd";
-//	private String userDateTimeFormat = "dd-MM-yyyy HH:mm:ss";
+	// private String userDateTimeFormat = "dd-MM-yyyy HH:mm:ss";
 	private String sqlTimestampFormat = "yyyy-MM-dd HH:mm:ss";
-	
-	private Date studyDateModify;//Дата модификации исследования 
-	private Date studyDateRemoved;//Дата удаления исследования
-	
+
+	private String studyDateTimeModify;// Дата модификации исследования
+	private String studyDateTimeRemoved;// Дата удаления исследования
+
 	public Long getId() {
 		return id;
 	}
@@ -121,21 +123,11 @@ public class Study implements Serializable {
 		this.patientSex = patientSex;
 	}
 
-	public Date getPatientBirthDate() {
+	public String getPatientBirthDate() {
 		return patientBirthDate;
 	}
 
-	/**
-	 * @return 'YYYY-MM-DD'
-	 */
-	public String getPatientBirthDateAsString() {
-		if (patientBirthDate == null)
-			return null;
-		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
-		return formatLevel.format(patientBirthDate);
-	}
-
-	public void setPatientBirthDate(Date patientBirthDate) {
+	public void setPatientBirthDate(String patientBirthDate) {
 		this.patientBirthDate = patientBirthDate;
 	}
 
@@ -155,21 +147,11 @@ public class Study implements Serializable {
 		this.studyInstanceUID = studyInstanceUID;
 	}
 
-	public Date getStudyDate() {
+	public String getStudyDate() {
 		return studyDate;
 	}
 
-	/**
-	 * @return 'YYYY-MM-DD'
-	 */
-	public String getStudyDateAsString() {
-		if (studyDate == null)
-			return null;
-		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
-		return formatLevel.format(studyDate);
-	}
-
-	public void setStudyDate(Date studyDate) {
+	public void setStudyDate(String studyDate) {
 		this.studyDate = studyDate;
 	}
 
@@ -189,24 +171,12 @@ public class Study implements Serializable {
 		this.studyOperator = studyOperator;
 	}
 
-
-	public Date getStudyViewprotocolDate() {
+	public String getStudyViewprotocolDate() {
 		return studyViewprotocolDate;
 	}
 
-	/**
-	 * @return 'YYYY-MM-DD'
-	 */
-	public String getStudyViewprotocolDateAsString() {
-		if (studyViewprotocolDate == null)
-			return null;
-		SimpleDateFormat formatLevel = new SimpleDateFormat(dateFormat);
-		return formatLevel.format(studyViewprotocolDate);
-	}
 
-	
-
-	public void setStudyViewprotocolDate(Date studyViewprotocolDate) {
+	public void setStudyViewprotocolDate(String studyViewprotocolDate) {
 		this.studyViewprotocolDate = studyViewprotocolDate;
 	}
 
@@ -225,8 +195,6 @@ public class Study implements Serializable {
 	public void setStudyModality(String studyModality) {
 		this.studyModality = studyModality;
 	}
-	
-	
 
 	public String getStudyDescription() {
 		return studyDescription;
@@ -276,44 +244,95 @@ public class Study implements Serializable {
 		this.studyUrl = studyUrl;
 	}
 
-	public Long[] getDcmFiles() {
-		return dcmFiles;
+	public Long[] getDcmFilesId() {
+		return dcmFilesId;
 	}
 
-	public void setDcmFiles(Long[] dcmFiles) {
-		this.dcmFiles = dcmFiles;
+	public void setDcmFilesId(Long[] dcmFiles) {
+		this.dcmFilesId = dcmFiles;
 	}
 
-	
-	public Date getStudyDateModify() {
-		return studyDateModify;
+	public String getStudyDateTimeModify() {
+		return studyDateTimeModify;
 	}
 
-	public void setStudyDateModify(Date studyDateModidy) {
-		this.studyDateModify = studyDateModidy;
-	}
-	
-	
-
-	public Date getStudyDateRemoved() {
-		return studyDateRemoved;
+	public void setStudyDateTimeModify(String studyDateModidy) {
+		this.studyDateTimeModify = studyDateModidy;
 	}
 
-	public void setStudyDateRemoved(Date studyDateRemoved) {
-		this.studyDateRemoved = studyDateRemoved;
+	public String getStudyDateTimeRemoved() {
+		return studyDateTimeRemoved;
 	}
-	
+
+	public void setStudyDateTimeRemoved(String studyDateRemoved) {
+		this.studyDateTimeRemoved = studyDateRemoved;
+	}
+
 	/**
 	 * 
 	 */
 	public String getStudyDateRemovedAsString() {
-		if (studyDateRemoved == null)
+		if (studyDateTimeRemoved == null)
 			return null;
 		SimpleDateFormat formatLevel = new SimpleDateFormat(sqlTimestampFormat);
-		return formatLevel.format(studyDateRemoved);
+		return formatLevel.format(studyDateTimeRemoved);
 	}
 
+	/**
+	 * Проверка всех полей.
+	 */
+	public void chechEntity() {
+		try {
+			if (patientBirthDate != null) {
+				ORMUtil.dateSQLToUtilDate(patientBirthDate);
+			}
+		} catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException(
+					"Patient field Birth Date wrong format: " + ex.getMessage(),
+					ex);
+		}
+		try {
+			if (studyDate != null) {
+				ORMUtil.dateSQLToUtilDate(studyDate);
+			}
+		} catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException(
+					"Study Date field wrong format: " + ex.getMessage(), ex);
+		}
+		try {
+			if (studyViewprotocolDate != null) {
+				ORMUtil.dateSQLToUtilDate(studyViewprotocolDate);
+			}
+		} catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException(
+					"Study View Protocol Date field wrong format: " + ex.getMessage(), ex);
+		}
+		
+		
 
+	}
+
+	@Override
+	public String toString() {
+		return "Study [id=" + id + ", studyId=" + studyId
+				+ ", ManufacturerModelName=" + ManufacturerModelName
+				+ ", ManufacturerModelUID=" + ManufacturerModelUID
+				+ ", dateFormat=" + dateFormat + ", dcmFilesId="
+				+ Arrays.toString(dcmFilesId) + ", patientBirthDate="
+				+ patientBirthDate + ", patientId=" + patientId
+				+ ", patientName=" + patientName + ", patientSex=" + patientSex
+				+ ", patientShortName=" + patientShortName
+				+ ", sqlTimestampFormat=" + sqlTimestampFormat + ", studyDate="
+				+ studyDate + ", studyDateModify=" + studyDateTimeModify
+				+ ", studyDateRemoved=" + studyDateTimeRemoved
+				+ ", studyDescription=" + studyDescription + ", studyDoctor="
+				+ studyDoctor + ", studyInstanceUID=" + studyInstanceUID
+				+ ", studyModality=" + studyModality + ", studyOperator="
+				+ studyOperator + ", studyResult=" + studyResult
+				+ ", studyType=" + studyType + ", studyUrl=" + studyUrl
+				+ ", studyViewprotocol=" + studyViewprotocol
+				+ ", studyViewprotocolDate=" + studyViewprotocolDate + "]";
+	}
 
 	/**
 	 * Получение списка исследований
@@ -323,9 +342,9 @@ public class Study implements Serializable {
 	 *            поисковая строка
 	 * @return
 	 */
-//	public static List<Study> getStudues(String query) {
-//		return StudyImplDerby.getStudues(query);
-//	}
+	// public static List<Study> getStudues(String query) {
+	// return StudyImplDerby.getStudues(query);
+	// }
 
 	/**
 	 * Получение списка исследований
@@ -343,48 +362,55 @@ public class Study implements Serializable {
 	 * @return
 	 * @throws DataException
 	 */
-//	public static Study[] getStudues(Connection connection, Long id,  String studyId,
-//			String studyModality, String manufacturerModelName, String patientId, String patientName, String patientShortName,
-//			String patientBirthDate, String patientSex, String beginStudyDate,
-//			String endStudyDate, String studyResult, String sortOrder) throws DataException {
-//		return StudyImplDerby.getStudues(connection,  id, studyId, studyModality, manufacturerModelName, patientId, patientName,
-//				patientShortName, patientBirthDate, patientSex, beginStudyDate,
-//				endStudyDate, studyResult, sortOrder);
-//	}
-	
+	// public static Study[] getStudues(Connection connection, Long id, String
+	// studyId,
+	// String studyModality, String manufacturerModelName, String patientId,
+	// String patientName, String patientShortName,
+	// String patientBirthDate, String patientSex, String beginStudyDate,
+	// String endStudyDate, String studyResult, String sortOrder) throws
+	// DataException {
+	// return StudyImplDerby.getStudues(connection, id, studyId, studyModality,
+	// manufacturerModelName, patientId, patientName,
+	// patientShortName, patientBirthDate, patientSex, beginStudyDate,
+	// endStudyDate, studyResult, sortOrder);
+	// }
+
 	/**
 	 * 
 	 * @param connection
 	 * @param findId
 	 * @return
 	 */
-//	public static Study getStudyByID (Connection connection, Long findId)  throws DataException {
-//		return StudyImplDerby.getStudyByID(connection, findId);
-//	}
-	
-	
+	// public static Study getStudyByID (Connection connection, Long findId)
+	// throws DataException {
+	// return StudyImplDerby.getStudyByID(connection, findId);
+	// }
+
 	/**
 	 * Показ/скрытие исследования
+	 * 
 	 * @param connection
 	 * @param idStudy
 	 * @param removed
 	 * @throws DefaultGWTRPCException
 	 */
-//	public static void studyRemoveRestore(Connection connection, long idStudy, boolean removed) throws DataException {
-//		StudyImplDerby.studyRemoveRestore(connection, idStudy, removed);
-//	}
-	
+	// public static void studyRemoveRestore(Connection connection, long
+	// idStudy, boolean removed) throws DataException {
+	// StudyImplDerby.studyRemoveRestore(connection, idStudy, removed);
+	// }
+
 	/**
-	 * Показ/скрытие файла в исследовании 
+	 * Показ/скрытие файла в исследовании
+	 * 
 	 * @param connection
 	 * @param idDcmFile
 	 * @param removed
 	 * @throws DataException
 	 */
-//	public static void dcmFileRemoveRestore(Connection connection, long idDcmFile, boolean removed) throws DataException {
-//		StudyImplDerby.dcmFileRemoveRestore(connection, idDcmFile, removed);
-//	}
-
+	// public static void dcmFileRemoveRestore(Connection connection, long
+	// idDcmFile, boolean removed) throws DataException {
+	// StudyImplDerby.dcmFileRemoveRestore(connection, idDcmFile, removed);
+	// }
 
 	/**
 	 * Получение прокси-классов для файла исследования
@@ -394,12 +420,9 @@ public class Study implements Serializable {
 	 * @return
 	 * @throws DataException
 	 */
-//	public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection connection, long idStudy) throws DataException {
-//		return StudyImplDerby.getDcmFileProxies(connection,idStudy);
-//	} 
-	
-	
-	
-	
+	// public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection
+	// connection, long idStudy) throws DataException {
+	// return StudyImplDerby.getDcmFileProxies(connection,idStudy);
+	// }
 
 }

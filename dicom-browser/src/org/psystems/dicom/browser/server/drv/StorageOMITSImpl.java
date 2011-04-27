@@ -197,7 +197,7 @@ public class StorageOMITSImpl extends Storage {
 
 				PatientProxy proxy = new PatientProxy();
 				proxy.init(rs.getLong("ID"), name, rs.getString("SEX"), rs
-						.getDate("BIRTHDAY"));
+						.getString("BIRTHDAY"));
 				result.add(proxy);
 
 				if (index++ > limit) {

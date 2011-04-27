@@ -74,19 +74,19 @@ public class StudyProxy implements Serializable {
 	private String patientName; // ФИО пациента
 	private String patientSex; // Пол пациента
 	private String patientId; // ID пациента
-	private Date patientBirthDate; // Дата рождения пациента
+	private String patientBirthDate; // Дата рождения пациента
 	private String studyId; // ID исследования
-	private Date studyDate; // Дата исследования
+	private String studyDate; // Дата исследования
 	private String studyDoctor; // Врач исследования
 	private String studyOperator; // Оператор исследования
-	private Date studyViewprotocolDate;// Дата описания исследования.
+	private String studyViewprotocolDate;// Дата описания исследования.
 	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
 	private String studyViewprotocol;// Протокол осмотра
 	private String studyResult;// Результат исследования.
 	private String ManufacturerModelName; // Аппарат
-	private Date studyDateModify; // Дата модификации
-	private Date studyDateRemoved; // Дата удаления исследования
+	private String studyDateTimeModify; // Дата модификации
+	private String studyDateTimeRemoved; // Дата удаления исследования
 	
 
 	// Файлы связанные с исследованием
@@ -148,7 +148,7 @@ public class StudyProxy implements Serializable {
 		return patientName;
 	}
 
-	public Date getPatientBirthDate() {
+	public String getPatientBirthDate() {
 		return patientBirthDate;
 	}
 
@@ -169,7 +169,7 @@ public class StudyProxy implements Serializable {
 		return studyId;
 	}
 
-	public Date getStudyDate() {
+	public String getStudyDate() {
 		return studyDate;
 	}
 
@@ -195,17 +195,10 @@ public class StudyProxy implements Serializable {
 		return studyResult;
 	}
 
-	
-	
-	public Date getStudyViewprotocolDate() {
+		
+	public String getStudyViewprotocolDate() {
 		return studyViewprotocolDate;
 	}
-
-//	public String getStudyViewprotocolDateAsString(String pattern) {
-//		if(studyViewprotocolDate==null) return null;
-//		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
-//		return dateFormat.format(studyViewprotocolDate);
-//	}
 
 	public String getStudyType() {
 		return studyType;
@@ -267,7 +260,7 @@ public class StudyProxy implements Serializable {
 		this.patientId = patientId;
 	}
 
-	public void setPatientBirthDate(Date patientBirthDate) {
+	public void setPatientBirthDate(String patientBirthDate) {
 		this.patientBirthDate = patientBirthDate;
 	}
 
@@ -275,7 +268,7 @@ public class StudyProxy implements Serializable {
 		this.studyId = studyId;
 	}
 
-	public void setStudyDate(Date studyDate) {
+	public void setStudyDate(String studyDate) {
 		this.studyDate = studyDate;
 	}
 
@@ -287,7 +280,7 @@ public class StudyProxy implements Serializable {
 		this.studyOperator = studyOperator;
 	}
 
-	public void setStudyViewprotocolDate(Date studyViewprotocolDate) {
+	public void setStudyViewprotocolDate(String studyViewprotocolDate) {
 		this.studyViewprotocolDate = studyViewprotocolDate;
 	}
 
@@ -313,22 +306,22 @@ public class StudyProxy implements Serializable {
 	
 	
 
-	public Date getStudyDateModify() {
-		return studyDateModify;
+	public String getStudyDateTimeModify() {
+		return studyDateTimeModify;
 	}
 
-	public void setStudyDateModify(Date studyDateModify) {
-		this.studyDateModify = studyDateModify;
+	public void setStudyDateTimeModify(String studyDateModify) {
+		this.studyDateTimeModify = studyDateModify;
 	}
 	
 	
 
-	public Date getStudyDateRemoved() {
-		return studyDateRemoved;
+	public String getStudyDateTimeRemoved() {
+		return studyDateTimeRemoved;
 	}
 
-	public void setStudyDateRemoved(Date studyDateRemoved) {
-		this.studyDateRemoved = studyDateRemoved;
+	public void setStudyDateTimeRemoved(String studyDateRemoved) {
+		this.studyDateTimeRemoved = studyDateRemoved;
 	}
 
 	@Override
