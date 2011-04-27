@@ -1,17 +1,15 @@
 package org.psystems.dicom.commons.orm;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.psystems.dicom.browser.client.component.WorkListPanel;
+import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.commons.orm.entity.DataException;
 import org.psystems.dicom.commons.orm.entity.Diagnosis;
 import org.psystems.dicom.commons.orm.entity.Direction;
@@ -811,7 +809,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 	 */
 	private Study getStudyFromRs(ResultSet rs) throws SQLException {
 		
-		Study study = new StudyImplDerby();
+		Study study = new Study();
 		study.setId(rs.getLong("ID"));
 		study.setStudyInstanceUID(rs.getString("STUDY_UID"));
 		study.setStudyModality(rs.getString("STUDY_MODALITY"));
@@ -1113,4 +1111,144 @@ public class PersistentManagerDerby implements IPersistentManager {
 		}
 	}
 	
+
+	/**
+	 * Установка/удаление флага "удален" для исследования
+	 * 
+	 * @param connection
+	 * @param idStudy
+	 * @param removed
+	 * @throws DataException
+	 */
+	public static void studyRemoveRestore(Connection connection, long idStudy,
+			boolean removed) throws DataException {
+
+		PreparedStatement psSelect = null;
+		String sql = null;
+		if (removed)
+			sql = "UPDATE WEBDICOM.STUDY SET REMOVED = CURRENT_TIMESTAMP WHERE ID = ?";
+		else
+			sql = "UPDATE WEBDICOM.STUDY SET REMOVED = NULL WHERE ID = ?";
+
+		try {
+
+			psSelect = connection.prepareStatement(sql);
+			psSelect.setLong(1, idStudy);
+			connection.setAutoCommit(false);
+			int count = psSelect.executeUpdate();
+			connection.commit();
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Установка/удаление флага "удален" для файла с исследованием
+	 * 
+	 * @param connection
+	 * @param idDcmFile
+	 * @param removed
+	 * @throws DataException
+	 */
+	public static void dcmFileRemoveRestore(Connection connection,
+			long idDcmFile, boolean removed) throws DataException {
+
+		PreparedStatement psSelect = null;
+		String sql = null;
+		if (removed)
+			sql = "UPDATE WEBDICOM.DCMFILE SET REMOVED = CURRENT_TIMESTAMP WHERE ID = ?";
+		else
+			sql = "UPDATE WEBDICOM.DCMFILE SET REMOVED = NULL WHERE ID = ?";
+
+		try {
+
+			psSelect = connection.prepareStatement(sql);
+			psSelect.setLong(1, idDcmFile);
+			connection.setAutoCommit(false);
+			int count = psSelect.executeUpdate();
+			connection.commit();
+
+		} catch (SQLException e) {
+			throw new DataException(e);
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Получение прокси-класса для файла исследования
+	 * TODO Переделать на сущность DcmFile (перенести в пакет ORM)
+	 * @param connection
+	 * @param idFile
+	 * @return
+	 * @throws SQLException
+	 */
+	public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection connection, long idStudy)
+			throws DataException {
+		
+		PreparedStatement psFiles = null;
+		
+		try {
+		psFiles = connection.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
+		psFiles.setLong(1, idStudy);
+		ResultSet rs = psFiles.executeQuery();
+
+			ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
+			while (rs.next()) {
+				DcmFileProxy dcmfileProxy = new DcmFileProxy();
+				
+				dcmfileProxy.setId(rs.getLong("ID"));
+				dcmfileProxy.setIdStudy(rs.getLong("FID_STUDY"));
+				dcmfileProxy.setType(rs.getString("TYPE"));
+				dcmfileProxy.setMimeType(rs.getString("MIME_TYPE"));
+				dcmfileProxy.setEncapsulatedDocSize(rs.getLong("DOCUMENT_SIZE"));
+				dcmfileProxy.setFileName(rs.getString("DCM_FILE_NAME"));
+				dcmfileProxy.setFileSize(rs.getLong("DCM_FILE_SIZE"));
+				dcmfileProxy.setImageSize(rs.getLong("IMAGE_FILE_SIZE"));
+				dcmfileProxy.setImageWidth(rs.getInt("IMAGE_WIDTH"));
+				dcmfileProxy.setImageHeight(rs.getInt("IMAGE_HEIGHT"));
+				
+				dcmfileProxy.setDateRemoved(null);
+				if(rs.getTimestamp("REMOVED")!=null)
+					dcmfileProxy.setDateRemoved(rs.getTimestamp("REMOVED"));
+				
+				files.add(dcmfileProxy);
+				
+			}
+			return files;
+		}
+		catch(SQLException e) {
+			throw new DataException(e);
+		}
+		finally {
+
+			try {
+				if (psFiles != null)
+					psFiles.close();
+
+			} catch (SQLException e) {
+				throw new DataException(e);
+			}
+		}
+		
+	}
 }

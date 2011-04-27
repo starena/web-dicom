@@ -30,19 +30,14 @@
 
 package org.psystems.dicom.commons.orm.entity;
 
-import java.sql.Connection;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
-import org.psystems.dicom.browser.client.proxy.StudyProxy;
-import org.psystems.dicom.commons.orm.StudyImplDerby;
+public class Study implements Serializable {
 
-public abstract class Study {
-
+	private static final long serialVersionUID = -3660580692585603011L;
+	 
 	private Long id; // Внутренний ID
 	private String patientId; // ID пациента (0016,0032) LO 'Patient ID' =
 	// LAB_ID64936
@@ -328,9 +323,9 @@ public abstract class Study {
 	 *            поисковая строка
 	 * @return
 	 */
-	public static List<Study> getStudues(String query) {
-		return StudyImplDerby.getStudues(query);
-	}
+//	public static List<Study> getStudues(String query) {
+//		return StudyImplDerby.getStudues(query);
+//	}
 
 	/**
 	 * Получение списка исследований
@@ -348,14 +343,14 @@ public abstract class Study {
 	 * @return
 	 * @throws DataException
 	 */
-	public static Study[] getStudues(Connection connection, Long id,  String studyId,
-			String studyModality, String manufacturerModelName, String patientId, String patientName, String patientShortName,
-			String patientBirthDate, String patientSex, String beginStudyDate,
-			String endStudyDate, String studyResult, String sortOrder) throws DataException {
-		return StudyImplDerby.getStudues(connection,  id, studyId, studyModality, manufacturerModelName, patientId, patientName,
-				patientShortName, patientBirthDate, patientSex, beginStudyDate,
-				endStudyDate, studyResult, sortOrder);
-	}
+//	public static Study[] getStudues(Connection connection, Long id,  String studyId,
+//			String studyModality, String manufacturerModelName, String patientId, String patientName, String patientShortName,
+//			String patientBirthDate, String patientSex, String beginStudyDate,
+//			String endStudyDate, String studyResult, String sortOrder) throws DataException {
+//		return StudyImplDerby.getStudues(connection,  id, studyId, studyModality, manufacturerModelName, patientId, patientName,
+//				patientShortName, patientBirthDate, patientSex, beginStudyDate,
+//				endStudyDate, studyResult, sortOrder);
+//	}
 	
 	/**
 	 * 
@@ -363,9 +358,9 @@ public abstract class Study {
 	 * @param findId
 	 * @return
 	 */
-	public static Study getStudyByID (Connection connection, Long findId)  throws DataException {
-		return StudyImplDerby.getStudyByID(connection, findId);
-	}
+//	public static Study getStudyByID (Connection connection, Long findId)  throws DataException {
+//		return StudyImplDerby.getStudyByID(connection, findId);
+//	}
 	
 	
 	/**
@@ -375,9 +370,9 @@ public abstract class Study {
 	 * @param removed
 	 * @throws DefaultGWTRPCException
 	 */
-	public static void studyRemoveRestore(Connection connection, long idStudy, boolean removed) throws DataException {
-		StudyImplDerby.studyRemoveRestore(connection, idStudy, removed);
-	}
+//	public static void studyRemoveRestore(Connection connection, long idStudy, boolean removed) throws DataException {
+//		StudyImplDerby.studyRemoveRestore(connection, idStudy, removed);
+//	}
 	
 	/**
 	 * Показ/скрытие файла в исследовании 
@@ -386,9 +381,9 @@ public abstract class Study {
 	 * @param removed
 	 * @throws DataException
 	 */
-	public static void dcmFileRemoveRestore(Connection connection, long idDcmFile, boolean removed) throws DataException {
-		StudyImplDerby.dcmFileRemoveRestore(connection, idDcmFile, removed);
-	}
+//	public static void dcmFileRemoveRestore(Connection connection, long idDcmFile, boolean removed) throws DataException {
+//		StudyImplDerby.dcmFileRemoveRestore(connection, idDcmFile, removed);
+//	}
 
 
 	/**
@@ -399,9 +394,9 @@ public abstract class Study {
 	 * @return
 	 * @throws DataException
 	 */
-	public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection connection, long idStudy) throws DataException {
-		return StudyImplDerby.getDcmFileProxies(connection,idStudy);
-	} 
+//	public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection connection, long idStudy) throws DataException {
+//		return StudyImplDerby.getDcmFileProxies(connection,idStudy);
+//	} 
 	
 	
 	

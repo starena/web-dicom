@@ -335,5 +335,13 @@ public class PersistentManagerDerbyTest extends TestCase {
 		}
 
 	}
+	
+	public void testStudyRemoveRestore() {
+		fail("No implemented yet!");
+	}
+	
+	public void testDcmFileRemoveRestore() {
+		fail("No implemented yet!");
+	}
 
 }

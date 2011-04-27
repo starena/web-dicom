@@ -81,7 +81,6 @@ import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.StringUtils;
 import org.dcm4che2.util.TagUtils;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
@@ -94,8 +93,10 @@ import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
+import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.entity.QueryStudy;
 import org.psystems.dicom.commons.orm.entity.Study;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -149,7 +150,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			}
 			
 			
-			Study[] studies = null;
+			ArrayList<Study> studies = new ArrayList<Study>();
 			
 			Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
 			boolean fullSearch = matcher.matches();
@@ -167,26 +168,66 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 
 			if(fullSearch) {
 				
-				studies = Study.getStudues(connection, null, null,  null, manufacturerModelName, null, fio,
-						null, year+"-"+month+"-"+day, null, studyDB, studyDE, studyResult, sortOrder);
+				QueryStudy query = new QueryStudy();
+				query.setManufacturerModelName(manufacturerModelName);
+				query.setPatientName(fio);
+				query.setPatientBirthDate(year+"-"+month+"-"+day);
+				query.setBeginStudyDate(studyDB);
+				query.setEndStudyDate(studyDE);
+				
+				query.setStudyResult(studyResult);//TODO атавизм
+				query.setSortOrder(sortOrder);//TODO атавизм
+				
+				PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+				studies = pm.queryStudies(query);
+				
+//				studies = Study.getStudues(connection, null, null,  null, manufacturerModelName, null, fio,
+//						null, year+"-"+month+"-"+day, null, studyDB, studyDE, studyResult, sortOrder);
+				
 			} else if(queryStr.matches("^\\D{5}\\d{2}$")) { //Если поиск по КБП
 				
-				studies = Study.getStudues(connection, null, null, null, manufacturerModelName, null, null,
-						queryStr, null, null, studyDB, studyDE, studyResult, sortOrder);
+				QueryStudy query = new QueryStudy();
+				query.setManufacturerModelName(manufacturerModelName);
+				query.setPatientShortName(queryStr);
+				query.setBeginStudyDate(studyDB);
+				query.setEndStudyDate(studyDE);
+				
+				query.setStudyResult(studyResult);//TODO атавизм
+				query.setSortOrder(sortOrder);//TODO атавизм
+				
+				PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+				studies = pm.queryStudies(query);
+				
+//				studies = Study.getStudues(connection, null, null, null, manufacturerModelName, null, null,
+//						queryStr, null, null, studyDB, studyDE, studyResult, sortOrder);
 			} else {
-				studies = Study.getStudues(connection, null, null, null, manufacturerModelName, null, queryStr,
-					null, null, null, studyDB, studyDE, studyResult, sortOrder);
+				
+				QueryStudy query = new QueryStudy();
+				query.setManufacturerModelName(manufacturerModelName);
+				query.setPatientName(queryStr);
+				query.setBeginStudyDate(studyDB);
+				query.setEndStudyDate(studyDE);
+				
+				query.setStudyResult(studyResult);//TODO атавизм
+				query.setSortOrder(sortOrder);//TODO атавизм
+				
+				PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+				studies = pm.queryStudies(query);
+				
+//				studies = Study.getStudues(connection, null, null, null, manufacturerModelName, null, queryStr,
+//					null, null, null, studyDB, studyDE, studyResult, sortOrder);
 			}
 			
 			
 			
-			for (int i = 0; i < studies.length; i++) {
-				StudyProxy studyProxy = getStudyProxy(studies[i]);
+			for (Study study : studies) {
+				StudyProxy studyProxy = getStudyProxy(study);
 				// Получаем список файлов
 				//Сделана раздельная загрузка исследования и файлов для экономии траффика
-				studyProxy.setFiles(Study.getDcmFileProxies(connection,studyProxy.getId()));
+				studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection,studyProxy.getId()));
 				data.add(studyProxy);
 			}
+			
 
 			// DcmFileProxyCortege[] result = data.toArray(new
 			// DcmFileProxy[data.size()]);
@@ -583,13 +624,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		try {
 
 			Connection connection = Util.getConnection("main",getServletContext());
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 			
-			Study study = Study.getStudyByID(connection, id);
+			Study study = pm.getStudyByID(id);
 			if(study==null) return null;
 			
 			StudyProxy studyProxy = getStudyProxy(study);
 			//Сделана раздельная загрузка исследования и файлов для экономии траффика
-			studyProxy.setFiles(Study.getDcmFileProxies(connection,studyProxy.getId()));
+			studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection,studyProxy.getId()));
 
 			Calendar calendar = Calendar.getInstance();
 
