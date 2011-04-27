@@ -735,26 +735,18 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		proxy.setPatientName(study.getPatientName());
 		proxy.setPatientSex(study.getPatientSex());
 		proxy.setPatientId(study.getPatientId());
-		proxy
-				.setPatientBirthDate(study.getPatientBirthDate() != null ? new java.util.Date(
-						study.getPatientBirthDate().getTime())
-						: null);
+		proxy.setPatientBirthDate(study.getPatientBirthDate());
 		proxy.setStudyId(study.getStudyId());
 		proxy.setStudyType(study.getStudyType());
-		proxy.setStudyDate(study.getStudyDate() != null ? new java.util.Date(
-				study.getStudyDate().getTime()) : null);
-		proxy
-				.setStudyViewprotocolDate(study.getStudyViewprotocolDate() != null ? new java.util.Date(
-						study.getStudyViewprotocolDate().getTime())
-						: null);
-		
+		proxy.setStudyDate(study.getStudyDate());
+		proxy.setStudyViewprotocolDate(study.getStudyViewprotocolDate());
 		proxy.setStudyDoctor(study.getStudyDoctor());
 		proxy.setStudyOperator(study.getStudyOperator());
 		proxy.setStudyDescription(study.getStudyDescription());
 		proxy.setStudyViewprotocol(study.getStudyViewprotocol());
 		proxy.setStudyResult(study.getStudyResult());
-		proxy.setStudyDateModify(study.getStudyDateModify());
-		proxy.setStudyDateRemoved(study.getStudyDateRemoved());
+		proxy.setStudyDateTimeModify(study.getStudyDateTimeModify());
+		proxy.setStudyDateTimeRemoved(study.getStudyDateTimeRemoved());
 		
 		return proxy;
 	}

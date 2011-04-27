@@ -262,7 +262,7 @@ public class StudyCard extends Composite {
 			public void onClick(ClickEvent event) {
 				
 				Dicom_browser.manageStudyService.studyRemoveRestore(proxy.getId(),
-						proxy.getStudyDateRemoved() == null ? true : false,
+						proxy.getStudyDateTimeRemoved() == null ? true : false,
 						new AsyncCallback<Void>() {
 
 							@Override
@@ -505,10 +505,16 @@ public class StudyCard extends Composite {
 				pGlass.add(vp);
 				vp.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
 
+				
+				String patientBirthDate =
+					Utils.dateFormatUser.format(Utils.dateFormatSql.parse(proxy.getPatientBirthDate()));
+				String studyDate =
+					Utils.dateFormatUser.format(Utils.dateFormatSql.parse(proxy.getStudyDate()));
+				
+				
 				Label lTitle = new Label(proxy.getPatientName() + " ["
-						+ dateFormat.format(proxy.getPatientBirthDate())
-						+ "]" + " исследование от "
-						+ dateFormat.format(proxy.getStudyDate()));
+						+ patientBirthDate + "]" + " исследование от "
+						+ studyDate);
 
 				lTitle.setStyleName("DicomItemValue");
 
@@ -580,10 +586,19 @@ public class StudyCard extends Composite {
 			result = "";
 		}
 		
+		String patientBirthDate = Utils.dateFormatUser
+				.format(Utils.dateFormatSql.parse(proxy.getPatientBirthDate()));
+		String studyDate = Utils.dateFormatUser.format(Utils.dateFormatSql
+				.parse(proxy.getStudyDate()));
+		String studyDateRemoved = null;
+		if (proxy.getStudyDateTimeRemoved() != null)
+			studyDateRemoved = Utils.dateTimeFormatUser
+					.format(Utils.dateTimeFormatSql.parse(proxy
+							.getStudyDateTimeRemoved()));
 
 		labelPatientName.setText(proxy.getPatientName() + " (" + sex + ") "
-				+ dateFormat.format(proxy.getPatientBirthDate()) + " - "+result+ " ("+  dateFormat.format(proxy.getStudyDate()) +")"+
-				(proxy.getStudyDateRemoved() !=null ? " удален " + proxy.getStudyDateRemoved() : ""));
+				+ patientBirthDate + " - "+result+ " ("+  studyDate +")"+
+				(proxy.getStudyDateTimeRemoved() !=null ? " удален " + studyDateRemoved : ""));
 		
 		//Установка оповещения неописанного исследования
 		
@@ -603,12 +618,15 @@ public class StudyCard extends Composite {
 		}
 		
 		//Задаем свойство "удален"
-		if(proxy.getStudyDateRemoved()!=null) setRemovedStyle(true); else setRemovedStyle(false);
+		if(proxy.getStudyDateTimeRemoved()!=null) setRemovedStyle(true); else setRemovedStyle(false);
 		
 		if(!fullMode) return;
 		
-		labelStudyDate.setText(dateFormat.format(proxy.getStudyDate()));
-		labelStudyViewProtocolDate.setText(dateFormat.format(proxy.getStudyViewprotocolDate()));
+		String studyViewprotocolDate =
+			Utils.dateFormatUser.format(Utils.dateFormatSql.parse(proxy.getStudyViewprotocolDate()));
+		
+		labelStudyDate.setText(studyDate);
+		labelStudyViewProtocolDate.setText(studyViewprotocolDate);
 		labelPatientId.setText(proxy.getPatientId());
 		labelManufacturerModelName.setText(proxy.getManufacturerModelName());
 		labelStudyDoctor.setText(proxy.getStudyDoctor());
@@ -619,7 +637,7 @@ public class StudyCard extends Composite {
 		
 		String resultStr = "";
 		if(proxy.getStudyViewprotocolDate()!=null) {
-			resultStr = dateFormat.format(proxy.getStudyViewprotocolDate());  
+			resultStr = studyViewprotocolDate;  
 		}
 		resultStr += " , "+ result;
 		labelResult.setText(resultStr);
