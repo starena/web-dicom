@@ -12,6 +12,15 @@ import java.util.ArrayList;
 
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.psystems.dicom.browser.client.component.WorkListPanel;
+import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Diagnosis;
+import org.psystems.dicom.commons.orm.entity.Direction;
+import org.psystems.dicom.commons.orm.entity.Employee;
+import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.entity.QueryDirection;
+import org.psystems.dicom.commons.orm.entity.QueryStudy;
+import org.psystems.dicom.commons.orm.entity.Service;
+import org.psystems.dicom.commons.orm.entity.Study;
 
 public class PersistentManagerDerby implements IPersistentManager {
 

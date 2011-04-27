@@ -1,4 +1,4 @@
-package org.psystems.dicom.commons.orm;
+package org.psystems.dicom.commons.orm.entity;
 
 import junit.framework.TestCase;
 

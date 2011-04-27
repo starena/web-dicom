@@ -1,7 +1,10 @@
-package org.psystems.dicom.commons.orm;
+package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
 import java.util.Arrays;
+
+import org.psystems.dicom.commons.orm.ORMUtil;
+import org.psystems.dicom.commons.orm.Patient;
 
 /**
  * Направление на исследование
