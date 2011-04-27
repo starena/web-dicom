@@ -21,7 +21,7 @@ import org.psystems.dicom.commons.orm.entity.QueryStudy;
 import org.psystems.dicom.commons.orm.entity.Service;
 import org.psystems.dicom.commons.orm.entity.Study;
 
-public class PersistentManagerDerby implements IPersistentManager {
+public class PersistentManagerDerby {
 
 	private Connection connection;
 	//TODO Убрать в конфиг!!!
@@ -39,7 +39,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 	}
 
 	
-	@Override
 	public long pesistentDirection(Direction drn) throws DataException {
 		return makePesistentDirection((Direction) drn);
 	}
@@ -51,7 +50,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 	 * @param study
 	 * @return
 	 */
-	private long makePesistentStudy(Study study) {
+	public long makePesistentStudy(Study study) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -63,7 +62,7 @@ public class PersistentManagerDerby implements IPersistentManager {
 	 * @param drn
 	 * @throws DataException
 	 */
-	private long makePesistentDirection(Direction drn) throws DataException {
+	public long makePesistentDirection(Direction drn) throws DataException {
 
 		PreparedStatement pstmt = null;
 		String sql = null;
@@ -622,7 +621,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 		}
 	}
 	
-	@Override
 	public Direction getDirectionByID(Long id) throws DataException {
 		
 		Direction drn = new Direction();
@@ -655,7 +653,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 	
 
-	@Override
 	public Direction getDirectionByDirectionId(String internalID)
 			throws DataException {
 
@@ -686,13 +683,11 @@ public class PersistentManagerDerby implements IPersistentManager {
 		}
 	}
 	
-	@Override
 	public Study getStudyByUID(String uid)  throws DataException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public ArrayList<Direction> queryDirections(QueryDirection request)
 			throws DataException {
 
@@ -854,7 +849,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 	
 
 
-	@Override
 	public Study getStudyByID(Long id) throws DataException {
 		PreparedStatement psSelect = null;
 		String sql = "SELECT * FROM WEBDICOM.STUDY WHERE ID = ?";
@@ -887,7 +881,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 	
 
 
-	@Override
 	public ArrayList<Study> queryStudies(QueryStudy request)
 			throws DataException {
 		
