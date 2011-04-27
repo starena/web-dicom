@@ -95,6 +95,9 @@ public class PersistentManagerDerbyTest extends TestCase {
 		String randomDirectionId = "" + Math.random();
 		Direction drn = new Direction();
 		drn.setDateDirection("2011-04-13");
+		drn.setDateTimePlanned("2011-05-10 10:00:00");
+		drn.setDateTimeModified("2011-05-10 09:00:00");
+		drn.setDateTimeRemoved("2011-04-11 08:11:01");
 
 		ManufacturerDevice device = new ManufacturerDevice();
 		device.setManufacturerModelName("TestModel");

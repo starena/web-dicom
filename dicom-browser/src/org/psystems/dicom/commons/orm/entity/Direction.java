@@ -23,7 +23,7 @@ public class Direction implements Serializable {
 	private Service[] servicesDirect;// Услуги при направлении
 	private String dateDirection;// Дата направления
 	private ManufacturerDevice device;// Аппарат
-	private String datePlanned;// Планируемая дата выполнения исследования
+	private String dateTimePlanned;// Планируемая дата выполнения исследования
 	private Employee doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
 	private String directionLocation;// Кабинет
@@ -91,12 +91,12 @@ public class Direction implements Serializable {
 		this.device = device;
 	}
 
-	public String getDatePlanned() {
-		return datePlanned;
+	public String getDateTimePlanned() {
+		return dateTimePlanned;
 	}
 
-	public void setDatePlanned(String datePlanned) {
-		this.datePlanned = datePlanned;
+	public void setDateTimePlanned(String datePlanned) {
+		this.dateTimePlanned = datePlanned;
 	}
 
 	public Employee getDoctorPerformed() {
@@ -181,13 +181,13 @@ public class Direction implements Serializable {
 				field = "dateDirection";
 				ORMUtil.dateSQLToUtilDate(dateDirection);
 			}
-			if (datePlanned != null) {
-				field = "datePlanned";
-				ORMUtil.dateSQLToUtilDate(datePlanned);
-			}
 			if (datePerformed != null) {
 				field = "datePerformed";
 				ORMUtil.dateSQLToUtilDate(datePerformed);
+			}
+			if (dateTimePlanned != null) {
+				field = "dateTimePlanned";
+				ORMUtil.dateTimeSQLToUtilDate(dateTimePlanned);
 			}
 			if (dateTimeModified != null) {
 				field = "dateTimeModified";
@@ -220,7 +220,7 @@ public class Direction implements Serializable {
 		return "Direction [id=" + id + ", directionId=" + directionId
 				+ ", dateDirection=" + dateDirection + ", directionCode="
 				+ directionCode + ", patient=" + patient + ", datePerformed="
-				+ datePerformed + ", datePlanned=" + datePlanned + ", device="
+				+ datePerformed + ", datePlanned=" + dateTimePlanned + ", device="
 				+ device + ", directionLocation=" + directionLocation
 				+ ", doctorDirect=" + doctorDirect + ", diagnosisDirect="
 				+ Arrays.toString(diagnosisDirect) + ", servicesDirect="
