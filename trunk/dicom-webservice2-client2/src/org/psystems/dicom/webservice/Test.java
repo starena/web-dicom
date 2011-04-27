@@ -133,7 +133,7 @@ public class Test {
 
 		
 		//
-		query.setDirectionId("884312");
+		query.setDirectionId("8843123");
 
 		//
 		
@@ -191,7 +191,7 @@ public class Test {
 		patient.setPatientName("Артемьева Наталья Александровна");
 		patient.setPatientId("PATID1234");
 		patient.setPatientSex("F");
-		patient.setPatientBirthDate("1974-33-33");
+		patient.setPatientBirthDate("1974-01-01");
 		patient.setPatientShortName("qwe12");
 		query.setPatient(patient);
 		
