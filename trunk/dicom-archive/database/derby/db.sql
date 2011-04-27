@@ -1,4 +1,4 @@
-CONNECT 'jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true';
+--CONNECT 'jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true';
 
 --
 -- Таблица "Направление"
