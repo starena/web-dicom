@@ -33,8 +33,8 @@ public class Direction implements Serializable {
 	private Service[] servicesPerformed;// Выполненные услуги
 	private String datePerformed;// Дата выполнения исследования
 	private Patient patient; // Пациент
-	private String dateModified;// Дата модификации
-	private String dateRemoved;// Дата удаления
+	private String dateTimeModified;// Дата модификации
+	private String dateTimeRemoved;// Дата удаления
 
 	public Long getId() {
 		return id;
@@ -156,22 +156,22 @@ public class Direction implements Serializable {
 		this.patient = patient;
 	}
 
-	public String getDateModified() {
-		return dateModified;
+	public String getDateTimeModified() {
+		return dateTimeModified;
 	}
 
-	public void setDateModified(String dateModified) {
-		this.dateModified = dateModified;
+	public void setDateTimeModified(String dateTimeModified) {
+		this.dateTimeModified = dateTimeModified;
 	}
 
-	public String getDateRemoved() {
-		return dateRemoved;
+	public String getDateTimeRemoved() {
+		return dateTimeRemoved;
 	}
 
-	public void setDateRemoved(String dateRemoved) {
-		this.dateRemoved = dateRemoved;
+	public void setDateTimeRemoved(String dateTimeRemoved) {
+		this.dateTimeRemoved = dateTimeRemoved;
 	}
-	
+
 	/**
 	 * Проверка всех полей.
 	 */
@@ -190,43 +190,46 @@ public class Direction implements Serializable {
 				field = "datePerformed";
 				ORMUtil.dateSQLToUtilDate(datePerformed);
 			}
-			if (dateModified != null) {
-				field = "dateModified";
-				ORMUtil.dateTimeSQLToUtilDate(dateModified);
+			if (dateTimeModified != null) {
+				field = "dateTimeModified";
+				ORMUtil.dateTimeSQLToUtilDate(dateTimeModified);
 			}
-			if (dateRemoved != null) {
-				field = "dateRemoved";
-				ORMUtil.dateTimeSQLToUtilDate(dateRemoved);
+			if (dateTimeRemoved != null) {
+				field = "dateTimeRemoved";
+				ORMUtil.dateTimeSQLToUtilDate(dateTimeRemoved);
 			}
-			
+
 			field = "patient";
-			if(patient!=null) patient.chechEntity();
+			if (patient != null)
+				patient.chechEntity();
 			field = "doctorDirect";
-			if(doctorDirect!=null) doctorDirect.chechEntity();
+			if (doctorDirect != null)
+				doctorDirect.chechEntity();
 			field = "doctorPerformed";
-			if(doctorPerformed!=null) doctorPerformed.chechEntity();
-			
+			if (doctorPerformed != null)
+				doctorPerformed.chechEntity();
+
 		} catch (IllegalArgumentException ex) {
-			throw new IllegalArgumentException("Direction field " + field + " " + ex.getMessage(), ex);
+			throw new IllegalArgumentException("Direction field " + field + " "
+					+ ex.getMessage(), ex);
 		}
-		
-		
+
 	}
 
 	@Override
 	public String toString() {
-		return "Direction [dateDirection=" + dateDirection + ", dateModified="
-				+ dateModified + ", datePerformed=" + datePerformed
-				+ ", datePlanned=" + datePlanned + ", dateRemoved="
-				+ dateRemoved + ", device=" + device + ", diagnosisDirect="
-				+ Arrays.toString(diagnosisDirect) + ", diagnosisPerformed="
-				+ Arrays.toString(diagnosisPerformed) + ", directionCode="
-				+ directionCode + ", directionId=" + directionId
-				+ ", directionLocation=" + directionLocation
-				+ ", doctorDirect=" + doctorDirect + ", doctorPerformed="
-				+ doctorPerformed + ", id=" + id + ", patient=" + patient
-				+ ", servicesDirect=" + Arrays.toString(servicesDirect)
-				+ ", servicesPerformed=" + Arrays.toString(servicesPerformed)
+		return "Direction [id=" + id + ", directionId=" + directionId
+				+ ", dateDirection=" + dateDirection + ", directionCode="
+				+ directionCode + ", patient=" + patient + ", datePerformed="
+				+ datePerformed + ", datePlanned=" + datePlanned + ", device="
+				+ device + ", directionLocation=" + directionLocation
+				+ ", doctorDirect=" + doctorDirect + ", diagnosisDirect="
+				+ Arrays.toString(diagnosisDirect) + ", servicesDirect="
+				+ Arrays.toString(servicesDirect) + ", doctorPerformed="
+				+ doctorPerformed + ", diagnosisPerformed="
+				+ Arrays.toString(diagnosisPerformed) + ", servicesPerformed="
+				+ Arrays.toString(servicesPerformed) + ", dateTimeModified="
+				+ dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved
 				+ "]";
 	}
 
