@@ -176,7 +176,7 @@
      */
     public WebDicomStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this(configurationContext,"http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -185,7 +185,7 @@
      */
     public WebDicomStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this("http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -1610,7 +1610,7 @@
         }
         return false;
     }
-     //http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
+     //http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
         public static class QueryStudyE
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -4020,50 +4020,6 @@
                             
 
                         /**
-                        * field for DatePlanned
-                        */
-
-                        
-                                    protected java.lang.String localDatePlanned ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localDatePlannedTracker = false ;
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return java.lang.String
-                           */
-                           public  java.lang.String getDatePlanned(){
-                               return localDatePlanned;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param DatePlanned
-                               */
-                               public void setDatePlanned(java.lang.String param){
-                            
-                                       if (param != null){
-                                          //update the setting tracker
-                                          localDatePlannedTracker = true;
-                                       } else {
-                                          localDatePlannedTracker = true;
-                                              
-                                       }
-                                   
-                                            this.localDatePlanned=param;
-                                    
-
-                               }
-                            
-
-                        /**
                         * field for DateTimeModified
                         */
 
@@ -4102,6 +4058,50 @@
                                        }
                                    
                                             this.localDateTimeModified=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for DateTimePlanned
+                        */
+
+                        
+                                    protected java.lang.String localDateTimePlanned ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDateTimePlannedTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDateTimePlanned(){
+                               return localDateTimePlanned;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DateTimePlanned
+                               */
+                               public void setDateTimePlanned(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDateTimePlannedTracker = true;
+                                       } else {
+                                          localDateTimePlannedTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDateTimePlanned=param;
                                     
 
                                }
@@ -4996,40 +4996,6 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localDatePlannedTracker){
-                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
-
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
-
-                                            xmlWriter.writeStartElement(prefix,"datePlanned", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
-
-                                        } else {
-                                            xmlWriter.writeStartElement(namespace,"datePlanned");
-                                        }
-
-                                    } else {
-                                        xmlWriter.writeStartElement("datePlanned");
-                                    }
-                                
-
-                                          if (localDatePlanned==null){
-                                              // write the nil attribute
-                                              
-                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localDatePlanned);
-                                            
-                                          }
-                                    
-                                   xmlWriter.writeEndElement();
                              } if (localDateTimeModifiedTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
@@ -5060,6 +5026,40 @@
 
                                         
                                                    xmlWriter.writeCharacters(localDateTimeModified);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localDateTimePlannedTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"dateTimePlanned", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"dateTimePlanned");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("dateTimePlanned");
+                                    }
+                                
+
+                                          if (localDateTimePlanned==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDateTimePlanned);
                                             
                                           }
                                     
@@ -5775,18 +5775,18 @@
                                  
                                          elementList.add(localDatePerformed==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDatePerformed));
-                                    } if (localDatePlannedTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
-                                                                      "datePlanned"));
-                                 
-                                         elementList.add(localDatePlanned==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDatePlanned));
                                     } if (localDateTimeModifiedTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "dateTimeModified"));
                                  
                                          elementList.add(localDateTimeModified==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDateTimeModified));
+                                    } if (localDateTimePlannedTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "dateTimePlanned"));
+                                 
+                                         elementList.add(localDateTimePlanned==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDateTimePlanned));
                                     } if (localDateTimeRemovedTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "dateTimeRemoved"));
@@ -6086,14 +6086,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","datePlanned").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","dateTimeModified").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setDatePlanned(
+                                              object.setDateTimeModified(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -6113,14 +6113,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","dateTimeModified").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","dateTimePlanned").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setDateTimeModified(
+                                              object.setDateTimePlanned(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
