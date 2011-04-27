@@ -210,14 +210,14 @@ public class PersistentManagerDerby implements IPersistentManager {
 				pstmt.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));//sysdate
 
 				try {
-					if (drn.getDateRemoved() != null)
+					if (drn.getDateTimeRemoved() != null)
 						pstmt.setTimestamp(17, new Timestamp(java.sql.Date
-								.valueOf(drn.getDateRemoved()).getTime()));
+								.valueOf(drn.getDateTimeRemoved()).getTime()));
 					else
 						pstmt.setNull(17, java.sql.Types.TIMESTAMP);
 				} catch (IllegalArgumentException ex) {
 					throw new DataException("field Date Removed wrong format: "
-							+ drn.getDateRemoved(), ex);
+							+ drn.getDateTimeRemoved(), ex);
 				}
 				
 				
@@ -358,14 +358,14 @@ public class PersistentManagerDerby implements IPersistentManager {
 						.getTime()));// sysdate
 
 				try {
-					if (drn.getDateRemoved() != null)
+					if (drn.getDateTimeRemoved() != null)
 						pstmt.setTimestamp(17, new Timestamp(java.sql.Date
-								.valueOf(drn.getDateRemoved()).getTime()));
+								.valueOf(drn.getDateTimeRemoved()).getTime()));
 					else
 						pstmt.setNull(17, java.sql.Types.TIMESTAMP);
 				} catch (IllegalArgumentException ex) {
 					throw new DataException("field Date Removed wrong format: "
-							+ drn.getDateRemoved(), ex);
+							+ drn.getDateTimeRemoved(), ex);
 				}
 				
 				pstmt.setLong(18, drn.getId());
@@ -523,8 +523,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 		patient.setPatientSex(rs.getString("PATIENT_SEX"));
 		drn.setPatient(patient);
 
-		drn.setDateModified(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
-		drn.setDateRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
+		drn.setDateTimeModified(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
+		drn.setDateTimeRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
 
 		//наполняем диагнозами
 		setDirectionDiagnosis(drn);
