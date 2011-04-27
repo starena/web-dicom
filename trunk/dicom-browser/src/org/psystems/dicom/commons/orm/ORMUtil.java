@@ -80,30 +80,6 @@ public class ORMUtil {
 	}
 	
 	
-	/**
-	 * Экранирование спец символов ^ и |
-	 * @param s
-	 * @return
-	 */
-	public static String toPersistString (String s) {
-		s = s.replaceAll("\\^", "#####");
-		s = s.replaceAll("\\|", "@@@@@");
-		return s;
-	}
-
-	/**
-	 * Де-Экранирование спец символов ^ и |
-	 * @param s
-	 * @return
-	 */
-	public static String fromPersistString (String s) {
-		s = s.replaceAll("#####", "\\^");
-		s = s.replaceAll("@@@@@","\\|");
-		return s;
-		
-	}
-	
-	
 	
 	/**
 	 * Получение КБП
