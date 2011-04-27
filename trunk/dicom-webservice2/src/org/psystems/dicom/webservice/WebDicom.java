@@ -107,7 +107,7 @@ public class WebDicom {
 			drn.setServicesDirect(servicesDirect);
 			drn.setDateDirection(dateDirection);
 			drn.setDevice(device);
-			drn.setDatePlanned(datePlanned);
+			drn.setDateTimePlanned(datePlanned);
 			drn.setDirectionCode(directionCode);
 			drn.setDirectionLocation(directionLocation);
 			drn.setPatient(patient);
