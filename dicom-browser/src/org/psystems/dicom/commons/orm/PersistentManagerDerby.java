@@ -32,18 +32,8 @@ public class PersistentManagerDerby implements IPersistentManager {
 
 	
 	@Override
-	public long pesistentDirection(Serializable Direction) throws DataException {
-
-		// сохранение направления
-		if (Direction instanceof Direction) {
-			return makePesistentDirection((Direction) Direction);
-		}
-		// сохранение направления
-		if (Direction instanceof Study) {
-			return makePesistentStudy((Study) Direction);
-		}
-		return 0;
-
+	public long pesistentDirection(Direction drn) throws DataException {
+		return makePesistentDirection((Direction) drn);
 	}
 
 	/**
@@ -86,8 +76,6 @@ public class PersistentManagerDerby implements IPersistentManager {
 			
 		}
 		
-		
-
 		long resultId = 0;
 
 			try {
