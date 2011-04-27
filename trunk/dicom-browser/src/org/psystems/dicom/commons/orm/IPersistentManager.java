@@ -8,11 +8,11 @@ public interface IPersistentManager {
 	/**
 	 * Сохранение направления
 	 * 
-	 * @param Direction
+	 * @param drn
 	 * @return
 	 * @throws DataException
 	 */
-	public long pesistentDirection(Serializable Direction) throws DataException;
+	public long pesistentDirection(Direction drn) throws DataException;
 
 	/**
 	 * Получение экземпляра направления по его внутренему Id
