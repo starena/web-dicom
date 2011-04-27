@@ -22,45 +22,6 @@ public class Employee implements Serializable {
 	public static String TYPE_DOCTOR = "DOCTOR";
 	public static String TYPE_OPERATOR = "OPERATOR";
 
-	String persistentDelimeter = "|";// разделитель структур
-
-	/**
-	 * формат строки Код^ФИО
-	 * 
-	 * @return
-	 */
-	public String toPersistentString() {
-		chechEntity();
-		return ORMUtil.toPersistString(employeeCode) + "^" + ORMUtil.toPersistString(employeeType)
-		+ "^" + ORMUtil.toPersistString(employeeName);
-	}
-
-	/**
-	 * Создание экземпляра из строки
-	 * 
-	 * @param data
-	 * @return
-	 */
-	public static Employee getFromPersistentString(String data) {
-
-		if (data == null || data.length() == 0)
-			return null;
-
-		Employee emp = new Employee();
-
-		Matcher matcher = Pattern.compile("^(.+)\\^(.+)\\^(.+)$").matcher(data);
-		if (matcher.matches()) {
-			emp.setEmployeeCode(ORMUtil.fromPersistString(matcher.group(1)));
-			emp.setEmployeeType(ORMUtil.fromPersistString(matcher.group(2)));
-			emp.setEmployeeName(ORMUtil.fromPersistString(matcher.group(3)));
-
-		} else {
-			throw new IllegalArgumentException(
-					"Wrong string pattern [employeeCode^employeeType^employeeName] for ["
-							+ data + "]");
-		}
-		return emp;
-	}
 
 	public String getEmployeeType() {
 		return employeeType;
