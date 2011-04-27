@@ -154,6 +154,8 @@ public class WorkListPanel extends Composite {
 		lbManufacturerModelName.addItem("Спирометр-Spirovit SP-1");
 		lbManufacturerModelName.addItem("Спиро-Спектр 2");
 		
+		lbManufacturerModelName.addItem("Aloka alfa");
+		
 		
 		
 		//TODO Убрал из списка

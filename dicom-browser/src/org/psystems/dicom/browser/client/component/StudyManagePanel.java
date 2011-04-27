@@ -221,6 +221,10 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("Спирометр-Spirovit SP-1","Спирометр-Spirovit SP-1");
 		dicModel.put("Спиро-Спектр 2","Спиро-Спектр 2");
 		
+		dicModel.put("Aloka alfa","Aloka alfa 6 каб.527 ДП");
+		
+		
+		
 		
 		
 		HashMap <String, String>dicModality = new HashMap<String, String>();
