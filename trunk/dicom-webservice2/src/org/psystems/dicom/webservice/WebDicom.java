@@ -12,18 +12,18 @@ import javax.servlet.ServletContext;
 import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.apache.log4j.Logger;
-import org.psystems.dicom.commons.orm.DataException;
-import org.psystems.dicom.commons.orm.Diagnosis;
-import org.psystems.dicom.commons.orm.Direction;
-import org.psystems.dicom.commons.orm.Employee;
-import org.psystems.dicom.commons.orm.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Diagnosis;
+import org.psystems.dicom.commons.orm.entity.Direction;
+import org.psystems.dicom.commons.orm.entity.Employee;
+import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.ORMUtil;
-import org.psystems.dicom.commons.orm.Patient;
+import org.psystems.dicom.commons.orm.entity.Patient;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
-import org.psystems.dicom.commons.orm.QueryDirection;
-import org.psystems.dicom.commons.orm.QueryStudy;
-import org.psystems.dicom.commons.orm.Service;
-import org.psystems.dicom.commons.orm.Study;
+import org.psystems.dicom.commons.orm.entity.QueryDirection;
+import org.psystems.dicom.commons.orm.entity.QueryStudy;
+import org.psystems.dicom.commons.orm.entity.Service;
+import org.psystems.dicom.commons.orm.entity.Study;
 
 /**
  * @author dima_d
@@ -112,7 +112,7 @@ public class WebDicom {
 			drn.setDirectionLocation(directionLocation);
 			drn.setPatient(patient);
 
-			return pm.makePesistent(drn);
+			return pm.makePesistentDirection(drn);
 			// return (Direction) pm.getObjectbyInternalID(internalID);
 
 		} catch (SQLException e) {
@@ -142,7 +142,7 @@ public class WebDicom {
 		try {
 			connection = ORMUtil.getConnection(servletContext);
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
-			return (Direction) pm.getObjectbyInternalID(directionId);
+			return (Direction) pm.getDirectionByDirectionId(directionId);
 
 		} catch (SQLException e) {
 			throwPortalException("get direction error:", e);
@@ -167,7 +167,7 @@ public class WebDicom {
 		try {
 			connection = ORMUtil.getConnection(servletContext);
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
-			return (Direction) pm.getObjectbyID(id);
+			return (Direction) pm.getDirectionByID(id);
 
 		} catch (SQLException e) {
 			throwPortalException("get direction error:", e);
@@ -222,12 +222,14 @@ public class WebDicom {
 		try {
 
 			connection = ORMUtil.getConnection(servletContext);
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			ArrayList<Study> studies = pm.queryStudies(query);
 
-			Study[] studies = Study.getStudues(connection, query.getId(), query.getStudyId(),  query
-					.getStudyModality(), null, query.getPatientId(), query.getPatientName(), query
-					.getPatientShortName(), query.getPatientBirthDate(), query
-					.getPatientSex(), query.getBeginStudyDate(), query
-					.getEndStudyDate(), null, null);
+//			Study[] studies = Study.getStudues(connection, query.getId(), query.getStudyId(),  query
+//					.getStudyModality(), null, query.getPatientId(), query.getPatientName(), query
+//					.getPatientShortName(), query.getPatientBirthDate(), query
+//					.getPatientSex(), query.getBeginStudyDate(), query
+//					.getEndStudyDate(), null, null);
 
 			String url = servletContext
 					.getInitParameter("webdicom.ws.viewstudy.url");
@@ -235,28 +237,26 @@ public class WebDicom {
 			// "http://127.0.0.1:8888/study/"
 			ArrayList<Study> tmpData = new ArrayList<Study>();
 
-			for (int i = 0; i < studies.length; i++) {
-				studies[i].setStudyUrl(url + "/" + studies[i].getId());
+			for (Study study : tmpData) {
+				study.setStudyUrl(url + "/" + study.getId());
 
 				// //Фильтруем результаты в которых есть отклонения (только
 				// для флюшек)
 				// System.out.println("!!! studyModality="+studyModality);
-				if (studies[i].getStudyModality() != null
-						&& studies[i].getStudyModality().equals("CR")) {
-					if (studies[i].getStudyResult() == null
-							|| studies[i].getStudyResult().length() == 0) {
-						studies[i].setStudyResult("норма");
-						tmpData.add(studies[i]);
+				if (study.getStudyModality() != null
+						&& study.getStudyModality().equals("CR")) {
+					if (study.getStudyResult() == null
+							|| study.getStudyResult().length() == 0) {
+						study.setStudyResult("норма");
+						tmpData.add(study);
 					}
 				} else {
-					tmpData.add(studies[i]);
+					tmpData.add(study);
 				}
 			}
 
-			studies = new Study[tmpData.size()];
-			tmpData.toArray(studies);
 
-			return studies;
+			return studies.toArray(new Study[studies.size()]);
 
 		} catch (SQLException e) {
 			throwPortalException("query study error:", e);
