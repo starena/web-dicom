@@ -13,11 +13,12 @@ import org.psystems.dicom.commons.orm.ORMUtil;
 public class Patient implements Serializable {
 
 	private static final long serialVersionUID = 1336950569742992093L;
+	
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
 	private String patientShortName; // КБП пациента
 	private String patientSex; // Пол пациента (M/F)
-	private String patientBirthDate; // Дата рождения пациента
+	private String patientBirthDate; // Дата рождения пациента. формат "yyyy-mm-dd"
 	
 
 	public String getPatientId() {

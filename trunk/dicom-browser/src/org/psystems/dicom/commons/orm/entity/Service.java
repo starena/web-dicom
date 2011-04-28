@@ -14,7 +14,7 @@ public class Service implements Serializable {
 
 	private static final long serialVersionUID = 5146546219455184305L;
 	private String serviceCode;// Код
-	private String serviceAlias;// краткий код для врача
+	private String serviceAlias;// краткий код
 	private String serviceDescription;// Описание
 
 
