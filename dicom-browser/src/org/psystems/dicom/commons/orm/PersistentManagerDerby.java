@@ -809,6 +809,7 @@ public class PersistentManagerDerby {
 		
 		Study study = new Study();
 		study.setId(rs.getLong("ID"));
+		study.setDirectionID(rs.getLong("FID_DIRECTION"));
 		study.setStudyInstanceUID(rs.getString("STUDY_UID"));
 		study.setStudyModality(rs.getString("STUDY_MODALITY"));
 		study.setStudyType(rs.getString("STUDY_TYPE"));
