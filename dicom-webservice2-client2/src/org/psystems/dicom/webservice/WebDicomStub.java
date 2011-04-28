@@ -176,7 +176,7 @@
      */
     public WebDicomStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this(configurationContext,"http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -185,7 +185,7 @@
      */
     public WebDicomStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this("http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -1610,7 +1610,7 @@
         }
         return false;
     }
-     //http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
+     //http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
         public static class QueryStudyE
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -18035,6 +18035,51 @@
                              
 
                         /**
+                        * field for DirectionID
+                        */
+
+                        
+                                    protected long localDirectionID ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDirectionIDTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return long
+                           */
+                           public  long getDirectionID(){
+                               return localDirectionID;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DirectionID
+                               */
+                               public void setDirectionID(long param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       
+                                               if (param==java.lang.Long.MIN_VALUE) {
+                                           localDirectionIDTracker = true;
+                                              
+                                       } else {
+                                          localDirectionIDTracker = true;
+                                       }
+                                   
+                                            this.localDirectionID=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for Id
                         */
 
@@ -19228,7 +19273,36 @@
                                     
                              }
 
-                        } if (localIdTracker){
+                        } if (localDirectionIDTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"directionID", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"directionID");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("directionID");
+                                    }
+                                
+                                               if (localDirectionID==java.lang.Long.MIN_VALUE) {
+                                           
+                                                         writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDirectionID));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localIdTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -20187,7 +20261,13 @@
                                 
                             }
 
-                        } if (localIdTracker){
+                        } if (localDirectionIDTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "directionID"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDirectionID));
+                            } if (localIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "id"));
                                  
@@ -20461,6 +20541,37 @@
                                 
                                     else {
                                         
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","directionID").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDirectionID(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToLong(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                                   object.setDirectionID(java.lang.Long.MIN_VALUE);
+                                               
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setDirectionID(java.lang.Long.MIN_VALUE);
+                                           
                                     }
                                 
                                     

@@ -67,12 +67,12 @@ public class Test {
 			final Options clientOptions = stub._getServiceClient().getOptions();
 			clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
 
-			 testMakeDirection();
+//			 testMakeDirection();
 //			 testgetdirectionById();
 //			 testetdirectionBydirectionId();
 //			 testQueryDirection();
 			// testFindStudiesByType();
-//			testQueryStudy();
+			testQueryStudy();
 
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
@@ -133,7 +133,7 @@ public class Test {
 
 		
 		//
-		query.setDirectionId("8843123");
+		query.setDirectionId("8843sd");
 
 		//
 		
