@@ -55,12 +55,14 @@ public class Study implements Serializable {
 	private String studyInstanceUID; // UID исследования (0032,0013) UI 'Study
 	// Instance UID' =
 	// 1.2.826.0.1.3680043.2.634.30.1.89729.20100305113905
-	private String studyDate; // Дата исследования (0008,0032) DA 'Study Date'. формат "yyyy-mm-dd"
+	private String studyDate; // Дата исследования (0008,0032) DA 'Study Date'.
+								// формат "yyyy-mm-dd"
 	private String studyDoctor; // Врач исследования (0008,0144) PN
 	// "Referring Physician's Name" = Куницкий В.Н
 	private String studyOperator; // Оператор исследования (0008,4208) PN
 	// "Operators' Name" = Гаврилова Н.Г.
-	private String studyViewprotocolDate;// Дата описания исследования. формат "yyyy-mm-dd"
+	private String studyViewprotocolDate;// Дата описания исследования. формат
+											// "yyyy-mm-dd"
 	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
 	private String studyModality;// модальность (0008,0060).
@@ -79,8 +81,12 @@ public class Study implements Serializable {
 	// private String userDateTimeFormat = "dd-MM-yyyy HH:mm:ss";
 	private String sqlTimestampFormat = "yyyy-MM-dd HH:mm:ss";
 
-	private String studyDateTimeModify;// Дата модификации исследования. формат "yyyy-mm-dd hh:mm:ss"
-	private String studyDateTimeRemoved;// Дата удаления исследования. формат "yyyy-mm-dd hh:mm:ss"
+	private String studyDateTimeModify;// Дата модификации исследования. формат
+										// "yyyy-mm-dd hh:mm:ss"
+	private String studyDateTimeRemoved;// Дата удаления исследования. формат
+										// "yyyy-mm-dd hh:mm:ss"
+
+	private Long directionID;// Id связанного направления
 
 	public Long getId() {
 		return id;
@@ -174,7 +180,6 @@ public class Study implements Serializable {
 		return studyViewprotocolDate;
 	}
 
-
 	public void setStudyViewprotocolDate(String studyViewprotocolDate) {
 		this.studyViewprotocolDate = studyViewprotocolDate;
 	}
@@ -267,6 +272,14 @@ public class Study implements Serializable {
 		this.studyDateTimeRemoved = studyDateRemoved;
 	}
 
+	public Long getDirectionID() {
+		return directionID;
+	}
+
+	public void setDirectionID(Long directionID) {
+		this.directionID = directionID;
+	}
+
 	/**
 	 * 
 	 */
@@ -304,23 +317,22 @@ public class Study implements Serializable {
 			}
 		} catch (IllegalArgumentException ex) {
 			throw new IllegalArgumentException(
-					"Study View Protocol Date field wrong format: " + ex.getMessage(), ex);
+					"Study View Protocol Date field wrong format: "
+							+ ex.getMessage(), ex);
 		}
-		
-		
 
 	}
 
 	@Override
 	public String toString() {
-		return "Study [id=" + id + ", studyId=" + studyId
-				+ ", ManufacturerModelName=" + ManufacturerModelName
-				+ ", ManufacturerModelUID=" + ManufacturerModelUID
-				+ ", dateFormat=" + dateFormat + ", dcmFilesId="
-				+ Arrays.toString(dcmFilesId) + ", patientBirthDate="
-				+ patientBirthDate + ", patientId=" + patientId
-				+ ", patientName=" + patientName + ", patientSex=" + patientSex
-				+ ", patientShortName=" + patientShortName
+		return "Study [id=" + id + ", studyId=" + studyId + ", directionID="
+				+ directionID + ", ManufacturerModelName="
+				+ ManufacturerModelName + ", ManufacturerModelUID="
+				+ ManufacturerModelUID + ", dateFormat=" + dateFormat
+				+ ", dcmFilesId=" + Arrays.toString(dcmFilesId)
+				+ ", patientBirthDate=" + patientBirthDate + ", patientId="
+				+ patientId + ", patientName=" + patientName + ", patientSex="
+				+ patientSex + ", patientShortName=" + patientShortName
 				+ ", sqlTimestampFormat=" + sqlTimestampFormat + ", studyDate="
 				+ studyDate + ", studyDateModify=" + studyDateTimeModify
 				+ ", studyDateRemoved=" + studyDateTimeRemoved
@@ -332,96 +344,5 @@ public class Study implements Serializable {
 				+ ", studyViewprotocol=" + studyViewprotocol
 				+ ", studyViewprotocolDate=" + studyViewprotocolDate + "]";
 	}
-
-	/**
-	 * Получение списка исследований
-	 * http://lucene.apache.org/java/3_0_0/queryparsersyntax.html
-	 * 
-	 * @param query
-	 *            поисковая строка
-	 * @return
-	 */
-	// public static List<Study> getStudues(String query) {
-	// return StudyImplDerby.getStudues(query);
-	// }
-
-	/**
-	 * Получение списка исследований
-	 * 
-	 * TODO сделано для WEB-сервиса. заточка под "МИС"
-	 * 
-	 * @param connection
-	 * @param studyModality
-	 * @param patientName
-	 * @param patientShortName
-	 * @param patientBirthDate
-	 * @param patientSex
-	 * @param beginStudyDate
-	 * @param endStudyDate
-	 * @return
-	 * @throws DataException
-	 */
-	// public static Study[] getStudues(Connection connection, Long id, String
-	// studyId,
-	// String studyModality, String manufacturerModelName, String patientId,
-	// String patientName, String patientShortName,
-	// String patientBirthDate, String patientSex, String beginStudyDate,
-	// String endStudyDate, String studyResult, String sortOrder) throws
-	// DataException {
-	// return StudyImplDerby.getStudues(connection, id, studyId, studyModality,
-	// manufacturerModelName, patientId, patientName,
-	// patientShortName, patientBirthDate, patientSex, beginStudyDate,
-	// endStudyDate, studyResult, sortOrder);
-	// }
-
-	/**
-	 * 
-	 * @param connection
-	 * @param findId
-	 * @return
-	 */
-	// public static Study getStudyByID (Connection connection, Long findId)
-	// throws DataException {
-	// return StudyImplDerby.getStudyByID(connection, findId);
-	// }
-
-	/**
-	 * Показ/скрытие исследования
-	 * 
-	 * @param connection
-	 * @param idStudy
-	 * @param removed
-	 * @throws DefaultGWTRPCException
-	 */
-	// public static void studyRemoveRestore(Connection connection, long
-	// idStudy, boolean removed) throws DataException {
-	// StudyImplDerby.studyRemoveRestore(connection, idStudy, removed);
-	// }
-
-	/**
-	 * Показ/скрытие файла в исследовании
-	 * 
-	 * @param connection
-	 * @param idDcmFile
-	 * @param removed
-	 * @throws DataException
-	 */
-	// public static void dcmFileRemoveRestore(Connection connection, long
-	// idDcmFile, boolean removed) throws DataException {
-	// StudyImplDerby.dcmFileRemoveRestore(connection, idDcmFile, removed);
-	// }
-
-	/**
-	 * Получение прокси-классов для файла исследования
-	 * 
-	 * @param connection
-	 * @param idStudy
-	 * @return
-	 * @throws DataException
-	 */
-	// public static ArrayList<DcmFileProxy> getDcmFileProxies(Connection
-	// connection, long idStudy) throws DataException {
-	// return StudyImplDerby.getDcmFileProxies(connection,idStudy);
-	// }
 
 }
