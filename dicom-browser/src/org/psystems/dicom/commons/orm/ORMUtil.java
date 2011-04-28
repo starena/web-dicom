@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,7 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
+
 public class ORMUtil {
 	
 	public static SimpleDateFormat dateFormatSQL = new SimpleDateFormat(
@@ -24,6 +26,53 @@ public class ORMUtil {
 	
 	public static SimpleDateFormat dateTimeFormatSQL = new SimpleDateFormat(
 	"yyyy-MM-dd HH:mm:ss");
+	
+	public final static HashMap<String, String> modalityList = new HashMap<String, String>();
+	static {
+	modalityList.put("AS", "Angioscopy-Retired");
+	modalityList.put("BI", "Biomagnetic Imaging");
+	modalityList.put("CD", "Color Flow Doppler-Retired");
+	modalityList.put("CF", "Cinefluorography (retired)");
+	modalityList.put("CP", "Colposcopy Retired");
+	modalityList.put("CR", "Computed Radiography");
+	modalityList.put("CS", "CystoscopyRetired");
+	modalityList.put("CT", "Computed Tomography");
+	modalityList.put("DD", "Duplex Doppler Retired");
+	modalityList.put("DF", "Digital Fluoroscopy (retired)");
+	modalityList.put("DG", "Diaphanography");
+	modalityList.put("DM", "Digital Microscopy");
+	modalityList.put("DS", "Digital Subtraction Angiography Retired");
+	modalityList.put("DX", "Digital radiography");
+	modalityList.put("EC", "Echocardiography Retired");
+	modalityList.put("ES", "Endoscopy");
+	modalityList.put("FA", "Fluorescein Angiography Retired");
+	modalityList.put("FS", "Fundoscopy Retired");
+	modalityList.put("HC", "Hard Copy");
+	modalityList.put("LP", "Laparoscopy Retired");
+	modalityList.put("LS", "Laser Surface Scan");
+	modalityList.put("MA", "Magnetic resonance angiography Retired");
+	modalityList.put("MG", "Mammography");
+	modalityList.put("MR", "Magnetic Resonance");
+	modalityList.put("MS", "Magnetic Resonance Spectroscopy Retired");
+	modalityList.put("NM", "Nuclear Medicine");
+	modalityList.put("OT", "Other");
+	modalityList.put("PT", "Positron Emission Tomography (PET)");
+	modalityList.put("RF", "Radio Fluoroscopy");
+	modalityList.put("RG", "Radiographic Imaging (conventional film screen)");
+	modalityList.put("RTDOSE", "Radiotherapy Dose (a.k.a. RD)");
+	modalityList.put("RTIMAGE", "Radiotherapy Image");
+	modalityList.put("RTPLAN", "Radiotherapy Plan (a.k.a. RP)");
+	modalityList.put("RTSTRUCT", "Radiotherapy Structure Set (a.k.a. RS)");
+	modalityList.put("SR", "Structured Reporting");
+	modalityList.put("ST", "Single-photon Emission Computed Tomography Retired");
+	modalityList.put("TG", "Thermography");
+	modalityList.put("US", "Ultrasound");
+	modalityList.put("VF", "Videofluorography (retired)");
+	modalityList.put("XA", "X-Ray Angiography");
+	modalityList.put("XC", "eXternal Camera");
+	modalityList.put("ECG", "Electrocardiograms");
+	}
+	
 	
 	/**
 	 * Конвертация Util даты
@@ -89,6 +138,7 @@ public class ORMUtil {
 	 */
 	public static String makeShortName (String PatientName, String PatientBirthDate) {
 		
+		if(PatientName==null || PatientBirthDate==null) return null;
 		String result = null;
 		Matcher matcher = Pattern.compile("\\s*(...).*?\\s+(.).*?\\s+(.).*?").matcher(PatientName.toUpperCase());
 		if (matcher.matches()) {
@@ -143,5 +193,20 @@ public class ORMUtil {
 
 		return connection;
 	}
+	
+	/**
+	 * Список модальностей одной строкой
+	 * @return
+	 */
+	public static String getAllModalities () {
+		StringBuffer sb = new StringBuffer();
+		for (String mod : modalityList.keySet()) {
+			if(sb.length()!=0) sb.append("|");
+			sb.append(mod);
+		}
+		return sb.toString();
+	}
+	
+	
 
 }

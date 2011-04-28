@@ -13,7 +13,7 @@ public class QueryStudy {
 	private static final long serialVersionUID = -2840335603833444555L;
 	private Long id; // Внутренний ID
 	private String studyId; // штрих код
-	private String studyModality;// модальность. Проверок пока нету. TODO сделать проверки.
+	private String studyModality;// модальность. Проверка согласно списку ORMUtil.modalityList
 	private String beginStudyDate;// Дата начала интервала поиска по дате
 									// исследования. формат "yyyy-mm-dd"
 	private String endStudyDate;// Дата окончания интервала поиска по дате
@@ -167,6 +167,11 @@ public class QueryStudy {
 							" argument must be: M|F ");
 			}
 			
+			if(studyModality!=null && ORMUtil.modalityList.get(studyModality)==null) {
+				field = "studyModality";
+				throw new IllegalArgumentException("Field studyModality Type wrong format [" + studyModality + "]." +
+				" argument must be: "  + ORMUtil.getAllModalities());
+			}
 			
 			//TODO Сделать остальные проверки (studyModality итп..)
 			//TODO сделать проверку на длинну и корретность строк...

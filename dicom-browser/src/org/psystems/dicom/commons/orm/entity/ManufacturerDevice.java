@@ -2,6 +2,8 @@ package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
 
+import org.psystems.dicom.commons.orm.ORMUtil;
+
 /**
  * Медицинский аппарат
  * 
@@ -16,7 +18,7 @@ public class ManufacturerDevice implements Serializable {
 	private static final long serialVersionUID = 2089006109459477701L;
 	private String ManufacturerModelName; // Модель
 	private String ManufacturerModelType; // Тип исследования которые аппарат
-	// может выполнять (CR,ES,..) TODO пока проверки не производится
+	// может выполнять. Проверка согласно списку ORMUtil.modalityList
 	
 	private String ManufacturerModelTypeDescription; // Описание типа исследования
 	private String ManufacturerModelDescription; // Описание аппарата (на русском)
@@ -65,6 +67,10 @@ public class ManufacturerDevice implements Serializable {
 	 */
 	public void chechEntity() {
 		
+		if(ManufacturerModelType!=null && ORMUtil.modalityList.get(ManufacturerModelType)==null) {
+			throw new IllegalArgumentException("Field ManufacturerModelType Type wrong format [" + ManufacturerModelType + "]." +
+			" argument must be: "  + ORMUtil.getAllModalities());
+		}
 //		if (ManufacturerModelType != null
 //				&& (!diagnosisType.equals(TYPE_MAIN)
 //						&& !diagnosisType.equals(TYPE_ACCOMPANYING) && !diagnosisType

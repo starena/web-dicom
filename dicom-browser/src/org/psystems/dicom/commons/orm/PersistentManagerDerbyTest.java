@@ -142,7 +142,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 		patient.setPatientId("123123");
 		patient.setPatientName("Иванов Иван Иванович");
 		patient.setPatientSex("M");
-		patient.setPatientShortName("ИВАИВ74");
+//		patient.setPatientShortName("ИВАИВ74");
 		drn.setPatient(patient);
 
 		ArrayList<Service> serviceDirect = new ArrayList<Service>();
@@ -189,6 +189,8 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			Direction drn = pm.getDirectionByID(id);
 			assertEquals(drnOriginal.getDirectionId(), drn.getDirectionId());
+			
+			assertEquals(drn.getPatient().getPatientShortName(), "ИВАИИ74");
 
 			// Diagnosis
 

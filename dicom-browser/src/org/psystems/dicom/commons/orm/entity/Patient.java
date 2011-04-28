@@ -16,7 +16,7 @@ public class Patient implements Serializable {
 	
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
-	private String patientShortName; // КБП пациента
+	private String patientShortName; // КБП пациента (код быстрого поиска)
 	private String patientSex; // Пол пациента (M/F)
 	private String patientBirthDate; // Дата рождения пациента. формат "yyyy-mm-dd"
 	
@@ -38,12 +38,9 @@ public class Patient implements Serializable {
 	}
 
 	public String getPatientShortName() {
-		return patientShortName;
+		return ORMUtil.makeShortName(patientName, patientBirthDate);
 	}
 
-	public void setPatientShortName(String patientShortName) {
-		this.patientShortName = patientShortName;
-	}
 
 	public String getPatientSex() {
 		return patientSex;
