@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 /**
- * Направление на исследование
+ * Сущность "Направление на исследование"
  * 
  * @author dima_d
  */
@@ -16,24 +16,24 @@ public class Direction implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2840335603832244555L;
+	
 	private Long id; // Внутренний ID
 	private String directionId; // штрих код
 	private Employee doctorDirect;// Направивший врач
 	private Diagnosis[] diagnosisDirect;// Диагнозы при направлении
 	private Service[] servicesDirect;// Услуги при направлении
-	private String dateDirection;// Дата направления
+	private String dateDirection;// Дата направления. формат "yyyy-mm-dd"
 	private ManufacturerDevice device;// Аппарат
-	private String dateTimePlanned;// Планируемая дата выполнения исследования
+	private String dateTimePlanned;// Планируемая дата выполнения исследования. формат "yyyy-mm-dd hh:mm:ss"
 	private Employee doctorPerformed;// Врач выполнивший исследование
 	private String directionCode;// Идентификатор случая заболевания
 	private String directionLocation;// Кабинет
-	private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения
-	// исследования
+	private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения исследования
 	private Service[] servicesPerformed;// Выполненные услуги
-	private String datePerformed;// Дата выполнения исследования
+	private String datePerformed;// Дата выполнения исследования. формат "yyyy-mm-dd"
 	private Patient patient; // Пациент
-	private String dateTimeModified;// Дата модификации
-	private String dateTimeRemoved;// Дата удаления
+	private String dateTimeModified;// Дата модификации. формат "yyyy-mm-dd hh:mm:ss"
+	private String dateTimeRemoved;// Дата удаления. формат "yyyy-mm-dd hh:mm:ss"
 
 	public Long getId() {
 		return id;
@@ -201,17 +201,34 @@ public class Direction implements Serializable {
 			field = "patient";
 			if (patient != null)
 				patient.chechEntity();
+			
 			field = "doctorDirect";
 			if (doctorDirect != null)
 				doctorDirect.chechEntity();
+			
 			field = "doctorPerformed";
 			if (doctorPerformed != null)
 				doctorPerformed.chechEntity();
+			
+			field = "diagnosisDirect";
+			if (diagnosisDirect != null)
+				for (Diagnosis dia : diagnosisDirect) {
+					dia.chechEntity();
+				}
+			field = "diagnosisPerformed";
+			if (diagnosisPerformed != null)
+				for (Diagnosis dia : diagnosisPerformed) {
+					dia.chechEntity();
+				}
+
 
 		} catch (IllegalArgumentException ex) {
 			throw new IllegalArgumentException("Direction field " + field + " "
 					+ ex.getMessage(), ex);
 		}
+		
+			
+	
 
 	}
 

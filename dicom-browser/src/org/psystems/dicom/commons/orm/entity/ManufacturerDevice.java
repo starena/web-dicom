@@ -1,7 +1,6 @@
 package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Медицинский аппарат
@@ -15,20 +14,16 @@ public class ManufacturerDevice implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2089006109459477701L;
-	// Модель аппарат (по тегу из Dicom-файла)
-	private String ManufacturerModelName;
-	// CR,ES,...
-	private String ManufacturerModelType;
-	// Описание типа исследования
-	private String ManufacturerModelTypeDescription;
-	// Описание аппарата (на русском)
-	private String ManufacturerModelDescription;
-
+	private String ManufacturerModelName; // Модель
+	private String ManufacturerModelType; // Тип исследования которые аппарат
+	// может выполнять (CR,ES,..) TODO пока проверки не производится
+	
+	private String ManufacturerModelTypeDescription; // Описание типа исследования
+	private String ManufacturerModelDescription; // Описание аппарата (на русском)
 
 	public ManufacturerDevice() {
 		super();
 	}
-	
 
 	public String getManufacturerModelName() {
 		return ManufacturerModelName;
@@ -63,6 +58,21 @@ public class ManufacturerDevice implements Serializable {
 			String manufacturerModelDescription) {
 		ManufacturerModelDescription = manufacturerModelDescription;
 	}
+	
+	/**
+	 * Проверка всех полей.
+	 * TODO Реализовать прверки !!!
+	 */
+	public void chechEntity() {
+		
+//		if (ManufacturerModelType != null
+//				&& (!diagnosisType.equals(TYPE_MAIN)
+//						&& !diagnosisType.equals(TYPE_ACCOMPANYING) && !diagnosisType
+//						.equals(TYPE_INVOLVEMENT))) {
+//			throw new IllegalArgumentException("Field Diagnosis Type wrong format [" + diagnosisType + "]." +
+//					" argument must be: "+TYPE_MAIN+"|"+TYPE_ACCOMPANYING+"|"+TYPE_INVOLVEMENT);
+//		}
+	}
 
 	@Override
 	public String toString() {
@@ -72,7 +82,5 @@ public class ManufacturerDevice implements Serializable {
 				+ ManufacturerModelType + ", ManufacturerModelTypeDescription="
 				+ ManufacturerModelTypeDescription + "]";
 	}
-	
-	
 
 }

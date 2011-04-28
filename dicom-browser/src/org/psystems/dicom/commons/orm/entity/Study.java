@@ -50,18 +50,17 @@ public class Study implements Serializable {
 	private String patientSex; // Пол пациента (0016,0064) CS "Patient's Sex" =
 	// M/F
 	private String patientBirthDate; // Дата рождения пациента (0016,0048) DA
-	// "Patient's Birth Date" = 19670811
+	// "Patient's Birth Date". формат "yyyy-mm-dd"
 	private String studyId; // ID исследования (0032,0016) SH 'Study ID' = 89729
 	private String studyInstanceUID; // UID исследования (0032,0013) UI 'Study
 	// Instance UID' =
 	// 1.2.826.0.1.3680043.2.634.30.1.89729.20100305113905
-	private String studyDate; // Дата исследования (0008,0032) DA 'Study Date' =
-	// 20100225
+	private String studyDate; // Дата исследования (0008,0032) DA 'Study Date'. формат "yyyy-mm-dd"
 	private String studyDoctor; // Врач исследования (0008,0144) PN
 	// "Referring Physician's Name" = Куницкий В.Н
 	private String studyOperator; // Оператор исследования (0008,4208) PN
 	// "Operators' Name" = Гаврилова Н.Г.
-	private String studyViewprotocolDate;// Дата описания исследования.
+	private String studyViewprotocolDate;// Дата описания исследования. формат "yyyy-mm-dd"
 	private String studyType;// Вид исследования.
 	private String studyDescription;// Описание исследования.
 	private String studyModality;// модальность (0008,0060).
@@ -80,8 +79,8 @@ public class Study implements Serializable {
 	// private String userDateTimeFormat = "dd-MM-yyyy HH:mm:ss";
 	private String sqlTimestampFormat = "yyyy-MM-dd HH:mm:ss";
 
-	private String studyDateTimeModify;// Дата модификации исследования
-	private String studyDateTimeRemoved;// Дата удаления исследования
+	private String studyDateTimeModify;// Дата модификации исследования. формат "yyyy-mm-dd hh:mm:ss"
+	private String studyDateTimeRemoved;// Дата удаления исследования. формат "yyyy-mm-dd hh:mm:ss"
 
 	public Long getId() {
 		return id;

@@ -14,12 +14,12 @@ public class QueryDirection {
 	private static final long serialVersionUID = -2840335603832244555L;
 	private Long id; // Внутренний ID
 	private String directionId; // штрих код
-	private String dateDirection;// Дата направления
+	private String dateDirection;// Дата направления. формат "yyyy-mm-dd"
 
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
 	private String patientSex; // Пол пациента (M/F)
-	private String patientBirthDate; // Дата рождения пациента (0016,0048) DA
+	private String patientBirthDate; // Дата рождения пациента. формат "yyyy-mm-dd"
 
 	public Long getId() {
 		return id;

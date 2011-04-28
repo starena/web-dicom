@@ -15,7 +15,7 @@ public class Employee implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5003881435162510751L;
-	private String employeeType;// Тип сотрудника (врач,оператор,..)
+	private String employeeType;// Тип сотрудника. возможные варианты: DOCTOR|OPERATOR
 	private String employeeName;// Имя
 	private String employeeCode;// Код, таб.номер
 
@@ -57,8 +57,8 @@ public class Employee implements Serializable {
 		if (!employeeType.equals(TYPE_DOCTOR)
 				&& !employeeType.equals(TYPE_OPERATOR))
 			throw new IllegalArgumentException(
-					"Employee type argument must be " + TYPE_DOCTOR + " or "
-							+ TYPE_OPERATOR + "[" + employeeType + "]");
+					"Field employeeType wrong format  [" + employeeType + "]  argument must be " + TYPE_DOCTOR + " or "
+							+ TYPE_OPERATOR );
 	}
 
 	@Override

@@ -13,16 +13,16 @@ public class QueryStudy {
 	private static final long serialVersionUID = -2840335603833444555L;
 	private Long id; // Внутренний ID
 	private String studyId; // штрих код
-	private String studyModality;// модальность
+	private String studyModality;// модальность. Проверок пока нету. TODO сделать проверки.
 	private String beginStudyDate;// Дата начала интервала поиска по дате
-									// исследования
+									// исследования. формат "yyyy-mm-dd"
 	private String endStudyDate;// Дата окончания интервала поиска по дате
-								// исследования
+								// исследования. формат "yyyy-mm-dd"
 
 	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
-	private String patientSex; // Пол пациента (M/F)
-	private String patientBirthDate; // Дата рождения пациента
+	private String patientSex; // Пол пациента. варианты: M|F
+	private String patientBirthDate; // Дата рождения пациента. формат "yyyy-mm-dd"
 	private String patientShortName; // код краткого поиска
 	
 	private String manufacturerModelName; //имя аппарата
@@ -160,6 +160,13 @@ public class QueryStudy {
 				field = "patientBirthDate";
 				ORMUtil.dateSQLToUtilDate(patientBirthDate);
 			}
+			if (patientSex != null) {
+				field = "patientSex";
+				if(!patientSex.equals("M") && !patientSex.equals("F"))
+					throw new IllegalArgumentException("Field Patient Sex  wrong format [" + patientSex + "]." +
+							" argument must be: M|F ");
+			}
+			
 			
 			//TODO Сделать остальные проверки (studyModality итп..)
 			//TODO сделать проверку на длинну и корретность строк...
