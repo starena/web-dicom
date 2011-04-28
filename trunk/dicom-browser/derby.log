@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-2011-04-27 17:54:41.497 GMT:
- Производится загрузка Derby версии The Apache Software Foundation - Apache Derby - 10.5.3.0 - (802917): экземпляр a816c00e-012f-9819-3c4c-000000c85098
+2011-04-28 08:53:35.000 GMT:
+ Производится загрузка Derby версии The Apache Software Foundation - Apache Derby - 10.5.3.0 - (802917): экземпляр a816c00e-012f-9b50-323a-000000bb1940
 в каталоге базы данных memory:C:\WORK\workspace\dicom-browser\DB  
 
 Запущен загрузчик классов базы данных - derby.database.classpath=''
