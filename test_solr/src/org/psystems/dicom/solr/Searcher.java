@@ -1,4 +1,4 @@
-package dicom.solr;
+package org.psystems.dicom.solr;
 
 import java.io.IOException;
 import java.util.ArrayList;
