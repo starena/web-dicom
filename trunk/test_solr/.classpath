@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="dicom/solr/Dcm2Solr.java|dicom/solr/DCMHandler.java" kind="src" path="src"/>
+	<classpathentry excluding="dicom/solr/Dcm2Solr.java|dicom/solr/DCMHandler.java|org/psystems/dicom/solr/Dcm2Solr.java|org/psystems/dicom/solr/DCMHandler.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/apache-solr-cell-1.5-dev.jar"/>
 	<classpathentry kind="lib" path="lib/apache-solr-clustering-1.5-dev.jar"/>
