@@ -66,6 +66,7 @@ import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
@@ -196,8 +197,8 @@ public class StorageOMITSImpl extends Storage {
 						+ rs.getString("PATR_NAME");
 
 				PatientProxy proxy = new PatientProxy();
-				proxy.init(rs.getLong("ID"), name, rs.getString("SEX"), rs
-						.getString("BIRTHDAY"));
+				proxy.init(rs.getLong("ID"), name, rs.getString("SEX"),
+						ORMUtil.dateFormatSQL.format(rs.getDate("BIRTHDAY")));
 				result.add(proxy);
 
 				if (index++ > limit) {

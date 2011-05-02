@@ -27,6 +27,12 @@ public class ORMUtil {
 	public static SimpleDateFormat dateTimeFormatSQL = new SimpleDateFormat(
 	"yyyy-MM-dd HH:mm:ss");
 	
+	public static SimpleDateFormat dateFormatUser = new SimpleDateFormat(
+	"dd.MM.yyyy");
+	
+	public static SimpleDateFormat dateTimeFormatUser = new SimpleDateFormat(
+	"dd.MM.yyyy HH:mm:ss");
+	
 	public final static HashMap<String, String> modalityList = new HashMap<String, String>();
 	static {
 	modalityList.put("AS", "Angioscopy-Retired");
@@ -85,6 +91,22 @@ public class ORMUtil {
 		return dateFormatSQL.format(date);
 	}
 	
+	
+	
+	/**
+	 * @param date
+	 * @return
+	 */
+	public static String userDateStringToSQLDateString(String date) {
+		if(date==null) return null;
+		try {
+			
+			return dateFormatSQL.format(dateFormatUser.parse(date));
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("string with a date has wrong format " +
+					dateFormatUser.toPattern() + " input string: [" + date + "]", e);
+		}
+	}
 	
 	
 	/**
