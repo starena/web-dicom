@@ -1,6 +1,7 @@
 package org.psystems.dicom.solr;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.solr.client.solrj.beans.Field;
@@ -12,8 +13,10 @@ public class Study {
 	@Field("studyId")
 	String study_Id;
 
+	@Field
 	String patientName;
 
+	@Field
 	String studyDescription;
 
 	@Field("dia")
@@ -21,6 +24,38 @@ public class Study {
 
 	@Field
 	List<String> services;
+
+	@Field
+	HashMap<String, String> tags;
+
+	@Field
+	String text; // TODO Переименовать
+	
+	@Field
+	byte[] imagefull;
+
+	@Field
+	byte[] image100x100;
+	
+	
+
+	public byte[] getImagefull() {
+		return imagefull;
+	}
+
+	public void setImagefull(byte[] imagefull) {
+		this.imagefull = imagefull;
+	}
+	
+	
+
+	public byte[] getImage100x100() {
+		return image100x100;
+	}
+
+	public void setImage100x100(byte[] image100x100) {
+		this.image100x100 = image100x100;
+	}
 
 	public String getId() {
 		return id;
@@ -76,16 +111,30 @@ public class Study {
 		this.services = services;
 	}
 
+	public HashMap<String, String> getTags() {
+		return tags;
+	}
+
+	public void setTags(HashMap<String, String> tags) {
+		this.tags = tags;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	@Override
 	public String toString() {
-		return "Study [id=" + id + ", study_Id=" + study_Id + ", patientName="
-				+ patientName + ", studyDescription=" + studyDescription
-				+ ", diagnozis=" + Arrays.toString(diagnozis) + ", services="
-				+ services + ", getDiagnozis()="
-				+ Arrays.toString(getDiagnozis()) + ", getServices()="
-				+ getServices() + "]";
+		return "Study [diagnozis=" + Arrays.toString(diagnozis) + ", id=" + id
+				+ ", patientName=" + patientName + ", services=" + services
+				+ ", studyDescription=" + studyDescription + ", study_Id="
+				+ study_Id + ", tags=" + tags + ", text=" + text + "]";
 	}
-	
+
 	
 
 }
