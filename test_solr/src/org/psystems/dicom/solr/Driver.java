@@ -54,88 +54,40 @@ public class Driver {
 		new Driver();
 	}
 
-	public void test() throws IOException {
-		int maxDocs = 20;
-		SolrServer server = new CommonsHttpSolrServer(
-				"http://localhost:8983/solr");
-
-		List<SolrInputDocument> docBuffer = new ArrayList<SolrInputDocument>(
-				maxDocs);
-
-		try {
-			for (int i = 0; i < maxDocs; i++) {
-
-				/*
-				 * SolrInputDocument currentDicomStudy = new
-				 * SolrInputDocument(); currentDicomStudy.addField("id", "key" +
-				 * i); currentDicomStudy.addField("studyId", "study st" + i);
-				 * currentDicomStudy.addField("patientName", " VASIA FIO" + i);
-				 * currentDicomStudy.addField("studyDescription",
-				 * "Description of study FIO" + i); //
-				 * docBuffer.add(currentDicomStudy);
-				 * server.add(currentDicomStudy);
-				 */
-
-				Study study = new Study();
-				study.id = "key" + i;
-				study.patientName = "FIO" + i;
-				study.study_Id = "STUDYID" + i;
-				study.studyDescription = "Description of study FIO" + i;
-				study.diagnozis = new String[] { "aaa", "bbb", "ccc" };
-				ArrayList<String> services = new ArrayList<String>();
-				services.add("service1");
-				services.add("service2");
-				services.add("service3");
-				study.services = services;
-				server.addBean(study);
-				server.commit();
-
-			}
-
-			// server.add(docBuffer);
-			// int numIndexed = docBuffer.size();
-			// docBuffer.clear();
-
-			server.optimize();
-
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public Driver() {
 		super();
-		
-//		try {
-//			test();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-		
+
+		// try {
+		// test();
+		// } catch (IOException e1) {
+		// // TODO Auto-generated catch block
+		// e1.printStackTrace();
+		// }
+
 		try {
-			
+
 			ArrayList<File> files = getAllDcmFiles((new File(
-			"C:/WORK/workspace/dicom-archive/database/instance/dcm.data")));
-			
-//			ArrayList<File> files = getAllPDFFiles(new File(
-//					"C:/temp/pdf"));
-			
+					"C:/WORK/workspace/dicom-archive/database/instance/dcm.data")));
+
+			// ArrayList<File> files = getAllPDFFiles(new File(
+			// "C:/temp/pdf"));
+
 			SolrServer server = new CommonsHttpSolrServer(
-			"http://localhost:8983/solr");
-			//передача будет в бинарном формате
-			((CommonsHttpSolrServer) server).setRequestWriter(new BinaryRequestWriter());
-			
+					"http://localhost:8983/solr");
+			// передача будет в бинарном формате
+			((CommonsHttpSolrServer) server)
+					.setRequestWriter(new BinaryRequestWriter());
+
 			for (File file : files) {
 				System.out.println("file=" + file.getName());
-//				indexFilesSolrCell(server,file,file.getName());
-//				peristPdfTags(server,file);
-				perisiTags(server,file);
+				// indexFilesSolrCell(server,file,file.getName());
+				// peristPdfTags(server,file);
+				perisistTags(server, file);
 			}
-			
+
+			makeTestData(server);
 			server.optimize();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -145,54 +97,66 @@ public class Driver {
 		}
 	}
 	
-	  /**
-	   * Method to index all types of files into Solr. 
-	   * @param fileName
-	   * @param solrId
-	   * @throws IOException
-	   * @throws SolrServerException
-	   */
-	  public static void indexFilesSolrCell(SolrServer solr, File file, String solrId) 
-	    throws IOException, SolrServerException {
-	    
-//	    String urlString = "http://localhost:8983/solr"; 
-//	    SolrServer solr = new CommonsHttpSolrServer(urlString);
-	    
-	    ContentStreamUpdateRequest up 
-	      = new ContentStreamUpdateRequest("/update/extract");
-	    
-	    up.addFile(file);
-	    
-	    up.setParam("literal.id", solrId);
-	    up.setParam("uprefix", "attr_");
-	    up.setParam("fmap.content", "attr_content");
-	    
-	    up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
-	    
-	    solr.request(up);
-	    
-	    QueryResponse rsp = solr.query(new SolrQuery("*:*"));
-	    
-	    System.out.println(rsp);
-	  }
+	/**
+	 * @param solr
+	 * @throws IOException
+	 * @throws SolrServerException
+	 */
+	public void makeTestData(SolrServer solr) throws IOException, SolrServerException {
+		int maxDocs = 3;
+		for (int i = 0; i < maxDocs; i++) {
+			Study study = new Study();
+			study.id = "key" + i;
+			study.patientName = "Николоева Татьяна Гордеевна" + i;
+			study.study_Id = "STUDYID" + i;
+			study.studyDescription = "Description of study FIO" + i;
+			study.diagnozis = new String[] { "aaa", "bbb", "ccc" };
+			ArrayList<String> services = new ArrayList<String>();
+			services.add("service1");
+			services.add("service2");
+			services.add("service3");
+			study.services = services;
+			solr.addBean(study);
+			solr.commit();
+		}
+	}
 
-//	private void peristPdfTags(SolrServer server, File file) {
-//		// TODO Auto-generated method stub
-//		ContentStreamUpdateRequest up = new ContentStreamUpdateRequest("/update/extract");
-//		up.addFile(file);
-//		up.setParam("literal.id", "mailing_lists.pdf");
-//		up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
-//		result = server.request(up);
-//		assertNotNull("Couldn't upload mailing_lists.pdf", result);
-//		rsp = server.query( new SolrQuery( "*:*") );
-//		Assert.assertEquals( 1, rsp.getResults().getNumFound() );
-//
-//	}
+	/**
+	 * Method to index all types of files into Solr.
+	 * 
+	 * @param fileName
+	 * @param solrId
+	 * @throws IOException
+	 * @throws SolrServerException
+	 */
+	public static void indexFilesSolrCell(SolrServer solr, File file,
+			String solrId) throws IOException, SolrServerException {
+
+		// String urlString = "http://localhost:8983/solr";
+		// SolrServer solr = new CommonsHttpSolrServer(urlString);
+
+		ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(
+				"/update/extract");
+
+		up.addFile(file);
+
+		up.setParam("literal.id", solrId);
+		up.setParam("uprefix", "attr_");
+		up.setParam("fmap.content", "attr_content");
+
+		up.setAction(AbstractUpdateRequest.ACTION.COMMIT, true, true);
+
+		solr.request(up);
+
+		QueryResponse rsp = solr.query(new SolrQuery("*:*"));
+
+		System.out.println(rsp);
+	}
 
 	public void makeIndex() {
 
 	}
-	
+
 	/**
 	 * Удаление папки
 	 * 
@@ -243,17 +207,9 @@ public class Driver {
 		return files;
 	}
 
-	/**
-	 * Извлечение тегов
-	 * 
-	 * @param dcmFile
-	 */
-	private void extractTags(File dcmFile) {
+	private void perisistTags(SolrServer server, File dcmFile)
+			throws IOException, SolrServerException {
 
-	}
-
-	private void perisiTags(SolrServer server, File dcmFile) throws IOException, SolrServerException {
-		
 		DicomObject dcmObj;
 		DicomInputStream din = null;
 		SpecificCharacterSet cs = new Win1251CharacterSet();
@@ -270,26 +226,25 @@ public class Driver {
 				cs = SpecificCharacterSet.valueOf(dcmObj.get(
 						Tag.SpecificCharacterSet).getStrings(null, false));
 			}
-			
+
 			Study study = new Study();
 			DicomElement tag = null;
-			
+
 			tag = dcmObj.get(Tag.SOPInstanceUID);
-			if(tag!=null)
-			study.setId(tag.getValueAsString(cs, tag.length()));
-			
+			if (tag != null)
+				study.setId(tag.getValueAsString(cs, tag.length()));
+
 			tag = dcmObj.get(Tag.PatientName);
-			if(tag!=null) {
+			if (tag != null) 
 				study.setPatientName(tag.getValueAsString(cs, tag.length()));
-				study.setText(tag.getValueAsString(cs, tag.length()));
-			}
 			
+
 			tag = dcmObj.get(Tag.StudyID);
-			if(tag!=null)
-			study.setStudy_Id(tag.getValueAsString(cs, tag.length()));
+			if (tag != null)
+				study.setStudy_Id(tag.getValueAsString(cs, tag.length()));
 
 			HashMap<String, String> tags = new HashMap<String, String>();
-			
+
 			// Раскручиваем теги
 			for (Iterator<DicomElement> it = dcmObj.iterator(); it.hasNext();) {
 				DicomElement element = it.next();
@@ -309,7 +264,7 @@ public class Driver {
 				sb = new StringBuffer();
 				StringUtils.shortToHex(tagId, sb);
 				String minor = sb.toString();
-				
+
 				String type = element.vr().toString();
 
 				int length = element.length();
@@ -322,20 +277,19 @@ public class Driver {
 					value = element.getValueAsString(cs, length);
 				}
 
-//				System.out.println(type + "[" + dcmObj.nameOf(tagId) + "]("
-//						+ major + ";" + minor + ") " + value);
-				
+				// System.out.println(type + "[" + dcmObj.nameOf(tagId) + "]("
+				// + major + ";" + minor + ") " + value);
+
 				String tagKey = major + "" + minor;
 				tags.put(tagKey, value);
-				
+
 			}
-			
+
 			study.setTags(tags);
-			
-			//Сохранение картинок
-			study.setImagefull(new String("123456789!!Привет!!").getBytes());
-			extractImages(dcmFile,study);
-			
+
+			// Сохранение картинок
+			extractImages(dcmFile, study);
+
 			server.addBean(study);
 			server.commit();
 
@@ -355,9 +309,10 @@ public class Driver {
 			}
 		}
 	}
-	
+
 	/**
 	 * Занесение в индекс картинок
+	 * 
 	 * @param dcmFile
 	 * @param study
 	 * @throws IOException
@@ -418,8 +373,7 @@ public class Driver {
 			CloseUtils.safeClose(out);
 			CloseUtils.safeClose(baos);
 		}
-		
-		
+
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package org.psystems.dicom.solr;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 import org.apache.solr.client.solrj.beans.Field;
@@ -25,11 +25,8 @@ public class Study {
 	@Field
 	List<String> services;
 
-	@Field
-	HashMap<String, String> tags;
-
-	@Field
-	String text; // TODO Переименовать
+	@Field()
+	Map<String, String> tags;
 	
 	@Field
 	byte[] imagefull;
@@ -111,29 +108,29 @@ public class Study {
 		this.services = services;
 	}
 
-	public HashMap<String, String> getTags() {
+	public Map<String, String> getTags() {
 		return tags;
 	}
 
-	public void setTags(HashMap<String, String> tags) {
+	@Field
+	public void setTags(Map<String, String> tags) {
 		this.tags = tags;
 	}
+	
+	
 
-	public String getText() {
-		return text;
-	}
 
-	public void setText(String text) {
-		this.text = text;
-	}
 
 	@Override
 	public String toString() {
 		return "Study [diagnozis=" + Arrays.toString(diagnozis) + ", id=" + id
+				+ ", image100x100=" + image100x100
+				+ ", imagefull=" + imagefull
 				+ ", patientName=" + patientName + ", services=" + services
 				+ ", studyDescription=" + studyDescription + ", study_Id="
-				+ study_Id + ", tags=" + tags + ", text=" + text + "]";
+				+ study_Id + ", tags=" + tags;
 	}
+
 
 	
 
