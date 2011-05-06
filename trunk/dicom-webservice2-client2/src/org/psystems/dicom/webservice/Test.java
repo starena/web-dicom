@@ -70,9 +70,9 @@ public class Test {
 //			 testMakeDirection();
 //			 testgetdirectionById();
 //			 testetdirectionBydirectionId();
-//			 testQueryDirection();
+			 testQueryDirection();
 			// testFindStudiesByType();
-			testQueryStudy();
+//			testQueryStudy();
 
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
@@ -93,13 +93,16 @@ public class Test {
 		QueryDirectionE query = new QueryDirectionE();
 		QueryDirection request = new QueryDirection();
 
-		request.setPatientId("PATID1234");
+		request.setDirectionId("1234567");
+//		request.setPatientId("PATID1234");
 
 		query.setQuery(request);
 		Direction[] data = stub.queryDirection(query).get_return();
 		if (data != null) {
 			for (Direction direction : data) {
 				System.out.println("direction: " + direction);
+				System.out.println("direction: " + direction.getDateTimePlanned() + " " +
+						direction.getDateTimeModified());
 			}
 		} else {
 			System.out.println("No data");
@@ -133,7 +136,7 @@ public class Test {
 
 		
 		//
-		query.setDirectionId("8843sdas");
+		query.setDirectionId("1234567");
 
 		//
 		
@@ -170,6 +173,7 @@ public class Test {
 
 		//
 		query.setDateDirection("2011-05-06");
+		
 
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
@@ -178,7 +182,8 @@ public class Test {
 		query.setDevice(device);
 
 		//
-		query.setDatePlanned("2011-05-20 10:00:00");
+		query.setDateTimePlanned("2011-05-21 10:00:00");
+		
 
 		//
 		query.setDirectionCode("CODE123");

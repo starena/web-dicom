@@ -14818,44 +14818,44 @@
                             
 
                         /**
-                        * field for DatePlanned
+                        * field for DateTimePlanned
                         */
 
                         
-                                    protected java.lang.String localDatePlanned ;
+                                    protected java.lang.String localDateTimePlanned ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localDatePlannedTracker = false ;
+                           protected boolean localDateTimePlannedTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
                            * @return java.lang.String
                            */
-                           public  java.lang.String getDatePlanned(){
-                               return localDatePlanned;
+                           public  java.lang.String getDateTimePlanned(){
+                               return localDateTimePlanned;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param DatePlanned
+                               * @param param DateTimePlanned
                                */
-                               public void setDatePlanned(java.lang.String param){
+                               public void setDateTimePlanned(java.lang.String param){
                             
                                        if (param != null){
                                           //update the setting tracker
-                                          localDatePlannedTracker = true;
+                                          localDateTimePlannedTracker = true;
                                        } else {
-                                          localDatePlannedTracker = true;
+                                          localDateTimePlannedTracker = true;
                                               
                                        }
                                    
-                                            this.localDatePlanned=param;
+                                            this.localDateTimePlanned=param;
                                     
 
                                }
@@ -15343,7 +15343,7 @@
                                      localDevice.serialize(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","device"),
                                         factory,xmlWriter);
                                     }
-                                } if (localDatePlannedTracker){
+                                } if (localDateTimePlannedTracker){
                                     namespace = "http://webservice.dicom.psystems.org";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -15351,20 +15351,20 @@
                                         if (prefix == null) {
                                             prefix = generatePrefix(namespace);
 
-                                            xmlWriter.writeStartElement(prefix,"datePlanned", namespace);
+                                            xmlWriter.writeStartElement(prefix,"dateTimePlanned", namespace);
                                             xmlWriter.writeNamespace(prefix, namespace);
                                             xmlWriter.setPrefix(prefix, namespace);
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"datePlanned");
+                                            xmlWriter.writeStartElement(namespace,"dateTimePlanned");
                                         }
 
                                     } else {
-                                        xmlWriter.writeStartElement("datePlanned");
+                                        xmlWriter.writeStartElement("dateTimePlanned");
                                     }
                                 
 
-                                          if (localDatePlanned==null){
+                                          if (localDateTimePlanned==null){
                                               // write the nil attribute
                                               
                                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
@@ -15372,7 +15372,7 @@
                                           }else{
 
                                         
-                                                   xmlWriter.writeCharacters(localDatePlanned);
+                                                   xmlWriter.writeCharacters(localDateTimePlanned);
                                             
                                           }
                                     
@@ -15714,12 +15714,12 @@
                             
                                     elementList.add(localDevice==null?null:
                                     localDevice);
-                                } if (localDatePlannedTracker){
+                                } if (localDateTimePlannedTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
-                                                                      "datePlanned"));
+                                                                      "dateTimePlanned"));
                                  
-                                         elementList.add(localDatePlanned==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDatePlanned));
+                                         elementList.add(localDateTimePlanned==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDateTimePlanned));
                                     } if (localDirectionCodeTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://webservice.dicom.psystems.org",
                                                                       "directionCode"));
@@ -16040,14 +16040,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","datePlanned").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://webservice.dicom.psystems.org","dateTimePlanned").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setDatePlanned(
+                                              object.setDateTimePlanned(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
