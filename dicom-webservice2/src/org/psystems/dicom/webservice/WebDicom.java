@@ -76,7 +76,7 @@ public class WebDicom {
 	public long makeDirection(String directionId, Employee doctorDirect,
 			Diagnosis[] diagnosisDirect, Service[] servicesDirect,
 			String dateDirection, ManufacturerDevice device,
-			String datePlanned, String directionCode, String directionLocation,
+			String dateTimePlanned, String directionCode, String directionLocation,
 			Patient patient) throws DicomWebServiceException {
 
 //		System.out.println("!!!! patient=" + patient + " doctorDirect="
@@ -107,7 +107,7 @@ public class WebDicom {
 			drn.setServicesDirect(servicesDirect);
 			drn.setDateDirection(dateDirection);
 			drn.setDevice(device);
-			drn.setDateTimePlanned(datePlanned);
+			drn.setDateTimePlanned(dateTimePlanned);
 			drn.setDirectionCode(directionCode);
 			drn.setDirectionLocation(directionLocation);
 			drn.setPatient(patient);
