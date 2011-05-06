@@ -2099,13 +2099,13 @@
         /* This type was generated from the piece of schema that had
                 name = QueryStudy
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -3918,13 +3918,13 @@
         /* This type was generated from the piece of schema that had
                 name = Direction
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -7116,13 +7116,13 @@
         /* This type was generated from the piece of schema that had
                 name = QueryDirection
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -8269,13 +8269,13 @@
         /* This type was generated from the piece of schema that had
                 name = Employee
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -10067,13 +10067,13 @@
         /* This type was generated from the piece of schema that had
                 name = Service
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -11264,13 +11264,13 @@
         /* This type was generated from the piece of schema that had
                 name = ManufacturerDevice
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -13038,13 +13038,13 @@
         /* This type was generated from the piece of schema that had
                 name = Patient
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -17142,13 +17142,13 @@
         /* This type was generated from the piece of schema that had
                 name = Diagnosis
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -17962,13 +17962,13 @@
         /* This type was generated from the piece of schema that had
                 name = Study
                 Namespace URI = http://entity.orm.commons.dicom.psystems.org/xsd
-                Namespace Prefix = ns4
+                Namespace Prefix = ns1
                 */
             
 
         private static java.lang.String generatePrefix(java.lang.String namespace) {
             if(namespace.equals("http://entity.orm.commons.dicom.psystems.org/xsd")){
-                return "ns4";
+                return "ns1";
             }
             return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
         }
@@ -18471,50 +18471,6 @@
                                        }
                                    
                                             this.localStudyDate=param;
-                                    
-
-                               }
-                            
-
-                        /**
-                        * field for StudyDateRemovedAsString
-                        */
-
-                        
-                                    protected java.lang.String localStudyDateRemovedAsString ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localStudyDateRemovedAsStringTracker = false ;
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return java.lang.String
-                           */
-                           public  java.lang.String getStudyDateRemovedAsString(){
-                               return localStudyDateRemovedAsString;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param StudyDateRemovedAsString
-                               */
-                               public void setStudyDateRemovedAsString(java.lang.String param){
-                            
-                                       if (param != null){
-                                          //update the setting tracker
-                                          localStudyDateRemovedAsStringTracker = true;
-                                       } else {
-                                          localStudyDateRemovedAsStringTracker = true;
-                                              
-                                       }
-                                   
-                                            this.localStudyDateRemovedAsString=param;
                                     
 
                                }
@@ -19603,40 +19559,6 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localStudyDateRemovedAsStringTracker){
-                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
-
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
-
-                                            xmlWriter.writeStartElement(prefix,"studyDateRemovedAsString", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
-
-                                        } else {
-                                            xmlWriter.writeStartElement(namespace,"studyDateRemovedAsString");
-                                        }
-
-                                    } else {
-                                        xmlWriter.writeStartElement("studyDateRemovedAsString");
-                                    }
-                                
-
-                                          if (localStudyDateRemovedAsString==null){
-                                              // write the nil attribute
-                                              
-                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localStudyDateRemovedAsString);
-                                            
-                                          }
-                                    
-                                   xmlWriter.writeEndElement();
                              } if (localStudyDateTimeModifyTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
@@ -20321,12 +20243,6 @@
                                  
                                          elementList.add(localStudyDate==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDate));
-                                    } if (localStudyDateRemovedAsStringTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
-                                                                      "studyDateRemovedAsString"));
-                                 
-                                         elementList.add(localStudyDateRemovedAsString==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localStudyDateRemovedAsString));
                                     } if (localStudyDateTimeModifyTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "studyDateTimeModify"));
@@ -20805,33 +20721,6 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setStudyDate(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
-                                            
-                                       } else {
-                                           
-                                           
-                                           reader.getElementText(); // throw away text nodes if any.
-                                       }
-                                      
-                                        reader.next();
-                                    
-                              }  // End of if for expected property start element
-                                
-                                    else {
-                                        
-                                    }
-                                
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","studyDateRemovedAsString").equals(reader.getName())){
-                                
-                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
-                                    
-                                    java.lang.String content = reader.getElementText();
-                                    
-                                              object.setStudyDateRemovedAsString(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
