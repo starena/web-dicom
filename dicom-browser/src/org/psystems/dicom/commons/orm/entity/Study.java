@@ -280,15 +280,6 @@ public class Study implements Serializable {
 		this.directionID = directionID;
 	}
 
-	/**
-	 * 
-	 */
-	public String getStudyDateRemovedAsString() {
-		if (studyDateTimeRemoved == null)
-			return null;
-		SimpleDateFormat formatLevel = new SimpleDateFormat(sqlTimestampFormat);
-		return formatLevel.format(studyDateTimeRemoved);
-	}
 
 	/**
 	 * Проверка всех полей.
