@@ -133,7 +133,7 @@ public class Test {
 
 		
 		//
-		query.setDirectionId("8843sd");
+		query.setDirectionId("8843sdas");
 
 		//
 		
@@ -226,8 +226,8 @@ public class Test {
 		
 		request.setStudyModality("US");
 		
-		request.setBeginStudyDate("2011-05-01");
-		request.setEndStudyDate("2011-05-02");
+//		request.setBeginStudyDate("2011-05-01");
+//		request.setEndStudyDate("2011-05-02");
 		
 	
 		
