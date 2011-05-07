@@ -60,6 +60,24 @@ public class Employee implements Serializable {
 					"Field employeeType wrong format  [" + employeeType + "]  argument must be " + TYPE_DOCTOR + " or "
 							+ TYPE_OPERATOR );
 	}
+	
+	
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (obj == null && !(obj instanceof Employee))
+//			return false;
+//		Employee emp = (Employee) obj;
+//
+//		if (getEmployeeCode() == null && emp.getEmployeeCode() != null)
+//			return false;
+//		if (!getEmployeeCode().equals(emp.getEmployeeCode()))
+//			return false;
+//		
+//		
+//
+//		return true;
+//	}
+	
 
 	@Override
 	public String toString() {

@@ -95,7 +95,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 		String randomDirectionId = "" + Math.random();
 		Direction drn = new Direction();
 		drn.setDateDirection("2011-04-13");
-		drn.setDateTimePlanned("2011-05-10 10:00:00");
+		drn.setDateTimePlanned("2011-05-10 10:10:10");
 		drn.setDateTimeModified("2011-05-10 09:00:00");
 		drn.setDateTimeRemoved("2011-04-11 08:11:01");
 
@@ -188,10 +188,20 @@ public class PersistentManagerDerbyTest extends TestCase {
 			long id = pm.pesistentDirection(drnOriginal);
 
 			Direction drn = pm.getDirectionByID(id);
-			assertEquals(drnOriginal.getDirectionId(), drn.getDirectionId());
 			
-			assertEquals(drn.getPatient().getPatientShortName(), "ИВАИИ74");
+			assertEquals(drn.getDirectionId(), drnOriginal.getDirectionId());
+			assertEquals(drn.getDoctorDirect().getEmployeeCode(), drnOriginal.getDoctorDirect().getEmployeeCode());
+			assertEquals(drn.getDoctorDirect().getEmployeeName(), drnOriginal.getDoctorDirect().getEmployeeName());
+			assertEquals(drn.getDoctorDirect().getEmployeeType(), drnOriginal.getDoctorDirect().getEmployeeType());
+			
+			assertEquals(drn.getPatient().getPatientName(), drnOriginal.getPatient().getPatientName());
 
+			assertEquals(drn.getDateTimePlanned(), drnOriginal.getDateTimePlanned());
+			assertEquals(drn.getDateTimeRemoved(), drnOriginal.getDateTimeRemoved());
+//			assertEquals(drn.getDateTimeModified(), drnOriginal.getDateTimeModified());
+			assertEquals(drn.getDateDirection(), drnOriginal.getDateDirection());
+			
+			
 			// Diagnosis
 
 			assertEquals(drn.getDiagnosisDirect()[0].getDiagnosisCode(),
