@@ -27,7 +27,7 @@ public class HeaderPanel extends HorizontalPanel {
 		itemsPanel.setSpacing(5);
 		
 		_applayStyles();
-		Hyperlink mainPage = new Hyperlink("На главную", "");
+		Hyperlink mainPage = new Hyperlink("Исследования", "");
 		itemsPanel.add(mainPage);
 		itemsPanel.add(new Label("|"));
 		Hyperlink newStudy = new Hyperlink("Создать исследование", "newstudy");
@@ -35,6 +35,9 @@ public class HeaderPanel extends HorizontalPanel {
 		itemsPanel.add(new Label("|"));
 		Hyperlink worklistStudy = new Hyperlink("Список исследований", "workliststudy");
 		itemsPanel.add(worklistStudy);
+		itemsPanel.add(new Label("|"));
+		Hyperlink directions = new Hyperlink("Направления", "directions");
+		itemsPanel.add(directions);
 		itemsPanel.add(new Label("|"));
 		Hyperlink showIntro = new Hyperlink("Помощь", "showintro");
 		itemsPanel.add(showIntro);

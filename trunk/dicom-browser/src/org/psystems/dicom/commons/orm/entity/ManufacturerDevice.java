@@ -12,9 +12,6 @@ import org.psystems.dicom.commons.orm.ORMUtil;
  */
 public class ManufacturerDevice implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2089006109459477701L;
 	private String ManufacturerModelName; // Модель
 	private String ManufacturerModelType; // Тип исследования которые аппарат

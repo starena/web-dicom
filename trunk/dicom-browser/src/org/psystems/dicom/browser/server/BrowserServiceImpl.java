@@ -84,10 +84,12 @@ import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.QueryDirectionProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
@@ -769,5 +771,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		result.add(device);
 		return result.toArray(new ManufacturerDevice[result.size()]);
 	}
+
+	@Override
+	public DirectionProxy getDirections(QueryDirectionProxy query)
+			throws DefaultGWTRPCException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 
 }

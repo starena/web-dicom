@@ -11,10 +11,8 @@ import java.util.regex.Pattern;
  */
 public class Employee implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5003881435162510751L;
+	
 	private String employeeType;// Тип сотрудника. возможные варианты: DOCTOR|OPERATOR
 	private String employeeName;// Имя
 	private String employeeCode;// Код, таб.номер
