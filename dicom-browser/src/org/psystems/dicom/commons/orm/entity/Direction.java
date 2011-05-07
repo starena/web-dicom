@@ -12,9 +12,6 @@ import org.psystems.dicom.commons.orm.ORMUtil;
  */
 public class Direction implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2840335603832244555L;
 	
 	private Long id; // Внутренний ID
