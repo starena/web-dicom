@@ -498,7 +498,7 @@ public class PersistentManagerDerby {
 		dev.setManufacturerModelName(rs.getString("DEVICE"));
 		drn.setDevice(dev);
 		//TODO Сделать rs.getTimestamp???
-		drn.setDateTimePlanned(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DIRECTION_DATE_PLANNED")) );
+		drn.setDateTimePlanned(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getTimestamp("DIRECTION_DATE_PLANNED")) );
 
 		if(rs.getString("DOCTOR_PERFORMED_NAME")!=null) {
 			Employee doctorPerformed = new Employee();
@@ -522,9 +522,9 @@ public class PersistentManagerDerby {
 		drn.setPatient(patient);
 
 		//TODO Сделать rs.getTimestamp???
-		drn.setDateTimeModified(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
+		drn.setDateTimeModified(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getTimestamp("DATE_MODIFIED")));
 		//TODO Сделать rs.getTimestamp???
-		drn.setDateTimeRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
+		drn.setDateTimeRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getTimestamp("REMOVED")));
 
 		//наполняем диагнозами
 		setDirectionDiagnosis(drn);
