@@ -93,7 +93,9 @@ public class Test {
 		QueryDirectionE query = new QueryDirectionE();
 		QueryDirection request = new QueryDirection();
 
-		request.setDirectionId("1234567");
+//		request.setDirectionId("1234567");
+		request.setDateTimePlannedBegin("1990-01-01 00:00:00");
+		request.setDateTimePlannedEnd("2020-01-01 00:00:00");
 //		request.setPatientId("PATID1234");
 
 		query.setQuery(request);

@@ -176,7 +176,7 @@
      */
     public WebDicomStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this(configurationContext,"http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -185,7 +185,7 @@
      */
     public WebDicomStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this("http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -1610,7 +1610,7 @@
         }
         return false;
     }
-     //http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
+     //http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
         public static class QueryStudyE
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -7174,6 +7174,94 @@
                             
 
                         /**
+                        * field for DateTimePlannedBegin
+                        */
+
+                        
+                                    protected java.lang.String localDateTimePlannedBegin ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDateTimePlannedBeginTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDateTimePlannedBegin(){
+                               return localDateTimePlannedBegin;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DateTimePlannedBegin
+                               */
+                               public void setDateTimePlannedBegin(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDateTimePlannedBeginTracker = true;
+                                       } else {
+                                          localDateTimePlannedBeginTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDateTimePlannedBegin=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for DateTimePlannedEnd
+                        */
+
+                        
+                                    protected java.lang.String localDateTimePlannedEnd ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDateTimePlannedEndTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDateTimePlannedEnd(){
+                               return localDateTimePlannedEnd;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DateTimePlannedEnd
+                               */
+                               public void setDateTimePlannedEnd(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDateTimePlannedEndTracker = true;
+                                       } else {
+                                          localDateTimePlannedEndTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDateTimePlannedEnd=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for DirectionId
                         */
 
@@ -7212,6 +7300,226 @@
                                        }
                                    
                                             this.localDirectionId=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for DirectionLocation
+                        */
+
+                        
+                                    protected java.lang.String localDirectionLocation ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDirectionLocationTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDirectionLocation(){
+                               return localDirectionLocation;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DirectionLocation
+                               */
+                               public void setDirectionLocation(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDirectionLocationTracker = true;
+                                       } else {
+                                          localDirectionLocationTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDirectionLocation=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for DoctorDirectCode
+                        */
+
+                        
+                                    protected java.lang.String localDoctorDirectCode ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDoctorDirectCodeTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDoctorDirectCode(){
+                               return localDoctorDirectCode;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DoctorDirectCode
+                               */
+                               public void setDoctorDirectCode(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDoctorDirectCodeTracker = true;
+                                       } else {
+                                          localDoctorDirectCodeTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDoctorDirectCode=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for DoctorDirectName
+                        */
+
+                        
+                                    protected java.lang.String localDoctorDirectName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDoctorDirectNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDoctorDirectName(){
+                               return localDoctorDirectName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DoctorDirectName
+                               */
+                               public void setDoctorDirectName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDoctorDirectNameTracker = true;
+                                       } else {
+                                          localDoctorDirectNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDoctorDirectName=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for DoctorPerformedCode
+                        */
+
+                        
+                                    protected java.lang.String localDoctorPerformedCode ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDoctorPerformedCodeTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDoctorPerformedCode(){
+                               return localDoctorPerformedCode;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DoctorPerformedCode
+                               */
+                               public void setDoctorPerformedCode(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDoctorPerformedCodeTracker = true;
+                                       } else {
+                                          localDoctorPerformedCodeTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDoctorPerformedCode=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for DoctorPerformedName
+                        */
+
+                        
+                                    protected java.lang.String localDoctorPerformedName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDoctorPerformedNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDoctorPerformedName(){
+                               return localDoctorPerformedName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param DoctorPerformedName
+                               */
+                               public void setDoctorPerformedName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDoctorPerformedNameTracker = true;
+                                       } else {
+                                          localDoctorPerformedNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localDoctorPerformedName=param;
                                     
 
                                }
@@ -7257,6 +7565,50 @@
                                        }
                                    
                                             this.localId=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for ManufacturerDevice
+                        */
+
+                        
+                                    protected java.lang.String localManufacturerDevice ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localManufacturerDeviceTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getManufacturerDevice(){
+                               return localManufacturerDevice;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ManufacturerDevice
+                               */
+                               public void setManufacturerDevice(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localManufacturerDeviceTracker = true;
+                                       } else {
+                                          localManufacturerDeviceTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localManufacturerDevice=param;
                                     
 
                                }
@@ -7438,6 +7790,50 @@
                                }
                             
 
+                        /**
+                        * field for PatientShortName
+                        */
+
+                        
+                                    protected java.lang.String localPatientShortName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localPatientShortNameTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getPatientShortName(){
+                               return localPatientShortName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param PatientShortName
+                               */
+                               public void setPatientShortName(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localPatientShortNameTracker = true;
+                                       } else {
+                                          localPatientShortNameTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localPatientShortName=param;
+                                    
+
+                               }
+                            
+
      /**
      * isReaderMTOMAware
      * @return true if the reader supports MTOM
@@ -7568,6 +7964,74 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localDateTimePlannedBeginTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"dateTimePlannedBegin", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"dateTimePlannedBegin");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("dateTimePlannedBegin");
+                                    }
+                                
+
+                                          if (localDateTimePlannedBegin==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDateTimePlannedBegin);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localDateTimePlannedEndTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"dateTimePlannedEnd", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"dateTimePlannedEnd");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("dateTimePlannedEnd");
+                                    }
+                                
+
+                                          if (localDateTimePlannedEnd==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDateTimePlannedEnd);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localDirectionIdTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
@@ -7602,6 +8066,176 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localDirectionLocationTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"directionLocation", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"directionLocation");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("directionLocation");
+                                    }
+                                
+
+                                          if (localDirectionLocation==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDirectionLocation);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localDoctorDirectCodeTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"doctorDirectCode", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"doctorDirectCode");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("doctorDirectCode");
+                                    }
+                                
+
+                                          if (localDoctorDirectCode==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDoctorDirectCode);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localDoctorDirectNameTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"doctorDirectName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"doctorDirectName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("doctorDirectName");
+                                    }
+                                
+
+                                          if (localDoctorDirectName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDoctorDirectName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localDoctorPerformedCodeTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"doctorPerformedCode", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"doctorPerformedCode");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("doctorPerformedCode");
+                                    }
+                                
+
+                                          if (localDoctorPerformedCode==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDoctorPerformedCode);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localDoctorPerformedNameTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"doctorPerformedName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"doctorPerformedName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("doctorPerformedName");
+                                    }
+                                
+
+                                          if (localDoctorPerformedName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDoctorPerformedName);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localIdTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
@@ -7629,6 +8263,40 @@
                                                } else {
                                                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
                                                }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localManufacturerDeviceTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"manufacturerDevice", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"manufacturerDevice");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("manufacturerDevice");
+                                    }
+                                
+
+                                          if (localManufacturerDevice==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localManufacturerDevice);
+                                            
+                                          }
                                     
                                    xmlWriter.writeEndElement();
                              } if (localPatientBirthDateTracker){
@@ -7763,6 +8431,40 @@
 
                                         
                                                    xmlWriter.writeCharacters(localPatientSex);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localPatientShortNameTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"patientShortName", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"patientShortName");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("patientShortName");
+                                    }
+                                
+
+                                          if (localPatientShortName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localPatientShortName);
                                             
                                           }
                                     
@@ -7935,19 +8637,67 @@
                                  
                                          elementList.add(localDateDirection==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDateDirection));
+                                    } if (localDateTimePlannedBeginTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "dateTimePlannedBegin"));
+                                 
+                                         elementList.add(localDateTimePlannedBegin==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDateTimePlannedBegin));
+                                    } if (localDateTimePlannedEndTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "dateTimePlannedEnd"));
+                                 
+                                         elementList.add(localDateTimePlannedEnd==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDateTimePlannedEnd));
                                     } if (localDirectionIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "directionId"));
                                  
                                          elementList.add(localDirectionId==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDirectionId));
+                                    } if (localDirectionLocationTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "directionLocation"));
+                                 
+                                         elementList.add(localDirectionLocation==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDirectionLocation));
+                                    } if (localDoctorDirectCodeTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "doctorDirectCode"));
+                                 
+                                         elementList.add(localDoctorDirectCode==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDoctorDirectCode));
+                                    } if (localDoctorDirectNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "doctorDirectName"));
+                                 
+                                         elementList.add(localDoctorDirectName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDoctorDirectName));
+                                    } if (localDoctorPerformedCodeTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "doctorPerformedCode"));
+                                 
+                                         elementList.add(localDoctorPerformedCode==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDoctorPerformedCode));
+                                    } if (localDoctorPerformedNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "doctorPerformedName"));
+                                 
+                                         elementList.add(localDoctorPerformedName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDoctorPerformedName));
                                     } if (localIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "id"));
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
-                            } if (localPatientBirthDateTracker){
+                            } if (localManufacturerDeviceTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "manufacturerDevice"));
+                                 
+                                         elementList.add(localManufacturerDevice==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localManufacturerDevice));
+                                    } if (localPatientBirthDateTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "patientBirthDate"));
                                  
@@ -7971,6 +8721,12 @@
                                  
                                          elementList.add(localPatientSex==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientSex));
+                                    } if (localPatientShortNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "patientShortName"));
+                                 
+                                         elementList.add(localPatientShortName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localPatientShortName));
                                     }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
@@ -8077,6 +8833,60 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","dateTimePlannedBegin").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDateTimePlannedBegin(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","dateTimePlannedEnd").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDateTimePlannedEnd(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","directionId").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
@@ -8085,6 +8895,141 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setDirectionId(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","directionLocation").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDirectionLocation(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","doctorDirectCode").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDoctorDirectCode(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","doctorDirectName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDoctorDirectName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","doctorPerformedCode").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDoctorPerformedCode(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","doctorPerformedName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDoctorPerformedName(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -8130,6 +9075,33 @@
                                         
                                                object.setId(java.lang.Long.MIN_VALUE);
                                            
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","manufacturerDevice").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setManufacturerDevice(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
                                     }
                                 
                                     
@@ -8224,6 +9196,33 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setPatientSex(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","patientShortName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setPatientShortName(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -13052,6 +14051,51 @@
         
 
                         /**
+                        * field for Id
+                        */
+
+                        
+                                    protected long localId ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localIdTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return long
+                           */
+                           public  long getId(){
+                               return localId;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Id
+                               */
+                               public void setId(long param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       
+                                               if (param==java.lang.Long.MIN_VALUE) {
+                                           localIdTracker = false;
+                                              
+                                       } else {
+                                          localIdTracker = true;
+                                       }
+                                   
+                                            this.localId=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for PatientBirthDate
                         */
 
@@ -13367,7 +14411,36 @@
 
                
                    }
-                if (localPatientBirthDateTracker){
+                if (localIdTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"id", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"id");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("id");
+                                    }
+                                
+                                               if (localId==java.lang.Long.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("id cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localPatientBirthDateTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -13699,7 +14772,13 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localPatientBirthDateTracker){
+                 if (localIdTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "id"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
+                            } if (localPatientBirthDateTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "patientBirthDate"));
                                  
@@ -13805,6 +14884,26 @@
                     
                     reader.next();
                 
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","id").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setId(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToLong(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setId(java.lang.Long.MIN_VALUE);
+                                           
+                                    }
+                                
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
