@@ -184,7 +184,7 @@ public class QueryStudy {
 //			}
 			
 		} catch (IllegalArgumentException ex) {
-			throw new IllegalArgumentException("field " + field + " ", ex);
+			throw new IllegalArgumentException("field " + field + " " + ex.getMessage(), ex);
 		}
 	}
 	

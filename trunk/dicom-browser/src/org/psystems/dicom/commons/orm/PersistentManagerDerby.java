@@ -743,6 +743,55 @@ public class PersistentManagerDerby {
 				sql += " PATIENT_SEX = ? ";
 			}
 			
+			
+			//
+			
+			if (request.getManufacturerDevice() != null) {
+				if (counterArguments++ > 0)
+					sql += " AND ";
+				sql += " DEVICE = ? ";
+			}
+			
+			if (request.getDateTimePlannedBegin() != null && request.getDateTimePlannedEnd() != null) {
+				if (counterArguments++ > 0)
+					sql += " AND ";
+				sql += " DIRECTION_DATE_PLANNED BETWEEN ? AND ?";
+			}
+			
+			if (request.getDirectionLocation() != null) {
+				if (counterArguments++ > 0)
+					sql += " AND ";
+				sql += " DIRECTION_LOCATION = ? ";
+			}
+			
+			if (request.getDoctorDirectName() != null) {
+				if (counterArguments++ > 0)
+					sql += " AND ";
+				sql += " DOCTOR_DIRECT_NAME = ? ";
+			}
+			
+			if (request.getDoctorDirectCode() != null) {
+				if (counterArguments++ > 0)
+					sql += " AND ";
+				sql += " DOCTOR_DIRECT_CODE = ? ";
+			}
+			
+			if (request.getDoctorPerformedName() != null) {
+				if (counterArguments++ > 0)
+					sql += " AND ";
+				sql += " DOCTOR_PERFORMED_NAME = ? ";
+			}
+			
+			if (request.getDoctorPerformedCode() != null) {
+				if (counterArguments++ > 0)
+					sql += " AND ";
+				sql += " DOCTOR_PERFORMED_CODE = ? ";
+			}
+			
+			if (request.getPatientShortName() != null) {
+				throw new DataException("Search for PatientShortName Not implemented yet!");
+			}
+			
 			if(counterArguments==0)
 				throw new DataException("All query arguments empty! Set any argument's");
 			
@@ -774,7 +823,40 @@ public class PersistentManagerDerby {
 				pstmt.setString(counterArguments++, request.getPatientSex());
 			}
 			
-			// pstmt.setString(1, internalID);
+			//
+			
+			if (request.getManufacturerDevice() != null) {
+				pstmt.setString(counterArguments++, request
+						.getManufacturerDevice());
+			}
+			if (request.getDateTimePlannedBegin() != null && request.getDateTimePlannedEnd() != null) {
+				pstmt.setTimestamp(counterArguments++, java.sql.Timestamp.valueOf(request
+						.getDateTimePlannedBegin()));
+				pstmt.setTimestamp(counterArguments++, java.sql.Timestamp.valueOf(request
+						.getDateTimePlannedEnd()));
+			}
+			if (request.getDirectionLocation() != null) {
+				pstmt.setString(counterArguments++, request
+						.getDirectionLocation());
+			}
+			if (request.getDoctorDirectName() != null) {
+				pstmt.setString(counterArguments++, request
+						.getDoctorDirectName());
+			}
+			if (request.getDoctorDirectCode() != null) {
+				pstmt.setString(counterArguments++, request
+						.getDoctorDirectCode());
+			}
+			if (request.getDoctorPerformedName() != null) {
+				pstmt.setString(counterArguments++, request
+						.getDoctorPerformedName());
+			}
+			if (request.getDoctorPerformedCode() != null) {
+				pstmt.setString(counterArguments++, request
+						.getDoctorPerformedCode());
+			}
+			
+			
 			ResultSet rs = pstmt.executeQuery();
 			int counter = 0;
 			while (rs.next()) {

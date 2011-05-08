@@ -97,7 +97,9 @@ import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Direction;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
+import org.psystems.dicom.commons.orm.entity.QueryDirection;
 import org.psystems.dicom.commons.orm.entity.QueryStudy;
 import org.psystems.dicom.commons.orm.entity.Study;
 
@@ -223,7 +225,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			
 			
 			for (Study study : studies) {
-				StudyProxy studyProxy = getStudyProxy(study);
+				StudyProxy studyProxy = ORMHelpers.getStudyProxy(study);
 				// Получаем список файлов
 				//Сделана раздельная загрузка исследования и файлов для экономии траффика
 				studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection,studyProxy.getId()));
@@ -631,7 +633,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			Study study = pm.getStudyByID(id);
 			if(study==null) return null;
 			
-			StudyProxy studyProxy = getStudyProxy(study);
+			StudyProxy studyProxy = ORMHelpers.getStudyProxy(study);
 			//Сделана раздельная загрузка исследования и файлов для экономии траффика
 			studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection,studyProxy.getId()));
 
@@ -644,7 +646,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 			time = time - (time % (60 * 60 * 24 * 1000)) - tzoffset;
 			calendar.setTimeInMillis(time);
 
-			Date sqlDate = new java.sql.Date(time);
 //			updateDayStatInc(sqlDate, "CLIENT_CONNECTIONS", (long) 1);
 			
 			
@@ -721,37 +722,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	
 	
 	
-	/**
-	 * Получение прокси-класса
-	 * @return
-	 */
-	public StudyProxy getStudyProxy(Study study) {
-
-		StudyProxy proxy = new StudyProxy();
-		proxy.setId(study.getId());
-		proxy.setStudyModality(study.getStudyModality());
-		
-		//TODO переименовать setStudyUID -> getStudyInstanceUID()
-		proxy.setStudyInstanceUID(study.getStudyInstanceUID());
-		proxy.setManufacturerModelName(study.getManufacturerModelName());
-		proxy.setPatientName(study.getPatientName());
-		proxy.setPatientSex(study.getPatientSex());
-		proxy.setPatientId(study.getPatientId());
-		proxy.setPatientBirthDate(study.getPatientBirthDate());
-		proxy.setStudyId(study.getStudyId());
-		proxy.setStudyType(study.getStudyType());
-		proxy.setStudyDate(study.getStudyDate());
-		proxy.setStudyViewprotocolDate(study.getStudyViewprotocolDate());
-		proxy.setStudyDoctor(study.getStudyDoctor());
-		proxy.setStudyOperator(study.getStudyOperator());
-		proxy.setStudyDescription(study.getStudyDescription());
-		proxy.setStudyViewprotocol(study.getStudyViewprotocol());
-		proxy.setStudyResult(study.getStudyResult());
-		proxy.setStudyDateTimeModify(study.getStudyDateTimeModify());
-		proxy.setStudyDateTimeRemoved(study.getStudyDateTimeRemoved());
-		
-		return proxy;
-	}
+	
 	
 	/**
 	 * Получение списка доступных аппаратов
@@ -773,11 +744,40 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public DirectionProxy getDirections(QueryDirectionProxy query)
+	public ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query)
 			throws DefaultGWTRPCException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement psSelect = null;
+
+		try {
+			
+			Connection connection = Util.getConnection("main",getServletContext());
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			ArrayList<DirectionProxy> drns = new ArrayList<DirectionProxy>();
+			for (Direction direction : pm.queryDirections(ORMHelpers.getQuerydirection(query))) {
+				drns.add(ORMHelpers.getDirectionProxy(direction));
+			}
+			return drns;
+
+		} catch (SQLException e) {
+			logger.error(e);
+			throw Util.throwPortalException("getDirections stidy error! ",e);
+		} catch (DataException e) {
+			logger.error(e);
+			throw Util.throwPortalException("getDirections stidy error! ",e);
+			
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+			} catch (SQLException e) {
+				logger.error(e);
+				throw Util.throwPortalException("getDirections stidy error! ",e);
+			}
+		}
+
 	}
+	
 	
 	
 
