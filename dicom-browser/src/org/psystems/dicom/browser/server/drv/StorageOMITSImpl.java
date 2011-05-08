@@ -197,8 +197,10 @@ public class StorageOMITSImpl extends Storage {
 						+ rs.getString("PATR_NAME");
 
 				PatientProxy proxy = new PatientProxy();
-				proxy.init(rs.getLong("ID"), name, rs.getString("SEX"),
-						ORMUtil.dateFormatSQL.format(rs.getDate("BIRTHDAY")));
+				proxy.setId(rs.getLong("ID"));
+				proxy.setPatientName(name);
+				proxy.setPatientSex(rs.getString("SEX"));
+				proxy.setPatientBirthDate(ORMUtil.dateFormatSQL.format(rs.getDate("BIRTHDAY")));
 				result.add(proxy);
 
 				if (index++ > limit) {

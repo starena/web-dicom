@@ -95,6 +95,8 @@ public interface BrowserServiceAsync {
 			AsyncCallback<ArrayList<OOTemplateProxy>> callback);
 
 	void getDirections(QueryDirectionProxy query,
-			AsyncCallback<DirectionProxy> callback);
+			AsyncCallback<ArrayList<DirectionProxy>> callback);
+
+	
 
 }

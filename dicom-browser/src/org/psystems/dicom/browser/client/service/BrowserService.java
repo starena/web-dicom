@@ -109,6 +109,6 @@ public interface BrowserService extends RemoteService {
 	
 	ArrayList<OOTemplateProxy> getOOTemplates(String modality)  throws DefaultGWTRPCException;
 	
-	DirectionProxy getDirections(QueryDirectionProxy query)   throws DefaultGWTRPCException;
+	ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query)   throws DefaultGWTRPCException;
 
 }

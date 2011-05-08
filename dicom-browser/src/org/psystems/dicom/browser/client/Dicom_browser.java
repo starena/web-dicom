@@ -54,11 +54,11 @@
  */
 package org.psystems.dicom.browser.client;
 
+import org.psystems.dicom.browser.client.component.DirectionsPanel;
 import org.psystems.dicom.browser.client.component.HeaderPanel;
 import org.psystems.dicom.browser.client.component.IntroPanel;
 import org.psystems.dicom.browser.client.component.SearchPanel;
 import org.psystems.dicom.browser.client.component.SearchResultPanel;
-import org.psystems.dicom.browser.client.component.StudyManagePanel;
 import org.psystems.dicom.browser.client.component.WorkListPanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.service.BrowserService;
@@ -72,7 +72,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -148,16 +147,15 @@ public class Dicom_browser implements EntryPoint {
 
 				} else if (event.getValue().equals("newstudy")) {
 
-					
 					RootPanel.get("bodyContainer").clear();
 
-//					StudyManagePanel panel = new StudyManagePanel(
-//							manageStudyService,browserService,null);
-//					RootPanel.get("bodyContainer").add(panel);
+					// StudyManagePanel panel = new StudyManagePanel(
+					// manageStudyService,browserService,null);
+					// RootPanel.get("bodyContainer").add(panel);
 					SearchResultPanel searchResultPanel = new SearchResultPanel();
 					RootPanel.get("bodyContainer").add(searchResultPanel);
 					searchPanel.setResultPanel(searchResultPanel);
-					
+
 					searchPanel.setType("patient");
 
 				} else if (event.getValue().equals("showintro")) {
@@ -166,14 +164,21 @@ public class Dicom_browser implements EntryPoint {
 					IntroPanel intro = new IntroPanel();
 					RootPanel.get("bodyContainer").add(intro);
 
+				} else if (event.getValue().equals("workliststudy")) {
+
+					RootPanel.get("bodyContainer").clear();
+					WorkListPanel wlpanel = new WorkListPanel(
+							Dicom_browser.this);
+					RootPanel.get("bodyContainer").add(wlpanel);
+
+				} else if (event.getValue().equals("directions")) {
+
+					RootPanel.get("bodyContainer").clear();
+					DirectionsPanel drnpanel = new DirectionsPanel(
+							Dicom_browser.this);
+					RootPanel.get("bodyContainer").add(drnpanel);
+
 				}
-				 else if (event.getValue().equals("workliststudy")) {
-
-						RootPanel.get("bodyContainer").clear();
-						WorkListPanel wlpanel = new WorkListPanel(Dicom_browser.this);
-						RootPanel.get("bodyContainer").add(wlpanel);
-
-					}
 			}
 		});
 

@@ -16,6 +16,7 @@ import org.psystems.dicom.commons.orm.entity.Direction;
 import org.psystems.dicom.commons.orm.entity.Employee;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.entity.Patient;
+import org.psystems.dicom.commons.orm.entity.QueryDirection;
 import org.psystems.dicom.commons.orm.entity.Service;
 
 import junit.framework.TestCase;
@@ -166,6 +167,73 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 	}
 
+	
+	
+	/**
+	 * Тест сохранение направления
+	 */
+	public void testQueryDirection() {
+		try {
+			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			Direction drnOrig = getNewOriginalDirection();
+			long id =  pm.pesistentDirection(drnOrig);
+			
+			try {
+				QueryDirection request = new QueryDirection();
+				pm.queryDirections(request);
+				fail("Set any argument's");
+			}catch (DataException ex) {}
+			
+			try {
+				QueryDirection request = new QueryDirection();
+				request.setDateTimePlannedBegin("2011-05-11 12:12:12");
+				request.setDateTimePlannedEnd("2011-05-11 12:12:11");
+				pm.queryDirections(request);
+				fail("Set any argument's");
+			}catch (IllegalArgumentException ex) {}
+			
+			QueryDirection request = null;
+			ArrayList<Direction> drnList = null;
+			connection.rollback();
+			
+			request = new QueryDirection();
+			request.setDirectionId(drnOrig.getDirectionId());
+			drnList = pm.queryDirections(request);
+//				System.out.println("!!! size:" + drnList.size());
+//				for (Direction direction : drnList) {
+//					System.out.println("!!! drn:"+direction);
+//				}
+			assertEquals(drnOrig.getDirectionId(), drnList.get(0).getDirectionId());
+			
+			connection.rollback();
+			
+			request = new QueryDirection();
+			request.setManufacturerDevice(drnOrig.getDevice().getManufacturerModelName());
+			drnList = pm.queryDirections(request);
+			assertEquals(drnOrig.getDirectionId(), drnList.get(0).getDirectionId());
+			
+			connection.rollback();
+			
+			request = new QueryDirection();
+			request.setDateTimePlannedBegin(drnOrig.getDateTimePlanned());
+			request.setDateTimePlannedEnd(drnOrig.getDateTimePlanned());
+			
+			
+			drnList = pm.queryDirections(request);
+			assertEquals(drnOrig.getDateTimePlanned(), drnList.get(0).getDateTimePlanned());
+			
+			connection.rollback();
+			
+			//TODO Сделать остальные тесты!!!
+			
+		} catch (DataException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Тест сохранение направления
 	 */

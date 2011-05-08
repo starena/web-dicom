@@ -68,49 +68,66 @@ public class PatientProxy implements Serializable {
 	private static final long serialVersionUID = -7977302129675187420L;
 
 	private long id; // ID
+	private String patientId; // ID пациента
 	private String patientName; // ФИО пациента
 	private String patientSex; // Пол пациента
 	private String patientBirthDate; // Дата рождения пациента
-
-	/**
-	 * Инициализация класса
-	 *
-	 * @param id
-	 * @param patientName
-	 * @param patientSex
-	 * @param patientBirthDate
-	 */
-	public void init(long id, String patientName, String patientSex,
-			String patientBirthDate) {
-		this.id = id;
-		this.patientName = patientName;
-		this.patientSex = patientSex;
-		this.patientBirthDate = patientBirthDate;
-	}
+	private String patientShortName; // КБП пациента (код быстрого поиска)
 
 	public long getId() {
 		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
 	}
 
 	public String getPatientName() {
 		return patientName;
 	}
 
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+
 	public String getPatientSex() {
 		return patientSex;
+	}
+
+	public void setPatientSex(String patientSex) {
+		this.patientSex = patientSex;
 	}
 
 	public String getPatientBirthDate() {
 		return patientBirthDate;
 	}
 
+	public void setPatientBirthDate(String patientBirthDate) {
+		this.patientBirthDate = patientBirthDate;
+	}
+
+	public String getPatientShortName() {
+		return patientShortName;
+	}
+
+	public void setPatientShortName(String patientShortName) {
+		this.patientShortName = patientShortName;
+	}
+
 	@Override
 	public String toString() {
 		return "PatientProxy [id=" + id + ", patientBirthDate="
-				+ patientBirthDate + ", patientName=" + patientName
-				+ ", patientSex=" + patientSex + "]";
+				+ patientBirthDate + ", patientId=" + patientId
+				+ ", patientName=" + patientName + ", patientSex=" + patientSex
+				+ ", patientShortName=" + patientShortName + "]";
 	}
-	
-	
 
 }

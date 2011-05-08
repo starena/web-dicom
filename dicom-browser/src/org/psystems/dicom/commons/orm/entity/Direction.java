@@ -221,7 +221,7 @@ public class Direction implements Serializable {
 
 		} catch (IllegalArgumentException ex) {
 			throw new IllegalArgumentException("Direction field " + field + " "
-					+ ex.getMessage(), ex);
+					+ ex.getMessage() + ex.getMessage(), ex);
 		}
 		
 			
