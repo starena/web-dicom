@@ -278,7 +278,11 @@ public class DirectionsPanel extends Composite {
 						resultPanel.add(l);
 
 						for (DirectionProxy directionProxy : result) {
-							resultPanel.add(new Label("" + directionProxy));
+							
+							DirectionCard drn = new DirectionCard(directionProxy);
+							resultPanel.add(drn);
+							
+							
 						}
 
 						if (result.size() >= maxResultCount) {
