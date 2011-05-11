@@ -36,9 +36,9 @@ public class Test {
 	public Test() {
 
 		String url = "/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/";
-		String host = "http://localhost:8080" + url;
+//		String host = "http://localhost:8080" + url;
 //		 String host = "http://localhost:38081" + url;
-//		 String host = "https://proxy.gp1.psystems.org:38081" + url;
+		 String host = "https://proxy.gp1.psystems.org:38081" + url;
 
 		// Вывод отладочной информации по SSL-соединению
 		// System.setProperty("javax.net.debug", "all");
@@ -67,10 +67,10 @@ public class Test {
 			final Options clientOptions = stub._getServiceClient().getOptions();
 			clientOptions.setProperty(HTTPConstants.AUTHENTICATE, basicAuth);
 
-//			 testMakeDirection();
+			 testMakeDirection();
 //			 testgetdirectionById();
 //			 testetdirectionBydirectionId();
-			 testQueryDirection();
+//			 testQueryDirection();
 			// testFindStudiesByType();
 //			testQueryStudy();
 
@@ -138,7 +138,7 @@ public class Test {
 
 		
 		//
-		query.setDirectionId("1234567");
+		query.setDirectionId("123456789");
 
 		//
 		
@@ -150,10 +150,11 @@ public class Test {
 		query.setDoctorDirect(doctor);
 		
 		query.setDiagnosisDirect(new Diagnosis[] {new Diagnosis()});
-/*
+
 		//
 		Diagnosis dia1 = new Diagnosis();
 		dia1.setDiagnosisCode("Z01");
+		dia1.setDiagnosisType("ОСНОВНОЙ");
 		dia1.setDiagnosisDescription("Диагноз1");
 		Diagnosis dia2 = new Diagnosis();
 
@@ -161,7 +162,7 @@ public class Test {
 		dia2.setDiagnosisDescription("Диагноз2");
 		query.setDiagnosisDirect(new Diagnosis[] { dia1, dia2 });
 
-*/
+
 		//
 		Service service1 = new Service();
 		service1.setServiceCode("code1");
