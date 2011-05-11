@@ -45,7 +45,7 @@
 	<!-- compile -->
 	<target name="compile" depends="prepare">
 		<!-- javac srcdir="${source_dir}" destdir="${classes_dir}" debug="on" encoding="UTF-8" -->
-		<javac srcdir="${source_dir}" destdir="${classes_dir}" debug="on" nowarn="on">
+		<javac srcdir="${source_dir}" destdir="${classes_dir}" debug="on" nowarn="on" encoding="UTF-8" >
 			<classpath refid="build.classpath" />
 			<include name="org/psystems/dicom/commons/orm/**"/>
 			<exclude name="test*/*"/>
