@@ -449,6 +449,7 @@ public class StudyManagePanel extends Composite implements
 		studyDoctror.addItem("Сотиболдиев А.И.", "Сотиболдиев А.И.");
 		studyDoctror.addItem("Сосновских Э.А.", "Сосновских Э.А.");
 		
+		studyDoctror.addItem("Зубкова Т.М.", "Зубкова Т.М.");
 		
 		
 //		studyDoctror2.addItem("Ввести нового...", "manualinput");
@@ -497,7 +498,19 @@ public class StudyManagePanel extends Composite implements
 		studyOperator.addItem("Тебенев Е.Н.", "Тебенев Е.Н.");
 		studyOperator.addItem("Диденко В.А.", "Диденко В.А.");
 		
+		studyOperator.addItem("Серенина Е.И.", "Серенина Е.И.");
+		studyOperator.addItem("Кайдалова Ю.А.", "Кайдалова Ю.А.");
+		studyOperator.addItem("Серенко Л.Е.", "Серенко Л.Е.");
+		studyOperator.addItem("Гиниатуллина Г.Н.", "Гиниатуллина Г.Н.");
+		studyOperator.addItem("Собирова Г.К.", "Собирова Г.К.");
+		studyOperator.addItem("Иванова О.И.", "Иванова О.И.");
+		studyOperator.addItem("Бабушкина Л.В.", "Бабушкина Л.В.");
+		studyOperator.addItem("Иригбаева А.Э.", "Иригбаева А.Э.");
 		
+
+		studyOperator.addItem("Хозяшева Д.А.", "Хозяшева Д.А.");
+		studyOperator.addItem("Донских А.И.", "Донских А.И.");
+		studyOperator.addItem("Букина Б.Б.", "Букина Б.Б.");
 //		studyOperator2.addItem("Ввести нового...", "manualinput");
 		
 		find = false;
