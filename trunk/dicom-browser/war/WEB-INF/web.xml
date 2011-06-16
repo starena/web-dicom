@@ -142,6 +142,19 @@
 		<servlet-name>suggestServlet</servlet-name>
 		<url-pattern>/dicom_browser/services/itemsuggestservice</url-pattern>
 	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>dicSuggestServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.browser.server.DicSuggestBoxServiceImpl</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dicSuggestServlet</servlet-name>
+		<url-pattern>/dicom_browser/services/dicsuggest</url-pattern>
+	</servlet-mapping>
+	
 
 	<!--   СЕРВЛЕТЫ ???    -->
 
