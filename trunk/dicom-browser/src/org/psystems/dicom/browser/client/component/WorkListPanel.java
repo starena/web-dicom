@@ -155,6 +155,8 @@ public class WorkListPanel extends Composite {
 		lbManufacturerModelName.addItem("Спиро-Спектр 2");
 		
 		lbManufacturerModelName.addItem("Aloka alfa");
+		lbManufacturerModelName.addItem("Aloka 3500 ВП 303 каб.","Aloka 3500");
+		
 		
 		
 		

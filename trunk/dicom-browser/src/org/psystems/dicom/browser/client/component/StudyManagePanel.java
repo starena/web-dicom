@@ -4,9 +4,11 @@
 package org.psystems.dicom.browser.client.component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
@@ -192,7 +194,7 @@ public class StudyManagePanel extends Composite implements
 		rowCounter = 0;
 		
 		//словари
-		HashMap <String, String>dicModel = new HashMap<String, String>();
+		TreeMap <String, String>dicModel = new TreeMap<String, String>();
 		dicModel.put("LORAD AFFINITY", "Маммограф (LORAD AFFINITY)" );
 		dicModel.put("CLINOMAT", "Рентген (CLINOMAT)");
 		dicModel.put("РДК 50/6", "Рентген (РДК 50/6)");
@@ -221,6 +223,7 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("Спиро-Спектр 2","Спиро-Спектр 2");
 		
 		dicModel.put("Aloka alfa","Aloka alfa 6 каб.527 ДП");
+		dicModel.put("Aloka 3500","Aloka 3500 ВП 303 каб.");
 		
 		
 		
@@ -252,6 +255,7 @@ public class StudyManagePanel extends Composite implements
 			studyManufacturerModelName = new ListBox();
 			studyManufacturerModelName.setName("00081090");
 			studyManufacturerModelName.addItem("-- выберите аппарат --", "");
+			
 			
 			for( Iterator<String> iter = dicModel.keySet().iterator(); iter.hasNext();) {
 				String key = iter.next();
