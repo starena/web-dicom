@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry excluding="snippets/dbindex/lucene_search2.java" kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="lib/lucene-core-3.0.1.jar" sourcepath="lib/lucene-3.0.1src.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
