@@ -17,10 +17,11 @@ import org.apache.solr.client.solrj.response.SpellCheckResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.SpellingParams;
+import org.psystems.dicom.solr.entity.Study;
 import org.xml.sax.SAXException;
 
 /**
- * Все примеры здесь: http://wiki.apache.org/solr/Solrj
+ * Р’СЃРµ РїСЂРёРјРµСЂС‹ Р·РґРµСЃСЊ: http://wiki.apache.org/solr/Solrj
  * 
  **/
 public class Searcher {
@@ -29,7 +30,7 @@ public class Searcher {
 
 		SolrServer server = new CommonsHttpSolrServer(
 				"http://localhost:8983/solr");
-		// передача будет в бинарном формате
+		// РїРµСЂРµРґР°С‡Р° Р±СѓРґРµС‚ РІ Р±РёРЅР°СЂРЅРѕРј С„РѕСЂРјР°С‚Рµ
 		((CommonsHttpSolrServer) server)
 				.setRequestWriter(new BinaryRequestWriter());
 
@@ -52,7 +53,7 @@ public class Searcher {
 	}
 
 	/**
-	 * Простой запрос
+	 * РџСЂРѕСЃС‚РѕР№ Р·Р°РїСЂРѕСЃ
 	 * 
 	 * @param server
 	 * @throws MalformedURLException
@@ -63,7 +64,7 @@ public class Searcher {
 
 		SolrQuery query = new SolrQuery();
 		query.setQuery("*:*");
-		// query.setQuery("ник*");
+		// query.setQuery("РЅРёРє*");
 //		 query.setFields("patientName,tags");
 		query.addSortField("studyId", SolrQuery.ORDER.asc);
 		QueryResponse rsp;
@@ -82,7 +83,7 @@ public class Searcher {
 	}
 
 	/**
-	 * Получение фасетов
+	 * РџРѕР»СѓС‡РµРЅРёРµ С„Р°СЃРµС‚РѕРІ
 	 * 
 	 * @param server
 	 * @throws MalformedURLException
@@ -92,7 +93,7 @@ public class Searcher {
 			throws MalformedURLException, SolrServerException {
 
 		SolrQuery query = new SolrQuery();
-		query.setQuery("ник*");
+		query.setQuery("РЅРёРє*");
 		// query.setFields("patientName");
 		query.setFacet(true);
 		query.addFacetField("patientName");
@@ -110,7 +111,7 @@ public class Searcher {
 	}
 
 	/**
-	 * Подсветка строк
+	 * РџРѕРґСЃРІРµС‚РєР° СЃС‚СЂРѕРє
 	 * 
 	 * @param server
 	 * @throws MalformedURLException
@@ -120,7 +121,7 @@ public class Searcher {
 			throws MalformedURLException, SolrServerException {
 
 		SolrQuery query = new SolrQuery();
-		query.setQuery("ник*");
+		query.setQuery("РЅРёРє*");
 		query.setHighlight(true).setHighlightSnippets(1);
 		query.setParam("hl.fl", "patientName");
 
@@ -154,7 +155,7 @@ public class Searcher {
 	}
 
 	/**
-	 * Поиск по словарю
+	 * РџРѕРёСЃРє РїРѕ СЃР»РѕРІР°СЂСЋ
 	 * 
 	 * @param server
 	 * @throws SolrServerException
@@ -172,14 +173,14 @@ public class Searcher {
 		SolrQuery query = new SolrQuery("*:*");
 		query.set(CommonParams.QT, "/spell");
 		query.set("spellcheck", true);
-		query.set(SpellingParams.SPELLCHECK_Q, "николуева");
+		query.set(SpellingParams.SPELLCHECK_Q, "РЅРёРєРѕР»СѓРµРІР°");
 		query.set(SpellingParams.SPELLCHECK_BUILD, true);
 		query.set(SpellingParams.SPELLCHECK_EXTENDED_RESULTS, true);
 		QueryRequest request = new QueryRequest(query);
 		SpellCheckResponse response = request.process(server).getSpellCheckResponse();
 		
 		if(response!=null) { 
-			System.out.println("testQuerySpelling: " + response.getFirstSuggestion("николуева"));
+			System.out.println("testQuerySpelling: " + response.getFirstSuggestion("РЅРёРєРѕР»СѓРµРІР°"));
 		}
 		
 

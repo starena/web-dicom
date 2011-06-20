@@ -517,6 +517,17 @@
 	<field name="image100x100" type="binary" indexed="false" stored="true"/>
 	<field name="imagefull" type="binary" indexed="false" stored="true"/>
 	
+	<!--  Словари  -->
+	
+	<field name="dicName" type="string" indexed="true" stored="true"/>
+	
+	<field name="diagnosisCode" type="string" indexed="true" stored="true"/>
+	<field name="diagnosisDescription" type="text" indexed="true" stored="true"/>
+	
+	<field name="serviceCode" type="string" indexed="true" stored="true"/>
+	<field name="serviceAlias" type="text" indexed="true" stored="true"/>
+	<field name="serviceDescription" type="text" indexed="true" stored="true"/>
+	
 	<!-- *************  Web-Dicom  ***************** -->
 
 
