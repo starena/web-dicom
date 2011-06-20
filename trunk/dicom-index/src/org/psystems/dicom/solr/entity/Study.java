@@ -1,4 +1,4 @@
-package org.psystems.dicom.solr;
+package org.psystems.dicom.solr.entity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,21 +8,27 @@ import org.apache.solr.client.solrj.beans.Field;
 
 public class Study {
 	@Field
+	public
 	String id;
 
 	@Field("studyId")
+	public
 	String study_Id;
 
 	@Field
+	public
 	String patientName;
 
 	@Field
+	public
 	String studyDescription;
 
 	@Field("dia")
+	public
 	String[] diagnozis;
 
 	@Field
+	public
 	List<String> services;
 
 	@Field()
