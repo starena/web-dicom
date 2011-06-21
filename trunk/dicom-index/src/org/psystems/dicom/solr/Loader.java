@@ -9,6 +9,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.psystems.dicom.solr.entity.Diagnosis;
+import org.psystems.dicom.solr.entity.Employee;
 import org.psystems.dicom.solr.entity.Service;
 import org.xml.sax.SAXException;
 
@@ -40,7 +41,10 @@ public class Loader {
 				.setRequestWriter(new BinaryRequestWriter());
 
 		syncDicDiagnosis(server);
+		server.optimize();
 		syncDicServices(server);
+		server.optimize();
+		syncDicEmployes(server);
 		server.optimize();
 
 	}
@@ -55,6 +59,7 @@ public class Loader {
 	public void syncDicDiagnosis(SolrServer solr) throws IOException,
 			SolrServerException {
 		// TODO Взять реальные данные
+		logger.info("Sync Diagnosis...");
 		int maxDocs = 30;
 		for (int i = 0; i < maxDocs; i++) {
 			Diagnosis dia = new Diagnosis();
@@ -65,6 +70,7 @@ public class Loader {
 			solr.addBean(dia);
 			solr.commit();
 		}
+		logger.info("Sync Diagnosis [OK]");
 	}
 
 	/**
@@ -77,6 +83,7 @@ public class Loader {
 	public void syncDicServices(SolrServer solr) throws IOException,
 			SolrServerException {
 		// TODO Взять реальные данные
+		logger.info("Sync Service...");
 		int maxDocs = 30;
 		for (int i = 0; i < maxDocs; i++) {
 			Service srv = new Service();
@@ -88,6 +95,36 @@ public class Loader {
 			solr.addBean(srv);
 			solr.commit();
 		}
+		logger.info("Sync Service [OK]");
+	}
+	
+	/**
+	 * Синхронизация словаря сотрудников
+	 * 
+	 * @param solr
+	 * @throws IOException
+	 * @throws SolrServerException
+	 */
+	public void syncDicEmployes(SolrServer solr) throws IOException,
+			SolrServerException {
+		// TODO Взять реальные данные
+		logger.info("Sync Employee...");
+		int maxDocs = 30;
+		for (int i = 0; i < maxDocs; i++) {
+			Employee emp = new Employee();
+			emp.setId(emp.getDicName() + i);
+			if(i%2==0) {
+				emp.setEmployeeType(Employee.TYPE_DOCTOR);
+			} else {
+				emp.setEmployeeType(Employee.TYPE_OPERATOR);
+			}
+			emp.setEmployeeCode("CODE"+i);
+			emp.setEmployeeName("NAME"+i);
+			
+			solr.addBean(emp);
+			solr.commit();
+		}
+		logger.info("Sync Employee [OK]");
 	}
 
 }

@@ -18,6 +18,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.SpellingParams;
 import org.psystems.dicom.solr.entity.Diagnosis;
+import org.psystems.dicom.solr.entity.Employee;
 import org.psystems.dicom.solr.entity.Service;
 import org.psystems.dicom.solr.entity.Study;
 import org.xml.sax.SAXException;
@@ -41,6 +42,7 @@ public class Tester {
 		try {
 			searcher.testDicDiagnosis(server);
 			searcher.testDicServices(server);
+			searcher.testDicEmployes(server);
 			
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -111,6 +113,37 @@ public class Tester {
 		List<Service> beans = rsp.getBeans(Service.class);
 		for (Service study : beans) {
 			System.out.println("srv: " + study);
+		}
+
+	}
+	
+	/**
+	 * Сотрудники
+	 * 
+	 * @param server
+	 * @throws MalformedURLException
+	 * @throws SolrServerException
+	 */
+	public void testDicEmployes(SolrServer server) throws MalformedURLException,
+			SolrServerException {
+
+		SolrQuery query = new SolrQuery();
+		query.setQuery("dicName:emp");
+//		query.setFilterQueries("diagnosisCode:CO*");
+		query.setRows(20);
+//		query.setFields("diagnosisCode,diagnosisDescription");
+//		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
+		QueryResponse rsp;
+
+		rsp = server.query(query);
+		
+//		for (SolrDocument doc : rsp.getResults()) {
+//			System.out.println("Diagnosis: " + doc);
+//		}
+
+		List<Employee> beans = rsp.getBeans(Employee.class);
+		for (Employee study : beans) {
+			System.out.println("emp: " + study);
 		}
 
 	}
