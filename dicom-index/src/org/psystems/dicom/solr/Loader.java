@@ -1,7 +1,7 @@
 package org.psystems.dicom.solr;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
+//import java.net.MalformedURLException;
 import java.sql.Date;
 
 import org.apache.log4j.Logger;
@@ -96,10 +96,56 @@ public class Loader {
 			srv.setServiceAlias("ALIAS" + i);
 			srv.setServiceCode("CODE" + i);
 			srv.setServiceDescription("DESCR" + i);
+			srv.setModality("CR");
 
 			solr.addBean(srv);
 			solr.commit();
 		}
+		
+		Service srv;
+		
+		srv = new Service();
+		srv.setId("service_"+"A.04.20.001.01");
+		srv.setModality("US");
+		srv.setServiceCode("A.04.20.001.01");
+		srv.setServiceAlias("Узи матки и придатков (трансабдоминально)");
+		srv.setServiceDescription("Ультразвуковое исследование матки и придатков (трансабдоминально)");
+		solr.addBean(srv);
+		
+		srv = new Service();
+		srv.setId("service_"+"A.04.20.002.01");
+		srv.setModality("US");
+		srv.setServiceCode("A.04.20.002.01");
+		srv.setServiceAlias("Узи молочных желез");
+		srv.setServiceDescription("Ультразвуковое исследование молочных желез");
+		solr.addBean(srv);
+		
+		srv = new Service();
+		srv.setId("service_"+"A.03.16.001.01");
+		srv.setModality("ES");
+		srv.setServiceCode("A.03.16.001.01");
+		srv.setServiceAlias("Эгдс");
+		srv.setServiceDescription("Эзофагогастродуоденоскопия диагностическая");
+		solr.addBean(srv);
+		
+		srv = new Service();
+		srv.setId("service_"+"A.05.23.001.03");
+		srv.setModality("ES");
+		srv.setServiceCode("A.05.23.001.03");
+		srv.setServiceAlias("ЭЭГ");
+		srv.setServiceDescription("Электроэнцефалография с компьютерной обработкой и функциональными пробами");
+		solr.addBean(srv);
+		
+		
+		srv = new Service();
+		srv.setId("service_"+"USI01");
+		srv.setModality("US");
+		srv.setServiceCode("USI01");
+		srv.setServiceAlias("USI IS COOL");
+		srv.setServiceDescription("USI IS VERY VERY COOL!!!");
+		solr.addBean(srv);
+		
+		solr.commit();
 		logger.info("Sync Service [OK]");
 	}
 	

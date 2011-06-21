@@ -41,8 +41,8 @@ public class Tester {
 
 		try {
 			searcher.testDicDiagnosis(server);
-			searcher.testDicServices(server);
-			searcher.testDicEmployes(server);
+//			searcher.testDicServices(server);
+//			searcher.testDicEmployes(server);
 			
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -66,8 +66,8 @@ public class Tester {
 			SolrServerException {
 
 		SolrQuery query = new SolrQuery();
-		query.setQuery("dicName:dia");
-		query.setFilterQueries("diagnosisCode:CO*");
+		query.setQuery("dicName:diagnosis");
+		query.setFilterQueries("diagnosisCode:CO*1");
 		query.setRows(20);
 		query.setFields("diagnosisCode,diagnosisDescription");
 		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
@@ -97,8 +97,8 @@ public class Tester {
 			SolrServerException {
 
 		SolrQuery query = new SolrQuery();
-		query.setQuery("dicName:srv");
-//		query.setFilterQueries("diagnosisCode:CO*");
+		query.setQuery("dicName:service");
+//		query.setFilterQueries("serviceAlias:ЭЭ*");
 		query.setRows(20);
 //		query.setFields("diagnosisCode,diagnosisDescription");
 //		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
@@ -128,7 +128,7 @@ public class Tester {
 			SolrServerException {
 
 		SolrQuery query = new SolrQuery();
-		query.setQuery("dicName:emp");
+		query.setQuery("dicName:employee");
 //		query.setFilterQueries("diagnosisCode:CO*");
 		query.setRows(20);
 //		query.setFields("diagnosisCode,diagnosisDescription");

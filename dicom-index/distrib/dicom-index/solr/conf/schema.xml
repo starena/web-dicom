@@ -237,6 +237,7 @@
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
         <filter class="solr.PorterStemFilterFactory"/>
+        <filter class="solr.SnowballPorterFilterFactory" language="Russian" protected="protwords.txt"/>
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
@@ -250,6 +251,7 @@
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
         <filter class="solr.PorterStemFilterFactory"/>
+        <filter class="solr.SnowballPorterFilterFactory" language="Russian" protected="protwords.txt"/>
       </analyzer>
     </fieldType>
 
@@ -509,6 +511,7 @@
 	<!-- *************  Web-Dicom  ***************** -->
 	
 	<field name="studyId" type="string" indexed="true" stored="true"/>
+	<field name="modality" type="string" indexed="true" stored="true"/>
 	<field name="patientName" type="text" indexed="true" stored="true"/>
 	<field name="studyDescription" type="text" indexed="true" stored="true"/>
 	<field name="dia" type="string" indexed="true" stored="true" multiValued="true"/>
