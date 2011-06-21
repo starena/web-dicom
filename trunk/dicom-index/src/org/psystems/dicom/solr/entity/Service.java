@@ -24,6 +24,9 @@ public class Service {
 	@Field
 	public String serviceDescription;// Описание
 
+	@Field
+	public String modality;// модальность
+
 	public String getId() {
 		return id;
 	}
@@ -31,6 +34,15 @@ public class Service {
 	@Field
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getModality() {
+		return modality;
+	}
+
+	@Field
+	public void setModality(String modality) {
+		this.modality = modality;
 	}
 
 	public String getServiceCode() {
@@ -73,7 +85,8 @@ public class Service {
 	public String toString() {
 		return "Service [dicName=" + dicName + ", id=" + id + ", serviceAlias="
 				+ serviceAlias + ", serviceCode=" + serviceCode
-				+ ", serviceDescription=" + serviceDescription + "]";
+				+ ", serviceDescription=" + serviceDescription + ", modality="
+				+ modality + "]";
 	}
 
 }
