@@ -13,7 +13,7 @@ public class Employee {
 	public String id;
 
 	@Field
-	public String dicName = "emp";// Имя словаря
+	public String dicName = "employee";// Имя словаря
 
 	@Field
 	public String employeeType;// Тип сотрудника. возможные варианты:

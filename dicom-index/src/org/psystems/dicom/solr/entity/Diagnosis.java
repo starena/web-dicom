@@ -14,7 +14,7 @@ public class Diagnosis {
 	String id;
 	
 	@Field
-	public String dicName = "dia";// Имя словаря
+	public String dicName = "diagnosis";// Имя словаря
 
 	@Field
 	public String diagnosisCode;// Код (по МКБ)

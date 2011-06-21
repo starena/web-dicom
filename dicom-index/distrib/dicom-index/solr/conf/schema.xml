@@ -532,6 +532,12 @@
 	<field name="employeeCode" type="string" indexed="true" stored="true"/>
 	<field name="employeeName" type="text" indexed="true" stored="true"/>
 	
+	<field name="patientId" type="string" indexed="true" stored="true"/>
+	<field name="patientShortName" type="string" indexed="true" stored="true"/>
+	<field name="patientSex" type="string" indexed="true" stored="true"/>
+	<field name="patientBirthDate" type="date" indexed="true" stored="true"/>
+	
+	
 	
 	
 	<!-- *************  Web-Dicom  ***************** -->
