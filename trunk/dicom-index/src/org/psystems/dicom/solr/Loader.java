@@ -2,6 +2,7 @@ package org.psystems.dicom.solr;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.sql.Date;
 
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrServer;
@@ -10,6 +11,7 @@ import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.psystems.dicom.solr.entity.Diagnosis;
 import org.psystems.dicom.solr.entity.Employee;
+import org.psystems.dicom.solr.entity.Patient;
 import org.psystems.dicom.solr.entity.Service;
 import org.xml.sax.SAXException;
 
@@ -40,12 +42,15 @@ public class Loader {
 		((CommonsHttpSolrServer) server)
 				.setRequestWriter(new BinaryRequestWriter());
 
+		syncDicPatients(server);
+		server.optimize();
 		syncDicDiagnosis(server);
 		server.optimize();
 		syncDicServices(server);
 		server.optimize();
 		syncDicEmployes(server);
 		server.optimize();
+		
 
 	}
 
@@ -125,6 +130,33 @@ public class Loader {
 			solr.commit();
 		}
 		logger.info("Sync Employee [OK]");
+	}
+	
+	/**
+	 * Синхронизация словаря пациентов
+	 * 
+	 * @param solr
+	 * @throws IOException
+	 * @throws SolrServerException
+	 */
+	public void syncDicPatients(SolrServer solr) throws IOException,
+			SolrServerException {
+		// TODO Взять реальные данные
+		logger.info("Sync Patient...");
+		int maxDocs = 30;
+		for (int i = 0; i < maxDocs; i++) {
+			Patient patient = new Patient();
+			patient.setId(patient.getDicName() + i);
+			patient.setPatientId("ID"+i);
+			patient.setPatientSex("M");
+			patient.setPatientBirthDate(Date.valueOf("1974-03-01"));
+			patient.setPatientName("PATIENT PATI PAT"+i);
+			patient.setPatientShortName("PATPP74");
+			
+			solr.addBean(patient);
+			solr.commit();
+		}
+		logger.info("Sync Patient [OK]");
 	}
 
 }

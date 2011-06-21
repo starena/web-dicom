@@ -13,7 +13,7 @@ public class Service {
 	public String id;
 
 	@Field
-	public String dicName = "srv";// Имя словаря
+	public String dicName = "service";// Имя словаря
 
 	@Field
 	public String serviceCode;// Код
