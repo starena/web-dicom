@@ -41,8 +41,8 @@ public class Tester {
 
 		try {
 			searcher.testDicDiagnosis(server);
-//			searcher.testDicServices(server);
-//			searcher.testDicEmployes(server);
+			searcher.testDicServices(server);
+			searcher.testDicEmployes(server);
 			
 		} catch (SolrServerException e) {
 			e.printStackTrace();
