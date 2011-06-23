@@ -42,8 +42,8 @@ public class HeaderPanel extends HorizontalPanel {
 		Hyperlink showIntro = new Hyperlink("Помощь", "showintro");
 		itemsPanel.add(showIntro);
 		
-		itemsPanel.add(new DicSuggestBox("diagnosis"));
-		itemsPanel.add(new DicSuggestBox("services"));
+//		itemsPanel.add(new DicSuggestBox("diagnosis"));
+//		itemsPanel.add(new DicSuggestBox("services"));
 	}
 	
 	/**

@@ -622,7 +622,9 @@ public class StudyCard extends Composite {
 		
 		if(!fullMode) return;
 		
-		String studyViewprotocolDate =
+		String studyViewprotocolDate = null;
+		
+		if(proxy.getStudyViewprotocolDate()!=null)
 			Utils.dateFormatUser.format(Utils.dateFormatSql.parse(proxy.getStudyViewprotocolDate()));
 		
 		labelStudyDate.setText(studyDate);
