@@ -1,5 +1,6 @@
 package org.psystems.dicom.solr;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.sql.Date;
@@ -10,9 +11,11 @@ import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
@@ -27,6 +30,9 @@ import org.psystems.dicom.solr.entity.Diagnosis;
 import org.psystems.dicom.solr.entity.Employee;
 import org.psystems.dicom.solr.entity.Patient;
 import org.psystems.dicom.solr.entity.Service;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import com.sun.jdmk.comm.HtmlAdaptorServer;
@@ -37,14 +43,14 @@ import com.sun.jdmk.comm.HtmlAdaptorServer;
  *         Индексатор словарей
  * 
  */
-public class Loader {
+public class Indexator {
 
 	private CommonsHttpSolrServer server;
-	private static Logger logger = Logger.getLogger(Loader.class.getName());
+	private static Logger logger = Logger.getLogger(Indexator.class.getName());
 
 	private static final String VERSION = "0.1a";
 
-	private static final String NAME = Loader.class.getSimpleName();
+	private static final String NAME = Indexator.class.getSimpleName();
 
 	private static final String USAGE = NAME + " [Options]";
 
@@ -52,10 +58,9 @@ public class Loader {
 			+ "Options:";
 
 	private static final String EXAMPLE = "\nExample: " + NAME
-			+ " -p 8081 -c conf.xml\n"
-			+ "=> Starts daemon listening on port 8081";
+			+ " -c conf.xml\n";
 
-	private static String conf = NAME + ".xml";
+	private static String conf = "conf.xml";
 	private static int portSolr = 8983;
 	private static int portAdmin = 8984;
 
@@ -63,28 +68,10 @@ public class Loader {
 	 * @param args
 	 * @return
 	 */
-	private static CommandLine parse(String[] args) {
+	private static void argsParse(String[] args) {
 
-		// args = new String[] {"-p", "8801", "--conf=1.xml"};
-		args = new String[] { "-p", "8801", "--conf=1.xml", "--port-adm=8802" };
-
+		// args = new String[] { "--conf=1.xml"};
 		Options opts = new Options();
-
-		OptionBuilder.withArgName("port");
-		OptionBuilder.withLongOpt("port");
-		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("listening on specified port for Solr incoming requests ["
-						+ portSolr + "]");
-		opts.addOption(OptionBuilder.create("p"));
-
-		OptionBuilder.withArgName("port");
-		OptionBuilder.withLongOpt("port-adm");
-		OptionBuilder.hasArg();
-		OptionBuilder
-				.withDescription("listening on specified port for Web Administration ["
-						+ portAdmin + "]");
-		opts.addOption(OptionBuilder.create());
 
 		OptionBuilder.withArgName("file");
 		OptionBuilder.withLongOpt("conf");
@@ -101,7 +88,10 @@ public class Loader {
 		try {
 			cl = new PosixParser().parse(opts, args);
 		} catch (ParseException e) {
-			exit(NAME + ": " + e.getMessage());
+			System.err.println(NAME + ": " + e.getMessage());
+			logger.fatal(NAME + ": " + e.getMessage());
+			System.err.println("Try 'Loader -h' for more information.");
+			System.exit(1);
 			throw new RuntimeException("unreachable");
 		}
 		if (cl.hasOption("V")) {
@@ -109,43 +99,83 @@ public class Loader {
 			System.exit(0);
 		}
 
-		if (cl.hasOption("c")) {
-			conf = cl.getOptionValue("c");
-		}
-		if (cl.hasOption("port")) {
-			portSolr = Integer.valueOf(cl.getOptionValue("port"));
-		}
-		if (cl.hasOption("port-adm")) {
-			portSolr = Integer.valueOf(cl.getOptionValue("port-adm"));
-		}
-
-		if (cl.hasOption("h") || cl.getArgList().size() == 0) {
-
+		if (cl.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
 			System.exit(0);
 		}
 
-		return cl;
+		if (cl.hasOption("c")) {
+			conf = cl.getOptionValue("c");
+		}
+
+		try {
+			praseConfig();
+		} catch (ParserConfigurationException e) {
+			logger.fatal("Broken config! " + e.getMessage());
+			System.err.println("Broken config! " + e.getMessage());
+			e.printStackTrace();
+		} catch (SAXException e) {
+			logger.fatal("Broken config! " + e.getMessage());
+			System.err.println("Broken config! " + e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.fatal("Broken config! " + e.getMessage());
+			System.err.println("Broken config! " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * @param msg
+	 * Парсинг конфигурационного файла
+	 * 
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
 	 */
-	private static void exit(String msg) {
-		System.err.println(msg);
-		System.err.println("Try 'Loader -h' for more information.");
-		System.exit(1);
+	private static void praseConfig() throws ParserConfigurationException,
+			SAXException, IOException {
+
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
+				.newInstance();
+		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+		Document doc = docBuilder.parse(new File(conf));
+		Element nodeRoot = doc.getDocumentElement();
+
+		for (int level_0 = 0; level_0 < nodeRoot.getChildNodes().getLength(); level_0++) {
+			Node node_0 = nodeRoot.getChildNodes().item(level_0);
+
+			if (node_0.getNodeName().equals("index")) {
+
+				for (int level_1 = 0; level_1 < node_0.getChildNodes()
+						.getLength(); level_1++) {
+					Node node_1 = node_0.getChildNodes().item(level_1);
+
+					if (node_1.getNodeName().equals("solr")) {
+						portSolr = Integer.valueOf(node_1.getAttributes()
+								.getNamedItem("port").getNodeValue());
+					}
+					if (node_1.getNodeName().equals("admin")) {
+
+						portAdmin = Integer.valueOf(node_1.getAttributes()
+								.getNamedItem("port").getNodeValue());
+
+					}
+				}
+			}
+		}
+
 	}
 
 	public static void main(String[] args) throws IOException, SAXException {
 
-		CommandLine cl = parse(args);
-		if (cl.hasOption("p"))
-			System.out.println("!!! port !!!!" + cl.getOptionValue("p"));
+		argsParse(args);
+		logger.warn("starting");
+		logger.warn("using config: " + conf + " port=" + portSolr + " admport="
+				+ portAdmin);
 
 		try {
-			new Loader();
+			new Indexator();
 		} catch (SolrServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,7 +200,7 @@ public class Loader {
 		}
 	}
 
-	public Loader() throws IOException, SolrServerException,
+	public Indexator() throws IOException, SolrServerException,
 			MalformedObjectNameException, NullPointerException,
 			InstanceAlreadyExistsException, MBeanRegistrationException,
 			NotCompliantMBeanException, InterruptedException {
@@ -192,14 +222,14 @@ public class Loader {
 		// Теперь мы регистрируем коннектор, который
 		// будет доступен по HTTP-протоколу
 		ObjectName adapterName = new ObjectName(
-				"org.psystems.webdicom.mbeans:type=Loader,port=8000");
-		adapter.setPort(8000);
+				"org.psystems.webdicom.mbeans:type=Loader,port="+portAdmin);
+		adapter.setPort(portAdmin);
 
 		mbs.registerMBean(adapter, adapterName);
 
 		adapter.start();
 
-		server = new CommonsHttpSolrServer("http://localhost:8983/solr");
+		server = new CommonsHttpSolrServer("http://localhost:"+portSolr+"/solr");
 
 		// передача будет в бинарном формате
 		((CommonsHttpSolrServer) server)
