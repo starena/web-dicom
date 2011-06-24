@@ -7,9 +7,9 @@ import org.apache.solr.client.solrj.SolrServerException;
 
 public class LoaderStatus implements LoaderStatusMBean {
 
-	private Loader loader;
+	private Indexator loader;
 
-	public LoaderStatus(Loader loader) {
+	public LoaderStatus(Indexator loader) {
 		this.loader = loader;
 
 	}
@@ -19,10 +19,10 @@ public class LoaderStatus implements LoaderStatusMBean {
 		// TODO Auto-generated method stub
 		//return Loader.getLogger().getLevel().toString();
 		
-		if(Loader.getLogger().getLevel()!=null) {
-			return Loader.getLogger().getLevel().toString();	
+		if(Indexator.getLogger().getLevel()!=null) {
+			return Indexator.getLogger().getLevel().toString();	
 		}else {
-			return Loader.getLogger().getRootLogger().getLevel().toString();
+			return Indexator.getLogger().getRootLogger().getLevel().toString();
 		}
 	}
 
@@ -34,7 +34,7 @@ public class LoaderStatus implements LoaderStatusMBean {
 
 	@Override
 	public void setLogLevel(String level) {
-		Loader.getLogger().setLevel(Level.toLevel(level));
+		Indexator.getLogger().setLevel(Level.toLevel(level));
 
 	}
 
