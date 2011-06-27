@@ -887,49 +887,63 @@ public class PersistentManagerDerby {
 	 * @return
 	 * @throws SQLException 
 	 */
-	private Study getStudyFromRs(ResultSet rs) throws SQLException {
+	private Study getStudyFromRs(ResultSet rs) throws DataException {
 		
-		Study study = new Study();
-		study.setId(rs.getLong("ID"));
-		study.setDirectionID(rs.getLong("FID_DIRECTION"));
-		study.setStudyInstanceUID(rs.getString("STUDY_UID"));
-		study.setStudyModality(rs.getString("STUDY_MODALITY"));
-		study.setStudyType(rs.getString("STUDY_TYPE"));
-		study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
-		
-		study.setStudyDate(ORMUtil.utilDateToSQLDateString(rs.getDate("STUDY_DATE")));
-		
-		study.setManufacturerModelUID(rs
-				.getString("STUDY_MANUFACTURER_UID"));
-		study.setManufacturerModelName(rs
-				.getString("STUDY_MANUFACTURER_MODEL_NAME"));
-		study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
-		study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
-		study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
-		
-		
-		study.setStudyViewprotocolDate(ORMUtil.utilDateToSQLDateString(rs.getDate("STUDY_VIEW_PROTOCOL_DATE")));
-		
-		study.setStudyId(rs.getString("STUDY_ID"));
-		study.setPatientName(rs.getString("PATIENT_NAME"));
-		study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
-		study.setPatientSex(rs.getString("PATIENT_SEX"));
-		
-		
-		study.setPatientBirthDate(ORMUtil.utilDateToSQLDateString(rs.getDate("PATIENT_BIRTH_DATE")));
-		
-		study.setPatientId(rs.getString("PATIENT_ID"));
-		study.setStudyResult(rs.getString("STUDY_RESULT"));
-		study.setStudyUrl("");// TODO сделать!!
-		study.setDcmFilesId(new Long[] { 1l, 2l, 3l });// TODO сделать!!
-		
-		
-		study.setStudyDateTimeModify(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
-		study.setStudyDateTimeRemoved(null);
-		if(rs.getTimestamp("REMOVED")!=null)
-		study.setStudyDateTimeRemoved(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("REMOVED")));
-		
-		return study;
+		try {
+			Study study = new Study();
+			study.setId(rs.getLong("ID"));
+//			study.setDirectionID(rs.getLong("FID_DIRECTION"));
+			study.setStudyInstanceUID(rs.getString("STUDY_UID"));
+			study.setStudyModality(rs.getString("STUDY_MODALITY"));
+			study.setStudyType(rs.getString("STUDY_TYPE"));
+			study.setStudyDescription(rs.getString("STUDY_DESCRIPTION"));
+
+			study.setStudyDate(ORMUtil.utilDateToSQLDateString(rs
+					.getDate("STUDY_DATE")));
+
+			study.setManufacturerModelUID(rs
+					.getString("STUDY_MANUFACTURER_UID"));
+			study.setManufacturerModelName(rs
+					.getString("STUDY_MANUFACTURER_MODEL_NAME"));
+			study.setStudyDoctor(rs.getString("STUDY_DOCTOR"));
+			study.setStudyOperator(rs.getString("STUDY_OPERATOR"));
+			study.setStudyViewprotocol(rs.getString("STUDY_VIEW_PROTOCOL"));
+
+			study.setStudyViewprotocolDate(ORMUtil.utilDateToSQLDateString(rs
+					.getDate("STUDY_VIEW_PROTOCOL_DATE")));
+
+			study.setStudyId(rs.getString("STUDY_ID"));
+			study.setPatientName(rs.getString("PATIENT_NAME"));
+			study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
+			study.setPatientSex(rs.getString("PATIENT_SEX"));
+
+			study.setPatientBirthDate(ORMUtil.utilDateToSQLDateString(rs
+					.getDate("PATIENT_BIRTH_DATE")));
+
+			study.setPatientId(rs.getString("PATIENT_ID"));
+			study.setStudyResult(rs.getString("STUDY_RESULT"));
+			study.setStudyUrl("");// TODO сделать!!
+			study.setDcmFilesId(new Long[] { 1l, 2l, 3l });// TODO сделать!!
+
+			study.setStudyDateTimeModify(ORMUtil
+					.utilDateTimeToSQLDateTimeString(rs
+							.getDate("DATE_MODIFIED")));
+			study.setStudyDateTimeRemoved(null);
+			if (rs.getTimestamp("REMOVED") != null)
+				study
+						.setStudyDateTimeRemoved(ORMUtil
+								.utilDateTimeToSQLDateTimeString(rs
+										.getDate("REMOVED")));
+
+			if (rs.getString("FID_DIRECTION")!=null) {
+				study.setDirection(getDirectionByID(rs.getLong("FID_DIRECTION")));
+			}
+
+			return study;
+
+		} catch (SQLException ex) {
+			throw new DataException(ex);
+		}
 	}
 	
 

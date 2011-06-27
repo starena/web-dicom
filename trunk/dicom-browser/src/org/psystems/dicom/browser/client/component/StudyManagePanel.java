@@ -4,7 +4,6 @@
 package org.psystems.dicom.browser.client.component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,6 +12,7 @@ import java.util.TreeMap;
 import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
@@ -655,6 +655,32 @@ public class StudyManagePanel extends Composite implements
 		studyComments.setSize("400px", "200px");
 		studyComments.setText(proxy.getStudyViewprotocol());
 		addFormRow(rowCounter++, "Протокол", studyComments);
+		
+		
+		// BEGIN данные из направления
+		
+		if(proxy.getDirection()!=null) {
+			
+			DirectionProxy direction = proxy.getDirection();
+			
+		addFormRow(rowCounter++, "Направление №", new Label(direction.getDirectionId() + "("
+				 + direction.getId()+")"));
+		addFormRow(rowCounter++, "Направлен на аппарт", 
+				new Label(""+direction.getDevice().getManufacturerModelName() + ")" + direction.getDevice().getManufacturerModelType() + ")"));
+		addFormRow(rowCounter++, "Идент.случая", new Label(direction.getDirectionCode()));
+		addFormRow(rowCounter++, "Дата направления", new Label(direction.getDateDirection()));
+		addFormRow(rowCounter++, "Направивший врач", new Label(direction.getDoctorDirect().getEmployeeName()));
+		addFormRow(rowCounter++, "Направленные диагнозы", new Label(""+direction.getDiagnosisDirect()));
+		addFormRow(rowCounter++, "Направленные услуги", new Label(""+direction.getServicesDirect()));
+		
+		addFormRow(rowCounter++, "Подтвержденные диагнозы", new Label("Подтвержденные диагнозы"));
+		addFormRow(rowCounter++, "Подтвержденные услуги", new Label("Подтвержденные услуги"));
+		addFormRow(rowCounter++, "Дата выполнения", new Label("Дата выполнения"));
+		}
+		
+		// END данные из направления
+	
+
 
 		//		
 		//
