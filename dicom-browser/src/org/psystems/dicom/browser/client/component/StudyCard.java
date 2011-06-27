@@ -222,7 +222,6 @@ public class StudyCard extends Composite {
 		labelStudyViewprotocol = createItemValue(commonTable, 5, 1, "");
 		commonTable.getFlexCellFormatter().setColSpan(5, 1, 5);
 
-	
 		
 		FilesPanel = new HorizontalPanel();
 		FilesPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);

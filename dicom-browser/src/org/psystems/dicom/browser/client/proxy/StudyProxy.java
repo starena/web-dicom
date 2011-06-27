@@ -56,7 +56,6 @@ package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 //import com.google.gwt.i18n.client.DateTimeFormat;
 
@@ -87,58 +86,10 @@ public class StudyProxy implements Serializable {
 	private String ManufacturerModelName; // Аппарат
 	private String studyDateTimeModify; // Дата модификации
 	private String studyDateTimeRemoved; // Дата удаления исследования
-	
+	private DirectionProxy direction; // Направление
 
 	// Файлы связанные с исследованием
 	private ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
-
-	/**
-	 * Инициализация класса
-	 * 
-	 * @param id
-	 * @param studyModality
-	 * @param studyUID
-	 * @param ManufacturerModelName
-	 * @param patientName
-	 * @param patientSex
-	 * @param patientId
-	 * @param patientBirthDate
-	 * @param studyId
-	 * @param studyType
-	 * @param studyDate
-	 * @param studyDescriptionDate
-	 * @param studyDoctor
-	 * @param studyOperator
-	 * @param studyDescription
-	 * @param studyViewprotocol
-	 * @param studyResult
-	 */
-//	public void init(long id, String studyModality, String studyUID, String ManufacturerModelName,
-//			String patientName, String patientSex, String patientId,
-//			Date patientBirthDate, String studyId, String studyType,
-//			Date studyDate, Date studyViewprotocolDate, String studyDoctor,
-//			String studyOperator, String studyDescription,
-//			String studyViewprotocol, String studyResult) {
-//
-//		this.id = id;
-//		this.studyModality = studyModality;
-//		this.studyUID = studyUID;
-//		this.ManufacturerModelName = ManufacturerModelName;
-//		this.patientName = patientName;
-//		this.patientSex = patientSex;
-//		this.patientId = patientId;
-//		this.patientBirthDate = patientBirthDate;
-//		this.studyId = studyId;
-//		this.studyType = studyType;
-//		this.studyDate = studyDate;
-//		this.studyViewprotocolDate = studyViewprotocolDate;
-//		this.studyDoctor = studyDoctor;
-//		this.studyOperator = studyOperator;
-//		this.studyDescription = studyDescription;
-//		this.studyViewprotocol = studyViewprotocol;
-//		this.studyResult = studyResult;
-//
-//	}
 
 	public long getId() {
 		return id;
@@ -151,11 +102,6 @@ public class StudyProxy implements Serializable {
 	public String getPatientBirthDate() {
 		return patientBirthDate;
 	}
-
-//	public String getPatientBirthDateAsString(String pattern) {
-//		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
-//		return dateFormat.format(patientBirthDate);
-//	}
 
 	public String getPatientSex() {
 		return patientSex;
@@ -173,12 +119,6 @@ public class StudyProxy implements Serializable {
 		return studyDate;
 	}
 
-//	public String getStudyDateAsString(String pattern) {
-//		if(studyDate==null) return null;
-//		DateTimeFormat dateFormat = DateTimeFormat.getFormat(pattern);
-//		return dateFormat.format(studyDate);
-//	}
-
 	public String getStudyDoctor() {
 		return studyDoctor;
 	}
@@ -195,7 +135,6 @@ public class StudyProxy implements Serializable {
 		return studyResult;
 	}
 
-		
 	public String getStudyViewprotocolDate() {
 		return studyViewprotocolDate;
 	}
@@ -227,14 +166,10 @@ public class StudyProxy implements Serializable {
 	public String getStudyInstanceUID() {
 		return studyInstanceUID;
 	}
-	
-	
 
 	public String getStudyModality() {
 		return studyModality;
 	}
-	
-	
 
 	public void setId(long id) {
 		this.id = id;
@@ -303,8 +238,6 @@ public class StudyProxy implements Serializable {
 	public void setManufacturerModelName(String manufacturerModelName) {
 		ManufacturerModelName = manufacturerModelName;
 	}
-	
-	
 
 	public String getStudyDateTimeModify() {
 		return studyDateTimeModify;
@@ -313,8 +246,6 @@ public class StudyProxy implements Serializable {
 	public void setStudyDateTimeModify(String studyDateModify) {
 		this.studyDateTimeModify = studyDateModify;
 	}
-	
-	
 
 	public String getStudyDateTimeRemoved() {
 		return studyDateTimeRemoved;
@@ -322,6 +253,15 @@ public class StudyProxy implements Serializable {
 
 	public void setStudyDateTimeRemoved(String studyDateRemoved) {
 		this.studyDateTimeRemoved = studyDateRemoved;
+	}
+	
+
+	public DirectionProxy getDirection() {
+		return direction;
+	}
+
+	public void setDirection(DirectionProxy direction) {
+		this.direction = direction;
 	}
 
 	@Override

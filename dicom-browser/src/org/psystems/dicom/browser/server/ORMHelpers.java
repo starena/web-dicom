@@ -46,6 +46,10 @@ public class ORMHelpers {
 		proxy.setStudyResult(study.getStudyResult());
 		proxy.setStudyDateTimeModify(study.getStudyDateTimeModify());
 		proxy.setStudyDateTimeRemoved(study.getStudyDateTimeRemoved());
+		
+		if(study.getDirection()!=null) {
+			proxy.setDirection(getDirectionProxy(study.getDirection()));
+		}
 		return proxy;
 	}
 
