@@ -103,7 +103,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 		ManufacturerDevice device = new ManufacturerDevice();
 		device.setManufacturerModelName("TestModel");
 		device.setManufacturerModelDescription("Тестовый аппарат");
-		device.setManufacturerModelType("ES");
+		device.setModality("ES");
 		device.setManufacturerModelTypeDescription("Эндоскоп");
 		drn.setDevice(device);
 

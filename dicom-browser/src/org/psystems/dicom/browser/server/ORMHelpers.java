@@ -19,8 +19,22 @@ import org.psystems.dicom.commons.orm.entity.QueryDirection;
 import org.psystems.dicom.commons.orm.entity.Service;
 import org.psystems.dicom.commons.orm.entity.Study;
 
+/**
+ * @author dima_d
+ * 
+ *         Хелперы для ORM
+ * 
+ */
+/**
+ * @author dima_d
+ *
+ */
 public class ORMHelpers {
 
+	/**
+	 * @param study
+	 * @return
+	 */
 	public static StudyProxy getStudyProxy(Study study) {
 
 		if (study == null)
@@ -46,11 +60,21 @@ public class ORMHelpers {
 		proxy.setStudyResult(study.getStudyResult());
 		proxy.setStudyDateTimeModify(study.getStudyDateTimeModify());
 		proxy.setStudyDateTimeRemoved(study.getStudyDateTimeRemoved());
-		
-		if(study.getDirection()!=null) {
+
+		if (study.getDirection() != null) {
 			proxy.setDirection(getDirectionProxy(study.getDirection()));
 		}
 		return proxy;
+	}
+
+	/**
+	 * TODO Пока не требуется.
+	 * @param proxy
+	 * @return
+	 */
+	public static Study getStudy (StudyProxy proxy) {
+		return null;
+
 	}
 
 	/**
@@ -99,6 +123,24 @@ public class ORMHelpers {
 		proxy.setPatientShortName(p.getPatientShortName());
 		return proxy;
 	}
+	
+	
+	/**
+	 * @param prpxy
+	 * @return
+	 */
+	public static Patient getPatient(PatientProxy proxy) {
+
+		if(proxy==null) return null;
+		Patient pat = new Patient();
+		pat.setId(proxy.getId());
+		pat.setPatientBirthDate(proxy.getPatientBirthDate());
+		pat.setPatientId(proxy.getPatientId());
+		pat.setPatientName(proxy.getPatientName());
+		pat.setPatientSex(proxy.getPatientSex());
+		return pat;
+		
+	}
 
 	/**
 	 * @param e
@@ -114,6 +156,21 @@ public class ORMHelpers {
 		proxy.setEmployeeName(e.getEmployeeName());
 		proxy.setEmployeeType(e.getEmployeeType());
 		return proxy;
+	}
+	
+	/**
+	 * @param proxy
+	 * @return
+	 */
+	public static Employee getEmployee (EmployeeProxy proxy) {
+
+		if (proxy == null) return null;
+		
+		Employee emp = new Employee();
+		emp.setEmployeeCode(proxy.getEmployeeCode());
+		emp.setEmployeeName(proxy.getEmployeeName());
+		emp.setEmployeeType(proxy.getEmployeeType());
+		return emp;
 	}
 
 	/**
@@ -132,6 +189,22 @@ public class ORMHelpers {
 		proxy.setDiagnosisType(d.getDiagnosisType());
 		return proxy;
 	}
+	
+	/**
+	 * @param proxy
+	 * @return
+	 */
+	public static Diagnosis getDiagnosis(DiagnosisProxy proxy) {
+
+		if(proxy==null) return null;
+		
+		Diagnosis dia = new Diagnosis();
+		dia.setDiagnosisCode(proxy.getDiagnosisCode());
+		dia.setDiagnosisDescription(proxy.getDiagnosisDescription());
+		dia.setDiagnosisSubType(proxy.getDiagnosisSubType());
+		dia.setDiagnosisType(proxy.getDiagnosisType());
+		return dia;
+	}
 
 	/**
 	 * @param d
@@ -147,10 +220,24 @@ public class ORMHelpers {
 		proxy.setManufacturerModelDescription(d
 				.getManufacturerModelDescription());
 		proxy.setManufacturerModelName(d.getManufacturerModelName());
-		proxy.setManufacturerModelType(d.getManufacturerModelType());
+		proxy.setModality(d.getModality());
 		proxy.setManufacturerModelTypeDescription(d
 				.getManufacturerModelTypeDescription());
 		return proxy;
+	}
+	
+	public static ManufacturerDevice getManufacturerDevice(
+			ManufacturerDeviceProxy proxy) {
+
+		if(proxy == null) return null;
+		
+		ManufacturerDevice dev = new ManufacturerDevice();
+		dev.setManufacturerModelDescription(proxy.getManufacturerModelDescription());
+		dev.setManufacturerModelName(proxy.getManufacturerModelName());
+		dev.setManufacturerModelTypeDescription(proxy.getManufacturerModelTypeDescription());
+		dev.setModality(proxy.getModality());
+		
+		return dev;
 	}
 
 	/**
@@ -167,6 +254,23 @@ public class ORMHelpers {
 		proxy.setServiceCode(s.getServiceCode());
 		proxy.setServiceDescription(s.getServiceDescription());
 		return proxy;
+	}
+	
+	/**
+	 * @param proxy
+	 * @return
+	 */
+	public static Service getService(ServiceProxy proxy) {
+
+		if(proxy==null) return null;
+		
+		Service srv = new Service();
+		srv.setServiceAlias(proxy.getServiceAlias());
+		srv.setServiceCode(proxy.getServiceCode());
+		srv.setServiceCount(proxy.getServiceCount());
+		srv.setServiceDescription(proxy.getServiceDescription());
+		
+		return srv;
 	}
 
 	/**
@@ -232,6 +336,65 @@ public class ORMHelpers {
 		}
 
 		return proxy;
+	}
+
+	/**
+	 * @param proxy
+	 * @return
+	 */
+	public static Direction getDirection(DirectionProxy proxy) {
+		if (proxy == null)
+			return null;
+
+		Direction drn = new Direction();
+		drn.setDateDirection(proxy.getDateDirection());
+		drn.setDatePerformed(proxy.getDatePerformed());
+		drn.setDateTimeModified(proxy.getDateTimeModified());
+		drn.setDateTimePlanned(proxy.getDateTimePlanned());
+		drn.setDevice(getManufacturerDevice(proxy.getDevice()));
+		
+		ArrayList<Diagnosis> dias;
+		
+		dias = new ArrayList<Diagnosis>();
+		for (DiagnosisProxy diaproxy : proxy.getDiagnosisDirect()) {
+			dias.add(getDiagnosis(diaproxy));
+		}
+		
+		drn.setDiagnosisDirect(dias.toArray(new Diagnosis[dias.size()]));
+		
+		dias = new ArrayList<Diagnosis>();
+		for (DiagnosisProxy diaproxy : proxy.getDiagnosisPerformed()) {
+			dias.add(getDiagnosis(diaproxy));
+		}
+		
+		drn.setDiagnosisPerformed(dias.toArray(new Diagnosis[dias.size()]));
+		
+		drn.setDirectionCode(proxy.getDirectionCode());
+		drn.setDirectionId(proxy.getDirectionId());
+		drn.setDirectionLocation(proxy.getDirectionLocation());
+		drn.setDoctorDirect(getEmployee(proxy.getDoctorDirect()));
+		drn.setDoctorPerformed(getEmployee(proxy.getDoctorPerformed()));
+		drn.setId(proxy.getId());
+		drn.setPatient(getPatient(proxy.getPatient()));
+		
+		ArrayList<Service> srvs;
+		
+		srvs = new ArrayList<Service>();
+		for (ServiceProxy srvproxy: proxy.getServicesDirect()) {
+			srvs.add(getService(srvproxy));
+		}
+		
+		drn.setServicesDirect(srvs.toArray(new Service[srvs.size()]));
+		
+		srvs = new ArrayList<Service>();
+		for (ServiceProxy srvproxy: proxy.getServicesPerformed()) {
+			srvs.add(getService(srvproxy));
+		}
+		
+		drn.setServicesPerformed(srvs.toArray(new Service[srvs.size()]));
+
+		return drn;
+
 	}
 
 }

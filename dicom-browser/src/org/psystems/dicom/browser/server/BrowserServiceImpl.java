@@ -735,7 +735,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements
 		ManufacturerDevice device = new ManufacturerDevice();
 		device.setManufacturerModelName("testdevice");
 		device.setManufacturerModelDescription("Тестовы девайс");
-		device.setManufacturerModelType("CR");
+		device.setModality("CR");
 		device.setManufacturerModelTypeDescription("Флюорограф");
 		
 		ArrayList<ManufacturerDevice> result = new ArrayList<ManufacturerDevice>();

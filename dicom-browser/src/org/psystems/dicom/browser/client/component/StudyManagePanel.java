@@ -12,11 +12,13 @@ import java.util.TreeMap;
 import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
+import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
@@ -666,12 +668,26 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, "Направление №", new Label(direction.getDirectionId() + "("
 				 + direction.getId()+")"));
 		addFormRow(rowCounter++, "Направлен на аппарт", 
-				new Label(""+direction.getDevice().getManufacturerModelName() + ")" + direction.getDevice().getManufacturerModelType() + ")"));
+				new Label(""+direction.getDevice().getManufacturerModelName() + 
+						"(" + direction.getDevice().getModality() + ")"));
 		addFormRow(rowCounter++, "Идент.случая", new Label(direction.getDirectionCode()));
 		addFormRow(rowCounter++, "Дата направления", new Label(direction.getDateDirection()));
 		addFormRow(rowCounter++, "Направивший врач", new Label(direction.getDoctorDirect().getEmployeeName()));
-		addFormRow(rowCounter++, "Направленные диагнозы", new Label(""+direction.getDiagnosisDirect()));
-		addFormRow(rowCounter++, "Направленные услуги", new Label(""+direction.getServicesDirect()));
+		
+		StringBuffer dias = new StringBuffer();
+		for (DiagnosisProxy dia : direction.getDiagnosisDirect()) {
+			dias.append(dia.getDiagnosisType()+";"+dia.getDiagnosisSubType()+";"+
+					dia.getDiagnosisCode()+";"+dia.getDiagnosisDescription());
+		}
+		
+		addFormRow(rowCounter++, "Направленные диагнозы", new Label(dias.toString()));
+		
+		StringBuffer srvs = new StringBuffer();
+		for (ServiceProxy srv : direction.getServicesDirect()) {
+			srvs.append(srv.getServiceCode()+";"+srv.getServiceAlias()+";"+srv.getServiceDescription());
+		}
+		
+		addFormRow(rowCounter++, "Направленные услуги", new Label(srvs.toString()));
 		
 		addFormRow(rowCounter++, "Подтвержденные диагнозы", new Label("Подтвержденные диагнозы"));
 		addFormRow(rowCounter++, "Подтвержденные услуги", new Label("Подтвержденные услуги"));
