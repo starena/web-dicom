@@ -14,8 +14,7 @@ public class ManufacturerDevice implements Serializable {
 
 	private static final long serialVersionUID = 2089006109459477701L;
 	private String ManufacturerModelName; // Модель
-	private String ManufacturerModelType; // Тип исследования которые аппарат
-	// может выполнять. Проверка согласно списку ORMUtil.modalityList
+	private String modality; // Модальность. ORMUtil.modalityList
 	
 	private String ManufacturerModelTypeDescription; // Описание типа исследования
 	private String ManufacturerModelDescription; // Описание аппарата (на русском)
@@ -32,12 +31,13 @@ public class ManufacturerDevice implements Serializable {
 		ManufacturerModelName = manufacturerModelName;
 	}
 
-	public String getManufacturerModelType() {
-		return ManufacturerModelType;
+
+	public String getModality() {
+		return modality;
 	}
 
-	public void setManufacturerModelType(String manufacturerModelType) {
-		ManufacturerModelType = manufacturerModelType;
+	public void setModality(String modality) {
+		this.modality = modality;
 	}
 
 	public String getManufacturerModelTypeDescription() {
@@ -64,8 +64,8 @@ public class ManufacturerDevice implements Serializable {
 	 */
 	public void chechEntity() {
 		
-		if(ManufacturerModelType!=null && ORMUtil.modalityList.get(ManufacturerModelType)==null) {
-			throw new IllegalArgumentException("Field ManufacturerModelType Type wrong format [" + ManufacturerModelType + "]." +
+		if(modality!=null && ORMUtil.modalityList.get(modality)==null) {
+			throw new IllegalArgumentException("Field ManufacturerModelType Type wrong format [" + modality + "]." +
 			" argument must be: "  + ORMUtil.getAllModalities());
 		}
 //		if (ManufacturerModelType != null
@@ -82,7 +82,7 @@ public class ManufacturerDevice implements Serializable {
 		return "ManufacturerDevice [ManufacturerModelName="
 				+ ManufacturerModelName + ", ManufacturerModelDescription="
 				+ ManufacturerModelDescription + ", ManufacturerModelType="
-				+ ManufacturerModelType + ", ManufacturerModelTypeDescription="
+				+ modality + ", ManufacturerModelTypeDescription="
 				+ ManufacturerModelTypeDescription + "]";
 	}
 
