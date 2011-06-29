@@ -47,7 +47,6 @@ public class Patient implements Serializable {
 	}
 
 	public String getPatientShortName() {
-		System.out.println("!!! patientBirthDate "+patientBirthDate);
 		return ORMUtil.makeShortName(patientName, patientBirthDate);
 	}
 
