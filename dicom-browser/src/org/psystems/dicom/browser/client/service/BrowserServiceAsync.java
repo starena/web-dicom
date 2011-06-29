@@ -97,6 +97,8 @@ public interface BrowserServiceAsync {
 	void getDirections(QueryDirectionProxy query,
 			AsyncCallback<ArrayList<DirectionProxy>> callback);
 
+	void saveDirection(DirectionProxy drn, AsyncCallback<Void> callback);
+
 	
 
 }

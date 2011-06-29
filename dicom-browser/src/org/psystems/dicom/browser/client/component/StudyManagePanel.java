@@ -102,7 +102,7 @@ public class StudyManagePanel extends Composite implements
 	
 	private HTML ooTemplatePanel = new HTML();
 	
-	public StudyManagePanel(StudyCard studyCardPanel, StudyProxy proxy) {
+	public StudyManagePanel(StudyCard studyCardPanel, final StudyProxy proxy) {
 
 		this.studyCardPanel = studyCardPanel;
 		this.proxy = proxy;
@@ -693,6 +693,35 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, "Подтвержденные услуги", new Label("Подтвержденные услуги"));
 		addFormRow(rowCounter++, "Дата выполнения", new Label("Дата выполнения"));
 		}
+		
+		Button btn = new Button("Сохранить направление");
+		btn.addClickHandler(new ClickHandler() {
+		    
+		    
+		    
+		    @Override
+		    public void onClick(ClickEvent event) {
+			
+			proxy.getDirection().setDirectionCode("CODEтест");
+			// TODO Auto-generated method stub
+			Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+
+			    @Override
+			    public void onFailure(Throwable caught) {
+				Dicom_browser.showErrorDlg(caught);
+				
+			    }
+
+			    @Override
+			    public void onSuccess(Void result) {
+				// TODO Auto-generated method stub
+				System.out.println("!!!! SAVE DIRECTION OK !!!!");
+			    }
+			});
+		    }
+		});
+		
+		addFormRow(rowCounter++, "Дата выполнения", btn);
 		
 		// END данные из направления
 	
