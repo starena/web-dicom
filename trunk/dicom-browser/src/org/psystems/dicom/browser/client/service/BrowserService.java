@@ -79,36 +79,39 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("browser")
 public interface BrowserService extends RemoteService {
 
-	/**
-	 * Поиск исследований
-	 * 
-	 * @param transactionId
-	 * @param version
-	 * @param queryStr
-	 * @param attrs
-	 * @return
-	 * @throws DefaultGWTRPCException
-	 */
-	RPCDcmProxyEvent findStudy(long transactionId, String version,
-			String queryStr, HashMap<String, String> attrs)
-			throws DefaultGWTRPCException;
+    /**
+     * Поиск исследований
+     * 
+     * @param transactionId
+     * @param version
+     * @param queryStr
+     * @param attrs
+     * @return
+     * @throws DefaultGWTRPCException
+     */
+    RPCDcmProxyEvent findStudy(long transactionId, String version, String queryStr, HashMap<String, String> attrs)
+	    throws DefaultGWTRPCException;
 
-	PatientsRPCResponse getPatients(PatientsRPCRequest req)
-			throws DefaultGWTRPCException;
+    PatientsRPCResponse getPatients(PatientsRPCRequest req) throws DefaultGWTRPCException;
 
-	DcmTagsRPCResponse getDcmTags(DcmTagsRPCRequest req)
-			throws DefaultGWTRPCException;
+    DcmTagsRPCResponse getDcmTags(DcmTagsRPCRequest req) throws DefaultGWTRPCException;
 
-	ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId,
-			String version, long idDcmFile) throws DefaultGWTRPCException;
+    ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId, String version, long idDcmFile)
+	    throws DefaultGWTRPCException;
 
-	StudyProxy getStudyByID(long transactionId, String version, Long id)
-			throws DefaultGWTRPCException;
-	
-	Session getSessionObject() throws DefaultGWTRPCException;
-	
-	ArrayList<OOTemplateProxy> getOOTemplates(String modality)  throws DefaultGWTRPCException;
-	
-	ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query)   throws DefaultGWTRPCException;
+    StudyProxy getStudyByID(long transactionId, String version, Long id) throws DefaultGWTRPCException;
 
+    Session getSessionObject() throws DefaultGWTRPCException;
+
+    ArrayList<OOTemplateProxy> getOOTemplates(String modality) throws DefaultGWTRPCException;
+
+    ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query) throws DefaultGWTRPCException;
+
+    /**
+     * Сохранение направления
+     * 
+     * @param drn
+     * @throws DefaultGWTRPCException
+     */
+    void saveDirection(DirectionProxy drn) throws DefaultGWTRPCException;
 }
