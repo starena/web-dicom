@@ -96,10 +96,8 @@ import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
-import org.psystems.dicom.commons.orm.entity.DataException;
 import org.psystems.dicom.commons.orm.entity.Direction;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
-import org.psystems.dicom.commons.orm.entity.QueryDirection;
 import org.psystems.dicom.commons.orm.entity.QueryStudy;
 import org.psystems.dicom.commons.orm.entity.Study;
 
@@ -186,7 +184,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		// studyResult, sortOrder);
 
 	    } else if (queryStr.matches("^\\D{5}\\d{2}$")) { // Если поиск по
-							     // КБП
+		// КБП
 
 		QueryStudy query = new QueryStudy();
 		query.setManufacturerModelName(manufacturerModelName);
@@ -252,10 +250,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    event.init(transactionId, data);
 	    return event;
 
-	} catch (SQLException e) {
-	    logger.error(e);
-	    throw Util.throwPortalException("Can't find study: ", e);
-	} catch (DataException e) {
+	} catch (Throwable e) {
 	    logger.error(e);
 	    throw Util.throwPortalException("Can't find study: ", e);
 	} finally {
@@ -361,32 +356,32 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     @Override
     public DcmTagsRPCResponse getDcmTags(DcmTagsRPCRequest req) throws DefaultGWTRPCException {
 
-	// проверка версии клиента TODO сделать MOCK?
-	Util.checkClentVersion(req);
-
-	long idDcm = req.getIdDcm();
-
-	PreparedStatement psSelect = null;
-
 	try {
-	    ArrayList<DcmTagProxy> data = getTags(idDcm);
-	    DcmTagsRPCResponse responce = new DcmTagsRPCResponse();
-	    responce.setTagList(data);
-
-	    return responce;
-
-	} catch (SQLException e) {
-	    logger.error(e);
-	    throw Util.throwPortalException("Can't getting tags: ", e);
-	} finally {
+	    // проверка версии клиента TODO сделать MOCK?
+	    Util.checkClentVersion(req);
+	    long idDcm = req.getIdDcm();
+	    PreparedStatement psSelect = null;
 
 	    try {
-		if (psSelect != null)
-		    psSelect.close();
-	    } catch (SQLException e) {
-		logger.error(e);
-		throw Util.throwPortalException("Can't getting tags: ", e);
+		ArrayList<DcmTagProxy> data = getTags(idDcm);
+		DcmTagsRPCResponse responce = new DcmTagsRPCResponse();
+		responce.setTagList(data);
+
+		return responce;
+
+	    } finally {
+
+		try {
+		    if (psSelect != null)
+			psSelect.close();
+		} catch (SQLException e) {
+		    logger.error(e);
+		    throw Util.throwPortalException("Can't getting tags: ", e);
+		}
 	    }
+	} catch (Throwable e) {
+	    logger.error(e);
+	    throw Util.throwPortalException("Can't getting tags: ", e);
 	}
     }
 
@@ -394,54 +389,51 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     public ArrayList<DcmTagProxy> getDcmTagsFromFile(long transactionId, String version, long idDcmFile)
 	    throws DefaultGWTRPCException {
 
-	// проверка версии клиента
-	Util.checkClentVersion(version);
-
-	String dcmRootDir = getServletContext().getInitParameter("webdicom.dir.src");
-	PreparedStatement psSelect = null;
-
 	try {
-	    String fileName = null;
-	    Connection connection = Util.getConnection("main", getServletContext());
-	    psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
-		    + " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
-	    psSelect.setLong(1, idDcmFile);
-	    ResultSet rs = psSelect.executeQuery();
-	    int index = 0;
-	    while (rs.next()) {
-		String file = rs.getString("DCM_FILE_NAME");
-		fileName = dcmRootDir + File.separator + file;
-		index++;
-		break;
-	    }
-	    rs.close();
-	    if (index == 0) {
-		throw Util.throwPortalException("Dcm file not found! id=" + idDcmFile);
 
-	    }
+	    // проверка версии клиента
+	    Util.checkClentVersion(version);
+
+	    String dcmRootDir = getServletContext().getInitParameter("webdicom.dir.src");
+	    PreparedStatement psSelect = null;
+
 	    try {
+		String fileName = null;
+		Connection connection = Util.getConnection("main", getServletContext());
+		psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
+			+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
+		psSelect.setLong(1, idDcmFile);
+		ResultSet rs = psSelect.executeQuery();
+		int index = 0;
+		while (rs.next()) {
+		    String file = rs.getString("DCM_FILE_NAME");
+		    fileName = dcmRootDir + File.separator + file;
+		    index++;
+		    break;
+		}
+		rs.close();
+		if (index == 0) {
+		    throw Util.throwPortalException("Dcm file not found! id=" + idDcmFile);
+
+		}
+
 		return getTagsFromFile(idDcmFile, fileName);
-	    } catch (IOException e) {
-		throw Util.throwPortalException("Dcm file I/O error! id=" + idDcmFile);
+
+	    } finally {
+
+		try {
+		    if (psSelect != null)
+			psSelect.close();
+		} catch (Throwable e) {
+		    logger.error(e);
+		    throw Util.throwPortalException("getDcmTagsFromFile error! id=" + idDcmFile, e);
+		}
 	    }
 
-	    //
-
-	    //
-	} catch (SQLException e) {
+	} catch (Throwable e) {
 	    logger.error(e);
-	    throw Util.throwPortalException("Dcm file SQL error! id=" + idDcmFile);
-	} finally {
-
-	    try {
-		if (psSelect != null)
-		    psSelect.close();
-	    } catch (SQLException e) {
-		logger.error(e);
-		throw Util.throwPortalException("Dcm file SQL error! id=" + idDcmFile);
-	    }
+	    throw Util.throwPortalException("getDcmTagsFromFile error! id=" + idDcmFile, e);
 	}
-
     }
 
     /**
@@ -574,26 +566,27 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    if (psSelect != null)
 		psSelect.close();
 	}
-
     }
 
     @Override
     public PatientsRPCResponse getPatients(PatientsRPCRequest req) throws DefaultGWTRPCException {
 
-	// проверка версии клиента TODO сделать MOCK?
-	Util.checkClentVersion(req);
-	ArrayList<PatientProxy> data;
 	try {
+	    // проверка версии клиента TODO сделать MOCK?
+	    Util.checkClentVersion(req);
+	    ArrayList<PatientProxy> data;
+
 	    data = Storage.getPatients(getServletContext(), req.getQueryStr(), req.getLimit());
-	} catch (SQLException e) {
-	    throw Util.throwPortalException("Find patients error! ", e);
+
+	    PatientsRPCResponse resp = new PatientsRPCResponse();
+	    resp.init(req);
+	    resp.setPatients(data);
+
+	    return resp;
+	} catch (Throwable e) {
+	    logger.error(e);
+	    throw Util.throwPortalException("getPatients error! ", e);
 	}
-
-	PatientsRPCResponse resp = new PatientsRPCResponse();
-	resp.init(req);
-	resp.setPatients(data);
-
-	return resp;
     }
 
     @Override
@@ -630,21 +623,18 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	    return studyProxy;
 
-	} catch (SQLException e) {
+	} catch (Throwable e) {
 	    logger.error(e);
-	    throw Util.throwPortalException("Find stidy error! ", e);
-	} catch (DataException e) {
-	    logger.error(e);
-	    throw Util.throwPortalException("Find stidy error! ", e);
+	    throw Util.throwPortalException("Find study error! ", e);
 
 	} finally {
 
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
-	    } catch (SQLException e) {
+	    } catch (Throwable e) {
 		logger.error(e);
-		throw Util.throwPortalException("Find stidy error! ", e);
+		throw Util.throwPortalException("Find study error! ", e);
 	    }
 	}
 
@@ -653,48 +643,55 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     @Override
     public Session getSessionObject() throws DefaultGWTRPCException {
 
-	HttpServletRequest req = perThreadRequest.get();
-	HttpServletResponse resp = perThreadResponse.get();
-
-	Session sessionObject = (Session) req.getSession().getAttribute(Util.sessionAttrName);
-	return sessionObject;
-
+	try {
+	    HttpServletRequest req = perThreadRequest.get();
+	    HttpServletResponse resp = perThreadResponse.get();
+	    Session sessionObject = (Session) req.getSession().getAttribute(Util.sessionAttrName);
+	    return sessionObject;
+	} catch (Throwable e) {
+	    logger.error(e);
+	    throw Util.throwPortalException("getSessionObject error! ", e);
+	}
     }
 
     @Override
     public ArrayList<OOTemplateProxy> getOOTemplates(String modality) throws DefaultGWTRPCException {
 
-	ArrayList<OOTemplateProxy> result = new ArrayList<OOTemplateProxy>();
+	try {
+	    ArrayList<OOTemplateProxy> result = new ArrayList<OOTemplateProxy>();
 
-	String ootmplRootDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+	    String ootmplRootDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
 
-	File[] files = new File(ootmplRootDir).listFiles();
-	for (int i = 0; i < files.length; i++) {
-	    if (files[i].isDirectory()) {
+	    File[] files = new File(ootmplRootDir).listFiles();
+	    for (int i = 0; i < files.length; i++) {
+		if (files[i].isDirectory()) {
 
-		String dirName = files[i].getName();
-		// System.out.println(">> DIR: ["+dirName+"] modality=["+modality+"]");
+		    String dirName = files[i].getName();
+		    // System.out.println(">> DIR: ["+dirName+"] modality=["+modality+"]");
 
-		if (modality == null || modality.equalsIgnoreCase(dirName)) {
+		    if (modality == null || modality.equalsIgnoreCase(dirName)) {
 
-		    File[] tmpls = files[i].listFiles();
-		    for (int j = 0; j < tmpls.length; j++) {
-			File tmpl = tmpls[j];
-			String fileName = tmpl.getName();
-			// System.out.println(">>>>> TMPL: [" + fileName +
-			// "]"+modality);
-			OOTemplateProxy tmplProxy = new OOTemplateProxy();
-			tmplProxy.setModality(dirName);
-			tmplProxy.setTitle(tmpl.getName());
-			tmplProxy.setUrl("ootmpl/" + dirName + "/" + fileName);
-			result.add(tmplProxy);
+			File[] tmpls = files[i].listFiles();
+			for (int j = 0; j < tmpls.length; j++) {
+			    File tmpl = tmpls[j];
+			    String fileName = tmpl.getName();
+			    // System.out.println(">>>>> TMPL: [" + fileName +
+			    // "]"+modality);
+			    OOTemplateProxy tmplProxy = new OOTemplateProxy();
+			    tmplProxy.setModality(dirName);
+			    tmplProxy.setTitle(tmpl.getName());
+			    tmplProxy.setUrl("ootmpl/" + dirName + "/" + fileName);
+			    result.add(tmplProxy);
+			}
 		    }
 		}
-
 	    }
-	}
 
-	return result;
+	    return result;
+	} catch (Throwable e) {
+	    logger.error(e);
+	    throw Util.throwPortalException("getOOTemplates error! ", e);
+	}
     }
 
     /**
@@ -720,7 +717,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     public ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query) throws DefaultGWTRPCException {
 
 	try {
-
 	    Connection connection = Util.getConnection("main", getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 	    ArrayList<DirectionProxy> drns = new ArrayList<DirectionProxy>();
@@ -729,13 +725,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    }
 	    return drns;
 
-	} catch (SQLException e) {
+	} catch (Throwable e) {
 	    logger.error(e);
 	    throw Util.throwPortalException("getDirections study error! ", e);
-	} catch (DataException e) {
-	    logger.error(e);
-	    throw Util.throwPortalException("getDirections study error! ", e);
-
 	}
 
     }
@@ -746,10 +738,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    Connection connection = Util.getConnection("main", getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 	    pm.pesistentDirection(ORMHelpers.getDirection(drn));
-	} catch (SQLException e) {
-	    logger.error(e);
-	    throw Util.throwPortalException("saveDirection error! ", e);
-	} catch (DataException e) {
+
+	} catch (Throwable e) {
 	    logger.error(e);
 	    throw Util.throwPortalException("saveDirection error! ", e);
 	}

@@ -78,6 +78,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -117,6 +118,10 @@ public class Dicom_browser implements EntryPoint {
 	public boolean showPageIntro = true;// Показ страницы с приглашением
 
 	private SearchPanel searchPanel;
+
+
+
+	private static Label errorResponseMsg;
 
 	/**
 	 * This is the entry point method.
@@ -186,35 +191,57 @@ public class Dicom_browser implements EntryPoint {
 
 	}
 	
-	/**
-	 * Диалог выдачи сообщения об ошибке
-	 */
-	private void createErorrDlg() {
-		errorDialogBox = new DialogBox();
-		errorDialogBox.setText("Ошибка!");
-		errorDialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Закрыть окно сообщения");
-		// We can set the id of a widget by accessing its Element
-		closeButton.getElement().setId("closeButton");
-		errorResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
+    /**
+     * Диалог выдачи сообщения об ошибке
+     */
+    private void createErorrDlg() {
+	
+	errorDialogBox = new DialogBox();
+	errorDialogBox.setText("Ошибка!");
+	errorDialogBox.setAnimationEnabled(true);
+	final Button closeButton = new Button("Закрыть окно сообщения");
+	// We can set the id of a widget by accessing its Element
+	closeButton.getElement().setId("closeButton");
+	errorResponseMsg = new Label();
+	errorResponseLabel = new HTML();
+	errorResponseLabel.setVisible(false);
+	VerticalPanel dialogVPanel = new VerticalPanel();
+	dialogVPanel.addStyleName("dialogVPanel");
 
-		dialogVPanel.add(closeButton);
-		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		dialogVPanel.add(errorResponseLabel);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+	dialogVPanel.add(closeButton);
+	dialogVPanel.add(new HTML("<b>Сообщение:</b>"));
+	dialogVPanel.add(errorResponseMsg);
+
+	Button showtraceBtn = new Button("Показать/скрыть подробности");
+	showtraceBtn.addClickHandler(new ClickHandler() {
+
+	    @Override
+	    public void onClick(ClickEvent event) {
+		// TODO Auto-generated method stub
+		if (errorResponseLabel.isVisible())
+		    errorResponseLabel.setVisible(false);
+		else
+		    errorResponseLabel.setVisible(true);
 		
-		errorDialogBox.setWidget(dialogVPanel);
+		errorDialogBox.center();
+	    }
+	});
 
-		// Add a handler to close the DialogBox
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				errorDialogBox.hide();
-			}
-		});
+	dialogVPanel.add(showtraceBtn);
 
-	}
+	dialogVPanel.add(errorResponseLabel);
+	dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
+
+	errorDialogBox.setWidget(dialogVPanel);
+
+	// Add a handler to close the DialogBox
+	closeButton.addClickHandler(new ClickHandler() {
+	    public void onClick(ClickEvent event) {
+		errorDialogBox.hide();
+	    }
+	});
+
+    }
 
 	/**
 	 * Выдача сообщения об ошибке
@@ -224,9 +251,10 @@ public class Dicom_browser implements EntryPoint {
 
 		if(e instanceof DefaultGWTRPCException) {
 			DefaultGWTRPCException ex = (DefaultGWTRPCException)e;
+			errorResponseMsg.setText(e.getMessage());
 			errorResponseLabel.setHTML(ex.getMessage()+" <br><pre>Ошибка [" + ex.getLogMarker()+ "]\n"+ ex.getStack()+"</pre>");
 		} else {
-			errorResponseLabel.setHTML(e.getMessage());
+		    errorResponseMsg.setText(e.getMessage());
 		}
 		errorDialogBox.show();
 		errorDialogBox.center();
