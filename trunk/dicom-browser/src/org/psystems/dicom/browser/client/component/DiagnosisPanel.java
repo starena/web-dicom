@@ -4,11 +4,10 @@
 package org.psystems.dicom.browser.client.component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
-import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -18,7 +17,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
@@ -31,7 +29,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 public class DiagnosisPanel extends VerticalPanel {
 
     private VerticalPanel showDiagnosisPanel;
-    private DiagnosisProxy[] diagnosis;
+    private ArrayList<DiagnosisProxy> diagnosis;
     private DiagnosisProxy diagnosis4Add;
 
     /**
@@ -47,7 +45,6 @@ public class DiagnosisPanel extends VerticalPanel {
 	HorizontalPanel addDiagnosisPanel = new HorizontalPanel();
 	this.add(addDiagnosisPanel);
 
-	
 	final ListBox lbDiaType = new ListBox();
 	lbDiaType.addItem(DiagnosisProxy.TYPE_MAIN);
 	lbDiaType.addItem(DiagnosisProxy.TYPE_ACCOMPANYING);
@@ -67,21 +64,20 @@ public class DiagnosisPanel extends VerticalPanel {
 	lbDiaSubType.addItem("Смерти");
 	lbDiaSubType.addItem("Паталогоанатомический");
 	addDiagnosisPanel.add(lbDiaSubType);
-	
 
 	DicSuggestBox diaBox = new DicSuggestBox("diagnosis");
 	diaBox.getBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
-	    
+
 	    @Override
 	    public void onSelection(SelectionEvent<Suggestion> event) {
 		ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
-		diagnosis4Add =  (DiagnosisProxy) item.getEvent();
+		diagnosis4Add = (DiagnosisProxy) item.getEvent();
 	    }
 	});
-	
+
 	addDiagnosisPanel.add(diaBox);
-//	itemsPanel.add(new DicSuggestBox("services"));
-	
+	// itemsPanel.add(new DicSuggestBox("services"));
+
 	Button addBtn = new Button("Добавить");
 	addDiagnosisPanel.add(addBtn);
 	addBtn.addClickHandler(new ClickHandler() {
@@ -89,12 +85,8 @@ public class DiagnosisPanel extends VerticalPanel {
 	    @Override
 	    public void onClick(ClickEvent event) {
 
-		if(diagnosis4Add==null) return;
-		
-		ArrayList<DiagnosisProxy> dias = new ArrayList<DiagnosisProxy>();
-		for (int i = 0; i < diagnosis.length; i++) {
-		    dias.add(diagnosis[i]);
-		}
+		if (diagnosis4Add == null)
+		    return;
 
 		DiagnosisProxy proxy = new DiagnosisProxy();
 		proxy.setDiagnosisCode(diagnosis4Add.getDiagnosisCode());
@@ -102,28 +94,70 @@ public class DiagnosisPanel extends VerticalPanel {
 		proxy.setDiagnosisType(lbDiaType.getItemText(lbDiaType.getSelectedIndex()));
 		proxy.setDiagnosisSubType(lbDiaSubType.getItemText(lbDiaSubType.getSelectedIndex()));
 
-		dias.add(proxy);
-		setDiagnosis(dias.toArray(new DiagnosisProxy[dias.size()]));
+		diagnosis.add(proxy);
 
+		refresh();
 	    }
 	});
 
     }
 
     public DiagnosisProxy[] getDiagnosis() {
-	return diagnosis;
+	return diagnosis.toArray(new DiagnosisProxy[diagnosis.size()]);
     }
 
-    public void setDiagnosis(DiagnosisProxy[] diagnosis) {
-	this.diagnosis = diagnosis;
-	showDiagnosisPanel.clear();
+    public void setDiagnosis(DiagnosisProxy[] dias) {
 
+	diagnosis = new ArrayList<DiagnosisProxy>();
+	diagnosis.addAll(Arrays.asList(dias));
+
+	refresh();
+    }
+
+    private void refresh() {
+	showDiagnosisPanel.clear();
 	for (DiagnosisProxy dia : diagnosis) {
-	    StringBuffer diaText = new StringBuffer();
-	    diaText.append(dia.getDiagnosisCode() + " (" + dia.getDiagnosisType() + ";" + dia.getDiagnosisSubType()
-		    + ") " + dia.getDiagnosisDescription());
-	    showDiagnosisPanel.add(new Label(diaText.toString()));
+	    DiagnosisItem item = new DiagnosisItem(dia);
+	    showDiagnosisPanel.add(item);
 	}
+    }
+
+    /**
+     * @author dima_d
+     * 
+     *         Панелька с диагнозом
+     * 
+     */
+    public class DiagnosisItem extends HorizontalPanel {
+
+	private DiagnosisProxy dias;
+
+	public DiagnosisItem(DiagnosisProxy d) {
+	    super();
+	    this.dias = d;
+	    StringBuffer diaText = new StringBuffer();
+	    diaText.append(dias.getDiagnosisCode() + " (" + dias.getDiagnosisType() + ";" + dias.getDiagnosisSubType()
+		    + ") [" + dias.getDiagnosisDescription()+"]");
+	    add(new Label(diaText.toString()));
+
+	    Button btnDelete = new Button("Удалить");
+	    btnDelete.addClickHandler(new ClickHandler() {
+
+		@Override
+		public void onClick(ClickEvent event) {
+		    for (DiagnosisProxy diagnosisProxy : diagnosis) {
+			if (diagnosisProxy.getDiagnosisCode().equalsIgnoreCase(dias.getDiagnosisCode())) {
+			    diagnosis.remove(diagnosisProxy);
+			    refresh();
+			    return;
+			}
+		    }
+		}
+	    });
+
+	    add(btnDelete);
+	}
+
     }
 
 }
