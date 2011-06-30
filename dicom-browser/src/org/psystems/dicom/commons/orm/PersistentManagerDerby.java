@@ -431,8 +431,9 @@ public class PersistentManagerDerby {
 					"TYPE_ON_DIRECTION," + //2
 					"SERVICE_CODE," + //3
 					"SERVICE_ALIAS," + //4
-					"SERVICE_DESCRIPTION" + //5
-					") VALUES (?,?,?,?,?)";
+					"SERVICE_DESCRIPTION," + //5
+					"SERVICE_COUNT" + //6
+					") VALUES (?,?,?,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
 			
 			if (drn.getServicesDirect() != null)
@@ -442,6 +443,7 @@ public class PersistentManagerDerby {
 					pstmt.setString(3, srv.getServiceCode());
 					pstmt.setString(4, srv.getServiceAlias());
 					pstmt.setString(5, srv.getServiceDescription());
+					pstmt.setInt(6, srv.getServiceCount());
 					count = pstmt.executeUpdate();
 				}
 			if (drn.getServicesPerformed() != null)
@@ -451,6 +453,7 @@ public class PersistentManagerDerby {
 					pstmt.setString(3, srv.getServiceCode());
 					pstmt.setString(4, srv.getServiceAlias());
 					pstmt.setString(5, srv.getServiceDescription());
+					pstmt.setInt(6, srv.getServiceCount());
 					count = pstmt.executeUpdate();
 				}
 
@@ -602,6 +605,7 @@ public class PersistentManagerDerby {
 				srv.setServiceCode(rs.getString("SERVICE_CODE"));
 				srv.setServiceAlias(rs.getString("SERVICE_ALIAS"));
 				srv.setServiceDescription(rs.getString("SERVICE_DESCRIPTION"));
+				srv.setServiceCount(rs.getInt("SERVICE_COUNT"));
 				
 				// направленные
 				if (rs.getString("TYPE_ON_DIRECTION").equals("D")) {
