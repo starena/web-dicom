@@ -61,6 +61,7 @@ import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
+import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.DicSuggestBoxService;
 
@@ -94,8 +95,8 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements
 	try {
 
 	    // getServletContext(), req.getQuery(), req.getLimit()
-	    String prefix = "";
 	    if (dicName.equals("diagnosis")) {
+		
 		for (int i = 0; i < 10; i++) {
 		    DiagnosisProxy proxy = new DiagnosisProxy();
 		    proxy.setDiagnosisCode(req.getQuery() + i);
@@ -107,10 +108,18 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements
 		    suggestions.add(item);
 		}
 	    } else if (dicName.equals("services")) {
-		prefix = "SRV";
+		
 		for (int i = 0; i < 10; i++) {
-		    suggestions
-			    .add(new ItemSuggestion(prefix + req.getQuery() + "..." + i, prefix + req.getQuery() + i));
+		    ServiceProxy proxy = new ServiceProxy();
+		    proxy.setServiceCode(req.getQuery() + i);
+		    proxy.setServiceAlias("alias"+i);
+		    proxy.setServiceDescription(req.getQuery() + i + " услуга тестовая");
+		    proxy.setServiceCount(1);
+		    
+		    ItemSuggestion item = new ItemSuggestion("ищем "+proxy.getServiceDescription() + "...",
+			    proxy.getServiceCode().toUpperCase());
+		    item.setEvent(proxy);
+		    suggestions.add(item);
 		}
 	    }
 			
