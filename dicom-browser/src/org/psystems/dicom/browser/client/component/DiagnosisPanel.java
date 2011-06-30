@@ -6,17 +6,21 @@ package org.psystems.dicom.browser.client.component;
 import java.util.ArrayList;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
  * Панель управления диагнозами
@@ -28,6 +32,7 @@ public class DiagnosisPanel extends VerticalPanel {
 
     private VerticalPanel showDiagnosisPanel;
     private DiagnosisProxy[] diagnosis;
+    private DiagnosisProxy diagnosis4Add;
 
     /**
      * @param application
@@ -42,13 +47,7 @@ public class DiagnosisPanel extends VerticalPanel {
 	HorizontalPanel addDiagnosisPanel = new HorizontalPanel();
 	this.add(addDiagnosisPanel);
 
-	addDiagnosisPanel.add(new Label("МКБ"));
-
-	final TextBox tbDiaCode = new TextBox();
-	tbDiaCode.setText("Z01");
-	tbDiaCode.setWidth("8em");
-	addDiagnosisPanel.add(tbDiaCode);
-
+	
 	final ListBox lbDiaType = new ListBox();
 	lbDiaType.addItem(DiagnosisProxy.TYPE_MAIN);
 	lbDiaType.addItem(DiagnosisProxy.TYPE_ACCOMPANYING);
@@ -68,12 +67,21 @@ public class DiagnosisPanel extends VerticalPanel {
 	lbDiaSubType.addItem("Смерти");
 	lbDiaSubType.addItem("Паталогоанатомический");
 	addDiagnosisPanel.add(lbDiaSubType);
+	
 
-	addDiagnosisPanel.add(new Label("Описание:"));
-	final TextBox tbDiaDescr = new TextBox();
-	tbDiaDescr.setText("Описание");
-	addDiagnosisPanel.add(tbDiaDescr);
-
+	DicSuggestBox diaBox = new DicSuggestBox("diagnosis");
+	diaBox.getBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+	    
+	    @Override
+	    public void onSelection(SelectionEvent<Suggestion> event) {
+		ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+		diagnosis4Add =  (DiagnosisProxy) item.getEvent();
+	    }
+	});
+	
+	addDiagnosisPanel.add(diaBox);
+//	itemsPanel.add(new DicSuggestBox("services"));
+	
 	Button addBtn = new Button("Добавить");
 	addDiagnosisPanel.add(addBtn);
 	addBtn.addClickHandler(new ClickHandler() {
@@ -81,14 +89,16 @@ public class DiagnosisPanel extends VerticalPanel {
 	    @Override
 	    public void onClick(ClickEvent event) {
 
+		if(diagnosis4Add==null) return;
+		
 		ArrayList<DiagnosisProxy> dias = new ArrayList<DiagnosisProxy>();
 		for (int i = 0; i < diagnosis.length; i++) {
 		    dias.add(diagnosis[i]);
 		}
 
 		DiagnosisProxy proxy = new DiagnosisProxy();
-		proxy.setDiagnosisCode(tbDiaCode.getText());
-		proxy.setDiagnosisDescription(tbDiaDescr.getText());
+		proxy.setDiagnosisCode(diagnosis4Add.getDiagnosisCode());
+		proxy.setDiagnosisDescription(diagnosis4Add.getDiagnosisDescription());
 		proxy.setDiagnosisType(lbDiaType.getItemText(lbDiaType.getSelectedIndex()));
 		proxy.setDiagnosisSubType(lbDiaSubType.getItemText(lbDiaSubType.getSelectedIndex()));
 
