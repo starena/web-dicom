@@ -60,6 +60,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.DicSuggestBoxService;
 
@@ -90,19 +91,29 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements
 		
 		List<Suggestion> suggestions = new ArrayList<Suggestion>();
 		
-		try {
+	try {
+
+	    // getServletContext(), req.getQuery(), req.getLimit()
+	    String prefix = "";
+	    if (dicName.equals("diagnosis")) {
+		for (int i = 0; i < 10; i++) {
+		    DiagnosisProxy proxy = new DiagnosisProxy();
+		    proxy.setDiagnosisCode(req.getQuery() + i);
+		    proxy.setDiagnosisDescription(req.getQuery() + i + " Диагноз тестовый");
+		    
+		    ItemSuggestion item = new ItemSuggestion("ищем "+proxy.getDiagnosisDescription() + "...",
+			    proxy.getDiagnosisCode().toUpperCase());
+		    item.setEvent(proxy);
+		    suggestions.add(item);
+		}
+	    } else if (dicName.equals("services")) {
+		prefix = "SRV";
+		for (int i = 0; i < 10; i++) {
+		    suggestions
+			    .add(new ItemSuggestion(prefix + req.getQuery() + "..." + i, prefix + req.getQuery() + i));
+		}
+	    }
 			
-//			getServletContext(), req.getQuery(), req.getLimit()
-			String prefix = "";
-			if(dicName.equals("diagnosis")) {
-				prefix = "DIA";
-			}else if(dicName.equals("services")) {
-				prefix = "SRV";
-			}
-			
-			for (int i=0; i<10; i++) {
-				suggestions.add(new ItemSuggestion(prefix + req.getQuery() + "..."+i, prefix + req.getQuery()+i));	
-			}
 			
 		} catch (Exception e) {
 			throw org.psystems.dicom.browser.server.Util.throwPortalException("Suggestions error! ",e);

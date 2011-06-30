@@ -82,4 +82,10 @@ public class DicSuggestBox extends Composite {
 
 	}
 
+	public SuggestBox getBox() {
+	    return box;
+	}
+	
+	
+
 }
