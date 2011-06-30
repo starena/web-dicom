@@ -101,6 +101,7 @@ public class StudyManagePanel extends Composite implements
 	private ListBox studyModality;
 	
 	private HTML ooTemplatePanel = new HTML();
+	private DiagnosisPanel diagnosisDirrectPanel;
 	
 	public StudyManagePanel(StudyCard studyCardPanel, final StudyProxy proxy) {
 
@@ -659,71 +660,6 @@ public class StudyManagePanel extends Composite implements
 		addFormRow(rowCounter++, "Протокол", studyComments);
 		
 		
-		// BEGIN данные из направления
-		
-		if(proxy.getDirection()!=null) {
-			
-			DirectionProxy direction = proxy.getDirection();
-			
-		addFormRow(rowCounter++, "Направление №", new Label(direction.getDirectionId() + "("
-				 + direction.getId()+")"));
-		addFormRow(rowCounter++, "Направлен на аппарт", 
-				new Label(""+direction.getDevice().getManufacturerModelName() + 
-						"(" + direction.getDevice().getModality() + ")"));
-		addFormRow(rowCounter++, "Идент.случая", new Label(direction.getDirectionCode()));
-		addFormRow(rowCounter++, "Дата направления", new Label(direction.getDateDirection()));
-		addFormRow(rowCounter++, "Направивший врач", new Label(direction.getDoctorDirect().getEmployeeName()));
-		
-		StringBuffer dias = new StringBuffer();
-		for (DiagnosisProxy dia : direction.getDiagnosisDirect()) {
-			dias.append(dia.getDiagnosisType()+";"+dia.getDiagnosisSubType()+";"+
-					dia.getDiagnosisCode()+";"+dia.getDiagnosisDescription());
-		}
-		
-		addFormRow(rowCounter++, "Направленные диагнозы", new Label(dias.toString()));
-		
-		StringBuffer srvs = new StringBuffer();
-		for (ServiceProxy srv : direction.getServicesDirect()) {
-			srvs.append(srv.getServiceCode()+";"+srv.getServiceAlias()+";"+srv.getServiceDescription());
-		}
-		
-		addFormRow(rowCounter++, "Направленные услуги", new Label(srvs.toString()));
-		
-		addFormRow(rowCounter++, "Подтвержденные диагнозы", new Label("Подтвержденные диагнозы"));
-		addFormRow(rowCounter++, "Подтвержденные услуги", new Label("Подтвержденные услуги"));
-		addFormRow(rowCounter++, "Дата выполнения", new Label("Дата выполнения"));
-		}
-		
-		Button btn = new Button("Сохранить направление");
-		btn.addClickHandler(new ClickHandler() {
-		    
-		    
-		    
-		    @Override
-		    public void onClick(ClickEvent event) {
-			
-			proxy.getDirection().setDirectionCode("CODEтест");
-			// TODO Auto-generated method stub
-			Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
-
-			    @Override
-			    public void onFailure(Throwable caught) {
-				Dicom_browser.showErrorDlg(caught);
-				
-			    }
-
-			    @Override
-			    public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-				System.out.println("!!!! SAVE DIRECTION OK !!!!");
-			    }
-			});
-		    }
-		});
-		
-		addFormRow(rowCounter++, "Дата выполнения", btn);
-		
-		// END данные из направления
 	
 
 
@@ -770,6 +706,111 @@ public class StudyManagePanel extends Composite implements
 			}
 		});
 		addFormRow(rowCounter++, submitBtn);
+		
+		
+	// BEGIN данные из направления
+		
+		if(proxy.getDirection()!=null) {
+			
+			final DirectionProxy direction = proxy.getDirection();
+			
+		addFormRow(rowCounter++, "Направление №", new Label(direction.getDirectionId() + "("
+				 + direction.getId()+")"));
+		addFormRow(rowCounter++, "Направлен на аппарт", 
+				new Label(""+direction.getDevice().getManufacturerModelName() + 
+						"(" + direction.getDevice().getModality() + ")"));
+		
+		
+	    //
+	    final TextBox directionCode = new TextBox();
+	    directionCode.setText(direction.getDirectionCode());
+	    directionCode.addChangeHandler(new ChangeHandler() {
+
+		@Override
+		public void onChange(ChangeEvent event) {
+		    // TODO Auto-generated method stub
+		    direction.setDirectionCode(directionCode.getText());
+		}
+	    });
+	    addFormRow(rowCounter++, "Идент.случая", directionCode);
+
+	    //
+	    DateBox dateDirection = new DateBox();
+	    dateDirection.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
+	    
+	    dateDirection.addValueChangeHandler(new ValueChangeHandler<Date>() {
+
+		@Override
+		public void onValueChange(ValueChangeEvent<Date> event) {
+		    String d = Utils.dateFormatSql.format(event.getValue());
+		    direction.setDateDirection(d);
+		}
+	    });
+	    
+	    dateDirection.setValue(Utils.dateFormatSql.parse(direction.getDateDirection()));
+	    addFormRow(rowCounter++, "Дата направления", dateDirection);		
+		
+		//
+		addFormRow(rowCounter++, "Направивший врач", new Label(direction.getDoctorDirect().getEmployeeName()));
+
+		//
+		diagnosisDirrectPanel = new DiagnosisPanel();
+		diagnosisDirrectPanel.setDiagnosis(direction.getDiagnosisDirect());
+		addFormRow(rowCounter++, "Направленные диагнозы", diagnosisDirrectPanel);
+		
+		//
+		
+		StringBuffer srvs = new StringBuffer();
+		for (ServiceProxy srv : direction.getServicesDirect()) {
+			srvs.append(srv.getServiceCode()+" ("+srv.getServiceAlias()+") "+srv.getServiceDescription());
+			srvs.append("<br>");
+		}
+		
+		
+		
+		addFormRow(rowCounter++, "Направленные услуги", new HTML(srvs.toString()));
+		
+		addFormRow(rowCounter++, "Подтвержденные диагнозы", new Label("Подтвержденные диагнозы"));
+		addFormRow(rowCounter++, "Подтвержденные услуги", new Label("Подтвержденные услуги"));
+		addFormRow(rowCounter++, "Дата выполнения", new Label("Дата выполнения"));
+		}
+		
+		final Button btn = new Button("Сохранить направление");
+		btn.addClickHandler(new ClickHandler() {
+		    
+		    
+		    
+		    @Override
+		    public void onClick(ClickEvent event) {
+			
+//			proxy.getDirection().setDirectionCode("CODEтест111");
+			btn.setEnabled(false);
+			diagnosisDirrectPanel.getDiagnosis();
+			proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
+			
+			Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+
+			    @Override
+			    public void onFailure(Throwable caught) {
+				btn.setEnabled(true);
+				System.out.println("!!!! caught !!!! "+caught);
+				Dicom_browser.showErrorDlg(caught);
+				
+			    }
+
+			    @Override
+			    public void onSuccess(Void result) {
+				btn.setEnabled(true);
+			    }
+			});
+		    }
+		});
+		
+		addFormRow(rowCounter++, btn);
+		
+		
+		// END данные из направления
+	
 		
 
 		//
