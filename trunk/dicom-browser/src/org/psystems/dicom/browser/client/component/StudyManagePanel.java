@@ -239,6 +239,9 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	dicModality.put("US", "Узи");
 	dicModality.put("ES", "Эндоскопия");
 	dicModality.put("MG", "Маммография");
+	
+	
+	 addFormRow(rowCounter++, "StudyId", new Label(proxy.getStudyId()));
 
 	if (proxy.getManufacturerModelName() != null) {
 
