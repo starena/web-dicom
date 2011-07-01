@@ -31,6 +31,7 @@ public class DiagnosisPanel extends VerticalPanel {
     private VerticalPanel showDiagnosisPanel;
     private ArrayList<DiagnosisProxy> diagnosis;
     private DiagnosisProxy diagnosis4Add;
+    private Button addBtn;
 
     /**
      * @param application
@@ -41,7 +42,26 @@ public class DiagnosisPanel extends VerticalPanel {
 	showDiagnosisPanel = new VerticalPanel();
 	this.add(showDiagnosisPanel);
 
-	// панель добавления диагноза
+	final Label labelAdd = new Label("Добавить диагноз...");
+	labelAdd.addStyleName("LabelLink");
+	add(labelAdd);
+
+	labelAdd.addClickHandler(new ClickHandler() {
+
+	    @Override
+	    public void onClick(ClickEvent event) {
+		labelAdd.removeFromParent();
+		createToolPanel();
+	    }
+	});
+
+    }
+
+    /**
+     * панель добавления диагноза
+     */
+    private void createToolPanel() {
+	
 	HorizontalPanel addDiagnosisPanel = new HorizontalPanel();
 	this.add(addDiagnosisPanel);
 
@@ -66,19 +86,21 @@ public class DiagnosisPanel extends VerticalPanel {
 	addDiagnosisPanel.add(lbDiaSubType);
 
 	DicSuggestBox diaBox = new DicSuggestBox("diagnosis");
-	diaBox.getBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+	diaBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
 
 	    @Override
 	    public void onSelection(SelectionEvent<Suggestion> event) {
 		ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
 		diagnosis4Add = (DiagnosisProxy) item.getEvent();
+		addBtn.setEnabled(true);
 	    }
 	});
 
 	addDiagnosisPanel.add(diaBox);
 	// itemsPanel.add(new DicSuggestBox("services"));
 
-	Button addBtn = new Button("Добавить");
+	addBtn = new Button("Добавить");
+	addBtn.setEnabled(false);
 	addDiagnosisPanel.add(addBtn);
 	addBtn.addClickHandler(new ClickHandler() {
 
@@ -97,9 +119,9 @@ public class DiagnosisPanel extends VerticalPanel {
 		diagnosis.add(proxy);
 
 		refresh();
+		addBtn.setEnabled(false);
 	    }
 	});
-
     }
 
     public DiagnosisProxy[] getDiagnosis() {
@@ -134,14 +156,18 @@ public class DiagnosisPanel extends VerticalPanel {
 
 	public DiagnosisItem(DiagnosisProxy d) {
 	    super();
+	    setSpacing(2);
 	    this.dias = d;
 	    StringBuffer diaText = new StringBuffer();
 	    diaText.append(dias.getDiagnosisCode() + " (" + dias.getDiagnosisType() + ";" + dias.getDiagnosisSubType()
-		    + ") [" + dias.getDiagnosisDescription()+"]");
+		    + ") [" + dias.getDiagnosisDescription() + "]");
 	    add(new Label(diaText.toString()));
 
-	    Button btnDelete = new Button("Удалить");
-	    btnDelete.addClickHandler(new ClickHandler() {
+	    Label labelDel = new Label("Удалить");
+	    labelDel.addStyleName("LabelLink");
+	    add(labelDel);
+
+	    labelDel.addClickHandler(new ClickHandler() {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -154,8 +180,6 @@ public class DiagnosisPanel extends VerticalPanel {
 		    }
 		}
 	    });
-
-	    add(btnDelete);
 	}
 
     }

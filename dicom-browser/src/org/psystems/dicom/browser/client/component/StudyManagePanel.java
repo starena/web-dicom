@@ -10,10 +10,13 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
+import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
+import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
@@ -30,6 +33,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
@@ -41,6 +46,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -55,6 +61,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
@@ -681,9 +688,33 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	    addFormRow(rowCounter++, "Направление №", new Label(direction.getDirectionId() + "(" + direction.getId()
 		    + ")"));
-	    addFormRow(rowCounter++, "Направлен на аппарт", new Label(""
-		    + direction.getDevice().getManufacturerModelName() + "(" + direction.getDevice().getModality()
-		    + ")"));
+	    
+	    //
+	    final DicSuggestBox deviceDirrectedBox = new DicSuggestBox("devices");
+	    if (direction.getDevice() != null)
+		deviceDirrectedBox.getSuggestBox().setText(direction.getDevice().getManufacturerModelName());
+
+	    deviceDirrectedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+
+		@Override
+		public void onSelection(SelectionEvent<Suggestion> event) {
+		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+		    ManufacturerDeviceProxy dev = (ManufacturerDeviceProxy) item.getEvent();
+		    direction.setDevice(dev);
+		}
+	    });
+	    deviceDirrectedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+
+		@Override
+		public void onBlur(BlurEvent event) {
+		    if (direction.getDevice() != null)
+			deviceDirrectedBox.getSuggestBox().setText(direction.getDevice().getManufacturerModelName());
+		    else
+			deviceDirrectedBox.getSuggestBox().setText("");
+		}
+	    });
+	    
+	    addFormRow(rowCounter++, "Направлен на аппарт", deviceDirrectedBox);
 
 	    //
 	    final TextBox directionCode = new TextBox();
@@ -715,8 +746,32 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    addFormRow(rowCounter++, "Дата направления", dateDirection);
 
 	    //
-	    addFormRow(rowCounter++, "Направивший врач", new Label(direction.getDoctorDirect().getEmployeeName()));
+	    final DicSuggestBox doctorDirrectedBox = new DicSuggestBox("doctors");
+	    if (direction.getDoctorDirect() != null)
+		doctorDirrectedBox.getSuggestBox().setText(direction.getDoctorDirect().getEmployeeName());
 
+	    doctorDirrectedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+
+		@Override
+		public void onSelection(SelectionEvent<Suggestion> event) {
+		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+		    EmployeeProxy doctor = (EmployeeProxy) item.getEvent();
+		    direction.setDoctorDirect(doctor);
+		}
+	    });
+	    doctorDirrectedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+
+		@Override
+		public void onBlur(BlurEvent event) {
+		    if (direction.getDoctorDirect() != null)
+			doctorDirrectedBox.getSuggestBox().setText(direction.getDoctorDirect().getEmployeeName());
+		    else
+			doctorDirrectedBox.getSuggestBox().setText("");
+		}
+	    });
+	    addFormRow(rowCounter++, "Направивший врач", doctorDirrectedBox);
+	    
+	    
 	    //
 	    diagnosisDirrectPanel = new DiagnosisPanel();
 	    diagnosisDirrectPanel.setDiagnosis(direction.getDiagnosisDirect());
@@ -727,6 +782,35 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    servicesDirrectPanel.setServices(direction.getServicesDirect());
 	    addFormRow(rowCounter++, "Направленные услуги", servicesDirrectPanel);
 
+	    //
+	    final DicSuggestBox doctorPerformedBox = new DicSuggestBox("doctors");
+	    if (direction.getDoctorPerformed() != null)
+		doctorPerformedBox.getSuggestBox().setText(direction.getDoctorPerformed().getEmployeeName());
+
+	    doctorPerformedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+
+		@Override
+		public void onSelection(SelectionEvent<Suggestion> event) {
+		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+		    EmployeeProxy doctor = (EmployeeProxy) item.getEvent();
+		    direction.setDoctorPerformed(doctor);
+		}
+	    });
+	    
+	    doctorPerformedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+
+		@Override
+		public void onBlur(BlurEvent event) {
+		    if(direction.getDoctorPerformed()!=null)
+		    doctorPerformedBox.getSuggestBox().setText(direction.getDoctorPerformed().getEmployeeName());
+		    else 
+			 doctorPerformedBox.getSuggestBox().setText("");
+		}
+	    });
+	    
+	    addFormRow(rowCounter++, "Принимающий врач", doctorPerformedBox);
+	    
+	    
 	    //
 	    diagnosisPerformedPanel = new DiagnosisPanel();
 	    diagnosisPerformedPanel.setDiagnosis(direction.getDiagnosisPerformed());
