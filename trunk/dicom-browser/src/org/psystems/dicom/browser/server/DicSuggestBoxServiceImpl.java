@@ -61,6 +61,8 @@ import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
+import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
+import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.DicSuggestBoxService;
@@ -69,70 +71,91 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements
-		DicSuggestBoxService {
+public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements DicSuggestBoxService {
 
-	
-	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger
-			.getLogger(DicSuggestBoxServiceImpl.class.getName());
+    private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(DicSuggestBoxServiceImpl.class.getName());
 
-	public SuggestTransactedResponse getSuggestions(long transactionId,
-			String version, String dicName, SuggestOracle.Request req)
-			throws DefaultGWTRPCException {
-		SuggestTransactedResponse resp = new SuggestTransactedResponse();
-		resp.setTransactionId(transactionId);
+    public SuggestTransactedResponse getSuggestions(long transactionId, String version, String dicName,
+	    SuggestOracle.Request req) throws DefaultGWTRPCException {
+	SuggestTransactedResponse resp = new SuggestTransactedResponse();
+	resp.setTransactionId(transactionId);
 
-		// проверка версии клиента
-		org.psystems.dicom.browser.server.Util.checkClentVersion(version);
-		
-		// Create a list to hold our suggestions (pre-set the lengthto the limit
-		// specified by the request)
+	// проверка версии клиента
+	org.psystems.dicom.browser.server.Util.checkClentVersion(version);
 
-		
-		List<Suggestion> suggestions = new ArrayList<Suggestion>();
-		
+	// Create a list to hold our suggestions (pre-set the lengthto the limit
+	// specified by the request)
+
+	List<Suggestion> suggestions = new ArrayList<Suggestion>();
+
 	try {
 
 	    // getServletContext(), req.getQuery(), req.getLimit()
 	    if (dicName.equals("diagnosis")) {
-		
+
 		for (int i = 0; i < 10; i++) {
 		    DiagnosisProxy proxy = new DiagnosisProxy();
 		    proxy.setDiagnosisCode(req.getQuery() + i);
 		    proxy.setDiagnosisDescription(req.getQuery() + i + " Диагноз тестовый");
-		    
-		    ItemSuggestion item = new ItemSuggestion("ищем "+proxy.getDiagnosisDescription() + "...",
-			    proxy.getDiagnosisCode().toUpperCase());
+
+		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getDiagnosisDescription() + "...", proxy
+			    .getDiagnosisCode().toUpperCase());
 		    item.setEvent(proxy);
 		    suggestions.add(item);
 		}
 	    } else if (dicName.equals("services")) {
-		
+
 		for (int i = 0; i < 10; i++) {
 		    ServiceProxy proxy = new ServiceProxy();
 		    proxy.setServiceCode(req.getQuery() + i);
-		    proxy.setServiceAlias("alias"+i);
+		    proxy.setServiceAlias("alias" + i);
 		    proxy.setServiceDescription(req.getQuery() + i + " услуга тестовая");
 		    proxy.setServiceCount(1);
-		    
-		    ItemSuggestion item = new ItemSuggestion("ищем "+proxy.getServiceDescription() + "...",
-			    proxy.getServiceCode().toUpperCase());
+
+		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getServiceDescription() + "...", proxy
+			    .getServiceCode().toUpperCase());
+		    item.setEvent(proxy);
+		    suggestions.add(item);
+		}
+	    } else if (dicName.equals("doctors")) {
+
+		for (int i = 0; i < 10; i++) {
+		    EmployeeProxy proxy = new EmployeeProxy();
+		    proxy.setEmployeeName(req.getQuery().toUpperCase() + i);
+		    proxy.setEmployeeCode("CODE" + i);
+		    proxy.setEmployeeType(EmployeeProxy.TYPE_DOCTOR);
+
+		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getEmployeeName() + "...", proxy
+			    .getEmployeeName().toUpperCase());
+		    item.setEvent(proxy);
+		    suggestions.add(item);
+		}
+	    } else if (dicName.equals("devices")) {
+
+		for (int i = 0; i < 10; i++) {
+		    ManufacturerDeviceProxy proxy = new ManufacturerDeviceProxy();
+		    proxy.setManufacturerModelName(req.getQuery().toUpperCase() + i);
+		    proxy.setManufacturerModelDescription("Аппарат №" + i);
+		    proxy.setManufacturerModelTypeDescription("для медицинских исследований");
+		    proxy.setModality("CR");
+
+		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getManufacturerModelName() + "...", proxy
+			    .getManufacturerModelName().toUpperCase());
 		    item.setEvent(proxy);
 		    suggestions.add(item);
 		}
 	    }
-			
-			
-		} catch (Exception e) {
-			throw org.psystems.dicom.browser.server.Util.throwPortalException("Suggestions error! ",e);
-		}
 
-		// Now set the suggestions in the response
-		resp.setSuggestions(suggestions);
-
-		// Send the response back to the client
-		return resp;
+	} catch (Exception e) {
+	    throw org.psystems.dicom.browser.server.Util.throwPortalException("Suggestions error! ", e);
 	}
+
+	// Now set the suggestions in the response
+	resp.setSuggestions(suggestions);
+
+	// Send the response back to the client
+	return resp;
+    }
 
 }

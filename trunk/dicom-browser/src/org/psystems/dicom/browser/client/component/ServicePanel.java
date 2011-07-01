@@ -33,6 +33,7 @@ public class ServicePanel extends VerticalPanel {
     private VerticalPanel showServicePanel;
     private ArrayList<ServiceProxy> services;
     private ServiceProxy service4Add;
+    private Button addBtn;
 
     /**
      * @param application
@@ -43,31 +44,49 @@ public class ServicePanel extends VerticalPanel {
 	showServicePanel = new VerticalPanel();
 	this.add(showServicePanel);
 
-	// панель добавления услуги
+	final Label labelAdd = new Label("Добавить услугу...");
+	labelAdd.addStyleName("LabelLink");
+	add(labelAdd);
+
+	labelAdd.addClickHandler(new ClickHandler() {
+
+	    @Override
+	    public void onClick(ClickEvent event) {
+		labelAdd.removeFromParent();
+		createToolPanel();
+	    }
+	});
+
+    }
+
+    /**
+     * панель добавления услуги
+     */
+    private void createToolPanel() {
+
 	HorizontalPanel addServicePanel = new HorizontalPanel();
 	this.add(addServicePanel);
 
-	
-	
-
 	DicSuggestBox diaBox = new DicSuggestBox("services");
-	diaBox.getBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+	diaBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
 
 	    @Override
 	    public void onSelection(SelectionEvent<Suggestion> event) {
 		ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
 		service4Add = (ServiceProxy) item.getEvent();
+		addBtn.setEnabled(true);
 	    }
 	});
 
 	addServicePanel.add(diaBox);
-	
+
 	final TextBox serviceCount = new TextBox();
 	serviceCount.setText("1");
-	
+
 	addServicePanel.add(serviceCount);
 
-	Button addBtn = new Button("Добавить");
+	addBtn = new Button("Добавить");
+	addBtn.setEnabled(false);
 	addServicePanel.add(addBtn);
 	addBtn.addClickHandler(new ClickHandler() {
 
@@ -79,7 +98,7 @@ public class ServicePanel extends VerticalPanel {
 
 		ServiceProxy proxy = new ServiceProxy();
 		proxy.setServiceCount(Integer.valueOf(serviceCount.getText()));
-		
+
 		proxy.setServiceCode(service4Add.getServiceCode());
 		proxy.setServiceDescription(service4Add.getServiceDescription());
 		proxy.setServiceAlias(service4Add.getServiceAlias());
@@ -87,9 +106,9 @@ public class ServicePanel extends VerticalPanel {
 		services.add(proxy);
 
 		refresh();
+		addBtn.setEnabled(false);
 	    }
 	});
-
     }
 
     public ServiceProxy[] getServices() {
@@ -124,14 +143,18 @@ public class ServicePanel extends VerticalPanel {
 
 	public ServiceItem(ServiceProxy d) {
 	    super();
+	    setSpacing(2);
 	    this.srvs = d;
 	    StringBuffer diaText = new StringBuffer();
-	    diaText.append(srvs.getServiceCode()+ " (" + srvs.getServiceAlias() + " " + srvs.getServiceDescription()
-		    + ") [" + srvs.getServiceCount()+"]");
+	    diaText.append(srvs.getServiceCode() + " (" + srvs.getServiceAlias() + " " + srvs.getServiceDescription()
+		    + ") [" + srvs.getServiceCount() + "]");
 	    add(new Label(diaText.toString()));
 
-	    Button btnDelete = new Button("Удалить");
-	    btnDelete.addClickHandler(new ClickHandler() {
+	    Label labelDel = new Label("Удалить");
+	    labelDel.addStyleName("LabelLink");
+	    add(labelDel);
+
+	    labelDel.addClickHandler(new ClickHandler() {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -145,7 +168,6 @@ public class ServicePanel extends VerticalPanel {
 		}
 	    });
 
-	    add(btnDelete);
 	}
 
     }
