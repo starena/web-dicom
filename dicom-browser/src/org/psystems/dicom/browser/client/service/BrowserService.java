@@ -101,6 +101,15 @@ public interface BrowserService extends RemoteService {
 
     StudyProxy getStudyByID(long transactionId, String version, Long id) throws DefaultGWTRPCException;
 
+    /**
+     * Получение списка исследований по внутреннему ID-направления
+     * 
+     * @param id
+     * @return
+     * @throws DefaultGWTRPCException
+     */
+    StudyProxy[] getStudiesByDirectionID(Long id) throws DefaultGWTRPCException;
+
     Session getSessionObject() throws DefaultGWTRPCException;
 
     ArrayList<OOTemplateProxy> getOOTemplates(String modality) throws DefaultGWTRPCException;
