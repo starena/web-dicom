@@ -67,6 +67,8 @@ import com.google.gwt.user.datepicker.client.DateBox;
 /**
  * @author dima_d
  * 
+ * Панель ввода-изменения исследования
+ * 
  */
 public class StudyManagePanel extends Composite implements ValueChangeHandler<String> {
 
@@ -693,6 +695,19 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		    + ")"));
 	    
 	    //
+	    final TextBox directionLoction = new TextBox();
+	    directionLoction.setText(direction.getDirectionLocation());
+	    directionLoction.addChangeHandler(new ChangeHandler() {
+
+		@Override
+		public void onChange(ChangeEvent event) {
+		    // TODO Auto-generated method stub
+		    direction.setDirectionLocation(directionLoction.getText());
+		}
+	    });
+	    addFormRow(rowCounter++, "Размещение", directionLoction);
+	    
+	    //
 	    final DicSuggestBox deviceDirrectedBox = new DicSuggestBox("devices");
 	    if (direction.getDevice() != null)
 		deviceDirrectedBox.getSuggestBox().setText(direction.getDevice().getManufacturerModelName());
@@ -840,40 +855,46 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    if (direction.getDatePerformed() != null)
 		datePerformed.setValue(Utils.dateFormatSql.parse(direction.getDatePerformed()));
 	    addFormRow(rowCounter++, "Дата выполнения", datePerformed);
-	}
-
-	final Button btn = new Button("Сохранить направление");
-	btn.addClickHandler(new ClickHandler() {
-
-	    @Override
-	    public void onClick(ClickEvent event) {
-
-		// proxy.getDirection().setDirectionCode("CODEтест111");
-		btn.setEnabled(false);
-		// diagnosisDirrectPanel.getDiagnosis();
-		proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
-		proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
-		proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
-		proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
-
-		Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+	    
+	    //
+	    addFormRow(rowCounter++, "Планируемая дата", new Label(direction.getDateTimePlanned()));
+	    
+	    //
+	    final Button btn = new Button("Сохранить направление");
+		btn.addClickHandler(new ClickHandler() {
 
 		    @Override
-		    public void onFailure(Throwable caught) {
-			btn.setEnabled(true);
-			Dicom_browser.showErrorDlg(caught);
+		    public void onClick(ClickEvent event) {
 
-		    }
+			// proxy.getDirection().setDirectionCode("CODEтест111");
+			btn.setEnabled(false);
+			// diagnosisDirrectPanel.getDiagnosis();
+			proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
+			proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
+			proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
+			proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
 
-		    @Override
-		    public void onSuccess(Void result) {
-			btn.setEnabled(true);
+			Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+
+			    @Override
+			    public void onFailure(Throwable caught) {
+				btn.setEnabled(true);
+				Dicom_browser.showErrorDlg(caught);
+
+			    }
+
+			    @Override
+			    public void onSuccess(Void result) {
+				btn.setEnabled(true);
+			    }
+			});
 		    }
 		});
-	    }
-	});
 
-	addFormRow(rowCounter++, btn);
+		addFormRow(rowCounter++, btn);
+	}
+
+	
 
 	// END данные из направления
 
@@ -1280,7 +1301,6 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      */
     void initTemplates(String modality) {
 
-	System.out.println("!!! modality=" + modality);
 	Dicom_browser.browserService.getOOTemplates(modality, new AsyncCallback<ArrayList<OOTemplateProxy>>() {
 
 	    @Override

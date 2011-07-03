@@ -1,22 +1,19 @@
 package org.psystems.dicom.browser.client.component;
 
-import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
-import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Карточка пациента
+ * Направление
  * 
  * @author dima_d
  * 
@@ -49,66 +46,25 @@ public class DirectionCard extends Composite {
 
 	    @Override
 	    public void onClick(ClickEvent event) {
-		showForm();
-	    }
-	});
+		// showForm();
 
-	initWidget(mainPanel);
-    }
-
-    private void showForm() {
-	FlexTable formTable = new FlexTable();
-
-	int row = 0;
-
-	formTable.setWidget(row++, 0, makeItemLabel("Диагнозы:"));
-
-	for (DiagnosisProxy diagnosisProxy : drnProxy.getDiagnosisDirect()) {
-	    formTable.setWidget(row++, 0, makeItemLabel(diagnosisProxy.getDiagnosisCode() + " - "
-		    + diagnosisProxy.getDiagnosisDescription()));
-	}
-
-	formTable.setWidget(row++, 0, makeItemLabel("Услуги:"));
-
-	for (ServiceProxy serviceProxy : drnProxy.getServicesDirect()) {
-	    formTable.setWidget(row++, 0, makeItemLabel(serviceProxy.getServiceCode() + " - "
-		    + serviceProxy.getServiceDescription()));
-	}
-
-	formTable.setWidget(row++, 0, makeItemLabel("Прочее:"));
-
-	mainPanel.add(formTable);
-
-	mainPanel.add(new Label("" + drnProxy));
-
-	PatientProxy pat = drnProxy.getPatient();
-	
-	
-	Label labelPatient = new Label("!!!"+pat.getPatientName() + " (" + pat.getPatientSex() + ") "
-		+ pat.getPatientBirthDate());
-	labelPatient.setStyleName("DicomItem");
-
-	mainPanel.add(labelPatient);
-
-	labelPatient.addClickHandler(new ClickHandler() {
-
-	    @Override
-	    public void onClick(ClickEvent event) {
+		Label loading = new Label("Получение данных...");
+		mainPanel.add(loading);
 		if (studyManagePanel == null || !studyManagePanel.isAttached()) {
 
 		    StudyProxy proxy = new StudyProxy();
 		    PatientProxy pat = drnProxy.getPatient();
-		    
+
 		    proxy.setPatientId("" + pat.getPatientId());
 		    proxy.setPatientName(pat.getPatientName());
 		    proxy.setPatientSex(pat.getPatientSex());
 		    // proxy.setPatientBirthDate(ORMUtil.userDateStringToSQLDateString(patientProxy.getPatientBirthDate()));
 		    proxy.setPatientBirthDate(pat.getPatientBirthDate());
-		    
+
 		    proxy.setStudyId(drnProxy.getDirectionId());
 
 		    proxy.setDirection(drnProxy);
-		    
+
 		    studyManagePanel = new StudyManagePanel(null, proxy);
 		    mainPanel.add(studyManagePanel);
 
@@ -116,8 +72,11 @@ public class DirectionCard extends Composite {
 		    studyManagePanel.removeFromParent();
 		    studyManagePanel = null;
 		}
+		loading.removeFromParent();
 	    }
 	});
+
+	initWidget(mainPanel);
     }
 
     /**
