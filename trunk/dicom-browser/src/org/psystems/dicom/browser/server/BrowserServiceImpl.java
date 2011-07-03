@@ -611,16 +611,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    // траффика
 	    studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection, studyProxy.getId()));
 
-	    Calendar calendar = Calendar.getInstance();
-
-	    int tzoffset = calendar.getTimeZone().getOffset(calendar.getTimeInMillis());
-
-	    long time = calendar.getTimeInMillis();
-	    time = time - (time % (60 * 60 * 24 * 1000)) - tzoffset;
-	    calendar.setTimeInMillis(time);
-
-	    // updateDayStatInc(sqlDate, "CLIENT_CONNECTIONS", (long) 1);
-
 	    return studyProxy;
 
 	} catch (Throwable e) {
@@ -635,6 +625,48 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    } catch (Throwable e) {
 		logger.error(e);
 		throw Util.throwPortalException("Find study error! ", e);
+	    }
+	}
+
+    }
+    
+    
+
+    @Override
+    public StudyProxy[] getStudiesByDirectionID(Long id) throws DefaultGWTRPCException {
+	PreparedStatement psSelect = null;
+
+	try {
+
+	    Connection connection = Util.getConnection("main", getServletContext());
+	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+	    Study[] studies = pm.getStudiesByDirectionID(id);
+	    ArrayList<StudyProxy> proxies = new ArrayList<StudyProxy>();
+	    if (studies == null)
+		return proxies.toArray(new StudyProxy[0]);
+
+	    for (Study study : studies) {
+		StudyProxy studyProxy = ORMHelpers.getStudyProxy(study);
+		// Сделана раздельная загрузка исследования и файлов для
+		// экономии траффика
+		studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection, studyProxy.getId()));
+		proxies.add(studyProxy);
+	    }
+
+	    return proxies.toArray(new StudyProxy[studies.length]);
+
+	} catch (Throwable e) {
+	    logger.error(e);
+	    throw Util.throwPortalException("get study error! ", e);
+
+	} finally {
+
+	    try {
+		if (psSelect != null)
+		    psSelect.close();
+	    } catch (Throwable e) {
+		logger.error(e);
+		throw Util.throwPortalException("get study error! ", e);
 	    }
 	}
 
