@@ -167,6 +167,7 @@ public class Test {
 		Service service1 = new Service();
 		service1.setServiceCode("code1");
 		service1.setServiceDescription("Описание1");
+		service1.setServiceCount(10);
 
 		Service service2 = new Service();
 		service2.setServiceCode("code2");
@@ -180,7 +181,7 @@ public class Test {
 
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
-		device.setManufacturerModelType("CR");
+		device.setModality("CR");
 		device.setManufacturerModelName("Электрон");
 		query.setDevice(device);
 
