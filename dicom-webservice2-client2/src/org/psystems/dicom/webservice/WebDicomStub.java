@@ -11168,6 +11168,51 @@
                             
 
                         /**
+                        * field for ServiceCount
+                        */
+
+                        
+                                    protected int localServiceCount ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localServiceCountTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return int
+                           */
+                           public  int getServiceCount(){
+                               return localServiceCount;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ServiceCount
+                               */
+                               public void setServiceCount(int param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       
+                                               if (param==java.lang.Integer.MIN_VALUE) {
+                                           localServiceCountTracker = false;
+                                              
+                                       } else {
+                                          localServiceCountTracker = true;
+                                       }
+                                   
+                                            this.localServiceCount=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for ServiceDescription
                         */
 
@@ -11373,6 +11418,35 @@
                                                    xmlWriter.writeCharacters(localServiceCode);
                                             
                                           }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localServiceCountTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"serviceCount", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"serviceCount");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("serviceCount");
+                                    }
+                                
+                                               if (localServiceCount==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("serviceCount cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localServiceCount));
+                                               }
                                     
                                    xmlWriter.writeEndElement();
                              } if (localServiceDescriptionTracker){
@@ -11583,7 +11657,13 @@
                                  
                                          elementList.add(localServiceCode==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localServiceCode));
-                                    } if (localServiceDescriptionTracker){
+                                    } if (localServiceCountTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "serviceCount"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localServiceCount));
+                            } if (localServiceDescriptionTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "serviceDescription"));
                                  
@@ -11717,6 +11797,26 @@
                                 
                                     else {
                                         
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","serviceCount").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setServiceCount(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setServiceCount(java.lang.Integer.MIN_VALUE);
+                                           
                                     }
                                 
                                     
@@ -12365,50 +12465,6 @@
                             
 
                         /**
-                        * field for ManufacturerModelType
-                        */
-
-                        
-                                    protected java.lang.String localManufacturerModelType ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localManufacturerModelTypeTracker = false ;
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return java.lang.String
-                           */
-                           public  java.lang.String getManufacturerModelType(){
-                               return localManufacturerModelType;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param ManufacturerModelType
-                               */
-                               public void setManufacturerModelType(java.lang.String param){
-                            
-                                       if (param != null){
-                                          //update the setting tracker
-                                          localManufacturerModelTypeTracker = true;
-                                       } else {
-                                          localManufacturerModelTypeTracker = true;
-                                              
-                                       }
-                                   
-                                            this.localManufacturerModelType=param;
-                                    
-
-                               }
-                            
-
-                        /**
                         * field for ManufacturerModelTypeDescription
                         */
 
@@ -12447,6 +12503,50 @@
                                        }
                                    
                                             this.localManufacturerModelTypeDescription=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for Modality
+                        */
+
+                        
+                                    protected java.lang.String localModality ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localModalityTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getModality(){
+                               return localModality;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Modality
+                               */
+                               public void setModality(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localModalityTracker = true;
+                                       } else {
+                                          localModalityTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localModality=param;
                                     
 
                                }
@@ -12616,40 +12716,6 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localManufacturerModelTypeTracker){
-                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
-
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
-
-                                            xmlWriter.writeStartElement(prefix,"manufacturerModelType", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
-
-                                        } else {
-                                            xmlWriter.writeStartElement(namespace,"manufacturerModelType");
-                                        }
-
-                                    } else {
-                                        xmlWriter.writeStartElement("manufacturerModelType");
-                                    }
-                                
-
-                                          if (localManufacturerModelType==null){
-                                              // write the nil attribute
-                                              
-                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                  
-                                          }else{
-
-                                        
-                                                   xmlWriter.writeCharacters(localManufacturerModelType);
-                                            
-                                          }
-                                    
-                                   xmlWriter.writeEndElement();
                              } if (localManufacturerModelTypeDescriptionTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
@@ -12680,6 +12746,40 @@
 
                                         
                                                    xmlWriter.writeCharacters(localManufacturerModelTypeDescription);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localModalityTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"modality", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"modality");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("modality");
+                                    }
+                                
+
+                                          if (localModality==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localModality);
                                             
                                           }
                                     
@@ -12858,18 +12958,18 @@
                                  
                                          elementList.add(localManufacturerModelName==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localManufacturerModelName));
-                                    } if (localManufacturerModelTypeTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
-                                                                      "manufacturerModelType"));
-                                 
-                                         elementList.add(localManufacturerModelType==null?null:
-                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localManufacturerModelType));
                                     } if (localManufacturerModelTypeDescriptionTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "manufacturerModelTypeDescription"));
                                  
                                          elementList.add(localManufacturerModelTypeDescription==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localManufacturerModelTypeDescription));
+                                    } if (localModalityTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "modality"));
+                                 
+                                         elementList.add(localModality==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localModality));
                                     }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
@@ -13003,14 +13103,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","manufacturerModelType").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","manufacturerModelTypeDescription").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setManufacturerModelType(
+                                              object.setManufacturerModelTypeDescription(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -13030,14 +13130,14 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","manufacturerModelTypeDescription").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","modality").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
                                     java.lang.String content = reader.getElementText();
                                     
-                                              object.setManufacturerModelTypeDescription(
+                                              object.setModality(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
@@ -19134,45 +19234,44 @@
                              
 
                         /**
-                        * field for DirectionID
+                        * field for Direction
                         */
 
                         
-                                    protected long localDirectionID ;
+                                    protected Direction localDirection ;
                                 
                            /*  This tracker boolean wil be used to detect whether the user called the set method
                           *   for this attribute. It will be used to determine whether to include this field
                            *   in the serialized XML
                            */
-                           protected boolean localDirectionIDTracker = false ;
+                           protected boolean localDirectionTracker = false ;
                            
 
                            /**
                            * Auto generated getter method
-                           * @return long
+                           * @return Direction
                            */
-                           public  long getDirectionID(){
-                               return localDirectionID;
+                           public  Direction getDirection(){
+                               return localDirection;
                            }
 
                            
                         
                             /**
                                * Auto generated setter method
-                               * @param param DirectionID
+                               * @param param Direction
                                */
-                               public void setDirectionID(long param){
+                               public void setDirection(Direction param){
                             
-                                       // setting primitive attribute tracker to true
-                                       
-                                               if (param==java.lang.Long.MIN_VALUE) {
-                                           localDirectionIDTracker = true;
-                                              
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localDirectionTracker = true;
                                        } else {
-                                          localDirectionIDTracker = true;
+                                          localDirectionTracker = true;
+                                              
                                        }
                                    
-                                            this.localDirectionID=param;
+                                            this.localDirection=param;
                                     
 
                                }
@@ -20328,36 +20427,38 @@
                                     
                              }
 
-                        } if (localDirectionIDTracker){
-                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
-                                    if (! namespace.equals("")) {
-                                        prefix = xmlWriter.getPrefix(namespace);
+                        } if (localDirectionTracker){
+                                    if (localDirection==null){
 
-                                        if (prefix == null) {
-                                            prefix = generatePrefix(namespace);
+                                            java.lang.String namespace2 = "http://entity.orm.commons.dicom.psystems.org/xsd";
 
-                                            xmlWriter.writeStartElement(prefix,"directionID", namespace);
-                                            xmlWriter.writeNamespace(prefix, namespace);
-                                            xmlWriter.setPrefix(prefix, namespace);
+                                        if (! namespace2.equals("")) {
+                                            java.lang.String prefix2 = xmlWriter.getPrefix(namespace2);
+
+                                            if (prefix2 == null) {
+                                                prefix2 = generatePrefix(namespace2);
+
+                                                xmlWriter.writeStartElement(prefix2,"direction", namespace2);
+                                                xmlWriter.writeNamespace(prefix2, namespace2);
+                                                xmlWriter.setPrefix(prefix2, namespace2);
+
+                                            } else {
+                                                xmlWriter.writeStartElement(namespace2,"direction");
+                                            }
 
                                         } else {
-                                            xmlWriter.writeStartElement(namespace,"directionID");
+                                            xmlWriter.writeStartElement("direction");
                                         }
 
-                                    } else {
-                                        xmlWriter.writeStartElement("directionID");
+
+                                       // write the nil attribute
+                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                      xmlWriter.writeEndElement();
+                                    }else{
+                                     localDirection.serialize(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","direction"),
+                                        factory,xmlWriter);
                                     }
-                                
-                                               if (localDirectionID==java.lang.Long.MIN_VALUE) {
-                                           
-                                                         writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                      
-                                               } else {
-                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDirectionID));
-                                               }
-                                    
-                                   xmlWriter.writeEndElement();
-                             } if (localIdTracker){
+                                } if (localIdTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
                                         prefix = xmlWriter.getPrefix(namespace);
@@ -21282,13 +21383,14 @@
                                 
                             }
 
-                        } if (localDirectionIDTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
-                                                                      "directionID"));
-                                 
-                                elementList.add(
-                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDirectionID));
-                            } if (localIdTracker){
+                        } if (localDirectionTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "direction"));
+                            
+                            
+                                    elementList.add(localDirection==null?null:
+                                    localDirection);
+                                } if (localIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "id"));
                                  
@@ -21561,32 +21663,25 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","directionID").equals(reader.getName())){
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","direction").equals(reader.getName())){
                                 
-                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
-                                    
-                                    java.lang.String content = reader.getElementText();
-                                    
-                                              object.setDirectionID(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToLong(content));
+                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                          object.setDirection(null);
+                                          reader.next();
                                             
-                                       } else {
-                                           
-                                           
-                                                   object.setDirectionID(java.lang.Long.MIN_VALUE);
-                                               
-                                           reader.getElementText(); // throw away text nodes if any.
-                                       }
-                                      
-                                        reader.next();
+                                            reader.next();
+                                          
+                                      }else{
                                     
+                                                object.setDirection(Direction.Factory.parse(reader));
+                                              
+                                        reader.next();
+                                    }
                               }  // End of if for expected property start element
                                 
                                     else {
                                         
-                                               object.setDirectionID(java.lang.Long.MIN_VALUE);
-                                           
                                     }
                                 
                                     
