@@ -45,12 +45,17 @@ public class DirectionCard extends Composite {
     private VerticalPanel mainPanel;
     protected StudyManagePanel studyManagePanel;
     private HorizontalPanel allStuduesPanel;
+    private FlexTable ftEdit;
 
     // private StudyManagePanel studyManagePanel;
 
     public DirectionCard(DirectionProxy drnProxy) {
 	this.drnProxy = drnProxy;
 	mainPanel = new VerticalPanel();
+	
+	HorizontalPanel hp = new HorizontalPanel();
+	mainPanel.add(hp);
+	
 	String sex = "М";
 	if ("F".equals(drnProxy.getPatient().getPatientSex())) {
 	    sex = "Ж";
@@ -62,7 +67,7 @@ public class DirectionCard extends Composite {
 		+ drnProxy.getDoctorDirect().getEmployeeName() + " [" + drnProxy.getId() + "]");
 	labelPatient.setStyleName("DicomItem");
 
-	mainPanel.add(labelPatient);
+	hp.add(labelPatient);
 
 	labelPatient.addClickHandler(new ClickHandler() {
 
@@ -75,8 +80,8 @@ public class DirectionCard extends Composite {
 
 	});
 
-	Label lblEdit = new Label("[редактировать]");
-	mainPanel.add(lblEdit);
+	Label lblEdit = new Label(" {редактировать}");
+	hp.add(lblEdit);
 	lblEdit.setStyleName("DicomItem");
 	lblEdit.addClickHandler(new ClickHandler() {
 
@@ -94,7 +99,13 @@ public class DirectionCard extends Composite {
      */
     private void showDirectionForEdit() {
 
-	FlexTable ftEdit = new FlexTable();
+	if (ftEdit != null && ftEdit.isAttached()) {
+	    ftEdit.removeFromParent();
+	    ftEdit = null;
+	    return;
+	}
+	
+	ftEdit = new FlexTable();
 	mainPanel.add(ftEdit);
 
 	int row = 0;
