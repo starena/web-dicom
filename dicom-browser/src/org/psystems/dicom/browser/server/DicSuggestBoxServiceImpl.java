@@ -63,6 +63,7 @@ import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
 import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
+import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.DicSuggestBoxService;
@@ -142,6 +143,21 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 
 		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getManufacturerModelName() + "...", proxy
 			    .getManufacturerModelName().toUpperCase());
+		    item.setEvent(proxy);
+		    suggestions.add(item);
+		}
+	    } else if (dicName.equals("patients")) {
+
+		for (int i = 0; i < 10; i++) {
+		    PatientProxy proxy = new PatientProxy();
+		    proxy.setPatientName(req.getQuery().toUpperCase() + i);
+		    proxy.setPatientBirthDate("1974-03-01");
+		    proxy.setPatientSex("M");
+		    proxy.setPatientShortName("ДЕРДВ74");
+
+		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getPatientName() + " ("
+			    + proxy.getPatientSex() + ")" + proxy.getPatientBirthDate() + "...", proxy.getPatientName()
+			    .toUpperCase());
 		    item.setEvent(proxy);
 		    suggestions.add(item);
 		}

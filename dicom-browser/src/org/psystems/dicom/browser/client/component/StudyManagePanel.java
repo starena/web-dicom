@@ -13,7 +13,6 @@ import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
 import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
@@ -21,7 +20,6 @@ import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
-import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
@@ -46,7 +44,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -67,7 +64,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 /**
  * @author dima_d
  * 
- * Панель ввода-изменения исследования
+ *         Панель ввода-изменения исследования
  * 
  */
 public class StudyManagePanel extends Composite implements ValueChangeHandler<String> {
@@ -76,36 +73,36 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private HTML submitResult;
     private Button submitBtn;
     private TextBox patientName;
-    private DateBox birstdayDox;
+    private DateBox patientBirstdayDox;
     private DateBox studyDateBox;
     private FileUpload fileUpload;
 
     private FlexTable formTable;
     private VerticalPanel formDataPanel;
-    private Hidden patientBirthDateHidden;
-    private Hidden studyDateHidden;
+    // private Hidden patientBirthDateHidden;
+    // private Hidden studyDateHidden;
     private TextBox medicalAlerts;
     private TextBox studyDescription;
     private TextArea studyComments;
     // private TextBox studyOperator;
     // private TextBox studyDoctror2;
     private DateBox studyViewProtocolDateBox;
-    private Hidden studyViewProtocolDateHidden;
+    // private Hidden studyViewProtocolDateHidden;
     private ListBox patientNameCheck;
     protected HashMap<String, PatientProxy> itemProxies = new HashMap<String, PatientProxy>();
-    private ListBox lbSex;
+    private ListBox lbPatientSex;
     private StudyProxy proxy;
     // private HTML verifyHTML;
     private ListBox studyDoctror;
     private ListBox studyOperator;
-    private int rowCounter;
-    private Hidden studyInstanceUID;
+    private int rowCounter; // TODO Убрать глобальность!
+    // private Hidden studyInstanceUID;
     public final static String medicalAlertsTitle = "норма";
 
     private int timeClose = 5;
     private String msg;
     private TransactionTimer timer = null;
-    private ListBox studyManufacturerModelName;
+    // private ListBox studyManufacturerModelName;
     private ListBox studyModality;
 
     private HTML ooTemplatePanel = new HTML();
@@ -113,97 +110,31 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private ServicePanel servicesDirrectPanel;
     private DiagnosisPanel diagnosisPerformedPanel;
     private ServicePanel servicesPerformedPanel;
+    private DicSuggestBox patientNameBox;
+    private Label labelModality;
 
-    public StudyManagePanel(StudyCard studyCardPanel, final StudyProxy proxy) {
+    // словари TODO Убрать! брать данные из индекса
+    static TreeMap<String, String> dicModel = new TreeMap<String, String>();
+    static HashMap<String, String> dicModality = new HashMap<String, String>();
+    static HashMap<String, String> dicDoctors = new HashMap<String, String>();
+    static {
 
-	this.studyCardPanel = studyCardPanel;
-	this.proxy = proxy;
+	dicDoctors.put("Выберите врача...", "");
+	dicDoctors.put("Петрова  Н.Н.", "Петрова  Н.Н.");
+	dicDoctors.put("Девяткова И.А.", "Девяткова И.А.");
+	dicDoctors.put("Солоница В.Д.", "Солоница В.Д.");
+	dicDoctors.put("Корж С.С.", "Корж С.С.");
+	dicDoctors.put("Кузнецова Е.А.", "Кузнецова Е.А.");
+	dicDoctors.put("Лызлова И.Е", "Лызлова И.Е");
+	dicDoctors.put("Шешеня Т.В.", "Шешеня Т.В.");
+	dicDoctors.put("Тимошенко С.А.", "Тимошенко С.А.");
+	dicDoctors.put("Батрак С.И.", "Батрак С.И.");
+	dicDoctors.put("Леткина З.Ю.", "Леткина З.Ю.");
+	dicDoctors.put("Перлова Е.В.", "Перлова Е.В.");
+	dicDoctors.put("Сотиболдиев А.И.", "Сотиболдиев А.И.");
+	dicDoctors.put("Сосновских Э.А.", "Сосновских Э.А.");
+	dicDoctors.put("Зубкова Т.М.", "Зубкова Т.М.");
 
-	// История
-	History.addValueChangeHandler(this);
-	// History.fireCurrentHistoryState();
-
-	DecoratorPanel mainPanel = new DecoratorPanel();
-
-	final FormPanel formPanel = new FormPanel();
-	formPanel.setAction("newstudy/upload");
-	formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
-	formPanel.setMethod(FormPanel.METHOD_POST);
-	mainPanel.setWidget(formPanel);
-
-	formPanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
-
-	    @Override
-	    public void onSubmitComplete(SubmitCompleteEvent event) {
-
-		// System.out.println("!!! onSubmitComplete [" +
-		// event.getResults()+"]");
-
-		// TODO Сделать через анализ статуса ответа (200 - ОК)
-		if (!event.getResults().matches(".+___success___.+")) {
-		    submitError(event);
-		} else {
-		    submitSuccess();
-		}
-
-	    }
-
-	});
-
-	// formPanel.addSubmitHandler(new SubmitHandler() {
-	//
-	// @Override
-	// public void onSubmit(SubmitEvent event) {
-	// // TODO Auto-generated method stub
-	// // event.cancel();
-	// dataVerifyed(false);
-	// // startcheckindStudyModify();
-	// verifyHTML.setHTML("Отправка данных...");
-	// }
-	// });
-
-	formTable = new FlexTable();
-	// TODO Убрать в css
-	DOM.setStyleAttribute(formPanel.getElement(), "background", "#E9EDF5");
-
-	HorizontalPanel hpMain = new HorizontalPanel();
-	hpMain.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-	hpMain.setVerticalAlignment(HorizontalPanel.ALIGN_TOP);
-
-	formDataPanel = new VerticalPanel();
-
-	formPanel.add(hpMain);
-	hpMain.add(formDataPanel);
-	formDataPanel.add(formTable);
-
-	//
-	studyInstanceUID = new Hidden();
-	studyInstanceUID.setName("0020000D");
-	studyInstanceUID.setValue(proxy.getStudyInstanceUID());
-	addFormHidden(studyInstanceUID);
-
-	//
-	Hidden studySeriesUID = new Hidden();
-	studySeriesUID.setName("0020000E");
-	studySeriesUID.setValue(proxy.getStudyInstanceUID() + "." + new Date().getTime());
-	addFormHidden(studySeriesUID);
-
-	//
-	Hidden studyId = new Hidden();
-	studyId.setName("00200010");
-	studyId.setValue(proxy.getStudyId());
-	addFormHidden(studyId);
-
-	//
-	Hidden patientId = new Hidden();
-	patientId.setName("00100021");
-	patientId.setValue(proxy.getPatientId());
-	addFormHidden(patientId);
-
-	rowCounter = 0;
-
-	// словари
-	TreeMap<String, String> dicModel = new TreeMap<String, String>();
 	dicModel.put("LORAD AFFINITY", "Маммограф (LORAD AFFINITY)");
 	dicModel.put("CLINOMAT", "Рентген (CLINOMAT)");
 	dicModel.put("РДК 50/6", "Рентген (РДК 50/6)");
@@ -230,185 +161,307 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	dicModel.put("SSD-3500", "SSD-3500");
 	dicModel.put("Спирометр-Spirovit SP-1", "Спирометр-Spirovit SP-1");
 	dicModel.put("Спиро-Спектр 2", "Спиро-Спектр 2");
-
 	dicModel.put("Aloka alfa", "Aloka alfa 6 каб.527 ДП");
 	dicModel.put("Aloka 3500", "Aloka 3500 ВП 303 каб.");
-
-	HashMap<String, String> dicModality = new HashMap<String, String>();
 	dicModality.put("OT", "Прочее");
 	dicModality.put("CR", "Флюорография");
 	dicModality.put("DF", "Рентген");
 	dicModality.put("US", "Узи");
 	dicModality.put("ES", "Эндоскопия");
 	dicModality.put("MG", "Маммография");
-	
-	
-	 addFormRow(rowCounter++, "StudyId", new Label(proxy.getStudyId()));
+    }
 
-	// / Аппарат
+    /**
+     * Установка и инициализация скрытых полей формы Нужно для upload-а картинок
+     * и PDF-ок
+     */
+    private void setHiddenFields() {
 
-	if (proxy.getDirection() == null) {
+	Hidden studyInstanceUID = new Hidden();
+	studyInstanceUID.setName("0020000D");
+	studyInstanceUID.setValue(proxy.getStudyInstanceUID());
+	formDataPanel.add(studyInstanceUID);
 
-	    if (proxy.getManufacturerModelName() != null) {
+	Hidden studySeriesUID = new Hidden();
+	studySeriesUID.setName("0020000E");
+	studySeriesUID.setValue(proxy.getStudyInstanceUID() + "." + new Date().getTime());
+	formDataPanel.add(studySeriesUID);
 
-		String model = proxy.getManufacturerModelName();
-		if (dicModel.get(proxy.getManufacturerModelName()) != null) {
-		    model = dicModel.get(proxy.getManufacturerModelName());
-		}
-		addFormRow(rowCounter++, "Аппарат", new Label(model));
-		//
-		Hidden manufacturerModelName = new Hidden();
-		manufacturerModelName.setName("00081090");
+	Hidden studyId = new Hidden();
+	studyId.setName("00200010");
+	studyId.setValue(proxy.getStudyId());
+	formDataPanel.add(studyId);
 
-		manufacturerModelName.setValue(proxy.getManufacturerModelName());
-		addFormHidden(manufacturerModelName);
+	//
+
+	Hidden patientId = new Hidden();
+	patientId.setName("00100021");
+	patientId.setValue(proxy.getPatientId());
+	formDataPanel.add(patientId);
+
+	Hidden patientName = new Hidden();
+	patientName.setName("00100010");
+	patientName.setValue(proxy.getPatientName());
+	formDataPanel.add(patientName);
+
+	Hidden patientSex = new Hidden();
+	patientSex.setName("00100040");
+	patientSex.setValue(proxy.getPatientSex());
+	formDataPanel.add(patientSex);
+
+	Hidden patientBirthDateHidden = new Hidden();
+	patientBirthDateHidden.setName("00100030");
+	patientBirthDateHidden.setValue(proxy.getPatientBirthDate());
+	formDataPanel.add(patientBirthDateHidden);
+
+	//
+
+	Hidden manufacturerModelName = new Hidden();
+	manufacturerModelName.setName("00081090");
+	manufacturerModelName.setValue(proxy.getManufacturerModelName());
+	formDataPanel.add(manufacturerModelName);
+
+	Hidden modality = new Hidden();
+	modality.setName("00080060");
+	modality.setValue(proxy.getStudyModality());
+	formDataPanel.add(modality);
+
+	Hidden studyDateHidden = new Hidden();
+	studyDateHidden.setName("00080020");
+	studyDateHidden.setValue(proxy.getStudyDate());
+	formDataPanel.add(studyDateHidden);
+
+	Hidden studyViewProtocolDateHidden = new Hidden();
+	studyViewProtocolDateHidden.setName("00321050");
+	studyViewProtocolDateHidden.setValue(proxy.getStudyViewprotocolDate());
+	formDataPanel.add(studyViewProtocolDateHidden);
+
+    }
+
+    /**
+     * @param proxy
+     */
+    private void setProxy(StudyProxy proxy) {
+	this.proxy = proxy;
+
+	// Инициаизация полей
+    }
+
+    /**
+     * Установка значений контролов по пациенту
+     */
+    private void setPatientControls() {
+	if (proxy.getPatientName() != null) {
+	    if ("F".equals(proxy.getPatientSex())) {
+		lbPatientSex.setSelectedIndex(1);
 	    } else {
-		// Тип исследования Modality 00080060
-		studyManufacturerModelName = new ListBox();
-		studyManufacturerModelName.setName("00081090");
-		studyManufacturerModelName.addItem("-- выберите аппарат --", "");
+		lbPatientSex.setSelectedIndex(0);
+	    }
+	    patientBirstdayDox.setValue(Utils.dateFormatSql.parse(proxy.getPatientBirthDate()));
+	} else {
+	    lbPatientSex.setSelectedIndex(-1);
+	    patientBirstdayDox.setValue(null);
+	}
+    }
 
-		for (Iterator<String> iter = dicModel.keySet().iterator(); iter.hasNext();) {
-		    String key = iter.next();
-		    String val = dicModel.get(key);
-		    studyManufacturerModelName.addItem(val, key);
+    /**
+     * Установка значений контролов по модальности
+     */
+    private void setModalityControls() {
+
+	if (proxy.getDirection() != null && proxy.getDirection().getDevice() != null)
+	    labelModality.setText(proxy.getDirection().getDevice().getModality());
+	else
+	    labelModality.setText(proxy.getStudyModality());
+    }
+
+    /**
+     * 
+     * @param studyCardPanel
+     * @param proxy
+     *            FIXME Убрать этот аргумент !!!
+     */
+    public StudyManagePanel(StudyCard studyCardPanel, final StudyProxy proxy) {
+
+	this.studyCardPanel = studyCardPanel;
+	setProxy(proxy);
+
+	// История
+	History.addValueChangeHandler(this);
+	// History.fireCurrentHistoryState();
+
+	DecoratorPanel mainPanel = new DecoratorPanel();
+
+	final FormPanel formPanel = new FormPanel();
+	formPanel.setAction("newstudy/upload");
+	formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
+	formPanel.setMethod(FormPanel.METHOD_POST);
+	mainPanel.setWidget(formPanel);
+
+	formPanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+
+	    @Override
+	    public void onSubmitComplete(SubmitCompleteEvent event) {
+
+		// TODO Сделать через анализ статуса ответа (200 - ОК)
+		if (!event.getResults().matches(".+___success___.+")) {
+		    submitError(event);
+		} else {
+		    submitSuccess();
+		}
+	    }
+
+	});
+
+	formTable = new FlexTable();
+	// TODO Убрать в css
+	DOM.setStyleAttribute(formPanel.getElement(), "background", "#E9EDF5");
+
+	HorizontalPanel hpMain = new HorizontalPanel();
+	hpMain.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
+	hpMain.setVerticalAlignment(HorizontalPanel.ALIGN_TOP);
+
+	formDataPanel = new VerticalPanel();
+
+	formPanel.add(hpMain);
+	hpMain.add(formDataPanel);
+	formDataPanel.add(formTable);
+
+	rowCounter = 0;
+
+	if (proxy.getDirection() != null) {
+	    addFormRow(rowCounter++, "Ввод по ", new Label("Направлению"));
+	} else {
+	    addFormRow(rowCounter++, "Ввод по ", new Label("Фамилии или c аппарата"));
+	}
+
+	// *********************************************************************************
+	// Пациент
+	// *********************************************************************************
+
+	if (proxy.getDirection() != null) {
+	    addFormRow(rowCounter++, "Пациент", new Label(proxy.getPatientName() + " (из направления)"));
+	} else {
+
+	    patientNameBox = new DicSuggestBox("patients");
+	    patientNameBox.setWidth("400px");
+
+	    if (proxy.getPatientName() != null)
+		patientNameBox.getSuggestBox().setText(proxy.getPatientName());
+
+	    patientNameBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+
+		@Override
+		public void onSelection(SelectionEvent<Suggestion> event) {
+
+		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+		    PatientProxy patient = (PatientProxy) item.getEvent();
+		    proxy.setPatientName(patient.getPatientName());
+		    proxy.setPatientSex(patient.getPatientSex());
+		    proxy.setPatientBirthDate(patient.getPatientBirthDate());
+		    proxy.setPatientId(patient.getPatientId());
+		    setPatientControls();
 		}
 
-		addFormRow(rowCounter++, "Аппарат", studyManufacturerModelName);
-	    }
-	} else {
-	    //
-	    final DicSuggestBox deviceDirrectedBox = new DicSuggestBox("devices");
-	    if (proxy.getDirection().getDevice() != null)
-		deviceDirrectedBox.getSuggestBox().setText(proxy.getDirection().getDevice().getManufacturerModelName());
+	    });
 
-	    deviceDirrectedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+	    patientNameBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+
+		@Override
+		public void onBlur(BlurEvent event) {
+
+		    if (proxy.getPatientName() != null)
+			patientNameBox.getSuggestBox().setText(proxy.getPatientName());
+
+		    else
+			patientNameBox.getSuggestBox().setText("");
+
+		    setPatientControls();
+		}
+	    });
+
+	    addFormRow(rowCounter++, "ФИО", patientNameBox);
+
+	    lbPatientSex = new ListBox();
+	    lbPatientSex.addItem("Муж", "M");
+	    lbPatientSex.addItem("Жен", "F");
+
+	    addFormRow(rowCounter++, "Пол", lbPatientSex);
+
+	    //
+	    patientBirstdayDox = new DateBox();
+	    patientBirstdayDox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
+	    patientBirstdayDox.addValueChangeHandler(new ValueChangeHandler<Date>() {
+
+		@Override
+		public void onValueChange(ValueChangeEvent<Date> event) {
+		    String d = Utils.dateFormatDicom.format(event.getValue());
+		    proxy.setPatientBirthDate(d);
+		}
+	    });
+
+	    addFormRow(rowCounter++, "Дата рождения", patientBirstdayDox);
+
+	    setPatientControls();
+
+	}
+
+	addFormRow(rowCounter++, "StudyId", new Label(proxy.getStudyId()));
+
+	// *********************************************************************************
+	// Аппарат
+	// *********************************************************************************
+
+	if (proxy.getDirection() != null) {
+	    addFormRow(rowCounter++, "Направлен на аппарт", new Label(proxy.getDirection().getDevice()
+		    .getManufacturerModelName()));
+	} else {
+
+	    final DicSuggestBox deviceBox = new DicSuggestBox("devices");
+
+	    if (proxy.getManufacturerModelName() != null)
+		deviceBox.getSuggestBox().setText(proxy.getManufacturerModelName());
+
+	    deviceBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
 
 		@Override
 		public void onSelection(SelectionEvent<Suggestion> event) {
 		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
 		    ManufacturerDeviceProxy dev = (ManufacturerDeviceProxy) item.getEvent();
-		    proxy.getDirection().setDevice(dev);
+		    proxy.setManufacturerModelName(dev.getManufacturerModelName());
+		    proxy.setStudyModality(dev.getModality());
+		    setModalityControls();
 		}
 	    });
-	    deviceDirrectedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+
+	    deviceBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
 
 		@Override
 		public void onBlur(BlurEvent event) {
-		    if (proxy.getDirection().getDevice() != null)
-			deviceDirrectedBox.getSuggestBox().setText(
-				proxy.getDirection().getDevice().getManufacturerModelName());
+		    if (proxy.getManufacturerModelName() != null)
+			deviceBox.getSuggestBox().setText(proxy.getManufacturerModelName());
 		    else
-			deviceDirrectedBox.getSuggestBox().setText("");
+			deviceBox.getSuggestBox().setText("");
+
+		    setModalityControls();
 		}
 	    });
 
-	    addFormRow(rowCounter++, "Направлен на аппарт", deviceDirrectedBox);
-	}
-
-	// /
-	 
-	 
-	if (proxy.getStudyModality() != null) {
-
-	    String modal = proxy.getStudyModality();
-	    if (dicModality.get(proxy.getStudyModality()) != null) {
-		modal = dicModality.get(proxy.getStudyModality());
-	    }
-
-	    addFormRow(rowCounter++, "Тип исследования", new Label(modal));
-	    //
-	    Hidden modality = new Hidden();
-	    modality.setName("00080060");
-
-	    modality.setValue(proxy.getStudyModality());
-	    addFormHidden(modality);
-
-	} else {
-	    // Тип исследования Modality 00080060
-	    studyModality = new ListBox();
-	    studyModality.setName("00080060");
-	    studyModality.addItem("-- выберите тип --", "");
-
-	    for (Iterator<String> iter = dicModality.keySet().iterator(); iter.hasNext();) {
-		String key = iter.next();
-		String val = dicModality.get(key);
-		studyModality.addItem(val, key);
-	    }
-
-	    addFormRow(rowCounter++, "Тип исследования", studyModality);
+	    addFormRow(rowCounter++, "Аппарат", deviceBox);
 
 	}
 
-	//
-	patientName = new TextBox();
-	patientName.setName("00100010");
-	patientName.setWidth("400px");
-	patientName.setText(proxy.getPatientName());
-	patientName.addChangeHandler(new ChangeHandler() {
+	// Модальность
 
-	    @Override
-	    public void onChange(ChangeEvent event) {
-		// TODO Auto-generated method stub
-		patientVerify();
-	    }
-	});
+	labelModality = new Label("");
+	setModalityControls();
 
-	addFormRow(rowCounter++, "ФИО", patientName);
+	addFormRow(rowCounter++, "Тип исследования", labelModality);
 
-	//
-	patientNameCheck = new ListBox(true);
-	patientNameCheck.setSize("450px", "20em");
+	// *********************************************************************************
+	// Дата исследования
+	// *********************************************************************************
 
-	patientNameCheck.addClickHandler(new ClickHandler() {
-
-	    @Override
-	    public void onClick(ClickEvent event) {
-
-		String id = patientNameCheck.getValue(patientNameCheck.getSelectedIndex());
-
-		PatientProxy proxyFinded = itemProxies.get(id);
-		// System.out.println("!!!! id="+id+";"+proxyFinded);
-		applyVerifyedData(proxyFinded);
-
-	    }
-	});
-
-	//
-	lbSex = new ListBox();
-	lbSex.setName("00100040");
-	lbSex.addItem("Муж", "M");
-	lbSex.addItem("Жен", "F");
-	if ("F".equals(proxy.getPatientSex())) {
-	    lbSex.setSelectedIndex(1);
-	} else {
-	    lbSex.setSelectedIndex(0);
-	}
-	addFormRow(rowCounter++, "Пол", lbSex);
-
-	//
-	birstdayDox = new DateBox();
-	birstdayDox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
-	birstdayDox.setValue(Utils.dateFormatSql.parse(proxy.getPatientBirthDate()));
-	birstdayDox.addValueChangeHandler(new ValueChangeHandler<Date>() {
-
-	    @Override
-	    public void onValueChange(ValueChangeEvent<Date> event) {
-		String d = Utils.dateFormatDicom.format(event.getValue());
-		patientBirthDateHidden.setValue(d);
-	    }
-	});
-
-	patientBirthDateHidden = new Hidden();
-	patientBirthDateHidden.setName("00100030");
-	addFormHidden(patientBirthDateHidden);
-	if (proxy.getPatientBirthDate() != null)
-	    patientBirthDateHidden.setValue(Utils.dateFormatDicom.format(Utils.dateFormatSql.parse(proxy
-		    .getPatientBirthDate())));
-
-	addFormRow(rowCounter++, "Дата рождения", birstdayDox);
-
-	//
 	studyDateBox = new DateBox();
 	studyDateBox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
 
@@ -421,15 +474,9 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	    @Override
 	    public void onValueChange(ValueChangeEvent<Date> event) {
-		studyDateHidden.setValue(Utils.dateFormatDicom.format(event.getValue()));
+		proxy.setStudyDate(Utils.dateFormatDicom.format(event.getValue()));
 	    }
 	});
-
-	studyDateHidden = new Hidden();
-	studyDateHidden.setName("00080020");
-	addFormHidden(studyDateHidden);
-	if (studyDateBox.getValue() != null)
-	    studyDateHidden.setValue(Utils.dateFormatDicom.format(studyDateBox.getValue()));
 
 	addFormRow(rowCounter++, "Дата исследования", studyDateBox);
 
@@ -441,49 +488,22 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	    @Override
 	    public void onValueChange(ValueChangeEvent<Date> event) {
-		studyViewProtocolDateHidden.setValue(Utils.dateFormatDicom.format(event.getValue()));
+		proxy.setStudyViewprotocolDate(Utils.dateFormatDicom.format(event.getValue()));
 	    }
 	});
 
-	studyViewProtocolDateHidden = new Hidden();
-	studyViewProtocolDateHidden.setName("00321050");
-	addFormHidden(studyViewProtocolDateHidden);
-	studyViewProtocolDateHidden.setValue(Utils.dateFormatDicom.format(studyViewProtocolDateBox.getValue()));
-
 	addFormRow(rowCounter++, "Дата описания", studyViewProtocolDateBox);
-
-	//
-	// studyDoctror = new TextBox();
-	// studyDoctror.setName("00080090");
-	// studyDoctror.setWidth("400px");
-	// studyDoctror.setText(proxy.getStudyDoctor());
-	// addFormRow(rowCounter++, "Врач", studyDoctror);
-	//		
 
 	studyDoctror = new ListBox();
 	studyDoctror.setName("00080090");
 	// TODO Вынести в конфиг!!!
-	studyDoctror.addItem("Выберите врача...", "");
-	studyDoctror.addItem("Петрова  Н.Н.", "Петрова  Н.Н.");
-	studyDoctror.addItem("Девяткова И.А.", "Девяткова И.А.");
-	studyDoctror.addItem("Солоница В.Д.", "Солоница В.Д.");
-	studyDoctror.addItem("Корж С.С.", "Корж С.С.");
-	studyDoctror.addItem("Кузнецова Е.А.", "Кузнецова Е.А.");
-	studyDoctror.addItem("Лызлова И.Е", "Лызлова И.Е");
-	studyDoctror.addItem("Шешеня Т.В.", "Шешеня Т.В.");
-	studyDoctror.addItem("Тимошенко С.А.", "Тимошенко С.А.");
+	for (Iterator<String> iter = dicDoctors.keySet().iterator(); iter.hasNext();) {
+	    String key = iter.next();
+	    String val = dicModel.get(key);
+	    studyDoctror.addItem(key, val);
+	}
 
-	studyDoctror.addItem("Батрак С.И.", "Батрак С.И.");
-	studyDoctror.addItem("Леткина З.Ю.", "Леткина З.Ю.");
-	studyDoctror.addItem("Перлова Е.В.", "Перлова Е.В.");
-
-	studyDoctror.addItem("Сотиболдиев А.И.", "Сотиболдиев А.И.");
-	studyDoctror.addItem("Сосновских Э.А.", "Сосновских Э.А.");
-
-	studyDoctror.addItem("Зубкова Т.М.", "Зубкова Т.М.");
-
-	// studyDoctror2.addItem("Ввести нового...", "manualinput");
-
+	// TODO Переделать проверку на ввод из словаря
 	boolean find = false;
 	for (int i = 0; i < studyDoctror.getItemCount(); i++) {
 	    String item = studyDoctror.getItemText(i);
@@ -499,32 +519,13 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    studyDoctror.setSelectedIndex(studyDoctror.getItemCount() - 1);
 	}
 
-	// studyDoctror2.addChangeHandler(new ChangeHandler() {
-	//
-	// @Override
-	// public void onChange(ChangeEvent event) {
-	// // TODO Auto-generated method stub
-	// // System.out.println("!!! "+event)!!!;
-	// // int i = studyDoctror2.getSelectedIndex();
-	// // studyDoctror2.getValue(i);
-	// }
-	// });
-
 	addFormRow(rowCounter++, "Врач", studyDoctror);
-
-	//
-	// studyOperator = new TextBox();
-	// studyOperator.setName("00081070");
-	// studyOperator.setWidth("400px");
-	// studyOperator.setText(proxy.getStudyOperator());
-	// addFormRow(rowCounter++, "Лаборант", studyOperator);
 
 	// TODO Вынести в конфиг!!!
 	studyOperator = new ListBox();
 	studyOperator.setName("00081070");
 	studyOperator.addItem("Выберите лаборанта...", "");
 	studyOperator.addItem("Михеева И.А.", "Михеева И.А.");
-	// studyOperator.addItem("Давыдов В.С.", "Давыдов В.С.");
 	studyOperator.addItem("Тебенев Е.Н.", "Тебенев Е.Н.");
 	studyOperator.addItem("Диденко В.А.", "Диденко В.А.");
 
@@ -699,11 +700,12 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 		// TODO Сделать подсветки виджета
 
-		if (studyManufacturerModelName != null && studyManufacturerModelName.getSelectedIndex() <= 0) {
-		    Window.alert("Выберите аппарат!");
-		    studyManufacturerModelName.setFocus(true);
-		    return;
-		}
+		// if (studyManufacturerModelName != null &&
+		// studyManufacturerModelName.getSelectedIndex() <= 0) {
+		// Window.alert("Выберите аппарат!");
+		// studyManufacturerModelName.setFocus(true);
+		// return;
+		// }
 
 		// TODO Сделать подсветки виджета
 		if (studyModality != null && studyModality.getSelectedIndex() <= 0) {
@@ -729,7 +731,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	    addFormRow(rowCounter++, "Направление №", new Label(direction.getDirectionId() + "(" + direction.getId()
 		    + ")"));
-	    
+
 	    //
 	    final TextBox directionLoction = new TextBox();
 	    directionLoction.setText(direction.getDirectionLocation());
@@ -742,8 +744,6 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		}
 	    });
 	    addFormRow(rowCounter++, "Размещение", directionLoction);
-	    
-	   
 
 	    //
 	    final TextBox directionCode = new TextBox();
@@ -799,8 +799,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		}
 	    });
 	    addFormRow(rowCounter++, "Направивший врач", doctorDirrectedBox);
-	    
-	    
+
 	    //
 	    diagnosisDirrectPanel = new DiagnosisPanel();
 	    diagnosisDirrectPanel.setDiagnosis(direction.getDiagnosisDirect());
@@ -825,21 +824,20 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		    direction.setDoctorPerformed(doctor);
 		}
 	    });
-	    
+
 	    doctorPerformedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
 
 		@Override
 		public void onBlur(BlurEvent event) {
-		    if(direction.getDoctorPerformed()!=null)
-		    doctorPerformedBox.getSuggestBox().setText(direction.getDoctorPerformed().getEmployeeName());
-		    else 
-			 doctorPerformedBox.getSuggestBox().setText("");
+		    if (direction.getDoctorPerformed() != null)
+			doctorPerformedBox.getSuggestBox().setText(direction.getDoctorPerformed().getEmployeeName());
+		    else
+			doctorPerformedBox.getSuggestBox().setText("");
 		}
 	    });
-	    
+
 	    addFormRow(rowCounter++, "Принимающий врач", doctorPerformedBox);
-	    
-	    
+
 	    //
 	    diagnosisPerformedPanel = new DiagnosisPanel();
 	    diagnosisPerformedPanel.setDiagnosis(direction.getDiagnosisPerformed());
@@ -866,46 +864,44 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    if (direction.getDatePerformed() != null)
 		datePerformed.setValue(Utils.dateFormatSql.parse(direction.getDatePerformed()));
 	    addFormRow(rowCounter++, "Дата выполнения", datePerformed);
-	    
+
 	    //
 	    addFormRow(rowCounter++, "Планируемая дата", new Label(direction.getDateTimePlanned()));
-	    
+
 	    //
 	    final Button btn = new Button("Сохранить направление");
-		btn.addClickHandler(new ClickHandler() {
+	    btn.addClickHandler(new ClickHandler() {
 
-		    @Override
-		    public void onClick(ClickEvent event) {
+		@Override
+		public void onClick(ClickEvent event) {
 
-			// proxy.getDirection().setDirectionCode("CODEтест111");
-			btn.setEnabled(false);
-			// diagnosisDirrectPanel.getDiagnosis();
-			proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
-			proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
-			proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
-			proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
+		    // proxy.getDirection().setDirectionCode("CODEтест111");
+		    btn.setEnabled(false);
+		    // diagnosisDirrectPanel.getDiagnosis();
+		    proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
+		    proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
+		    proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
+		    proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
 
-			Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+		    Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
 
-			    @Override
-			    public void onFailure(Throwable caught) {
-				btn.setEnabled(true);
-				Dicom_browser.showErrorDlg(caught);
+			@Override
+			public void onFailure(Throwable caught) {
+			    btn.setEnabled(true);
+			    Dicom_browser.showErrorDlg(caught);
 
-			    }
+			}
 
-			    @Override
-			    public void onSuccess(Void result) {
-				btn.setEnabled(true);
-			    }
-			});
-		    }
-		});
+			@Override
+			public void onSuccess(Void result) {
+			    btn.setEnabled(true);
+			}
+		    });
+		}
+	    });
 
-		addFormRow(rowCounter++, btn);
+	    addFormRow(rowCounter++, btn);
 	}
-
-	
 
 	// END данные из направления
 
@@ -990,12 +986,15 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		// System.out.println("!!!! getStudyManagePanel_ManufacturerModelName="+result.getStudyManagePanel_ManufacturerModelName());
 		// System.out.println("!!!! getStudyManagePanel_Modality="+result.getStudyManagePanel_Modality());
 
-		for (int i = 0; i < studyManufacturerModelName.getItemCount(); i++) {
-		    if (studyManufacturerModelName.getValue(i).equals(ManufacturerModelName)) {
-			studyManufacturerModelName.setSelectedIndex(i);
-			break;
-		    }
-		}
+		// for (int i = 0; i <
+		// studyManufacturerModelName.getItemCount(); i++) {
+		// if
+		// (studyManufacturerModelName.getValue(i).equals(ManufacturerModelName))
+		// {
+		// studyManufacturerModelName.setSelectedIndex(i);
+		// break;
+		// }
+		// }
 
 		for (int i = 0; i < studyModality.getItemCount(); i++) {
 		    if (studyModality.getValue(i).equals(Modality)) {
@@ -1039,6 +1038,9 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     }
 
     private void patientVerify() {
+
+	if (patientName == null)
+	    return;
 
 	patientNameCheck.addItem("Ищем: " + patientName.getValue());
 	dataVerifyed(false);
@@ -1149,11 +1151,11 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    return;
 	patientName.setValue(lastPatientProxy.getPatientName());
 
-	birstdayDox.setValue(Utils.dateFormatSql.parse(lastPatientProxy.getPatientBirthDate()));
+	patientBirstdayDox.setValue(Utils.dateFormatSql.parse(lastPatientProxy.getPatientBirthDate()));
 	if ("M".equals(lastPatientProxy.getPatientSex()))
-	    lbSex.setSelectedIndex(0);
+	    lbPatientSex.setSelectedIndex(0);
 	else
-	    lbSex.setSelectedIndex(1);
+	    lbPatientSex.setSelectedIndex(1);
 	dataVerifyed(true);
     }
 
@@ -1201,15 +1203,6 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	formTable.getFlexCellFormatter().setColSpan(row, 0, 2);
 	formTable.getFlexCellFormatter().setHorizontalAlignment(row, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
-    }
-
-    /**
-     * Добавление hidden-поля на форму
-     * 
-     * @param input
-     */
-    private void addFormHidden(Hidden input) {
-	formDataPanel.add(input);
     }
 
     private void clearForm() {
