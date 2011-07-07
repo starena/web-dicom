@@ -245,34 +245,70 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	
 	 addFormRow(rowCounter++, "StudyId", new Label(proxy.getStudyId()));
 
-	if (proxy.getManufacturerModelName() != null) {
+	// / Аппарат
 
-	    String model = proxy.getManufacturerModelName();
-	    if (dicModel.get(proxy.getManufacturerModelName()) != null) {
-		model = dicModel.get(proxy.getManufacturerModelName());
+	if (proxy.getDirection() == null) {
+
+	    if (proxy.getManufacturerModelName() != null) {
+
+		String model = proxy.getManufacturerModelName();
+		if (dicModel.get(proxy.getManufacturerModelName()) != null) {
+		    model = dicModel.get(proxy.getManufacturerModelName());
+		}
+		addFormRow(rowCounter++, "Аппарат", new Label(model));
+		//
+		Hidden manufacturerModelName = new Hidden();
+		manufacturerModelName.setName("00081090");
+
+		manufacturerModelName.setValue(proxy.getManufacturerModelName());
+		addFormHidden(manufacturerModelName);
+	    } else {
+		// Тип исследования Modality 00080060
+		studyManufacturerModelName = new ListBox();
+		studyManufacturerModelName.setName("00081090");
+		studyManufacturerModelName.addItem("-- выберите аппарат --", "");
+
+		for (Iterator<String> iter = dicModel.keySet().iterator(); iter.hasNext();) {
+		    String key = iter.next();
+		    String val = dicModel.get(key);
+		    studyManufacturerModelName.addItem(val, key);
+		}
+
+		addFormRow(rowCounter++, "Аппарат", studyManufacturerModelName);
 	    }
-	    addFormRow(rowCounter++, "Аппарат", new Label(model));
-	    //
-	    Hidden manufacturerModelName = new Hidden();
-	    manufacturerModelName.setName("00081090");
-
-	    manufacturerModelName.setValue(proxy.getManufacturerModelName());
-	    addFormHidden(manufacturerModelName);
 	} else {
-	    // Тип исследования Modality 00080060
-	    studyManufacturerModelName = new ListBox();
-	    studyManufacturerModelName.setName("00081090");
-	    studyManufacturerModelName.addItem("-- выберите аппарат --", "");
+	    //
+	    final DicSuggestBox deviceDirrectedBox = new DicSuggestBox("devices");
+	    if (proxy.getDirection().getDevice() != null)
+		deviceDirrectedBox.getSuggestBox().setText(proxy.getDirection().getDevice().getManufacturerModelName());
 
-	    for (Iterator<String> iter = dicModel.keySet().iterator(); iter.hasNext();) {
-		String key = iter.next();
-		String val = dicModel.get(key);
-		studyManufacturerModelName.addItem(val, key);
-	    }
+	    deviceDirrectedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
 
-	    addFormRow(rowCounter++, "Аппарат", studyManufacturerModelName);
+		@Override
+		public void onSelection(SelectionEvent<Suggestion> event) {
+		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+		    ManufacturerDeviceProxy dev = (ManufacturerDeviceProxy) item.getEvent();
+		    proxy.getDirection().setDevice(dev);
+		}
+	    });
+	    deviceDirrectedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+
+		@Override
+		public void onBlur(BlurEvent event) {
+		    if (proxy.getDirection().getDevice() != null)
+			deviceDirrectedBox.getSuggestBox().setText(
+				proxy.getDirection().getDevice().getManufacturerModelName());
+		    else
+			deviceDirrectedBox.getSuggestBox().setText("");
+		}
+	    });
+
+	    addFormRow(rowCounter++, "Направлен на аппарт", deviceDirrectedBox);
 	}
 
+	// /
+	 
+	 
 	if (proxy.getStudyModality() != null) {
 
 	    String modal = proxy.getStudyModality();
@@ -707,32 +743,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    });
 	    addFormRow(rowCounter++, "Размещение", directionLoction);
 	    
-	    //
-	    final DicSuggestBox deviceDirrectedBox = new DicSuggestBox("devices");
-	    if (direction.getDevice() != null)
-		deviceDirrectedBox.getSuggestBox().setText(direction.getDevice().getManufacturerModelName());
-
-	    deviceDirrectedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
-
-		@Override
-		public void onSelection(SelectionEvent<Suggestion> event) {
-		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
-		    ManufacturerDeviceProxy dev = (ManufacturerDeviceProxy) item.getEvent();
-		    direction.setDevice(dev);
-		}
-	    });
-	    deviceDirrectedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
-
-		@Override
-		public void onBlur(BlurEvent event) {
-		    if (direction.getDevice() != null)
-			deviceDirrectedBox.getSuggestBox().setText(direction.getDevice().getManufacturerModelName());
-		    else
-			deviceDirrectedBox.getSuggestBox().setText("");
-		}
-	    });
-	    
-	    addFormRow(rowCounter++, "Направлен на аппарт", deviceDirrectedBox);
+	   
 
 	    //
 	    final TextBox directionCode = new TextBox();
