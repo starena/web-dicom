@@ -218,7 +218,7 @@ public class CommonUtil {
 				// dcmFile = new File(dcmFileName);
 
 				// dcmFileTmp.renameTo(dcmFile);
-				System.out.println("!!!! making IMAGE dcm SUCCESS!");
+				System.out.println("!!!! making PDF dcm SUCCESS!");
 
 			}
 
