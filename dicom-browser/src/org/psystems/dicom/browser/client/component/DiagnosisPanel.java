@@ -32,28 +32,33 @@ public class DiagnosisPanel extends VerticalPanel {
     private ArrayList<DiagnosisProxy> diagnosis;
     private DiagnosisProxy diagnosis4Add;
     private Button addBtn;
+    private boolean editMode;
 
     /**
-     * @param application
+     * @param editMode
+     *            Режим "для редактирования"
      */
-    public DiagnosisPanel() {
+    public DiagnosisPanel(boolean editMode) {
 
+	this.editMode = editMode;
 	// панель для вывода списка диагнозов
 	showDiagnosisPanel = new VerticalPanel();
 	this.add(showDiagnosisPanel);
 
-	final Label labelAdd = new Label("Добавить диагноз...");
-	labelAdd.addStyleName("LabelLink");
-	add(labelAdd);
+	if (editMode) {
+	    final Label labelAdd = new Label("Добавить диагноз...");
+	    labelAdd.addStyleName("LabelLink");
+	    add(labelAdd);
 
-	labelAdd.addClickHandler(new ClickHandler() {
+	    labelAdd.addClickHandler(new ClickHandler() {
 
-	    @Override
-	    public void onClick(ClickEvent event) {
-		labelAdd.removeFromParent();
-		createToolPanel();
-	    }
-	});
+		@Override
+		public void onClick(ClickEvent event) {
+		    labelAdd.removeFromParent();
+		    createToolPanel();
+		}
+	    });
+	}
 
     }
 
@@ -61,7 +66,7 @@ public class DiagnosisPanel extends VerticalPanel {
      * панель добавления диагноза
      */
     private void createToolPanel() {
-	
+
 	HorizontalPanel addDiagnosisPanel = new HorizontalPanel();
 	this.add(addDiagnosisPanel);
 
@@ -163,23 +168,25 @@ public class DiagnosisPanel extends VerticalPanel {
 		    + ") [" + dias.getDiagnosisDescription() + "]");
 	    add(new Label(diaText.toString()));
 
-	    Label labelDel = new Label("Удалить");
-	    labelDel.addStyleName("LabelLink");
-	    add(labelDel);
+	    if (editMode) {
+		Label labelDel = new Label("Удалить");
+		labelDel.addStyleName("LabelLink");
+		add(labelDel);
 
-	    labelDel.addClickHandler(new ClickHandler() {
+		labelDel.addClickHandler(new ClickHandler() {
 
-		@Override
-		public void onClick(ClickEvent event) {
-		    for (DiagnosisProxy diagnosisProxy : diagnosis) {
-			if (diagnosisProxy.getDiagnosisCode().equalsIgnoreCase(dias.getDiagnosisCode())) {
-			    diagnosis.remove(diagnosisProxy);
-			    refresh();
-			    return;
+		    @Override
+		    public void onClick(ClickEvent event) {
+			for (DiagnosisProxy diagnosisProxy : diagnosis) {
+			    if (diagnosisProxy.getDiagnosisCode().equalsIgnoreCase(dias.getDiagnosisCode())) {
+				diagnosis.remove(diagnosisProxy);
+				refresh();
+				return;
+			    }
 			}
 		    }
-		}
-	    });
+		});
+	    }
 	}
 
     }

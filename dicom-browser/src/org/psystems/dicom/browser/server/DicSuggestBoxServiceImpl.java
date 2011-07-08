@@ -132,6 +132,19 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 		    item.setEvent(proxy);
 		    suggestions.add(item);
 		}
+	    } else if (dicName.equals("operators")) {
+
+		for (int i = 0; i < 10; i++) {
+		    EmployeeProxy proxy = new EmployeeProxy();
+		    proxy.setEmployeeName(req.getQuery().toUpperCase() + i);
+		    proxy.setEmployeeCode("CODE" + i);
+		    proxy.setEmployeeType(EmployeeProxy.TYPE_OPERATOR);
+
+		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getEmployeeName() + "...", proxy
+			    .getEmployeeName().toUpperCase());
+		    item.setEvent(proxy);
+		    suggestions.add(item);
+		}
 	    } else if (dicName.equals("devices")) {
 
 		for (int i = 0; i < 10; i++) {

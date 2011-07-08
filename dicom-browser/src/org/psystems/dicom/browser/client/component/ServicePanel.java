@@ -34,28 +34,34 @@ public class ServicePanel extends VerticalPanel {
     private ArrayList<ServiceProxy> services;
     private ServiceProxy service4Add;
     private Button addBtn;
+    private boolean editMode;
 
     /**
-     * @param application
+     * @param editMode
+     *            Режим "для редактирования"
      */
-    public ServicePanel() {
+    public ServicePanel(boolean editMode) {
+
+	this.editMode = editMode;
 
 	// панель для вывода списка диагнозов
 	showServicePanel = new VerticalPanel();
 	this.add(showServicePanel);
 
-	final Label labelAdd = new Label("Добавить услугу...");
-	labelAdd.addStyleName("LabelLink");
-	add(labelAdd);
+	if (editMode) {
+	    final Label labelAdd = new Label("Добавить услугу...");
+	    labelAdd.addStyleName("LabelLink");
+	    add(labelAdd);
 
-	labelAdd.addClickHandler(new ClickHandler() {
+	    labelAdd.addClickHandler(new ClickHandler() {
 
-	    @Override
-	    public void onClick(ClickEvent event) {
-		labelAdd.removeFromParent();
-		createToolPanel();
-	    }
-	});
+		@Override
+		public void onClick(ClickEvent event) {
+		    labelAdd.removeFromParent();
+		    createToolPanel();
+		}
+	    });
+	}
 
     }
 
@@ -150,23 +156,25 @@ public class ServicePanel extends VerticalPanel {
 		    + ") [" + srvs.getServiceCount() + "]");
 	    add(new Label(diaText.toString()));
 
-	    Label labelDel = new Label("Удалить");
-	    labelDel.addStyleName("LabelLink");
-	    add(labelDel);
+	    if (editMode) {
+		Label labelDel = new Label("Удалить");
+		labelDel.addStyleName("LabelLink");
+		add(labelDel);
 
-	    labelDel.addClickHandler(new ClickHandler() {
+		labelDel.addClickHandler(new ClickHandler() {
 
-		@Override
-		public void onClick(ClickEvent event) {
-		    for (ServiceProxy serviceProxy : services) {
-			if (serviceProxy.getServiceCode().equalsIgnoreCase(srvs.getServiceCode())) {
-			    services.remove(serviceProxy);
-			    refresh();
-			    return;
+		    @Override
+		    public void onClick(ClickEvent event) {
+			for (ServiceProxy serviceProxy : services) {
+			    if (serviceProxy.getServiceCode().equalsIgnoreCase(srvs.getServiceCode())) {
+				services.remove(serviceProxy);
+				refresh();
+				return;
+			    }
 			}
 		    }
-		}
-	    });
+		});
+	    }
 
 	}
 
