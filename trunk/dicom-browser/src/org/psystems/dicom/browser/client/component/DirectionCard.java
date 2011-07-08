@@ -52,10 +52,10 @@ public class DirectionCard extends Composite {
     public DirectionCard(DirectionProxy drnProxy) {
 	this.drnProxy = drnProxy;
 	mainPanel = new VerticalPanel();
-	
+
 	HorizontalPanel hp = new HorizontalPanel();
 	mainPanel.add(hp);
-	
+
 	String sex = "М";
 	if ("F".equals(drnProxy.getPatient().getPatientSex())) {
 	    sex = "Ж";
@@ -104,7 +104,7 @@ public class DirectionCard extends Composite {
 	    ftEdit = null;
 	    return;
 	}
-	
+
 	ftEdit = new FlexTable();
 	mainPanel.add(ftEdit);
 
@@ -215,12 +215,12 @@ public class DirectionCard extends Composite {
 	row++;
 
 	// Направленные диагнозы
-	final DiagnosisPanel diagnosisDirrectPanel = new DiagnosisPanel();
+	final DiagnosisPanel diagnosisDirrectPanel = new DiagnosisPanel(true);
 	diagnosisDirrectPanel.setDiagnosis(drnProxy.getDiagnosisDirect());
 	row = makeFieldSimple(ftEdit, row++, "Направленные диагнозы:", diagnosisDirrectPanel);
 
 	// Направленные услуги
-	final ServicePanel servicesDirrectPanel = new ServicePanel();
+	final ServicePanel servicesDirrectPanel = new ServicePanel(true);
 	servicesDirrectPanel.setServices(drnProxy.getServicesDirect());
 	row = makeFieldSimple(ftEdit, row++, "Направленные услуги:", servicesDirrectPanel);
 
@@ -277,12 +277,12 @@ public class DirectionCard extends Composite {
 	makeField(ftEdit, row, 4, "Дата план:", new Label(drnProxy.getDateTimePlanned()));
 
 	// Направленные диагнозы
-	final DiagnosisPanel diagnosisPerformedPanel = new DiagnosisPanel();
+	final DiagnosisPanel diagnosisPerformedPanel = new DiagnosisPanel(true);
 	diagnosisPerformedPanel.setDiagnosis(drnProxy.getDiagnosisPerformed());
 	row = makeFieldSimple(ftEdit, row + 2, "Направленные диагнозы:", diagnosisPerformedPanel);
 
 	// Подтвержденные услуги
-	final ServicePanel servicesPerformedPanel = new ServicePanel();
+	final ServicePanel servicesPerformedPanel = new ServicePanel(true);
 	servicesPerformedPanel.setServices(drnProxy.getServicesPerformed());
 	row = makeFieldSimple(ftEdit, row + 2, "Подтвержденные услуги:", servicesPerformedPanel);
 
@@ -318,7 +318,7 @@ public class DirectionCard extends Composite {
 		});
 	    }
 	});
-	
+
 	row = makeFieldSimple(ftEdit, row + 2, "", btn);
 
     }

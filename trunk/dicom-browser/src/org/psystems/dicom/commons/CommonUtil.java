@@ -187,7 +187,7 @@ public class CommonUtil {
 					if (key.equals("00102000")
 							&& value != null
 							&& value
-									.equals(StudyManagePanel.medicalAlertsTitle)) {
+									.equals(StudyManagePanel.studyResultTitle)) {
 						value = "";
 					}
 					pfg2Dcm.setCfgProperty(key, value);
@@ -241,7 +241,7 @@ public class CommonUtil {
 					if (key.equals("00102000")
 							&& value != null
 							&& value
-									.equals(StudyManagePanel.medicalAlertsTitle)) {
+									.equals(StudyManagePanel.studyResultTitle)) {
 						value = "";
 					}
 					jpg2Dcm.setCfgProperty(key, value);
