@@ -177,7 +177,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      */
     private void setHiddenFields() {
 
-	System.out.println("!!! PROXY " + proxy);
+	
 
 	// Удаляем все "хиддены"
 	for (int i = 0; i < formDataPanel.getWidgetCount(); i++) {
@@ -278,9 +278,10 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// Tag.StudyComments
 	Hidden studyCommentsHidden = new Hidden();
 	studyCommentsHidden.setName("00324000");
-	studyCommentsHidden.setValue(proxy.getStudyResult());
+	studyCommentsHidden.setValue(proxy.getStudyViewprotocol());
 	formDataPanel.add(studyCommentsHidden);
 
+	System.out.println("!!! PROXY " + proxy);
     }
 
     /**
