@@ -100,7 +100,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private String msg;
     private TransactionTimer timer = null;
     // private ListBox studyManufacturerModelName;
-    private ListBox studyModality;
+//    private ListBox studyModality;
 
     private HTML ooTemplatePanel = new HTML();
     private DiagnosisPanel diagnosisDirrectPanel;
@@ -176,6 +176,12 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      * и PDF-ок
      */
     private void setHiddenFields() {
+	
+	//Удаляем все "хиддены"
+	for(int i=0; i<formDataPanel.getWidgetCount(); i++) {
+	    Widget w = formDataPanel.getWidget(i);
+	    if(w instanceof Hidden) w.removeFromParent();
+	}
 
 	Hidden studyInstanceUID = new Hidden();
 	studyInstanceUID.setName("0020000D");
@@ -733,12 +739,14 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    public void onClick(ClickEvent event) {
 
 		
-		if (studyModality != null && studyModality.getSelectedIndex() <= 0) {
-		    Window.alert("Выберите тип исследования!");
-		    studyModality.setFocus(true);
-		    return;
-		}
+//		if (studyModality != null && studyModality.getSelectedIndex() <= 0) {
+//		    Window.alert("Выберите тип исследования!");
+//		    studyModality.setFocus(true);
+//		    return;
+//		}
 
+		setHiddenFields();
+		
 		// TODO Сделать недоступной кнопку "Сохранить"
 		submitResult.setHTML("сохранение...");
 		submitBtn.setEnabled(false);
@@ -894,6 +902,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     }
 
     /**
+     * TODO Сделать РАЗОВОЙ при запуске клиента !!!!!
      * Обновление из сессии
      */
     private void updateFromSession() {
@@ -935,12 +944,12 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		// }
 		// }
 
-		for (int i = 0; i < studyModality.getItemCount(); i++) {
-		    if (studyModality.getValue(i).equals(Modality)) {
-			studyModality.setSelectedIndex(i);
-			break;
-		    }
-		}
+//		for (int i = 0; i < studyModality.getItemCount(); i++) {
+//		    if (studyModality.getValue(i).equals(Modality)) {
+//			studyModality.setSelectedIndex(i);
+//			break;
+//		    }
+//		}
 
 	    }
 	});
