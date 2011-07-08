@@ -65,210 +65,214 @@ import java.util.ArrayList;
  */
 public class StudyProxy implements Serializable {
 
-	private static final long serialVersionUID = -7977302129675187420L;
+    private static final long serialVersionUID = -7977302129675187420L;
 
-	private long id; // ID
-	private String studyModality; // Modality
-	private String studyInstanceUID; // UID
-	private String patientName; // ФИО пациента
-	private String patientSex; // Пол пациента
-	private String patientId; // ID пациента
-	private String patientBirthDate; // Дата рождения пациента
-	private String studyId; // ID исследования
-	private String studyDate; // Дата исследования
-	private String studyDoctor; // Врач исследования
-	private String studyOperator; // Оператор исследования
-	private String studyViewprotocolDate;// Дата описания исследования.
-	private String studyType;// Вид исследования.
-	private String studyDescription;// Описание исследования.
-	private String studyViewprotocol;// Протокол осмотра
-	private String studyResult;// Результат исследования.
-	private String ManufacturerModelName; // Аппарат
-	private String studyDateTimeModify; // Дата модификации
-	private String studyDateTimeRemoved; // Дата удаления исследования
-	private DirectionProxy direction; // Направление
+    private long id; // ID
+    private String studyModality; // Modality
+    private String studyInstanceUID; // UID
+    private String patientName; // ФИО пациента
+    private String patientSex; // Пол пациента
+    private String patientId; // ID пациента
+    private String patientBirthDate; // Дата рождения пациента
+    private String studyId; // ID исследования
+    private String studyDate; // Дата исследования
+    private String studyDoctor; // Врач исследования
+    private String studyOperator; // Оператор исследования
+    private String studyViewprotocolDate;// Дата описания исследования.
+    private String studyType;// Вид исследования.
+    private String studyDescription;// Описание исследования.
+    private String studyViewprotocol;// Протокол осмотра
+    private String studyResult;// Результат исследования.
+    private String ManufacturerModelName; // Аппарат
+    private String studyDateTimeModify; // Дата модификации
+    private String studyDateTimeRemoved; // Дата удаления исследования
+    private DirectionProxy direction; // Направление
 
-	// Файлы связанные с исследованием
-	private ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
+    // Файлы связанные с исследованием
+    private ArrayList<DcmFileProxy> files = new ArrayList<DcmFileProxy>();
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+	return id;
+    }
 
-	public String getPatientName() {
-		return patientName;
-	}
+    public String getPatientName() {
+	return patientName;
+    }
 
-	public String getPatientBirthDate() {
-		return patientBirthDate;
-	}
+    public String getPatientBirthDate() {
+	return patientBirthDate;
+    }
 
-	public String getPatientSex() {
-		return patientSex;
-	}
+    public String getPatientSex() {
+	return patientSex;
+    }
 
-	public String getPatientId() {
-		return patientId;
-	}
+    public String getPatientId() {
+	return patientId;
+    }
 
-	public String getStudyId() {
-		return studyId;
-	}
+    public String getStudyId() {
+	return studyId;
+    }
 
-	public String getStudyDate() {
-		return studyDate;
-	}
+    public String getStudyDate() {
+	return studyDate;
+    }
 
-	public String getStudyDoctor() {
-		return studyDoctor;
-	}
+    public String getStudyDoctor() {
+	return studyDoctor;
+    }
 
-	public String getStudyOperator() {
-		return studyOperator;
-	}
+    public String getStudyOperator() {
+	return studyOperator;
+    }
 
-	public String getStudyDescription() {
-		return studyDescription;
-	}
+    public String getStudyDescription() {
+	return studyDescription;
+    }
 
-	public String getStudyResult() {
-		return studyResult;
-	}
+    public String getStudyResult() {
+	return studyResult;
+    }
 
-	public String getStudyViewprotocolDate() {
-		return studyViewprotocolDate;
-	}
+    public String getStudyViewprotocolDate() {
+	return studyViewprotocolDate;
+    }
 
-	public String getStudyType() {
-		return studyType;
-	}
+    public String getStudyType() {
+	return studyType;
+    }
 
-	public String getManufacturerModelName() {
-		return ManufacturerModelName;
-	}
+    public String getManufacturerModelName() {
+	return ManufacturerModelName;
+    }
 
-	public String getStudyViewprotocol() {
-		return studyViewprotocol;
-	}
+    public String getStudyViewprotocol() {
+	return studyViewprotocol;
+    }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+    public static long getSerialversionuid() {
+	return serialVersionUID;
+    }
 
-	public ArrayList<DcmFileProxy> getFiles() {
-		return files;
-	}
+    public ArrayList<DcmFileProxy> getFiles() {
+	return files;
+    }
 
-	public void setFiles(ArrayList<DcmFileProxy> files) {
-		this.files = files;
-	}
+    public void setFiles(ArrayList<DcmFileProxy> files) {
+	this.files = files;
+    }
 
-	public String getStudyInstanceUID() {
-		return studyInstanceUID;
-	}
+    public String getStudyInstanceUID() {
+	return studyInstanceUID;
+    }
 
-	public String getStudyModality() {
-		return studyModality;
-	}
+    public String getStudyModality() {
+	return studyModality;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+	this.id = id;
+    }
 
-	public void setStudyModality(String studyModality) {
-		this.studyModality = studyModality;
-	}
+    public void setStudyModality(String studyModality) {
+	this.studyModality = studyModality;
+    }
 
-	public void setStudyInstanceUID(String studyInstanceUID) {
-		this.studyInstanceUID = studyInstanceUID;
-	}
+    public void setStudyInstanceUID(String studyInstanceUID) {
+	this.studyInstanceUID = studyInstanceUID;
+    }
 
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
-	}
+    public void setPatientName(String patientName) {
+	this.patientName = patientName;
+    }
 
-	public void setPatientSex(String patientSex) {
-		this.patientSex = patientSex;
-	}
+    public void setPatientSex(String patientSex) {
+	this.patientSex = patientSex;
+    }
 
-	public void setPatientId(String patientId) {
-		this.patientId = patientId;
-	}
+    public void setPatientId(String patientId) {
+	this.patientId = patientId;
+    }
 
-	public void setPatientBirthDate(String patientBirthDate) {
-		this.patientBirthDate = patientBirthDate;
-	}
+    public void setPatientBirthDate(String patientBirthDate) {
+	this.patientBirthDate = patientBirthDate;
+    }
 
-	public void setStudyId(String studyId) {
-		this.studyId = studyId;
-	}
+    public void setStudyId(String studyId) {
+	this.studyId = studyId;
+    }
 
-	public void setStudyDate(String studyDate) {
-		this.studyDate = studyDate;
-	}
+    public void setStudyDate(String studyDate) {
+	this.studyDate = studyDate;
+    }
 
-	public void setStudyDoctor(String studyDoctor) {
-		this.studyDoctor = studyDoctor;
-	}
+    public void setStudyDoctor(String studyDoctor) {
+	this.studyDoctor = studyDoctor;
+    }
 
-	public void setStudyOperator(String studyOperator) {
-		this.studyOperator = studyOperator;
-	}
+    public void setStudyOperator(String studyOperator) {
+	this.studyOperator = studyOperator;
+    }
 
-	public void setStudyViewprotocolDate(String studyViewprotocolDate) {
-		this.studyViewprotocolDate = studyViewprotocolDate;
-	}
+    public void setStudyViewprotocolDate(String studyViewprotocolDate) {
+	this.studyViewprotocolDate = studyViewprotocolDate;
+    }
 
-	public void setStudyType(String studyType) {
-		this.studyType = studyType;
-	}
+    public void setStudyType(String studyType) {
+	this.studyType = studyType;
+    }
 
-	public void setStudyDescription(String studyDescription) {
-		this.studyDescription = studyDescription;
-	}
+    public void setStudyDescription(String studyDescription) {
+	this.studyDescription = studyDescription;
+    }
 
-	public void setStudyViewprotocol(String studyViewprotocol) {
-		this.studyViewprotocol = studyViewprotocol;
-	}
+    public void setStudyViewprotocol(String studyViewprotocol) {
+	this.studyViewprotocol = studyViewprotocol;
+    }
 
-	public void setStudyResult(String studyResult) {
-		this.studyResult = studyResult;
-	}
+    public void setStudyResult(String studyResult) {
+	this.studyResult = studyResult;
+    }
 
-	public void setManufacturerModelName(String manufacturerModelName) {
-		ManufacturerModelName = manufacturerModelName;
-	}
+    public void setManufacturerModelName(String manufacturerModelName) {
+	ManufacturerModelName = manufacturerModelName;
+    }
 
-	public String getStudyDateTimeModify() {
-		return studyDateTimeModify;
-	}
+    public String getStudyDateTimeModify() {
+	return studyDateTimeModify;
+    }
 
-	public void setStudyDateTimeModify(String studyDateModify) {
-		this.studyDateTimeModify = studyDateModify;
-	}
+    public void setStudyDateTimeModify(String studyDateModify) {
+	this.studyDateTimeModify = studyDateModify;
+    }
 
-	public String getStudyDateTimeRemoved() {
-		return studyDateTimeRemoved;
-	}
+    public String getStudyDateTimeRemoved() {
+	return studyDateTimeRemoved;
+    }
 
-	public void setStudyDateTimeRemoved(String studyDateRemoved) {
-		this.studyDateTimeRemoved = studyDateRemoved;
-	}
-	
+    public void setStudyDateTimeRemoved(String studyDateRemoved) {
+	this.studyDateTimeRemoved = studyDateRemoved;
+    }
 
-	public DirectionProxy getDirection() {
-		return direction;
-	}
+    public DirectionProxy getDirection() {
+	return direction;
+    }
 
-	public void setDirection(DirectionProxy direction) {
-		this.direction = direction;
-	}
+    public void setDirection(DirectionProxy direction) {
+	this.direction = direction;
+    }
 
-	@Override
-	public String toString() {
-		return "StudyProxy " + id + ";" + ";" + patientName + ";"
-				+ patientBirthDate + ";" + studyDate + " [" + getStudyResult()
-				+ "] images count:" + files.size();
-	}
+    @Override
+    public String toString() {
+	return "StudyProxy [ManufacturerModelName=" + ManufacturerModelName + ", direction=" + direction + ", files="
+		+ files + ", id=" + id + ", patientBirthDate=" + patientBirthDate + ", patientId=" + patientId
+		+ ", patientName=" + patientName + ", patientSex=" + patientSex + ", studyDate=" + studyDate
+		+ ", studyDateTimeModify=" + studyDateTimeModify + ", studyDateTimeRemoved=" + studyDateTimeRemoved
+		+ ", studyDescription=" + studyDescription + ", studyDoctor=" + studyDoctor + ", studyId=" + studyId
+		+ ", studyInstanceUID=" + studyInstanceUID + ", studyModality=" + studyModality + ", studyOperator="
+		+ studyOperator + ", studyResult=" + studyResult + ", studyType=" + studyType + ", studyViewprotocol="
+		+ studyViewprotocol + ", studyViewprotocolDate=" + studyViewprotocolDate + "]";
+    }
 
 }

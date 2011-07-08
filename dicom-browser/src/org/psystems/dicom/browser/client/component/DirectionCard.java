@@ -91,6 +91,17 @@ public class DirectionCard extends Composite {
 	    }
 	});
 
+	Label lblNew = new Label(" {Новое иссл.}");
+	hp.add(lblNew);
+	lblNew.setStyleName("DicomItem");
+	lblNew.addClickHandler(new ClickHandler() {
+
+	    @Override
+	    public void onClick(ClickEvent event) {
+		showStudy(null);
+	    }
+	});
+
 	initWidget(mainPanel);
     }
 
@@ -444,6 +455,29 @@ public class DirectionCard extends Composite {
 		proxy.setPatientBirthDate(pat.getPatientBirthDate());
 		proxy.setStudyId(drnProxy.getDirectionId());
 		proxy.setDirection(drnProxy);
+		//
+		String manufacturerModelName = "НЕТ В НАПРАВЛЕНИИ";
+		if (drnProxy.getDevice() != null && drnProxy.getDevice().getManufacturerModelName() != null)
+		    manufacturerModelName = drnProxy.getDevice().getManufacturerModelName();
+
+		proxy.setManufacturerModelName(manufacturerModelName);
+
+		//
+		if (drnProxy.getDoctorPerformed() != null && drnProxy.getDoctorPerformed().getEmployeeName() != null)
+		    proxy.setStudyDoctor(drnProxy.getDoctorPerformed().getEmployeeName());
+
+		//
+		String modality = "ХЗ";
+		if (drnProxy.getDevice() != null && drnProxy.getDevice().getModality() != null)
+		    modality = drnProxy.getDevice().getModality();
+
+		proxy.setStudyModality(modality);
+		
+		//
+		proxy.setStudyDate(Utils.dateFormatSql.format(new Date()));
+		//
+		proxy.setStudyViewprotocolDate(Utils.dateFormatSql.format(new Date()));
+		
 
 	    } else {
 
