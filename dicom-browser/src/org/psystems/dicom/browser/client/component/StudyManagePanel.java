@@ -26,15 +26,12 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -108,13 +105,16 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private DiagnosisPanel diagnosisPerformedPanel;
     private ServicePanel servicesPerformedPanel;
     private DicSuggestBox patientNameBox;
-    private Label labelModality;
+    // private Label labelModality;
     private DicSuggestBox doctorPerformedBox;
     private DicSuggestBox operatorBox;
+    private ListBox lbModality;
 
     // словари TODO Убрать! брать данные из индекса
     static TreeMap<String, String> dicModel = new TreeMap<String, String>();
     static HashMap<String, String> dicModality = new HashMap<String, String>();
+    //Ключи для сотрировки. TODO как то криво :(
+    static ArrayList<String> dicModalityKeys = new ArrayList<String>();
     // static HashMap<String, String> dicDoctors = new HashMap<String,
     // String>();
     static {
@@ -163,12 +163,22 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	dicModel.put("Спиро-Спектр 2", "Спиро-Спектр 2");
 	dicModel.put("Aloka alfa", "Aloka alfa 6 каб.527 ДП");
 	dicModel.put("Aloka 3500", "Aloka 3500 ВП 303 каб.");
+
+	//  Не забываем про ключи для сортировки
 	dicModality.put("OT", "Прочее");
 	dicModality.put("CR", "Флюорография");
 	dicModality.put("DF", "Рентген");
 	dicModality.put("US", "Узи");
 	dicModality.put("ES", "Эндоскопия");
 	dicModality.put("MG", "Маммография");
+	
+	dicModalityKeys.add("OT");
+	dicModalityKeys.add("CR");
+	dicModalityKeys.add("DF");
+	dicModalityKeys.add("US");
+	dicModalityKeys.add("ES");
+	dicModalityKeys.add("MG");
+	//
     }
 
     /**
@@ -176,8 +186,6 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      * и PDF-ок
      */
     private void setHiddenFields() {
-
-	
 
 	// Удаляем все "хиддены"
 	for (int i = 0; i < formDataPanel.getWidgetCount(); i++) {
@@ -232,7 +240,8 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	Hidden modality = new Hidden();
 	modality.setName("00080060");
-	modality.setValue(proxy.getStudyModality());
+//	modality.setValue(proxy.getStudyModality());
+	modality.setValue(lbModality.getValue(lbModality.getSelectedIndex()));
 	formDataPanel.add(modality);
 
 	Hidden studyDateHidden = new Hidden();
@@ -290,7 +299,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private void setProxy(StudyProxy proxy) {
 	this.proxy = proxy;
 
-	//TODO Реализовать инициализацию здесь !!!!
+	// TODO Реализовать инициализацию здесь !!!!
 	// Инициаизация полей
     }
 
@@ -315,11 +324,18 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      * Установка значений контролов по модальности
      */
     private void setModalityControls() {
-
+	String modality = null;
 	if (proxy.getDirection() != null && proxy.getDirection().getDevice() != null)
-	    labelModality.setText(proxy.getDirection().getDevice().getModality());
+	    modality = proxy.getDirection().getDevice().getModality();
 	else
-	    labelModality.setText(proxy.getStudyModality());
+	    modality = proxy.getStudyModality();
+	for (int i = 0; i < lbModality.getItemCount(); i++) {
+	    if (lbModality.getValue(i).equalsIgnoreCase(modality))
+	    lbModality.setSelectedIndex(i);
+	    return;
+	}
+	//По умолчанию ставим "прочее"
+	lbModality.setSelectedIndex(0);
     }
 
     /**
@@ -500,10 +516,16 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	// Модальность
 
-	labelModality = new Label("");
+	lbModality = new ListBox();
+	for (Iterator<String> iter = dicModalityKeys.iterator(); iter.hasNext();) {
+	    String key = iter.next();
+	    lbModality.addItem(dicModality.get(key) + " (" + key + ")", key);
+	}
+
+	// labelModality = new Label("");
 	setModalityControls();
 
-	addFormRow(rowCounter++, "Тип исследования", labelModality);
+	addFormRow(rowCounter++, "Модальность", lbModality);
 
 	// *********************************************************************************
 	// Дата исследования
@@ -671,38 +693,39 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	studyResult.setText(studyResultTitle);
 
 	studyResult.setText(proxy.getStudyResult());
-	
-//	if (proxy.getStudyResult() == null || proxy.getStudyResult().length() == 0) {
-//	    studyResult.setText(studyResultTitle);
-//	}
-//
-//	studyResult.addFocusHandler(new FocusHandler() {
-//
-//	    @Override
-//	    public void onFocus(FocusEvent event) {
-//
-//		if (studyResult.getText().equals(studyResult.getTitle())) {
-//		    studyResult.setValue("");
-//		} else {
-//		    studyResult.setValue(studyResult.getValue());
-//		}
-//	    }
-//
-//	});
-//
-//	studyResult.addBlurHandler(new BlurHandler() {
-//
-//	    @Override
-//	    public void onBlur(BlurEvent event) {
-//
-//		if (studyResult.getText().equals("")) {
-//		    studyResult.setValue(studyResult.getTitle());
-//		} else {
-//		    studyResult.setValue(studyResult.getValue());
-//		}
-//	    }
-//
-//	});
+
+	// if (proxy.getStudyResult() == null || proxy.getStudyResult().length()
+	// == 0) {
+	// studyResult.setText(studyResultTitle);
+	// }
+	//
+	// studyResult.addFocusHandler(new FocusHandler() {
+	//
+	// @Override
+	// public void onFocus(FocusEvent event) {
+	//
+	// if (studyResult.getText().equals(studyResult.getTitle())) {
+	// studyResult.setValue("");
+	// } else {
+	// studyResult.setValue(studyResult.getValue());
+	// }
+	// }
+	//
+	// });
+	//
+	// studyResult.addBlurHandler(new BlurHandler() {
+	//
+	// @Override
+	// public void onBlur(BlurEvent event) {
+	//
+	// if (studyResult.getText().equals("")) {
+	// studyResult.setValue(studyResult.getTitle());
+	// } else {
+	// studyResult.setValue(studyResult.getValue());
+	// }
+	// }
+	//
+	// });
 
 	addFormRow(rowCounter++, "Результат", studyResult);
 
