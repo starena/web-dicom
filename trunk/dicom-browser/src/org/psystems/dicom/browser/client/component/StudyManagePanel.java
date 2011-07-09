@@ -26,6 +26,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -694,38 +696,36 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	studyResult.setText(proxy.getStudyResult());
 
-	// if (proxy.getStudyResult() == null || proxy.getStudyResult().length()
-	// == 0) {
-	// studyResult.setText(studyResultTitle);
-	// }
-	//
-	// studyResult.addFocusHandler(new FocusHandler() {
-	//
-	// @Override
-	// public void onFocus(FocusEvent event) {
-	//
-	// if (studyResult.getText().equals(studyResult.getTitle())) {
-	// studyResult.setValue("");
-	// } else {
-	// studyResult.setValue(studyResult.getValue());
-	// }
-	// }
-	//
-	// });
-	//
-	// studyResult.addBlurHandler(new BlurHandler() {
-	//
-	// @Override
-	// public void onBlur(BlurEvent event) {
-	//
-	// if (studyResult.getText().equals("")) {
-	// studyResult.setValue(studyResult.getTitle());
-	// } else {
-	// studyResult.setValue(studyResult.getValue());
-	// }
-	// }
-	//
-	// });
+	if (proxy.getStudyResult() == null || proxy.getStudyResult().length() == 0) {
+	    studyResult.setText(studyResultTitle);
+	}
+
+	studyResult.addFocusHandler(new FocusHandler() {
+
+	    @Override
+	    public void onFocus(FocusEvent event) {
+		if (studyResult.getText().equals(studyResult.getTitle())) {
+		    studyResult.setValue("");
+		} else {
+		    studyResult.setValue(studyResult.getValue());
+		}
+	    }
+
+	});
+
+	studyResult.addBlurHandler(new BlurHandler() {
+
+	    @Override
+	    public void onBlur(BlurEvent event) {
+
+		if (studyResult.getText().equals("")) {
+		    studyResult.setValue(studyResult.getTitle());
+		} else {
+		    studyResult.setValue(studyResult.getValue());
+		}
+	    }
+
+	});
 
 	addFormRow(rowCounter++, "Результат", studyResult);
 
