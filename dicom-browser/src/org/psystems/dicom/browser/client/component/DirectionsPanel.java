@@ -72,7 +72,7 @@ public class DirectionsPanel extends Composite {
 	label.addStyleName("DicomItemValue");
 	toolPanel.add(label);
 
-	//TODO Убать!!!!
+	//FIXME !!!!!!!!!!!!!!!!!!!!!!!!! Убать!!!!
 	dateBegin =  "2011-04-01 00:00:00"; 
 	
 	studyDateBoxBegin = new DateBox();

@@ -17,7 +17,6 @@ import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
 import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
-import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -67,7 +66,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
     private StudyCard studyCardPanel;
     private HTML submitResult;
-    private Button submitBtn;
+    // private Button submitBtn;
     private TextBox patientName;
     private DateBox patientBirstdayDox;
     private DateBox studyDateBox;
@@ -111,11 +110,12 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private DicSuggestBox doctorPerformedBox;
     private DicSuggestBox operatorBox;
     private ListBox lbModality;
+    private Button btnSaveAll;
 
     // словари TODO Убрать! брать данные из индекса
     static TreeMap<String, String> dicModel = new TreeMap<String, String>();
     static HashMap<String, String> dicModality = new HashMap<String, String>();
-    //Ключи для сотрировки. TODO как то криво :(
+    // Ключи для сотрировки. TODO как то криво :(
     static ArrayList<String> dicModalityKeys = new ArrayList<String>();
     // static HashMap<String, String> dicDoctors = new HashMap<String,
     // String>();
@@ -166,14 +166,14 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	dicModel.put("Aloka alfa", "Aloka alfa 6 каб.527 ДП");
 	dicModel.put("Aloka 3500", "Aloka 3500 ВП 303 каб.");
 
-	//  Не забываем про ключи для сортировки
+	// Не забываем про ключи для сортировки
 	dicModality.put("OT", "Прочее");
 	dicModality.put("CR", "Флюорография");
 	dicModality.put("DF", "Рентген");
 	dicModality.put("US", "Узи");
 	dicModality.put("ES", "Эндоскопия");
 	dicModality.put("MG", "Маммография");
-	
+
 	dicModalityKeys.add("OT");
 	dicModalityKeys.add("CR");
 	dicModalityKeys.add("DF");
@@ -242,7 +242,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	Hidden modality = new Hidden();
 	modality.setName("00080060");
-//	modality.setValue(proxy.getStudyModality());
+	// modality.setValue(proxy.getStudyModality());
 	modality.setValue(lbModality.getValue(lbModality.getSelectedIndex()));
 	formDataPanel.add(modality);
 
@@ -292,7 +292,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	studyCommentsHidden.setValue(proxy.getStudyViewprotocol());
 	formDataPanel.add(studyCommentsHidden);
 
-	System.out.println("!!! PROXY " + proxy);
+	// System.out.println("!!! PROXY " + proxy);
     }
 
     /**
@@ -327,17 +327,18 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      */
     private void setModalityControls() {
 	String modality = null;
-	if (proxy.getDirection() != null && proxy.getDirection().getDevice() != null)
-	    modality = proxy.getDirection().getDevice().getModality();
-	else
+	// По умолчанию ставим "прочее"
+	lbModality.setSelectedIndex(0);
+
+	if (proxy.getStudyModality() != null) {
 	    modality = proxy.getStudyModality();
+	} else if (proxy.getDirection() != null && proxy.getDirection().getDevice() != null)
+	    modality = proxy.getDirection().getDevice().getModality();
+
 	for (int i = 0; i < lbModality.getItemCount(); i++) {
 	    if (lbModality.getValue(i).equalsIgnoreCase(modality))
-	    lbModality.setSelectedIndex(i);
-	    return;
+		lbModality.setSelectedIndex(i);
 	}
-	//По умолчанию ставим "прочее"
-	lbModality.setSelectedIndex(0);
     }
 
     /**
@@ -409,7 +410,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	} else {
 
 	    patientNameBox = new DicSuggestBox("patients");
-	    patientNameBox.setWidth("400px");
+	    patientNameBox.setWidth("600px");
 
 	    if (proxy.getPatientName() != null)
 		patientNameBox.getSuggestBox().setText(proxy.getPatientName());
@@ -585,10 +586,11 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	doctorPerformedBox = new DicSuggestBox("doctors");
 	if (proxy.getDirection() != null) {
-	    doctorPerformedBox.getSuggestBox().setText(proxy.getStudyDoctor());
-	} else {
 	    if (proxy.getDirection().getDoctorPerformed() != null)
 		doctorPerformedBox.getSuggestBox().setText(proxy.getDirection().getDoctorPerformed().getEmployeeName());
+	} else {
+	    doctorPerformedBox.getSuggestBox().setText(proxy.getStudyDoctor());
+
 	}
 
 	doctorPerformedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
@@ -680,7 +682,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	//
 
 	studyDescription = new TextBox();
-	studyDescription.setWidth("400px");
+	studyDescription.setWidth("600px");
 	studyDescription.setText(proxy.getStudyDescription());
 	addFormRow(rowCounter++, "Описание исследования", studyDescription);
 
@@ -689,7 +691,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// *********************************************************************************
 
 	studyResult = new TextBox();
-	studyResult.setWidth("400px");
+	studyResult.setWidth("600px");
 
 	studyResult.setTitle(studyResultTitle);
 	studyResult.setText(studyResultTitle);
@@ -752,7 +754,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	//
 
 	studyComments = new TextArea();
-	studyComments.setSize("400px", "200px");
+	studyComments.setSize("600px", "200px");
 	studyComments.setText(proxy.getStudyViewprotocol());
 	addFormRow(rowCounter++, "Протокол", studyComments);
 
@@ -768,36 +770,65 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	fileUpload = new FileUpload();
 	fileUpload.setName("upload");
 
+	// TODO Сделать проверку на тип и тип передаваемого контента
+	// TODO и вообще переделать интерфейс аттачинга
 	addFormRow(rowCounter++, lbAttachnebtType, fileUpload);
+
+	// Шаблоны
+	if (proxy != null && proxy.getId() > 0) {
+	    final VerticalPanel vpTemplates = new VerticalPanel();
+
+	    final Label lblShowTemplates = new Label("шаблоны...");
+	    lblShowTemplates.setStyleName("DicomItem");
+
+	    lblShowTemplates.addClickHandler(new ClickHandler() {
+
+		@Override
+		public void onClick(ClickEvent event) {
+
+		    ooTemplatePanel.setHTML("загрузка шаблонов...");
+		    vpTemplates.add(ooTemplatePanel);
+
+		    if (proxy != null && proxy.getId() > 0) {
+			initTemplates(proxy.getStudyModality());
+		    }
+		    lblShowTemplates.removeFromParent();
+		}
+	    });
+	    addFormRow(rowCounter++, lblShowTemplates);
+	    addFormRow(rowCounter++, vpTemplates);
+	} else {
+	    addFormRow(rowCounter++, new HTML("Прикрепление шаблона доступно только в существующем исследовании"));
+	}
 
 	// *********************************************************************************
 	// Конец формы
 	// *********************************************************************************
 
-	submitBtn = new Button("Сохранить изменения...");
-	dataVerifyed(false);
-	submitBtn.addClickHandler(new ClickHandler() {
-
-	    @Override
-	    public void onClick(ClickEvent event) {
-
-		// if (studyModality != null && studyModality.getSelectedIndex()
-		// <= 0) {
-		// Window.alert("Выберите тип исследования!");
-		// studyModality.setFocus(true);
-		// return;
-		// }
-
-		setHiddenFields();
-
-		// TODO Сделать недоступной кнопку "Сохранить"
-		submitResult.setHTML("сохранение...");
-		submitBtn.setEnabled(false);
-		formPanel.submit();
-
-	    }
-	});
-	addFormRow(rowCounter++, submitBtn);
+	// submitBtn = new Button("Сохранить изменения...");
+	// dataVerifyed(false);
+	// submitBtn.addClickHandler(new ClickHandler() {
+	//
+	// @Override
+	// public void onClick(ClickEvent event) {
+	//
+	// // if (studyModality != null && studyModality.getSelectedIndex()
+	// // <= 0) {
+	// // Window.alert("Выберите тип исследования!");
+	// // studyModality.setFocus(true);
+	// // return;
+	// // }
+	//
+	// setHiddenFields();
+	//
+	// // TODO Сделать недоступной кнопку "Сохранить"
+	// submitResult.setHTML("сохранение...");
+	// submitBtn.setEnabled(false);
+	// formPanel.submit();
+	//
+	// }
+	// });
+	// addFormRow(rowCounter++, submitBtn);
 
 	// BEGIN данные из направления
 
@@ -831,13 +862,27 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	    //
 	    diagnosisPerformedPanel = new DiagnosisPanel(true);
-	    diagnosisPerformedPanel.setDiagnosis(direction.getDiagnosisPerformed());
 	    addFormRow(rowCounter++, "Подтвержденные диагнозы", diagnosisPerformedPanel);
+	    // Если подтвержденных нет - копируем из назначенных
+	    if (direction.getDiagnosisPerformed().length == 0) {
+		diagnosisPerformedPanel.setDiagnosis(direction.getDiagnosisDirect());
+		addFormRow(rowCounter++, new HTML(
+			"Подтвержденные диагнозы не заданы и будут <b>скопированы</b> из направления"));
+	    } else {
+		diagnosisPerformedPanel.setDiagnosis(direction.getDiagnosisPerformed());
+	    }
 
 	    //
 	    servicesPerformedPanel = new ServicePanel(true);
-	    servicesPerformedPanel.setServices(direction.getServicesPerformed());
 	    addFormRow(rowCounter++, "Подтвержденные услуги", servicesPerformedPanel);
+	    // Если подтвержденных нет - копируем из назначенных
+	    if (direction.getServicesPerformed().length == 0) {
+		servicesPerformedPanel.setServices(direction.getServicesDirect());
+		addFormRow(rowCounter++, new HTML(
+			"Подтвержденные услуги не заданы и будут <b>скопированы</b> из направления"));
+	    } else {
+		servicesPerformedPanel.setServices(direction.getServicesPerformed());
+	    }
 
 	    //
 	    DateBox datePerformed = new DateBox();
@@ -855,16 +900,21 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    //
 	    addFormRow(rowCounter++, "Планируемая дата", new Label(direction.getDateTimePlanned()));
 
-	    //
-	    final Button btn = new Button("Сохранить направление");
-	    btn.addClickHandler(new ClickHandler() {
+	}
 
-		@Override
-		public void onClick(ClickEvent event) {
+	// END данные из направления
 
-		    // proxy.getDirection().setDirectionCode("CODEтест111");
-		    btn.setEnabled(false);
-		    // diagnosisDirrectPanel.getDiagnosis();
+	//
+	btnSaveAll = new Button("Сохранить направление");
+	btnSaveAll.addClickHandler(new ClickHandler() {
+
+	    @Override
+	    public void onClick(ClickEvent event) {
+
+		submitResult.setHTML("сохранение изменений в направлении...");
+		btnSaveAll.setEnabled(false);
+
+		if (proxy.getDirection() != null) {
 		    proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
 		    proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
 		    proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
@@ -874,23 +924,29 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 			@Override
 			public void onFailure(Throwable caught) {
-			    btn.setEnabled(true);
+			    btnSaveAll.setEnabled(true);
+			    submitResult.setHTML("Ошибка сохранения направления!");
 			    Dicom_browser.showErrorDlg(caught);
-
 			}
 
 			@Override
 			public void onSuccess(Void result) {
-			    btn.setEnabled(true);
+			    btnSaveAll.setEnabled(true);
+			    setHiddenFields();
+			    submitResult.setHTML("направление сохранено. передача исследования...");
+			    formPanel.submit();
 			}
 		    });
+		} else {
+		    btnSaveAll.setEnabled(true);
+		    setHiddenFields();
+		    submitResult.setHTML("направление сохранено. передача исследования...");
+		    formPanel.submit();
 		}
-	    });
+	    }
+	});
 
-	    addFormRow(rowCounter++, btn);
-	}
-
-	// END данные из направления
+	addFormRow(rowCounter++, btnSaveAll);
 
 	//
 	submitResult = new HTML();
@@ -902,12 +958,12 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// formTable.getFlexCellFormatter().setRowSpan(0, 2, 17);
 	int row = 0;
 
-	VerticalPanel vpRight = new VerticalPanel();
-	vpRight.setVerticalAlignment(VerticalPanel.ALIGN_TOP);
-	vpRight.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
-	formTable.setWidget(row, 2, vpRight);
-
-	hpMain.add(vpRight);
+//	VerticalPanel vpRight = new VerticalPanel();
+//	vpRight.setVerticalAlignment(VerticalPanel.ALIGN_TOP);
+//	vpRight.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);
+//	formTable.setWidget(row, 2, vpRight);
+//
+//	hpMain.add(vpRight);
 
 	// vpRight.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 	// formTable.getCellFormatter().setHorizontalAlignment(row, 2,
@@ -915,18 +971,18 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// formTable.getCellFormatter().setVerticalAlignment(row, 2,
 	// VerticalPanel.ALIGN_TOP);
 
-	vpRight.add(makeItemLabel("Сверка имени (Click - выбор)"));
+//	vpRight.add(makeItemLabel("Сверка имени (Click - выбор)"));
 	// vpRight.add(patientNameCheck);
 
-	vpRight.add(makeItemLabel("Шаблоны"));
-	ooTemplatePanel.setHTML("загрузка шаблонов...");
-	vpRight.add(ooTemplatePanel);
-
-	if (proxy != null && proxy.getId() > 0) {
-	    initTemplates(proxy.getStudyModality());
-	} else {
-	    ooTemplatePanel.setHTML("Прикрепление шаблона доступно только в существующем исследовании");
-	}
+	// vpRight.add(makeItemLabel("Шаблоны"));
+	// ooTemplatePanel.setHTML("загрузка шаблонов...");
+	// vpRight.add(ooTemplatePanel);
+	//
+	// if (proxy != null && proxy.getId() > 0) {
+	// initTemplates(proxy.getStudyModality());
+	// } else {
+	// ooTemplatePanel.setHTML("Прикрепление шаблона доступно только в существующем исследовании");
+	// }
 
 	formTable.getFlexCellFormatter().setRowSpan(0, 2, rowCounter);
 
@@ -934,95 +990,99 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// formTable.getFlexCellFormatter().setRowSpan(rowCounter, 1 , 17);
 
 	//
-	updateFromSession();
+	// updateFromSession();
 
 	initWidget(mainPanel);
 
 	// patientVerify();
     }
 
-    /**
-     * TODO Сделать РАЗОВОЙ при запуске клиента !!!!! Обновление из сессии
-     */
-    private void updateFromSession() {
+    // /**
+    // * TODO Сделать РАЗОВОЙ при запуске клиента !!!!! Обновление из сессии
+    // */
+    // private void updateFromSession() {
+    //
+    // submitResult.setHTML("Загрузка конфигурации...");
+    // submitBtn.setEnabled(false);
+    //
+    // Dicom_browser.browserService.getSessionObject(new
+    // AsyncCallback<Session>() {
+    //
+    // @Override
+    // public void onFailure(Throwable caught) {
+    // Dicom_browser.showErrorDlg(caught);
+    // submitResult.setHTML("Ошибка загрузка конфигурации!");
+    // submitBtn.setEnabled(true);
+    // }
+    //
+    // @Override
+    // public void onSuccess(Session result) {
+    //
+    // submitResult.setHTML("");
+    // // System.out.println("!!!! Session result="+result);
+    // submitBtn.setEnabled(true);
+    // if (result == null)
+    // return;
+    //
+    // String ManufacturerModelName =
+    // result.getStudyManagePanel_ManufacturerModelName();
+    // String Modality = result.getStudyManagePanel_Modality();
+    //
+    // //
+    // System.out.println("!!!! getStudyManagePanel_ManufacturerModelName="+result.getStudyManagePanel_ManufacturerModelName());
+    // //
+    // System.out.println("!!!! getStudyManagePanel_Modality="+result.getStudyManagePanel_Modality());
+    //
+    // // for (int i = 0; i <
+    // // studyManufacturerModelName.getItemCount(); i++) {
+    // // if
+    // // (studyManufacturerModelName.getValue(i).equals(ManufacturerModelName))
+    // // {
+    // // studyManufacturerModelName.setSelectedIndex(i);
+    // // break;
+    // // }
+    // // }
+    //
+    // // for (int i = 0; i < studyModality.getItemCount(); i++) {
+    // // if (studyModality.getValue(i).equals(Modality)) {
+    // // studyModality.setSelectedIndex(i);
+    // // break;
+    // // }
+    // // }
+    //
+    // }
+    // });
+    //
+    // // Dicom_browser.browserService.getDcmTagsFromFile(0,
+    // // Dicom_browser.version, proxy.getId(),
+    // // new AsyncCallback<ArrayList<DcmTagProxy>>() {
+    // //
+    // // @Override
+    // // public void onFailure(Throwable caught) {
+    // // vp.clear();
+    // // vp.add(new Label("Ошибка полчения данных! " + caught));
+    // // }
+    // //
+    // // @Override
+    // // public void onSuccess(ArrayList<DcmTagProxy> result) {
+    // // vp.clear();
+    // // for (Iterator<DcmTagProxy> it = result.iterator(); it
+    // // .hasNext();) {
+    // // DcmTagProxy proxy = it.next();
+    // // vp.add(new Label("" + proxy));
+    // // }
+    // // }
+    // // });
+    // }
 
-	submitResult.setHTML("Загрузка конфигурации...");
-	submitBtn.setEnabled(false);
-
-	Dicom_browser.browserService.getSessionObject(new AsyncCallback<Session>() {
-
-	    @Override
-	    public void onFailure(Throwable caught) {
-		Dicom_browser.showErrorDlg(caught);
-		submitResult.setHTML("Ошибка загрузка конфигурации!");
-		submitBtn.setEnabled(true);
-	    }
-
-	    @Override
-	    public void onSuccess(Session result) {
-
-		submitResult.setHTML("");
-		// System.out.println("!!!! Session result="+result);
-		submitBtn.setEnabled(true);
-		if (result == null)
-		    return;
-
-		String ManufacturerModelName = result.getStudyManagePanel_ManufacturerModelName();
-		String Modality = result.getStudyManagePanel_Modality();
-
-		// System.out.println("!!!! getStudyManagePanel_ManufacturerModelName="+result.getStudyManagePanel_ManufacturerModelName());
-		// System.out.println("!!!! getStudyManagePanel_Modality="+result.getStudyManagePanel_Modality());
-
-		// for (int i = 0; i <
-		// studyManufacturerModelName.getItemCount(); i++) {
-		// if
-		// (studyManufacturerModelName.getValue(i).equals(ManufacturerModelName))
-		// {
-		// studyManufacturerModelName.setSelectedIndex(i);
-		// break;
-		// }
-		// }
-
-		// for (int i = 0; i < studyModality.getItemCount(); i++) {
-		// if (studyModality.getValue(i).equals(Modality)) {
-		// studyModality.setSelectedIndex(i);
-		// break;
-		// }
-		// }
-
-	    }
-	});
-
-	// Dicom_browser.browserService.getDcmTagsFromFile(0,
-	// Dicom_browser.version, proxy.getId(),
-	// new AsyncCallback<ArrayList<DcmTagProxy>>() {
-	//
-	// @Override
-	// public void onFailure(Throwable caught) {
-	// vp.clear();
-	// vp.add(new Label("Ошибка полчения данных! " + caught));
-	// }
-	//
-	// @Override
-	// public void onSuccess(ArrayList<DcmTagProxy> result) {
-	// vp.clear();
-	// for (Iterator<DcmTagProxy> it = result.iterator(); it
-	// .hasNext();) {
-	// DcmTagProxy proxy = it.next();
-	// vp.add(new Label("" + proxy));
-	// }
-	// }
-	// });
-    }
-
-    protected void dataVerifyed(boolean b) {
-
-	if (b) {
-	    submitBtn.setText("Сохранить изменения...");
-	} else {
-	    submitBtn.setText("Сохранить НЕПРОВЕРЕННЫЕ изменения...");
-	}
-    }
+    // protected void dataVerifyed(boolean b) {
+    //
+    // if (b) {
+    // submitBtn.setText("Сохранить изменения...");
+    // } else {
+    // submitBtn.setText("Сохранить НЕПРОВЕРЕННЫЕ изменения...");
+    // }
+    // }
 
     // private void patientVerify() {
     //
@@ -1131,23 +1191,23 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     //
     // }
 
-    /**
-     * Применение сверенных данных
-     * 
-     * @param lastPatientProxy
-     */
-    protected void applyVerifyedData(PatientProxy lastPatientProxy) {
-	if (lastPatientProxy == null)
-	    return;
-	patientName.setValue(lastPatientProxy.getPatientName());
-
-	patientBirstdayDox.setValue(Utils.dateFormatSql.parse(lastPatientProxy.getPatientBirthDate()));
-	if ("M".equals(lastPatientProxy.getPatientSex()))
-	    lbPatientSex.setSelectedIndex(0);
-	else
-	    lbPatientSex.setSelectedIndex(1);
-	dataVerifyed(true);
-    }
+    // /**
+    // * Применение сверенных данных
+    // *
+    // * @param lastPatientProxy
+    // */
+    // protected void applyVerifyedData(PatientProxy lastPatientProxy) {
+    // if (lastPatientProxy == null)
+    // return;
+    // patientName.setValue(lastPatientProxy.getPatientName());
+    //
+    // patientBirstdayDox.setValue(Utils.dateFormatSql.parse(lastPatientProxy.getPatientBirthDate()));
+    // if ("M".equals(lastPatientProxy.getPatientSex()))
+    // lbPatientSex.setSelectedIndex(0);
+    // else
+    // lbPatientSex.setSelectedIndex(1);
+    // dataVerifyed(true);
+    // }
 
     /**
      * Добавление строчки на форму
@@ -1196,7 +1256,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     }
 
     private void clearForm() {
-	dataVerifyed(true);
+	// dataVerifyed(true);
 	resetForm();
 	studyDateBox.setValue(new Date());
     }
@@ -1210,16 +1270,16 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      */
     protected void submitError(SubmitCompleteEvent event) {
 	submitResult.setHTML("" + event.toDebugString() + "<HR>" + event.getResults());
-	submitBtn.setEnabled(true);
-	// dataVerifyed(true);
+	// submitBtn.setEnabled(true);
+	btnSaveAll.setEnabled(true);
     }
 
     /**
      * Успешное завершение сохранения исследования
      */
     protected void submitSuccess() {
-	// clearForm();
 
+	// проверяем, сохранилось ли направление...
 	Dicom_browser.browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(),
 		new AsyncCallback<StudyProxy>() {
 
@@ -1249,7 +1309,9 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 			}
 
 			// submitBtn.setEnabled(true);
-			submitBtn.removeFromParent();
+			// submitBtn.removeFromParent();
+			System.out.println("!!!! btnSaveAll=" + btnSaveAll);
+			btnSaveAll.removeFromParent();
 
 			Button closeBtn = new Button("Закрыть форму ввода");
 			closeBtn.addClickHandler(new ClickHandler() {
