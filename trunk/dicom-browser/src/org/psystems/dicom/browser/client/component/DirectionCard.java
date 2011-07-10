@@ -91,16 +91,7 @@ public class DirectionCard extends Composite {
 	    }
 	});
 
-	Label lblNew = new Label(" {Новое иссл.}");
-	hp.add(lblNew);
-	lblNew.setStyleName("DicomItem");
-	lblNew.addClickHandler(new ClickHandler() {
-
-	    @Override
-	    public void onClick(ClickEvent event) {
-		showStudy(null);
-	    }
-	});
+	
 
 	initWidget(mainPanel);
     }
@@ -436,6 +427,17 @@ public class DirectionCard extends Composite {
 	for (StudyProxy studyProxy : studies) {
 	    allStuduesPanel.add(new StudiesPanel(studyProxy));
 	}
+
+	Button newStudyBtn = new Button("Создать исследование");
+	allStuduesPanel.add(newStudyBtn);
+	newStudyBtn.addClickHandler(new ClickHandler() {
+	    
+	    @Override
+	    public void onClick(ClickEvent event) {
+		showStudy(null);
+	    }
+	});
+	
 	mainPanel.add(allStuduesPanel);
     }
 
