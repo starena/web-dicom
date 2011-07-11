@@ -112,6 +112,7 @@ public interface BrowserService extends RemoteService {
 
     Session getSessionObject() throws DefaultGWTRPCException;
 
+    //FIXME переименовать в PDF....
     ArrayList<OOTemplateProxy> getOOTemplates(String modality) throws DefaultGWTRPCException;
 
     ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query) throws DefaultGWTRPCException;

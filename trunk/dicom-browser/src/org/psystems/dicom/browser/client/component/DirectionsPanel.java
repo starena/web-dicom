@@ -73,7 +73,7 @@ public class DirectionsPanel extends Composite {
 	toolPanel.add(label);
 
 	//FIXME !!!!!!!!!!!!!!!!!!!!!!!!! Убать!!!!
-	dateBegin =  "2011-04-01 00:00:00"; 
+//	dateBegin =  "2011-04-01 00:00:00"; 
 	
 	studyDateBoxBegin = new DateBox();
 	studyDateBoxBegin.setWidth("80px");
