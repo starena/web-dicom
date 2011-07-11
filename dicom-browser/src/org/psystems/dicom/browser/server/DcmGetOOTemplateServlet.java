@@ -69,6 +69,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author dima_d
+ *
+ */
 public class DcmGetOOTemplateServlet extends HttpServlet {
 
 	private static Logger logger = Logger
@@ -88,11 +92,11 @@ public class DcmGetOOTemplateServlet extends HttpServlet {
 		
 		String fileName = req.getPathInfo().replaceFirst("/", "");
 		String id = req.getParameter("id");
-		System.out.println("!!![1] DcmGetOOTemplateServlet file=["+fileName+"]"+l);
+//		System.out.println("!!![1] DcmGetOOTemplateServlet file=["+fileName+"]"+l);
 		
 		//ХАк для подмены кодировки
 		fileName = new String((fileName).getBytes("ISO-8859-1"),"UTF-8");
-		System.out.println("!!![2] DcmGetOOTemplateServlet file=["+fileName+"]"+l);
+//		System.out.println("!!![2] DcmGetOOTemplateServlet file=["+fileName+"]"+l);
 
 		Matcher matcher = Pattern.compile("^(.*).pdf$").matcher(fileName);
 		if (matcher.matches()) {

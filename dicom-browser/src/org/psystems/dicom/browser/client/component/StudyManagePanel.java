@@ -1369,7 +1369,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 		String tmpls = "";
 		for (int i = 0; i < result.size(); i++) {
-		    tmpls += "<a href='" + result.get(i).getUrl() + "?id=" + proxy.getId() + "'>"
+		    tmpls += "<a href='" + result.get(i).getUrl() + "?id=" + proxy.getId() + "' target='_new'>"
 			    + result.get(i).getTitle() + "</a><br>";
 		}
 
@@ -1377,6 +1377,8 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		// tmpls += "<a href='"+"?id="+proxy.getId()+"'>" + i
 		// +"</a><br>";
 		// }
+		
+		tmpls += "<b>TODO</b> Сделать разовой!";
 
 		ooTemplatePanel.setHTML(tmpls);
 	    }

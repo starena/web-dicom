@@ -712,7 +712,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 			    OOTemplateProxy tmplProxy = new OOTemplateProxy();
 			    tmplProxy.setModality(dirName);
 			    tmplProxy.setTitle(tmpl.getName());
-			    tmplProxy.setUrl("ootmpl/" + dirName + "/" + fileName);
+//			    tmplProxy.setUrl("ootmpl/" + dirName + "/" + fileName);
+			    tmplProxy.setUrl("makepdf/" + dirName + "/" + fileName);
 			    result.add(tmplProxy);
 			}
 		    }
