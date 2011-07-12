@@ -24,10 +24,15 @@ import com.itextpdf.text.pdf.TextField;
 
 public class ManagePdfServlet extends HttpServlet {
 
-    private String file = "C:\\WORK\\workspace\\dicom-browser\\test\\ootmpl\\US\\usi_moloch_gelez_pdf.pdf ";
+    // private String file =
+    // "C:\\WORK\\workspace\\dicom-browser\\test\\ootmpl\\US\\usi_moloch_gelez_pdf.pdf ";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	// System.out.println("!!! req=["+req.getPathInfo()+"] id=["+req.getParameter("id")+"]");
+	String tmplDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+	String file = tmplDir + req.getPathInfo();
 
 	// req.setCharacterEncoding("cp1251");
 
@@ -38,13 +43,14 @@ public class ManagePdfServlet extends HttpServlet {
 	    OutputStream out = resp.getOutputStream();
 	    PdfStamper stamper = new PdfStamper(reader, out);
 
-	    //Задаем знечения полей
+	    // Задаем знечения полей
 	    AcroFields fields = stamper.getAcroFields();
 	    Set<String> parameters = fields.getFields().keySet();
 	    for (String parameter : parameters) {
 
-//		System.out.println("!!!   parameter=" + parameter + " TYPE=" + fields.getFieldType(parameter) + "["
-//			+ req.getParameter(parameter) + "]");
+		// System.out.println("!!!   parameter=" + parameter + " TYPE="
+		// + fields.getFieldType(parameter) + "["
+		// + req.getParameter(parameter) + "]");
 
 		// пропускаем радиобаттоны
 		if (fields.getFieldType(parameter) == AcroFields.FIELD_TYPE_RADIOBUTTON)
@@ -53,12 +59,12 @@ public class ManagePdfServlet extends HttpServlet {
 		if (req.getParameter(parameter) != null) {
 		    fields.setField(parameter, req.getParameter(parameter));
 		}
-		//FIXME убрать!!!
-		 fields.setField(parameter, "Тестимся");
+		// FIXME убрать!!!
+		fields.setField(parameter, "Тестимся");
 		fields.setFieldProperty(parameter, "setfflags", TextField.READ_ONLY, null);
 	    }
 
-	    //Добавляем кнопку Submit
+	    // Добавляем кнопку Submit
 	    PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 140, 190), "submit");
 	    button.setText("Передать в архив...");
 	    button.setBackgroundColor(new GrayColor(0.7f));
@@ -90,6 +96,8 @@ public class ManagePdfServlet extends HttpServlet {
 
 	    req.setCharacterEncoding("cp1251");
 
+	    String tmplDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+	    String file = tmplDir + req.getPathInfo();
 	    System.out.println("! CS = " + req.getCharacterEncoding() + "; " + req.getParameter("charset"));
 
 	    for (Enumeration iter = req.getParameterNames(); iter.hasMoreElements();) {
