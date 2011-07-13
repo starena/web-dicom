@@ -81,150 +81,165 @@ import org.psystems.dicom.browser.client.proxy.ARPCRequest;
  */
 public class Util {
 
-	// static Connection connection;
-	// static String connectionStr =
-	// "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
+    // static Connection connection;
+    // static String connectionStr =
+    // "jdbc:derby://localhost:1527//WORKDB/WEBDICOM";
 
-	// Версия ПО (используется для проверки на стороне сервере при обновлении
-	// клиента)
-	public static String version = "0.1a"; // TODO Взять из конфига?
-	
-	//Имя атрибута сессии
-	public static String sessionAttrName = "dicom-browser-session";
+    // Версия ПО (используется для проверки на стороне сервере при обновлении
+    // клиента)
+    public static String version = "0.1a"; // TODO Взять из конфига?
 
-	private static Logger logger = Logger.getLogger(Util.class
-			.getName());
+    // Имя атрибута сессии
+    public static String sessionAttrName = "dicom-browser-session";
 
-	/**
-	 * Журналирование Эксепшина с 
-	 * Получением стека
-	 * @param e
-	 * @return
-	 */
-	public static DefaultGWTRPCException throwPortalException (String msg) {
-		return throwPortalException(msg,new RuntimeException());
-	}
-	
-	/**
-	 * Журналирование Эксепшина с 
-	 * Получением стека
-	 * @param e
-	 * @return
-	 */
-	public static DefaultGWTRPCException throwPortalException (String msg, Throwable e) {
-		
-		String marker =  Thread.currentThread().getId() + "_" + new Date().getTime();
-		StringWriter sw = new StringWriter();
-	    PrintWriter pw = new PrintWriter(sw);
-	    e.printStackTrace(pw);
-	    String stack = sw.toString();
-	    //TODO Сделать через Log4j
-	    System.err.println("Portal Error ["+marker+"] "+e.getMessage()+" stack:\n"+stack);
-	    return new DefaultGWTRPCException(marker,msg,e,stack);
-	    	
-	}
+    private static Logger logger = Logger.getLogger(Util.class.getName());
 
-	/**
-	 * @param jdbcName
-	 *            - Имя соединения
-	 * @param servletContext
-	 * @return
-	 * @throws SQLException
-	 */
-	public static Connection getConnection(String jdbcName,
-			ServletContext servletContext) throws SQLException {
+    /**
+     * Журналирование Эксепшина с Получением стека
+     * 
+     * @param e
+     * @return
+     */
+    public static DefaultGWTRPCException throwPortalException(String msg) {
+	return throwPortalException(msg, new RuntimeException());
+    }
 
-		Connection connection = null;
+    /**
+     * Журналирование Эксепшина с Получением стека
+     * 
+     * @param e
+     * @return
+     */
+    public static DefaultGWTRPCException throwPortalException(String msg, Throwable e) {
 
-		try {
-		//
-		String connectionDriver = servletContext
-				.getInitParameter("webdicom.connection." + jdbcName + ".driver");
+	String marker = Thread.currentThread().getId() + "_" + new Date().getTime();
+	StringWriter sw = new StringWriter();
+	PrintWriter pw = new PrintWriter(sw);
+	e.printStackTrace(pw);
+	String stack = sw.toString();
+	// TODO Сделать через Log4j
+	System.err.println("Portal Error [" + marker + "] " + e.getMessage() + " stack:\n" + stack);
+	return new DefaultGWTRPCException(marker, msg, e, stack);
 
-		//
-		String connectionUrl = servletContext
-				.getInitParameter("webdicom.connection." + jdbcName + ".url");
+    }
 
-		if (connectionUrl != null) {
-			Properties props = new Properties(); // connection properties
+    /**
+     * Журналирование Эксепшина в логе файле Получением стека
+     * 
+     * @param e
+     * @return
+     */
+    public static String loggingException(String msg, Throwable e) {
 
-			if (connectionDriver != null) {
-				try {
-					Class.forName(connectionDriver);
-				} catch (ClassNotFoundException exx) {
-					throw new SQLException("driver not found!  '"
-							+ connectionDriver + "'");
-				}
-			}
-			connection = DriverManager.getConnection(connectionUrl, props);
-		} else {
-			// for Tomcat
-			try {
-				Context initCtx = new InitialContext();
-				Context envCtx = (Context) initCtx.lookup("java:comp/env");
-				DataSource ds = (DataSource) envCtx.lookup("jdbc/" + jdbcName);
-				connection = ds.getConnection();
-			} catch (NamingException e) {
-				throw new SQLException("JNDI error " + e);
-			}
+	String marker = Thread.currentThread().getId() + "_" + new Date().getTime();
+	StringWriter sw = new StringWriter();
+	PrintWriter pw = new PrintWriter(sw);
+	e.printStackTrace(pw);
+	String stack = sw.toString();
+	// TODO Сделать через Log4j
+	System.err.println("Portal Error [" + marker + "] " + e.getMessage() + " stack:\n" + stack);
+	return e.getClass() + "[" + marker + "] " + msg;
+
+    }
+
+    /**
+     * @param jdbcName
+     *            - Имя соединения
+     * @param servletContext
+     * @return
+     * @throws SQLException
+     */
+    public static Connection getConnection(String jdbcName, ServletContext servletContext) throws SQLException {
+
+	Connection connection = null;
+
+	try {
+	    //
+	    String connectionDriver = servletContext.getInitParameter("webdicom.connection." + jdbcName + ".driver");
+
+	    //
+	    String connectionUrl = servletContext.getInitParameter("webdicom.connection." + jdbcName + ".url");
+
+	    if (connectionUrl != null) {
+		Properties props = new Properties(); // connection properties
+
+		if (connectionDriver != null) {
+		    try {
+			Class.forName(connectionDriver);
+		    } catch (ClassNotFoundException exx) {
+			throw new SQLException("driver not found!  '" + connectionDriver + "'");
+		    }
 		}
-		}catch(SQLException ex) {
-			System.err.println("DBERROR: "+ex + " code:"+ex.getErrorCode()+" state: "+ex.getSQLState());
-			ex.printStackTrace();
-			throw ex;
-		}
-
-		return connection;
-	}
-	
-	/**
-	 * @param servletContext
-	 * @return
-	 * @throws SQLException
-	 */
-	public  Connection getConnection2(ServletContext servletContext)
-			throws SQLException {
-
-		Connection connection = null;
-
+		connection = DriverManager.getConnection(connectionUrl, props);
+	    } else {
 		// for Tomcat
 		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
-			connection = ds.getConnection();
+		    Context initCtx = new InitialContext();
+		    Context envCtx = (Context) initCtx.lookup("java:comp/env");
+		    DataSource ds = (DataSource) envCtx.lookup("jdbc/" + jdbcName);
+		    connection = ds.getConnection();
 		} catch (NamingException e) {
-			throw new SQLException("JNDI error " + e);
+		    throw new SQLException("JNDI error " + e);
 		}
-
-		return connection;
+	    }
+	} catch (SQLException ex) {
+	    System.err.println("DBERROR: " + ex + " code:" + ex.getErrorCode() + " state: " + ex.getSQLState());
+	    ex.printStackTrace();
+	    throw ex;
 	}
 
-	/**
-	 * TODO !!! Убрать !!! Проверка версии клиентског запроса
-	 * 
-	 * @param version
-	 * @return 
-	 * @return
-	 * @throws VersionGWTRPCException 
-	 */
-	public static void checkClentVersion(String version) throws VersionGWTRPCException {
-		if (!version.equalsIgnoreCase(version) ) {
-			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! "+ version + " != " + version);
-		}
+	return connection;
+    }
+
+    /**
+     * @param servletContext
+     * @return
+     * @throws SQLException
+     */
+    public Connection getConnection2(ServletContext servletContext) throws SQLException {
+
+	Connection connection = null;
+
+	// for Tomcat
+	try {
+	    Context initCtx = new InitialContext();
+	    Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	    DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
+	    connection = ds.getConnection();
+	} catch (NamingException e) {
+	    throw new SQLException("JNDI error " + e);
 	}
 
-	/**
-	 * Проверка версии клиента (при запросе)
-	 * 
-	 * @param v
-	 * @return
-	 * @throws VersionGWTRPCException 
-	 */
-	public static void checkClentVersion(ARPCRequest req) throws VersionGWTRPCException {
-		if (!version.equalsIgnoreCase(req.getVersion()) ) {
-			throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! "+ req.getVersion() + " != " + version);
-		}
+	return connection;
+    }
+
+    /**
+     * TODO !!! Убрать !!! Проверка версии клиентског запроса
+     * 
+     * @param version
+     * @return
+     * @return
+     * @throws VersionGWTRPCException
+     */
+    public static void checkClentVersion(String version) throws VersionGWTRPCException {
+	if (!version.equalsIgnoreCase(version)) {
+	    throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! " + version + " != "
+		    + version);
 	}
-	
+    }
+
+    /**
+     * Проверка версии клиента (при запросе)
+     * 
+     * @param v
+     * @return
+     * @throws VersionGWTRPCException
+     */
+    public static void checkClentVersion(ARPCRequest req) throws VersionGWTRPCException {
+	if (!version.equalsIgnoreCase(req.getVersion())) {
+	    throw new VersionGWTRPCException("Версия клиента не совпадает с версией сервера! " + req.getVersion()
+		    + " != " + version);
+	}
+    }
+
 }
