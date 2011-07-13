@@ -279,14 +279,14 @@ public class ManagePdfServlet extends HttpServlet {
 	// Date().getTime());
 	// formDataPanel.add(studySeriesUID);
 	if (study.getStudyInstanceUID() != null)
-	props.put("0020000E", study.getStudyInstanceUID() + "." + new Date().getTime());
+	    props.put("0020000E", study.getStudyInstanceUID() + "." + new Date().getTime());
 
 	// Hidden studyId = new Hidden();
 	// studyId.setName("00200010");
 	// studyId.setValue(proxy.getStudyId());
 	// formDataPanel.add(studyId);
 	if (study.getStudyId() != null)
-	props.put("00200010", study.getStudyId());
+	    props.put("00200010", study.getStudyId());
 
 	//
 
@@ -295,28 +295,28 @@ public class ManagePdfServlet extends HttpServlet {
 	// patientId.setValue(proxy.getPatientId());
 	// formDataPanel.add(patientId);
 	if (study.getPatientId() != null)
-	props.put("00100021", study.getPatientId());
+	    props.put("00100021", study.getPatientId());
 
 	// Hidden patientName = new Hidden();
 	// patientName.setName("00100010");
 	// patientName.setValue(proxy.getPatientName());
 	// formDataPanel.add(patientName);
 	if (study.getPatientName() != null)
-	props.put("00100010", study.getPatientName());
+	    props.put("00100010", study.getPatientName());
 
 	// Hidden patientSex = new Hidden();
 	// patientSex.setName("00100040");
 	// patientSex.setValue(proxy.getPatientSex());
 	// formDataPanel.add(patientSex);
 	if (study.getPatientSex() != null)
-	props.put("00100040", study.getPatientSex());
+	    props.put("00100040", study.getPatientSex());
 
 	// Hidden patientBirthDateHidden = new Hidden();
 	// patientBirthDateHidden.setName("00100030");
 	// patientBirthDateHidden.setValue(proxy.getPatientBirthDate());
 	// formDataPanel.add(patientBirthDateHidden);
 	if (study.getPatientBirthDate() != null)
-	props.put("00100030", study.getPatientBirthDate());
+	    props.put("00100030", study.getPatientBirthDate());
 
 	//
 
@@ -325,7 +325,7 @@ public class ManagePdfServlet extends HttpServlet {
 	// manufacturerModelName.setValue(proxy.getManufacturerModelName());
 	// formDataPanel.add(manufacturerModelName);
 	if (study.getManufacturerModelName() != null)
-	props.put("00081090", study.getManufacturerModelName());
+	    props.put("00081090", study.getManufacturerModelName());
 
 	// Hidden modality = new Hidden();
 	// modality.setName("00080060");
@@ -333,14 +333,14 @@ public class ManagePdfServlet extends HttpServlet {
 	// modality.setValue(lbModality.getValue(lbModality.getSelectedIndex()));
 	// formDataPanel.add(modality);
 	if (study.getStudyModality() != null)
-	props.put("00080060", study.getStudyModality());
+	    props.put("00080060", study.getStudyModality());
 
 	// Hidden studyDateHidden = new Hidden();
 	// studyDateHidden.setName("00080020");
 	// studyDateHidden.setValue(proxy.getStudyDate());
 	// formDataPanel.add(studyDateHidden);
 	if (study.getStudyDate() != null)
-	props.put("00080020", study.getStudyDate());
+	    props.put("00080020", study.getStudyDate());
 
 	// // Study Completion Date
 	// Hidden studyViewProtocolDateHidden = new Hidden();
@@ -348,21 +348,21 @@ public class ManagePdfServlet extends HttpServlet {
 	// studyViewProtocolDateHidden.setValue(proxy.getStudyViewprotocolDate());
 	// formDataPanel.add(studyViewProtocolDateHidden);
 	if (study.getStudyViewprotocolDate() != null)
-	props.put("00321050", study.getStudyViewprotocolDate());
+	    props.put("00321050", study.getStudyViewprotocolDate());
 
 	// Hidden studyDoctorHidden = new Hidden();
 	// studyDoctorHidden.setName("00080090");
 	// studyDoctorHidden.setValue(proxy.getStudyDoctor());
 	// formDataPanel.add(studyDoctorHidden);
 	if (study.getStudyDoctor() != null)
-	props.put("00080090", study.getStudyDoctor());
+	    props.put("00080090", study.getStudyDoctor());
 
 	// Hidden studyOperatorHidden = new Hidden();
 	// studyOperatorHidden.setName("00081070");
 	// studyOperatorHidden.setValue(proxy.getStudyOperator());
 	// formDataPanel.add(studyOperatorHidden);
 	if (study.getStudyOperator() != null)
-	props.put("00081070", study.getStudyOperator());
+	    props.put("00081070", study.getStudyOperator());
 
 	//
 	// proxy.setStudyDescription(studyDescription.getText());
@@ -372,7 +372,7 @@ public class ManagePdfServlet extends HttpServlet {
 	// studyDescriptionHidden.setValue(proxy.getStudyDescription());
 	// formDataPanel.add(studyDescriptionHidden);
 	if (study.getStudyDescription() != null)
-	props.put("00081030", study.getStudyDescription());
+	    props.put("00081030", study.getStudyDescription());
 
 	//
 	// proxy.setStudyResult(studyResult.getText());
@@ -382,7 +382,7 @@ public class ManagePdfServlet extends HttpServlet {
 	// studyResultHidden.setValue(proxy.getStudyResult());
 	// formDataPanel.add(studyResultHidden);
 	if (study.getStudyResult() != null)
-	props.put("00102000", study.getStudyResult());
+	    props.put("00102000", study.getStudyResult());
 
 	//
 	// proxy.setStudyViewprotocol(studyComments.getText());
@@ -393,7 +393,7 @@ public class ManagePdfServlet extends HttpServlet {
 	// studyCommentsHidden.setValue(proxy.getStudyViewprotocol());
 	// formDataPanel.add(studyCommentsHidden);
 	if (study.getStudyViewprotocol() != null)
-	props.put("00324000", study.getStudyViewprotocol());
+	    props.put("00324000", study.getStudyViewprotocol());
 
 	//
 
@@ -440,6 +440,8 @@ public class ManagePdfServlet extends HttpServlet {
 
 	    PdfContentByte canvas = stamper.getOverContent(1);
 
+	    // FIXME Сделать конфигуриремым или засунуть шоифт в CLASSPATH
+	    // Сейчас просто закинул на продуктиве в папку tomcat/lib
 	    String fontPath = "fonts/arial.ttf";
 	    Font font = new Font(BaseFont.createFont(fontPath, "Cp1251", BaseFont.NOT_EMBEDDED), 14);
 
