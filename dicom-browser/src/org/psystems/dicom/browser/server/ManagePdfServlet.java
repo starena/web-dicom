@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +14,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.orm.PersistentManagerDerby;
+import org.psystems.dicom.commons.orm.entity.DataException;
+import org.psystems.dicom.commons.orm.entity.Study;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -46,6 +53,7 @@ import com.itextpdf.text.pdf.AcroFields.Item;
 public class ManagePdfServlet extends HttpServlet {
 
     private static final long serialVersionUID = 8911247236211732365L;
+    private static Logger logger = Logger.getLogger(ManagePdfServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,33 +65,51 @@ public class ManagePdfServlet extends HttpServlet {
 
 	try {
 
+	    long id = Long.valueOf(req.getParameter("id")).longValue();
+
+	    Connection connection = Util.getConnection("main", getServletContext());
+	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+
+	    Study study = pm.getStudyByID(id);
+
 	    FileInputStream fis = new FileInputStream(file);
 	    PdfReader reader = new PdfReader(fis);
 	    OutputStream out = resp.getOutputStream();
 	    PdfStamper stamper = new PdfStamper(reader, out);
 
-	   
-
 	    // Пробегаем по полям формы.
 	    // Если поле READ_ONLY - заменяем его на текст
-	    AcroFields fields = stamper.getAcroFields();
-	    for (String fieldName : fields.getFields().keySet()) {
+	    AcroFields form = stamper.getAcroFields();
+
+	    // Аппарата
+	    String fName = "ManufacturerModelName";
+	    if (form.getField(fName) != null)
+		form.setField(fName, study.getManufacturerModelName());
+	    
+	    // Протокол оасотра
+	    fName = "StudyViewprotocol";
+	    if (form.getField(fName) != null) 
+		form.setField(fName, study.getStudyViewprotocol());
+	    
+	    
+
+	    for (String fieldName : form.getFields().keySet()) {
 
 		// пропускаем "радиобаттоны"
-		if (fields.getFieldType(fieldName) == AcroFields.FIELD_TYPE_RADIOBUTTON)
+		if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_RADIOBUTTON)
 		    continue;
 
 		// Установка значений полей из БД
 
 		// Установка значений полей из QUERY_STRING
 		if (req.getParameter(fieldName) != null) {
-		    fields.setField(fieldName, req.getParameter(fieldName));
+		    form.setField(fieldName, req.getParameter(fieldName));
 		}
 
 		// Свойства поля
 
-		boolean readOnly = fieldIsREADONLY(fields, fieldName);
-		System.out.println("!!! field " + fieldName + " RO is " + readOnly);
+//		boolean readOnly = fieldIsREADONLY(form, fieldName);
+//		System.out.println("!!! field " + fieldName + " RO is " + readOnly);
 
 		// ------------
 
@@ -92,13 +118,14 @@ public class ManagePdfServlet extends HttpServlet {
 		// fields.setFieldProperty(fieldName, "setfflags",
 		// TextField.READ_ONLY, null);
 	    }
-	    
+
 	    replaceROFields(reader, stamper);
 
 	    // Добавляем кнопку Submit
 	    int btnWidth = 100;
 	    int btnHeight = 30;
-	    PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 90+btnWidth, 60+btnHeight), "submit");
+	    PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 90 + btnWidth,
+		    60 + btnHeight), "submit");
 	    button.setText("Передать в архив...");
 	    button.setBackgroundColor(new GrayColor(0.7f));
 
@@ -118,15 +145,30 @@ public class ManagePdfServlet extends HttpServlet {
 
 	    stamper.close();
 	} catch (DocumentException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} catch (FileNotFoundException ex) {
 	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    resp.setContentType("text/html; charset=UTF-8");
-
-	    resp.getWriter().print("<b>PDF template not found!</b> " + file + " Не найден!");
-	    ex.printStackTrace();
+	    String msg = Util.loggingException("<b>Bad PDF !</b> " + file, e);
+	    resp.getWriter().print(msg);
+	    logger.warn(msg);
+	} catch (FileNotFoundException e) {
+	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	    resp.setContentType("text/html; charset=UTF-8");
+	    String msg = Util.loggingException("<b>PDF template not found!</b> " + file + " Не найден!", e);
+	    resp.getWriter().print(msg);
+	    logger.warn(msg);
 	    return;
+	} catch (Exception e) {
+	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	    resp.setContentType("text/html; charset=UTF-8");
+	    String msg = Util.loggingException(e.getMessage(), e);
+	    resp.getWriter().print(msg);
+	    logger.warn(msg);
+	} catch (DataException e) {
+	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	    resp.setContentType("text/html; charset=UTF-8");
+	    String msg = Util.loggingException(e.getMessage(), e);
+	    resp.getWriter().print(msg);
+	    logger.warn(msg);
 	}
     }
 
@@ -160,9 +202,10 @@ public class ManagePdfServlet extends HttpServlet {
 	    float urX = rectArr.getAsNumber(2).floatValue();
 	    float urY = rectArr.getAsNumber(3).floatValue();
 
-	    System.out.println("!!! replaceFields fieldName=" + fieldName + " " + rectArr);
-
 	    String value = form.getField(fieldName);
+	    System.out.println("!!! replaceFields fieldName=" + fieldName + " " + rectArr + " value:"+value);
+
+	    
 
 	    form.removeField(fieldName);
 
@@ -173,7 +216,7 @@ public class ManagePdfServlet extends HttpServlet {
 
 	    Font font = new Font(BaseFont.createFont(fontPath, "Cp1251", BaseFont.NOT_EMBEDDED), 14);
 
-	    Phrase phrase = new Phrase("Значение="+value, font);
+	    Phrase phrase = new Phrase(value, font);
 
 	    ColumnText columnText = new ColumnText(canvas);
 	    columnText.setSimpleColumn(llX, llY, urX, urY, columnText.getLeading(), Element.ALIGN_LEFT);
