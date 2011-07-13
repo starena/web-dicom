@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -19,6 +21,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.BaseField;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.GrayColor;
@@ -51,9 +54,45 @@ public class GetPDFFormServlet extends HttpServlet {
 	    OutputStream out = resp.getOutputStream();
 	    PdfStamper stamper = new PdfStamper(reader, out);
 
+	    // Задание значения полей из QUERY_STRING
 	    replaceFields(reader, stamper);
 	    // changeFieldProps(stamper);
 	    // changeFieldWidth(stamper);
+
+	    AcroFields fields = stamper.getAcroFields();
+	    Set<String> parameters = fields.getFields().keySet();
+	    for (String fieldName : parameters) {
+
+		System.out.println("!!!   FIELD=" + fieldName + " TYPE=" + fields.getFieldType(fieldName) + "[" + "]");
+
+		Map<String, AcroFields.Item> fieldsMap = fields.getFields();
+		AcroFields.Item item;
+		PdfDictionary dict;
+		int flags;
+		for (Map.Entry<String, AcroFields.Item> entry : fieldsMap.entrySet()) {
+		    String key = entry.getKey();
+		    item = entry.getValue();
+		    dict = item.getMerged(0);
+		    flags = dict.getAsNumber(PdfName.FF).intValue();
+		    System.out.println("!!!   FIELD PROP " + key + "=" + item + " -> " + dict); 
+			    
+		    if ((flags & BaseField.READ_ONLY) > 0) {
+			System.out.println("!!!! READ_ONLY !!!");
+		    }
+		    // if ((flags & BaseField.PASSWORD) > 0)
+		    // if ((flags & BaseField.MULTILINE) > 0)
+
+		}
+
+		// пропускаем радиобаттоны
+		if (fields.getFieldType(fieldName) == AcroFields.FIELD_TYPE_RADIOBUTTON)
+		    continue;
+
+		if (req.getParameter(fieldName) != null) {
+		    fields.setField(fieldName, req.getParameter(fieldName));
+		}
+		fields.setFieldProperty(fieldName, "setfflags", TextField.READ_ONLY, null);
+	    }
 
 	    PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 140, 190), "submit");
 	    button.setText("POST2");
@@ -166,38 +205,44 @@ public class GetPDFFormServlet extends HttpServlet {
 	    // Font font = new Font(FontFamily.TIMES_ROMAN, 18, Font.BOLDITALIC,
 	    // new BaseColor(0, 0, 255))
 
-	    System.out.println("[2] WidthPoint=" + font.getCalculatedBaseFont(false).getWidthPoint("Hello people!! " + value,14));
-	    System.out.println("[3] AscentPoint=" + font.getCalculatedBaseFont(false).getAscentPoint("Hello people!! " + value,14));
-	    System.out.println("[4] DescentPoint=" + font.getCalculatedBaseFont(false).getDescentPoint("Hello people!! " + value,14));
+	    System.out.println("[2] WidthPoint="
+		    + font.getCalculatedBaseFont(false).getWidthPoint("Hello people!! " + value, 14));
+	    System.out.println("[3] AscentPoint="
+		    + font.getCalculatedBaseFont(false).getAscentPoint("Hello people!! " + value, 14));
+	    System.out.println("[4] DescentPoint="
+		    + font.getCalculatedBaseFont(false).getDescentPoint("Hello people!! " + value, 14));
 
-//	    " Привет привет привет Привет привет привет Привет привет привет"
-	    
-	    Phrase phrase = new Phrase("Hello people!! " + value , font);
+	    // " Привет привет привет Привет привет привет Привет привет привет"
+
+	    Phrase phrase = new Phrase("Hello people!! " + value, font);
 
 	    Chunk ck = new Chunk("Red ", font);
-	    
-	    ck.setTextRenderMode (PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE, 1f, 
-	              BaseColor.RED);
+
+	    ck.setTextRenderMode(PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE, 1f, BaseColor.RED);
 
 	    phrase.add(ck);
-	    
-	    phrase.add (" means дима stop. ");
-	    
-	    ck = new Chunk ("Green");
-	    ck.setTextRenderMode (PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE, 1, 
-		    BaseColor.GREEN);
-	    phrase.add (ck);
 
-	    phrase.add (" means proceed with caution.");
-	    phrase.add (" means proceed with caution.");
-	    phrase.add (" means proceed with caution.");
-	    phrase.add (" means proceed with caution.");
+	    phrase.add(" means дима stop. ");
 
+	    ck = new Chunk("Green");
+	    ck.setTextRenderMode(PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE, 1, BaseColor.GREEN);
+	    phrase.add(ck);
 
-//	    ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, phrase, llX, urY, 0);
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+	    phrase.add(" means proceed with caution.");
+
+	    // ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, phrase,
+	    // llX, urY, 0);
 	    ColumnText columnText = new ColumnText(canvas);
-	    columnText.setSimpleColumn(llX, llY, urX , urY,  columnText.getLeading(),
-		    Element.ALIGN_LEFT);
+	    columnText.setSimpleColumn(llX, llY, urX, urY, columnText.getLeading(), Element.ALIGN_LEFT);
 	    columnText.setText(phrase);
 
 	    columnText.go();
