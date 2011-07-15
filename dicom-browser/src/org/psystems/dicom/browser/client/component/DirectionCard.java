@@ -51,6 +51,7 @@ public class DirectionCard extends Composite {
 
     public DirectionCard(DirectionProxy drnProxy) {
 	this.drnProxy = drnProxy;
+
 	mainPanel = new VerticalPanel();
 
 	HorizontalPanel hp = new HorizontalPanel();
