@@ -451,6 +451,7 @@ public class PersistentManagerDerby {
 	    Employee doctorPerformed = new Employee();
 	    doctorPerformed.setEmployeeCode(rs.getString("DOCTOR_PERFORMED_CODE"));
 	    doctorPerformed.setEmployeeName(rs.getString("DOCTOR_PERFORMED_NAME"));
+	    doctorPerformed.setEmployeeType(Employee.TYPE_DOCTOR);
 	    drn.setDoctorPerformed(doctorPerformed);
 	}
 
