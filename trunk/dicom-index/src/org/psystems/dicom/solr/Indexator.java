@@ -3,7 +3,12 @@ package org.psystems.dicom.solr;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.sql.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.MBeanRegistrationException;
@@ -46,6 +51,10 @@ import com.sun.jdmk.comm.HtmlAdaptorServer;
 public class Indexator {
 
 	private CommonsHttpSolrServer server;
+	private Connection connectionOMITS;
+	private String connectionStrLocal = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
+	private String connectionStrOMITS = "jdbc:oracle:thin:DICOM_USER/EPy8jC5l@localhost:30001:SRGP1";
+	public static String oraDriverClass = "oracle.jdbc.driver.OracleDriver";
 	private static Logger logger = Logger.getLogger(Indexator.class.getName());
 
 	private static final String VERSION = "0.1a";
@@ -167,6 +176,58 @@ public class Indexator {
 
 	}
 
+	/**
+	 * Проверка-установка соединения
+	 * 
+	 * @throws SQLException
+	 */
+	void checkMakeConnection() throws SQLException {
+
+		if (connectionOMITS != null && connectionOMITS.isValid(0)) {
+			return;
+		}
+
+		Properties props = new Properties(); // connection properties
+		// providing a user name and password is optional in the embedded
+		// and derbyclient frameworks
+		props.put("user", "user1"); // FIXME Взять из конфига
+		props.put("password", "user1"); // FIXME Взять из конфига
+
+		Connection conn = DriverManager.getConnection(connectionStrLocal
+				+ ";create=true", props);
+		// conn.setAutoCommit(false);
+		// s = conn.createStatement();
+		// s.execute(sql);
+		//
+		// conn.commit();
+
+		// return conn;
+		connectionOMITS = conn;
+	}
+
+	private Connection getConnectionOMITS() {
+
+		try {
+			Class.forName(oraDriverClass);
+			Properties props = new Properties(); // connection properties
+			connectionOMITS = DriverManager.getConnection(connectionStrOMITS,
+					props);
+		} catch (ClassNotFoundException exx) {
+			try {
+				throw new SQLException("driver not found!  '" + oraDriverClass
+						+ "'");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return connectionOMITS;
+
+	}
+
 	public static void main(String[] args) throws IOException, SAXException {
 
 		argsParse(args);
@@ -197,13 +258,16 @@ public class Indexator {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	public Indexator() throws IOException, SolrServerException,
 			MalformedObjectNameException, NullPointerException,
 			InstanceAlreadyExistsException, MBeanRegistrationException,
-			NotCompliantMBeanException, InterruptedException {
+			NotCompliantMBeanException, InterruptedException, SQLException {
 
 		// Get the Platform MBean Server
 		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
@@ -222,14 +286,15 @@ public class Indexator {
 		// Теперь мы регистрируем коннектор, который
 		// будет доступен по HTTP-протоколу
 		ObjectName adapterName = new ObjectName(
-				"org.psystems.webdicom.mbeans:type=Loader,port="+portAdmin);
+				"org.psystems.webdicom.mbeans:type=Loader,port=" + portAdmin);
 		adapter.setPort(portAdmin);
 
 		mbs.registerMBean(adapter, adapterName);
 
 		adapter.start();
 
-		server = new CommonsHttpSolrServer("http://localhost:"+portSolr+"/solr");
+		server = new CommonsHttpSolrServer("http://localhost:" + portSolr
+				+ "/solr");
 
 		// передача будет в бинарном формате
 		((CommonsHttpSolrServer) server)
@@ -243,7 +308,11 @@ public class Indexator {
 
 	}
 
-	public void startAllIndexing() throws IOException, SolrServerException {
+	public void startAllIndexing() throws IOException, SolrServerException, SQLException {
+
+		connectionOMITS = getConnectionOMITS();
+		System.out.println("!!! connection = " + connectionOMITS);
+
 		syncDicPatients(server);
 		server.optimize();
 		syncDicDiagnosis(server);
@@ -389,24 +458,69 @@ public class Indexator {
 	 * @param solr
 	 * @throws IOException
 	 * @throws SolrServerException
+	 * @throws SQLException 
 	 */
 	public void syncDicPatients(SolrServer solr) throws IOException,
-			SolrServerException {
+			SolrServerException, SQLException {
 		// TODO Взять реальные данные
 		logger.info("Sync Patient...");
-		int maxDocs = 30;
-		for (int i = 0; i < maxDocs; i++) {
-			Patient patient = new Patient();
-			patient.setId(patient.getDicName() + i);
-			patient.setPatientId("ID" + i);
-			patient.setPatientSex("M");
-			patient.setPatientBirthDate(Date.valueOf("1974-03-01"));
-			patient.setPatientName("PATIENT PATI PAT" + i);
-			patient.setPatientShortName("PATPP74");
 
-			solr.addBean(patient);
-			solr.commit();
+		PreparedStatement psSelect = null;
+
+		try {
+			psSelect = connectionOMITS
+					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
+							+ " from  lpu.v_patient v ");
+
+			
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
+
+			
+			while (rs.next()) {
+
+				Patient patient = new Patient();
+				patient.setId("Patient_"+rs.getString("ID"));
+				patient.setPatientId(rs.getString("ID"));
+				patient.setPatientSex(rs.getString("SEX"));
+				patient.setPatientBirthDate(rs.getDate("BIRTHDAY"));
+				patient.setPatientName(rs.getString("SUR_NAME") + " " +
+						rs.getString("FIRST_NAME") + " " + rs.getString("PATR_NAME"));
+				patient.setPatientShortName(rs.getString("CODE"));
+				logger.warn( (index++) + " [Patient]" + patient);
+				
+				solr.addBean(patient);
+				solr.commit();
+
+				
+
+			}
+			rs.close();
+
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+				if (connectionOMITS != null)
+					connectionOMITS.close();
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 		}
+//		int maxDocs = 30;
+//		for (int i = 0; i < maxDocs; i++) {
+//			Patient patient = new Patient();
+//			patient.setId(patient.getDicName() + i);
+//			patient.setPatientId("ID" + i);
+//			patient.setPatientSex("M");
+//			patient.setPatientBirthDate(Date.valueOf("1974-03-01"));
+//			patient.setPatientName("PATIENT PATI PAT" + i);
+//			patient.setPatientShortName("PATPP74");
+//
+//			solr.addBean(patient);
+//			solr.commit();
+//		}
 		logger.info("Sync Patient [OK]");
 	}
 
