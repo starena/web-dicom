@@ -1,6 +1,7 @@
 package org.psystems.dicom.solr;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import org.apache.log4j.Level;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -47,6 +48,9 @@ public class LoaderStatus implements LoaderStatusMBean {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SolrServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
