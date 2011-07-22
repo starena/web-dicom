@@ -63,15 +63,23 @@ public class Indexator {
 
 	private static final String USAGE = NAME + " [Options]";
 
-	private static final String DESCRIPTION = "WebDicom index daemon.\n"
+	private static final String DESCRIPTION = "WebDicom index tool.\n"
 			+ "Options:";
 
-	private static final String EXAMPLE = "\nExample: " + NAME
-			+ " -c conf.xml\n";
+	private static final String EXAMPLE = "\nExample:\n"
+			+ NAME
+			+ " -d -c conf.xml\n ==> Starts daemon listening by config file <conf.xml>\n"
+			+ NAME
+			+ " -semp -db 2011-05-21\n ==> Synchronize anly patient records modified after 2011-05-21";
 
 	private static String conf = "conf.xml";
 	private static int portSolr = 8983;
 	private static int portAdmin = 8984;
+	private static boolean daemonMode = false;
+	private static boolean syncDiagnosis = false;
+	private static boolean syncEmplopyes = false;
+	private static boolean syncPatients = false;
+	private static boolean syncServices = false;
 
 	/**
 	 * @param args
@@ -80,7 +88,10 @@ public class Indexator {
 	private static void argsParse(String[] args) {
 
 		// args = new String[] { "--conf=1.xml"};
+//		args = new String[] { "-sdia" , "-ssrv", "-semp", "-spat"};
 		Options opts = new Options();
+
+		opts.addOption("d", "daemon", false, "work as daemon");
 
 		OptionBuilder.withArgName("file");
 		OptionBuilder.withLongOpt("conf");
@@ -88,11 +99,32 @@ public class Indexator {
 		OptionBuilder.withDescription("configuration file [" + conf + "]");
 		opts.addOption(OptionBuilder.create("c"));
 
+		// Option property = OptionBuilder.withArgName("property=value")
+		// .hasArgs(2).withValueSeparator().withDescription(
+		// "use value for given property").create("D");
+		// opts.addOption(property);
+
+		opts.addOption("spat", "syncpatients", false, "Synchronize patients");
+		opts.addOption("sdia", "syncdiagnosis", false, "Synchronize diagnisis");
+		opts.addOption("semp", "syncemployes", false, "Synchronize employes");
+		opts.addOption("ssrv", "syncservices", false, "Synchronize services");
+
+		opts.addOption("db", "datebegin", false,
+				"Begin date interval (pattern: yyyy-mm-dd)");
+		opts.addOption("de", "dateend", false,
+				"End date interval (pattern: yyyy-mm-dd)");
+
 		opts.addOption("h", "help", false, "print this message");
 		opts.addOption("V", "version", false,
 				"print the version information and exit");
 
 		CommandLine cl = null;
+
+		if (args.length == 0) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
+			System.exit(0);
+		}
 
 		try {
 			cl = new PosixParser().parse(opts, args);
@@ -114,9 +146,23 @@ public class Indexator {
 			System.exit(0);
 		}
 
-		if (cl.hasOption("c")) {
+		if (cl.hasOption("c"))
 			conf = cl.getOptionValue("c");
-		}
+
+		if (cl.hasOption("d"))
+			daemonMode = true;
+
+		if (cl.hasOption("sdia"))
+			syncDiagnosis = true;
+
+		if (cl.hasOption("semp"))
+			syncEmplopyes = true;
+
+		if (cl.hasOption("spat"))
+			syncPatients = true;
+
+		if (cl.hasOption("ssrv"))
+			syncServices = true;
 
 		try {
 			praseConfig();
@@ -231,9 +277,9 @@ public class Indexator {
 	public static void main(String[] args) throws IOException, SAXException {
 
 		argsParse(args);
-		logger.warn("starting");
-		logger.warn("using config: " + conf + " port=" + portSolr + " admport="
-				+ portAdmin);
+		logger.info("starting");
+		logger.info("using config variables: config-file=" + conf + " port="
+				+ portSolr + " admport=" + portAdmin);
 
 		try {
 			new Indexator();
@@ -300,16 +346,41 @@ public class Indexator {
 		((CommonsHttpSolrServer) server)
 				.setRequestWriter(new BinaryRequestWriter());
 
-		startAllIndexing();
+		// Индексируем все словари
+		if (!syncDiagnosis && !syncServices && !syncEmplopyes && !syncPatients) {
+			startAllIndexing();
+		} else {
 
-		// Wait forever
-		logger.info("Waiting forever...");
-		Thread.sleep(Long.MAX_VALUE);
+			if (syncDiagnosis) {
+				syncDicDiagnosis(server);
+				server.optimize();
+			}
+			if (syncServices) {
+				syncDicServices(server);
+				server.optimize();
+			}
+			if (syncEmplopyes) {
+				syncDicEmployes(server);
+				server.optimize();
+			}
+			if (syncPatients) {
+				syncDicPatients(server);
+				server.optimize();
+			}
+		}
+
+		if (daemonMode) {
+			// Wait forever
+			logger.info("Waiting forever...");
+			Thread.sleep(Long.MAX_VALUE);
+		}
 
 	}
 
-	public void startAllIndexing() throws IOException, SolrServerException, SQLException {
+	public void startAllIndexing() throws IOException, SolrServerException,
+			SQLException {
 
+		logger.info("all indexing...");
 		connectionOMITS = getConnectionOMITS();
 		System.out.println("!!! connection = " + connectionOMITS);
 
@@ -458,7 +529,7 @@ public class Indexator {
 	 * @param solr
 	 * @throws IOException
 	 * @throws SolrServerException
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public void syncDicPatients(SolrServer solr) throws IOException,
 			SolrServerException, SQLException {
@@ -472,27 +543,24 @@ public class Indexator {
 					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
 							+ " from  lpu.v_patient v ");
 
-			
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
 
-			
 			while (rs.next()) {
 
 				Patient patient = new Patient();
-				patient.setId("Patient_"+rs.getString("ID"));
+				patient.setId("Patient_" + rs.getString("ID"));
 				patient.setPatientId(rs.getString("ID"));
 				patient.setPatientSex(rs.getString("SEX"));
 				patient.setPatientBirthDate(rs.getDate("BIRTHDAY"));
-				patient.setPatientName(rs.getString("SUR_NAME") + " " +
-						rs.getString("FIRST_NAME") + " " + rs.getString("PATR_NAME"));
+				patient.setPatientName(rs.getString("SUR_NAME") + " "
+						+ rs.getString("FIRST_NAME") + " "
+						+ rs.getString("PATR_NAME"));
 				patient.setPatientShortName(rs.getString("CODE"));
-				logger.warn( (index++) + " [Patient]" + patient);
-				
+				logger.warn((index++) + " [Patient]" + patient);
+
 				solr.addBean(patient);
 				solr.commit();
-
-				
 
 			}
 			rs.close();
@@ -508,19 +576,19 @@ public class Indexator {
 				logger.error(e);
 			}
 		}
-//		int maxDocs = 30;
-//		for (int i = 0; i < maxDocs; i++) {
-//			Patient patient = new Patient();
-//			patient.setId(patient.getDicName() + i);
-//			patient.setPatientId("ID" + i);
-//			patient.setPatientSex("M");
-//			patient.setPatientBirthDate(Date.valueOf("1974-03-01"));
-//			patient.setPatientName("PATIENT PATI PAT" + i);
-//			patient.setPatientShortName("PATPP74");
-//
-//			solr.addBean(patient);
-//			solr.commit();
-//		}
+		// int maxDocs = 30;
+		// for (int i = 0; i < maxDocs; i++) {
+		// Patient patient = new Patient();
+		// patient.setId(patient.getDicName() + i);
+		// patient.setPatientId("ID" + i);
+		// patient.setPatientSex("M");
+		// patient.setPatientBirthDate(Date.valueOf("1974-03-01"));
+		// patient.setPatientName("PATIENT PATI PAT" + i);
+		// patient.setPatientShortName("PATPP74");
+		//
+		// solr.addBean(patient);
+		// solr.commit();
+		// }
 		logger.info("Sync Patient [OK]");
 	}
 
