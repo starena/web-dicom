@@ -125,6 +125,8 @@
 			<manifest>
 				<attribute name="Build-By" value="${user.name}" />
 				<attribute name="Build-Number" value="${revision.max}" />
+				<attribute name="Main-Class" value="org.psystems.dicom.index.solr.Indexator" />
+
 
 				<section name="common">
 					<attribute name="Specification-Title" value="Webdicom Index" />

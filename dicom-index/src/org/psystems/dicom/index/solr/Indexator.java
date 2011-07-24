@@ -53,7 +53,9 @@ public class Indexator {
 	private CommonsHttpSolrServer server;
 	private Connection connectionOMITS;
 	private String connectionStrLocal = "jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM";
-	private String connectionStrOMITS = "jdbc:oracle:thin:DICOM_USER/EPy8jC5l@localhost:30001:SRGP1";
+//	private String connectionStrOMITS = "jdbc:oracle:thin:DICOM_USER/EPy8jC5l@localhost:30001:SRGP1";
+	//FIXME вынести в конфиг
+	private String connectionStrOMITS = "jdbc:oracle:thin:DICOM_USER/EPy8jC5l@192.168.95.5:1521:SRGP1";
 	public static String oraDriverClass = "oracle.jdbc.driver.OracleDriver";
 	private static Logger logger = Logger.getLogger(Indexator.class.getName());
 
@@ -381,9 +383,7 @@ public class Indexator {
 			SQLException {
 
 		logger.info("all indexing...");
-		connectionOMITS = getConnectionOMITS();
-		System.out.println("!!! connection = " + connectionOMITS);
-
+		
 		syncDicPatients(server);
 		server.optimize();
 		syncDicDiagnosis(server);
@@ -533,8 +533,12 @@ public class Indexator {
 	 */
 	public void syncDicPatients(SolrServer solr) throws IOException,
 			SolrServerException, SQLException {
-		// TODO Взять реальные данные
+
 		logger.info("Sync Patient...");
+		
+		connectionOMITS = getConnectionOMITS();
+		System.out.println("!!! connection = " + connectionOMITS);
+
 
 		PreparedStatement psSelect = null;
 
@@ -557,8 +561,14 @@ public class Indexator {
 						+ rs.getString("FIRST_NAME") + " "
 						+ rs.getString("PATR_NAME"));
 				patient.setPatientShortName(rs.getString("CODE"));
-				logger.warn((index++) + " [Patient]" + patient);
+				
+				
+				//TODO убрать!!!
+				if(index % 100 == 0) 
+				System.out.println("!!!! Load = " + index + " [Patient]" + patient);
 
+				logger.warn((index++) + " [Patient]" + patient);
+				
 				solr.addBean(patient);
 				solr.commit();
 
