@@ -1,4 +1,4 @@
-package org.psystems.dicom.solr.entity;
+package org.psystems.dicom.index.entity;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package org.psystems.dicom.solr.entity;
+package org.psystems.dicom.index.entity;
 
 import org.apache.solr.client.solrj.beans.Field;
 

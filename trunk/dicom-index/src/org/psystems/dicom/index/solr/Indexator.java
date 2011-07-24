@@ -1,4 +1,4 @@
-package org.psystems.dicom.solr;
+package org.psystems.dicom.index.solr;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,10 +31,10 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
-import org.psystems.dicom.solr.entity.Diagnosis;
-import org.psystems.dicom.solr.entity.Employee;
-import org.psystems.dicom.solr.entity.Patient;
-import org.psystems.dicom.solr.entity.Service;
+import org.psystems.dicom.index.entity.Diagnosis;
+import org.psystems.dicom.index.entity.Employee;
+import org.psystems.dicom.index.entity.Patient;
+import org.psystems.dicom.index.entity.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

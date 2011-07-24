@@ -1,4 +1,4 @@
-package org.psystems.dicom.solr;
+package org.psystems.dicom.index.solr;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,10 +17,10 @@ import org.apache.solr.client.solrj.response.SpellCheckResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.SpellingParams;
-import org.psystems.dicom.solr.entity.Diagnosis;
-import org.psystems.dicom.solr.entity.Employee;
-import org.psystems.dicom.solr.entity.Service;
-import org.psystems.dicom.solr.entity.Study;
+import org.psystems.dicom.index.entity.Diagnosis;
+import org.psystems.dicom.index.entity.Employee;
+import org.psystems.dicom.index.entity.Service;
+import org.psystems.dicom.index.entity.Study;
 import org.xml.sax.SAXException;
 
 /**
