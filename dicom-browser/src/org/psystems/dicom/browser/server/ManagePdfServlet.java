@@ -23,6 +23,7 @@ import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
 import org.psystems.dicom.commons.orm.entity.Study;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -33,12 +34,14 @@ import com.itextpdf.text.pdf.BaseField;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.GrayColor;
+import com.itextpdf.text.pdf.PatternColor;
 import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfFormField;
 import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfPatternPainter;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PushbuttonField;
@@ -187,9 +190,36 @@ public class ManagePdfServlet extends HttpServlet {
 		PdfFormField submit = button.getField();
 		submit.setAction(PdfAction.createSubmitForm(req.getServletPath(), null, PdfAction.SUBMIT_HTML_FORMAT));
 
+		
 //		System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
-		String url = req.getRequestURI()+ "?" + req.getQueryString();
+		String url = req.getRequestURI()+ "?final=" + finalPhase + "&" + req.getQueryString();
 		submit.setAction(PdfAction.createSubmitForm(url, null, PdfAction.SUBMIT_HTML_FORMAT));
+
+		stamper.addAnnotation(submit, 1);
+	    } else {
+		// Добавляем кнопку "Закрыть"
+		int btnWidth = 300;
+		int btnHeight = 30;
+		PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 90 + btnWidth,
+			60 + btnHeight), "submit");
+		button.setText("Данные сохранены. [закрыть]");
+		
+		button.setBackgroundColor(BaseColor.YELLOW);
+
+		button.setVisibility(PushbuttonField.VISIBLE_BUT_DOES_NOT_PRINT);
+		PdfFormField submit = button.getField();
+		submit.setAction(PdfAction.createSubmitForm(req.getServletPath(), null, PdfAction.SUBMIT_HTML_FORMAT));
+
+		
+//		System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
+		String url = req.getRequestURI()+ "?final=" + finalPhase + "&" + req.getQueryString();
+		
+		 PdfAction action = PdfAction.javaScript(
+		            "app.alert('This day is reserved for people with an accreditation "
+		            + "or an invitation.');", stamper.getWriter());
+		 
+		 submit.setAction(action);
+
 
 		stamper.addAnnotation(submit, 1);
 	    }
