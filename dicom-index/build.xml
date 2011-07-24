@@ -5,11 +5,66 @@
 	<property name="solr.stop.port" value="8984"/>
 	<property name="solr.stop.key" value="webdicom"/>
 	<property name="solr.spawn" value="true"/>
-	
+
 	<property name="solr.root.dir" location="distrib/dicom-index"/>
 	<property name="solr.home.dir" location="${solr.root.dir}/solr"/>
 	<property name="solr.data.dir" location="${solr.root.dir}/solr/data"/>
 	<property name="solr.instance" value="webdicomserver"/>
+
+	<property name="dir.src" value="src" />
+	<property name="dir.bin" value="bin" />
+	<property name="dir.classes" value="classes" />
+	<property name="dir.doc" value="doc" />
+	<property name="dir.doc.api" value="${dir.doc}/api" />
+	<property name="dir.distrib" value="distrib" />
+
+	<property name="distrib.jar" value="index.jar" />
+
+	<path id="derby.classpath">
+		<pathelement location="lib/derby.jar" />
+		<pathelement location="lib/derbynet.jar" />
+		<pathelement location="lib/derbytools.jar" />
+		<pathelement location="lib/derbyclient.jar" />
+	</path>
+
+	<path id="solr.classpath">
+		<pathelement location="lib/apache-solr-analysis-extras-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-cell-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-clustering-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-core-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-dataimporthandler-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-dataimporthandler-extras-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-solrj-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-test-framework-3.2.0.jar" />
+		<pathelement location="lib/apache-solr-uima-3.2.0.jar" />
+	</path>
+
+	<path id="dcm4che.classpath">
+		<pathelement location="lib/dcm4che-audit-2.0.21.jar" />
+		<pathelement location="lib/dcm4che-core-2.0.21.jar " />
+		<pathelement location="lib/dcm4che-filecache-2.0.21.jar" />
+		<pathelement location="lib/dcm4che-hp-2.0.21.jar" />
+		<pathelement location="lib/dcm4che-image-2.0.21.jar" />
+		<pathelement location="lib/dcm4che-imageio-2.0.21.jar" />
+		<pathelement location="lib/dcm4che-iod-2.0.21.jar" />
+		<pathelement location="lib/dcm4che-net-2.0.21.jar" />
+		<pathelement location="lib/commons-cli-1.2.jar" />
+		<pathelement location="lib/jai_imageio.jar" />
+		<pathelement location="lib/clibwrapper_jiio.jar" />
+		<pathelement location="lib/slf4j-api-1.5.0.jar" />
+		<pathelement location="lib/slf4j-log4j12-1.5.0.jar" />
+		<pathelement location="lib/org.apache.log4j_1.2.13.v200806030600.jar" />
+		<pathelement location="lib/derbynet.jar" />
+	</path>
+
+	<path id="build.classpath">
+		<path refid="solr.classpath" />
+		<path refid="dcm4che.classpath" />
+		<path refid="derby.classpath" />
+		<pathelement location="lib/junit.jar" />
+		<pathelement location="lib/jmxtools.jar" />
+	</path>
+
 
 	<target name="start-solr" description="Start Solr">
 		<java jar="${solr.root.dir}/start.jar" fork="true" dir="${solr.root.dir}"
@@ -29,6 +84,61 @@
 			<sysproperty key="STOP.KEY" value="${solr.stop.key}"/>
 		</java>
 	</target>
+
+	<!-- clean -->
+	<target name="clean">
+		<delete dir="${dir.classes}" />
+	</target>
+
+	<!-- prepare -->
+	<target name="prepare" depends="clean">
+		<mkdir dir="${dir.classes}" />
+	</target>
+
+	<!-- compile -->
+	<target name="compile" depends="prepare">
+		<!-- javac srcdir="${dir.src}" destdir="${dir.classes}" debug="on" encoding="UTF-8" -->
+		<javac srcdir="${dir.src}" destdir="${dir.classes}" debug="on" nowarn="on" encoding="UTF-8">
+			<classpath refid="build.classpath" />
+			<include name="org/psystems/dicom/index/**" />
+			<exclude name="**/*Test.java" />
+		</javac>
+	</target>
+
+
+
+	<!-- distrib -->
+	<target name="distrib" depends="compile">
+
+
+		<tstamp>
+			<format property="today" pattern="yyyy/MM/dd HH:mm:ss" locale="en" />
+		</tstamp>
+
+		<copy todir="${dir.classes}">
+			<fileset dir="${dir.src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<jar destfile="${dir.distrib}/${distrib.jar}" basedir="${dir.classes}">
+			<manifest>
+				<attribute name="Build-By" value="${user.name}" />
+				<attribute name="Build-Number" value="${revision.max}" />
+
+				<section name="common">
+					<attribute name="Specification-Title" value="Webdicom Index" />
+					<attribute name="Specification-Version" value="${today}" />
+					<attribute name="Specification-Vendor" value="psystems.org" />
+				</section>
+			</manifest>
+			<exclude name="**/*Test*" />
+			<exclude name="**/log4j.properties " />
+		</jar>
+		<delete dir="${dir.classes}" />
+
+	</target>
+
 
 
 </project>

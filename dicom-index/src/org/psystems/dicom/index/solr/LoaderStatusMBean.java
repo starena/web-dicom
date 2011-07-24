@@ -1,4 +1,4 @@
-package org.psystems.dicom.solr;
+package org.psystems.dicom.index.solr;
 
 /**
  * @author dima_d
