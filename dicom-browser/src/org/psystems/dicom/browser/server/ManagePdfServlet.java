@@ -187,7 +187,8 @@ public class ManagePdfServlet extends HttpServlet {
 		PdfFormField submit = button.getField();
 		submit.setAction(PdfAction.createSubmitForm(req.getServletPath(), null, PdfAction.SUBMIT_HTML_FORMAT));
 
-		String url = req.getServletPath() + req.getPathInfo() + "?" + req.getQueryString();
+//		System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
+		String url = req.getRequestURI()+ "?" + req.getQueryString();
 		submit.setAction(PdfAction.createSubmitForm(url, null, PdfAction.SUBMIT_HTML_FORMAT));
 
 		stamper.addAnnotation(submit, 1);
