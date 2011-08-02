@@ -13,5 +13,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/dicom-archive"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/derbytools.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/itextpdf-5.1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/apache-solr-solrj-3.2.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
