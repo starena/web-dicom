@@ -34,8 +34,8 @@ import org.dcm4che2.imageio.plugins.dcm.DicomImageReadParam;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.CloseUtils;
 import org.dcm4che2.util.StringUtils;
-import org.psystems.dicom.index.entity.Diagnosis;
-import org.psystems.dicom.index.entity.Study;
+import org.psystems.dicom.commons.solr.entity.Diagnosis;
+import org.psystems.dicom.commons.solr.entity.Study;
 import org.xml.sax.SAXException;
 
 import com.sun.image.codec.jpeg.JPEGCodec;

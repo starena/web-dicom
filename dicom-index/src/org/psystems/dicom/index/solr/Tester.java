@@ -2,7 +2,6 @@ package org.psystems.dicom.index.solr;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -10,17 +9,10 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
-import org.apache.solr.client.solrj.request.QueryRequest;
-import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.SpellCheckResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.params.CommonParams;
-import org.apache.solr.common.params.SpellingParams;
-import org.psystems.dicom.index.entity.Diagnosis;
-import org.psystems.dicom.index.entity.Employee;
-import org.psystems.dicom.index.entity.Service;
-import org.psystems.dicom.index.entity.Study;
+import org.psystems.dicom.commons.solr.entity.Diagnosis;
+import org.psystems.dicom.commons.solr.entity.Employee;
+import org.psystems.dicom.commons.solr.entity.Service;
 import org.xml.sax.SAXException;
 
 /**

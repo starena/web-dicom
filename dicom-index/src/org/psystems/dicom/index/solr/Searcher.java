@@ -17,7 +17,7 @@ import org.apache.solr.client.solrj.response.SpellCheckResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.SpellingParams;
-import org.psystems.dicom.index.entity.Study;
+import org.psystems.dicom.commons.solr.entity.Study;
 import org.xml.sax.SAXException;
 
 /**
