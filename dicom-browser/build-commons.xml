@@ -17,7 +17,8 @@
 		<property name="dist_lib_dir" value="war/WEB-INF/lib" />		
 		<property name="log4j" value="${dist_lib_dir}/log4j-1.2.13.jar"/>
 		<property name="dcm4che-core" value="${dist_lib_dir}/dcm4che-core-2.0.21.jar"/>
-		<property name="dcm4che-net" value="${dist_lib_dir}/dcm4che-net-2.0.21.jar "/>
+		<property name="dcm4che-net" value="${dist_lib_dir}/dcm4che-net-2.0.21.jar"/>
+		<property name="solr" value="${dist_lib_dir}/apache-solr-solrj-3.2.0.jar"/>
 		<property name="junit" value="${extlib_dir}/junit.jar "/>
 		
 		<path id="build.classpath">
@@ -26,6 +27,7 @@
 			<pathelement location="${log4j}"/>
 			<pathelement location="${dcm4che-core}"/>
 			<pathelement location="${dcm4che-net}"/>
+			<pathelement location="${solr}"/>
 			<pathelement location="${junit}}"/>
 		</path>
 
@@ -48,6 +50,7 @@
 		<javac srcdir="${source_dir}" destdir="${classes_dir}" debug="on" nowarn="on" encoding="UTF-8" >
 			<classpath refid="build.classpath" />
 			<include name="org/psystems/dicom/commons/orm/**"/>
+			<include name="org/psystems/dicom/commons/solr/**"/>
 			<exclude name="test*/*"/>
 			<exclude name="**/*Test.java"/>
 		</javac>
