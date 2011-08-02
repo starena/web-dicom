@@ -54,10 +54,16 @@
  */
 package org.psystems.dicom.browser.server;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
+import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
@@ -67,6 +73,7 @@ import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.DicSuggestBoxService;
+import org.psystems.dicom.commons.solr.entity.Diagnosis;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -88,12 +95,41 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 	// Create a list to hold our suggestions (pre-set the lengthto the limit
 	// specified by the request)
 
+	
 	List<Suggestion> suggestions = new ArrayList<Suggestion>();
 
 	try {
 
+	    SolrServer server = new CommonsHttpSolrServer("http://localhost:8983/solr");
+	
+	// передача будет в бинарном формате
+	((CommonsHttpSolrServer) server).setRequestWriter(new BinaryRequestWriter());
+
 	    // getServletContext(), req.getQuery(), req.getLimit()
 	    if (dicName.equals("diagnosis")) {
+
+//		SolrQuery query = new SolrQuery();
+//		query.setQuery("dicName:diagnosis");
+//		query.setFilterQueries("diagnosisCode:" + req.getQuery().toUpperCase() + "*");
+//		query.setRows(20);
+//		query.setFields("diagnosisCode,diagnosisDescription");
+//		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
+//		QueryResponse rsp;
+//
+//		rsp = server.query(query);
+//
+//
+//		List<Diagnosis> beans = rsp.getBeans(Diagnosis.class);
+//		for (Diagnosis diaBean : beans) {
+//			    DiagnosisProxy proxy = new DiagnosisProxy();
+//			    proxy.setDiagnosisCode(diaBean.getDiagnosisCode());
+//			    proxy.setDiagnosisDescription(diaBean.getDiagnosisDescription());
+//	
+//			    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getDiagnosisDescription() + "...", proxy
+//				    .getDiagnosisCode().toUpperCase());
+//			    item.setEvent(proxy);
+//			    suggestions.add(item);
+//		}
 
 		for (int i = 0; i < 10; i++) {
 		    DiagnosisProxy proxy = new DiagnosisProxy();
@@ -177,6 +213,7 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 	    }
 
 	} catch (Exception e) {
+	    e.printStackTrace();
 	    throw org.psystems.dicom.browser.server.Util.throwPortalException("Suggestions error! ", e);
 	}
 
