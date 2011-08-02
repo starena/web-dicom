@@ -31,10 +31,10 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
-import org.psystems.dicom.index.entity.Diagnosis;
-import org.psystems.dicom.index.entity.Employee;
-import org.psystems.dicom.index.entity.Patient;
-import org.psystems.dicom.index.entity.Service;
+import org.psystems.dicom.commons.solr.entity.Diagnosis;
+import org.psystems.dicom.commons.solr.entity.Employee;
+import org.psystems.dicom.commons.solr.entity.Patient;
+import org.psystems.dicom.commons.solr.entity.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -404,21 +404,85 @@ public class Indexator {
 	 * @param solr
 	 * @throws IOException
 	 * @throws SolrServerException
+	 * @throws SQLException 
 	 */
 	public void syncDicDiagnosis(SolrServer solr) throws IOException,
-			SolrServerException {
-		// TODO Взять реальные данные
+			SolrServerException, SQLException {
+		
 		logger.info("Sync Diagnosis...");
-		int maxDocs = 30;
-		for (int i = 0; i < maxDocs; i++) {
-			Diagnosis dia = new Diagnosis();
-			dia.setId(dia.getDicName() + i);
-			dia.setDiagnosisCode("CODE" + i);
-			dia.setDiagnosisDescription("DESCR" + i);
+		
+		connectionOMITS = getConnectionOMITS();
+		System.out.println("!!! connection = " + connectionOMITS);
 
-			solr.addBean(dia);
-			solr.commit();
+
+		PreparedStatement psSelect = null;
+
+		try {
+			psSelect = connectionOMITS
+					.prepareStatement("select v.CODE, v.NAME from  V_MKB10 v ");
+
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
+
+			while (rs.next()) {
+
+			
+				Diagnosis dia = new Diagnosis();
+				dia.setId("Diagnosis_"+rs.getString("CODE"));
+				dia.setDiagnosisCode(rs.getString("CODE"));
+				dia.setDiagnosisDescription(rs.getString("NAME"));
+				
+				
+				//TODO убрать!!!
+				if(index % 100 == 0) 
+				System.out.println("!!!! Load = " + index + " [Diagnosis]" + dia);
+
+				logger.warn((index++) + " [Diagnosis]" + dia);
+				
+				solr.addBean(dia);
+				solr.commit();
+
+			}
+			rs.close();
+
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+				if (connectionOMITS != null)
+					connectionOMITS.close();
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 		}
+		// int maxDocs = 30;
+		// for (int i = 0; i < maxDocs; i++) {
+		// Patient patient = new Patient();
+		// patient.setId(patient.getDicName() + i);
+		// patient.setPatientId("ID" + i);
+		// patient.setPatientSex("M");
+		// patient.setPatientBirthDate(Date.valueOf("1974-03-01"));
+		// patient.setPatientName("PATIENT PATI PAT" + i);
+		// patient.setPatientShortName("PATPP74");
+		//
+		// solr.addBean(patient);
+		// solr.commit();
+		// }
+	
+		
+		
+//		int maxDocs = 30;
+//		for (int i = 0; i < maxDocs; i++) {
+//			Diagnosis dia = new Diagnosis();
+//			dia.setId(dia.getDicName() + i);
+//			dia.setDiagnosisCode("CODE" + i);
+//			dia.setDiagnosisDescription("DESCR" + i);
+//
+//			solr.addBean(dia);
+//			solr.commit();
+//		}
+		
 		logger.info("Sync Diagnosis [OK]");
 	}
 
