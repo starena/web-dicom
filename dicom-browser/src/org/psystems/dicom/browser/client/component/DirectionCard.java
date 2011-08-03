@@ -2,7 +2,7 @@ package org.psystems.dicom.browser.client.component;
 
 import java.util.Date;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
@@ -305,12 +305,12 @@ public class DirectionCard extends Composite {
 		drnProxy.setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
 		drnProxy.setServicesPerformed(servicesPerformedPanel.getServices());
 
-		Dicom_browser.browserService.saveDirection(drnProxy, new AsyncCallback<Void>() {
+		Browser.browserService.saveDirection(drnProxy, new AsyncCallback<Void>() {
 
 		    @Override
 		    public void onFailure(Throwable caught) {
 			btn.setEnabled(true);
-			Dicom_browser.showErrorDlg(caught);
+			Browser.showErrorDlg(caught);
 
 		    }
 
@@ -395,7 +395,7 @@ public class DirectionCard extends Composite {
 	final Label loading = new Label("Получение данных...");
 	mainPanel.add(loading);
 
-	Dicom_browser.browserService.getStudiesByDirectionID(drnProxy.getId(), new AsyncCallback<StudyProxy[]>() {
+	Browser.browserService.getStudiesByDirectionID(drnProxy.getId(), new AsyncCallback<StudyProxy[]>() {
 
 	    @Override
 	    public void onSuccess(StudyProxy[] result) {
@@ -410,7 +410,7 @@ public class DirectionCard extends Composite {
 
 	    @Override
 	    public void onFailure(Throwable caught) {
-		Dicom_browser.showErrorDlg(caught);
+		Browser.showErrorDlg(caught);
 		loading.removeFromParent();
 	    }
 	});

@@ -108,39 +108,39 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 	    // getServletContext(), req.getQuery(), req.getLimit()
 	    if (dicName.equals("diagnosis")) {
 
-//		SolrQuery query = new SolrQuery();
-//		query.setQuery("dicName:diagnosis");
-//		query.setFilterQueries("diagnosisCode:" + req.getQuery().toUpperCase() + "*");
-//		query.setRows(20);
-//		query.setFields("diagnosisCode,diagnosisDescription");
-//		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
-//		QueryResponse rsp;
-//
-//		rsp = server.query(query);
-//
-//
-//		List<Diagnosis> beans = rsp.getBeans(Diagnosis.class);
-//		for (Diagnosis diaBean : beans) {
-//			    DiagnosisProxy proxy = new DiagnosisProxy();
-//			    proxy.setDiagnosisCode(diaBean.getDiagnosisCode());
-//			    proxy.setDiagnosisDescription(diaBean.getDiagnosisDescription());
-//	
-//			    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getDiagnosisDescription() + "...", proxy
-//				    .getDiagnosisCode().toUpperCase());
-//			    item.setEvent(proxy);
-//			    suggestions.add(item);
-//		}
+		SolrQuery query = new SolrQuery();
+		query.setQuery("dicName:diagnosis");
+		query.setFilterQueries("diagnosisCode:" + req.getQuery().toUpperCase() + "*");
+		query.setRows(20);
+		query.setFields("diagnosisCode,diagnosisDescription");
+		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
+		QueryResponse rsp;
 
-		for (int i = 0; i < 10; i++) {
-		    DiagnosisProxy proxy = new DiagnosisProxy();
-		    proxy.setDiagnosisCode(req.getQuery() + i);
-		    proxy.setDiagnosisDescription(req.getQuery() + i + " Диагноз тестовый");
+		rsp = server.query(query);
 
-		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getDiagnosisDescription() + "...", proxy
-			    .getDiagnosisCode().toUpperCase());
-		    item.setEvent(proxy);
-		    suggestions.add(item);
+
+		List<Diagnosis> beans = rsp.getBeans(Diagnosis.class);
+		for (Diagnosis diaBean : beans) {
+			    DiagnosisProxy proxy = new DiagnosisProxy();
+			    proxy.setDiagnosisCode(diaBean.getDiagnosisCode());
+			    proxy.setDiagnosisDescription(diaBean.getDiagnosisDescription());
+	
+			    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getDiagnosisDescription() + "...", proxy
+				    .getDiagnosisCode().toUpperCase());
+			    item.setEvent(proxy);
+			    suggestions.add(item);
 		}
+
+//		for (int i = 0; i < 10; i++) {
+//		    DiagnosisProxy proxy = new DiagnosisProxy();
+//		    proxy.setDiagnosisCode(req.getQuery() + i);
+//		    proxy.setDiagnosisDescription(req.getQuery() + i + " Диагноз тестовый");
+//
+//		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getDiagnosisDescription() + "...", proxy
+//			    .getDiagnosisCode().toUpperCase());
+//		    item.setEvent(proxy);
+//		    suggestions.add(item);
+//		}
 	    } else if (dicName.equals("services")) {
 
 		for (int i = 0; i < 10; i++) {

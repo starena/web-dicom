@@ -109,7 +109,7 @@
 	<!-- ************************************************* -->
 
 	<welcome-file-list>
-		<welcome-file>Dicom_browser.html</welcome-file>
+		<welcome-file>Browser.html</welcome-file>
 	</welcome-file-list>
 
 
@@ -127,7 +127,7 @@
 
 	<servlet-mapping>
 		<servlet-name>browserServlet</servlet-name>
-		<url-pattern>/dicom_browser/browser</url-pattern>
+		<url-pattern>/browser/browser</url-pattern>
 	</servlet-mapping>
 
 
@@ -140,7 +140,7 @@
 
 	<servlet-mapping>
 		<servlet-name>suggestServlet</servlet-name>
-		<url-pattern>/dicom_browser/services/itemsuggestservice</url-pattern>
+		<url-pattern>/browser/services/itemsuggestservice</url-pattern>
 	</servlet-mapping>
 	
 	
@@ -152,7 +152,7 @@
 
 	<servlet-mapping>
 		<servlet-name>dicSuggestServlet</servlet-name>
-		<url-pattern>/dicom_browser/services/dicsuggest</url-pattern>
+		<url-pattern>/browser/services/dicsuggest</url-pattern>
 	</servlet-mapping>
 	
 
@@ -245,7 +245,7 @@
 
 	<servlet>
 		<servlet-name>oostudy</servlet-name>
-		<jsp-file>/oostudy.jsp</jsp-file>
+		<jsp-file>/jsp/oostudy.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
@@ -289,7 +289,7 @@
 
 	<servlet>
 		<servlet-name>study</servlet-name>
-		<jsp-file>/Study.jsp</jsp-file>
+		<jsp-file>/jsp/Study.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
@@ -301,7 +301,7 @@
 
 	<servlet>
 		<servlet-name>studyImage</servlet-name>
-		<jsp-file>/StudyImage.jsp</jsp-file>
+		<jsp-file>/jsp/StudyImage.jsp</jsp-file>
 	</servlet>
 
 	<servlet-mapping>
@@ -353,7 +353,7 @@
 
 	<servlet-mapping>
 		<servlet-name>manageStudyServlet</servlet-name>
-		<url-pattern>/dicom_browser/managestudy</url-pattern>
+		<url-pattern>/browser/managestudy</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

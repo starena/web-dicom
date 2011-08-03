@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
@@ -45,7 +45,7 @@ public class WorkListPanel extends Composite {
     VerticalPanel resultPanel;
     private DateBox studyDateBoxBegin;
     private long searchTransactionID;
-    private Dicom_browser Application;
+    private Browser Application;
     protected String dateBegin;
     protected String dateEnd;
     private DateBox studyDateBoxEnd;
@@ -60,7 +60,7 @@ public class WorkListPanel extends Composite {
      * @param application
      *            TODO Убрать и вызывать через static методы???
      */
-    public WorkListPanel(Dicom_browser application) {
+    public WorkListPanel(Browser application) {
 
 	this.Application = application;
 
@@ -373,7 +373,7 @@ public class WorkListPanel extends Composite {
 	attrs.put("studyResult", studyResult);
 	attrs.put("sortOrder", sortOrder);
 
-	Application.browserService.findStudy(searchTransactionID, Dicom_browser.version, "%", attrs,
+	Application.browserService.findStudy(searchTransactionID, Browser.version, "%", attrs,
 		new AsyncCallback<RPCDcmProxyEvent>() {
 
 		    public void onFailure(Throwable caught) {
