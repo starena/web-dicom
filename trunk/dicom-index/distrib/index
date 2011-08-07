@@ -1,0 +1,68 @@
+#!/bin/sh
+### ====================================================================== ###
+##                                                                          ##
+##  webdicom/index  Launch Script                                          ##
+##                                                                          ##
+### ====================================================================== ###
+
+### $Id: dcmrcv 11988 2009-07-24 13:13:57Z gunterze $ ###
+
+MAIN_CLASS=org.psystems.dicom.index.solr.Indexator
+MAIN_JAR=index.jar
+
+WEBDICOM_HOME=/DICOM
+
+# Setup the JVM
+if [ "x$JAVA_HOME" != "x" ]; then
+    JAVA=$JAVA_HOME/bin/java
+else
+    JAVA="java"
+fi
+
+
+# Setup the classpath
+CP="$WEBDICOM_HOME/etc/"
+CP="$CP:$WEBDICOM_HOME/lib/$MAIN_JAR"
+
+CP="$CP:$WEBDICOM_HOME/lib/dicom-commons.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-core-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-filecache-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-net-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/slf4j-log4j12-1.5.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/slf4j-api-1.5.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/commons-cli-1.2.jar"
+CP="$CP:$WEBDICOM_HOME/lib/derby.jar"
+CP="$CP:$WEBDICOM_HOME/lib/derbyclient.jar"
+CP="$CP:$WEBDICOM_HOME/lib/derbynet.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-core-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-imageio-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-image-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-filecache-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-net-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/commons-cli-1.2.jar"
+CP="$CP:$WEBDICOM_HOME/lib/dcm4che-imageio-rle-2.0.21.jar"
+CP="$CP:$WEBDICOM_HOME/lib/slf4j-api-1.5.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/slf4j-log4j12-1.5.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/org.apache.log4j_1.2.13.v200806030600.jar"
+CP="$CP:$WEBDICOM_HOME/lib/jai_imageio.jar"
+CP="$CP:$WEBDICOM_HOME/lib/slf4j-log4j12-1.5.0.jar"
+
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-analysis-extras-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-cell-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-clustering-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-core-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-dataimporthandler-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-dataimporthandler-extras-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-solrj-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-test-framework-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/apache-solr-uima-3.2.0.jar"
+CP="$CP:$WEBDICOM_HOME/lib/commons-httpclient-3.1.jar"
+CP="$CP:$WEBDICOM_HOME/lib/jmxtools.jar"
+CP="$CP:$WEBDICOM_HOME/lib/log4j-1.2.13.jar"
+CP="$CP:$WEBDICOM_HOME/lib/commons-logging-1.1.1.jar"
+CP="$CP:$WEBDICOM_HOME/lib/orajdbc-classes12.jar"
+CP="$CP:$WEBDICOM_HOME/lib/commons-codec-1.4.jar"
+
+
+# Execute the JVM
+$JAVA $JAVA_OPTS -cp "$CP" $MAIN_CLASS -c /DICOM/etc/conf.xml "$@"

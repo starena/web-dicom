@@ -61,6 +61,7 @@
 		<path refid="solr.classpath" />
 		<path refid="dcm4che.classpath" />
 		<path refid="derby.classpath" />
+		<pathelement location="lib/dicom-commons.jar" />
 		<pathelement location="lib/junit.jar" />
 		<pathelement location="lib/jmxtools.jar" />
 	</path>
