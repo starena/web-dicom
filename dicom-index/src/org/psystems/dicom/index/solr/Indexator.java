@@ -564,26 +564,80 @@ public class Indexator {
 	 * @param solr
 	 * @throws IOException
 	 * @throws SolrServerException
+	 * @throws SQLException 
 	 */
 	public void syncDicEmployes(SolrServer solr) throws IOException,
-			SolrServerException {
-		// TODO Взять реальные данные
+			SolrServerException, SQLException {
+		
 		logger.info("Sync Employee...");
-		int maxDocs = 30;
-		for (int i = 0; i < maxDocs; i++) {
-			Employee emp = new Employee();
-			emp.setId(emp.getDicName() + i);
-			if (i % 2 == 0) {
-				emp.setEmployeeType(Employee.TYPE_DOCTOR);
-			} else {
-				emp.setEmployeeType(Employee.TYPE_OPERATOR);
-			}
-			emp.setEmployeeCode("CODE" + i);
-			emp.setEmployeeName("NAME" + i);
+		
+		connectionOMITS = getConnectionOMITS();
+		System.out.println("!!! connection = " + connectionOMITS);
 
-			solr.addBean(emp);
-			solr.commit();
+
+		PreparedStatement psSelect = null;
+
+		try {
+			psSelect = connectionOMITS
+					.prepareStatement("select v.ID, v.FULL_NAME from lpu.v_doctor v");
+
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
+
+			while (rs.next()) {
+				
+				Employee emp = new Employee();
+				emp.setId("Employee_" + rs.getString("ID"));
+				
+				//FIXME Реализовать!
+				emp.setEmployeeType(Employee.TYPE_DOCTOR);
+				//emp.setEmployeeType(Employee.TYPE_OPERATOR);
+				
+				//FIXME Реализовать!
+				emp.setEmployeeCode("CODE" + rs.getShort("ID"));
+				emp.setEmployeeName(rs.getString("FULL_NAME"));
+				
+				//TODO убрать!!!
+				if(index % 100 == 0) 
+				System.out.println("!!!! Load = " + index + " [Employee]" + emp);
+
+				logger.warn((index++) + " [Employee]" + emp);
+				
+				solr.addBean(emp);
+				solr.commit();
+
+			}
+			rs.close();
+
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+				if (connectionOMITS != null)
+					connectionOMITS.close();
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 		}
+		
+		
+//		logger.info("Sync Employee...");
+//		int maxDocs = 30;
+//		for (int i = 0; i < maxDocs; i++) {
+//			Employee emp = new Employee();
+//			emp.setId(emp.getDicName() + i);
+//			if (i % 2 == 0) {
+//				emp.setEmployeeType(Employee.TYPE_DOCTOR);
+//			} else {
+//				emp.setEmployeeType(Employee.TYPE_OPERATOR);
+//			}
+//			emp.setEmployeeCode("CODE" + i);
+//			emp.setEmployeeName("NAME" + i);
+//
+//			solr.addBean(emp);
+//			solr.commit();
+//		}
 		logger.info("Sync Employee [OK]");
 	}
 
