@@ -104,7 +104,7 @@ public class Indexator {
 //		args = new String[] { "-ssrv", "-mr" , "10"};
 //		args = new String[] { "--query=*:*", "--query-maxrecords=5" };
 //		args = new String[] { "--query=dicName:employee AND employeeName:ива*" };
-		args = new String[] { "--query=dicName:employee" , "--query-filter=employeeName:ива*" };
+//		args = new String[] { "--query=dicName:employee" , "--query-filter=employeeName:ива*" };
 		Options opts = new Options();
 
 		opts.addOption("d", "daemon", false, "work as daemon");
