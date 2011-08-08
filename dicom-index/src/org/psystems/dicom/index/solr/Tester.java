@@ -32,8 +32,8 @@ public class Tester {
 		Tester searcher = new Tester();
 
 		try {
-			searcher.testDicDiagnosis(server);
-			searcher.testDicServices(server);
+//			searcher.testDicDiagnosis(server);
+//			searcher.testDicServices(server);
 			searcher.testDicEmployes(server);
 			
 		} catch (SolrServerException e) {
@@ -90,8 +90,8 @@ public class Tester {
 
 		SolrQuery query = new SolrQuery();
 		query.setQuery("dicName:service");
-//		query.setFilterQueries("serviceAlias:ЭЭ*");
-		query.setRows(20);
+		query.setFilterQueries("serviceAlias:уз");
+		query.setRows(40);
 //		query.setFields("diagnosisCode,diagnosisDescription");
 //		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
 		QueryResponse rsp;
@@ -121,8 +121,8 @@ public class Tester {
 
 		SolrQuery query = new SolrQuery();
 		query.setQuery("dicName:employee");
-//		query.setFilterQueries("diagnosisCode:CO*");
-		query.setRows(20);
+		query.setFilterQueries("employeeName:ива");
+		query.setRows(40);
 //		query.setFields("diagnosisCode,diagnosisDescription");
 //		query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
 		QueryResponse rsp;

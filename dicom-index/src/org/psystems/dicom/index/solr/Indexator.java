@@ -82,6 +82,8 @@ public class Indexator {
 	private static boolean syncEmplopyes = false;
 	private static boolean syncPatients = false;
 	private static boolean syncServices = false;
+	
+	private static int maxRecors = Integer.MAX_VALUE;
 
 	/**
 	 * @param args
@@ -91,6 +93,7 @@ public class Indexator {
 
 		// args = new String[] { "--conf=1.xml"};
 //		args = new String[] { "-sdia" , "-ssrv", "-semp", "-spat"};
+//		args = new String[] { "-ssrv", "-mr" , "10"};
 		Options opts = new Options();
 
 		opts.addOption("d", "daemon", false, "work as daemon");
@@ -98,8 +101,14 @@ public class Indexator {
 		OptionBuilder.withArgName("file");
 		OptionBuilder.withLongOpt("conf");
 		OptionBuilder.hasArg();
-		OptionBuilder.withDescription("configuration file [" + conf + "]");
+		OptionBuilder.withDescription("configuration <file> [" + conf + "]");
 		opts.addOption(OptionBuilder.create("c"));
+		
+		OptionBuilder.withArgName("count");
+		OptionBuilder.withLongOpt("maxrecords");
+		OptionBuilder.hasArg();
+		OptionBuilder.withDescription("Maximum <count> records for synchronize [" + maxRecors + "]");
+		opts.addOption(OptionBuilder.create("mr"));
 
 		// Option property = OptionBuilder.withArgName("property=value")
 		// .hasArgs(2).withValueSeparator().withDescription(
@@ -110,6 +119,7 @@ public class Indexator {
 		opts.addOption("sdia", "syncdiagnosis", false, "Synchronize diagnisis");
 		opts.addOption("semp", "syncemployes", false, "Synchronize employes");
 		opts.addOption("ssrv", "syncservices", false, "Synchronize services");
+		
 
 		opts.addOption("db", "datebegin", false,
 				"Begin date interval (pattern: yyyy-mm-dd)");
@@ -165,6 +175,9 @@ public class Indexator {
 
 		if (cl.hasOption("ssrv"))
 			syncServices = true;
+		
+		if (cl.hasOption("mr"))
+			maxRecors = Integer.valueOf(cl.getOptionValue("mr"));
 
 		try {
 			praseConfig();
@@ -284,7 +297,9 @@ public class Indexator {
 				+ portSolr + " admport=" + portAdmin);
 
 		try {
+			logger.info("start indexing...");
 			new Indexator();
+			logger.info("indexing [OK]");
 		} catch (SolrServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -310,6 +325,9 @@ public class Indexator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		logger.info("ok&exit");
+		System.exit(0);
 	}
 
 	public Indexator() throws IOException, SolrServerException,
@@ -355,27 +373,36 @@ public class Indexator {
 
 			if (syncDiagnosis) {
 				syncDicDiagnosis(server);
-				server.optimize();
 			}
 			if (syncServices) {
 				syncDicServices(server);
-				server.optimize();
 			}
 			if (syncEmplopyes) {
 				syncDicEmployes(server);
-				server.optimize();
 			}
 			if (syncPatients) {
 				syncDicPatients(server);
-				server.optimize();
 			}
+			
+			logger.info("Sync commining...");
+			server.commit();
+			logger.info("Sync commining [OK]");
+			
+			logger.info("Sync optimize...");
+			server.optimize();
+			logger.info("Sync optimize [OK]");
 		}
 
-		if (daemonMode) {
-			// Wait forever
-			logger.info("Waiting forever...");
-			Thread.sleep(Long.MAX_VALUE);
-		}
+		
+//		if (daemonMode) {
+//			// Wait forever
+//			logger.info("Waiting forever...");
+//			Thread.sleep(Long.MAX_VALUE);
+//		}
+		
+	
+		
+		logger.info("Sync FINISH");
 
 	}
 
@@ -440,7 +467,9 @@ public class Indexator {
 				logger.warn((index++) + " [Diagnosis]" + dia);
 				
 				solr.addBean(dia);
-				solr.commit();
+//				solr.commit();
+				
+				if (index>=maxRecors) break;
 
 			}
 			rs.close();
@@ -499,15 +528,22 @@ public class Indexator {
 		logger.info("Sync Service...");
 		int maxDocs = 30;
 		for (int i = 0; i < maxDocs; i++) {
+			
+			if (i>=maxRecors) break;
+			
 			Service srv = new Service();
 			srv.setId(srv.getDicName() + i);
 			srv.setServiceAlias("ALIAS" + i);
 			srv.setServiceCode("CODE" + i);
-			srv.setServiceDescription("DESCR" + i);
+			srv.setServiceDescription("Услуга номер " + i);
 			srv.setModality("CR");
 
 			solr.addBean(srv);
-			solr.commit();
+			
+			logger.info("Load = " + i + " [Service]" + srv);
+			
+			
+//			solr.commit();
 		}
 
 		Service srv;
@@ -527,6 +563,14 @@ public class Indexator {
 		srv.setServiceCode("A.04.20.002.01");
 		srv.setServiceAlias("Узи молочных желез");
 		srv.setServiceDescription("Ультразвуковое исследование молочных желез");
+		solr.addBean(srv);
+		
+		srv = new Service();
+		srv.setId("service_" + "A.04.20.002.02");
+		srv.setModality("US");
+		srv.setServiceCode("A.04.20.002.01");
+		srv.setServiceAlias("УЗИ МОЛОЧНЫХ ЖЕЛЕЗ");
+		srv.setServiceDescription("УЛЬТРАЗВУКОВОЕ ИССЛЕДОВАНИЕ УЗИ МОЛОЧНЫХ ЖЕЛЕЗ");
 		solr.addBean(srv);
 
 		srv = new Service();
@@ -571,6 +615,53 @@ public class Indexator {
 		
 		logger.info("Sync Employee...");
 		
+//		int maxDocs = 20;
+//		for (int i = 0; i < maxDocs; i++) {
+//			Employee emp = new Employee();
+//			emp.setId(emp.getDicName() + i);
+//			if (i % 2 == 0) {
+//				emp.setEmployeeType(Employee.TYPE_DOCTOR);
+//			} else {
+//				emp.setEmployeeType(Employee.TYPE_OPERATOR);
+//			}
+//			emp.setEmployeeCode("CODE" + i);
+//			emp.setEmployeeName("NAME" + i);
+//
+//			solr.addBean(emp);
+//			
+//			
+//		}	
+//		
+//		Employee emp = new Employee();
+//		emp.setId("Employee_1");
+//		emp.setEmployeeCode("CODE_1");
+//		emp.setEmployeeType(Employee.TYPE_DOCTOR);
+//		emp.setEmployeeName("Иванов Сергей Петрович");
+//		solr.addBean(emp);
+//		
+//		emp = new Employee();
+//		emp.setId("Employee_2");
+//		emp.setEmployeeCode("CODE_2");
+//		emp.setEmployeeType(Employee.TYPE_DOCTOR);
+//		emp.setEmployeeName("Иванов Вячеслав Сидорович");
+//		solr.addBean(emp);
+//		
+//		emp = new Employee();
+//		emp.setId("Employee_3");
+//		emp.setEmployeeCode("CODE_3");
+//		emp.setEmployeeType(Employee.TYPE_DOCTOR);
+//		emp.setEmployeeName("Кузнецов Вячеслав Сидорович");
+//		solr.addBean(emp);
+//		
+//		logger.info("Sync commining...");
+//		
+//			solr.commit();
+//		
+//		
+//		logger.info("Sync Employee [OK]");
+//			
+//		if(true) return; //FIXME Убрать!!!
+		
 		connectionOMITS = getConnectionOMITS();
 		System.out.println("!!! connection = " + connectionOMITS);
 
@@ -597,15 +688,18 @@ public class Indexator {
 				emp.setEmployeeCode("CODE" + rs.getShort("ID"));
 				emp.setEmployeeName(rs.getString("FULL_NAME"));
 				
-				//TODO убрать!!!
 				if(index % 100 == 0) 
-				System.out.println("!!!! Load = " + index + " [Employee]" + emp);
+					logger.info("Load = " + index + " [Employee]" + emp);
 
 				logger.warn((index++) + " [Employee]" + emp);
 				
 				solr.addBean(emp);
-				solr.commit();
+				
+//				logger.info("Sync commining...");
+//				
+//				solr.commit();
 
+				if (index>=maxRecors) break;
 			}
 			rs.close();
 
@@ -683,12 +777,15 @@ public class Indexator {
 				
 				//TODO убрать!!!
 				if(index % 100 == 0) 
-				System.out.println("!!!! Load = " + index + " [Patient]" + patient);
+					logger.info("!!!! Load = " + index + " [Patient]" + patient);
 
 				logger.warn((index++) + " [Patient]" + patient);
 				
 				solr.addBean(patient);
-				solr.commit();
+				
+				if (index>=maxRecors) break;
+				
+//				solr.commit();
 
 			}
 			rs.close();
