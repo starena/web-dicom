@@ -21,7 +21,7 @@ fi
 
 
 # Setup the classpath
-CP="$WEBDICOM_HOME/etc/"
+#CP="$WEBDICOM_HOME/etc/"
 CP="$CP:$WEBDICOM_HOME/lib/$MAIN_JAR"
 
 CP="$CP:$WEBDICOM_HOME/lib/dicom-commons.jar"
