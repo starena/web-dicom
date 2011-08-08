@@ -27,10 +27,13 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.BinaryRequestWriter;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.psystems.dicom.commons.solr.entity.Diagnosis;
 import org.psystems.dicom.commons.solr.entity.Employee;
 import org.psystems.dicom.commons.solr.entity.Patient;
@@ -82,8 +85,13 @@ public class Indexator {
 	private static boolean syncEmplopyes = false;
 	private static boolean syncPatients = false;
 	private static boolean syncServices = false;
+	private static boolean syncAll = false;
 	
 	private static int maxRecors = Integer.MAX_VALUE;
+	private static String queryStr = null;
+	private static String queryFilter = null;
+	private static Integer queryStrMaxRecors = -1;
+	
 
 	/**
 	 * @param args
@@ -94,6 +102,9 @@ public class Indexator {
 		// args = new String[] { "--conf=1.xml"};
 //		args = new String[] { "-sdia" , "-ssrv", "-semp", "-spat"};
 //		args = new String[] { "-ssrv", "-mr" , "10"};
+//		args = new String[] { "--query=*:*", "--query-maxrecords=5" };
+//		args = new String[] { "--query=dicName:employee AND employeeName:ива*" };
+		args = new String[] { "--query=dicName:employee" , "--query-filter=employeeName:ива*" };
 		Options opts = new Options();
 
 		opts.addOption("d", "daemon", false, "work as daemon");
@@ -109,6 +120,25 @@ public class Indexator {
 		OptionBuilder.hasArg();
 		OptionBuilder.withDescription("Maximum <count> records for synchronize [" + maxRecors + "]");
 		opts.addOption(OptionBuilder.create("mr"));
+		
+		OptionBuilder.withArgName("request");
+		OptionBuilder.withLongOpt("query");
+		OptionBuilder.hasArg();
+		OptionBuilder.withDescription("Query <request> fo solr {*:*}");
+		opts.addOption(OptionBuilder.create("qr"));
+		
+		OptionBuilder.withArgName("filter");
+		OptionBuilder.withLongOpt("query-filter");
+		OptionBuilder.hasArg();
+		OptionBuilder.withDescription("Query request <filter> fo solr {serviceAlias:узи*}");
+		opts.addOption(OptionBuilder.create("qrf"));
+		
+		OptionBuilder.withArgName("count");
+		OptionBuilder.withLongOpt("query-maxrecords");
+		OptionBuilder.hasArg();
+		OptionBuilder.withDescription("Set Query request max <count> records");
+		opts.addOption(OptionBuilder.create("qrmr"));
+		
 
 		// Option property = OptionBuilder.withArgName("property=value")
 		// .hasArgs(2).withValueSeparator().withDescription(
@@ -119,6 +149,7 @@ public class Indexator {
 		opts.addOption("sdia", "syncdiagnosis", false, "Synchronize diagnisis");
 		opts.addOption("semp", "syncemployes", false, "Synchronize employes");
 		opts.addOption("ssrv", "syncservices", false, "Synchronize services");
+		opts.addOption("sall", "syncall", false, "Synchronize all dictionaries");
 		
 
 		opts.addOption("db", "datebegin", false,
@@ -176,8 +207,20 @@ public class Indexator {
 		if (cl.hasOption("ssrv"))
 			syncServices = true;
 		
+		if (cl.hasOption("sall"))
+			syncAll = true;
+		
 		if (cl.hasOption("mr"))
 			maxRecors = Integer.valueOf(cl.getOptionValue("mr"));
+		
+		if (cl.hasOption("qr")) 
+			queryStr = cl.getOptionValue("qr");
+		
+		if (cl.hasOption("qrf")) 
+			queryFilter = cl.getOptionValue("qrf");
+		
+		if (cl.hasOption("qrmr"))
+			queryStrMaxRecors = Integer.valueOf(cl.getOptionValue("qrmr"));
 
 		try {
 			praseConfig();
@@ -292,14 +335,11 @@ public class Indexator {
 	public static void main(String[] args) throws IOException, SAXException {
 
 		argsParse(args);
-		logger.info("starting");
 		logger.info("using config variables: config-file=" + conf + " port="
 				+ portSolr + " admport=" + portAdmin);
 
 		try {
-			logger.info("start indexing...");
 			new Indexator();
-			logger.info("indexing [OK]");
 		} catch (SolrServerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -326,7 +366,6 @@ public class Indexator {
 			e.printStackTrace();
 		}
 		
-		logger.info("ok&exit");
 		System.exit(0);
 	}
 
@@ -366,43 +405,67 @@ public class Indexator {
 		((CommonsHttpSolrServer) server)
 				.setRequestWriter(new BinaryRequestWriter());
 
-		// Индексируем все словари
-		if (!syncDiagnosis && !syncServices && !syncEmplopyes && !syncPatients) {
-			startAllIndexing();
-		} else {
+		if (syncAll || syncDiagnosis || syncServices || syncEmplopyes
+				|| syncPatients) {
 
-			if (syncDiagnosis) {
+			if (syncAll)
+				startAllIndexing();
+
+			if (syncDiagnosis)
 				syncDicDiagnosis(server);
-			}
-			if (syncServices) {
+
+			if (syncServices)
 				syncDicServices(server);
-			}
-			if (syncEmplopyes) {
+
+			if (syncEmplopyes)
 				syncDicEmployes(server);
-			}
-			if (syncPatients) {
+
+			if (syncPatients)
 				syncDicPatients(server);
-			}
-			
+
 			logger.info("Sync commining...");
 			server.commit();
 			logger.info("Sync commining [OK]");
-			
+
 			logger.info("Sync optimize...");
 			server.optimize();
 			logger.info("Sync optimize [OK]");
-		}
+			
+			logger.info("Sync FINISH");
 
+			if (daemonMode) {
+				// Wait forever
+				logger.info("Waiting forever...");
+				Thread.sleep(Long.MAX_VALUE);
+			}
+		}
 		
-//		if (daemonMode) {
-//			// Wait forever
-//			logger.info("Waiting forever...");
-//			Thread.sleep(Long.MAX_VALUE);
-//		}
+		// Поисковичек по solr
+		if (queryStr != null) {
+
+			logger.info("Query: " + queryStr);
+			SolrQuery query = new SolrQuery();
+
+			query.setQuery(queryStr);
+
+			if (queryFilter != null)
+				query.setFilterQueries(queryFilter);
+
+			if (queryStrMaxRecors > 0)
+				query.setRows(queryStrMaxRecors);
+			// query.setFields("diagnosisCode,diagnosisDescription");
+			// query.addSortField("diagnosisCode", SolrQuery.ORDER.asc);
+			QueryResponse rsp;
+
+			rsp = server.query(query);
+
+			for (SolrDocument doc : rsp.getResults()) {
+				System.out.println("" + doc);
+			}
+		}
 		
-	
+			
 		
-		logger.info("Sync FINISH");
 
 	}
 
@@ -412,13 +475,9 @@ public class Indexator {
 		logger.info("all indexing...");
 		
 		syncDicPatients(server);
-		server.optimize();
 		syncDicDiagnosis(server);
-		server.optimize();
 		syncDicServices(server);
-		server.optimize();
 		syncDicEmployes(server);
-		server.optimize();
 	}
 
 	public static Logger getLogger() {
