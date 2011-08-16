@@ -580,84 +580,131 @@ public class Indexator {
 	 * @param solr
 	 * @throws IOException
 	 * @throws SolrServerException
+	 * @throws SQLException 
 	 */
 	public void syncDicServices(SolrServer solr) throws IOException,
-			SolrServerException {
-		// TODO Взять реальные данные
+			SolrServerException, SQLException {
 		logger.info("Sync Service...");
-		int maxDocs = 30;
-		for (int i = 0; i < maxDocs; i++) {
-			
-			if (i>=maxRecors) break;
-			
-			Service srv = new Service();
-			srv.setId(srv.getDicName() + i);
-			srv.setServiceAlias("ALIAS" + i);
-			srv.setServiceCode("CODE" + i);
-			srv.setServiceDescription("Услуга номер " + i);
-			srv.setModality("CR");
-
-			solr.addBean(srv);
-			
-			logger.info("Load = " + i + " [Service]" + srv);
-			
-			
-//			solr.commit();
-		}
-
-		Service srv;
-
-		srv = new Service();
-		srv.setId("service_" + "A.04.20.001.01");
-		srv.setModality("US");
-		srv.setServiceCode("A.04.20.001.01");
-		srv.setServiceAlias("Узи матки и придатков (трансабдоминально)");
-		srv
-				.setServiceDescription("Ультразвуковое исследование матки и придатков (трансабдоминально)");
-		solr.addBean(srv);
-
-		srv = new Service();
-		srv.setId("service_" + "A.04.20.002.01");
-		srv.setModality("US");
-		srv.setServiceCode("A.04.20.002.01");
-		srv.setServiceAlias("Узи молочных желез");
-		srv.setServiceDescription("Ультразвуковое исследование молочных желез");
-		solr.addBean(srv);
 		
-		srv = new Service();
-		srv.setId("service_" + "A.04.20.002.02");
-		srv.setModality("US");
-		srv.setServiceCode("A.04.20.002.01");
-		srv.setServiceAlias("УЗИ МОЛОЧНЫХ ЖЕЛЕЗ");
-		srv.setServiceDescription("УЛЬТРАЗВУКОВОЕ ИССЛЕДОВАНИЕ УЗИ МОЛОЧНЫХ ЖЕЛЕЗ");
-		solr.addBean(srv);
+		connectionOMITS = getConnectionOMITS();
 
-		srv = new Service();
-		srv.setId("service_" + "A.03.16.001.01");
-		srv.setModality("ES");
-		srv.setServiceCode("A.03.16.001.01");
-		srv.setServiceAlias("Эгдс");
-		srv.setServiceDescription("Эзофагогастродуоденоскопия диагностическая");
-		solr.addBean(srv);
+		PreparedStatement psSelect = null;
 
-		srv = new Service();
-		srv.setId("service_" + "A.05.23.001.03");
-		srv.setModality("ES");
-		srv.setServiceCode("A.05.23.001.03");
-		srv.setServiceAlias("ЭЭГ");
-		srv
-				.setServiceDescription("Электроэнцефалография с компьютерной обработкой и функциональными пробами");
-		solr.addBean(srv);
+		try {
+			psSelect = connectionOMITS
+					.prepareStatement("select  v.ID, v.CIPHER, v.NAME, v.SHORT_NAME, v.CATEGORY_NAME from lpu.v_labtest_type v");
 
-		srv = new Service();
-		srv.setId("service_" + "USI01");
-		srv.setModality("US");
-		srv.setServiceCode("USI01");
-		srv.setServiceAlias("USI IS COOL");
-		srv.setServiceDescription("USI IS VERY VERY COOL!!!");
-		solr.addBean(srv);
+			ResultSet rs = psSelect.executeQuery();
+			int index = 0;
 
-		solr.commit();
+			while (rs.next()) {
+				
+				Service srv = new Service();
+				srv.setId("Service_" + rs.getString("ID"));
+				srv.setServiceAlias(rs.getString("SHORT_NAME"));
+				srv.setServiceCode(rs.getString("CIPHER"));
+				srv.setServiceDescription(rs.getString("NAME"));
+				
+				//FIXME сделать получение типа услуги
+				srv.setModality("CR");
+				
+				if(index % 100 == 0) 
+					logger.info("Load = " + index + " [Service]" + srv);
+
+				logger.warn((index++) + " [Service]" + srv);
+				
+				solr.addBean(srv);
+				
+
+				if (index>=maxRecors) break;
+			}
+			rs.close();
+
+		} finally {
+
+			try {
+				if (psSelect != null)
+					psSelect.close();
+				if (connectionOMITS != null)
+					connectionOMITS.close();
+			} catch (SQLException e) {
+				logger.error(e);
+			}
+		}
+//		int maxDocs = 30;
+//		for (int i = 0; i < maxDocs; i++) {
+//			
+//			if (i>=maxRecors) break;
+//			
+//			Service srv = new Service();
+//			srv.setId(srv.getDicName() + i);
+//			srv.setServiceAlias("ALIAS" + i);
+//			srv.setServiceCode("CODE" + i);
+//			srv.setServiceDescription("Услуга номер " + i);
+//			srv.setModality("CR");
+//
+//			solr.addBean(srv);
+//			
+//			logger.info("Load = " + i + " [Service]" + srv);
+//			
+//			
+////			solr.commit();
+//		}
+//
+//		Service srv;
+//
+//		srv = new Service();
+//		srv.setId("service_" + "A.04.20.001.01");
+//		srv.setModality("US");
+//		srv.setServiceCode("A.04.20.001.01");
+//		srv.setServiceAlias("Узи матки и придатков (трансабдоминально)");
+//		srv
+//				.setServiceDescription("Ультразвуковое исследование матки и придатков (трансабдоминально)");
+//		solr.addBean(srv);
+//
+//		srv = new Service();
+//		srv.setId("service_" + "A.04.20.002.01");
+//		srv.setModality("US");
+//		srv.setServiceCode("A.04.20.002.01");
+//		srv.setServiceAlias("Узи молочных желез");
+//		srv.setServiceDescription("Ультразвуковое исследование молочных желез");
+//		solr.addBean(srv);
+//		
+//		srv = new Service();
+//		srv.setId("service_" + "A.04.20.002.02");
+//		srv.setModality("US");
+//		srv.setServiceCode("A.04.20.002.01");
+//		srv.setServiceAlias("УЗИ МОЛОЧНЫХ ЖЕЛЕЗ");
+//		srv.setServiceDescription("УЛЬТРАЗВУКОВОЕ ИССЛЕДОВАНИЕ УЗИ МОЛОЧНЫХ ЖЕЛЕЗ");
+//		solr.addBean(srv);
+//
+//		srv = new Service();
+//		srv.setId("service_" + "A.03.16.001.01");
+//		srv.setModality("ES");
+//		srv.setServiceCode("A.03.16.001.01");
+//		srv.setServiceAlias("Эгдс");
+//		srv.setServiceDescription("Эзофагогастродуоденоскопия диагностическая");
+//		solr.addBean(srv);
+//
+//		srv = new Service();
+//		srv.setId("service_" + "A.05.23.001.03");
+//		srv.setModality("ES");
+//		srv.setServiceCode("A.05.23.001.03");
+//		srv.setServiceAlias("ЭЭГ");
+//		srv
+//				.setServiceDescription("Электроэнцефалография с компьютерной обработкой и функциональными пробами");
+//		solr.addBean(srv);
+//
+//		srv = new Service();
+//		srv.setId("service_" + "USI01");
+//		srv.setModality("US");
+//		srv.setServiceCode("USI01");
+//		srv.setServiceAlias("USI IS COOL");
+//		srv.setServiceDescription("USI IS VERY VERY COOL!!!");
+//		solr.addBean(srv);
+//
+//		solr.commit();
+		
 		logger.info("Sync Service [OK]");
 	}
 
@@ -722,7 +769,7 @@ public class Indexator {
 //		if(true) return; //FIXME Убрать!!!
 		
 		connectionOMITS = getConnectionOMITS();
-		System.out.println("!!! connection = " + connectionOMITS);
+//		System.out.println("!!! connection = " + connectionOMITS);
 
 
 		PreparedStatement psSelect = null;
