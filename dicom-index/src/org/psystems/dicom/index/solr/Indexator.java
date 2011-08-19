@@ -70,6 +70,9 @@ public class Indexator {
 	private static SimpleDateFormat fmt = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss.S");
 
+	private static SimpleDateFormat fmtShort = new SimpleDateFormat(
+			"yyyy-MM-dd");
+
 	private static final String VERSION = "0.1a";
 
 	private static final String NAME = Indexator.class.getSimpleName();
@@ -99,6 +102,9 @@ public class Indexator {
 	private static String queryStr = null;
 	private static String queryFilter = null;
 	private static Integer queryStrMaxRecors = -1;
+
+	private static Date db = null;
+	private static Date de = null;
 
 	/**
 	 * @param args
@@ -234,20 +240,49 @@ public class Indexator {
 		if (cl.hasOption("qrmr"))
 			queryStrMaxRecors = Integer.valueOf(cl.getOptionValue("qrmr"));
 
+		if (cl.hasOption("db")) {
+			try {
+				db = fmtShort.parse(cl.getOptionValue("db"));
+			} catch (java.text.ParseException e) {
+				System.err.println("Wrong date format! ["
+						+ cl.getOptionValue("db") + "]");
+				logger.fatal("Wrong date format! [" + cl.getOptionValue("db")
+						+ "]", e);
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		}
+
+		if (cl.hasOption("de")) {
+			try {
+				de = fmtShort.parse(cl.getOptionValue("de"));
+			} catch (java.text.ParseException e) {
+				System.err.println("Wrong date format! ["
+						+ cl.getOptionValue("de") + "]");
+				logger.fatal("Wrong date format! [" + cl.getOptionValue("de")
+						+ "]", e);
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		}
+
 		try {
 			praseConfig();
 		} catch (ParserConfigurationException e) {
 			logger.fatal("Broken config! " + e.getMessage());
 			System.err.println("Broken config! " + e.getMessage());
 			e.printStackTrace();
+			System.exit(-1);
 		} catch (SAXException e) {
 			logger.fatal("Broken config! " + e.getMessage());
 			System.err.println("Broken config! " + e.getMessage());
 			e.printStackTrace();
+			System.exit(-1);
 		} catch (IOException e) {
 			logger.fatal("Broken config! " + e.getMessage());
 			System.err.println("Broken config! " + e.getMessage());
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 
@@ -353,29 +388,29 @@ public class Indexator {
 		try {
 			new Indexator();
 		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		} catch (MalformedObjectNameException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		} catch (InstanceAlreadyExistsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		} catch (MBeanRegistrationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		} catch (NotCompliantMBeanException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.fatal(e.getMessage(), e);
 		}
 
 		System.exit(0);
@@ -420,41 +455,46 @@ public class Indexator {
 		if (syncAll || syncDiagnosis || syncServices || syncEmplopyes
 				|| syncPatients) {
 
-			Date dateIdx = new Date();// дата индексации
-
-			if (syncAll)
-				startAllIndexing();
-
-			if (syncDiagnosis)
-				syncDicDiagnosis(server);
-
-			if (syncServices)
-				syncDicServices(server);
-
-			if (syncEmplopyes)
-				syncDicEmployes(server);
-
-			if (syncPatients)
-				syncDicPatients(server);
-
-			logger.info("Sync commining...");
-			server.commit();
-			logger.info("Sync commining [OK]");
-
-			logger.info("Sync optimize...");
-			server.optimize();
-			logger.info("Sync optimize [OK]");
-
-			setConfigItem(server, "lastUpdated", fmt.format(dateIdx));
-			// System.out.println("!!!!! " + getConfigItem(server,
-			// "lastUpdated"));
-
-			logger.info("Sync FINISH");
+			sync(false);
 
 			if (daemonMode) {
 				// Wait forever
 				logger.info("Waiting forever...");
-				Thread.sleep(Long.MAX_VALUE);
+				// Thread.sleep(Long.MAX_VALUE);
+
+				Thread syncThread = new Thread("syncThread") {
+
+					@Override
+					public void run() {
+
+						for (;;) {
+							try {
+								sync(true);
+							} catch (IOException e) {
+								e.printStackTrace();
+								logger.fatal(e.getMessage(), e);
+							} catch (SolrServerException e) {
+								e.printStackTrace();
+								logger.fatal(e.getMessage(), e);
+							} catch (SQLException e) {
+								e.printStackTrace();
+								logger.fatal(e.getMessage(), e);
+							}
+
+							try {
+								int sec = 60;
+								logger.info("Sleeping " + sec + " seconds...");
+								sleep(1000 * sec);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+								logger.fatal(e.getMessage(), e);
+							}
+						}
+					}
+
+				};
+
+				syncThread.start();
 			}
 		}
 
@@ -484,6 +524,72 @@ public class Indexator {
 
 	}
 
+	/**
+	 * @param daemonMode
+	 * @throws IOException
+	 * @throws SolrServerException
+	 * @throws SQLException
+	 */
+	private void sync(boolean daemonMode) throws IOException,
+			SolrServerException, SQLException {
+
+		Date dateIdx = null;
+
+		if (daemonMode) {
+			String lastUpdStr = getConfigItem(server, "lastUpdated");
+
+			if (lastUpdStr != null)
+				try {
+					db = fmt.parse(lastUpdStr);
+				} catch (java.text.ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					logger
+							.fatal("Wrong format date for item: [lastUpdated]",
+									e);
+				}
+			dateIdx = new Date();// дата индексации
+		}
+
+		if (syncAll) { // синхронизируем все словари
+			startAllIndexing();
+		} else {
+
+			if (syncDiagnosis)
+				syncDicDiagnosis(server);
+
+			if (syncServices)
+				syncDicServices(server);
+
+			if (syncEmplopyes)
+				syncDicEmployes(server);
+
+			if (syncPatients)
+				syncDicPatients(server);
+		}
+
+		logger.info("Sync commining...");
+		server.commit();
+		logger.info("Sync commining [OK]");
+
+		logger.info("Sync optimize...");
+		server.optimize();
+		logger.info("Sync optimize [OK]");
+
+		if (daemonMode)
+			setConfigItem(server, "lastUpdated", fmt.format(dateIdx));
+
+		logger.info("Sync FINISH");
+
+	}
+
+	/**
+	 * Синхронизация всех словарей
+	 * 
+	 * @throws IOException
+	 * @throws SolrServerException
+	 * @throws SQLException
+	 */
 	public void startAllIndexing() throws IOException, SolrServerException,
 			SQLException {
 
@@ -863,14 +969,32 @@ public class Indexator {
 	public void syncDicPatients(SolrServer solr) throws IOException,
 			SolrServerException, SQLException {
 
-		logger.info("Sync Patient...");
+		logger.info("Sync Patient " + db + "-" + de + "...");
 		connectionOMITS = getConnectionOMITS();
 		PreparedStatement psSelect = null;
 
 		try {
+			String where = "";
+			if (db != null && de == null)
+				where = " v.UPD_DATE >= ?";
+			else if (db == null && de != null)
+				where = " v.UPD_DATE <= ?";
+			else if (db != null && de != null)
+				where = " v.UPD_DATE >= ? AND v.UPD_DATE =< ?";
+
 			psSelect = connectionOMITS
-					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, v.CODE, v.BIRTHDAY, v.SEX "
-							+ " from  lpu.v_patient v ");
+					.prepareStatement("select v.ID, v.FIRST_NAME, v.SUR_NAME, v.PATR_NAME, "
+							+ " v.CODE, v.BIRTHDAY, v.SEX, v.UPD_DATE "
+							+ " from  lpu.v_patient v " + where);
+			
+			if (db != null && de == null)
+				psSelect.setDate(1, new java.sql.Date(db.getTime()));
+			else if (db == null && de != null)
+				psSelect.setDate(1, new java.sql.Date(de.getTime()));
+			else if (db != null && de != null) {
+				psSelect.setDate(1, new java.sql.Date(db.getTime()));
+				psSelect.setDate(2, new java.sql.Date(de.getTime()));
+			}
 
 			ResultSet rs = psSelect.executeQuery();
 			int index = 0;
