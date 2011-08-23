@@ -18,6 +18,14 @@ public class Config {
 
 	private ArrayList<Connector> connectors = new ArrayList<Connector>();
 
+	String aet;
+	String host;
+	String port;
+
+	private String outDir;
+
+	private String database;
+
 	/**
 	 * @param args
 	 */
@@ -33,13 +41,13 @@ public class Config {
 	}
 
 	public Config(String file) throws Exception {
-	
-			loadConfig(file);
-		
+
+		loadConfig(file);
+
 	}
 
-	public void loadConfig(String file) throws ParserConfigurationException, SAXException,
-			IOException {
+	public void loadConfig(String file) throws ParserConfigurationException,
+			SAXException, IOException {
 
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
 				.newInstance();
@@ -49,8 +57,23 @@ public class Config {
 		// normalize text representation
 		doc.getDocumentElement().normalize();
 
-		System.out.println("Root element of the doc is "
-				+ doc.getDocumentElement().getNodeName());
+		// System.out.println("Root element of the doc is "
+		// + doc.getDocumentElement().getNodeName());
+
+		aet = doc.getElementsByTagName("dicomconnect").item(0).getAttributes()
+				.getNamedItem("aet").getNodeValue();
+
+		host = doc.getElementsByTagName("dicomconnect").item(0).getAttributes()
+				.getNamedItem("host").getNodeValue();
+
+		port = doc.getElementsByTagName("dicomconnect").item(0).getAttributes()
+				.getNamedItem("port").getNodeValue();
+		
+		outDir = ""+doc.getElementsByTagName("out").item(0).getFirstChild().getNodeValue();
+
+		database = ""+doc.getElementsByTagName("database").item(0).getFirstChild().getNodeValue();
+		
+		System.out.println("dicomconnect=" + aet + "@" + host + ":" + port + " "+outDir + " database="+database);
 
 		NodeList listOfConnector = doc.getElementsByTagName("dcmconnector");
 
@@ -67,7 +90,7 @@ public class Config {
 				// -------
 
 				NodeList AETList = firstconenctorElement
-						.getElementsByTagName("AET");
+						.getElementsByTagName("aet");
 				Element firstNameElement = (Element) AETList.item(0);
 
 				NodeList textFNList = firstNameElement.getChildNodes();

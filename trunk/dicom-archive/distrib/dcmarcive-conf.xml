@@ -1,18 +1,17 @@
 <dcmarchive>
 
-	<dicomconnect>DDV@localhost:11112</dicomconnect>
-	<destination>/temp/data</destination>
-	<jdbcconnect>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</jdbcconnect>
-
+	<dicomconnect aet="DDV" host="localhost" port="11112"/>
+	<out>database/instance/dcm.data</out>
+	<database>jdbc:derby:/localhost:1527/DICOM/DB/WEBDICOM</database>
 	
 	<dcmconnector>
-		<AET>DDV</AET>
+		<aet>DDV</aet>
 		<name>Test DICOM KRT Electron connector</name>
 		<driver>electron</driver>
 	</dcmconnector>
 
 	<dcmconnector>
-		<AET>TEST</AET>
+		<aet>TEST</aet>
 		<name>Test DICOM Renex connector</name>
 		<driver>renex</driver>
 	</dcmconnector>
