@@ -839,7 +839,11 @@ public class PersistentManagerDerby {
 	    study.setStudyId(rs.getString("STUDY_ID"));
 	    study.setPatientName(rs.getString("PATIENT_NAME"));
 	    study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
-	    study.setPatientSex(rs.getString("PATIENT_SEX"));
+	    
+	    if ("M".equalsIgnoreCase(rs.getString("PATIENT_SEX")) || "F".equalsIgnoreCase(rs.getString("PATIENT_SEX")))
+		study.setPatientSex(rs.getString("PATIENT_SEX"));
+	    else
+		study.setPatientSex("");// Если пол некорректный
 
 	    study.setPatientBirthDate(ORMUtil.utilDateToSQLDateString(rs.getDate("PATIENT_BIRTH_DATE")));
 
