@@ -4,12 +4,14 @@ import java.util.Date;
 
 import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.ItemSuggestion;
+import org.psystems.dicom.browser.client.component.StudyCard.Resources;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
 import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -20,12 +22,17 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ClientBundle.Source;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -46,6 +53,17 @@ public class DirectionCard extends Composite {
     protected StudyManagePanel studyManagePanel;
     private HorizontalPanel allStuduesPanel;
     private FlexTable ftEdit;
+    
+    //TODO Вынести в общий класс все ресурсы
+    interface Resources extends ClientBundle {
+
+	 
+	  @Source("logoSTUDY.png")
+	  /*@ImageOptions(flipRtl = true)*/
+	  ImageResource logoSTUDY();
+	}
+
+Resources resources = GWT.create(Resources.class);
 
     // private StudyManagePanel studyManagePanel;
 
@@ -62,11 +80,20 @@ public class DirectionCard extends Composite {
 	    sex = "Ж";
 	}
 
-	String date = Utils.dateFormatUser.format(Utils.dateFormatSql
+	String dateBirthday = Utils.dateFormatUser.format(Utils.dateFormatSql
 		.parse(drnProxy.getPatient().getPatientBirthDate()));
-	Label labelPatient = new Label(drnProxy.getPatient().getPatientName() + " (" + sex + ") " + date + " - "
-		+ drnProxy.getDoctorDirect().getEmployeeName() + " [" + drnProxy.getId() + "]");
+	String docDirect = "";
+	String dateDirect = Utils.dateFormatUser.format(Utils.dateFormatSql
+		.parse(drnProxy.getDateDirection()));
+	
+	Label labelPatient = new Label(drnProxy.getPatient().getPatientName() + " (" + sex + ") " + dateBirthday);
 	labelPatient.setStyleName("DicomItem");
+	
+	
+	if(drnProxy.getDoctorDirect()!=null) 
+	    docDirect = drnProxy.getDoctorDirect().getEmployeeName();
+	labelPatient.setTitle("Код:"+drnProxy.getDirectionId()+", внутр.№"+drnProxy.getId() +
+		", направил:"+docDirect + ", "+dateDirect);
 
 	hp.add(labelPatient);
 
@@ -81,7 +108,7 @@ public class DirectionCard extends Composite {
 
 	});
 
-	Label lblEdit = new Label(" {редактировать}");
+	Label lblEdit = new Label(" /Напр./");
 	hp.add(lblEdit);
 	lblEdit.setStyleName("DicomItem");
 	lblEdit.addClickHandler(new ClickHandler() {
@@ -425,11 +452,10 @@ public class DirectionCard extends Composite {
     private void showStudies(StudyProxy[] studies) {
 	// TODO Auto-generated method stub
 	allStuduesPanel = new HorizontalPanel();
-	for (StudyProxy studyProxy : studies) {
-	    allStuduesPanel.add(new StudiesPanel(studyProxy));
-	}
+	allStuduesPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+	
 
-	Button newStudyBtn = new Button("Создать исследование");
+	Button newStudyBtn = new Button("Добавить исследование...");
 	allStuduesPanel.add(newStudyBtn);
 	newStudyBtn.addClickHandler(new ClickHandler() {
 	    
@@ -440,6 +466,10 @@ public class DirectionCard extends Composite {
 	});
 	
 	mainPanel.add(allStuduesPanel);
+	
+	for (StudyProxy studyProxy : studies) {
+	    allStuduesPanel.add(new StudiesPanel(studyProxy));
+	}
     }
 
     /**
@@ -513,14 +543,19 @@ public class DirectionCard extends Composite {
 	public StudiesPanel(final StudyProxy studyProxy) {
 	    super();
 	    this.studyProxy = studyProxy;
-	    final Button b = new Button("[" + studyProxy.getId() + "] " + studyProxy.getStudyDate());
-	    add(b);
-	    b.addClickHandler(new ClickHandler() {
+	    
+	    ImageResource imgRes = resources.logoSTUDY();
+	    final Image imageLogoSTUDY = new Image(imgRes);
+	    imageLogoSTUDY.addStyleName("Image");
+	    add(imageLogoSTUDY);
+	    imageLogoSTUDY.setTitle("[" + studyProxy.getId() + "] " + studyProxy.getStudyDate());
+	   
+	    imageLogoSTUDY.addClickHandler(new ClickHandler() {
 
 		@Override
 		public void onClick(ClickEvent event) {
 		    showStudy(studyProxy);
-		    b.removeFromParent();
+		    imageLogoSTUDY.removeFromParent();
 		    StudiesPanel.this.getParent().removeFromParent();
 		}
 	    });
