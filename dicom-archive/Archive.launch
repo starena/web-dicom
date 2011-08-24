@@ -8,7 +8,7 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.psystems.dicom.daemon.Archive"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="DDV@localhost:11112 -config distrib/dcmarcive-conf.xml -dest database\instance\dcm.data  -jdbcconnect jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM -startdb"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="DDV@localhost:11112 -config distrib/dcmarcive-conf.xml  -startdb"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="dicom-archive"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dderby.system.home=database/instance -Dderby.drda.startNetworkServer=true -Dderby.drda.portNumber=1527 -Dderby.drda.host=localhost -Dderby.drda.logConnections=true&#13;&#10;-Dlog4j.configuration=log4j.properties"/>
 </launchConfiguration>
