@@ -650,22 +650,6 @@ public class Archive extends StorageService {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		CommandLine cl = parse(args);
-		Archive dcmrcv = new Archive(cl.hasOption("device") ? cl
-				.getOptionValue("device") : "DCMRCV");
-		final List<String> argList = cl.getArgList();
-		String port = argList.get(0);
-		String[] aetPort = split(port, ':', 1);
-		dcmrcv.setPort(parseInt(aetPort[1], "illegal port number", 1, 0xffff));
-		if (aetPort[0] != null) {
-			String[] aetHost = split(aetPort[0], '@', 0);
-			dcmrcv.setAEtitle(aetHost[0]);
-			if (aetHost[1] != null) {
-				dcmrcv.setHostname(aetHost[1]);
-			}
-		}
-
-		if (cl.hasOption("jdbcconnect"))
-			Extractor.connectionStr = cl.getOptionValue("jdbcconnect");
 		
 		if (cl.hasOption("config")) {
 			Extractor.configStr = cl.getOptionValue("config");
@@ -677,8 +661,41 @@ public class Archive extends StorageService {
 					ex.printStackTrace();
 					System.exit(-1);
 				}
-		
+		} else {
+			System.err.println("Set config file!");
+			System.exit(-1);
 		}
+		
+		Archive dcmrcv = new Archive(cl.hasOption("device") ? cl
+				.getOptionValue("device") : "DCMRCV");
+		try {
+			dcmrcv.setPort(Integer.valueOf(config.getPort()));
+		} catch (NumberFormatException ex) {
+			System.err.println("wrong port number!" +ex);
+			System.exit(1);
+		}
+		dcmrcv.setAEtitle(config.getAet());
+		dcmrcv.setHostname(config.getHost());
+		
+		Extractor.connectionStr = config.getDatabase(); 
+		dcmrcv.setDestination(config.getOutDir());
+		
+//		final List<String> argList = cl.getArgList();
+//		String port = argList.get(0);
+//		String[] aetPort = split(port, ':', 1);
+//		dcmrcv.setPort(parseInt(aetPort[1], "illegal port number", 1, 0xffff));
+//		if (aetPort[0] != null) {
+//			String[] aetHost = split(aetPort[0], '@', 0);
+//			dcmrcv.setAEtitle(aetHost[0]);
+//			if (aetHost[1] != null) {
+//				dcmrcv.setHostname(aetHost[1]);
+//			}
+//		}
+
+		if (cl.hasOption("jdbcconnect"))
+			Extractor.connectionStr = cl.getOptionValue("jdbcconnect");
+		
+		
 		
 		if (cl.hasOption("startdb")) {
 			NetworkServerControl server;
@@ -694,6 +711,7 @@ public class Archive extends StorageService {
 
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));
+		
 		if (cl.hasOption("calling2dir"))
 			dcmrcv.setCalling2Dir(loadProperties(cl
 					.getOptionValue("calling2dir")));

@@ -16,14 +16,12 @@ import org.xml.sax.SAXException;
 
 public class Config {
 
-	private ArrayList<Connector> connectors = new ArrayList<Connector>();
+	private ArrayList<DcmConnector> connectors = new ArrayList<DcmConnector>();
 
-	String aet;
-	String host;
-	String port;
-
+	private String aet;
+	private String host;
+	private String port;
 	private String outDir;
-
 	private String database;
 
 	/**
@@ -40,10 +38,12 @@ public class Config {
 
 	}
 
+	/**
+	 * @param file
+	 * @throws Exception
+	 */
 	public Config(String file) throws Exception {
-
 		loadConfig(file);
-
 	}
 
 	public void loadConfig(String file) throws ParserConfigurationException,
@@ -68,12 +68,17 @@ public class Config {
 
 		port = doc.getElementsByTagName("dicomconnect").item(0).getAttributes()
 				.getNamedItem("port").getNodeValue();
-		
-		outDir = ""+doc.getElementsByTagName("out").item(0).getFirstChild().getNodeValue();
 
-		database = ""+doc.getElementsByTagName("database").item(0).getFirstChild().getNodeValue();
-		
-		System.out.println("dicomconnect=" + aet + "@" + host + ":" + port + " "+outDir + " database="+database);
+		outDir = ""
+				+ doc.getElementsByTagName("out").item(0).getFirstChild()
+						.getNodeValue();
+
+		database = ""
+				+ doc.getElementsByTagName("database").item(0).getFirstChild()
+						.getNodeValue();
+
+		System.out.println("dicomconnect=" + aet + "@" + host + ":" + port
+				+ " " + outDir + " database=" + database);
 
 		NodeList listOfConnector = doc.getElementsByTagName("dcmconnector");
 
@@ -82,74 +87,66 @@ public class Config {
 
 		for (int s = 0; s < listOfConnector.getLength(); s++) {
 
-			Node firstPersonNode = listOfConnector.item(s);
-			if (firstPersonNode.getNodeType() == Node.ELEMENT_NODE) {
+			Node connector = listOfConnector.item(s);
 
-				Element firstconenctorElement = (Element) firstPersonNode;
+			String aet = connector.getAttributes().getNamedItem("aet")
+					.getNodeValue();
+			String name = connector.getAttributes().getNamedItem("name")
+					.getNodeValue();
+			String driver = connector.getAttributes().getNamedItem("driver")
+					.getNodeValue();
+			System.out.println(" driver name=" + name + "; aet=" + aet
+					+ "; driver=" + driver);
 
-				// -------
+			DcmConnector conn = new DcmConnector(aet, name, driver);
+			connectors.add(conn);
 
-				NodeList AETList = firstconenctorElement
-						.getElementsByTagName("aet");
-				Element firstNameElement = (Element) AETList.item(0);
-
-				NodeList textFNList = firstNameElement.getChildNodes();
-				System.out.println("AET : "
-						+ ((Node) textFNList.item(0)).getNodeValue().trim());
-
-				String aET = ((Node) textFNList.item(0)).getNodeValue().trim();
-
-				// -------
-
-				NodeList nameList = firstconenctorElement
-						.getElementsByTagName("name");
-				Element lastNameElement = (Element) nameList.item(0);
-
-				NodeList textLNList = lastNameElement.getChildNodes();
-				System.out.println("Name : "
-						+ ((Node) textLNList.item(0)).getNodeValue().trim());
-
-				String name = ((Node) textLNList.item(0)).getNodeValue().trim();
-
-				// -------
-
-				NodeList ageList = firstconenctorElement
-						.getElementsByTagName("driver");
-				Element ageElement = (Element) ageList.item(0);
-
-				NodeList textAgeList = ageElement.getChildNodes();
-				System.out.println("driver : "
-						+ ((Node) textAgeList.item(0)).getNodeValue().trim());
-
-				String driver = ((Node) textAgeList.item(0)).getNodeValue()
-						.trim();
-				Connector conn = new Connector(aET, name, driver);
-
-				connectors.add(conn);
-
-			}
 		}
+	}
+
+	public ArrayList<DcmConnector> getConnectors() {
+		return connectors;
+	}
+
+	public String getAet() {
+		return aet;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public String getOutDir() {
+		return outDir;
+	}
+
+	public String getDatabase() {
+		return database;
 	}
 
 	/**
 	 * @author dima_d
 	 * 
 	 */
-	public class Connector {
+	public class DcmConnector {
 
-		private String AET;
+		private String aet;
 		private String name;
 		private String driver;
 
-		public Connector(String aET, String name, String driver) {
+		public DcmConnector(String aet, String name, String driver) {
 			super();
-			AET = aET;
+			this.aet = aet;
 			this.name = name;
 			this.driver = driver;
 		}
 
-		public String getAET() {
-			return AET;
+		public String getAet() {
+			return aet;
 		}
 
 		public String getName() {
