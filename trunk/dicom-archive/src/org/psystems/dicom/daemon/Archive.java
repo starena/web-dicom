@@ -677,8 +677,8 @@ public class Archive extends StorageService {
 		dcmrcv.setAEtitle(config.getAet());
 		dcmrcv.setHostname(config.getHost());
 		
-		Extractor.connectionStr = config.getDatabase(); 
-		dcmrcv.setDestination(config.getOutDir());
+		Extractor.connectionStr = config.getDb(); 
+		dcmrcv.setDestination(config.getIncomingFolder());
 		
 //		final List<String> argList = cl.getArgList();
 //		String port = argList.get(0);

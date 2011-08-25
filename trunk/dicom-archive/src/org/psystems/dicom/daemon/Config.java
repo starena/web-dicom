@@ -21,8 +21,18 @@ public class Config {
 	private String aet;
 	private String host;
 	private String port;
-	private String outDir;
-	private String database;
+	private String incomingFolder;
+	private String db;
+
+	private String tmpFolder;
+
+	private String templateFolder;
+
+	private String configPdf;
+
+	private String configJpg;
+
+	private String omits;
 
 	/**
 	 * @param args
@@ -60,27 +70,48 @@ public class Config {
 		// System.out.println("Root element of the doc is "
 		// + doc.getDocumentElement().getNodeName());
 
-		aet = doc.getElementsByTagName("dicomconnect").item(0).getAttributes()
-				.getNamedItem("aet").getNodeValue();
+		aet = doc.getElementsByTagName("dicom-connection").item(0)
+				.getAttributes().getNamedItem("aet").getNodeValue();
 
-		host = doc.getElementsByTagName("dicomconnect").item(0).getAttributes()
-				.getNamedItem("host").getNodeValue();
+		host = doc.getElementsByTagName("dicom-connection").item(0)
+				.getAttributes().getNamedItem("host").getNodeValue();
 
-		port = doc.getElementsByTagName("dicomconnect").item(0).getAttributes()
-				.getNamedItem("port").getNodeValue();
+		port = doc.getElementsByTagName("dicom-connection").item(0)
+				.getAttributes().getNamedItem("port").getNodeValue();
 
-		outDir = ""
-				+ doc.getElementsByTagName("out").item(0).getFirstChild()
+		incomingFolder = ""
+				+ doc.getElementsByTagName("study-incoming-folder").item(0)
+						.getFirstChild().getNodeValue();
+
+		tmpFolder = ""
+				+ doc.getElementsByTagName("tmp-folder").item(0)
+						.getFirstChild().getNodeValue();
+
+		templateFolder = ""
+				+ doc.getElementsByTagName("template-folder").item(0)
+						.getFirstChild().getNodeValue();
+
+		configPdf = ""
+				+ doc.getElementsByTagName("conf-pdf").item(0).getFirstChild()
 						.getNodeValue();
 
-		database = ""
-				+ doc.getElementsByTagName("database").item(0).getFirstChild()
+		configJpg = ""
+				+ doc.getElementsByTagName("conf-jpg").item(0).getFirstChild()
 						.getNodeValue();
+
+		db = doc.getElementsByTagName("db-connection").item(0).getFirstChild()
+				.getNodeValue();
+
+		omits = doc.getElementsByTagName("omits-connection").item(0)
+				.getFirstChild().getNodeValue();
 
 		System.out.println("dicomconnect=" + aet + "@" + host + ":" + port
-				+ " " + outDir + " database=" + database);
+				+ "; incomingFolder=" + incomingFolder + "; tmpFolder="
+				+ tmpFolder + "; templateFolder=" + templateFolder
+				+ "; configPdf=" + configPdf + "; configJpg=" + configJpg
+				+ "; db=" + db + "; omits=" + omits);
 
-		NodeList listOfConnector = doc.getElementsByTagName("dcmconnector");
+		NodeList listOfConnector = doc.getElementsByTagName("dicom-driver");
 
 		System.out.println("Total dcmconnector's : "
 				+ listOfConnector.getLength());
@@ -102,30 +133,6 @@ public class Config {
 			connectors.add(conn);
 
 		}
-	}
-
-	public ArrayList<DcmConnector> getConnectors() {
-		return connectors;
-	}
-
-	public String getAet() {
-		return aet;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public String getPort() {
-		return port;
-	}
-
-	public String getOutDir() {
-		return outDir;
-	}
-
-	public String getDatabase() {
-		return database;
 	}
 
 	/**
@@ -157,6 +164,50 @@ public class Config {
 			return driver;
 		}
 
+	}
+
+	public ArrayList<DcmConnector> getConnectors() {
+		return connectors;
+	}
+
+	public String getAet() {
+		return aet;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public String getIncomingFolder() {
+		return incomingFolder;
+	}
+
+	public String getDb() {
+		return db;
+	}
+
+	public String getTmpFolder() {
+		return tmpFolder;
+	}
+
+	public String getTemplateFolder() {
+		return templateFolder;
+	}
+
+	public String getConfigPdf() {
+		return configPdf;
+	}
+
+	public String getConfigJpg() {
+		return configJpg;
+	}
+
+	public String getOmits() {
+		return omits;
 	}
 
 }
