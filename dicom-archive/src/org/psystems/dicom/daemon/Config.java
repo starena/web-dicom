@@ -40,7 +40,7 @@ public class Config {
 	public static void main(String[] args) {
 
 		try {
-			new Config("distrib/dcmarcive-conf.xml");
+			new Config("distrib/conf.xml");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
