@@ -176,7 +176,7 @@
      */
     public WebDicomStub(org.apache.axis2.context.ConfigurationContext configurationContext) throws org.apache.axis2.AxisFault {
         
-                    this(configurationContext,"http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this(configurationContext,"http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -185,7 +185,7 @@
      */
     public WebDicomStub() throws org.apache.axis2.AxisFault {
         
-                    this("http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
+                    this("http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/" );
                 
     }
 
@@ -1610,7 +1610,7 @@
         }
         return false;
     }
-     //http://192.168.229.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
+     //http://192.168.88.1:8080/dicom-webservice2/services/WebDicom.WebDicomHttpSoap12Endpoint/
         public static class QueryStudyE
         implements org.apache.axis2.databinding.ADBBean{
         
@@ -2157,6 +2157,50 @@
                             
 
                         /**
+                        * field for BeginStudyDateTimeModify
+                        */
+
+                        
+                                    protected java.lang.String localBeginStudyDateTimeModify ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localBeginStudyDateTimeModifyTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getBeginStudyDateTimeModify(){
+                               return localBeginStudyDateTimeModify;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param BeginStudyDateTimeModify
+                               */
+                               public void setBeginStudyDateTimeModify(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localBeginStudyDateTimeModifyTracker = true;
+                                       } else {
+                                          localBeginStudyDateTimeModifyTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localBeginStudyDateTimeModify=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for EndStudyDate
                         */
 
@@ -2195,6 +2239,50 @@
                                        }
                                    
                                             this.localEndStudyDate=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for EndStudyDateTimeModify
+                        */
+
+                        
+                                    protected java.lang.String localEndStudyDateTimeModify ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localEndStudyDateTimeModifyTracker = false ;
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getEndStudyDateTimeModify(){
+                               return localEndStudyDateTimeModify;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param EndStudyDateTimeModify
+                               */
+                               public void setEndStudyDateTimeModify(java.lang.String param){
+                            
+                                       if (param != null){
+                                          //update the setting tracker
+                                          localEndStudyDateTimeModifyTracker = true;
+                                       } else {
+                                          localEndStudyDateTimeModifyTracker = true;
+                                              
+                                       }
+                                   
+                                            this.localEndStudyDateTimeModify=param;
                                     
 
                                }
@@ -2815,6 +2903,40 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localBeginStudyDateTimeModifyTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"beginStudyDateTimeModify", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"beginStudyDateTimeModify");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("beginStudyDateTimeModify");
+                                    }
+                                
+
+                                          if (localBeginStudyDateTimeModify==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localBeginStudyDateTimeModify);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localEndStudyDateTracker){
                                     namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
                                     if (! namespace.equals("")) {
@@ -2845,6 +2967,40 @@
 
                                         
                                                    xmlWriter.writeCharacters(localEndStudyDate);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localEndStudyDateTimeModifyTracker){
+                                    namespace = "http://entity.orm.commons.dicom.psystems.org/xsd";
+                                    if (! namespace.equals("")) {
+                                        prefix = xmlWriter.getPrefix(namespace);
+
+                                        if (prefix == null) {
+                                            prefix = generatePrefix(namespace);
+
+                                            xmlWriter.writeStartElement(prefix,"endStudyDateTimeModify", namespace);
+                                            xmlWriter.writeNamespace(prefix, namespace);
+                                            xmlWriter.setPrefix(prefix, namespace);
+
+                                        } else {
+                                            xmlWriter.writeStartElement(namespace,"endStudyDateTimeModify");
+                                        }
+
+                                    } else {
+                                        xmlWriter.writeStartElement("endStudyDateTimeModify");
+                                    }
+                                
+
+                                          if (localEndStudyDateTimeModify==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localEndStudyDateTimeModify);
                                             
                                           }
                                     
@@ -3386,12 +3542,24 @@
                                  
                                          elementList.add(localBeginStudyDate==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localBeginStudyDate));
+                                    } if (localBeginStudyDateTimeModifyTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "beginStudyDateTimeModify"));
+                                 
+                                         elementList.add(localBeginStudyDateTimeModify==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localBeginStudyDateTimeModify));
                                     } if (localEndStudyDateTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "endStudyDate"));
                                  
                                          elementList.add(localEndStudyDate==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localEndStudyDate));
+                                    } if (localEndStudyDateTimeModifyTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
+                                                                      "endStudyDateTimeModify"));
+                                 
+                                         elementList.add(localEndStudyDateTimeModify==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localEndStudyDateTimeModify));
                                     } if (localIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd",
                                                                       "id"));
@@ -3564,6 +3732,33 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","beginStudyDateTimeModify").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setBeginStudyDateTimeModify(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","endStudyDate").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
@@ -3572,6 +3767,33 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setEndStudyDate(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://entity.orm.commons.dicom.psystems.org/xsd","endStudyDateTimeModify").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setEndStudyDateTimeModify(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
                                             
                                        } else {
