@@ -86,7 +86,7 @@ public class Study implements Serializable {
 	private String studyDateTimeRemoved;// Дата удаления исследования. формат
 										// "yyyy-mm-dd hh:mm:ss"
 
-	private Direction direction;// Id связанного направления
+	private Direction direction;// Направление
 
 	public Long getId() {
 		return id;

@@ -1006,6 +1006,8 @@ public class PersistentManagerDerby {
 		sqlAddon += " AND ";
 	    sqlAddon += " PATIENT_SEX = ? ";
 	}
+	
+	//
 
 	if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
 		&& request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0) {
@@ -1033,6 +1035,38 @@ public class PersistentManagerDerby {
 		if (sqlAddon.length() != 0)
 		    sqlAddon += " AND ";
 		sqlAddon += " STUDY_DATE < ?  ";
+	    }
+
+	}
+	
+	//
+	
+	if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+		&& request.getEndStudyDateTimeModify()!= null && request.getEndStudyDateTimeModify().length() > 0) {
+
+	    // TODO Вынести в chekEntity
+	    if (java.sql.Timestamp.valueOf(request.getBeginStudyDateTimeModify()).getTime() > java.sql.Timestamp.valueOf(
+		    request.getBeginStudyDateTimeModify()).getTime()) {
+		throw new DataException(new IllegalArgumentException("beginStudyDateTimeModify > endStudyDateTimeModify"));
+	    }
+
+	    if (sqlAddon.length() != 0)
+		sqlAddon += " AND ";
+	    sqlAddon += " DATE_MODIFIED BETWEEN ? AND ? ";
+	} else {
+
+	    if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+		    && (request.getEndStudyDateTimeModify() == null || request.getEndStudyDateTimeModify().length() > 0)) {
+		if (sqlAddon.length() != 0)
+		    sqlAddon += " AND ";
+		sqlAddon += " DATE_MODIFIED > ? ";
+	    }
+
+	    if (request.getEndStudyDateTimeModify() != null && request.getEndStudyDateTimeModify().length() > 0
+		    && (request.getBeginStudyDateTimeModify() == null || request.getBeginStudyDateTimeModify().length() > 0)) {
+		if (sqlAddon.length() != 0)
+		    sqlAddon += " AND ";
+		sqlAddon += " DATE_MODIFIED < ?  ";
 	    }
 
 	}
@@ -1103,6 +1137,8 @@ public class PersistentManagerDerby {
 		psSelect.setString(index++, request.getPatientSex());
 	    }
 
+	    //
+	    
 	    if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
 		    && request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0) {
 		psSelect.setDate(index++, java.sql.Date.valueOf(request.getBeginStudyDate()));
@@ -1119,6 +1155,29 @@ public class PersistentManagerDerby {
 		    psSelect.setDate(index++, java.sql.Date.valueOf(request.getEndStudyDate()));
 		}
 	    }
+	    
+	    //
+	    
+	    
+	    if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+		    && request.getEndStudyDateTimeModify() != null && request.getEndStudyDateTimeModify().length() > 0) {
+		psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getBeginStudyDateTimeModify()));
+		psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getEndStudyDateTimeModify()));
+	    } else {
+
+		if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+			&& (request.getEndStudyDateTimeModify() == null || request.getEndStudyDateTimeModify().length() > 0)) {
+		    psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getBeginStudyDateTimeModify()));
+		}
+
+		if (request.getEndStudyDateTimeModify() != null && request.getEndStudyDateTimeModify().length() > 0
+			&& (request.getBeginStudyDateTimeModify() == null || request.getBeginStudyDateTimeModify().length() > 0)) {
+		    psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getEndStudyDateTimeModify()));
+		}
+	    }
+	    
+	    //
+	    
 
 	    ResultSet rs = psSelect.executeQuery();
 

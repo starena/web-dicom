@@ -17,7 +17,9 @@ import org.psystems.dicom.commons.orm.entity.Employee;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.entity.Patient;
 import org.psystems.dicom.commons.orm.entity.QueryDirection;
+import org.psystems.dicom.commons.orm.entity.QueryStudy;
 import org.psystems.dicom.commons.orm.entity.Service;
+import org.psystems.dicom.commons.orm.entity.Study;
 
 import junit.framework.TestCase;
 
@@ -176,6 +178,8 @@ public class PersistentManagerDerbyTest extends TestCase {
 		try {
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 			Direction drnOrig = getNewOriginalDirection();
+			assertEquals(drnOrig.getDateTimeModified(),"2011-05-10 09:00:00");
+			
 			long id =  pm.pesistentDirection(drnOrig);
 			
 			try {
@@ -211,6 +215,16 @@ public class PersistentManagerDerbyTest extends TestCase {
 			request.setManufacturerDevice(drnOrig.getDevice().getManufacturerModelName());
 			drnList = pm.queryDirections(request);
 			assertEquals(drnOrig.getDirectionId(), drnList.get(0).getDirectionId());
+			
+			connection.rollback();
+			
+			request = new QueryDirection();
+			request.setDateTimePlannedBegin(drnOrig.getDateTimePlanned());
+			request.setDateTimePlannedEnd(drnOrig.getDateTimePlanned());
+			
+			
+			drnList = pm.queryDirections(request);
+			assertEquals(drnOrig.getDateTimePlanned(), drnList.get(0).getDateTimePlanned());
 			
 			connection.rollback();
 			
@@ -418,6 +432,35 @@ public class PersistentManagerDerbyTest extends TestCase {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void testQueryStudy() {
+	    try {
+		PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+		QueryStudy request = new QueryStudy();
+		request.setBeginStudyDateTimeModify("2011-05-01 00:00:00");
+		ArrayList<Study> studyList = pm.queryStudies(request);
+		assertEquals(studyList.size(), 0);
+		
+		request.setEndStudyDateTimeModify("2011-05-01 00:00:00");
+		studyList = pm.queryStudies(request);
+		assertEquals(studyList.size(), 0);
+		
+		request.setBeginStudyDateTimeModify("2011-05-01 00:00:00");
+		request.setEndStudyDateTimeModify("2011-05-01 00:00:00");
+		studyList = pm.queryStudies(request);
+		assertEquals(studyList.size(), 0);
+		
+		connection.rollback();
+		
+		//TODO Сделать остальные тесты!!!
+		
+	} catch (DataException e) {
+		e.printStackTrace();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	}
 	
 	public void testStudyRemoveRestore() {
