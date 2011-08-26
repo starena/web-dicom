@@ -97,7 +97,7 @@ public class ManagePdfServlet extends HttpServlet {
 
 	    long id = Long.valueOf(req.getParameter("id")).longValue();
 
-	    Connection connection = CommonUtil.getConnection(getServletContext());
+	    Connection connection = ORMUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 
 	    Study study = pm.getStudyByID(id);

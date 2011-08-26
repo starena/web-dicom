@@ -75,6 +75,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.psystems.dicom.browser.server.Util;
 import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class UseagStoreChartServlet extends HttpServlet {
 
@@ -102,7 +103,7 @@ public class UseagStoreChartServlet extends HttpServlet {
 		
 		try {
 
-			Connection connection = CommonUtil.getConnection(getServletContext());
+		    Connection connection = ORMUtil.getConnection(getServletContext());
 			long dcmSizes = 0;
 			long imgSizes = 0;
 			//

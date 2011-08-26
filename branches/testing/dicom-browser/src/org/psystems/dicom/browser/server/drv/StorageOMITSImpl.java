@@ -102,7 +102,8 @@ public class StorageOMITSImpl extends Storage {
 
 		try {
 
-			connection = CommonUtil.getConnectionOmits(context);
+		    
+			connection = ORMUtil.getConnectionOmits(context);
 			
 			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') AND CODE like substr(?, 1, 3) || '%' ";
 			
@@ -170,7 +171,7 @@ public class StorageOMITSImpl extends Storage {
 
 		try {
 
-		    connection = CommonUtil.getConnectionOmits(context);
+		    connection = ORMUtil.getConnectionOmits(context);
 			
 			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') AND CODE like substr(?, 1, 3) || '%' ";
 			

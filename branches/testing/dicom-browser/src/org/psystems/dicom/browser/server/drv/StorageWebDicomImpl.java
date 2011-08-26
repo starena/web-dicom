@@ -71,6 +71,7 @@ import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
@@ -96,7 +97,7 @@ public class StorageWebDicomImpl extends Storage {
 
 		try {
 
-			Connection connection = CommonUtil.getConnection(context);
+		    	Connection connection = ORMUtil.getConnection(context);
 			
 			String where = " UPPER(PATIENT_NAME) like UPPER(? || '%')";
 			
