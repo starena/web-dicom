@@ -40,7 +40,11 @@ public class Config {
     // Инициализация конфига
     static {
 	try {
-	    loadConfig(System.getenv("WEBDICOM_HOME") + "/conf/conf.xml");
+	    if(System.getenv("WEBDICOM_HOME")!=null) {
+		loadConfig(System.getenv("WEBDICOM_HOME") + "/conf/conf.xml");
+	    } else {
+		loadConfig("conf/conf.xml");
+	    }
 	} catch (Exception e) {
 	    logger.fatal("Error load config fail! ", e);
 	    e.printStackTrace();
