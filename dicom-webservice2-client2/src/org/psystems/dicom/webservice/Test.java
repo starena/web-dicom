@@ -234,6 +234,7 @@ public class Test {
 		request.setPatientSex("F");//Работает.
 		
 		request.setStudyModality("US");
+		request.setBeginStudyDateTimeModify("2011-05-01 00:00:00");
 		
 //		request.setBeginStudyDate("2011-05-01");
 //		request.setEndStudyDate("2011-05-02");
