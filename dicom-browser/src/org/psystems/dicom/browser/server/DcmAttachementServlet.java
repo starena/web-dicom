@@ -73,6 +73,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class DcmAttachementServlet extends HttpServlet {
 
@@ -112,7 +113,7 @@ public class DcmAttachementServlet extends HttpServlet {
 		PreparedStatement psSelect = null;
 		try {
 
-			Connection connection = CommonUtil.getConnection(getServletContext());
+		    Connection connection = ORMUtil.getConnection(getServletContext());
 
 			if (fileName == null) {
 				// ищем по ID
