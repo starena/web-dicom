@@ -31,7 +31,11 @@ public class Config {
     private static String templateFolder;
     private static String configPdf;
     private static String configJpg;
-    private static String omits;
+    private static String dbOmitsUrl;
+    private static String dbOmitsDriver;
+    private static String dbOmitsJndi;
+
+   
 
     // Инициализация конфига
     static {
@@ -94,11 +98,19 @@ public class Config {
 	    dbJndi = doc.getElementsByTagName("db-connection").item(0).getAttributes().getNamedItem("jndi")
 		    .getNodeValue();
 
-	omits = doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("url").getNodeValue();
+	dbOmitsUrl = doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("url")
+		.getNodeValue();
 
+	dbOmitsDriver = doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("driver")
+		.getNodeValue();
+
+	if (doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("jndi") != null)
+	    dbOmitsJndi = doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("jndi")
+		    .getNodeValue();
+	
 	System.out.println("dicomconnect=" + aet + "@" + host + ":" + port + "; incomingFolder=" + incomingFolder
 		+ "; tmpFolder=" + tmpFolder + "; templateFolder=" + templateFolder + "; configPdf=" + configPdf
-		+ "; configJpg=" + configJpg + "; db=(" + dbDriver + ")" + dbUrl + "; omits=" + omits);
+		+ "; configJpg=" + configJpg + "; db=(" + dbDriver + ")" + dbUrl + "; omits=" + dbOmitsUrl);
 
 	NodeList listOfConnector = doc.getElementsByTagName("dicom-driver");
 
@@ -199,7 +211,7 @@ public class Config {
     }
 
     public static String getOmits() {
-	return omits;
+	return dbOmitsUrl;
     }
 
 }

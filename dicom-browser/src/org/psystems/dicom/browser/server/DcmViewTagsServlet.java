@@ -79,6 +79,7 @@ import org.dcm4che2.data.Tag;
 import org.dcm4che2.data.VR;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.StringUtils;
+import org.psystems.dicom.commons.CommonUtil;
 
 public class DcmViewTagsServlet extends HttpServlet {
 
@@ -118,7 +119,7 @@ public class DcmViewTagsServlet extends HttpServlet {
 		PreparedStatement psSelect = null;
 		try {
 
-			Connection connection = Util.getConnection("main",getServletContext());
+			Connection connection = CommonUtil.getConnection(getServletContext());
 
 			if (fileName == null) {
 				// ищем по ID

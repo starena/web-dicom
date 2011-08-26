@@ -63,6 +63,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.service.ManageStydyService;
+import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
 import org.psystems.dicom.commons.orm.entity.Study;
@@ -133,7 +134,7 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements
 	public void studyRemoveRestore(long idStudy, boolean removed)
 			throws DefaultGWTRPCException {
 		try {
-			Connection connection = Util.getConnection("main",getServletContext());
+			Connection connection = CommonUtil.getConnection(getServletContext());
 			PersistentManagerDerby.studyRemoveRestore(connection, idStudy, removed);
 		} catch (SQLException e) {
 			logger.error(e);
@@ -149,7 +150,7 @@ public class ManageStudyServiceImpl extends RemoteServiceServlet implements
 	public void dcmFileRemoveRestore(long idDcmFile, boolean removed)
 			throws DefaultGWTRPCException {
 		try {
-			Connection connection = Util.getConnection("main",getServletContext());
+			Connection connection = CommonUtil.getConnection(getServletContext());
 			PersistentManagerDerby.dcmFileRemoveRestore(connection, idDcmFile, removed);
 		} catch (SQLException e) {
 			logger.error(e);
