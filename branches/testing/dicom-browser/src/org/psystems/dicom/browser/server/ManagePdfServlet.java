@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
@@ -96,7 +97,7 @@ public class ManagePdfServlet extends HttpServlet {
 
 	    long id = Long.valueOf(req.getParameter("id")).longValue();
 
-	    Connection connection = Util.getConnection("main", getServletContext());
+	    Connection connection = CommonUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 
 	    Study study = pm.getStudyByID(id);
