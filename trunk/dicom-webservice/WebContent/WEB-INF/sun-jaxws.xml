@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0"
+	xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
+
+	<endpoint implementation="org.psystems.dicom.webservice.UserManager"
+		name="UserManager" url-pattern="/UserManager" />
+
+	<endpoint implementation="org.psystems.dicom.webservice.DicomService"
+		name="DicomService" url-pattern="/DicomService" />
+
+</endpoints>
