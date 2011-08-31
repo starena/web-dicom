@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.psystems.dicom.webservice.client.DicomService;
 import org.psystems.dicom.webservice.client.DicomServiceService;
+import org.psystems.dicom.webservice.client.Direction;
 import org.psystems.dicom.webservice.client.QueryStudy;
 import org.psystems.dicom.webservice.client.QueryStudyReq;
 import org.psystems.dicom.webservice.client.Study;
@@ -23,6 +24,7 @@ public class Test {
 		port = service.getDicomServicePort();
 
 		queryStudy();
+		qetDirrection();
 	}
 
 	private static void queryStudy() {
@@ -38,6 +40,17 @@ public class Test {
 		for (Study study : studies) {
 			System.out.println("study: " + study);
 		}
+	}
+	
+	private static void qetDirrection() {
+
+		System.out.println("qetDirrection...");
+
+		
+
+		Direction drn = port.getDirectionById(130l);
+		System.out.println("Direction: "+drn.getDevice().getManufacturerModelTypeDescription());
+		
 	}
 
 }
