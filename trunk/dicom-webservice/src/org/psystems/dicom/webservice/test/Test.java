@@ -25,6 +25,7 @@ public class Test {
 
 		queryStudy();
 		qetDirrection();
+		makeDirection();
 	}
 
 	private static void queryStudy() {
@@ -38,7 +39,7 @@ public class Test {
 
 		List<Study> studies = port.queryStudy(request).getReturn();
 		for (Study study : studies) {
-			System.out.println("study: " + study);
+			System.out.println("study: " + study.getPatientShortName());
 		}
 	}
 	
@@ -49,8 +50,12 @@ public class Test {
 		
 
 		Direction drn = port.getDirectionById(130l);
-		System.out.println("Direction: "+drn.getDevice().getManufacturerModelTypeDescription());
+		System.out.println("Direction: "+drn);
 		
+	}
+	
+	private static void makeDirection() {
+//		port.ma
 	}
 
 }

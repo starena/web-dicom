@@ -1,0 +1,1 @@
+"C:\Program Files\Java\jdk1.6.0_18/bin/wsgen" -s wsbuild/src -d wsbuild/bin -cp build/classes;lib/servlet-api.jar;WebContent\WEB-INF\lib\dicom-commons.jar org.psystems.dicom.webservice.DicomService -wsdl
