@@ -36,6 +36,8 @@ import org.psystems.dicom.commons.orm.entity.Study;
  * @author dima_d
  * 
  *         http://jax-ws.java.net/
+ *         Типы данных:
+ *         http://download.oracle.com/docs/cd/E12840_01/wls/docs103/webserv/data_types.html
  */
 @WebService
 public class DicomService {
