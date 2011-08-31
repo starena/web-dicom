@@ -23,8 +23,8 @@ public class Test {
 	private static DicomServiceService service;
 	private static DicomService port;
 
-	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
-
+//	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
+	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
