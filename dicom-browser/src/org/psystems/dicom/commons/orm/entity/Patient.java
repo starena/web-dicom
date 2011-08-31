@@ -46,6 +46,11 @@ public class Patient implements Serializable {
 		this.patientName = patientName;
 	}
 
+	
+	public void setPatientShortName(String patientShortName) {
+	    throw new IllegalArgumentException("Method not supported!");
+	}
+
 	public String getPatientShortName() {
 		return ORMUtil.makeShortName(patientName, patientBirthDate);
 	}
