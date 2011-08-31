@@ -36,8 +36,13 @@ import org.psystems.dicom.commons.orm.entity.Study;
  * @author dima_d
  * 
  *         http://jax-ws.java.net/
+ * 
  *         Типы данных:
- *         http://download.oracle.com/docs/cd/E12840_01/wls/docs103/webserv/data_types.html
+ *         http://download.oracle.com/docs/cd/E12840_01/wls/docs103/
+ *         webserv/data_types.html
+ * 
+ *         аттачменты:
+ *         http://www.mkyong.com/webservices/jax-ws/jax-ws-attachment-with-mtom/
  */
 @WebService
 public class DicomService {
@@ -71,11 +76,17 @@ public class DicomService {
 	 * @throws DicomWebServiceException
 	 * 
 	 */
-	public long makeDirection(String directionId, Employee doctorDirect,
-			Diagnosis[] diagnosisDirect, Service[] servicesDirect,
-			String dateDirection, ManufacturerDevice device,
-			String dateTimePlanned, String directionCode,
-			String directionLocation, Patient patient)
+	public long makeDirection(
+			@WebParam(name = "directionId") String directionId,
+			@WebParam(name = "doctorDirect") Employee doctorDirect,
+			@WebParam(name = "diagnosisDirect") Diagnosis[] diagnosisDirect,
+			@WebParam(name = "servicesDirect") Service[] servicesDirect,
+			@WebParam(name = "dateDirection") String dateDirection,
+			@WebParam(name = "device") ManufacturerDevice device,
+			@WebParam(name = "dateTimePlanned") String dateTimePlanned,
+			@WebParam(name = "directionCode") String directionCode,
+			@WebParam(name = "directionLocation") String directionLocation,
+			@WebParam(name = "patient") Patient patient)
 			throws DicomWebServiceException {
 
 		// Проверки
@@ -86,9 +97,9 @@ public class DicomService {
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
 		Connection connection;
-		
+
 		try {
-			
+
 			connection = ORMUtil.getConnection(servletContext);
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 			Direction drn = new Direction();
@@ -120,7 +131,8 @@ public class DicomService {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Direction getDirectionBydirectionId(String directionId)
+	public Direction getDirectionBydirectionId(
+			@WebParam(name = "directionId") String directionId)
 			throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) context
@@ -145,7 +157,7 @@ public class DicomService {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Direction getDirectionById(long id) throws DicomWebServiceException {
+	public Direction getDirectionById(@WebParam(name = "id") long id) throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
