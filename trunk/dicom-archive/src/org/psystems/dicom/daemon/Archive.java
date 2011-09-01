@@ -298,7 +298,7 @@ public class Archive extends StorageService {
 		ae.setAssociationAcceptor(true);
 		ae.register(new VerificationService());
 		ae.register(this);
-		
+
 	}
 
 	public final void setAEtitle(String aet) {
@@ -477,14 +477,17 @@ public class Archive extends StorageService {
 		OptionBuilder.withDescription("jdbc connect  <URL>.\n example: "
 				+ Extractor.connectionStr);
 		opts.addOption(OptionBuilder.create("jdbcconnect"));
-		
+
 		OptionBuilder.withArgName("config");
 		OptionBuilder.hasArg();
 		OptionBuilder.withDescription("config file <config> .\n example: "
 				+ Extractor.configStr);
 		opts.addOption(OptionBuilder.create("config"));
-		
-		opts.addOption("startdb", false, "Start 'Derby Network Server' set JavaVM Args: -Dderby.system.home=dtabase/instance -Dderby.drda.startNetworkServer=true -Dderby.drda.portNumber=1527 -Dderby.drda.host=localhost");
+
+		opts.addOption(
+				"startdb",
+				false,
+				"Start 'Derby Network Server' set JavaVM Args: -Dderby.system.home=dtabase/instance -Dderby.drda.startNetworkServer=true -Dderby.drda.portNumber=1527 -Dderby.drda.host=localhost");
 
 		OptionBuilder.withArgName("file|url");
 		OptionBuilder.hasArg();
@@ -549,12 +552,11 @@ public class Archive extends StorageService {
 						+ "asynchronously, unlimited by default.");
 		opts.addOption(OptionBuilder.create("async"));
 
-		opts
-				.addOption(
-						"pdv1",
-						false,
-						"send only one PDV in one P-Data-TF PDU, "
-								+ "pack command and data PDV in one P-DATA-TF PDU by default.");
+		opts.addOption(
+				"pdv1",
+				false,
+				"send only one PDV in one P-Data-TF PDU, "
+						+ "pack command and data PDV in one P-DATA-TF PDU by default.");
 		opts.addOption("tcpdelay", false,
 				"set TCP_NODELAY socket option to false, true by default");
 
@@ -639,7 +641,7 @@ public class Archive extends StorageService {
 			System.out.println("dcmarchive v" + p.getImplementationVersion());
 			System.exit(0);
 		}
-		if (cl.hasOption("h") || cl.getArgList().size() == 0) {
+		if (cl.hasOption("h")/* || cl.getArgList().size() == 0*/) {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp(USAGE, DESCRIPTION, opts, EXAMPLE);
 			System.exit(0);
@@ -650,53 +652,52 @@ public class Archive extends StorageService {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		CommandLine cl = parse(args);
-		
+
 		if (cl.hasOption("config")) {
 			Extractor.configStr = cl.getOptionValue("config");
 			try {
 				config = new Config(Extractor.configStr);
-				}catch(Exception ex) {
-					LOG.error("Can't load config file! "+ex);
-					System.err.println("Can't load config file! "+ex);
-					ex.printStackTrace();
-					System.exit(-1);
-				}
+			} catch (Exception ex) {
+				LOG.error("Can't load config file! " + ex);
+				System.err.println("Can't load config file! " + ex);
+				ex.printStackTrace();
+				System.exit(-1);
+			}
 		} else {
 			System.err.println("Set config file!");
 			System.exit(-1);
 		}
-		
-		Archive dcmrcv = new Archive(cl.hasOption("device") ? cl
-				.getOptionValue("device") : "DCMRCV");
+
+		Archive dcmrcv = new Archive(
+				cl.hasOption("device") ? cl.getOptionValue("device") : "DCMRCV");
 		try {
 			dcmrcv.setPort(Integer.valueOf(config.getPort()));
 		} catch (NumberFormatException ex) {
-			System.err.println("wrong port number!" +ex);
+			System.err.println("wrong port number!" + ex);
 			System.exit(1);
 		}
 		dcmrcv.setAEtitle(config.getAet());
 		dcmrcv.setHostname(config.getHost());
-		
-		Extractor.connectionStr = config.getDb(); 
+
+		Extractor.connectionStr = config.getDb();
 		dcmrcv.setDestination(config.getIncomingFolder());
-		
-//		final List<String> argList = cl.getArgList();
-//		String port = argList.get(0);
-//		String[] aetPort = split(port, ':', 1);
-//		dcmrcv.setPort(parseInt(aetPort[1], "illegal port number", 1, 0xffff));
-//		if (aetPort[0] != null) {
-//			String[] aetHost = split(aetPort[0], '@', 0);
-//			dcmrcv.setAEtitle(aetHost[0]);
-//			if (aetHost[1] != null) {
-//				dcmrcv.setHostname(aetHost[1]);
-//			}
-//		}
+
+		// final List<String> argList = cl.getArgList();
+		// String port = argList.get(0);
+		// String[] aetPort = split(port, ':', 1);
+		// dcmrcv.setPort(parseInt(aetPort[1], "illegal port number", 1,
+		// 0xffff));
+		// if (aetPort[0] != null) {
+		// String[] aetHost = split(aetPort[0], '@', 0);
+		// dcmrcv.setAEtitle(aetHost[0]);
+		// if (aetHost[1] != null) {
+		// dcmrcv.setHostname(aetHost[1]);
+		// }
+		// }
 
 		if (cl.hasOption("jdbcconnect"))
 			Extractor.connectionStr = cl.getOptionValue("jdbcconnect");
-		
-		
-		
+
 		if (cl.hasOption("startdb")) {
 			NetworkServerControl server;
 			try {
@@ -707,18 +708,15 @@ public class Archive extends StorageService {
 			}
 			System.out.println("Derby 'Network Server' started.");
 		}
-		
 
 		if (cl.hasOption("dest"))
 			dcmrcv.setDestination(cl.getOptionValue("dest"));
-		
+
 		if (cl.hasOption("calling2dir"))
 			dcmrcv.setCalling2Dir(loadProperties(cl
 					.getOptionValue("calling2dir")));
 		if (cl.hasOption("called2dir"))
-			dcmrcv
-					.setCalled2Dir(loadProperties(cl
-							.getOptionValue("called2dir")));
+			dcmrcv.setCalled2Dir(loadProperties(cl.getOptionValue("called2dir")));
 		if (cl.hasOption("callingdefdir"))
 			dcmrcv.setCallingDefDir(cl.getOptionValue("callingdefdir"));
 		if (cl.hasOption("calleddefdir"))
@@ -737,16 +735,12 @@ public class Archive extends StorageService {
 		else if (cl.hasOption("bigendian"))
 			dcmrcv.setTransferSyntax(NON_RETIRED_TS);
 		if (cl.hasOption("reaper"))
-			dcmrcv
-					.setAssociationReaperPeriod(parseInt(cl
-							.getOptionValue("reaper"),
-							"illegal argument of option -reaper", 1,
-							Integer.MAX_VALUE));
+			dcmrcv.setAssociationReaperPeriod(parseInt(
+					cl.getOptionValue("reaper"),
+					"illegal argument of option -reaper", 1, Integer.MAX_VALUE));
 		if (cl.hasOption("idleTO"))
-			dcmrcv
-					.setIdleTimeout(parseInt(cl.getOptionValue("idleTO"),
-							"illegal argument of option -idleTO", 1,
-							Integer.MAX_VALUE));
+			dcmrcv.setIdleTimeout(parseInt(cl.getOptionValue("idleTO"),
+					"illegal argument of option -idleTO", 1, Integer.MAX_VALUE));
 		if (cl.hasOption("requestTO"))
 			dcmrcv.setRequestTimeout(parseInt(cl.getOptionValue("requestTO"),
 					"illegal argument of option -requestTO", 1,
@@ -756,33 +750,28 @@ public class Archive extends StorageService {
 					"illegal argument of option -releaseTO", 1,
 					Integer.MAX_VALUE));
 		if (cl.hasOption("soclosedelay"))
-			dcmrcv.setSocketCloseDelay(parseInt(cl
-					.getOptionValue("soclosedelay"),
+			dcmrcv.setSocketCloseDelay(parseInt(
+					cl.getOptionValue("soclosedelay"),
 					"illegal argument of option -soclosedelay", 1, 10000));
 		if (cl.hasOption("rspdelay"))
 			dcmrcv.setDimseRspDelay(parseInt(cl.getOptionValue("rspdelay"),
 					"illegal argument of option -rspdelay", 0, 10000));
 		if (cl.hasOption("rcvpdulen"))
-			dcmrcv.setMaxPDULengthReceive(parseInt(cl
-					.getOptionValue("rcvpdulen"),
-					"illegal argument of option -rcvpdulen", 1, 10000)
-					* KB);
+			dcmrcv.setMaxPDULengthReceive(parseInt(
+					cl.getOptionValue("rcvpdulen"),
+					"illegal argument of option -rcvpdulen", 1, 10000) * KB);
 		if (cl.hasOption("sndpdulen"))
 			dcmrcv.setMaxPDULengthSend(parseInt(cl.getOptionValue("sndpdulen"),
-					"illegal argument of option -sndpdulen", 1, 10000)
-					* KB);
+					"illegal argument of option -sndpdulen", 1, 10000) * KB);
 		if (cl.hasOption("sosndbuf"))
 			dcmrcv.setSendBufferSize(parseInt(cl.getOptionValue("sosndbuf"),
-					"illegal argument of option -sosndbuf", 1, 10000)
-					* KB);
+					"illegal argument of option -sosndbuf", 1, 10000) * KB);
 		if (cl.hasOption("sorcvbuf"))
 			dcmrcv.setReceiveBufferSize(parseInt(cl.getOptionValue("sorcvbuf"),
-					"illegal argument of option -sorcvbuf", 1, 10000)
-					* KB);
+					"illegal argument of option -sorcvbuf", 1, 10000) * KB);
 		if (cl.hasOption("bufsize"))
 			dcmrcv.setFileBufferSize(parseInt(cl.getOptionValue("bufsize"),
-					"illegal argument of option -bufsize", 1, 10000)
-					* KB);
+					"illegal argument of option -bufsize", 1, 10000) * KB);
 
 		dcmrcv.setPackPDV(!cl.hasOption("pdv1"));
 		dcmrcv.setTcpNoDelay(!cl.hasOption("tcpdelay"));
@@ -837,8 +826,7 @@ public class Archive extends StorageService {
 				System.exit(2);
 			}
 		}
-		
-		
+
 		try {
 			dcmrcv.start();
 		} catch (IOException e) {
@@ -1012,11 +1000,9 @@ public class Archive extends StorageService {
 			PDVInputStream dataStream, String tsuid)
 			throws DicomServiceException, IOException {
 		final DicomObject rsp = CommandUtils.mkRSP(rq, CommandUtils.SUCCESS);
-		
-		
+
 		onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
-		
-		
+
 		if (rspdelay > 0) {
 			executor.execute(new Runnable() {
 				public void run() {
@@ -1039,7 +1025,6 @@ public class Archive extends StorageService {
 			PDVInputStream dataStream, String tsuid, DicomObject rsp)
 			throws IOException, DicomServiceException {
 
-		
 		if (devnull == null && cache.getCacheRootDir() == null) {
 			super.onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
 		} else {
@@ -1047,7 +1032,6 @@ public class Archive extends StorageService {
 			String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
 
 			File file = null;
-		
 
 			try {
 
@@ -1062,9 +1046,9 @@ public class Archive extends StorageService {
 					LOG.info("Check file name");
 					findName = extractor.getDCMFileNamefromDB(f);
 					// System.out.println("[1]!!!! finded in DB " + findName);
-					LOG.info("File name in database: "+findName);
+					LOG.info("File name in database: " + findName);
 
-					if (findName != null) {	
+					if (findName != null) {
 
 						findName = cache.getCacheRootDir() + File.separator
 								+ findName;
@@ -1113,31 +1097,33 @@ public class Archive extends StorageService {
 						LOG.info("M-DELETE {}", file);
 					}
 				}
-				throw new DicomServiceException(rq, Status.ProcessingFailure, e
-						.getMessage());
+				throw new DicomServiceException(rq, Status.ProcessingFailure,
+						e.getMessage());
 			}
 
 			// Rename the file after it has been written. See DCM-279
 			if (devnull == null && file != null) {
-				
+
 				// Добавляем расширение
 				File rename = new File(file.getParent(), iuid
 						+ Extractor.dcmFileExt);
 				LOG.info("M-RENAME {} to {}", file, rename);
-				
-				if(rename.exists()) {
+
+				if (rename.exists()) {
 					Calendar calendar = Calendar.getInstance();
-					SimpleDateFormat formatLevel = new SimpleDateFormat("yyyy-MM-dd_k-m-s.S");
+					SimpleDateFormat formatLevel = new SimpleDateFormat(
+							"yyyy-MM-dd_k-m-s.S");
 					String ext = formatLevel.format(calendar.getTime());
-					
+
 					File renameBack = new File(file.getParent(), iuid
 							+ Extractor.dcmFileBacupExt + "." + ext);
-					LOG.warn("File laready exists! file "+ rename +" will be renamed to " + renameBack);
+					LOG.warn("File laready exists! file " + rename
+							+ " will be renamed to " + renameBack);
 					File oldName = new File(file.getParent(), iuid
 							+ Extractor.dcmFileExt);
 					oldName.renameTo(renameBack);
 				}
-				
+
 				file.renameTo(rename);
 
 				// Извлекаем картинку
@@ -1146,7 +1132,7 @@ public class Archive extends StorageService {
 				try {
 					// Пишем всю информацию в БД
 					extractor.updateDataBase(as, rename, image);
-				
+
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1183,7 +1169,7 @@ public class Archive extends StorageService {
 					throw new DicomServiceException(rq,
 							Status.ProcessingFailure, e.getMessage());
 
-				} 
+				}
 
 				if (cache.getJournalRootDir() != null) {
 					cache.record(rename);
