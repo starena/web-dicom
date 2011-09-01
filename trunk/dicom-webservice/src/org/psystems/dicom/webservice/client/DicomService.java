@@ -6,7 +6,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -27,16 +26,16 @@ public interface DicomService {
 
     /**
      * 
-     * @param arg5
-     * @param arg4
-     * @param arg3
-     * @param arg2
-     * @param arg1
-     * @param arg0
-     * @param arg6
-     * @param arg7
-     * @param arg8
-     * @param arg9
+     * @param patient
+     * @param directionLocation
+     * @param directionId
+     * @param servicesDirect
+     * @param doctorDirect
+     * @param device
+     * @param diagnosisDirect
+     * @param directionCode
+     * @param dateTimePlanned
+     * @param dateDirection
      * @return
      *     returns long
      */
@@ -45,30 +44,30 @@ public interface DicomService {
     @RequestWrapper(localName = "makeDirection", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.MakeDirection")
     @ResponseWrapper(localName = "makeDirectionResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.MakeDirectionResponse")
     public long makeDirection(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        Employee arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        List<Diagnosis> arg2,
-        @WebParam(name = "arg3", targetNamespace = "")
-        List<Service> arg3,
-        @WebParam(name = "arg4", targetNamespace = "")
-        String arg4,
-        @WebParam(name = "arg5", targetNamespace = "")
-        ManufacturerDevice arg5,
-        @WebParam(name = "arg6", targetNamespace = "")
-        String arg6,
-        @WebParam(name = "arg7", targetNamespace = "")
-        String arg7,
-        @WebParam(name = "arg8", targetNamespace = "")
-        String arg8,
-        @WebParam(name = "arg9", targetNamespace = "")
-        Patient arg9);
+        @WebParam(name = "directionId", targetNamespace = "")
+        String directionId,
+        @WebParam(name = "doctorDirect", targetNamespace = "")
+        Employee doctorDirect,
+        @WebParam(name = "diagnosisDirect", targetNamespace = "")
+        List<Diagnosis> diagnosisDirect,
+        @WebParam(name = "servicesDirect", targetNamespace = "")
+        List<Service> servicesDirect,
+        @WebParam(name = "dateDirection", targetNamespace = "")
+        String dateDirection,
+        @WebParam(name = "device", targetNamespace = "")
+        ManufacturerDevice device,
+        @WebParam(name = "dateTimePlanned", targetNamespace = "")
+        String dateTimePlanned,
+        @WebParam(name = "directionCode", targetNamespace = "")
+        String directionCode,
+        @WebParam(name = "directionLocation", targetNamespace = "")
+        String directionLocation,
+        @WebParam(name = "patient", targetNamespace = "")
+        Patient patient);
 
     /**
      * 
-     * @param arg0
+     * @param directionId
      * @return
      *     returns org.psystems.dicom.webservice.client.Direction
      */
@@ -77,12 +76,12 @@ public interface DicomService {
     @RequestWrapper(localName = "getDirectionBydirectionId", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetDirectionBydirectionId")
     @ResponseWrapper(localName = "getDirectionBydirectionIdResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetDirectionBydirectionIdResponse")
     public Direction getDirectionBydirectionId(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
+        @WebParam(name = "directionId", targetNamespace = "")
+        String directionId);
 
     /**
      * 
-     * @param arg0
+     * @param id
      * @return
      *     returns org.psystems.dicom.webservice.client.Direction
      */
@@ -91,33 +90,35 @@ public interface DicomService {
     @RequestWrapper(localName = "getDirectionById", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetDirectionById")
     @ResponseWrapper(localName = "getDirectionByIdResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetDirectionByIdResponse")
     public Direction getDirectionById(
+        @WebParam(name = "id", targetNamespace = "")
+        long id);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.util.List<org.psystems.dicom.webservice.client.Direction>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "queryDirections", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryDirections")
+    @ResponseWrapper(localName = "queryDirectionsResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryDirectionsResponse")
+    public List<Direction> queryDirections(
         @WebParam(name = "arg0", targetNamespace = "")
-        long arg0);
+        QueryDirection arg0);
 
     /**
      * 
-     * @param parameters
+     * @param arg0
      * @return
-     *     returns org.psystems.dicom.webservice.client.QueryDirectionResp
+     *     returns java.util.List<org.psystems.dicom.webservice.client.Study>
      */
     @WebMethod
-    @WebResult(name = "queryDirectionResp", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
-    @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
-    public QueryDirectionResp queryDirection(
-        @WebParam(name = "queryDirectionReq", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
-        QueryDirectionReq parameters);
-
-    /**
-     * 
-     * @param parameters
-     * @return
-     *     returns org.psystems.dicom.webservice.client.QueryStudyResp
-     */
-    @WebMethod
-    @WebResult(name = "queryStudyResp", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
-    @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
-    public QueryStudyResp queryStudy(
-        @WebParam(name = "queryStudyReq", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
-        QueryStudyReq parameters);
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "queryStudies", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryStudies")
+    @ResponseWrapper(localName = "queryStudiesResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryStudiesResponse")
+    public List<Study> queryStudies(
+        @WebParam(name = "arg0", targetNamespace = "")
+        QueryStudy arg0);
 
 }

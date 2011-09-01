@@ -7,12 +7,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for queryDirectionReq complex type.
+ * <p>Java class for queryDirections complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="queryDirectionReq">
+ * &lt;complexType name="queryDirections">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "queryDirectionReq", namespace = "http://webservice.dicom.psystems.org", propOrder = {
+@XmlType(name = "queryDirections", propOrder = {
     "arg0"
 })
-public class QueryDirectionReq {
+public class QueryDirections {
 
     protected QueryDirection arg0;
 
