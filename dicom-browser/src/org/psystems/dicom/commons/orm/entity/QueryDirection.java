@@ -194,7 +194,7 @@ public class QueryDirection {
 				field = "dateTimePlannedBegin";
 				ORMUtil.dateTimeSQLToUtilDate(dateTimePlannedBegin);
 			}
-			if (dateTimePlannedBegin != null) {
+			if (dateTimePlannedEnd != null) {
 				field = "dateTimePlannedEnd";
 				ORMUtil.dateTimeSQLToUtilDate(dateTimePlannedEnd);
 			}
