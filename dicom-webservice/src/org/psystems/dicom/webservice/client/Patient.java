@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="patientId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientSex" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="patientShortName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,7 +36,8 @@ import javax.xml.bind.annotation.XmlType;
     "patientBirthDate",
     "patientId",
     "patientName",
-    "patientSex"
+    "patientSex",
+    "patientShortName"
 })
 public class Patient {
 
@@ -44,6 +46,7 @@ public class Patient {
     protected String patientId;
     protected String patientName;
     protected String patientSex;
+    protected String patientShortName;
 
     /**
      * Gets the value of the id property.
@@ -155,6 +158,30 @@ public class Patient {
      */
     public void setPatientSex(String value) {
         this.patientSex = value;
+    }
+
+    /**
+     * Gets the value of the patientShortName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getPatientShortName() {
+        return patientShortName;
+    }
+
+    /**
+     * Sets the value of the patientShortName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setPatientShortName(String value) {
+        this.patientShortName = value;
     }
 
 }

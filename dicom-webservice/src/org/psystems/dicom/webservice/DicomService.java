@@ -157,7 +157,8 @@ public class DicomService {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	public Direction getDirectionById(@WebParam(name = "id") long id) throws DicomWebServiceException {
+	public Direction getDirectionById(@WebParam(name = "id") long id)
+			throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
@@ -184,15 +185,46 @@ public class DicomService {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	@WebMethod(operationName = "queryStudy")
-	@WebResult(targetNamespace = "")
-	@RequestWrapper(localName = "queryStudyReq", targetNamespace = "http://webservice.dicom.psystems.org")
-	@ResponseWrapper(localName = "queryStudyResp", targetNamespace = "http://webservice.dicom.psystems.org")
-	public Study[] queryStudy(@WebParam QueryStudy query)
+//	@WebMethod(operationName = "querySTUDY")
+	// @WebResult(targetNamespace = "")
+	// @RequestWrapper(localName = "queryStudyReq", targetNamespace =
+	// "http://webservice.dicom.psystems.org")
+	// @ResponseWrapper(localName = "queryStudyResp", targetNamespace =
+	// "http://webservice.dicom.psystems.org")
+	public Study[] queryStudies(@WebParam QueryStudy query)
 			throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
+
+		// Заменяем строки с "" на null
+		if (query.getBeginStudyDate() != null
+				&& query.getBeginStudyDate().length() == 0)
+			query.setBeginStudyDate(null);
+
+		if (query.getEndStudyDate() != null
+				&& query.getEndStudyDate().length() == 0)
+			query.setEndStudyDate(null);
+
+		if (query.getBeginStudyDateTimeModify() != null
+				&& query.getBeginStudyDateTimeModify().length() == 0)
+			query.setBeginStudyDateTimeModify(null);
+
+		if (query.getEndStudyDateTimeModify() != null
+				&& query.getEndStudyDateTimeModify().length() == 0)
+			query.setEndStudyDateTimeModify(null);
+
+		if (query.getPatientBirthDate() != null
+				&& query.getPatientBirthDate().length() == 0)
+			query.setPatientBirthDate(null);
+
+		if (query.getPatientSex() != null
+				&& query.getPatientSex().length() == 0)
+			query.setPatientSex(null);
+
+		if (query.getStudyModality() != null
+				&& query.getStudyModality().length() == 0)
+			query.setStudyModality(null);
 
 		query.chechEntity();
 
@@ -243,12 +275,31 @@ public class DicomService {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-	@WebMethod(operationName = "queryDirection")
-	@WebResult(targetNamespace = "")
-	@RequestWrapper(localName = "queryDirectionReq", targetNamespace = "http://webservice.dicom.psystems.org")
-	@ResponseWrapper(localName = "queryDirectionResp", targetNamespace = "http://webservice.dicom.psystems.org")
-	public Direction[] queryDirection(QueryDirection query)
+//	@WebMethod(operationName = "queryDIRECTION")
+	// @WebResult(targetNamespace = "")
+	// @RequestWrapper(localName = "queryDirectionReq", targetNamespace =
+	// "http://webservice.dicom.psystems.org",
+	// className="org.psystems.dicom.commons.orm.entity.QueryDirection")
+	// @ResponseWrapper(localName = "queryDirectionResp", targetNamespace =
+	// "http://webservice.dicom.psystems.org")
+	public Direction[] queryDirections(QueryDirection query)
 			throws DicomWebServiceException {
+
+		if (query.getDateDirection() != null
+				&& query.getDateDirection().length() == 0)
+			query.setDateDirection(null);
+
+		if (query.getPatientBirthDate() != null
+				&& query.getPatientBirthDate().length() == 0)
+			query.setPatientBirthDate(null);
+
+		if (query.getDateTimePlannedBegin() != null
+				&& query.getDateTimePlannedBegin().length() == 0)
+			query.setDateTimePlannedBegin(null);
+
+		if (query.getDateTimePlannedEnd() != null
+				&& query.getDateTimePlannedEnd().length() == 0)
+			query.setDateTimePlannedEnd(null);
 
 		query.chechEntity();
 

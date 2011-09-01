@@ -26,14 +26,14 @@ public class ObjectFactory {
 
     private final static QName _MakeDirectionResponse_QNAME = new QName("http://webservice.dicom.psystems.org/", "makeDirectionResponse");
     private final static QName _GetDirectionBydirectionIdResponse_QNAME = new QName("http://webservice.dicom.psystems.org/", "getDirectionBydirectionIdResponse");
-    private final static QName _QueryDirectionResp_QNAME = new QName("http://webservice.dicom.psystems.org", "queryDirectionResp");
-    private final static QName _QueryStudyResp_QNAME = new QName("http://webservice.dicom.psystems.org", "queryStudyResp");
+    private final static QName _QueryStudiesResponse_QNAME = new QName("http://webservice.dicom.psystems.org/", "queryStudiesResponse");
     private final static QName _GetDirectionBydirectionId_QNAME = new QName("http://webservice.dicom.psystems.org/", "getDirectionBydirectionId");
     private final static QName _GetDirectionById_QNAME = new QName("http://webservice.dicom.psystems.org/", "getDirectionById");
     private final static QName _GetDirectionByIdResponse_QNAME = new QName("http://webservice.dicom.psystems.org/", "getDirectionByIdResponse");
-    private final static QName _QueryDirectionReq_QNAME = new QName("http://webservice.dicom.psystems.org", "queryDirectionReq");
+    private final static QName _QueryDirectionsResponse_QNAME = new QName("http://webservice.dicom.psystems.org/", "queryDirectionsResponse");
+    private final static QName _QueryStudies_QNAME = new QName("http://webservice.dicom.psystems.org/", "queryStudies");
+    private final static QName _QueryDirections_QNAME = new QName("http://webservice.dicom.psystems.org/", "queryDirections");
     private final static QName _MakeDirection_QNAME = new QName("http://webservice.dicom.psystems.org/", "makeDirection");
-    private final static QName _QueryStudyReq_QNAME = new QName("http://webservice.dicom.psystems.org", "queryStudyReq");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.psystems.dicom.webservice.client
@@ -43,27 +43,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryDirectionReq }
+     * Create an instance of {@link Service }
      * 
      */
-    public QueryDirectionReq createQueryDirectionReq() {
-        return new QueryDirectionReq();
+    public Service createService() {
+        return new Service();
     }
 
     /**
-     * Create an instance of {@link Study }
+     * Create an instance of {@link QueryDirections }
      * 
      */
-    public Study createStudy() {
-        return new Study();
+    public QueryDirections createQueryDirections() {
+        return new QueryDirections();
     }
 
     /**
-     * Create an instance of {@link GetDirectionByIdResponse }
+     * Create an instance of {@link GetDirectionById }
      * 
      */
-    public GetDirectionByIdResponse createGetDirectionByIdResponse() {
-        return new GetDirectionByIdResponse();
+    public GetDirectionById createGetDirectionById() {
+        return new GetDirectionById();
+    }
+
+    /**
+     * Create an instance of {@link MakeDirection }
+     * 
+     */
+    public MakeDirection createMakeDirection() {
+        return new MakeDirection();
+    }
+
+    /**
+     * Create an instance of {@link Employee }
+     * 
+     */
+    public Employee createEmployee() {
+        return new Employee();
+    }
+
+    /**
+     * Create an instance of {@link Patient }
+     * 
+     */
+    public Patient createPatient() {
+        return new Patient();
     }
 
     /**
@@ -75,14 +99,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryStudyResp }
-     * 
-     */
-    public QueryStudyResp createQueryStudyResp() {
-        return new QueryStudyResp();
-    }
-
-    /**
      * Create an instance of {@link QueryDirection }
      * 
      */
@@ -91,19 +107,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryStudy }
+     * Create an instance of {@link ManufacturerDevice }
      * 
      */
-    public QueryStudy createQueryStudy() {
-        return new QueryStudy();
+    public ManufacturerDevice createManufacturerDevice() {
+        return new ManufacturerDevice();
     }
 
     /**
-     * Create an instance of {@link Employee }
+     * Create an instance of {@link QueryStudiesResponse }
      * 
      */
-    public Employee createEmployee() {
-        return new Employee();
+    public QueryStudiesResponse createQueryStudiesResponse() {
+        return new QueryStudiesResponse();
     }
 
     /**
@@ -123,27 +139,35 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Study }
+     * 
+     */
+    public Study createStudy() {
+        return new Study();
+    }
+
+    /**
+     * Create an instance of {@link QueryDirectionsResponse }
+     * 
+     */
+    public QueryDirectionsResponse createQueryDirectionsResponse() {
+        return new QueryDirectionsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDirectionByIdResponse }
+     * 
+     */
+    public GetDirectionByIdResponse createGetDirectionByIdResponse() {
+        return new GetDirectionByIdResponse();
+    }
+
+    /**
      * Create an instance of {@link MakeDirectionResponse }
      * 
      */
     public MakeDirectionResponse createMakeDirectionResponse() {
         return new MakeDirectionResponse();
-    }
-
-    /**
-     * Create an instance of {@link Patient }
-     * 
-     */
-    public Patient createPatient() {
-        return new Patient();
-    }
-
-    /**
-     * Create an instance of {@link ManufacturerDevice }
-     * 
-     */
-    public ManufacturerDevice createManufacturerDevice() {
-        return new ManufacturerDevice();
     }
 
     /**
@@ -155,43 +179,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryDirectionResp }
+     * Create an instance of {@link QueryStudy }
      * 
      */
-    public QueryDirectionResp createQueryDirectionResp() {
-        return new QueryDirectionResp();
+    public QueryStudy createQueryStudy() {
+        return new QueryStudy();
     }
 
     /**
-     * Create an instance of {@link MakeDirection }
+     * Create an instance of {@link QueryStudies }
      * 
      */
-    public MakeDirection createMakeDirection() {
-        return new MakeDirection();
-    }
-
-    /**
-     * Create an instance of {@link QueryStudyReq }
-     * 
-     */
-    public QueryStudyReq createQueryStudyReq() {
-        return new QueryStudyReq();
-    }
-
-    /**
-     * Create an instance of {@link GetDirectionById }
-     * 
-     */
-    public GetDirectionById createGetDirectionById() {
-        return new GetDirectionById();
-    }
-
-    /**
-     * Create an instance of {@link Service }
-     * 
-     */
-    public Service createService() {
-        return new Service();
+    public QueryStudies createQueryStudies() {
+        return new QueryStudies();
     }
 
     /**
@@ -213,21 +213,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link QueryDirectionResp }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryStudiesResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org", name = "queryDirectionResp")
-    public JAXBElement<QueryDirectionResp> createQueryDirectionResp(QueryDirectionResp value) {
-        return new JAXBElement<QueryDirectionResp>(_QueryDirectionResp_QNAME, QueryDirectionResp.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link QueryStudyResp }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org", name = "queryStudyResp")
-    public JAXBElement<QueryStudyResp> createQueryStudyResp(QueryStudyResp value) {
-        return new JAXBElement<QueryStudyResp>(_QueryStudyResp_QNAME, QueryStudyResp.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org/", name = "queryStudiesResponse")
+    public JAXBElement<QueryStudiesResponse> createQueryStudiesResponse(QueryStudiesResponse value) {
+        return new JAXBElement<QueryStudiesResponse>(_QueryStudiesResponse_QNAME, QueryStudiesResponse.class, null, value);
     }
 
     /**
@@ -258,12 +249,30 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link QueryDirectionReq }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryDirectionsResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org", name = "queryDirectionReq")
-    public JAXBElement<QueryDirectionReq> createQueryDirectionReq(QueryDirectionReq value) {
-        return new JAXBElement<QueryDirectionReq>(_QueryDirectionReq_QNAME, QueryDirectionReq.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org/", name = "queryDirectionsResponse")
+    public JAXBElement<QueryDirectionsResponse> createQueryDirectionsResponse(QueryDirectionsResponse value) {
+        return new JAXBElement<QueryDirectionsResponse>(_QueryDirectionsResponse_QNAME, QueryDirectionsResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryStudies }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org/", name = "queryStudies")
+    public JAXBElement<QueryStudies> createQueryStudies(QueryStudies value) {
+        return new JAXBElement<QueryStudies>(_QueryStudies_QNAME, QueryStudies.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryDirections }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org/", name = "queryDirections")
+    public JAXBElement<QueryDirections> createQueryDirections(QueryDirections value) {
+        return new JAXBElement<QueryDirections>(_QueryDirections_QNAME, QueryDirections.class, null, value);
     }
 
     /**
@@ -273,15 +282,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org/", name = "makeDirection")
     public JAXBElement<MakeDirection> createMakeDirection(MakeDirection value) {
         return new JAXBElement<MakeDirection>(_MakeDirection_QNAME, MakeDirection.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link QueryStudyReq }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.dicom.psystems.org", name = "queryStudyReq")
-    public JAXBElement<QueryStudyReq> createQueryStudyReq(QueryStudyReq value) {
-        return new JAXBElement<QueryStudyReq>(_QueryStudyReq_QNAME, QueryStudyReq.class, null, value);
     }
 
 }

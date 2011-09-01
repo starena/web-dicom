@@ -19,16 +19,16 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="arg1" type="{http://webservice.dicom.psystems.org/}employee" minOccurs="0"/>
- *         &lt;element name="arg2" type="{http://webservice.dicom.psystems.org/}diagnosis" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="arg3" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="arg4" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="arg5" type="{http://webservice.dicom.psystems.org/}manufacturerDevice" minOccurs="0"/>
- *         &lt;element name="arg6" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="arg7" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="arg8" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="arg9" type="{http://webservice.dicom.psystems.org/}patient" minOccurs="0"/>
+ *         &lt;element name="directionId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="doctorDirect" type="{http://webservice.dicom.psystems.org/}employee" minOccurs="0"/>
+ *         &lt;element name="diagnosisDirect" type="{http://webservice.dicom.psystems.org/}diagnosis" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="servicesDirect" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="dateDirection" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="device" type="{http://webservice.dicom.psystems.org/}manufacturerDevice" minOccurs="0"/>
+ *         &lt;element name="dateTimePlanned" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="directionCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="directionLocation" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="patient" type="{http://webservice.dicom.psystems.org/}patient" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,93 +39,93 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "makeDirection", propOrder = {
-    "arg0",
-    "arg1",
-    "arg2",
-    "arg3",
-    "arg4",
-    "arg5",
-    "arg6",
-    "arg7",
-    "arg8",
-    "arg9"
+    "directionId",
+    "doctorDirect",
+    "diagnosisDirect",
+    "servicesDirect",
+    "dateDirection",
+    "device",
+    "dateTimePlanned",
+    "directionCode",
+    "directionLocation",
+    "patient"
 })
 public class MakeDirection {
 
-    protected String arg0;
-    protected Employee arg1;
+    protected String directionId;
+    protected Employee doctorDirect;
     @XmlElement(nillable = true)
-    protected List<Diagnosis> arg2;
+    protected List<Diagnosis> diagnosisDirect;
     @XmlElement(nillable = true)
-    protected List<Service> arg3;
-    protected String arg4;
-    protected ManufacturerDevice arg5;
-    protected String arg6;
-    protected String arg7;
-    protected String arg8;
-    protected Patient arg9;
+    protected List<Service> servicesDirect;
+    protected String dateDirection;
+    protected ManufacturerDevice device;
+    protected String dateTimePlanned;
+    protected String directionCode;
+    protected String directionLocation;
+    protected Patient patient;
 
     /**
-     * Gets the value of the arg0 property.
+     * Gets the value of the directionId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg0() {
-        return arg0;
+    public String getDirectionId() {
+        return directionId;
     }
 
     /**
-     * Sets the value of the arg0 property.
+     * Sets the value of the directionId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg0(String value) {
-        this.arg0 = value;
+    public void setDirectionId(String value) {
+        this.directionId = value;
     }
 
     /**
-     * Gets the value of the arg1 property.
+     * Gets the value of the doctorDirect property.
      * 
      * @return
      *     possible object is
      *     {@link Employee }
      *     
      */
-    public Employee getArg1() {
-        return arg1;
+    public Employee getDoctorDirect() {
+        return doctorDirect;
     }
 
     /**
-     * Sets the value of the arg1 property.
+     * Sets the value of the doctorDirect property.
      * 
      * @param value
      *     allowed object is
      *     {@link Employee }
      *     
      */
-    public void setArg1(Employee value) {
-        this.arg1 = value;
+    public void setDoctorDirect(Employee value) {
+        this.doctorDirect = value;
     }
 
     /**
-     * Gets the value of the arg2 property.
+     * Gets the value of the diagnosisDirect property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the arg2 property.
+     * This is why there is not a <CODE>set</CODE> method for the diagnosisDirect property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getArg2().add(newItem);
+     *    getDiagnosisDirect().add(newItem);
      * </pre>
      * 
      * 
@@ -135,26 +135,26 @@ public class MakeDirection {
      * 
      * 
      */
-    public List<Diagnosis> getArg2() {
-        if (arg2 == null) {
-            arg2 = new ArrayList<Diagnosis>();
+    public List<Diagnosis> getDiagnosisDirect() {
+        if (diagnosisDirect == null) {
+            diagnosisDirect = new ArrayList<Diagnosis>();
         }
-        return this.arg2;
+        return this.diagnosisDirect;
     }
 
     /**
-     * Gets the value of the arg3 property.
+     * Gets the value of the servicesDirect property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the arg3 property.
+     * This is why there is not a <CODE>set</CODE> method for the servicesDirect property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getArg3().add(newItem);
+     *    getServicesDirect().add(newItem);
      * </pre>
      * 
      * 
@@ -164,155 +164,155 @@ public class MakeDirection {
      * 
      * 
      */
-    public List<Service> getArg3() {
-        if (arg3 == null) {
-            arg3 = new ArrayList<Service>();
+    public List<Service> getServicesDirect() {
+        if (servicesDirect == null) {
+            servicesDirect = new ArrayList<Service>();
         }
-        return this.arg3;
+        return this.servicesDirect;
     }
 
     /**
-     * Gets the value of the arg4 property.
+     * Gets the value of the dateDirection property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg4() {
-        return arg4;
+    public String getDateDirection() {
+        return dateDirection;
     }
 
     /**
-     * Sets the value of the arg4 property.
+     * Sets the value of the dateDirection property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg4(String value) {
-        this.arg4 = value;
+    public void setDateDirection(String value) {
+        this.dateDirection = value;
     }
 
     /**
-     * Gets the value of the arg5 property.
+     * Gets the value of the device property.
      * 
      * @return
      *     possible object is
      *     {@link ManufacturerDevice }
      *     
      */
-    public ManufacturerDevice getArg5() {
-        return arg5;
+    public ManufacturerDevice getDevice() {
+        return device;
     }
 
     /**
-     * Sets the value of the arg5 property.
+     * Sets the value of the device property.
      * 
      * @param value
      *     allowed object is
      *     {@link ManufacturerDevice }
      *     
      */
-    public void setArg5(ManufacturerDevice value) {
-        this.arg5 = value;
+    public void setDevice(ManufacturerDevice value) {
+        this.device = value;
     }
 
     /**
-     * Gets the value of the arg6 property.
+     * Gets the value of the dateTimePlanned property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg6() {
-        return arg6;
+    public String getDateTimePlanned() {
+        return dateTimePlanned;
     }
 
     /**
-     * Sets the value of the arg6 property.
+     * Sets the value of the dateTimePlanned property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg6(String value) {
-        this.arg6 = value;
+    public void setDateTimePlanned(String value) {
+        this.dateTimePlanned = value;
     }
 
     /**
-     * Gets the value of the arg7 property.
+     * Gets the value of the directionCode property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg7() {
-        return arg7;
+    public String getDirectionCode() {
+        return directionCode;
     }
 
     /**
-     * Sets the value of the arg7 property.
+     * Sets the value of the directionCode property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg7(String value) {
-        this.arg7 = value;
+    public void setDirectionCode(String value) {
+        this.directionCode = value;
     }
 
     /**
-     * Gets the value of the arg8 property.
+     * Gets the value of the directionLocation property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg8() {
-        return arg8;
+    public String getDirectionLocation() {
+        return directionLocation;
     }
 
     /**
-     * Sets the value of the arg8 property.
+     * Sets the value of the directionLocation property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg8(String value) {
-        this.arg8 = value;
+    public void setDirectionLocation(String value) {
+        this.directionLocation = value;
     }
 
     /**
-     * Gets the value of the arg9 property.
+     * Gets the value of the patient property.
      * 
      * @return
      *     possible object is
      *     {@link Patient }
      *     
      */
-    public Patient getArg9() {
-        return arg9;
+    public Patient getPatient() {
+        return patient;
     }
 
     /**
-     * Sets the value of the arg9 property.
+     * Sets the value of the patient property.
      * 
      * @param value
      *     allowed object is
      *     {@link Patient }
      *     
      */
-    public void setArg9(Patient value) {
-        this.arg9 = value;
+    public void setPatient(Patient value) {
+        this.patient = value;
     }
 
 }
