@@ -10,12 +10,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for queryDirectionsResponse complex type.
+ * <p>Java class for queryDirectionResp complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="queryDirectionsResponse">
+ * &lt;complexType name="queryDirectionResp">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -29,10 +29,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "queryDirectionsResponse", propOrder = {
+@XmlType(name = "queryDirectionResp", namespace = "http://webservice.dicom.psystems.org", propOrder = {
     "_return"
 })
-public class QueryDirectionsResponse {
+public class QueryDirectionResp {
 
     @XmlElement(name = "return", nillable = true)
     protected List<Direction> _return;

@@ -15,6 +15,7 @@ import org.psystems.dicom.webservice.client.DicomService;
 import org.psystems.dicom.webservice.client.DicomServiceService;
 import org.psystems.dicom.webservice.client.Direction;
 import org.psystems.dicom.webservice.client.QueryStudy;
+import org.psystems.dicom.webservice.client.QueryStudyReq;
 import org.psystems.dicom.webservice.client.Study;
 
 public class Test {
@@ -22,8 +23,8 @@ public class Test {
 	private static DicomServiceService service;
 	private static DicomService port;
 
-	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
-//	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
+//	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
+	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -70,9 +71,10 @@ public class Test {
 		
 		QueryStudy query = new QueryStudy();
 		query.setId(18l);
+		QueryStudyReq request = new QueryStudyReq();
+		request.setQuery(query);
 		
-
-		List<Study> studies = port.queryStudies(query);
+		List<Study> studies = port.queryStudies(request).getReturn();
 		for (Study study : studies) {
 			System.out.println("study: " + study.getPatientShortName());
 		}

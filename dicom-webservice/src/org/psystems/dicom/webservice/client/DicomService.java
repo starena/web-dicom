@@ -6,6 +6,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -95,30 +96,28 @@ public interface DicomService {
 
     /**
      * 
-     * @param arg0
+     * @param parameters
      * @return
-     *     returns java.util.List<org.psystems.dicom.webservice.client.Direction>
+     *     returns org.psystems.dicom.webservice.client.QueryStudyResp
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "queryDirections", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryDirections")
-    @ResponseWrapper(localName = "queryDirectionsResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryDirectionsResponse")
-    public List<Direction> queryDirections(
-        @WebParam(name = "arg0", targetNamespace = "")
-        QueryDirection arg0);
+    @WebResult(name = "queryStudyResp", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
+    @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
+    public QueryStudyResp queryStudies(
+        @WebParam(name = "queryStudyReq", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
+        QueryStudyReq parameters);
 
     /**
      * 
-     * @param arg0
+     * @param parameters
      * @return
-     *     returns java.util.List<org.psystems.dicom.webservice.client.Study>
+     *     returns org.psystems.dicom.webservice.client.QueryDirectionResp
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "queryStudies", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryStudies")
-    @ResponseWrapper(localName = "queryStudiesResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.QueryStudiesResponse")
-    public List<Study> queryStudies(
-        @WebParam(name = "arg0", targetNamespace = "")
-        QueryStudy arg0);
+    @WebResult(name = "queryDirectionResp", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
+    @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
+    public QueryDirectionResp queryDirections(
+        @WebParam(name = "queryDirectionReq", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
+        QueryDirectionReq parameters);
 
 }

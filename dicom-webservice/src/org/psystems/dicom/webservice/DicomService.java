@@ -185,13 +185,11 @@ public class DicomService {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-//	@WebMethod(operationName = "querySTUDY")
-	// @WebResult(targetNamespace = "")
-	// @RequestWrapper(localName = "queryStudyReq", targetNamespace =
-	// "http://webservice.dicom.psystems.org")
-	// @ResponseWrapper(localName = "queryStudyResp", targetNamespace =
-	// "http://webservice.dicom.psystems.org")
-	public Study[] queryStudies(@WebParam QueryStudy query)
+	@WebMethod(operationName = "queryStudies")
+	@WebResult(targetNamespace = "")
+	@RequestWrapper(localName = "queryStudyReq", targetNamespace = "http://webservice.dicom.psystems.org")
+	@ResponseWrapper(localName = "queryStudyResp", targetNamespace = "http://webservice.dicom.psystems.org")
+	public Study[] queryStudies(@WebParam(name = "query") QueryStudy query)
 			throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) context
@@ -275,14 +273,11 @@ public class DicomService {
 	 * @return
 	 * @throws DicomWebServiceException
 	 */
-//	@WebMethod(operationName = "queryDIRECTION")
-	// @WebResult(targetNamespace = "")
-	// @RequestWrapper(localName = "queryDirectionReq", targetNamespace =
-	// "http://webservice.dicom.psystems.org",
-	// className="org.psystems.dicom.commons.orm.entity.QueryDirection")
-	// @ResponseWrapper(localName = "queryDirectionResp", targetNamespace =
-	// "http://webservice.dicom.psystems.org")
-	public Direction[] queryDirections(QueryDirection query)
+	@WebMethod(operationName = "queryDirections")
+	@WebResult(targetNamespace = "")
+	@RequestWrapper(localName = "queryDirectionReq", targetNamespace = "http://webservice.dicom.psystems.org")
+	@ResponseWrapper(localName = "queryDirectionResp", targetNamespace = "http://webservice.dicom.psystems.org")
+	public Direction[] queryDirections(@WebParam(name = "query") QueryDirection query)
 			throws DicomWebServiceException {
 
 		if (query.getDateDirection() != null
