@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for queryStudies complex type.
+ * <p>Java class for queryStudyReq complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="queryStudies">
+ * &lt;complexType name="queryStudyReq">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://webservice.dicom.psystems.org/}queryStudy" minOccurs="0"/>
+ *         &lt;element name="query" type="{http://webservice.dicom.psystems.org/}queryStudy" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -26,35 +26,35 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "queryStudies", propOrder = {
-    "arg0"
+@XmlType(name = "queryStudyReq", namespace = "http://webservice.dicom.psystems.org", propOrder = {
+    "query"
 })
-public class QueryStudies {
+public class QueryStudyReq {
 
-    protected QueryStudy arg0;
+    protected QueryStudy query;
 
     /**
-     * Gets the value of the arg0 property.
+     * Gets the value of the query property.
      * 
      * @return
      *     possible object is
      *     {@link QueryStudy }
      *     
      */
-    public QueryStudy getArg0() {
-        return arg0;
+    public QueryStudy getQuery() {
+        return query;
     }
 
     /**
-     * Sets the value of the arg0 property.
+     * Sets the value of the query property.
      * 
      * @param value
      *     allowed object is
      *     {@link QueryStudy }
      *     
      */
-    public void setArg0(QueryStudy value) {
-        this.arg0 = value;
+    public void setQuery(QueryStudy value) {
+        this.query = value;
     }
 
 }
