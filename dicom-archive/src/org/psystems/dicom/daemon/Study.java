@@ -112,6 +112,8 @@ public class Study {
 		//TODO можно и по модели и по MediaStorageSOPClassUID
 		//TODO как лучше???
 //		if (MediaStorageSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.1")) {
+		if	(ManufacturerModelName==null) throw new RuntimeException("Can't set ManufacturerModelName!");
+			
 		if (ManufacturerModelName.equals("RENEXFLUORO3")) {
 				LOG.info(getDebugStr("Using dirver 'Renex'"));
 				return new StudyImplRenex(dcmObj);
