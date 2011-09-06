@@ -238,6 +238,14 @@ public class PersistentManagerDerbyTest extends TestCase {
 			
 			connection.rollback();
 			
+			request = new QueryDirection();
+			request.setPatientShortName("ИВАИВ74");
+			
+			drnList = pm.queryDirections(request);
+			assertEquals(drnOrig.getDateTimePlanned(), drnList.get(0).getDateTimePlanned());
+			
+			connection.rollback();
+			
 			//TODO Сделать остальные тесты!!!
 			
 		} catch (DataException e) {
