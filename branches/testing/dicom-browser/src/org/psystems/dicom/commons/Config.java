@@ -42,11 +42,13 @@ public class Config {
 	try {
 	    if(System.getenv("WEBDICOM_HOME")!=null) {
 		loadConfig(System.getenv("WEBDICOM_HOME") + "/conf/conf.xml");
-	    } else {
+	    } else if(System.getProperty("WEBDICOM_HOME")!=null) {
+		loadConfig(System.getProperty("WEBDICOM_HOME") + "/conf/conf.xml");
+	    }else {
 		loadConfig("conf/conf.xml");
 	    }
 	} catch (Exception e) {
-	    logger.fatal("Error load config fail! ", e);
+	    logger.fatal("Error load config file! ", e);
 	    e.printStackTrace();
 	}
     }

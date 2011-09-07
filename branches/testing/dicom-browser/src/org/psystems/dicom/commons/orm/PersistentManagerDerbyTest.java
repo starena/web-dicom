@@ -239,9 +239,10 @@ public class PersistentManagerDerbyTest extends TestCase {
 			connection.rollback();
 			
 			request = new QueryDirection();
-			request.setPatientShortName("ИВАИВ74");
+			request.setPatientShortName("ИВАИИ74");
 			
 			drnList = pm.queryDirections(request);
+			System.out.println("!!!!!! drnList="+drnList.size());
 			assertEquals(drnOrig.getDateTimePlanned(), drnList.get(0).getDateTimePlanned());
 			
 			connection.rollback();

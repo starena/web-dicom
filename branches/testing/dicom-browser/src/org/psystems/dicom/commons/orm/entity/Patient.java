@@ -48,7 +48,7 @@ public class Patient implements Serializable {
 
 	
 	public void setPatientShortName(String patientShortName) {
-	    throw new IllegalArgumentException("Method not supported!");
+	    throw new IllegalArgumentException("Method not supported! automatically generated from patientName and patientBirthDate.");
 	}
 
 	public String getPatientShortName() {
@@ -92,7 +92,7 @@ public class Patient implements Serializable {
 		return "Patient [id=" + id + ", patientBirthDate=" + patientBirthDate
 				+ ", patientId=" + patientId + ", patientName=" + patientName
 				+ ", patientSex=" + patientSex + ", patientShortName="
-				+ patientShortName + "]";
+				+ getPatientShortName() + "]";
 	}
 
 }
