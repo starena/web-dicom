@@ -161,7 +161,7 @@ public class PersistentManagerDerby {
 		    throw new DataException("field Date Performed wrong format: " + drn.getDatePerformed(), ex);
 		}
 
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!! [1]"+drn.getPatient());
+//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!! [1]"+drn.getPatient());
 		
 		if (drn.getPatient() != null) {
 		    pstmt.setString(12, drn.getPatient().getPatientId());
@@ -740,6 +740,8 @@ public class PersistentManagerDerby {
 		sql += " DOCTOR_PERFORMED_CODE = ? ";
 	    }
 
+//	    System.out.println("!!!!!! request.getPatientShortName()="+request.getPatientShortName());
+	    
 	    if (request.getPatientShortName() != null) {
 //		PATIENT_NAME VARCHAR(512) NOT NULL,-- ФИО пациента
 //		PATIENT_BIRTH_DATE DATE NOT NULL, -- д.р пациента
@@ -806,10 +808,13 @@ public class PersistentManagerDerby {
 		pstmt.setString(counterArguments++, request.getPatientShortName());
 	    }
 
+//	    System.out.println("!!!!!!!!! sql="+sql + "[" + request.getPatientShortName() + "]");
+	    
 	    ResultSet rs = pstmt.executeQuery();
 	    int counter = 0;
 	    while (rs.next()) {
 		result.add(getDirectionFromRs(rs));
+		
 		if (counter > maxResponsRecords)
 		    break;
 	    }
