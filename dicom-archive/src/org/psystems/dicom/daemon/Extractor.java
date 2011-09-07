@@ -150,8 +150,12 @@ public class Extractor {
 		props.put("user", "user1"); // FIXME Взять из конфига
 		props.put("password", "user1"); // FIXME Взять из конфига
 
+		System.out.println("!!!! conn !!!!! [" + connectionStr + "]");
+		
+		try {
 		Connection conn = DriverManager.getConnection(connectionStr
 				+ ";create=true", props);
+		
 		// conn.setAutoCommit(false);
 		// s = conn.createStatement();
 		// s.execute(sql);
@@ -160,6 +164,10 @@ public class Extractor {
 
 		// return conn;
 		connection = conn;
+		}catch (SQLException ex) {
+			ex.printStackTrace();
+			throw ex;
+		}
 	}
 
 	/**

@@ -651,22 +651,34 @@ public class Archive extends StorageService {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		CommandLine cl = parse(args);
-
-		if (cl.hasOption("config")) {
-			Extractor.configStr = cl.getOptionValue("config");
-			try {
-				config = new Config(Extractor.configStr);
-			} catch (Exception ex) {
-				LOG.error("Can't load config file! " + ex);
-				System.err.println("Can't load config file! " + ex);
-				ex.printStackTrace();
-				System.exit(-1);
-			}
-		} else {
-			System.err.println("Set config file!");
+		
+		try {
+			config = new Config();
+		} catch (Exception ex) {
+			LOG.error("Can't load config file! " + ex);
+			System.err.println("Can't load config file! " + ex);
+			ex.printStackTrace();
 			System.exit(-1);
 		}
+		
+		CommandLine cl = parse(args);
+
+		
+//		if (cl.hasOption("config")) {
+//			Extractor.configStr = cl.getOptionValue("config");
+//			try {
+////				config = new Config(Extractor.configStr);
+//				config = new Config();
+//			} catch (Exception ex) {
+//				LOG.error("Can't load config file! " + ex);
+//				System.err.println("Can't load config file! " + ex);
+//				ex.printStackTrace();
+//				System.exit(-1);
+//			}
+//		} else {
+//			System.err.println("Set config file!");
+//			System.exit(-1);
+//		}
 
 		Archive dcmrcv = new Archive(
 				cl.hasOption("device") ? cl.getOptionValue("device") : "DCMRCV");
@@ -679,7 +691,7 @@ public class Archive extends StorageService {
 		dcmrcv.setAEtitle(config.getAet());
 		dcmrcv.setHostname(config.getHost());
 
-		Extractor.connectionStr = config.getDb();
+		Extractor.connectionStr = config.getDbUrl();
 		dcmrcv.setDestination(config.getIncomingFolder());
 
 		// final List<String> argList = cl.getArgList();
