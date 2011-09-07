@@ -14,6 +14,8 @@ import javax.xml.ws.handler.MessageContext;
 import org.psystems.dicom.webservice.client.DicomService;
 import org.psystems.dicom.webservice.client.DicomServiceService;
 import org.psystems.dicom.webservice.client.Direction;
+import org.psystems.dicom.webservice.client.QueryDirection;
+import org.psystems.dicom.webservice.client.QueryDirectionReq;
 import org.psystems.dicom.webservice.client.QueryStudy;
 import org.psystems.dicom.webservice.client.QueryStudyReq;
 import org.psystems.dicom.webservice.client.Study;
@@ -61,8 +63,11 @@ public class Test {
 
 		queryStudy();
 		qetDirrection();
+		queryDirrection();
 		// makeDirection();
 	}
+
+	
 
 	private static void queryStudy() {
 
@@ -87,6 +92,22 @@ public class Test {
 		Direction drn = port.getDirectionById(130l);
 		System.out.println("Direction: " + drn);
 
+	}
+	
+	private static void queryDirrection() {
+		System.out.println("queryDirrection...");
+
+		QueryDirectionReq request = new QueryDirectionReq();
+		QueryDirection query = new QueryDirection();
+		query.setPatientShortName("ДЕРДВ74");
+		request.setQuery(query);
+		
+		List<Direction> drns = port.queryDirections(request).getReturn();
+		for (Direction direction : drns) {
+			System.out.println("Direction: "+direction);
+		}
+		
+		
 	}
 
 	private static void makeDirection() {
