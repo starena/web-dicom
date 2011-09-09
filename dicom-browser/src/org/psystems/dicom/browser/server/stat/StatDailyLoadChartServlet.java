@@ -57,13 +57,6 @@ package org.psystems.dicom.browser.server.stat;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.awt.Paint;
-import java.awt.PaintContext;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -91,8 +84,6 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.psystems.dicom.browser.server.Util;
-import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class StatDailyLoadChartServlet extends HttpServlet {

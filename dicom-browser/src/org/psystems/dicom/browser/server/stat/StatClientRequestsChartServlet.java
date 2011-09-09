@@ -82,8 +82,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.psystems.dicom.browser.server.Util;
-import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class StatClientRequestsChartServlet extends HttpServlet {

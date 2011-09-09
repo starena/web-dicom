@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.psystems.dicom.browser.client.ItemSuggestion;
-import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,10 +16,9 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
  * Панель управления диагнозами

@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.ItemSuggestion;
-import org.psystems.dicom.browser.client.component.StudyCard.Resources;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
 import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
@@ -24,7 +23,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ClientBundle.Source;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -34,10 +32,10 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**

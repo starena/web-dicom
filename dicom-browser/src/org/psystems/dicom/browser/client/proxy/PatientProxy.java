@@ -55,7 +55,6 @@
 package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Прокси пациента

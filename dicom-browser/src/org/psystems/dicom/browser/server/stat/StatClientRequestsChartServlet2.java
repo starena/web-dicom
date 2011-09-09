@@ -88,8 +88,6 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.KeyToGroupMap;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.psystems.dicom.browser.server.Util;
-import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class StatClientRequestsChartServlet2 extends HttpServlet {

@@ -90,7 +90,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Properties;
 
 import org.dcm4che2.data.BasicDicomObject;

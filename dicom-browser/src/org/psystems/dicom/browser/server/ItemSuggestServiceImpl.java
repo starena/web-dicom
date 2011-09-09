@@ -59,7 +59,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import org.psystems.dicom.browser.client.service.ItemSuggestService;
 import org.psystems.dicom.browser.server.drv.Storage;

@@ -95,7 +95,6 @@ import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
-import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.Direction;

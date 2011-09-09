@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
@@ -31,22 +30,20 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.AcroFields.Item;
 import com.itextpdf.text.pdf.BaseField;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.GrayColor;
-import com.itextpdf.text.pdf.PatternColor;
 import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfFormField;
 import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.PdfPatternPainter;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PushbuttonField;
-import com.itextpdf.text.pdf.AcroFields.Item;
 
 /**
  * @author dima_d

@@ -1,8 +1,6 @@
 package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Сотрудник
