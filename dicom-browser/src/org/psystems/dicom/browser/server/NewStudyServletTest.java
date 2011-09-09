@@ -28,7 +28,7 @@ public class NewStudyServletTest extends TestCase {
 				hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
 			}
 			String foo = messageDigest.toString();
-			System.out.println("sessionid "+sessionid+" md5 version is "+hexString.toString());
+//			System.out.println("sessionid "+sessionid+" md5 version is "+hexString.toString());
 			sessionid=hexString+"";
 		}catch(NoSuchAlgorithmException nsae){
 		            
@@ -62,7 +62,7 @@ public class NewStudyServletTest extends TestCase {
 			year = matcher.group(4);
 		}
 		
-		System.out.println("source str ["+s+"] dest=[" +fio+";"+day+";"+month+";"+year+"]");
+//		System.out.println("source str ["+s+"] dest=[" +fio+";"+day+";"+month+";"+year+"]");
 		
 		return result;
 	}
