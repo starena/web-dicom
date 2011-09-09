@@ -1,9 +1,11 @@
 package org.psystems.dicom.browser.server;
 
-import junit.framework.TestCase;
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import junit.framework.TestCase;
 
 import org.psystems.dicom.commons.CommonUtil;
 

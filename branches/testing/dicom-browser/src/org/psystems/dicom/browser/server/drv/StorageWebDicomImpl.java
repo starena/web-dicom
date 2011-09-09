@@ -55,7 +55,6 @@
 package org.psystems.dicom.browser.server.drv;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,7 +69,6 @@ import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
-import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;

@@ -2,6 +2,8 @@ package org.psystems.dicom.browser.server;
 
 import java.util.ArrayList;
 
+import junit.framework.TestCase;
+
 import org.psystems.dicom.browser.client.proxy.DiagnosisProxy;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
@@ -14,8 +16,6 @@ import org.psystems.dicom.commons.orm.entity.Employee;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.entity.Patient;
 import org.psystems.dicom.commons.orm.entity.Service;
-
-import junit.framework.TestCase;
 
 public class ORMHelpersTest extends TestCase {
 

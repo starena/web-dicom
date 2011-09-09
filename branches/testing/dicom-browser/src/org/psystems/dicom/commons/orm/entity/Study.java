@@ -31,7 +31,6 @@
 package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.psystems.dicom.commons.orm.ORMUtil;

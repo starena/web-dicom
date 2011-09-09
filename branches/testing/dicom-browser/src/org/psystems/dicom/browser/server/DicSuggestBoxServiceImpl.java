@@ -54,7 +54,6 @@
  */
 package org.psystems.dicom.browser.server;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 

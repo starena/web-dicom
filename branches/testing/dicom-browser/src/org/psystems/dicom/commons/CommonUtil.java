@@ -32,20 +32,13 @@ package org.psystems.dicom.commons;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletContext;
-import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.component.StudyManagePanel;

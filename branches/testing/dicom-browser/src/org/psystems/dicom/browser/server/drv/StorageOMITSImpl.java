@@ -66,7 +66,6 @@ import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
-import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
