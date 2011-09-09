@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
@@ -51,7 +51,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 public class SearchPanel extends Composite implements
 		ValueChangeHandler<String> {
 
-	private Dicom_browser Application;
+	private Browser Application;
 
 	private String searchTitle = "...введите фамилию (% - любой символ)...";
 	private SearchResultPanel resultPanel;
@@ -69,7 +69,7 @@ public class SearchPanel extends Composite implements
 	/**
 	 * @param application
 	 */
-	public SearchPanel(Dicom_browser application) {
+	public SearchPanel(Browser application) {
 
 		this.Application = application;
 		History.addValueChangeHandler(this);
@@ -446,7 +446,7 @@ public class SearchPanel extends Composite implements
 		
 		
 		Application.browserService.findStudy(searchTransactionID,
-				Dicom_browser.version, querystr, null,
+				Browser.version, querystr, null,
 				new AsyncCallback<RPCDcmProxyEvent>() {
 
 					public void onFailure(Throwable caught) {
@@ -558,7 +558,7 @@ public class SearchPanel extends Composite implements
 			try {
 				searchTransactionID = new Date().getTime();
 				ItemSuggestService.Util.getInstance().getSuggestions(
-						searchTransactionID, Dicom_browser.version, type ,req,
+						searchTransactionID, Browser.version, type ,req,
 						new ItemSuggestCallback(req, callback));
 			} catch (DefaultGWTRPCException e) {
 				Application.showErrorDlg(e);

@@ -95,6 +95,8 @@ import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
+import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.Direction;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
@@ -129,7 +131,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	try {
 
-	    Connection connection = Util.getConnection("main", getServletContext());
+	    Connection connection = ORMUtil.getConnection(getServletContext());
 
 	    ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
 
@@ -276,7 +278,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
      */
     private void updateDayStatInc(Date date, String metric, long value) throws SQLException {
 
-	Connection connection = Util.getConnection("main", getServletContext());
+	Connection connection = ORMUtil.getConnection(getServletContext());
 
 	PreparedStatement stmt = null;
 
@@ -335,7 +337,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
      */
     private long checkDayMetric(String metric, Date date) throws SQLException {
 
-	Connection connection = Util.getConnection("main", getServletContext());
+	Connection connection = ORMUtil.getConnection(getServletContext());
 
 	PreparedStatement psSelect = connection
 		.prepareStatement("SELECT METRIC_VALUE_LONG FROM WEBDICOM.DAYSTAT WHERE METRIC_NAME = ? and METRIC_DATE =? ");
@@ -399,7 +401,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	    try {
 		String fileName = null;
-		Connection connection = Util.getConnection("main", getServletContext());
+		Connection connection = ORMUtil.getConnection(getServletContext());
 		psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
 			+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
 		psSelect.setLong(1, idDcmFile);
@@ -524,7 +526,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	PreparedStatement psSelect = null;
 
 	try {
-	    Connection connection = Util.getConnection("main", getServletContext());
+	    Connection connection = ORMUtil.getConnection(getServletContext());
 	    psSelect = connection
 		    .prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAG WHERE FID_DCMFILE = ?");
 
@@ -599,7 +601,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	try {
 
-	    Connection connection = Util.getConnection("main", getServletContext());
+	    Connection connection = ORMUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 
 	    Study study = pm.getStudyByID(id);
@@ -638,7 +640,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	try {
 
-	    Connection connection = Util.getConnection("main", getServletContext());
+	    Connection connection = ORMUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 	    Study[] studies = pm.getStudiesByDirectionID(id);
 	    ArrayList<StudyProxy> proxies = new ArrayList<StudyProxy>();
@@ -750,7 +752,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     public ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query) throws DefaultGWTRPCException {
 
 	try {
-	    Connection connection = Util.getConnection("main", getServletContext());
+	    Connection connection = ORMUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 	    ArrayList<DirectionProxy> drns = new ArrayList<DirectionProxy>();
 	    for (Direction direction : pm.queryDirections(ORMHelpers.getQuerydirection(query))) {
@@ -768,7 +770,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     @Override
     public void saveDirection(DirectionProxy drn) throws DefaultGWTRPCException {
 	try {
-	    Connection connection = Util.getConnection("main", getServletContext());
+	    Connection connection = ORMUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 	    pm.pesistentDirection(ORMHelpers.getDirection(drn));
 

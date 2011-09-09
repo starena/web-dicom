@@ -57,7 +57,7 @@ package org.psystems.dicom.browser.client.component;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.proxy.DcmFileProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
@@ -260,7 +260,7 @@ public class StudyCard extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				Dicom_browser.manageStudyService.studyRemoveRestore(proxy.getId(),
+				Browser.manageStudyService.studyRemoveRestore(proxy.getId(),
 						proxy.getStudyDateTimeRemoved() == null ? true : false,
 						new AsyncCallback<Void>() {
 
@@ -294,11 +294,11 @@ public class StudyCard extends Composite {
 	 */
 	public void refreshPanel(long idStudy) {
 		
-		Dicom_browser.browserService.getStudyByID(1, Dicom_browser.version, idStudy, new AsyncCallback<StudyProxy>() {
+		Browser.browserService.getStudyByID(1, Browser.version, idStudy, new AsyncCallback<StudyProxy>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Dicom_browser.showErrorDlg(caught);
+				Browser.showErrorDlg(caught);
 			}
 
 			@Override
@@ -384,7 +384,7 @@ public class StudyCard extends Composite {
 				@Override
 				public void onClick(ClickEvent event) {
 					
-					Dicom_browser.manageStudyService.dcmFileRemoveRestore (fileProxy.getId(),
+					Browser.manageStudyService.dcmFileRemoveRestore (fileProxy.getId(),
 							fileProxy.getDateRemoved() == null ? true : false,
 							new AsyncCallback<Void>() {
 
@@ -713,7 +713,7 @@ public class StudyCard extends Composite {
 		vp.clear();
 		vp.add(new Label("Загрузка..."));
 
-		Dicom_browser.browserService.getDcmTagsFromFile(0, Dicom_browser.version, proxy.getId(),
+		Browser.browserService.getDcmTagsFromFile(0, Browser.version, proxy.getId(),
 				new AsyncCallback<ArrayList<DcmTagProxy>>() {
 
 					@Override

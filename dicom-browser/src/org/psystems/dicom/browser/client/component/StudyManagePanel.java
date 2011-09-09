@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
@@ -920,13 +920,13 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		    proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
 		    proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
 
-		    Dicom_browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+		    Browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 			    btnSaveAll.setEnabled(true);
 			    submitResult.setHTML("Ошибка сохранения направления!");
-			    Dicom_browser.showErrorDlg(caught);
+			    Browser.showErrorDlg(caught);
 			}
 
 			@Override
@@ -1280,12 +1280,12 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     protected void submitSuccess() {
 
 	// проверяем, сохранилось ли направление...
-	Dicom_browser.browserService.getStudyByID(1, Dicom_browser.version, StudyManagePanel.this.proxy.getId(),
+	Browser.browserService.getStudyByID(1, Browser.version, StudyManagePanel.this.proxy.getId(),
 		new AsyncCallback<StudyProxy>() {
 
 		    @Override
 		    public void onFailure(Throwable caught) {
-			Dicom_browser.showErrorDlg(caught);
+			Browser.showErrorDlg(caught);
 		    }
 
 		    @Override
@@ -1293,7 +1293,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 			if (studyCardPanel != null) {
 			    if (result == null) {
-				Dicom_browser.showErrorDlg(new RuntimeException("Данные не найдены! id исследования: "
+				Browser.showErrorDlg(new RuntimeException("Данные не найдены! id исследования: "
 					+ StudyManagePanel.this.proxy.getId()));
 				submitResult.setHTML("Данные не найдены! id исследования: "
 					+ StudyManagePanel.this.proxy.getId());
@@ -1357,11 +1357,11 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      */
     void initTemplates(String modality) {
 
-	Dicom_browser.browserService.getOOTemplates(modality, new AsyncCallback<ArrayList<OOTemplateProxy>>() {
+	Browser.browserService.getOOTemplates(modality, new AsyncCallback<ArrayList<OOTemplateProxy>>() {
 
 	    @Override
 	    public void onFailure(Throwable caught) {
-		Dicom_browser.showErrorDlg(caught);
+		Browser.showErrorDlg(caught);
 	    }
 
 	    @Override

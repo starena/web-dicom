@@ -66,6 +66,7 @@ import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
+import org.psystems.dicom.commons.CommonUtil;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -101,8 +102,8 @@ public class StorageOMITSImpl extends Storage {
 
 		try {
 
-			connection = org.psystems.dicom.browser.server.Util
-					.getConnection("omits", context);
+		    
+			connection = ORMUtil.getConnectionOmits(context);
 			
 			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') AND CODE like substr(?, 1, 3) || '%' ";
 			
@@ -170,8 +171,7 @@ public class StorageOMITSImpl extends Storage {
 
 		try {
 
-			connection = org.psystems.dicom.browser.server.Util
-					.getConnection("omits", context);
+		    connection = ORMUtil.getConnectionOmits(context);
 			
 			String where = "UPPER(SUR_NAME || ' ' || FIRST_NAME || ' ' || PATR_NAME) like UPPER(? || '%') AND CODE like substr(?, 1, 3) || '%' ";
 			

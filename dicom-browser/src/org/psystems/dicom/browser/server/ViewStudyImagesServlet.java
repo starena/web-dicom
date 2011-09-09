@@ -69,6 +69,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class ViewStudyImagesServlet extends HttpServlet {
 
@@ -108,7 +110,7 @@ public class ViewStudyImagesServlet extends HttpServlet {
 		PreparedStatement psSelect = null;
 		try {
 
-			Connection connection = Util.getConnection("main",getServletContext());
+		    Connection connection = ORMUtil.getConnection(getServletContext());
 
 			if (fileName == null) {
 				// ищем по ID

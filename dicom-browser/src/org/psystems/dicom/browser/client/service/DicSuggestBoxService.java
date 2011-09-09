@@ -60,26 +60,24 @@ import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 
 public interface DicSuggestBoxService extends RemoteService {
 
-	public static final String SERVICE_URI = "services/dicsuggest";
+    public static final String SERVICE_URI = "services/dicsuggest";
 
-	public static class Util {
+    public static class Util {
 
-		public static DicSuggestBoxServiceAsync getInstance()
-				throws DefaultGWTRPCException {
+	public static DicSuggestBoxServiceAsync getInstance() throws DefaultGWTRPCException {
 
-			DicSuggestBoxServiceAsync instance = (DicSuggestBoxServiceAsync) GWT
-					.create(DicSuggestBoxService.class);
-			ServiceDefTarget target = (ServiceDefTarget) instance;
-			target.setServiceEntryPoint(GWT.getModuleBaseURL() + SERVICE_URI);
-			return instance;
-		}
+	    DicSuggestBoxServiceAsync instance = (DicSuggestBoxServiceAsync) GWT.create(DicSuggestBoxService.class);
+	    ServiceDefTarget target = (ServiceDefTarget) instance;
+	    target.setServiceEntryPoint(GWT.getModuleBaseURL() + SERVICE_URI);
+	    return instance;
 	}
+    }
 
-	public SuggestTransactedResponse getSuggestions(long transactionId, String version,
-			String dicName, SuggestOracle.Request req) throws DefaultGWTRPCException;
+    public SuggestTransactedResponse getSuggestions(long transactionId, String version, String dicName,
+	    MultiWordSuggestOracle.Request req) throws DefaultGWTRPCException;
 
 }

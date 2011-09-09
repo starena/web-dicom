@@ -101,9 +101,10 @@ public class PersistentManagerDerby {
 			+ "PATIENT_NAME," // 13
 			+ "PATIENT_SEX," // 14
 			+ "PATIENT_BIRTH_DATE," // 15
-			+ "DATE_MODIFIED," // 16
-			+ "REMOVED" // 17
-			+ ") VALUES " + "(?,?,?,?,?,?,?,?,?,?," + "?,?,?,?,?,?,?)";
+			+ "PATIENT_SHORTNAME," // 16
+			+ "DATE_MODIFIED," // 17
+			+ "REMOVED" // 18
+			+ ") VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		pstmt = connection.prepareStatement(sql);
 		pstmt.setString(1, drn.getDirectionId());
@@ -160,15 +161,20 @@ public class PersistentManagerDerby {
 		    throw new DataException("field Date Performed wrong format: " + drn.getDatePerformed(), ex);
 		}
 
+//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!! [1]"+drn.getPatient());
+		
 		if (drn.getPatient() != null) {
 		    pstmt.setString(12, drn.getPatient().getPatientId());
 		    pstmt.setString(13, drn.getPatient().getPatientName());
 		    pstmt.setString(14, drn.getPatient().getPatientSex());
+		    pstmt.setString(16, drn.getPatient().getPatientShortName());
 		} else {
 		    pstmt.setNull(12, java.sql.Types.VARCHAR);
 		    pstmt.setNull(13, java.sql.Types.VARCHAR);
 		    pstmt.setNull(14, java.sql.Types.VARCHAR);
+		    pstmt.setNull(16, java.sql.Types.VARCHAR);
 		}
+		
 
 		try {
 		    if (drn.getPatient() != null && drn.getPatient().getPatientBirthDate() != null) {
@@ -181,14 +187,14 @@ public class PersistentManagerDerby {
 			    + drn.getPatient().getPatientBirthDate(), ex);
 		}
 
-		pstmt.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));// sysdate
+		pstmt.setTimestamp(17, new Timestamp(new java.util.Date().getTime()));// sysdate
 
 		try {
 		    if (drn.getDateTimeRemoved() != null)
-			pstmt.setTimestamp(17, new Timestamp(java.sql.Timestamp.valueOf(drn.getDateTimeRemoved())
+			pstmt.setTimestamp(18, new Timestamp(java.sql.Timestamp.valueOf(drn.getDateTimeRemoved())
 				.getTime()));
 		    else
-			pstmt.setNull(17, java.sql.Types.TIMESTAMP);
+			pstmt.setNull(18, java.sql.Types.TIMESTAMP);
 		} catch (IllegalArgumentException ex) {
 		    throw new DataException("field Date Removed wrong format: " + drn.getDateTimeRemoved(), ex);
 		}
@@ -200,7 +206,7 @@ public class PersistentManagerDerby {
 		while (rs.next()) {
 		    resultId = rs.getLong("1");
 		}
-
+		
 	    } else { // Делаем update
 
 		// TODO Сделать корректную проверку на оюновление направления в
@@ -222,9 +228,10 @@ public class PersistentManagerDerby {
 			+ "PATIENT_NAME = ?," // 13
 			+ "PATIENT_SEX = ?," // 14
 			+ "PATIENT_BIRTH_DATE = ?," // 15
-			+ "DATE_MODIFIED = ?," // 16
-			+ "REMOVED = ?" // 17
-			+ " WHERE ID = ?"; // 18
+			+ "PATIENT_SHORTNAME =?," // 16
+			+ "DATE_MODIFIED = ?," // 17
+			+ "REMOVED = ?" // 18
+			+ " WHERE ID = ?"; // 19
 
 		pstmt = connection.prepareStatement(sql);
 		pstmt.setString(1, drn.getDirectionId());
@@ -288,10 +295,12 @@ public class PersistentManagerDerby {
 		    pstmt.setString(12, drn.getPatient().getPatientId());
 		    pstmt.setString(13, drn.getPatient().getPatientName());
 		    pstmt.setString(14, drn.getPatient().getPatientSex());
+		    pstmt.setString(16, drn.getPatient().getPatientShortName());
 		} else {
 		    pstmt.setNull(12, java.sql.Types.VARCHAR);
 		    pstmt.setNull(13, java.sql.Types.VARCHAR);
 		    pstmt.setNull(14, java.sql.Types.VARCHAR);
+		    pstmt.setNull(16, java.sql.Types.VARCHAR);
 		}
 
 		try {
@@ -305,24 +314,27 @@ public class PersistentManagerDerby {
 			    + drn.getPatient().getPatientBirthDate(), ex);
 		}
 
-		pstmt.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));// sysdate
+		pstmt.setTimestamp(17, new Timestamp(new java.util.Date().getTime()));// sysdate
+		
 
 		try {
 		    if (drn.getDateTimeRemoved() != null)
-			pstmt.setTimestamp(17, new Timestamp(java.sql.Timestamp.valueOf(drn.getDateTimeRemoved())
+			pstmt.setTimestamp(18, new Timestamp(java.sql.Timestamp.valueOf(drn.getDateTimeRemoved())
 				.getTime()));
 		    else
-			pstmt.setNull(17, java.sql.Types.TIMESTAMP);
+			pstmt.setNull(18, java.sql.Types.TIMESTAMP);
 		} catch (IllegalArgumentException ex) {
 		    throw new DataException("field Date Removed wrong format: " + drn.getDateTimeRemoved(), ex);
 		}
-
-		pstmt.setLong(18, drn.getId());
+		
+		pstmt.setLong(19, drn.getId());
 		int count = pstmt.executeUpdate();
 		resultId = drn.getId();
 
 	    }
 
+	    
+	    
 	    // удаляем-обновляем диагнозы и услуги
 	    pstmt.close();
 
@@ -728,8 +740,15 @@ public class PersistentManagerDerby {
 		sql += " DOCTOR_PERFORMED_CODE = ? ";
 	    }
 
+//	    System.out.println("!!!!!! request.getPatientShortName()="+request.getPatientShortName());
+	    
 	    if (request.getPatientShortName() != null) {
-		throw new DataException("Search for PatientShortName Not implemented yet!");
+//		PATIENT_NAME VARCHAR(512) NOT NULL,-- ФИО пациента
+//		PATIENT_BIRTH_DATE DATE NOT NULL, -- д.р пациента
+//		throw new DataException("Search for PatientShortName Not implemented yet!");
+		if (counterArguments++ > 0)
+		    sql += " AND ";
+		sql += " PATIENT_SHORTNAME = ? ";
 	    }
 
 	    if (counterArguments == 0)
@@ -784,11 +803,18 @@ public class PersistentManagerDerby {
 	    if (request.getDoctorPerformedCode() != null) {
 		pstmt.setString(counterArguments++, request.getDoctorPerformedCode());
 	    }
+	    
+	    if (request.getPatientShortName() != null) {
+		pstmt.setString(counterArguments++, request.getPatientShortName());
+	    }
 
+//	    System.out.println("!!!!!!!!! sql="+sql + "[" + request.getPatientShortName() + "]");
+	    
 	    ResultSet rs = pstmt.executeQuery();
 	    int counter = 0;
 	    while (rs.next()) {
 		result.add(getDirectionFromRs(rs));
+		
 		if (counter > maxResponsRecords)
 		    break;
 	    }
@@ -839,7 +865,11 @@ public class PersistentManagerDerby {
 	    study.setStudyId(rs.getString("STUDY_ID"));
 	    study.setPatientName(rs.getString("PATIENT_NAME"));
 	    study.setPatientShortName(rs.getString("PATIENT_SHORTNAME"));
-	    study.setPatientSex(rs.getString("PATIENT_SEX"));
+	    
+	    if ("M".equalsIgnoreCase(rs.getString("PATIENT_SEX")) || "F".equalsIgnoreCase(rs.getString("PATIENT_SEX")))
+		study.setPatientSex(rs.getString("PATIENT_SEX"));
+	    else
+		study.setPatientSex("");// Если пол некорректный
 
 	    study.setPatientBirthDate(ORMUtil.utilDateToSQLDateString(rs.getDate("PATIENT_BIRTH_DATE")));
 
@@ -1002,6 +1032,8 @@ public class PersistentManagerDerby {
 		sqlAddon += " AND ";
 	    sqlAddon += " PATIENT_SEX = ? ";
 	}
+	
+	//
 
 	if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
 		&& request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0) {
@@ -1029,6 +1061,38 @@ public class PersistentManagerDerby {
 		if (sqlAddon.length() != 0)
 		    sqlAddon += " AND ";
 		sqlAddon += " STUDY_DATE < ?  ";
+	    }
+
+	}
+	
+	//
+	
+	if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+		&& request.getEndStudyDateTimeModify()!= null && request.getEndStudyDateTimeModify().length() > 0) {
+
+	    // TODO Вынести в chekEntity
+	    if (java.sql.Timestamp.valueOf(request.getBeginStudyDateTimeModify()).getTime() > java.sql.Timestamp.valueOf(
+		    request.getBeginStudyDateTimeModify()).getTime()) {
+		throw new DataException(new IllegalArgumentException("beginStudyDateTimeModify > endStudyDateTimeModify"));
+	    }
+
+	    if (sqlAddon.length() != 0)
+		sqlAddon += " AND ";
+	    sqlAddon += " DATE_MODIFIED BETWEEN ? AND ? ";
+	} else {
+
+	    if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+		    && (request.getEndStudyDateTimeModify() == null || request.getEndStudyDateTimeModify().length() > 0)) {
+		if (sqlAddon.length() != 0)
+		    sqlAddon += " AND ";
+		sqlAddon += " DATE_MODIFIED > ? ";
+	    }
+
+	    if (request.getEndStudyDateTimeModify() != null && request.getEndStudyDateTimeModify().length() > 0
+		    && (request.getBeginStudyDateTimeModify() == null || request.getBeginStudyDateTimeModify().length() > 0)) {
+		if (sqlAddon.length() != 0)
+		    sqlAddon += " AND ";
+		sqlAddon += " DATE_MODIFIED < ?  ";
 	    }
 
 	}
@@ -1099,6 +1163,8 @@ public class PersistentManagerDerby {
 		psSelect.setString(index++, request.getPatientSex());
 	    }
 
+	    //
+	    
 	    if (request.getBeginStudyDate() != null && request.getBeginStudyDate().length() > 0
 		    && request.getEndStudyDate() != null && request.getEndStudyDate().length() > 0) {
 		psSelect.setDate(index++, java.sql.Date.valueOf(request.getBeginStudyDate()));
@@ -1115,6 +1181,29 @@ public class PersistentManagerDerby {
 		    psSelect.setDate(index++, java.sql.Date.valueOf(request.getEndStudyDate()));
 		}
 	    }
+	    
+	    //
+	    
+	    
+	    if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+		    && request.getEndStudyDateTimeModify() != null && request.getEndStudyDateTimeModify().length() > 0) {
+		psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getBeginStudyDateTimeModify()));
+		psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getEndStudyDateTimeModify()));
+	    } else {
+
+		if (request.getBeginStudyDateTimeModify() != null && request.getBeginStudyDateTimeModify().length() > 0
+			&& (request.getEndStudyDateTimeModify() == null || request.getEndStudyDateTimeModify().length() > 0)) {
+		    psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getBeginStudyDateTimeModify()));
+		}
+
+		if (request.getEndStudyDateTimeModify() != null && request.getEndStudyDateTimeModify().length() > 0
+			&& (request.getBeginStudyDateTimeModify() == null || request.getBeginStudyDateTimeModify().length() > 0)) {
+		    psSelect.setTimestamp(index++, java.sql.Timestamp.valueOf(request.getEndStudyDateTimeModify()));
+		}
+	    }
+	    
+	    //
+	    
 
 	    ResultSet rs = psSelect.executeQuery();
 

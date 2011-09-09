@@ -72,6 +72,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class AttachementServlet extends HttpServlet {
 
@@ -128,7 +130,7 @@ public class AttachementServlet extends HttpServlet {
 		PreparedStatement psSelect = null;
 		try {
 
-			Connection connection = Util.getConnection("main",getServletContext());
+			Connection connection = ORMUtil.getConnection(getServletContext());
 
 			if (fileName == null) {
 				// ищем по ID

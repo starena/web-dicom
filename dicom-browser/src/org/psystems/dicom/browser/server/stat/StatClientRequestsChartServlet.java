@@ -83,6 +83,8 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.psystems.dicom.browser.server.Util;
+import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class StatClientRequestsChartServlet extends HttpServlet {
 
@@ -186,8 +188,7 @@ public class StatClientRequestsChartServlet extends HttpServlet {
 		calendarEnd.setTimeInMillis(time);
 
 		try {
-			Connection connection = Util.getConnection("main",getServletContext());
-
+		    Connection connection = ORMUtil.getConnection(getServletContext());
 			Calendar calendarBegin = (Calendar) calendarEnd.clone();
 			calendarBegin.add(Calendar.DAY_OF_MONTH, -7);
 

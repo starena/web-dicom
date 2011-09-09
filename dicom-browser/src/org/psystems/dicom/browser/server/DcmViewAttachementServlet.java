@@ -81,6 +81,8 @@ import org.dcm4che2.data.Tag;
 import org.dcm4che2.data.VR;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.StringUtils;
+import org.psystems.dicom.commons.CommonUtil;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class DcmViewAttachementServlet extends HttpServlet {
 
@@ -120,7 +122,7 @@ public class DcmViewAttachementServlet extends HttpServlet {
 		PreparedStatement psSelect = null;
 		try {
 
-			Connection connection = Util.getConnection("main",getServletContext());
+		    Connection connection = ORMUtil.getConnection(getServletContext());
 
 			if (fileName == null) {
 				// ищем по ID

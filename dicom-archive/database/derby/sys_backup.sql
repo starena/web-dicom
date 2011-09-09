@@ -1,3 +1,0 @@
-CONNECT 'jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM';
-CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE('./backup/');
-

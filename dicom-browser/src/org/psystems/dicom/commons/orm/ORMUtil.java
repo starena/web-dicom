@@ -18,6 +18,8 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
+import org.psystems.dicom.commons.Config;
+
 
 public class ORMUtil {
 	
@@ -180,41 +182,109 @@ public class ORMUtil {
 	}
 	
 	/**
-	 * Получение соединения внутри сервлета
-	 * 
-	 * @param servletContext
-	 * @return
-	 * @throws SQLException
-	 */
-	public static Connection getConnection(ServletContext servletContext)
-			throws SQLException {
+	     * Получение соединения внутри сервлета
+	     * 
+	     * @param servletContext
+	     * @return
+	     * @throws SQLException
+	     */
+	    public static Connection getConnection(ServletContext servletContext) throws SQLException {
 
 		Connection connection = null;
 
-		//
-		String connectionUrl = servletContext
-				.getInitParameter("webdicom.connection.url");
-		if (connectionUrl != null) {
-			Properties props = new Properties(); // connection properties
-			props.put("user", "user1"); // FIXME взять из конфига
-			props.put("password", "user1"); // FIXME взять из конфига
+		if (Config.getDbJndi() == null) {
+		    // For local Development
+		    String connectionUrl = Config.getDbUrl();
+		    Properties props = new Properties(); // connection properties
+		    props.put("user", "user1"); // FIXME взять из конфига
+		    props.put("password", "user1"); // FIXME взять из конфига
 
-			connection = DriverManager.getConnection(connectionUrl
-					+ ";create=true", props);
+		    connection = DriverManager.getConnection(connectionUrl + ";create=true", props);
 		} else {
-			// for Tomcat
-			try {
-				Context initCtx = new InitialContext();
-				Context envCtx = (Context) initCtx.lookup("java:comp/env");
-				DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
-				connection = ds.getConnection();
-			} catch (NamingException e) {
-				throw new SQLException("JNDI error " + e);
-			}
+		    // for Tomcat
+		    try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
+			connection = ds.getConnection();
+		    } catch (NamingException e) {
+			throw new SQLException("JNDI error " + e);
+		    }
 		}
 
 		return connection;
-	}
+	    }
+	    
+	    /**
+	     * Получение соединения внутри сервлета
+	     * 
+	     * @param servletContext
+	     * @return
+	     * @throws SQLException
+	     */
+	    public static Connection getConnectionOmits(ServletContext servletContext) throws SQLException {
+
+		Connection connection = null;
+
+		if (Config.getDbJndi() == null) {
+		    // For local Development
+		    String connectionUrl = Config.getDbUrl();
+		    Properties props = new Properties(); // connection properties
+		    props.put("user", "user1"); // FIXME взять из конфига
+		    props.put("password", "user1"); // FIXME взять из конфига
+
+		    connection = DriverManager.getConnection(connectionUrl, props);
+		} else {
+		    // for Tomcat
+		    try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			DataSource ds = (DataSource) envCtx.lookup("jdbc/omits");
+			connection = ds.getConnection();
+		    } catch (NamingException e) {
+			throw new SQLException("JNDI error " + e);
+		    }
+		}
+
+		return connection;
+	    }
+	
+//	/**
+//	 * Получение соединения внутри сервлета
+//	 * 
+//	 * @param servletContext
+//	 * @return
+//	 * @throws SQLException
+//	 */
+//	public static Connection getConnection(ServletContext servletContext)
+//			throws SQLException {
+//
+//		Connection connection = null;
+//
+//		//
+//		String connectionUrl = servletContext
+//				.getInitParameter("webdicom.connection.url");
+//		if (connectionUrl != null) {
+//			Properties props = new Properties(); // connection properties
+//			props.put("user", "user1"); // FIXME взять из конфига
+//			props.put("password", "user1"); // FIXME взять из конфига
+//
+//			connection = DriverManager.getConnection(connectionUrl
+//					+ ";create=true", props);
+//		} else {
+//			// for Tomcat
+//			try {
+//				Context initCtx = new InitialContext();
+//				Context envCtx = (Context) initCtx.lookup("java:comp/env");
+//				DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
+//				connection = ds.getConnection();
+//			} catch (NamingException e) {
+//				throw new SQLException("JNDI error " + e);
+//			}
+//		}
+//
+//		return connection;
+//	}
 	
 	/**
 	 * Список модальностей одной строкой

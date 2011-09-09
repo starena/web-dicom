@@ -1,3 +1,0 @@
-select * from WEBDICOM.DIRECTION_DIAGNOSIS d where d.FID_DIRECTION = 78
-
-select * from WEBDICOM.DIRECTION d where d.ID = 47

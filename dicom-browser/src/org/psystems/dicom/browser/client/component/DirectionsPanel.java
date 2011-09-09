@@ -6,7 +6,7 @@ package org.psystems.dicom.browser.client.component;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.psystems.dicom.browser.client.Dicom_browser;
+import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.QueryDirectionProxy;
@@ -40,7 +40,7 @@ public class DirectionsPanel extends Composite {
     VerticalPanel resultPanel;
     private DateBox studyDateBoxBegin;
     private long searchTransactionID;
-    private Dicom_browser Application;
+    private Browser Application;
     protected String dateBegin;
     protected String dateEnd;
     private DateBox studyDateBoxEnd;
@@ -54,7 +54,7 @@ public class DirectionsPanel extends Composite {
      * @param application
      *            TODO Убрать и вызывать через static методы???
      */
-    public DirectionsPanel(Dicom_browser application) {
+    public DirectionsPanel(Browser application) {
 
 	this.Application = application;
 

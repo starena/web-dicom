@@ -46,6 +46,11 @@ public class Patient implements Serializable {
 		this.patientName = patientName;
 	}
 
+	
+	public void setPatientShortName(String patientShortName) {
+	    throw new IllegalArgumentException("Method not supported! automatically generated from patientName and patientBirthDate.");
+	}
+
 	public String getPatientShortName() {
 		return ORMUtil.makeShortName(patientName, patientBirthDate);
 	}
@@ -87,7 +92,7 @@ public class Patient implements Serializable {
 		return "Patient [id=" + id + ", patientBirthDate=" + patientBirthDate
 				+ ", patientId=" + patientId + ", patientName=" + patientName
 				+ ", patientSex=" + patientSex + ", patientShortName="
-				+ patientShortName + "]";
+				+ getPatientShortName() + "]";
 	}
 
 }
