@@ -107,16 +107,27 @@
 	</target>
 
 
-	<!-- start test database -->
-	<target name="db.start" description="Запуск БД">
+	<!-- start database -->
+	<target name="db.start" description="start database">
 		<mkdir dir="${dir.instance}" />
-		<echo message="Запуск БД" />
-		<java classname="org.apache.derby.drda.NetworkServerControl">
+		<echo message="start database" />
+		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
 			<arg value="start" />
 			<sysproperty key="derby.system.home" value="${dir.instance}" />
 			<classpath refid="derby.classpath" />
 		</java>
 	</target>
+	
+	<!-- stop database -->
+		<target name="db.stop" description="stop database">
+			<mkdir dir="${dir.instance}" />
+			<echo message="stop database" />
+			<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
+				<arg value="shutdown" />
+				<sysproperty key="derby.system.home" value="${dir.instance}" />
+				<classpath refid="derby.classpath" />
+			</java>
+		</target>
 
 
 	<!-- drop test database -->
