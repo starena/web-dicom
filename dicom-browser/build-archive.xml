@@ -7,7 +7,7 @@
 	</taskdef>
 
 	<property name="dir.src" value="src" />
-	<property name="dir.bin" value="bin" />
+	<property name="dir.bin" value="war/WEB-INF/classes" />
 	<property name="dir.classes" value="classes" />
 	<property name="dir.doc" value="doc" />
 	<property name="dir.doc.api" value="${dir.doc}/api" />
@@ -108,64 +108,87 @@
 
 
 	<!-- start database -->
+	<target name="db.ping" description="ping database">
+		<echo message="Pinging DATABASE..." />
+		<java classname="org.apache.derby.drda.NetworkServerControl" errorproperty="db.ping.error" outputproperty="db.ping.status" failonerror="true">
+			<arg value="ping" />
+			<sysproperty key="derby.system.home" value="${dir.instance}" />
+			<classpath refid="derby.classpath" />
+		</java>
+		<echo message="Pinging DATABASE ${db.ping.status} - ${db.ping.error}" />
+	</target>
+
+
+
+	<!-- start database -->
 	<target name="db.start" description="start database">
+		<echo message="Starting DATABASE..." />
 		<mkdir dir="${dir.instance}" />
-		<echo message="start database" />
 		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
 			<arg value="start" />
 			<sysproperty key="derby.system.home" value="${dir.instance}" />
 			<classpath refid="derby.classpath" />
 		</java>
+		<echo message="Starting DATABASE [OK]" />
 	</target>
+
+
 
 	<!-- stop database -->
 	<target name="db.stop" description="stop database">
-		<mkdir dir="${dir.instance}" />
-		<echo message="stop database" />
+
+		<echo message="Stopping DATABASE..." />
 		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
 			<arg value="shutdown" />
 			<sysproperty key="derby.system.home" value="${dir.instance}" />
 			<classpath refid="derby.classpath" />
 		</java>
+		<echo message="Stopping DATABASE [OK]" />
+
 	</target>
 
 
-	<!-- drop test database -->
-	<target name="db.dropinstance">
+
+	<!-- remove database -->
+	<target name="db.instance.remove" depends="db.stop">
+
+		<echo message="Removing DATABASE..." />
 		<delete includeemptydirs="yes">
 			<fileset dir="${dir.instance}" />
 		</delete>
+		<echo message="Removing DATABASE [OK]" />
+
 	</target>
 
-	<!-- make test database  -->
-	<!-- !!! TODO сделать обработку ошибок создания БД !!!! -->
-	<target name="db.makeinstance">
+	<!-- create test database  -->
+	<target name="db.instance.create" depends="db.start">
+
+		<echo message="Creating DATABASE..." />
+		<echo message="waiting 3 seconds start db..."/>
+		<sleep seconds="3"/>
+		<antcall target="db.ping"/>
 		<java classname="org.apache.derby.tools.ij" output="${dir.instance}/makedb.log">
 			<arg value="database/derby/db.sql" />
 			<sysproperty key="ij.exceptionTrace" value="true" />
 			<sysproperty key="ij.showErrorCode" value="true" />
+			<sysproperty key="derby.ui.locale" value="en_US" />
 			<sysproperty key="derby.system.home" value="${dir.instance}" />
 			<sysproperty key="ij.database" value="${db.connect}" />
-
-
 			<classpath refid="derby.classpath" />
 		</java>
 
-
-
 		<loadfile property="db.make.has.exceptions" srcfile="${dir.instance}/makedb.log">
 			<filterchain>
-				<headfilter lines="1000"/>
-				<containsregex pattern="Exception"/>
+				<headfilter lines="1000" />
+				<containsregex pattern="Exception" />
 			</filterchain>
 		</loadfile>
-		<echo message="${db.make.has.exceptions}"/>
-
+		<echo message="${db.make.has.exceptions}" />
 
 		<if>
-			<isset property="db.make.has.exceptions"/>
+			<isset property="db.make.has.exceptions" />
 			<then>
-				<echo message="MAKE DB HAS ERROR"/>
+				<echo message="MAKE DB HAS ERROR" />
 			</then>
 			<else>
 			</else>
@@ -173,28 +196,47 @@
 
 		<fail message="MAKE DB ERROR!">
 			<condition>
-				<isset property="db.make.has.exceptions"/>
+				<isset property="db.make.has.exceptions" />
 			</condition>
 		</fail>
+
+		<echo message="Creating DATABASE [OK]" />
 
 	</target>
 
 
 	<!-- start archive -->
-	<target name="archve.start" description="Запуск архива">
+	<target name="archve.start" description="start dicom archive">
 
-		<java classname="org.psystems.dicom.daemon.Archive">
-			<arg value="DDV@localhost:11112" />
-			<arg value="-config" />
-			<arg value="distrib/dcmarcive-conf.xml" />
-			<arg value="-dest" />
-			<arg value="database\instance\dcm.data" />
-			<arg value="-jdbcconnect" />
-			<arg value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM" />
-
+		<echo message="Starting DICOM Archive..."/>
+		<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="true">
+			<sysproperty key="webdicom.home" value="distrib" />
+			<sysproperty key="log4j.configuration" value="log4j.properties" />
+			<sysproperty key="derby.system.home" value="${dir.instance}" />
+			<sysproperty key="derby.drda.startNetworkServer" value="true" />
+			<sysproperty key="derby.drda.portNumber" value="1527" />
+			<sysproperty key="derby.drda.host" value="localhost" />
+			<sysproperty key="derby.drda.logConnections" value="true" />
 			<classpath refid="archive.classpath" />
 		</java>
+		<echo message="Starting DICOM Archive [OK]"/>
 	</target>
+
+
+	<target name="archve.test" description="start dicom archivr">
+		<parallel failonany="true">
+			<antcall target="archve.start"/>
+			<sequential>
+				<echo message="test1"/>
+				<sleep seconds="1"/>
+				<echo message="test2"/>
+				<sleep seconds="1"/>
+				<echo message="test3"/>
+				<sleep seconds="1"/>
+			</sequential>	
+		</parallel>
+	</target>
+
 
 	<!-- send to archive -->
 	<target name="send2archive" description="Отправка dcm-файла в архив">
