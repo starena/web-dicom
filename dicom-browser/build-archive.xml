@@ -139,25 +139,36 @@
 
 			<classpath refid="derby.classpath" />
 		</java>
-		
-		<loadfile property="fff" srcfile="${dir.instance}/makedb.log">
+
+
+
+		<loadfile property="db.make.has.exceptions" srcfile="${dir.instance}/makedb.log">
 			<filterchain>
 				<headfilter lines="1000"/>
-				<containsregex pattern="EXXxception"/>
+				<containsregex pattern="Exception"/>
 			</filterchain>
 		</loadfile>
-		<echo message="${fff}"/>
-		
-		<if >
-			<contains refid="${fff}"/>
+		<echo message="${db.make.has.exceptions}"/>
+
+
+		<if>
+			<isset property="db.make.has.exceptions"/>
 			<then>
-				<echo message="HAS ERROR"/>
-				</then>
+				<echo message="MAKE DB HAS ERROR"/>
+			</then>
+			<else>
+			</else>
 		</if>
-		
+
+		<fail message="MAKE DB ERROR!">
+			<condition>
+				<isset property="db.make.has.exceptions"/>
+			</condition>
+		</fail>
+
 	</target>
-	
-	
+
+
 	<!-- start archive -->
 	<target name="archve.start" description="Запуск архива">
 
