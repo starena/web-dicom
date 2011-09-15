@@ -12,8 +12,8 @@
 	<property name="dir.doc" value="doc" />
 	<property name="dir.doc.api" value="${dir.doc}/api" />
 	<property name="dir.distrib" value="distrib" />
-	<property name="dir.instance" value="database/instance" />
-	<property name="dir.instance.data" value="data/incoming" />
+	<property name="dir.data.db" value="data/db" />
+	<property name="dir.data.incoming" value="data/incoming" />
 	<property name="db.connect" value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true" />
 	<property name="distrib.jar" value="dcmarchive.jar" />
 
@@ -115,7 +115,7 @@
 		<echo message="Pinging DATABASE..." />
 		<java classname="org.apache.derby.drda.NetworkServerControl" errorproperty="db.ping.error" outputproperty="db.ping.status" failonerror="true">
 			<arg value="ping" />
-			<sysproperty key="derby.system.home" value="${dir.instance}" />
+			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<classpath refid="derby.classpath" />
 		</java>
 		<echo message="Pinging DATABASE ${db.ping.status} - ${db.ping.error}" />
@@ -126,10 +126,10 @@
 	<!-- start database -->
 	<target name="db.start" description="start database">
 		<echo message="Starting DATABASE..." />
-		<mkdir dir="${dir.instance}" />
+		<mkdir dir="${dir.data.db}" />
 		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
 			<arg value="start" />
-			<sysproperty key="derby.system.home" value="${dir.instance}" />
+			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<classpath refid="derby.classpath" />
 		</java>
 		<echo message="Starting DATABASE [OK]" />
@@ -143,7 +143,7 @@
 		<echo message="Stopping DATABASE..." />
 		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
 			<arg value="shutdown" />
-			<sysproperty key="derby.system.home" value="${dir.instance}" />
+			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<classpath refid="derby.classpath" />
 		</java>
 		<echo message="Stopping DATABASE [OK]" />
@@ -152,41 +152,64 @@
 
 
 
-	<!-- remove database -->
+	<!-- remove database with incoming data -->
 	<target name="db.instance.remove" depends="db.stop">
 
-		<echo message="Removing DATABASE..." />
-		<delete includeemptydirs="yes">
-			<fileset dir="${dir.instance}" />
-		</delete>
-		<delete includeemptydirs="yes">
-			<fileset dir="${dir.instance}" />
-		</delete>
-		<delete includeemptydirs="yes">
-			<fileset dir="${dir.instance.data}" />
-		</delete>
-		<echo message="Removing DATABASE [OK]" />
+		<echo message="Removing DATABASE and ALL incoming data..." />
+
+		<available file="${dir.data.db}"  property="dir.data.db.present"/>
+
+		<if>
+			<isset property="dir.data.db.present" />
+			<then>
+				<delete includeemptydirs="yes">
+					<fileset dir="${dir.data.db}" />
+				</delete>
+			</then>
+			<else>
+				<echo message="${dir.data.db} does no exist"/>
+			</else>
+		</if>
+
+		<available file="${dir.data.incoming}"  property="dir.data.incoming.present"/>
+
+		<if>
+			<isset property="dir.data.incoming.present" />
+			<then>
+				<delete includeemptydirs="yes">
+					<fileset dir="${dir.data.incoming}" />
+				</delete>
+			</then>
+			<else>
+				<echo message="${dir.data.incoming} does no exist"/>
+			</else>
+		</if>
+
+		<echo message="Removing DATABASE and ALL incoming data [OK]" />
 
 	</target>
 
 	<!-- create test database  -->
-	<target name="db.instance.create" depends="db.start">
+	<target name="db.instance.create" depends="db.instance.remove">
 
 		<echo message="Creating DATABASE..." />
+
+		<antcall target="db.start"/>
+
 		<echo message="waiting 3 seconds start db..."/>
 		<sleep seconds="3"/>
 		<antcall target="db.ping"/>
-		<java classname="org.apache.derby.tools.ij" output="${dir.instance}/makedb.log">
+		<java classname="org.apache.derby.tools.ij" output="${dir.data.db}/makedb.log">
 			<arg value="database/derby/db.sql" />
 			<sysproperty key="ij.exceptionTrace" value="true" />
 			<sysproperty key="ij.showErrorCode" value="true" />
 			<sysproperty key="derby.ui.locale" value="en_US" />
-			<sysproperty key="derby.system.home" value="${dir.instance}" />
+			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<sysproperty key="ij.database" value="${db.connect}" />
 			<classpath refid="derby.classpath" />
 		</java>
 
-		<loadfile property="db.make.has.exceptions" srcfile="${dir.instance}/makedb.log">
+		<loadfile property="db.make.has.exceptions" srcfile="${dir.data.db}/makedb.log">
 			<filterchain>
 				<headfilter lines="1000" />
 				<containsregex pattern="Exception" />
@@ -221,7 +244,7 @@
 		<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="false">
 			<sysproperty key="webdicom.home" value="distrib" />
 			<sysproperty key="log4j.configuration" value="log4j.properties" />
-			<sysproperty key="derby.system.home" value="${dir.instance}" />
+			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<sysproperty key="derby.drda.startNetworkServer" value="true" />
 			<sysproperty key="derby.drda.portNumber" value="1527" />
 			<sysproperty key="derby.drda.host" value="localhost" />
