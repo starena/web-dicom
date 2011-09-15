@@ -1059,6 +1059,8 @@ public class Archive extends StorageService {
 					}
 
 				} catch (SQLException e) {
+//				    	e.printStackTrace();
+				    	LOG.error("DB Error ",e);
 					throw new IOException("SQL Exception!!! " + e);
 				}
 

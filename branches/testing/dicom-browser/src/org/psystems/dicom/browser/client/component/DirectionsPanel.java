@@ -290,6 +290,7 @@ public class DirectionsPanel extends Composite {
 
 		    DirectionCard drn = new DirectionCard(directionProxy);
 		    resultPanel.add(drn);
+		    System.out.println("!!!!!!!! directionProxy="+directionProxy.getDevice());
 
 		}
 

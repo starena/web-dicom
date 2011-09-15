@@ -228,11 +228,16 @@ public class ORMUtil {
 
 		if (Config.getDbJndi() == null) {
 		    // For local Development
-		    String connectionUrl = Config.getDbUrl();
+		    String connectionUrl = Config.getOmits();
+		    try {
+			Class.forName (Config.getDbOmitsDriver());
+		    } catch (ClassNotFoundException e) {
+			throw new SQLException("Driver not found", e);
+		    }
 		    Properties props = new Properties(); // connection properties
-		    props.put("user", "user1"); // FIXME взять из конфига
-		    props.put("password", "user1"); // FIXME взять из конфига
-
+//		    props.put("user", "user1"); // FIXME взять из конфига
+//		    props.put("password", "user1"); // FIXME взять из конфига
+//		    System.out.println("!!!!! connectionUrl="+connectionUrl);
 		    connection = DriverManager.getConnection(connectionUrl, props);
 		} else {
 		    // for Tomcat

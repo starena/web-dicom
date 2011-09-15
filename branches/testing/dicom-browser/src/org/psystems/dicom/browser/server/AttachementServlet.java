@@ -72,6 +72,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class AttachementServlet extends HttpServlet {
@@ -98,9 +99,10 @@ public class AttachementServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("image/jpeg");// По умолчанию
 
+		//FIXME убрать!
 		String imagesRootDir = getServletContext().getInitParameter(
 				"webdicom.dir.dst");
-
+//		String imagesRootDir = Config.getIncomingFolder();
 		
 		int imageId = 0;
 		String type = "fullsize";

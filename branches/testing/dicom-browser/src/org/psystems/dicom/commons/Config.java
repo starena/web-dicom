@@ -220,4 +220,10 @@ public class Config {
 	return dbOmitsUrl;
     }
 
+    public static String getDbOmitsDriver() {
+        return dbOmitsDriver;
+    }
+    
+    
+
 }

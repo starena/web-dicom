@@ -10,7 +10,7 @@ CREATE TABLE WEBDICOM.DIRECTION (
 	DIRECTION_DATE_PLANNED TIMESTAMP, -- Плановая дата и время выполнения исследования
 	
 	DEVICE  VARCHAR(512), -- Аппарат (STUDY_MANUFACTURER_MODEL_NAME)
-	DEVICE_MODALITY VARCHAR(10),
+	DEVICE_MODALITY VARCHAR(10) NOT NULL, -- Модальность
 	DIRECTION_LOCATION  VARCHAR(512), -- Кабинет
 	
 	DATE_DIRECTION DATE, -- Дата направления пациента (дата выписки направления)
