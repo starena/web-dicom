@@ -300,9 +300,11 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      */
     private void setProxy(StudyProxy proxy) {
 	this.proxy = proxy;
-
+	System.out.println("!!! proxy="+proxy.getStudyModality());
 	// TODO Реализовать инициализацию здесь !!!!
 	// Инициаизация полей
+	
+	
     }
 
     /**
@@ -497,6 +499,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		    proxy.setManufacturerModelName(dev.getManufacturerModelName());
 		    proxy.setStudyModality(dev.getModality());
 		    setModalityControls();
+		    validationBeforeSubmit();
 		}
 	    });
 
@@ -510,6 +513,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 			deviceBox.getSuggestBox().setText("");
 
 		    setModalityControls();
+		    validationBeforeSubmit();
 		}
 	    });
 
@@ -538,7 +542,9 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	studyDateBox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
 
 	if (proxy.getStudyDate() == null) {
-	    studyDateBox.setValue(new Date());
+	    Date d = new Date();
+	    studyDateBox.setValue(d);
+	    proxy.setStudyDate(Utils.dateFormatDicom.format(d));
 	} else {
 	    studyDateBox.setValue(Utils.dateFormatSql.parse(proxy.getStudyDate()));
 	}
@@ -560,7 +566,10 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	studyViewProtocolDateBox.setFormat(new DateBox.DefaultFormat(Utils.dateFormatUser));
 
 	if (proxy.getStudyViewprotocolDate() == null) {
-	    studyViewProtocolDateBox.setValue(new Date());
+	    Date d = new Date();
+	    studyViewProtocolDateBox.setValue(d);
+	    String dStr = Utils.dateFormatDicom.format(d);
+	    proxy.setStudyViewprotocolDate(dStr);
 	} else {
 	    studyViewProtocolDateBox.setValue(Utils.dateFormatSql.parse(proxy.getStudyViewprotocolDate()));
 	}
@@ -905,7 +914,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// END данные из направления
 
 	//
-	btnSaveAll = new Button("Сохранить направление");
+	btnSaveAll = new Button("Сохранить исследование");
 	btnSaveAll.addClickHandler(new ClickHandler() {
 
 	    @Override
@@ -991,10 +1000,26 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	//
 	// updateFromSession();
+	
+	
+	
+	validationBeforeSubmit();
 
 	initWidget(mainPanel);
 
 	// patientVerify();
+    }
+
+    /**
+     * Проверка, можно ли отправлять данные
+     */
+    private void validationBeforeSubmit() {
+	btnSaveAll.setEnabled(true);
+	if (proxy != null) {
+	    if (proxy.getManufacturerModelName() == null)
+		btnSaveAll.setEnabled(false);
+	    return;
+	}
     }
 
     // /**

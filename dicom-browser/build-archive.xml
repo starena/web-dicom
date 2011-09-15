@@ -13,6 +13,7 @@
 	<property name="dir.doc.api" value="${dir.doc}/api" />
 	<property name="dir.distrib" value="distrib" />
 	<property name="dir.instance" value="database/instance" />
+	<property name="dir.instance.data" value="data/incoming" />
 	<property name="db.connect" value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true" />
 	<property name="distrib.jar" value="dcmarchive.jar" />
 
@@ -35,13 +36,15 @@
 	</path>
 
 	<path id="build.classpath">
-		<path refid="dcm4che.classpath" />
 		<path refid="common.classpath" />
+		<path refid="dcm4che.classpath" />
+		<path refid="derby.classpath" />
 	</path>
 
 	<path id="dcmsend.classpath">
 		<path refid="dcm4che.classpath" />
-		<pathelement location="test/dcm4che-tool-dcmsnd-2.0.21.jar" />
+		<path refid="common.classpath" />
+		<pathelement location="lib/test/dcm4che-tool-dcmsnd-2.0.21.jar" />
 	</path>
 
 	<path id="archive.classpath">
@@ -67,7 +70,7 @@
 		<!-- javac srcdir="${dir.src}" destdir="${dir.classes}" debug="on" encoding="UTF-8" -->
 		<javac srcdir="${dir.src}" destdir="${dir.classes}" debug="on" nowarn="on" encoding="UTF-8">
 			<classpath refid="build.classpath" />
-			<include name="org/psystems/dicom/daemon/**" />
+			<include name="org/psystems/dicom/archive/**" />
 			<exclude name="**/*Test.java" />
 		</javac>
 	</target>
@@ -156,6 +159,12 @@
 		<delete includeemptydirs="yes">
 			<fileset dir="${dir.instance}" />
 		</delete>
+		<delete includeemptydirs="yes">
+			<fileset dir="${dir.instance}" />
+		</delete>
+		<delete includeemptydirs="yes">
+			<fileset dir="${dir.instance.data}" />
+		</delete>
 		<echo message="Removing DATABASE [OK]" />
 
 	</target>
@@ -209,7 +218,7 @@
 	<target name="archve.start" description="start dicom archive">
 
 		<echo message="Starting DICOM Archive..."/>
-		<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="true">
+		<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="false">
 			<sysproperty key="webdicom.home" value="distrib" />
 			<sysproperty key="log4j.configuration" value="log4j.properties" />
 			<sysproperty key="derby.system.home" value="${dir.instance}" />
@@ -218,6 +227,7 @@
 			<sysproperty key="derby.drda.host" value="localhost" />
 			<sysproperty key="derby.drda.logConnections" value="true" />
 			<classpath refid="archive.classpath" />
+			<classpath refid="derby.classpath" />
 		</java>
 		<echo message="Starting DICOM Archive [OK]"/>
 	</target>
@@ -233,7 +243,7 @@
 				<sleep seconds="1"/>
 				<echo message="test3"/>
 				<sleep seconds="1"/>
-			</sequential>	
+			</sequential>
 		</parallel>
 	</target>
 
