@@ -78,6 +78,7 @@ public class DicomService {
 	 */
 	public long makeDirection(
 			@WebParam(name = "directionId") String directionId,
+			@WebParam(name = "modality") String modality,
 			@WebParam(name = "doctorDirect") Employee doctorDirect,
 			@WebParam(name = "diagnosisDirect") Diagnosis[] diagnosisDirect,
 			@WebParam(name = "servicesDirect") Service[] servicesDirect,
@@ -104,6 +105,7 @@ public class DicomService {
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 			Direction drn = new Direction();
 			drn.setDirectionId(directionId);
+			drn.setModality(modality);
 			drn.setDoctorDirect(doctorDirect);
 			drn.setDiagnosisDirect(diagnosisDirect);
 			drn.setServicesDirect(servicesDirect);

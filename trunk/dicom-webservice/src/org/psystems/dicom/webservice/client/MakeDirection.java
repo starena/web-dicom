@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="directionId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="modality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="doctorDirect" type="{http://webservice.dicom.psystems.org/}employee" minOccurs="0"/>
  *         &lt;element name="diagnosisDirect" type="{http://webservice.dicom.psystems.org/}diagnosis" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="servicesDirect" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
@@ -40,6 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "makeDirection", propOrder = {
     "directionId",
+    "modality",
     "doctorDirect",
     "diagnosisDirect",
     "servicesDirect",
@@ -53,6 +55,7 @@ import javax.xml.bind.annotation.XmlType;
 public class MakeDirection {
 
     protected String directionId;
+    protected String modality;
     protected Employee doctorDirect;
     @XmlElement(nillable = true)
     protected List<Diagnosis> diagnosisDirect;
@@ -87,6 +90,30 @@ public class MakeDirection {
      */
     public void setDirectionId(String value) {
         this.directionId = value;
+    }
+
+    /**
+     * Gets the value of the modality property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getModality() {
+        return modality;
+    }
+
+    /**
+     * Sets the value of the modality property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setModality(String value) {
+        this.modality = value;
     }
 
     /**
