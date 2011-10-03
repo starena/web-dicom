@@ -132,6 +132,9 @@ public class PersistentManagerDerby {
 		
 		if (drn.getDevice() != null)
 		    pstmt.setString(6, drn.getDevice().getModality());
+		else if (drn.getModality() != null)
+		    //если не задана модальность аппарата
+		    pstmt.setString(6, drn.getModality());
 		else
 		    pstmt.setNull(6, java.sql.Types.VARCHAR);
 
@@ -270,6 +273,9 @@ public class PersistentManagerDerby {
 		
 		if (drn.getDevice() != null)
 		    pstmt.setString(6, drn.getDevice().getModality());
+		else if (drn.getModality() != null)
+		    // если не задана модальность аппарата
+		    pstmt.setString(6, drn.getModality());
 		else
 		    pstmt.setNull(6, java.sql.Types.VARCHAR);
 
@@ -468,6 +474,7 @@ public class PersistentManagerDerby {
 	ManufacturerDevice dev = new ManufacturerDevice();
 	dev.setManufacturerModelName(rs.getString("DEVICE"));
 	dev.setModality(rs.getString("DEVICE_MODALITY"));
+	drn.setModality(rs.getString("DEVICE_MODALITY"));
 	drn.setDevice(dev);
 	// TODO Сделать rs.getTimestamp???
 	drn.setDateTimePlanned(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getTimestamp("DIRECTION_DATE_PLANNED")));

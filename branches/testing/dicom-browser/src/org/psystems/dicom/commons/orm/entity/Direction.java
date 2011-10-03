@@ -12,238 +12,251 @@ import org.psystems.dicom.commons.orm.ORMUtil;
  */
 public class Direction implements Serializable {
 
-	private static final long serialVersionUID = -2840335603832244555L;
-	
-	private Long id; // Внутренний ID
-	private String directionId; // штрих код
-	private Employee doctorDirect;// Направивший врач
-	private Diagnosis[] diagnosisDirect;// Диагнозы при направлении
-	private Service[] servicesDirect;// Услуги при направлении
-	private String dateDirection;// Дата направления. формат "yyyy-mm-dd"
-	private ManufacturerDevice device;// Аппарат
-	private String dateTimePlanned;// Планируемая дата выполнения исследования. формат "yyyy-mm-dd hh:mm:ss"
-	private Employee doctorPerformed;// Врач выполнивший исследование
-	private String directionCode;// Идентификатор случая заболевания
-	private String directionLocation;// Кабинет
-	private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения исследования
-	private Service[] servicesPerformed;// Выполненные услуги
-	private String datePerformed;// Дата выполнения исследования. формат "yyyy-mm-dd"
-	private Patient patient; // Пациент
-	private String dateTimeModified;// Дата модификации. формат "yyyy-mm-dd hh:mm:ss"
-	private String dateTimeRemoved;// Дата удаления. формат "yyyy-mm-dd hh:mm:ss"
+    private static final long serialVersionUID = -2840335603832244555L;
 
-	public Long getId() {
-		return id;
-	}
+    private Long id; // Внутренний ID
+    private String directionId; // штрих код
+    private Employee doctorDirect;// Направивший врач
+    private Diagnosis[] diagnosisDirect;// Диагнозы при направлении
+    private Service[] servicesDirect;// Услуги при направлении
+    private String dateDirection;// Дата направления. формат "yyyy-mm-dd"
+    private ManufacturerDevice device;// Аппарат
+    private String dateTimePlanned;// Планируемая дата выполнения исследования.
+				   // формат "yyyy-mm-dd hh:mm:ss"
+    private Employee doctorPerformed;// Врач выполнивший исследование
+    private String directionCode;// Идентификатор случая заболевания
+    private String directionLocation;// Кабинет
+    private Diagnosis[] diagnosisPerformed;// Диагнозы после выполнения
+					   // исследования
+    private Service[] servicesPerformed;// Выполненные услуги
+    private String datePerformed;// Дата выполнения исследования. формат
+				 // "yyyy-mm-dd"
+    private Patient patient; // Пациент
+    private String dateTimeModified;// Дата модификации. формат
+				    // "yyyy-mm-dd hh:mm:ss"
+    private String dateTimeRemoved;// Дата удаления. формат
+				   // "yyyy-mm-dd hh:mm:ss"
+    private String modality;// модальность
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+	return id;
+    }
 
-	public String getDirectionId() {
-		return directionId;
-	}
+    public void setId(Long id) {
+	this.id = id;
+    }
 
-	public void setDirectionId(String directionId) {
-		this.directionId = directionId;
-	}
+    public String getDirectionId() {
+	return directionId;
+    }
 
-	public Employee getDoctorDirect() {
-		return doctorDirect;
-	}
+    public void setDirectionId(String directionId) {
+	this.directionId = directionId;
+    }
 
-	public void setDoctorDirect(Employee doctorDirect) {
-		this.doctorDirect = doctorDirect;
-	}
+    public Employee getDoctorDirect() {
+	return doctorDirect;
+    }
 
-	public Diagnosis[] getDiagnosisDirect() {
-		return diagnosisDirect;
-	}
+    public void setDoctorDirect(Employee doctorDirect) {
+	this.doctorDirect = doctorDirect;
+    }
 
-	public void setDiagnosisDirect(Diagnosis[] diagnosisDirect) {
-		this.diagnosisDirect = diagnosisDirect;
-	}
+    public Diagnosis[] getDiagnosisDirect() {
+	return diagnosisDirect;
+    }
 
-	public Service[] getServicesDirect() {
-		return servicesDirect;
-	}
+    public void setDiagnosisDirect(Diagnosis[] diagnosisDirect) {
+	this.diagnosisDirect = diagnosisDirect;
+    }
 
-	public void setServicesDirect(Service[] servicesDirect) {
-		this.servicesDirect = servicesDirect;
-	}
+    public Service[] getServicesDirect() {
+	return servicesDirect;
+    }
 
-	public String getDateDirection() {
-		return dateDirection;
-	}
+    public void setServicesDirect(Service[] servicesDirect) {
+	this.servicesDirect = servicesDirect;
+    }
 
-	public void setDateDirection(String dateDirection) {
-		this.dateDirection = dateDirection;
-	}
+    public String getDateDirection() {
+	return dateDirection;
+    }
 
-	public ManufacturerDevice getDevice() {
-		return device;
-	}
+    public void setDateDirection(String dateDirection) {
+	this.dateDirection = dateDirection;
+    }
 
-	public void setDevice(ManufacturerDevice device) {
-		this.device = device;
-	}
+    public ManufacturerDevice getDevice() {
+	return device;
+    }
 
-	public String getDateTimePlanned() {
-		return dateTimePlanned;
-	}
+    public void setDevice(ManufacturerDevice device) {
+	this.device = device;
+    }
 
-	public void setDateTimePlanned(String datePlanned) {
-		this.dateTimePlanned = datePlanned;
-	}
+    public String getDateTimePlanned() {
+	return dateTimePlanned;
+    }
 
-	public Employee getDoctorPerformed() {
-		return doctorPerformed;
-	}
+    public void setDateTimePlanned(String datePlanned) {
+	this.dateTimePlanned = datePlanned;
+    }
 
-	public void setDoctorPerformed(Employee doctorPerformed) {
-		this.doctorPerformed = doctorPerformed;
-	}
+    public Employee getDoctorPerformed() {
+	return doctorPerformed;
+    }
 
-	public String getDirectionCode() {
-		return directionCode;
-	}
+    public void setDoctorPerformed(Employee doctorPerformed) {
+	this.doctorPerformed = doctorPerformed;
+    }
 
-	public void setDirectionCode(String directionCode) {
-		this.directionCode = directionCode;
-	}
+    public String getDirectionCode() {
+	return directionCode;
+    }
 
-	public String getDirectionLocation() {
-		return directionLocation;
-	}
+    public void setDirectionCode(String directionCode) {
+	this.directionCode = directionCode;
+    }
 
-	public void setDirectionLocation(String directionLocation) {
-		this.directionLocation = directionLocation;
-	}
+    public String getDirectionLocation() {
+	return directionLocation;
+    }
 
-	public Diagnosis[] getDiagnosisPerformed() {
-		return diagnosisPerformed;
-	}
+    public void setDirectionLocation(String directionLocation) {
+	this.directionLocation = directionLocation;
+    }
 
-	public void setDiagnosisPerformed(Diagnosis[] diagnosisPerformed) {
-		this.diagnosisPerformed = diagnosisPerformed;
-	}
+    public Diagnosis[] getDiagnosisPerformed() {
+	return diagnosisPerformed;
+    }
 
-	public Service[] getServicesPerformed() {
-		return servicesPerformed;
-	}
+    public void setDiagnosisPerformed(Diagnosis[] diagnosisPerformed) {
+	this.diagnosisPerformed = diagnosisPerformed;
+    }
 
-	public void setServicesPerformed(Service[] servicesPerformed) {
-		this.servicesPerformed = servicesPerformed;
-	}
+    public Service[] getServicesPerformed() {
+	return servicesPerformed;
+    }
 
-	public String getDatePerformed() {
-		return datePerformed;
-	}
+    public void setServicesPerformed(Service[] servicesPerformed) {
+	this.servicesPerformed = servicesPerformed;
+    }
 
-	public void setDatePerformed(String datePerformed) {
-		this.datePerformed = datePerformed;
-	}
+    public String getDatePerformed() {
+	return datePerformed;
+    }
 
-	public Patient getPatient() {
-		return patient;
-	}
+    public void setDatePerformed(String datePerformed) {
+	this.datePerformed = datePerformed;
+    }
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
+    public Patient getPatient() {
+	return patient;
+    }
 
-	public String getDateTimeModified() {
-		return dateTimeModified;
-	}
+    public void setPatient(Patient patient) {
+	this.patient = patient;
+    }
 
-	public void setDateTimeModified(String dateTimeModified) {
-		this.dateTimeModified = dateTimeModified;
-	}
+    public String getDateTimeModified() {
+	return dateTimeModified;
+    }
 
-	public String getDateTimeRemoved() {
-		return dateTimeRemoved;
-	}
+    public void setDateTimeModified(String dateTimeModified) {
+	this.dateTimeModified = dateTimeModified;
+    }
 
-	public void setDateTimeRemoved(String dateTimeRemoved) {
-		this.dateTimeRemoved = dateTimeRemoved;
-	}
+    public String getDateTimeRemoved() {
+	return dateTimeRemoved;
+    }
 
-	/**
-	 * Проверка всех полей.
-	 */
-	public void chechEntity() {
-		String field = null;
-		try {
-			if (dateDirection != null) {
-				field = "dateDirection";
-				ORMUtil.dateSQLToUtilDate(dateDirection);
-			}
-			if (datePerformed != null) {
-				field = "datePerformed";
-				ORMUtil.dateSQLToUtilDate(datePerformed);
-			}
-			if (dateTimePlanned != null) {
-				field = "dateTimePlanned";
-				ORMUtil.dateTimeSQLToUtilDate(dateTimePlanned);
-			}
-			if (dateTimeModified != null) {
-				field = "dateTimeModified";
-				ORMUtil.dateTimeSQLToUtilDate(dateTimeModified);
-			}
-			if (dateTimeRemoved != null) {
-				field = "dateTimeRemoved";
-				ORMUtil.dateTimeSQLToUtilDate(dateTimeRemoved);
-			}
+    public void setDateTimeRemoved(String dateTimeRemoved) {
+	this.dateTimeRemoved = dateTimeRemoved;
+    }
 
-			field = "patient";
-			if (patient != null)
-				patient.chechEntity();
-			
-			field = "doctorDirect";
-			if (doctorDirect != null)
-				doctorDirect.chechEntity();
-			
-			field = "doctorPerformed";
-			if (doctorPerformed != null)
-				doctorPerformed.chechEntity();
-			
-			field = "diagnosisDirect";
-			if (diagnosisDirect != null)
-				for (Diagnosis dia : diagnosisDirect) {
-					dia.chechEntity();
-				}
-			field = "diagnosisPerformed";
-			if (diagnosisPerformed != null)
-				for (Diagnosis dia : diagnosisPerformed) {
-					dia.chechEntity();
-				}
+    public String getModality() {
+	return modality;
+    }
 
+    public void setModality(String modality) {
+	this.modality = modality;
+    }
 
-		} catch (IllegalArgumentException ex) {
-			throw new IllegalArgumentException("Direction field " + field + " "
-					+ ex.getMessage() + ex.getMessage(), ex);
+    /**
+     * Проверка всех полей.
+     */
+    public void chechEntity() {
+	String field = null;
+	try {
+	    if (dateDirection != null) {
+		field = "dateDirection";
+		ORMUtil.dateSQLToUtilDate(dateDirection);
+	    }
+	    if (datePerformed != null) {
+		field = "datePerformed";
+		ORMUtil.dateSQLToUtilDate(datePerformed);
+	    }
+	    if (dateTimePlanned != null) {
+		field = "dateTimePlanned";
+		ORMUtil.dateTimeSQLToUtilDate(dateTimePlanned);
+	    }
+	    if (dateTimeModified != null) {
+		field = "dateTimeModified";
+		ORMUtil.dateTimeSQLToUtilDate(dateTimeModified);
+	    }
+	    if (dateTimeRemoved != null) {
+		field = "dateTimeRemoved";
+		ORMUtil.dateTimeSQLToUtilDate(dateTimeRemoved);
+	    }
+
+	    field = "patient";
+	    if (patient != null)
+		patient.chechEntity();
+
+	    field = "doctorDirect";
+	    if (doctorDirect != null)
+		doctorDirect.chechEntity();
+
+	    field = "doctorPerformed";
+	    if (doctorPerformed != null)
+		doctorPerformed.chechEntity();
+
+	    field = "diagnosisDirect";
+	    if (diagnosisDirect != null)
+		for (Diagnosis dia : diagnosisDirect) {
+		    dia.chechEntity();
 		}
-		
+	    field = "diagnosisPerformed";
+	    if (diagnosisPerformed != null)
+		for (Diagnosis dia : diagnosisPerformed) {
+		    dia.chechEntity();
+		}
+
+	    field = "modality";
+	    if(modality==null)
+		throw new IllegalArgumentException("Set direction modality! ");
 			
-	
+	    if (device != null && modality != null && !modality.equals(device.getModality())) {
+		throw new IllegalArgumentException("Direction modality ["+modality+"] != Device modality ["+device.getModality()+"] ");
+	    }
+	    
 
+	} catch (IllegalArgumentException ex) {
+	    throw new IllegalArgumentException("Direction field " + field + " " + ex.getMessage() + ex.getMessage(), ex);
 	}
 
-	@Override
-	public String toString() {
-		return "Direction [id=" + id + ", directionId=" + directionId
-				+ ", dateDirection=" + dateDirection + ", directionCode="
-				+ directionCode + ", patient=" + patient + ", datePerformed="
-				+ datePerformed + ", datePlanned=" + dateTimePlanned + ", device="
-				+ device + ", directionLocation=" + directionLocation
-				+ ", doctorDirect=" + doctorDirect + ", diagnosisDirect="
-				+ Arrays.toString(diagnosisDirect) + ", servicesDirect="
-				+ Arrays.toString(servicesDirect) + ", doctorPerformed="
-				+ doctorPerformed + ", diagnosisPerformed="
-				+ Arrays.toString(diagnosisPerformed) + ", servicesPerformed="
-				+ Arrays.toString(servicesPerformed) + ", dateTimeModified="
-				+ dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved
-				+ "]";
-	}
+    }
+
+    @Override
+    public String toString() {
+	return "Direction [id=" + id + ", directionId=" + directionId + ", doctorDirect=" + doctorDirect
+		+ ", diagnosisDirect=" + Arrays.toString(diagnosisDirect) + ", servicesDirect="
+		+ Arrays.toString(servicesDirect) + ", dateDirection=" + dateDirection + ", device=" + device
+		+ ", dateTimePlanned=" + dateTimePlanned + ", doctorPerformed=" + doctorPerformed + ", directionCode="
+		+ directionCode + ", directionLocation=" + directionLocation + ", diagnosisPerformed="
+		+ Arrays.toString(diagnosisPerformed) + ", servicesPerformed=" + Arrays.toString(servicesPerformed)
+		+ ", datePerformed=" + datePerformed + ", patient=" + patient + ", dateTimeModified="
+		+ dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved + ", modality=" + modality + "]";
+    }
 
 }

@@ -108,6 +108,8 @@ public class PersistentManagerDerbyTest extends TestCase {
 		device.setModality("ES");
 		device.setManufacturerModelTypeDescription("Эндоскоп");
 		drn.setDevice(device);
+		
+		drn.setModality("ES");
 
 		ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
 
@@ -360,10 +362,10 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 			Direction drnOriginal = getNewOriginalDirection();
+			
 			long id = pm.pesistentDirection(drnOriginal);
 
 			Direction drn = pm.getDirectionByID(id);
-
 			// Проверка обновления направления
 			ArrayList<Diagnosis> diagnosisDirect = new ArrayList<Diagnosis>();
 			Diagnosis dia = new Diagnosis();
