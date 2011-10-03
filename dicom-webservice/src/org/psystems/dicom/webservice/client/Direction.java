@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="doctorDirect" type="{http://webservice.dicom.psystems.org/}employee" minOccurs="0"/>
  *         &lt;element name="doctorPerformed" type="{http://webservice.dicom.psystems.org/}employee" minOccurs="0"/>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
+ *         &lt;element name="modality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patient" type="{http://webservice.dicom.psystems.org/}patient" minOccurs="0"/>
  *         &lt;element name="servicesDirect" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="servicesPerformed" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
@@ -60,6 +61,7 @@ import javax.xml.bind.annotation.XmlType;
     "doctorDirect",
     "doctorPerformed",
     "id",
+    "modality",
     "patient",
     "servicesDirect",
     "servicesPerformed"
@@ -82,6 +84,7 @@ public class Direction {
     protected Employee doctorDirect;
     protected Employee doctorPerformed;
     protected Long id;
+    protected String modality;
     protected Patient patient;
     @XmlElement(nillable = true)
     protected List<Service> servicesDirect;
@@ -432,6 +435,30 @@ public class Direction {
      */
     public void setId(Long value) {
         this.id = value;
+    }
+
+    /**
+     * Gets the value of the modality property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getModality() {
+        return modality;
+    }
+
+    /**
+     * Sets the value of the modality property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setModality(String value) {
+        this.modality = value;
     }
 
     /**

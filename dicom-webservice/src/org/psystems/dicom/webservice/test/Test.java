@@ -2,7 +2,9 @@ package org.psystems.dicom.webservice.test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +13,19 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 
+
+import org.psystems.dicom.webservice.client.Diagnosis;
 import org.psystems.dicom.webservice.client.DicomService;
 import org.psystems.dicom.webservice.client.DicomServiceService;
 import org.psystems.dicom.webservice.client.Direction;
+import org.psystems.dicom.webservice.client.Employee;
+import org.psystems.dicom.webservice.client.ManufacturerDevice;
+import org.psystems.dicom.webservice.client.Patient;
 import org.psystems.dicom.webservice.client.QueryDirection;
 import org.psystems.dicom.webservice.client.QueryDirectionReq;
 import org.psystems.dicom.webservice.client.QueryStudy;
 import org.psystems.dicom.webservice.client.QueryStudyReq;
+import org.psystems.dicom.webservice.client.Service;
 import org.psystems.dicom.webservice.client.Study;
 
 public class Test {
@@ -27,6 +35,7 @@ public class Test {
 
 	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
 //	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
+//	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -61,10 +70,10 @@ public class Test {
 		req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
 		/**********************************************************************/
 
-		queryStudy();
-		qetDirrection();
-		queryDirrection();
-		// makeDirection();
+//		queryStudy();
+//		qetDirrection();
+//		queryDirrection();
+		 makeDirection();
 	}
 
 	
@@ -111,7 +120,73 @@ public class Test {
 	}
 
 	private static void makeDirection() {
-		// port.ma
+	
+		System.out.println("makeDirrection...");
+		
+		Employee doctor = new Employee();
+		doctor.setEmployeeName("Врач doctor1");
+		doctor.setEmployeeType("DOCTOR");
+		doctor.setEmployeeCode("123");
+		
+		
+
+		//
+		ArrayList<Diagnosis> diagnosis = new ArrayList<Diagnosis>();
+		
+		Diagnosis dia1 = new Diagnosis();
+		dia1.setDiagnosisCode("Z01");
+		dia1.setDiagnosisType("ОСНОВНОЙ");
+		dia1.setDiagnosisDescription("Диагноз1");
+		
+		diagnosis.add(dia1);
+		
+		Diagnosis dia2 = new Diagnosis();
+		dia2.setDiagnosisCode("Z02");
+		dia2.setDiagnosisDescription("Диагноз2");
+		
+		diagnosis.add(dia2);
+
+		//
+		
+		//
+		
+		ArrayList<Service> services = new ArrayList<Service>();
+		
+		Service service1 = new Service();
+		service1.setServiceCode("code1");
+		service1.setServiceDescription("Описание1");
+		service1.setServiceCount(10);
+		services.add(service1);
+		
+		Service service2 = new Service();
+		service2.setServiceCode("code2");
+		service2.setServiceDescription("Описание2");
+		services.add(service2);
+		
+		//
+		ManufacturerDevice device = new ManufacturerDevice();
+		device.setModality("DF");
+		device.setManufacturerModelName("Рентген");
+		
+
+		//
+		Patient patient = new Patient();
+		patient.setPatientName("Деренок Дмитрий Владимирович");
+		patient.setPatientId("PATID1234");
+		patient.setPatientSex("M");
+		patient.setPatientBirthDate("1974-03-01");
+		patient.setPatientShortName("ДЕРДВ74");
+		
+		
+		long id = port.makeDirection(new Date().getTime() + "", "DF", doctor, diagnosis, services,
+				"2011-09-17", device, "2011-09-18 12:00:00", "CODE123", "GP1-ROOM515", patient);
+		
+
+
+
+		System.out.println("!!!! makeDirection id:" + id);
+
+		
 	}
 
 }

@@ -37,6 +37,7 @@ public interface DicomService {
      * @param directionCode
      * @param dateTimePlanned
      * @param dateDirection
+     * @param modality
      * @return
      *     returns long
      */
@@ -47,6 +48,8 @@ public interface DicomService {
     public long makeDirection(
         @WebParam(name = "directionId", targetNamespace = "")
         String directionId,
+        @WebParam(name = "modality", targetNamespace = "")
+        String modality,
         @WebParam(name = "doctorDirect", targetNamespace = "")
         Employee doctorDirect,
         @WebParam(name = "diagnosisDirect", targetNamespace = "")
