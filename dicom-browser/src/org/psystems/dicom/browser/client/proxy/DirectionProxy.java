@@ -1,191 +1,190 @@
 package org.psystems.dicom.browser.client.proxy;
 
 import java.io.Serializable;
-
-import org.psystems.dicom.browser.client.component.Utils;
+import java.util.Arrays;
 
 public class DirectionProxy implements Serializable {
 
-	private static final long serialVersionUID = 2203407311209901623L;
+    private static final long serialVersionUID = 2203407311209901623L;
 
-	private Long id; // Внутренний ID
-	private String directionId; // штрих код
-	private EmployeeProxy doctorDirect;// Направивший врач
-	private DiagnosisProxy[] diagnosisDirect;// Диагнозы при направлении
-	private ServiceProxy[] servicesDirect;// Услуги при направлении
-	private String dateDirection;// Дата направления. формат "yyyy-mm-dd"
-	private ManufacturerDeviceProxy device;// Аппарат
-	private String dateTimePlanned;// Планируемая дата выполнения исследования.
-									// формат "yyyy-mm-dd hh:mm:ss"
-	private EmployeeProxy doctorPerformed;// Врач выполнивший исследование
-	private String directionCode;// Идентификатор случая заболевания
-	private String directionLocation;// Кабинет
-	private DiagnosisProxy[] diagnosisPerformed;// Диагнозы после выполнения
-												// исследования
-	private ServiceProxy[] servicesPerformed;// Выполненные услуги
-	private String datePerformed;// Дата выполнения исследования. формат
-									// "yyyy-mm-dd"
-	private PatientProxy patient; // Пациент
-	private String dateTimeModified;// Дата модификации. формат
-									// "yyyy-mm-dd hh:mm:ss"
-	private String dateTimeRemoved;// Дата удаления. формат
-									// "yyyy-mm-dd hh:mm:ss"
+    private Long id; // Внутренний ID
+    private String directionId; // штрих код
+    private String modality;// модальность
+    private EmployeeProxy doctorDirect;// Направивший врач
+    private DiagnosisProxy[] diagnosisDirect;// Диагнозы при направлении
+    private ServiceProxy[] servicesDirect;// Услуги при направлении
+    private String dateDirection;// Дата направления. формат "yyyy-mm-dd"
+    private ManufacturerDeviceProxy device;// Аппарат
+    private String dateTimePlanned;// Планируемая дата выполнения исследования.
+				   // формат "yyyy-mm-dd hh:mm:ss"
+    private EmployeeProxy doctorPerformed;// Врач выполнивший исследование
+    private String directionCode;// Идентификатор случая заболевания
+    private String directionLocation;// Кабинет
+    private DiagnosisProxy[] diagnosisPerformed;// Диагнозы после выполнения
+						// исследования
+    private ServiceProxy[] servicesPerformed;// Выполненные услуги
+    private String datePerformed;// Дата выполнения исследования. формат
+				 // "yyyy-mm-dd"
+    private PatientProxy patient; // Пациент
+    private String dateTimeModified;// Дата модификации. формат
+				    // "yyyy-mm-dd hh:mm:ss"
+    private String dateTimeRemoved;// Дата удаления. формат
+				   // "yyyy-mm-dd hh:mm:ss"
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+	return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+	this.id = id;
+    }
 
-	public String getDirectionId() {
-		return directionId;
-	}
+    public String getDirectionId() {
+	return directionId;
+    }
 
-	public void setDirectionId(String directionId) {
-		this.directionId = directionId;
-	}
+    public void setDirectionId(String directionId) {
+	this.directionId = directionId;
+    }
 
-	public EmployeeProxy getDoctorDirect() {
-		return doctorDirect;
-	}
+    public String getModality() {
+	return modality;
+    }
 
-	public void setDoctorDirect(EmployeeProxy doctorDirect) {
-		this.doctorDirect = doctorDirect;
-	}
+    public void setModality(String modality) {
+	this.modality = modality;
+    }
 
-	public DiagnosisProxy[] getDiagnosisDirect() {
-		return diagnosisDirect;
-	}
+    public EmployeeProxy getDoctorDirect() {
+	return doctorDirect;
+    }
 
-	public void setDiagnosisDirect(DiagnosisProxy[] diagnosisDirect) {
-		this.diagnosisDirect = diagnosisDirect;
-	}
+    public void setDoctorDirect(EmployeeProxy doctorDirect) {
+	this.doctorDirect = doctorDirect;
+    }
 
-	public ServiceProxy[] getServicesDirect() {
-		return servicesDirect;
-	}
+    public DiagnosisProxy[] getDiagnosisDirect() {
+	return diagnosisDirect;
+    }
 
-	public void setServicesDirect(ServiceProxy[] servicesDirect) {
-		this.servicesDirect = servicesDirect;
-	}
+    public void setDiagnosisDirect(DiagnosisProxy[] diagnosisDirect) {
+	this.diagnosisDirect = diagnosisDirect;
+    }
 
-	public String getDateDirection() {
-		return dateDirection;
-	}
+    public ServiceProxy[] getServicesDirect() {
+	return servicesDirect;
+    }
 
-	public void setDateDirection(String dateDirection) {
-		this.dateDirection = dateDirection;
-	}
+    public void setServicesDirect(ServiceProxy[] servicesDirect) {
+	this.servicesDirect = servicesDirect;
+    }
 
-	public ManufacturerDeviceProxy getDevice() {
-		return device;
-	}
+    public String getDateDirection() {
+	return dateDirection;
+    }
 
-	public void setDevice(ManufacturerDeviceProxy device) {
-		this.device = device;
-	}
+    public void setDateDirection(String dateDirection) {
+	this.dateDirection = dateDirection;
+    }
 
-	public String getDateTimePlanned() {
-		return dateTimePlanned;
-	}
+    public ManufacturerDeviceProxy getDevice() {
+	return device;
+    }
 
-	public void setDateTimePlanned(String datePlanned) {
-		this.dateTimePlanned = datePlanned;
-	}
+    public void setDevice(ManufacturerDeviceProxy device) {
+	this.device = device;
+    }
 
-	public EmployeeProxy getDoctorPerformed() {
-		return doctorPerformed;
-	}
+    public String getDateTimePlanned() {
+	return dateTimePlanned;
+    }
 
-	public void setDoctorPerformed(EmployeeProxy doctorPerformed) {
-		this.doctorPerformed = doctorPerformed;
-	}
+    public void setDateTimePlanned(String datePlanned) {
+	this.dateTimePlanned = datePlanned;
+    }
 
-	public String getDirectionCode() {
-		return directionCode;
-	}
+    public EmployeeProxy getDoctorPerformed() {
+	return doctorPerformed;
+    }
 
-	public void setDirectionCode(String directionCode) {
-		this.directionCode = directionCode;
-	}
+    public void setDoctorPerformed(EmployeeProxy doctorPerformed) {
+	this.doctorPerformed = doctorPerformed;
+    }
 
-	public String getDirectionLocation() {
-		return directionLocation;
-	}
+    public String getDirectionCode() {
+	return directionCode;
+    }
 
-	public void setDirectionLocation(String directionLocation) {
-		this.directionLocation = directionLocation;
-	}
+    public void setDirectionCode(String directionCode) {
+	this.directionCode = directionCode;
+    }
 
-	public DiagnosisProxy[] getDiagnosisPerformed() {
-		return diagnosisPerformed;
-	}
+    public String getDirectionLocation() {
+	return directionLocation;
+    }
 
-	public void setDiagnosisPerformed(DiagnosisProxy[] diagnosisPerformed) {
-		this.diagnosisPerformed = diagnosisPerformed;
-	}
+    public void setDirectionLocation(String directionLocation) {
+	this.directionLocation = directionLocation;
+    }
 
-	public ServiceProxy[] getServicesPerformed() {
-		return servicesPerformed;
-	}
+    public DiagnosisProxy[] getDiagnosisPerformed() {
+	return diagnosisPerformed;
+    }
 
-	public void setServicesPerformed(ServiceProxy[] servicesPerformed) {
-		this.servicesPerformed = servicesPerformed;
-	}
+    public void setDiagnosisPerformed(DiagnosisProxy[] diagnosisPerformed) {
+	this.diagnosisPerformed = diagnosisPerformed;
+    }
 
-	public String getDatePerformed() {
-		return datePerformed;
-	}
+    public ServiceProxy[] getServicesPerformed() {
+	return servicesPerformed;
+    }
 
-	public void setDatePerformed(String datePerformed) {
-		this.datePerformed = datePerformed;
-	}
+    public void setServicesPerformed(ServiceProxy[] servicesPerformed) {
+	this.servicesPerformed = servicesPerformed;
+    }
 
-	public PatientProxy getPatient() {
-		return patient;
-	}
+    public String getDatePerformed() {
+	return datePerformed;
+    }
 
-	public void setPatient(PatientProxy patient) {
-		this.patient = patient;
-	}
+    public void setDatePerformed(String datePerformed) {
+	this.datePerformed = datePerformed;
+    }
 
-	public String getDateTimeModified() {
-		return dateTimeModified;
-	}
+    public PatientProxy getPatient() {
+	return patient;
+    }
 
-	public void setDateTimeModified(String dateTimeModified) {
-		this.dateTimeModified = dateTimeModified;
-	}
+    public void setPatient(PatientProxy patient) {
+	this.patient = patient;
+    }
 
-	public String getDateTimeRemoved() {
-		return dateTimeRemoved;
-	}
+    public String getDateTimeModified() {
+	return dateTimeModified;
+    }
 
-	public void setDateTimeRemoved(String dateTimeRemoved) {
-		this.dateTimeRemoved = dateTimeRemoved;
-	}
+    public void setDateTimeModified(String dateTimeModified) {
+	this.dateTimeModified = dateTimeModified;
+    }
 
-	@Override
-	public String toString() {
-		return "DirectionProxy [id=" + id + ", directionId=" + directionId
-				+ ", dateDirection=" + dateDirection + ", directionCode="
-				+ directionCode + ", patient=" + patient + ", datePerformed="
-				+ datePerformed + ", datePlanned=" + dateTimePlanned
-				+ ", device=" + device + ", directionLocation="
-				+ directionLocation + ", doctorDirect=" + doctorDirect
-				+ ", diagnosisDirect="
-				+ Utils.collectionToString(diagnosisDirect)
-				+ ", servicesDirect="
-				+ Utils.collectionToString(servicesDirect)
-				+ ", doctorPerformed=" + doctorPerformed
-				+ ", diagnosisPerformed="
-				+ Utils.collectionToString(diagnosisPerformed)
-				+ ", servicesPerformed="
-				+ Utils.collectionToString(servicesPerformed)
-				+ ", dateTimeModified=" + dateTimeModified
-				+ ", dateTimeRemoved=" + dateTimeRemoved + "]";
-	}
+    public String getDateTimeRemoved() {
+	return dateTimeRemoved;
+    }
+
+    public void setDateTimeRemoved(String dateTimeRemoved) {
+	this.dateTimeRemoved = dateTimeRemoved;
+    }
+
+    @Override
+    public String toString() {
+	return "DirectionProxy [id=" + id + ", directionId=" + directionId + ", modality=" + modality
+		+ ", doctorDirect=" + doctorDirect + ", diagnosisDirect=" + Arrays.toString(diagnosisDirect)
+		+ ", servicesDirect=" + Arrays.toString(servicesDirect) + ", dateDirection=" + dateDirection
+		+ ", device=" + device + ", dateTimePlanned=" + dateTimePlanned + ", doctorPerformed="
+		+ doctorPerformed + ", directionCode=" + directionCode + ", directionLocation=" + directionLocation
+		+ ", diagnosisPerformed=" + Arrays.toString(diagnosisPerformed) + ", servicesPerformed="
+		+ Arrays.toString(servicesPerformed) + ", datePerformed=" + datePerformed + ", patient=" + patient
+		+ ", dateTimeModified=" + dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved + "]";
+    }
 
 }

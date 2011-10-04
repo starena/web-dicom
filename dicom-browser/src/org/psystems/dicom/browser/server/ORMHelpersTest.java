@@ -197,6 +197,7 @@ public class ORMHelpersTest extends TestCase {
     public void testGetDirectionProxy() {
 
 	Direction drn = new Direction();
+	drn.setModality("DF");
 	drn.setDateDirection("2011-06-24");
 	drn.setDatePerformed("2011-06-25");
 	drn.setDateTimeModified("2011-06-25 12:00:00");
@@ -321,6 +322,7 @@ public class ORMHelpersTest extends TestCase {
 
 	DirectionProxy proxy = ORMHelpers.getDirectionProxy(drn);
 
+	assertEquals(drn.getModality(), proxy.getModality());
 	assertEquals(drn.getDateDirection(), proxy.getDateDirection());
 	assertEquals(drn.getDatePerformed(), proxy.getDatePerformed());
 	assertEquals(drn.getDateTimeModified(), proxy.getDateTimeModified());
@@ -425,6 +427,7 @@ public class ORMHelpersTest extends TestCase {
     public void testGetDirection() {
 
 	DirectionProxy proxy = new DirectionProxy();
+	proxy.setModality("ES");
 	proxy.setDateDirection("2011-06-24");
 	proxy.setDatePerformed("2011-06-25");
 	proxy.setDateTimeModified("2011-06-25 12:00:00");
@@ -551,7 +554,7 @@ public class ORMHelpersTest extends TestCase {
 	
 	
 	Direction drn = ORMHelpers.getDirection(proxy);
-
+	assertEquals(drn.getModality(), proxy.getModality());
 	assertEquals(drn.getDateDirection(), proxy.getDateDirection());
 	assertEquals(drn.getDatePerformed(), proxy.getDatePerformed());
 	assertEquals(drn.getDateTimeModified(), proxy.getDateTimeModified());
