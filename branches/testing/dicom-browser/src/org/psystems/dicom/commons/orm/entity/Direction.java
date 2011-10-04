@@ -236,7 +236,7 @@ public class Direction implements Serializable {
 	    if(modality==null)
 		throw new IllegalArgumentException("Set direction modality! ");
 			
-	    if (device != null && modality != null && !modality.equals(device.getModality())) {
+	    if (device != null && device.getManufacturerModelName() !=null && modality != null && !modality.equals(device.getModality())) {
 		throw new IllegalArgumentException("Direction modality ["+modality+"] != Device modality ["+device.getModality()+"] ");
 	    }
 	    
