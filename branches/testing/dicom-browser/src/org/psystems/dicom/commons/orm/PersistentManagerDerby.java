@@ -471,11 +471,15 @@ public class PersistentManagerDerby {
 	drn.setDoctorDirect(doctorDirect);
 
 	drn.setDateDirection(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_DIRECTION")));
-	ManufacturerDevice dev = new ManufacturerDevice();
-	dev.setManufacturerModelName(rs.getString("DEVICE"));
-	dev.setModality(rs.getString("DEVICE_MODALITY"));
+	
 	drn.setModality(rs.getString("DEVICE_MODALITY"));
-	drn.setDevice(dev);
+	
+	if (rs.getString("DEVICE") != null && rs.getString("DEVICE").length() > 0) {
+	    ManufacturerDevice dev = new ManufacturerDevice();
+	    dev.setManufacturerModelName(rs.getString("DEVICE"));
+	    dev.setModality(rs.getString("DEVICE_MODALITY"));
+	    drn.setDevice(dev);
+	}
 	// TODO Сделать rs.getTimestamp???
 	drn.setDateTimePlanned(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getTimestamp("DIRECTION_DATE_PLANNED")));
 
