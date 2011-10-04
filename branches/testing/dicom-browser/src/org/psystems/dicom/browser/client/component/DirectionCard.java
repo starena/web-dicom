@@ -139,7 +139,8 @@ Resources resources = GWT.create(Resources.class);
 	int row = 0;
 
 	// Направление
-	makeField(ftEdit, row, 0, "Направление:", new Label(drnProxy.getDirectionId() + "(" + drnProxy.getId() + ")"));
+	makeField(ftEdit, row, 0, "Направление:", new Label(drnProxy.getDirectionId() + "(" + drnProxy.getId() + ")["+
+		drnProxy.getModality()+"]"));
 
 	// Аппарат
 	final DicSuggestBox deviceDirrectedBox = new DicSuggestBox("devices");

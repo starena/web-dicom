@@ -285,6 +285,7 @@ public class ORMHelpers {
 	    return null;
 
 	DirectionProxy proxy = new DirectionProxy();
+	proxy.setModality(d.getModality());
 	proxy.setDateDirection(d.getDateDirection());
 	proxy.setDatePerformed(d.getDatePerformed());
 	proxy.setDateTimeModified(d.getDateTimeModified());
@@ -344,6 +345,7 @@ public class ORMHelpers {
 	    return null;
 
 	Direction drn = new Direction();
+	drn.setModality(proxy.getModality());
 	drn.setDateDirection(proxy.getDateDirection());
 	drn.setDatePerformed(proxy.getDatePerformed());
 	drn.setDateTimeModified(proxy.getDateTimeModified());
