@@ -488,7 +488,7 @@ Resources resources = GWT.create(Resources.class);
 		proxy.setStudyId(drnProxy.getDirectionId());
 		proxy.setDirection(drnProxy);
 		//
-		String manufacturerModelName = "НЕТ В НАПРАВЛЕНИИ";
+		String manufacturerModelName = null;
 		if (drnProxy.getDevice() != null && drnProxy.getDevice().getManufacturerModelName() != null)
 		    manufacturerModelName = drnProxy.getDevice().getManufacturerModelName();
 

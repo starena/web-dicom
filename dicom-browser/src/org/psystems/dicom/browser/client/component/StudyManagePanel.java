@@ -243,7 +243,15 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	Hidden modality = new Hidden();
 	modality.setName("00080060");
 	// modality.setValue(proxy.getStudyModality());
-	modality.setValue(lbModality.getValue(lbModality.getSelectedIndex()));
+	
+	//TODO Коряво... нужно сделать через задание свойств у прокси.
+	if(lbModality!=null) {
+	    modality.setValue(lbModality.getValue(lbModality.getSelectedIndex()));
+	} else if(proxy.getStudyModality()!=null) {
+	    modality.setValue(proxy.getStudyModality());
+	} else if(proxy.getDirection()!=null && proxy.getDirection().getModality()!=null) {
+	    modality.setValue(proxy.getDirection().getModality());
+	}
 	formDataPanel.add(modality);
 
 	Hidden studyDateHidden = new Hidden();
@@ -326,16 +334,20 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
     /**
      * Установка значений контролов по модальности
+     * TODO Костыль! убрать!
      */
     private void setModalityControls() {
+	
+	if(lbModality==null) return;
+	
 	String modality = null;
 	// По умолчанию ставим "прочее"
 	lbModality.setSelectedIndex(0);
 
 	if (proxy.getStudyModality() != null) {
 	    modality = proxy.getStudyModality();
-	} else if (proxy.getDirection() != null && proxy.getDirection().getDevice() != null)
-	    modality = proxy.getDirection().getDevice().getModality();
+	} else if (proxy.getDirection() != null && proxy.getDirection().getModality() != null)
+	    modality = proxy.getDirection().getModality();
 
 	for (int i = 0; i < lbModality.getItemCount(); i++) {
 	    if (lbModality.getValue(i).equalsIgnoreCase(modality))
@@ -480,7 +492,8 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// Аппарат
 	// *********************************************************************************
 
-	if (proxy.getDirection() != null) {
+	if (proxy.getDirection() != null && proxy.getDirection().getDevice()!=null) {
+//	    System.out.println("!! proxy.getDirection().getDevice()"+proxy.getDirection().getDevice());
 	    addFormRow(rowCounter++, "Направлен на аппарт", new Label(proxy.getDirection().getDevice()
 		    .getManufacturerModelName()));
 	} else {
@@ -523,16 +536,20 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 
 	// Модальность
 
-	lbModality = new ListBox();
-	for (Iterator<String> iter = dicModalityKeys.iterator(); iter.hasNext();) {
-	    String key = iter.next();
-	    lbModality.addItem(dicModality.get(key) + " (" + key + ")", key);
+	if (proxy.getDirection() != null && proxy.getDirection().getModality() != null) {
+	    addFormRow(rowCounter++, "Модальность", new Label(proxy.getDirection().getModality()));
+	} else {
+	    lbModality = new ListBox();
+	    for (Iterator<String> iter = dicModalityKeys.iterator(); iter.hasNext();) {
+		String key = iter.next();
+		lbModality.addItem(dicModality.get(key) + " (" + key + ")", key);
+	    }
+
+	    // labelModality = new Label("");
+	    setModalityControls();
+
+	    addFormRow(rowCounter++, "Модальность", lbModality);
 	}
-
-	// labelModality = new Label("");
-	setModalityControls();
-
-	addFormRow(rowCounter++, "Модальность", lbModality);
 
 	// *********************************************************************************
 	// Дата исследования

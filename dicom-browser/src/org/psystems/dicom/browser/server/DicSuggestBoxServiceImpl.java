@@ -84,6 +84,113 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DicSuggestBoxServiceImpl.class.getName());
+    
+    private static ArrayList<ManufacturerDeviceProxy> devices = new ArrayList<ManufacturerDeviceProxy>();
+    
+    {
+	ManufacturerDeviceProxy proxy = null;
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("RENEXFLUORO3");
+	proxy.setManufacturerModelDescription("RENEXFLUORO3");
+	proxy.setModality("CR");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("КРТ-Электрон");
+	proxy.setManufacturerModelDescription("КРТ-Электрон");
+	proxy.setModality("CR");
+	devices.add(proxy);
+	
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("CLINOMAT");
+	proxy.setManufacturerModelDescription("Рентген (CLINOMAT)");
+	proxy.setModality("DF");
+	devices.add(proxy);
+	
+	
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("РДК 50/6");
+	proxy.setManufacturerModelDescription("Рентген (РДК 50/6)");
+	proxy.setModality("DF");
+	devices.add(proxy);
+	
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("DUODiagnost");
+	proxy.setManufacturerModelDescription("Рентген (DUODiagnost)");
+	proxy.setModality("DF");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("SonoScape-1");
+	proxy.setManufacturerModelDescription("УЗИ-1 (SonoScape) ДП 523 каб.");
+	proxy.setModality("US");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("SonoScape-2");
+	proxy.setManufacturerModelDescription("УЗИ-2 (SonoScape)");
+	proxy.setModality("US");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("SonoScape-3");
+	proxy.setManufacturerModelDescription("УЗИ-3 (SonoScape)");
+	proxy.setModality("US");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("VIVID 3");
+	proxy.setManufacturerModelDescription("УЗИ (VIVID) ДП 527 каб.");
+	proxy.setModality("US");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("VOLUSON 730 BT04 EXPERT");
+	proxy.setManufacturerModelDescription("УЗИ (VOLUSON)");
+	proxy.setModality("US");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("Acuson Sequoia");
+	proxy.setManufacturerModelDescription("УЗИ (Acuson Sequoia) каб.408");
+	proxy.setModality("US");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("LORAD AFFINITY");
+	proxy.setManufacturerModelDescription("Маммограф (LORAD AFFINITY)");
+	proxy.setModality("MG");
+	devices.add(proxy);
+	
+	proxy = new ManufacturerDeviceProxy();
+	proxy.setManufacturerModelName("FUJINON EG WR5");
+	proxy.setManufacturerModelDescription("Эндоскоп (FUJINON EG WR5)");
+	proxy.setModality("ES");
+	devices.add(proxy);
+	
+//
+//
+//	// TODO Уточнить имена и кабинеты
+//	lbManufacturerModelName.addItem("SSI-1000");
+//	lbManufacturerModelName.addItem("Эхоэнцефалоскоп-ЭЭС-25-ЭМА");
+//	lbManufacturerModelName.addItem("Электроэнцефалограф-Alliance");
+//	lbManufacturerModelName.addItem("Companion III");
+//	lbManufacturerModelName.addItem("Microvit");
+//	lbManufacturerModelName.addItem("СМАД, Schiller AG");
+//	lbManufacturerModelName.addItem("ЭКГ-Schiller Medical S.A.");
+//	lbManufacturerModelName.addItem("ЭКГ-Cardiovit AT-2 plus C");
+//	lbManufacturerModelName.addItem("Велоэргометрия-АТ- 104 Schiller");
+//	lbManufacturerModelName.addItem("Voluson 730 Expert");
+//	lbManufacturerModelName.addItem("SSD-3500");
+//	lbManufacturerModelName.addItem("Спирометр-Spirovit SP-1");
+//	lbManufacturerModelName.addItem("Спиро-Спектр 2");
+//
+//	lbManufacturerModelName.addItem("Aloka alfa");
+    }
 
     public SuggestTransactedResponse getSuggestions(long transactionId, String version, String dicName,
 	    SuggestOracle.Request req) throws DefaultGWTRPCException {
@@ -266,18 +373,25 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 		// }
 	    } else if (dicName.equals("devices")) {
 
-		for (int i = 0; i < 10; i++) {
-		    ManufacturerDeviceProxy proxy = new ManufacturerDeviceProxy();
-		    proxy.setManufacturerModelName(req.getQuery().toUpperCase() + i);
-		    proxy.setManufacturerModelDescription("Аппарат №" + i);
-		    proxy.setManufacturerModelTypeDescription("для медицинских исследований");
-		    proxy.setModality("CR");
-
+		for (ManufacturerDeviceProxy proxy : devices) {
 		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getManufacturerModelName() + "...", proxy
 			    .getManufacturerModelName().toUpperCase());
 		    item.setEvent(proxy);
 		    suggestions.add(item);
 		}
+//		for (int i = 0; i < 10; i++) {
+//		    ManufacturerDeviceProxy proxy = new ManufacturerDeviceProxy();
+//		    proxy.setManufacturerModelName(req.getQuery().toUpperCase() + i);
+//		    proxy.setManufacturerModelDescription("Аппарат №" + i);
+//		    proxy.setManufacturerModelTypeDescription("для медицинских исследований");
+//		    proxy.setModality("CR");
+//
+//		    ItemSuggestion item = new ItemSuggestion("ищем " + proxy.getManufacturerModelName() + "...", proxy
+//			    .getManufacturerModelName().toUpperCase());
+//		    item.setEvent(proxy);
+//		    suggestions.add(item);
+//		}
+		
 	    } else if (dicName.equals("patients")) {
 
 		for (int i = 0; i < 10; i++) {
