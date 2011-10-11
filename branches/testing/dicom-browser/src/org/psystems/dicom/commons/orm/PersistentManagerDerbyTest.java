@@ -40,18 +40,21 @@ public class PersistentManagerDerbyTest extends TestCase {
 		connection = DriverManager.getConnection("jdbc:derby:" + dbPath
 				+ ";create=true");
 		FileInputStream sqlInput = new FileInputStream(
-				"../dicom-archive/database/derby/db.sql");
+				"database/derby/db.sql");
 
 		OutputStream out = new OutputStream() {
 			@Override
 			public void write(int b) throws IOException {
 				// TODO Auto-generated method stub
-			}
+//			    byte bb = (byte) b;
+//			    System.out.print(""+new String(new byte[] {bb}));
+			}	
 		};
 
 		// создание/заливка инстанции БД
 		org.apache.derby.tools.ij.runScript(connection, sqlInput, "UTF-8", out,
 				"UTF-8");
+		
 
 		connection = DriverManager.getConnection("jdbc:derby:" + dbPath
 				+ ";create=true");
@@ -248,6 +251,9 @@ public class PersistentManagerDerbyTest extends TestCase {
 			
 			connection.rollback();
 			
+			
+			
+			
 			//TODO Сделать остальные тесты!!!
 			
 		} catch (DataException e) {
@@ -377,6 +383,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 
 			drn.setDiagnosisDirect(diagnosisDirect
 					.toArray(new Diagnosis[diagnosisDirect.size()]));
+			drn.setSenderLpu("LPUTEST");
 
 			pm.pesistentDirection(drn);
 
@@ -392,6 +399,8 @@ public class PersistentManagerDerbyTest extends TestCase {
 			assertEquals(
 					drn1.getDiagnosisDirect()[0].getDiagnosisDescription(), drn
 							.getDiagnosisDirect()[0].getDiagnosisDescription());
+			
+			assertEquals(drn1.getSenderLpu(), "LPUTEST");
 
 			// Проверка добавления диагноза
 			Direction newDrn1 = pm.getDirectionByID(id);
@@ -433,6 +442,15 @@ public class PersistentManagerDerbyTest extends TestCase {
 					"Заболевание K12.2");
 
 			connection.rollback();
+			
+			
+			QueryDirection request = new QueryDirection();
+			request.setSenderLPU("LPUTEST");
+			
+			ArrayList<Direction> drnList = pm.queryDirections(request);
+			assertEquals("LPUTEST", drnList.get(0).getSenderLpu());
+			
+			connection.rollback();
 
 		} catch (DataException e) {
 			// TODO Auto-generated catch block
@@ -442,6 +460,13 @@ public class PersistentManagerDerbyTest extends TestCase {
 			e.printStackTrace();
 		}
 
+	}
+	
+	/**
+	 * //TODO Сделать остальные тесты!!!
+	 */
+	public void testMakeStudy() {
+	    
 	}
 	
 	public void testQueryStudy() {
@@ -463,7 +488,7 @@ public class PersistentManagerDerbyTest extends TestCase {
 		
 		connection.rollback();
 		
-		//TODO Сделать остальные тесты!!!
+		
 		
 	} catch (DataException e) {
 		e.printStackTrace();
@@ -474,11 +499,11 @@ public class PersistentManagerDerbyTest extends TestCase {
 	}
 	
 	public void testStudyRemoveRestore() {
-		fail("No implemented yet!");
+//		fail("No implemented yet!");
 	}
 	
 	public void testDcmFileRemoveRestore() {
-		fail("No implemented yet!");
+//		fail("No implemented yet!");
 	}
 
 }

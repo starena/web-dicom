@@ -33,7 +33,11 @@ public class QueryStudy {
 					   // дате модификации исследования
 
     private String manufacturerModelName; // имя аппарата
-    private String studyResult;// TODO странное поле :-( new | old используется
+    private String studyResult;// Результат
+    private String studyViewProtocol;// Протокол
+    private boolean studyComplite;// Исследование выполнено
+    private boolean studyNotComplite;// Исследование НЕвыполнено
+
     // для фильтра в worklist типа сделать
     private String sortOrder;// TODO странное поле :-( идут перечисления полей в
 			     // БД... переделать..
@@ -146,8 +150,32 @@ public class QueryStudy {
 	this.studyResult = studyResult;
     }
 
+    public String getStudyViewProtocol() {
+	return studyViewProtocol;
+    }
+
+    public void setStudyViewProtocol(String studyViewProtocol) {
+	this.studyViewProtocol = studyViewProtocol;
+    }
+
+    public boolean isStudyComplite() {
+	return studyComplite;
+    }
+
+    public void setStudyComplite(boolean studyComplite) {
+	this.studyComplite = studyComplite;
+    }
+
     public String getBeginStudyDateTimeModify() {
 	return beginStudyDateTimeModify;
+    }
+
+    public boolean isStudyNotComplite() {
+	return studyNotComplite;
+    }
+
+    public void setStudyNotComplite(boolean studyNotComplite) {
+	this.studyNotComplite = studyNotComplite;
     }
 
     /**
@@ -240,8 +268,9 @@ public class QueryStudy {
 		+ ", patientName=" + patientName + ", patientSex=" + patientSex + ", patientBirthDate="
 		+ patientBirthDate + ", patientShortName=" + patientShortName + ", beginStudyDateTimeModify="
 		+ beginStudyDateTimeModify + ", endStudyDateTimeModify=" + endStudyDateTimeModify
-		+ ", manufacturerModelName=" + manufacturerModelName + ", studyResult=" + studyResult + ", sortOrder="
-		+ sortOrder + "]";
+		+ ", manufacturerModelName=" + manufacturerModelName + ", studyResult=" + studyResult
+		+ ", studyViewProtocol=" + studyViewProtocol + ", studyComplite=" + studyComplite
+		+ ", studyNotComplite=" + studyNotComplite + ", sortOrder=" + sortOrder + "]";
     }
 
 }

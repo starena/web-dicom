@@ -1,4 +1,4 @@
-<project name="dicom.archive.NEW" default="distrib" basedir=".">
+<project name="dicom.archive.browser-testing" default="distrib" basedir=".">
 
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>

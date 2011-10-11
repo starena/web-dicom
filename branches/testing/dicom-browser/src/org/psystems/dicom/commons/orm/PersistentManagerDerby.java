@@ -104,8 +104,9 @@ public class PersistentManagerDerby {
 			+ "PATIENT_BIRTH_DATE," // 16
 			+ "PATIENT_SHORTNAME," // 17
 			+ "DATE_MODIFIED," // 18
-			+ "REMOVED" // 19
-			+ ") VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			+ "REMOVED," // 19
+			+ "SENDER_LPU" // 20
+			+ ") VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		pstmt = connection.prepareStatement(sql);
 		pstmt.setString(1, drn.getDirectionId());
@@ -208,6 +209,11 @@ public class PersistentManagerDerby {
 		    throw new DataException("field Date Removed wrong format: " + drn.getDateTimeRemoved(), ex);
 		}
 
+		if (drn.getSenderLpu() != null)
+		    pstmt.setString(20, drn.getSenderLpu());
+		else
+		    pstmt.setNull(20, java.sql.Types.VARCHAR);
+		
 		int count = pstmt.executeUpdate();
 
 		Statement stmt = connection.createStatement();
@@ -240,8 +246,9 @@ public class PersistentManagerDerby {
 			+ "PATIENT_BIRTH_DATE = ?," // 16
 			+ "PATIENT_SHORTNAME =?," // 17
 			+ "DATE_MODIFIED = ?," // 18
-			+ "REMOVED = ?" // 19
-			+ " WHERE ID = ?"; // 20
+			+ "REMOVED = ?," // 19
+			+ "SENDER_LPU = ?" // 20
+			+ " WHERE ID = ?"; // 21
 
 		pstmt = connection.prepareStatement(sql);
 		pstmt.setString(1, drn.getDirectionId());
@@ -345,7 +352,12 @@ public class PersistentManagerDerby {
 		    throw new DataException("field Date Removed wrong format: " + drn.getDateTimeRemoved(), ex);
 		}
 		
-		pstmt.setLong(20, drn.getId());
+		if (drn.getSenderLpu() != null)
+		    pstmt.setString(20, drn.getSenderLpu());
+		else
+		    pstmt.setNull(20, java.sql.Types.VARCHAR);
+		
+		pstmt.setLong(21, drn.getId());
 		int count = pstmt.executeUpdate();
 		resultId = drn.getId();
 
@@ -492,6 +504,7 @@ public class PersistentManagerDerby {
 	}
 
 	drn.setDirectionCode(rs.getString("DIRECTION_CODE"));
+	drn.setSenderLpu(rs.getString("SENDER_LPU"));
 	drn.setDirectionLocation(rs.getString("DIRECTION_LOCATION"));
 
 	drn.setDatePerformed(ORMUtil.utilDateToSQLDateString(rs.getDate("DATE_PERFORMED")));
@@ -605,6 +618,59 @@ public class PersistentManagerDerby {
 	}
     }
 
+    /**
+     * Дополнение bccktljdfybz услугами
+     * 
+     * @param study
+     * @return
+     * @throws SQLException
+     */
+    private Study setStudyServices(Study study) throws SQLException {
+	if(study.getDirection()==null) return study;//если нет направления
+	PreparedStatement pstmt = null;
+	try {
+	    pstmt = connection.prepareStatement("SELECT * FROM WEBDICOM.DIRECTION_SERVICE WHERE FID_DIRECTION = ? ");
+	    pstmt.setLong(1, study.getDirection().getId());
+	    ResultSet rs = pstmt.executeQuery();
+
+	    ArrayList<Service> servDirrect = new ArrayList<Service>();
+	    ArrayList<Service> servPerformed = new ArrayList<Service>();
+	    while (rs.next()) {
+
+		Service srv = new Service();
+		srv.setServiceCode(rs.getString("SERVICE_CODE"));
+		srv.setServiceAlias(rs.getString("SERVICE_ALIAS"));
+		srv.setServiceDescription(rs.getString("SERVICE_DESCRIPTION"));
+		srv.setServiceCount(rs.getInt("SERVICE_COUNT"));
+
+		// направленные
+		if (rs.getString("TYPE_ON_DIRECTION").equals("D")) {
+		    servDirrect.add(srv);
+
+		}// выполненные
+		else if (rs.getString("TYPE_ON_DIRECTION").equals("P")) {
+		    servPerformed.add(srv);
+		}
+	    }
+
+	    //TODO Направленные услуги не прикрепляем?
+	    //study.setServicesPerformed(servDirrect.toArray(new Service[servDirrect.size()]));
+	    study.setServicesPerformed(servPerformed.toArray(new Service[servPerformed.size()]));
+	    return study;
+
+	} finally {
+	    if (pstmt != null)
+		pstmt.close();
+	}
+    }
+    
+    
+    /**
+     * Получение направления по его ID 
+     * @param id
+     * @return
+     * @throws DataException
+     */
     public Direction getDirectionByID(Long id) throws DataException {
 
 	Direction drn = new Direction();
@@ -774,6 +840,13 @@ public class PersistentManagerDerby {
 		    sql += " AND ";
 		sql += " PATIENT_SHORTNAME = ? ";
 	    }
+	    
+	    
+	    if (request.getSenderLPU() != null) {
+		if (counterArguments++ > 0)
+		    sql += " AND ";
+		sql += " SENDER_LPU = ? ";
+	    }
 
 	    if (counterArguments == 0)
 		throw new DataException("All query arguments empty! Set any argument's");
@@ -832,6 +905,10 @@ public class PersistentManagerDerby {
 		pstmt.setString(counterArguments++, request.getPatientShortName());
 	    }
 
+	    if (request.getSenderLPU()!= null) {
+		pstmt.setString(counterArguments++, request.getSenderLPU());
+	    }
+	    
 //	    System.out.println("!!!!!!!!! sql="+sql + "[" + request.getPatientShortName() + "]");
 	    
 	    ResultSet rs = pstmt.executeQuery();
@@ -910,6 +987,9 @@ public class PersistentManagerDerby {
 	    if (rs.getString("FID_DIRECTION") != null) {
 		study.setDirection(getDirectionByID(rs.getLong("FID_DIRECTION")));
 	    }
+	    
+	    // наполняем услугами
+	    setStudyServices(study);
 
 	    return study;
 
@@ -1121,20 +1201,45 @@ public class PersistentManagerDerby {
 
 	}
 
-	// TODO странная конструкция. пересмотреть..сделать isOld или isNew...
+//	// TODO странная конструкция. пересмотреть..сделать isOld или isNew...
+//	if (request.getStudyResult() != null && request.getStudyResult().length() > 0) {
+//	    if (sqlAddon.length() != 0)
+//
+//		if (request.getStudyResult().equals("new")) {
+//		    sqlAddon += " AND ";
+//		    sqlAddon += " ( STUDY_VIEW_PROTOCOL is NULL OR STUDY_VIEW_PROTOCOL = '' ) ";
+//		}
+//	    if (request.getStudyResult().equals("old")) {
+//		sqlAddon += " AND ";
+//		sqlAddon += " ( STUDY_VIEW_PROTOCOL IS NOT NULL AND STUDY_VIEW_PROTOCOL != '' )";
+//	    }
+//
+//	}
+	
 	if (request.getStudyResult() != null && request.getStudyResult().length() > 0) {
 	    if (sqlAddon.length() != 0)
-
-		if (request.getStudyResult().equals("new")) {
-		    sqlAddon += " AND ";
-		    sqlAddon += " ( STUDY_VIEW_PROTOCOL is NULL OR STUDY_VIEW_PROTOCOL = '' ) ";
-		}
-	    if (request.getStudyResult().equals("old")) {
 		sqlAddon += " AND ";
-		sqlAddon += " ( STUDY_VIEW_PROTOCOL IS NOT NULL AND STUDY_VIEW_PROTOCOL != '' )";
-	    }
-
+	    sqlAddon += " STUDY_RESULT LIKE ? ";
 	}
+	
+	if (request.getStudyViewProtocol() != null && request.getStudyViewProtocol().length() > 0) {
+	    if (sqlAddon.length() != 0)
+		sqlAddon += " AND ";
+	    sqlAddon += " STUDY_VIEW_PROTOCOL LIKE ? ";
+	}
+	
+	if (request.isStudyComplite()) {
+	    if (sqlAddon.length() != 0)
+		sqlAddon += " AND ";
+	    sqlAddon += " ( STUDY_RESULT IS NOT NULL AND STUDY_RESULT != '' )";
+	}
+	
+	if (request.isStudyNotComplite()) {
+	    if (sqlAddon.length() != 0)
+		sqlAddon += " AND ";
+	    sqlAddon += " ( STUDY_RESULT IS NULL OR STUDY_RESULT = '' )";
+	}
+	
 	String order = "PATIENT_NAME, STUDY_DATE";
 	if (request.getSortOrder() != null) {
 	    order = request.getSortOrder();
@@ -1228,6 +1333,13 @@ public class PersistentManagerDerby {
 	    
 	    //
 	    
+	    if (request.getStudyResult() != null && request.getStudyResult().length() > 0) {
+		psSelect.setString(index++, request.getStudyResult());
+	    }
+	    
+	    if (request.getStudyViewProtocol() != null && request.getStudyViewProtocol().length() > 0) {
+		psSelect.setString(index++, request.getStudyViewProtocol());
+	    }
 
 	    ResultSet rs = psSelect.executeQuery();
 

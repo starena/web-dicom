@@ -37,6 +37,7 @@ public class Direction implements Serializable {
     private String dateTimeRemoved;// Дата удаления. формат
 				   // "yyyy-mm-dd hh:mm:ss"
     private String modality;// модальность
+    private String senderLpu;// Направившая поликлиника
 
     public Long getId() {
 	return id;
@@ -182,6 +183,14 @@ public class Direction implements Serializable {
 	this.modality = modality;
     }
 
+    public String getSenderLpu() {
+	return senderLpu;
+    }
+
+    public void setSenderLpu(String senderLpu) {
+	this.senderLpu = senderLpu;
+    }
+
     /**
      * Проверка всех полей.
      */
@@ -233,13 +242,14 @@ public class Direction implements Serializable {
 		}
 
 	    field = "modality";
-	    if(modality==null)
+	    if (modality == null)
 		throw new IllegalArgumentException("Set direction modality! ");
-			
-	    if (device != null && device.getManufacturerModelName() !=null && modality != null && !modality.equals(device.getModality())) {
-		throw new IllegalArgumentException("Direction modality ["+modality+"] != Device modality ["+device.getModality()+"] ");
+
+	    if (device != null && device.getManufacturerModelName() != null && modality != null
+		    && !modality.equals(device.getModality())) {
+		throw new IllegalArgumentException("Direction modality [" + modality + "] != Device modality ["
+			+ device.getModality() + "] ");
 	    }
-	    
 
 	} catch (IllegalArgumentException ex) {
 	    throw new IllegalArgumentException("Direction field " + field + " " + ex.getMessage() + ex.getMessage(), ex);
@@ -256,7 +266,8 @@ public class Direction implements Serializable {
 		+ directionCode + ", directionLocation=" + directionLocation + ", diagnosisPerformed="
 		+ Arrays.toString(diagnosisPerformed) + ", servicesPerformed=" + Arrays.toString(servicesPerformed)
 		+ ", datePerformed=" + datePerformed + ", patient=" + patient + ", dateTimeModified="
-		+ dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved + ", modality=" + modality + "]";
+		+ dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved + ", modality=" + modality + ", senderLpu="
+		+ senderLpu + "]";
     }
 
 }
