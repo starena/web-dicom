@@ -28,9 +28,12 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="patientSex" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientShortName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="sortOrder" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="studyComplite" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="studyId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="studyModality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="studyNotComplite" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="studyResult" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="studyViewProtocol" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -53,9 +56,12 @@ import javax.xml.bind.annotation.XmlType;
     "patientSex",
     "patientShortName",
     "sortOrder",
+    "studyComplite",
     "studyId",
     "studyModality",
-    "studyResult"
+    "studyNotComplite",
+    "studyResult",
+    "studyViewProtocol"
 })
 public class QueryStudy {
 
@@ -71,9 +77,12 @@ public class QueryStudy {
     protected String patientSex;
     protected String patientShortName;
     protected String sortOrder;
+    protected boolean studyComplite;
     protected String studyId;
     protected String studyModality;
+    protected boolean studyNotComplite;
     protected String studyResult;
+    protected String studyViewProtocol;
 
     /**
      * Gets the value of the beginStudyDate property.
@@ -364,6 +373,22 @@ public class QueryStudy {
     }
 
     /**
+     * Gets the value of the studyComplite property.
+     * 
+     */
+    public boolean isStudyComplite() {
+        return studyComplite;
+    }
+
+    /**
+     * Sets the value of the studyComplite property.
+     * 
+     */
+    public void setStudyComplite(boolean value) {
+        this.studyComplite = value;
+    }
+
+    /**
      * Gets the value of the studyId property.
      * 
      * @return
@@ -412,6 +437,22 @@ public class QueryStudy {
     }
 
     /**
+     * Gets the value of the studyNotComplite property.
+     * 
+     */
+    public boolean isStudyNotComplite() {
+        return studyNotComplite;
+    }
+
+    /**
+     * Sets the value of the studyNotComplite property.
+     * 
+     */
+    public void setStudyNotComplite(boolean value) {
+        this.studyNotComplite = value;
+    }
+
+    /**
      * Gets the value of the studyResult property.
      * 
      * @return
@@ -433,6 +474,30 @@ public class QueryStudy {
      */
     public void setStudyResult(String value) {
         this.studyResult = value;
+    }
+
+    /**
+     * Gets the value of the studyViewProtocol property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getStudyViewProtocol() {
+        return studyViewProtocol;
+    }
+
+    /**
+     * Sets the value of the studyViewProtocol property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setStudyViewProtocol(String value) {
+        this.studyViewProtocol = value;
     }
 
 }

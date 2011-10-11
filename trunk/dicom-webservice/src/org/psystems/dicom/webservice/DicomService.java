@@ -1,5 +1,8 @@
 package org.psystems.dicom.webservice;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
@@ -8,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -87,7 +91,8 @@ public class DicomService {
 			@WebParam(name = "dateTimePlanned") String dateTimePlanned,
 			@WebParam(name = "directionCode") String directionCode,
 			@WebParam(name = "directionLocation") String directionLocation,
-			@WebParam(name = "patient") Patient patient)
+			@WebParam(name = "patient") Patient patient,
+			@WebParam(name = "senderLpu") String senderLpu)
 			throws DicomWebServiceException {
 
 		// Проверки
@@ -115,6 +120,7 @@ public class DicomService {
 			drn.setDirectionCode(directionCode);
 			drn.setDirectionLocation(directionLocation);
 			drn.setPatient(patient);
+			drn.setSenderLpu(senderLpu);
 			return pm.makePesistentDirection(drn);
 
 		} catch (SQLException e) {
@@ -239,7 +245,7 @@ public class DicomService {
 			// "http://127.0.0.1:8888/browser/study/"
 			String url = servletContext.getContextPath();
 
-			System.out.println("!!!!! url=" + url);
+//			System.out.println("!!!!! url=" + url);
 
 			ArrayList<Study> tmpData = new ArrayList<Study>();
 
@@ -316,6 +322,26 @@ public class DicomService {
 			throwPortalException("query direction error:", e);
 		}
 		return null;
+	}
+	
+	
+	/**
+	 * @param id
+	 * @return
+	 */
+	public Image getImage(@WebParam(name = "id") String id) {
+
+		try {
+
+			File image = new File(id);
+			return ImageIO.read(image);
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			return null;
+
+		}
 	}
 
 	/**

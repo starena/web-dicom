@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="patientName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientSex" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientShortName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="servicesPerformed" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="studyDate" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="studyDateTimeModify" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="studyDateTimeRemoved" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -63,6 +64,7 @@ import javax.xml.bind.annotation.XmlType;
     "patientName",
     "patientSex",
     "patientShortName",
+    "servicesPerformed",
     "studyDate",
     "studyDateTimeModify",
     "studyDateTimeRemoved",
@@ -91,6 +93,8 @@ public class Study {
     protected String patientName;
     protected String patientSex;
     protected String patientShortName;
+    @XmlElement(nillable = true)
+    protected List<Service> servicesPerformed;
     protected String studyDate;
     protected String studyDateTimeModify;
     protected String studyDateTimeRemoved;
@@ -349,6 +353,35 @@ public class Study {
      */
     public void setPatientShortName(String value) {
         this.patientShortName = value;
+    }
+
+    /**
+     * Gets the value of the servicesPerformed property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the servicesPerformed property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getServicesPerformed().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Service }
+     * 
+     * 
+     */
+    public List<Service> getServicesPerformed() {
+        if (servicesPerformed == null) {
+            servicesPerformed = new ArrayList<Service>();
+        }
+        return this.servicesPerformed;
     }
 
     /**
