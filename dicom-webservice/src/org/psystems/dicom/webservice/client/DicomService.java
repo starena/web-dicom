@@ -30,6 +30,7 @@ public interface DicomService {
      * @param patient
      * @param directionLocation
      * @param directionId
+     * @param senderLpu
      * @param servicesDirect
      * @param doctorDirect
      * @param device
@@ -67,7 +68,9 @@ public interface DicomService {
         @WebParam(name = "directionLocation", targetNamespace = "")
         String directionLocation,
         @WebParam(name = "patient", targetNamespace = "")
-        Patient patient);
+        Patient patient,
+        @WebParam(name = "senderLpu", targetNamespace = "")
+        String senderLpu);
 
     /**
      * 

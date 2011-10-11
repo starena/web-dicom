@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="directionCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="directionLocation" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patient" type="{http://webservice.dicom.psystems.org/}patient" minOccurs="0"/>
+ *         &lt;element name="senderLpu" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -50,7 +51,8 @@ import javax.xml.bind.annotation.XmlType;
     "dateTimePlanned",
     "directionCode",
     "directionLocation",
-    "patient"
+    "patient",
+    "senderLpu"
 })
 public class MakeDirection {
 
@@ -67,6 +69,7 @@ public class MakeDirection {
     protected String directionCode;
     protected String directionLocation;
     protected Patient patient;
+    protected String senderLpu;
 
     /**
      * Gets the value of the directionId property.
@@ -340,6 +343,30 @@ public class MakeDirection {
      */
     public void setPatient(Patient value) {
         this.patient = value;
+    }
+
+    /**
+     * Gets the value of the senderLpu property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSenderLpu() {
+        return senderLpu;
+    }
+
+    /**
+     * Sets the value of the senderLpu property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSenderLpu(String value) {
+        this.senderLpu = value;
     }
 
 }

@@ -36,6 +36,7 @@ public class Test {
 	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
 //	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
 //	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
+//	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice.test/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -72,8 +73,8 @@ public class Test {
 
 //		queryStudy();
 //		qetDirrection();
-//		queryDirrection();
-		 makeDirection();
+		queryDirrection();
+//		 makeDirection();
 	}
 
 	
@@ -84,7 +85,8 @@ public class Test {
 
 		
 		QueryStudy query = new QueryStudy();
-		query.setId(18l);
+//		query.setId(18l);
+		query.setStudyComplite(true);
 		QueryStudyReq request = new QueryStudyReq();
 		request.setQuery(query);
 		
@@ -108,7 +110,9 @@ public class Test {
 
 		QueryDirectionReq request = new QueryDirectionReq();
 		QueryDirection query = new QueryDirection();
-		query.setPatientShortName("ДЕРДВ74");
+		query.setId(167l);
+		query.setSenderLPU("");
+//		query.setPatientShortName("ДЕРДВ74");
 		request.setQuery(query);
 		
 		List<Direction> drns = port.queryDirections(request).getReturn();
@@ -165,8 +169,8 @@ public class Test {
 		
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
-		device.setModality("DF");
-		device.setManufacturerModelName("Рентген");
+		device.setModality("US");
+		device.setManufacturerModelName("УЗИаппарат");
 		
 
 		//
@@ -178,8 +182,8 @@ public class Test {
 		patient.setPatientShortName("ДЕРДВ74");
 		
 		
-		long id = port.makeDirection(new Date().getTime() + "", "DF", doctor, diagnosis, services,
-				"2011-09-17", device, "2011-09-18 12:00:00", "CODE123", "GP1-ROOM515", patient);
+		long id = port.makeDirection(new Date().getTime() + "", "US", doctor, diagnosis, services,
+				"2011-09-21", device, "2011-09-22 12:00:00", "CODE123", "GP1-ROOM515", patient, "LPUTEST");
 		
 
 

@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
  *         &lt;element name="modality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patient" type="{http://webservice.dicom.psystems.org/}patient" minOccurs="0"/>
+ *         &lt;element name="senderLpu" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="servicesDirect" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="servicesPerformed" type="{http://webservice.dicom.psystems.org/}service" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
@@ -63,6 +64,7 @@ import javax.xml.bind.annotation.XmlType;
     "id",
     "modality",
     "patient",
+    "senderLpu",
     "servicesDirect",
     "servicesPerformed"
 })
@@ -86,6 +88,7 @@ public class Direction {
     protected Long id;
     protected String modality;
     protected Patient patient;
+    protected String senderLpu;
     @XmlElement(nillable = true)
     protected List<Service> servicesDirect;
     @XmlElement(nillable = true)
@@ -483,6 +486,30 @@ public class Direction {
      */
     public void setPatient(Patient value) {
         this.patient = value;
+    }
+
+    /**
+     * Gets the value of the senderLpu property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSenderLpu() {
+        return senderLpu;
+    }
+
+    /**
+     * Sets the value of the senderLpu property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSenderLpu(String value) {
+        this.senderLpu = value;
     }
 
     /**

@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="patientName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientSex" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientShortName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="senderLPU" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -57,7 +58,8 @@ import javax.xml.bind.annotation.XmlType;
     "patientId",
     "patientName",
     "patientSex",
-    "patientShortName"
+    "patientShortName",
+    "senderLPU"
 })
 public class QueryDirection {
 
@@ -77,6 +79,7 @@ public class QueryDirection {
     protected String patientName;
     protected String patientSex;
     protected String patientShortName;
+    protected String senderLPU;
 
     /**
      * Gets the value of the dateDirection property.
@@ -460,6 +463,30 @@ public class QueryDirection {
      */
     public void setPatientShortName(String value) {
         this.patientShortName = value;
+    }
+
+    /**
+     * Gets the value of the senderLPU property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSenderLPU() {
+        return senderLPU;
+    }
+
+    /**
+     * Sets the value of the senderLPU property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSenderLPU(String value) {
+        this.senderLPU = value;
     }
 
 }
