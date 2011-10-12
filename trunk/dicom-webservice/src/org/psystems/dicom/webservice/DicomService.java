@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +25,7 @@ import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
@@ -329,19 +332,56 @@ public class DicomService {
 	 * @param id
 	 * @return
 	 */
-	public Image getImage(@WebParam(name = "id") String id) {
+	public Image getImage(@WebParam(name = "id") long id)
+			throws DicomWebServiceException {
 
+		ServletContext servletContext = (ServletContext) context
+				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
+
+		Connection connection = null;
+		PreparedStatement psSelect = null;
+		
 		try {
+			connection = ORMUtil.getConnection(servletContext);
+			
+			psSelect = connection.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE ID = ? ");
+			psSelect.setLong(1, id);
+			ResultSet rs = psSelect.executeQuery();
+			//TODO убрать!!! ../dicom-browser/
+			String incoming = "../dicom-browser/"+ Config.getIncomingFolder();
+			String filename = null;
+			while (rs.next()) {
+				filename = incoming + "/" + rs.getString("DCM_FILE_NAME") + ".images/fullsize.jpg";
+				break;
+			}
+			rs.close();
+			System.out.println("!!!!!!!!!! filename="+filename);
+			
+			try {
+				if(filename==null) return null;
+				File image = new File(filename);
+				return ImageIO.read(image);
 
-			File image = new File(id);
-			return ImageIO.read(image);
+			} catch (IOException e) {
 
-		} catch (IOException e) {
+				e.printStackTrace();
+				return null;
 
-			e.printStackTrace();
-			return null;
-
+			}
+			
+		} catch (SQLException e) {
+			throwPortalException("getImage error:", e);
+		} finally {
+			try {
+				if(psSelect!=null)
+					psSelect.close();
+//				connection.close();
+			} catch (SQLException e) {
+				throwPortalException("getImage error:", e);
+			}
 		}
+		return null;
+		
 	}
 
 	/**
