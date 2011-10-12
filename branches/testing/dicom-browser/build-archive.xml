@@ -284,6 +284,11 @@
 	<!-- fill database test studies -->
 	<target name="db.fill" description="заливка тестовых исследваний">
 
+		<!-- TODO Сдесь нужно сделать закачку тестовых DCM-файлов
+		
+		<mkdir dir="test/data" />
+		 -->
+		
 		<for param="file">
 			<path>
 				<fileset dir="test/data" includes="**/*.dcm" />
