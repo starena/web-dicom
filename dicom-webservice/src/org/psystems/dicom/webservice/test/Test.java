@@ -1,5 +1,8 @@
 package org.psystems.dicom.webservice.test;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -73,8 +76,9 @@ public class Test {
 
 //		queryStudy();
 //		qetDirrection();
-		queryDirrection();
+//		queryDirrection();
 //		 makeDirection();
+		getImage();
 	}
 
 	
@@ -85,6 +89,7 @@ public class Test {
 
 		
 		QueryStudy query = new QueryStudy();
+//		query.set
 //		query.setId(18l);
 		query.setStudyComplite(true);
 		QueryStudyReq request = new QueryStudyReq();
@@ -92,7 +97,7 @@ public class Test {
 		
 		List<Study> studies = port.queryStudies(request).getReturn();
 		for (Study study : studies) {
-			System.out.println("study: " + study.getPatientShortName());
+			System.out.println("study: " + study.getDcmFilesId());
 		}
 	}
 
@@ -122,6 +127,29 @@ public class Test {
 		
 		
 	}
+	
+	
+	private static void getImage() {
+		System.out.println("getImage...");
+
+		byte[] image = port.getImage(1l);
+		System.out.println("!!!! image=" + image);
+		try {
+			FileOutputStream fos = new FileOutputStream("c:\\temp\\wstest.jpg");
+			fos.write(image);
+			fos.flush();
+			fos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 
 	private static void makeDirection() {
 	

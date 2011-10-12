@@ -126,4 +126,18 @@ public interface DicomService {
         @WebParam(name = "queryDirectionReq", targetNamespace = "http://webservice.dicom.psystems.org", partName = "parameters")
         QueryDirectionReq parameters);
 
+    /**
+     * 
+     * @param id
+     * @return
+     *     returns byte[]
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getImage", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetImage")
+    @ResponseWrapper(localName = "getImageResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetImageResponse")
+    public byte[] getImage(
+        @WebParam(name = "id", targetNamespace = "")
+        long id);
+
 }
