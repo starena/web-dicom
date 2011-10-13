@@ -251,6 +251,7 @@
 			<sysproperty key="derby.drda.logConnections" value="true" />
 			<classpath refid="archive.classpath" />
 			<classpath refid="derby.classpath" />
+			<classpath refid="common.classpath" />
 		</java>
 		<echo message="Starting DICOM Archive [OK]"/>
 	</target>
