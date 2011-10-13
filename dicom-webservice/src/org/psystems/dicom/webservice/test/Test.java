@@ -16,7 +16,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 
-
+import org.psystems.dicom.webservice.client.ByteArray;
 import org.psystems.dicom.webservice.client.Diagnosis;
 import org.psystems.dicom.webservice.client.DicomService;
 import org.psystems.dicom.webservice.client.DicomServiceService;
@@ -37,9 +37,13 @@ public class Test {
 	private static DicomService port;
 
 	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
-//	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
-//	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
-//	private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice.test/DicomService?wsdl";
+
+	// private static final String WS_URL =
+	// "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
+	// private static final String WS_URL =
+	// "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
+	// private static final String WS_URL =
+	// "https://proxy.gp1.psystems.org:38081/dicom-webservice.test/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -74,27 +78,25 @@ public class Test {
 		req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
 		/**********************************************************************/
 
-//		queryStudy();
-//		qetDirrection();
-//		queryDirrection();
+		// queryStudy();
+		// qetDirrection();
+		// queryDirrection();
 //		 makeDirection();
-		getImage();
+		getStudyImages();
+//		getStudyProtocols();
 	}
-
-	
 
 	private static void queryStudy() {
 
 		System.out.println("queryStudy...");
 
-		
 		QueryStudy query = new QueryStudy();
-//		query.set
-//		query.setId(18l);
+		// query.set
+		// query.setId(18l);
 		query.setStudyComplite(true);
 		QueryStudyReq request = new QueryStudyReq();
 		request.setQuery(query);
-		
+
 		List<Study> studies = port.queryStudies(request).getReturn();
 		for (Study study : studies) {
 			System.out.println("study: " + study.getDcmFilesId());
@@ -109,7 +111,7 @@ public class Test {
 		System.out.println("Direction: " + drn);
 
 	}
-	
+
 	private static void queryDirrection() {
 		System.out.println("queryDirrection...");
 
@@ -117,89 +119,124 @@ public class Test {
 		QueryDirection query = new QueryDirection();
 		query.setId(167l);
 		query.setSenderLPU("");
-//		query.setPatientShortName("ДЕРДВ74");
+		// query.setPatientShortName("ДЕРДВ74");
 		request.setQuery(query);
-		
+
 		List<Direction> drns = port.queryDirections(request).getReturn();
 		for (Direction direction : drns) {
-			System.out.println("Direction: "+direction);
+			System.out.println("Direction: " + direction);
 		}
-		
-		
+
 	}
-	
-	
-	private static void getImage() {
+
+	private static void getStudyImages() {
 		System.out.println("getImage...");
 
-		byte[] image = port.getImage(1l);
-		System.out.println("!!!! image=" + image);
-		try {
-			FileOutputStream fos = new FileOutputStream("c:\\temp\\wstest.jpg");
-			fos.write(image);
-			fos.flush();
-			fos.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<byte[]> images = port.getStudyImages(2);
+		System.out.println(" image count:" +images.size());
+		int index = 1;
+		for (byte[] image : images) {
+			
+			try {
+				String fileName = "c:\\temp\\wstest_"+ index + ".jpg";
+				FileOutputStream fos = new FileOutputStream(fileName);
+				fos.write(image);
+				fos.flush();
+				fos.close();
+				
+				System.out.println("!!!! fileName=" + fileName);
+				
+				index++;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+	
+	
+
+	private static void getStudyProtocols() {
+		System.out.println("get Protocols...");
+
+		List<byte[]> pdfs = port.getStudyProtocols(1);
+		System.out.println(" protocol count:" +pdfs.size());
+		int index = 1;
+		
+		for (byte[] pdfData : pdfs) {
+			try {
+				String fileName = "c:\\temp\\wstest_"+ index + ".pdf";
+				FileOutputStream fos = new FileOutputStream(fileName);
+				fos.write(pdfData);
+				fos.flush();
+				fos.close();
+				
+				System.out.println("!!!! fileName=" + fileName);
+				
+				index++;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		
+
 	}
-	
 
 	private static void makeDirection() {
-	
+
 		System.out.println("makeDirrection...");
-		
+
 		Employee doctor = new Employee();
 		doctor.setEmployeeName("Врач doctor1");
 		doctor.setEmployeeType("DOCTOR");
 		doctor.setEmployeeCode("123");
-		
-		
 
 		//
 		ArrayList<Diagnosis> diagnosis = new ArrayList<Diagnosis>();
-		
+
 		Diagnosis dia1 = new Diagnosis();
 		dia1.setDiagnosisCode("Z01");
 		dia1.setDiagnosisType("ОСНОВНОЙ");
 		dia1.setDiagnosisDescription("Диагноз1");
-		
+
 		diagnosis.add(dia1);
-		
+
 		Diagnosis dia2 = new Diagnosis();
 		dia2.setDiagnosisCode("Z02");
 		dia2.setDiagnosisDescription("Диагноз2");
-		
+
 		diagnosis.add(dia2);
 
 		//
-		
+
 		//
-		
+
 		ArrayList<Service> services = new ArrayList<Service>();
-		
+
 		Service service1 = new Service();
 		service1.setServiceCode("code1");
 		service1.setServiceDescription("Описание1");
 		service1.setServiceCount(10);
 		services.add(service1);
-		
+
 		Service service2 = new Service();
 		service2.setServiceCode("code2");
 		service2.setServiceDescription("Описание2");
 		services.add(service2);
-		
+
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
-		device.setModality("US");
+		device.setModality("DS");
 		device.setManufacturerModelName("УЗИаппарат");
-		
 
 		//
 		Patient patient = new Patient();
@@ -208,17 +245,14 @@ public class Test {
 		patient.setPatientSex("M");
 		patient.setPatientBirthDate("1974-03-01");
 		patient.setPatientShortName("ДЕРДВ74");
-		
-		
-		long id = port.makeDirection(new Date().getTime() + "", "US", doctor, diagnosis, services,
-				"2011-09-21", device, "2011-09-22 12:00:00", "CODE123", "GP1-ROOM515", patient, "LPUTEST");
-		
 
-
+		long id = port.makeDirection(new Date().getTime() + "", "DS", doctor,
+				diagnosis, services, "2011-09-21", device,
+				"2011-09-22 12:00:00", "CODE123", "GP1-ROOM515", patient,
+				"LPUTEST");
 
 		System.out.println("!!!! makeDirection id:" + id);
 
-		
 	}
 
 }
