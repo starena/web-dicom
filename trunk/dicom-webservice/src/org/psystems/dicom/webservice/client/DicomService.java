@@ -130,13 +130,27 @@ public interface DicomService {
      * 
      * @param id
      * @return
-     *     returns byte[]
+     *     returns java.util.List<byte[]>
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getImage", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetImage")
-    @ResponseWrapper(localName = "getImageResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetImageResponse")
-    public byte[] getImage(
+    @RequestWrapper(localName = "getStudyImages", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetStudyImages")
+    @ResponseWrapper(localName = "getStudyImagesResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetStudyImagesResponse")
+    public List<byte[]> getStudyImages(
+        @WebParam(name = "id", targetNamespace = "")
+        long id);
+
+    /**
+     * 
+     * @param id
+     * @return
+     *     returns java.util.List<byte[]>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getStudyProtocols", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetStudyProtocols")
+    @ResponseWrapper(localName = "getStudyProtocolsResponse", targetNamespace = "http://webservice.dicom.psystems.org/", className = "org.psystems.dicom.webservice.client.GetStudyProtocolsResponse")
+    public List<byte[]> getStudyProtocols(
         @WebParam(name = "id", targetNamespace = "")
         long id);
 

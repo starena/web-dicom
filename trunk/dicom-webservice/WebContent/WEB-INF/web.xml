@@ -13,6 +13,16 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
+
+	<!--
+		??? Очевидно это папка с картинками ??? TODO Переименовать в image...
+		TODO Убрать!!!
+	-->
+	<context-param>
+		<param-name>webdicom.dir.dst</param-name>
+		<param-value>C:\Documents and Settings\dima_d\workspace\dicom-browser/data/incoming</param-value>
+	</context-param>
+	
 	<listener>
 		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
 	</listener>

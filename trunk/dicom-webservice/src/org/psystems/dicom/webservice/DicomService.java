@@ -1,10 +1,12 @@
 package org.psystems.dicom.webservice;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +27,10 @@ import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
 import org.apache.log4j.Logger;
-import org.psystems.dicom.commons.Config;
+import org.dcm4che2.data.DicomElement;
+import org.dcm4che2.data.DicomObject;
+import org.dcm4che2.data.Tag;
+import org.dcm4che2.io.DicomInputStream;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
@@ -248,7 +253,7 @@ public class DicomService {
 			// "http://127.0.0.1:8888/browser/study/"
 			String url = servletContext.getContextPath();
 
-//			System.out.println("!!!!! url=" + url);
+			// System.out.println("!!!!! url=" + url);
 
 			ArrayList<Study> tmpData = new ArrayList<Study>();
 
@@ -288,7 +293,8 @@ public class DicomService {
 	@WebResult(targetNamespace = "")
 	@RequestWrapper(localName = "queryDirectionReq", targetNamespace = "http://webservice.dicom.psystems.org")
 	@ResponseWrapper(localName = "queryDirectionResp", targetNamespace = "http://webservice.dicom.psystems.org")
-	public Direction[] queryDirections(@WebParam(name = "query") QueryDirection query)
+	public Direction[] queryDirections(
+			@WebParam(name = "query") QueryDirection query)
 			throws DicomWebServiceException {
 
 		if (query.getDateDirection() != null
@@ -326,62 +332,187 @@ public class DicomService {
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * @param id
 	 * @return
 	 */
-	public Image getImage(@WebParam(name = "id") long id)
+	public ArrayList<Image> getStudyImages(@WebParam(name = "id") long id)
 			throws DicomWebServiceException {
 
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
+		ArrayList<Image> images = new ArrayList<Image>();
 		Connection connection = null;
 		PreparedStatement psSelect = null;
-		
+
+		System.out.println("getStudyImages id=" + id);
 		try {
 			connection = ORMUtil.getConnection(servletContext);
-			
-			psSelect = connection.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE ID = ? ");
+
+			psSelect = connection
+					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
 			psSelect.setLong(1, id);
 			ResultSet rs = psSelect.executeQuery();
-			//TODO убрать!!! ../dicom-browser/
-			String incoming = "../dicom-browser/"+ Config.getIncomingFolder();
-			String filename = null;
+			// TODO убрать!!! ../dicom-browser/
+			// FIXME убрать! Перевести на Config.getIncomingFolder()
+			String imagesRootDir = servletContext
+					.getInitParameter("webdicom.dir.dst");
+			String incoming = imagesRootDir;
+			ArrayList<String> fileNames = new ArrayList<String>();
+
 			while (rs.next()) {
-				filename = incoming + "/" + rs.getString("DCM_FILE_NAME") + ".images/fullsize.jpg";
-				break;
+				if (rs.getString("MIME_TYPE") != null
+						&& rs.getString("MIME_TYPE").equals("image/jpg")) {
+					String filename = incoming + "/"
+							+ rs.getString("DCM_FILE_NAME")
+							+ ".images/fullsize.jpg";
+					fileNames.add(filename);
+					System.out.println("!!!!!!!!!! filename=" + filename);
+				}
 			}
 			rs.close();
-			System.out.println("!!!!!!!!!! filename="+filename);
-			
-			try {
-				if(filename==null) return null;
-				File image = new File(filename);
-				return ImageIO.read(image);
 
-			} catch (IOException e) {
+			for (String filename : fileNames) {
+				try {
 
-				e.printStackTrace();
-				return null;
+					File image = new File(filename);
+					BufferedImage img = ImageIO.read(image);
+					images.add(img);
 
+				} catch (IOException e) {
+					throwPortalException("getImage error:", e);
+				}
 			}
-			
+
 		} catch (SQLException e) {
 			throwPortalException("getImage error:", e);
 		} finally {
 			try {
-				if(psSelect!=null)
+				if (psSelect != null)
 					psSelect.close();
-//				connection.close();
+				// connection.close();
 			} catch (SQLException e) {
 				throwPortalException("getImage error:", e);
 			}
 		}
-		return null;
-		
+		return images;
+
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	public ArrayList<byte[]> getStudyProtocols(@WebParam(name = "id") long id)
+			throws DicomWebServiceException {
+
+		ServletContext servletContext = (ServletContext) context
+				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
+
+		ArrayList<byte[]> pdfs = new ArrayList<byte[]>();
+		Connection connection = null;
+		PreparedStatement psSelect = null;
+
+		System.out.println("getStudyImages id=" + id);
+		try {
+			connection = ORMUtil.getConnection(servletContext);
+
+			psSelect = connection
+					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
+			psSelect.setLong(1, id);
+			ResultSet rs = psSelect.executeQuery();
+			// TODO убрать!!! ../dicom-browser/
+			// FIXME убрать! Перевести на Config.getIncomingFolder()
+			String imagesRootDir = servletContext
+					.getInitParameter("webdicom.dir.dst");
+			String incoming = imagesRootDir;
+			ArrayList<String> fileNames = new ArrayList<String>();
+
+			while (rs.next()) {
+				if (rs.getString("MIME_TYPE") != null
+						&& rs.getString("MIME_TYPE").equals("application/pdf")) {
+					String filename = incoming + "/"
+							+ rs.getString("DCM_FILE_NAME");
+					fileNames.add(filename);
+					System.out.println("!!!!!!!!!! filename=" + filename);
+				}
+			}
+			rs.close();
+
+			for (String filename : fileNames) {
+				DicomObject dcmObj;
+				DicomInputStream din = null;
+				// SpecificCharacterSet cs = new Win1251CharacterSet();
+				// SpecificCharacterSet cs = new
+				// SpecificCharacterSet("ISO-8859-5");
+
+				try {
+
+					File f = new File(filename);
+					long fileSize = f.length();
+					din = new DicomInputStream(f);
+					dcmObj = din.readDicomObject();
+
+					// читаем кодировку из dcm-файла
+					// if (dcmObj.get(Tag.SpecificCharacterSet) != null
+					// && dcmObj.get(Tag.SpecificCharacterSet).length() > 0) {
+					// cs = SpecificCharacterSet.valueOf(dcmObj.get(
+					// Tag.SpecificCharacterSet).getStrings(null, false));
+					// }
+
+					DicomElement elementMimeType = dcmObj
+							.get(Tag.MIMETypeOfEncapsulatedDocument);
+					// String mimeType = elementMimeType.getValueAsString(cs,
+					// elementMimeType.length());
+					// resp.setContentType("application/pdf");
+					// resp.setContentType(mimeType);
+
+					DicomElement elementData = dcmObj
+							.get(Tag.EncapsulatedDocument);
+					byte[] data = elementData.getBytes();
+
+					pdfs.add(data);
+					// BufferedOutputStream out = new BufferedOutputStream(resp
+					// .getOutputStream());
+					//
+					// out.write(data);
+					//
+					// out.flush();
+					// out.close();
+
+				} catch (org.dcm4che2.data.ConfigurationError e) {
+					if (e.getCause() instanceof UnsupportedEncodingException) {
+						logger.fatal("Unsupported character set" + " " + e);
+					}
+					logger.fatal("" + e);
+				} catch (IOException e) {
+					e.printStackTrace();
+					logger.fatal("" + e);
+				} finally {
+					try {
+						if (din != null)
+							din.close();
+					} catch (IOException ignore) {
+
+					}
+				}
+			}
+
+		} catch (SQLException e) {
+			throwPortalException("getImage error:", e);
+		} finally {
+			try {
+				if (psSelect != null)
+					psSelect.close();
+				// connection.close();
+			} catch (SQLException e) {
+				throwPortalException("getImage error:", e);
+			}
+		}
+		return pdfs;
+
 	}
 
 	/**
