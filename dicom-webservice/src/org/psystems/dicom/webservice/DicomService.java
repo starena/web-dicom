@@ -56,6 +56,7 @@ import org.psystems.dicom.commons.orm.entity.Study;
  *         аттачменты:
  *         http://www.mkyong.com/webservices/jax-ws/jax-ws-attachment-with-mtom/
  */
+@javax.xml.ws.soap.MTOM
 @WebService
 public class DicomService {
 

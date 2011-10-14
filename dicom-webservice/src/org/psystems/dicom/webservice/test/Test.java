@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.soap.MTOMFeature;
 
 import org.psystems.dicom.webservice.client.ByteArray;
 import org.psystems.dicom.webservice.client.Diagnosis;
@@ -42,8 +43,8 @@ public class Test {
 	// "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
 	// private static final String WS_URL =
 	// "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
-	// private static final String WS_URL =
-	// "https://proxy.gp1.psystems.org:38081/dicom-webservice.test/DicomService?wsdl";
+//	 private static final String WS_URL =
+//	 "https://proxy.gp1.psystems.org:38081/dicom-webservice.test/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -61,7 +62,8 @@ public class Test {
 		System.setProperty("javax.net.ssl.trustStorePassword", "derenok");
 
 		service = new DicomServiceService(url, qname);
-		port = service.getDicomServicePort();
+//		port = service.getDicomServicePort();
+		port = service.getDicomServicePort(new MTOMFeature());
 
 		// авторизация
 		// http://www.mkyong.com/webservices/jax-ws/application-authentication-with-jax-ws/
