@@ -37,26 +37,28 @@ import com.google.gwt.user.datepicker.client.DateBox;
  */
 public class DirectionsPanel extends Composite {
 
-    VerticalPanel resultPanel;
+//    VerticalPanel resultPanel;
     private DateBox studyDateBoxBegin;
-    private long searchTransactionID;
+//    private long searchTransactionID;
     private Browser Application;
-    protected String dateBegin;
-    protected String dateEnd;
+    protected static String dateBegin;
+    protected static String dateEnd;
     private DateBox studyDateBoxEnd;
-    protected String manufacturerModelName = null;
+    protected static String manufacturerModelName = null;
     protected String studyResult = "all";
 
     protected String sortOrder = null;
+    SearchPanel spanel;
     public final static int maxResultCount = 300;
 
     /**
      * @param application
      *            TODO Убрать и вызывать через static методы???
      */
-    public DirectionsPanel(Browser application) {
+    public DirectionsPanel(Browser application, final SearchPanel spanel) {
 
 	this.Application = application;
+	this.spanel = spanel;
 
 	dateBegin = Utils.dateFormatSql.format(new Date()) + " 00:00:00";
 	dateEnd = Utils.dateFormatSql.format(new Date()) + " 23:59:59";
@@ -72,8 +74,7 @@ public class DirectionsPanel extends Composite {
 	label.addStyleName("DicomItemValue");
 	toolPanel.add(label);
 
-	//FIXME !!!!!!!!!!!!!!!!!!!!!!!!! Убать!!!!
-//	dateBegin =  "2011-04-01 00:00:00"; 
+
 	
 	studyDateBoxBegin = new DateBox();
 	studyDateBoxBegin.setWidth("80px");
@@ -86,7 +87,8 @@ public class DirectionsPanel extends Composite {
 	    @Override
 	    public void onValueChange(ValueChangeEvent<String> event) {
 		dateBegin = Utils.dateFormatSql.format(Utils.dateFormatUser.parse(event.getValue())) + " 00:00:00";
-		queryDirections();
+//		queryDirections();
+		spanel.searchDirections();
 	    }
 	});
 
@@ -95,7 +97,8 @@ public class DirectionsPanel extends Composite {
 	    @Override
 	    public void onValueChange(ValueChangeEvent<Date> event) {
 		dateBegin = Utils.dateFormatSql.format(event.getValue()) + " 00:00:00";
-		queryDirections();
+//		queryDirections();
+		spanel.searchDirections();
 	    }
 	});
 
@@ -117,7 +120,8 @@ public class DirectionsPanel extends Composite {
 	    @Override
 	    public void onValueChange(ValueChangeEvent<String> event) {
 		dateEnd = Utils.dateFormatSql.format(Utils.dateFormatUser.parse(event.getValue())) + " 00:00:00";
-		queryDirections();
+//		queryDirections();
+		spanel.searchDirections();
 	    }
 	});
 
@@ -126,7 +130,8 @@ public class DirectionsPanel extends Composite {
 	    @Override
 	    public void onValueChange(ValueChangeEvent<Date> event) {
 		dateEnd = Utils.dateFormatSql.format(event.getValue()) + " 00:00:00";
-		queryDirections();
+//		queryDirections();
+		spanel.searchDirections();
 	    }
 	});
 
@@ -181,7 +186,8 @@ public class DirectionsPanel extends Composite {
 		if (manufacturerModelName != null && manufacturerModelName.length() == 0) {
 		    manufacturerModelName = null;
 		}
-		queryDirections();
+//		queryDirections();
+		spanel.searchDirections();
 	    }
 	});
 
@@ -191,173 +197,168 @@ public class DirectionsPanel extends Composite {
 	label.addStyleName("DicomItemValue");
 	toolPanel.add(label);
 
-	resultPanel = new VerticalPanel();
-	mainPanel.add(resultPanel);
-	// TODO Убрать в css
-	resultPanel.setSpacing(10);
-	DOM.setStyleAttribute(resultPanel.getElement(), "background", "#E9EDF5");
-	resultPanel.setWidth("100%");
+
 
 	initWidget(mainPanel);
 	// TODO Убрать в css
 	setWidth("100%");
-	queryDirections();
+//	queryDirections();
 
     }
 
-    public void clear() {
-	resultPanel.clear();
-    }
+//    public void clear() {
+//	resultPanel.clear();
+//    }
+//
+//    public void add(Widget w) {
+//	resultPanel.add(w);
+//    }
 
-    public void add(Widget w) {
-	resultPanel.add(w);
-    }
+//    /**
+//     * Поиск напрвлений
+//     */
+//    private void queryDirections() {
+//
+//	Date d = new Date();
+//	searchTransactionID = d.getTime();
+//	Application.showWorkStatusMsg("");
+//
+//	// resultPanel.clear();
+//
+//	TransactionTimer t = new TransactionTimer() {
+//
+//	    private int counter = 0;
+//
+//	    public void run() {
+//
+//		if (getTransactionId() != searchTransactionID) {
+//		    cancel();
+//		    return;
+//		}
+//
+//		if (counter == 0) {
+//
+//		    Button b = new Button("Остановить поиск");
+//		    b.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//			    transactionInterrupt();
+//			}
+//		    });
+//
+//		    // TODO Вынести логику в Application
+//		    Application.addToWorkStatusWidget(b);
+//		    // TODO Вынести логику в Application
+//		    Application
+//			    .addToWorkStatusMsg(" Возможно имеется <i>проблема</i> со связью. Вы <b>всегда</b> можете остановить поиск...");
+//		}
+//		counter++;
+//
+//		Application.addToWorkStatusMsg(" Поиск продолжается " + counter * 2 + " сек.");
+//
+//	    }
+//	};
+//	t.setTransactionId(searchTransactionID);
+//	t.scheduleRepeating(3000);
+//
+//	transactionStarted();
+//
+//	QueryDirectionProxy query = new QueryDirectionProxy();
+//	query.setManufacturerDevice(manufacturerModelName);
+//	query.setDateTimePlannedBegin(dateBegin);
+//	query.setDateTimePlannedEnd(dateEnd);
+//
+//	Application.browserService.getDirections(query, new AsyncCallback<ArrayList<DirectionProxy>>() {
+//
+//	    @Override
+//	    public void onFailure(Throwable caught) {
+//		transactionFinished();
+//		Application.showErrorDlg(caught);
+//
+//	    }
+//
+//	    @Override
+//	    public void onSuccess(ArrayList<DirectionProxy> result) {
+//
+//		Application.hideWorkStatusMsg();
+//
+//		Label l = new Label("Количество Направлений: " + result.size());
+//		l.addStyleName("DicomItem");
+//		resultPanel.add(l);
+//
+//		for (DirectionProxy directionProxy : result) {
+//
+//		    DirectionCard drn = new DirectionCard(directionProxy);
+//		    resultPanel.add(drn);
+//		    System.out.println("!!!!!!!! directionProxy="+directionProxy.getDevice());
+//
+//		}
+//
+//		if (result.size() >= maxResultCount) {
+//		    HTML emptyStr = new HTML();
+//		    emptyStr.setWidth("900px");
+//		    emptyStr.setStyleName("DicomItemValue");
+//		    emptyStr.setHTML("Показаны только первые " + maxResultCount
+//			    + " строк! Чтобы посмотреть все - сужайте критерий поиска.");
+//
+//		    resultPanel.add(emptyStr);
+//		}
+//
+//		if (result.size() == 0) {
+//		    showNotFound();
+//		}
+//
+//		transactionFinished();
+//
+//	    }
+//	});
+//
+//    }
 
-    /**
-     * Поиск напрвлений
-     */
-    private void queryDirections() {
-
-	Date d = new Date();
-	searchTransactionID = d.getTime();
-	Application.showWorkStatusMsg("");
-
-	// resultPanel.clear();
-
-	TransactionTimer t = new TransactionTimer() {
-
-	    private int counter = 0;
-
-	    public void run() {
-
-		if (getTransactionId() != searchTransactionID) {
-		    cancel();
-		    return;
-		}
-
-		if (counter == 0) {
-
-		    Button b = new Button("Остановить поиск");
-		    b.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-			    transactionInterrupt();
-			}
-		    });
-
-		    // TODO Вынести логику в Application
-		    Application.addToWorkStatusWidget(b);
-		    // TODO Вынести логику в Application
-		    Application
-			    .addToWorkStatusMsg(" Возможно имеется <i>проблема</i> со связью. Вы <b>всегда</b> можете остановить поиск...");
-		}
-		counter++;
-
-		Application.addToWorkStatusMsg(" Поиск продолжается " + counter * 2 + " сек.");
-
-	    }
-	};
-	t.setTransactionId(searchTransactionID);
-	t.scheduleRepeating(3000);
-
-	transactionStarted();
-
-	QueryDirectionProxy query = new QueryDirectionProxy();
-	query.setManufacturerDevice(manufacturerModelName);
-	query.setDateTimePlannedBegin(dateBegin);
-	query.setDateTimePlannedEnd(dateEnd);
-
-	Application.browserService.getDirections(query, new AsyncCallback<ArrayList<DirectionProxy>>() {
-
-	    @Override
-	    public void onFailure(Throwable caught) {
-		transactionFinished();
-		Application.showErrorDlg(caught);
-
-	    }
-
-	    @Override
-	    public void onSuccess(ArrayList<DirectionProxy> result) {
-
-		Application.hideWorkStatusMsg();
-
-		Label l = new Label("Количество Направлений: " + result.size());
-		l.addStyleName("DicomItem");
-		resultPanel.add(l);
-
-		for (DirectionProxy directionProxy : result) {
-
-		    DirectionCard drn = new DirectionCard(directionProxy);
-		    resultPanel.add(drn);
-		    System.out.println("!!!!!!!! directionProxy="+directionProxy.getDevice());
-
-		}
-
-		if (result.size() >= maxResultCount) {
-		    HTML emptyStr = new HTML();
-		    emptyStr.setWidth("900px");
-		    emptyStr.setStyleName("DicomItemValue");
-		    emptyStr.setHTML("Показаны только первые " + maxResultCount
-			    + " строк! Чтобы посмотреть все - сужайте критерий поиска.");
-
-		    resultPanel.add(emptyStr);
-		}
-
-		if (result.size() == 0) {
-		    showNotFound();
-		}
-
-		transactionFinished();
-
-	    }
-	});
-
-    }
-
-    /**
-     * старт транзакции
-     */
-    private void transactionStarted() {
-	resultPanel.clear();
-	// sendButton.setEnabled(false);
-	// clearButton.setEnabled(false);
-    }
-
-    /**
-     * Завершение транзакции
-     */
-    private void transactionFinished() {
-
-	Application.hideWorkStatusMsg();
-	// sendButton.setEnabled(true);
-	// clearButton.setEnabled(true);
-	// nameField.setFocus(true);
-	searchTransactionID = new Date().getTime();
-    }
-
-    /**
-     * Прерывание транзакции
-     */
-    private void transactionInterrupt() {
-	transactionFinished();
-    }
-
-    protected void showNotFound() {
-	HTML emptyStr = new HTML();
-	emptyStr.setWidth("400px");
-	// emptyStr.setStyleName("DicomItemValue");
-	emptyStr.setHTML("Ничего не найдено... Попробуйте выбрать другие даты...");
-
-	resultPanel.add(emptyStr);
-
-	// emptyStr = new HTML();
-	// emptyStr.setWidth("800px");
-	// emptyStr
-	// .setHTML(
-	//
-	// " <p> Попробуйте выбрать другую дату... </p>");
-	//
-	// resultPanel.add(emptyStr);
-    }
+//    /**
+//     * старт транзакции
+//     */
+//    private void transactionStarted() {
+//	resultPanel.clear();
+//	// sendButton.setEnabled(false);
+//	// clearButton.setEnabled(false);
+//    }
+//
+//    /**
+//     * Завершение транзакции
+//     */
+//    private void transactionFinished() {
+//
+//	Application.hideWorkStatusMsg();
+//	// sendButton.setEnabled(true);
+//	// clearButton.setEnabled(true);
+//	// nameField.setFocus(true);
+//	searchTransactionID = new Date().getTime();
+//    }
+//
+//    /**
+//     * Прерывание транзакции
+//     */
+//    private void transactionInterrupt() {
+//	transactionFinished();
+//    }
+//
+//    protected void showNotFound() {
+//	HTML emptyStr = new HTML();
+//	emptyStr.setWidth("400px");
+//	// emptyStr.setStyleName("DicomItemValue");
+//	emptyStr.setHTML("Ничего не найдено... Попробуйте выбрать другие даты...");
+//
+//	resultPanel.add(emptyStr);
+//
+//	// emptyStr = new HTML();
+//	// emptyStr.setWidth("800px");
+//	// emptyStr
+//	// .setHTML(
+//	//
+//	// " <p> Попробуйте выбрать другую дату... </p>");
+//	//
+//	// resultPanel.add(emptyStr);
+//    }
 }
