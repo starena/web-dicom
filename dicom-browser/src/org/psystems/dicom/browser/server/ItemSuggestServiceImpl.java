@@ -88,12 +88,12 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		// specified by the request)
 
 		
-		List<Suggestion> suggestions;
+		List<Suggestion> suggestions = null;
 		try {
 			if(type.equals("study")) {
 			suggestions = Storage.getSearchStudiesSuggestions(
 					getServletContext(), req.getQuery(), req.getLimit());
-			}else {
+			}else if(type.equals("patient"))  {
 				suggestions = Storage.getSearchPatientsSuggestions(
 						getServletContext(), req.getQuery(), req.getLimit());
 			}

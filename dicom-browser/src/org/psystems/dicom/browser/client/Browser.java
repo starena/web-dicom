@@ -90,112 +90,107 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class Browser implements EntryPoint {
 
-	// Версия ПО (используется для проверки на стороне сервере при обновлении
-	// клиента)
-	//TODO !!!! Пернести в конфиг !!!!!
-	//TODO В классе ARPCRequest тоже есть эта переменная !!!
-	public static String version = "0.1a";
-	
+    // Версия ПО (используется для проверки на стороне сервере при обновлении
+    // клиента)
+    // TODO !!!! Пернести в конфиг !!!!!
+    // TODO В классе ARPCRequest тоже есть эта переменная !!!
+    public static String version = "0.1a";
 
+    // Create a remote service proxy
+    public final static BrowserServiceAsync browserService = GWT.create(BrowserService.class);
 
-	// Create a remote service proxy
-	public final static BrowserServiceAsync browserService = GWT
-			.create(BrowserService.class);
+    public static final ManageStydyServiceAsync manageStudyService = GWT.create(ManageStydyService.class);
 
-	public static final ManageStydyServiceAsync manageStudyService = GWT
-			.create(ManageStydyService.class);
+    private static DialogBox errorDialogBox;
+    private static HTML errorResponseLabel;
 
-	
-	private static DialogBox errorDialogBox;
-	private static HTML errorResponseLabel;
+    // панель состояния работы запросов
+    private static PopupPanel workStatusPopup;
+    private static FlowPanel workStatusPanel;
 
-	// панель состояния работы запросов
-	private static PopupPanel workStatusPopup;
-	private static FlowPanel workStatusPanel;
+    // private VerticalPanel bodyPanel;
 
-	// private VerticalPanel bodyPanel;
+    public boolean showPageIntro = true;// Показ страницы с приглашением
 
-	public boolean showPageIntro = true;// Показ страницы с приглашением
+    private SearchPanel searchPanel;
 
-	private SearchPanel searchPanel;
+    private static Label errorResponseMsg;
 
+    /**
+     * This is the entry point method.
+     */
+    public void onModuleLoad() {
 
+	_workStatusPopup();
+	createErorrDlg();
 
-	private static Label errorResponseMsg;
+	HeaderPanel headerPanel = new HeaderPanel();
+	RootPanel.get("headerContainer").add(headerPanel);
 
-	/**
-	 * This is the entry point method.
-	 */
-	public void onModuleLoad() {
+	searchPanel = new SearchPanel(this);
+	RootPanel.get("searchContainer").add(searchPanel);
 
-		_workStatusPopup();
-		createErorrDlg();
+	History.addValueChangeHandler(new ValueChangeHandler<String>() {
 
-		HeaderPanel headerPanel = new HeaderPanel();
-		RootPanel.get("headerContainer").add(headerPanel);
+	    @Override
+	    public void onValueChange(ValueChangeEvent<String> event) {
 
-		searchPanel = new SearchPanel(this);
-		RootPanel.get("searchContainer").add(searchPanel);
+		if (event.getValue().equals("")) {
 
-		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+		    RootPanel.get("bodyContainer").clear();
+		    SearchResultPanel searchResultPanel = new SearchResultPanel();
+		    RootPanel.get("bodyContainer").add(searchResultPanel);
+		    searchPanel.setResultPanel(searchResultPanel);
+		    searchPanel.setType("study");
 
-			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
+		} else if (event.getValue().equals("newstudy")) {
 
-				if (event.getValue().equals("")) {
+		    RootPanel.get("bodyContainer").clear();
 
-					RootPanel.get("bodyContainer").clear();
-					SearchResultPanel searchResultPanel = new SearchResultPanel();
-					RootPanel.get("bodyContainer").add(searchResultPanel);
-					searchPanel.setResultPanel(searchResultPanel);
-					searchPanel.setType("study");
+		    // StudyManagePanel panel = new StudyManagePanel(
+		    // manageStudyService,browserService,null);
+		    // RootPanel.get("bodyContainer").add(panel);
+		    SearchResultPanel searchResultPanel = new SearchResultPanel();
+		    RootPanel.get("bodyContainer").add(searchResultPanel);
+		    searchPanel.setResultPanel(searchResultPanel);
 
-				} else if (event.getValue().equals("newstudy")) {
+		    searchPanel.setType("patient");
 
-					RootPanel.get("bodyContainer").clear();
+		} else if (event.getValue().equals("showintro")) {
 
-					// StudyManagePanel panel = new StudyManagePanel(
-					// manageStudyService,browserService,null);
-					// RootPanel.get("bodyContainer").add(panel);
-					SearchResultPanel searchResultPanel = new SearchResultPanel();
-					RootPanel.get("bodyContainer").add(searchResultPanel);
-					searchPanel.setResultPanel(searchResultPanel);
+		    RootPanel.get("bodyContainer").clear();
+		    IntroPanel intro = new IntroPanel();
+		    RootPanel.get("bodyContainer").add(intro);
 
-					searchPanel.setType("patient");
+		} else if (event.getValue().equals("workliststudy")) {
 
-				} else if (event.getValue().equals("showintro")) {
+		    RootPanel.get("bodyContainer").clear();
+		    SearchResultPanel searchResultPanel = new SearchResultPanel();
+		    RootPanel.get("bodyContainer").add(searchResultPanel);
+		    searchPanel.setResultPanel(searchResultPanel);
+		    searchPanel.setType("worklist");
 
-					RootPanel.get("bodyContainer").clear();
-					IntroPanel intro = new IntroPanel();
-					RootPanel.get("bodyContainer").add(intro);
+		} else if (event.getValue().equals("directions")) {
 
-				} else if (event.getValue().equals("workliststudy")) {
+		    RootPanel.get("bodyContainer").clear();
+		    SearchResultPanel searchResultPanel = new SearchResultPanel();
+		    RootPanel.get("bodyContainer").add(searchResultPanel);
+		    searchPanel.setResultPanel(searchResultPanel);
+		    searchPanel.setType("direction");
 
-					RootPanel.get("bodyContainer").clear();
-					WorkListPanel wlpanel = new WorkListPanel(
-							Browser.this);
-					RootPanel.get("bodyContainer").add(wlpanel);
+		}
+	    }
+	});
 
-				} else if (event.getValue().equals("directions")) {
+	History.fireCurrentHistoryState();
 
-					RootPanel.get("bodyContainer").clear();
-					DirectionsPanel drnpanel = new DirectionsPanel(
-							Browser.this);
-					RootPanel.get("bodyContainer").add(drnpanel);
+    }
 
-				}
-			}
-		});
-
-		History.fireCurrentHistoryState();
-
-	}
-	
     /**
      * Диалог выдачи сообщения об ошибке
      */
     private void createErorrDlg() {
-	
+
 	errorDialogBox = new DialogBox();
 	errorDialogBox.setText("Ошибка!");
 	errorDialogBox.setAnimationEnabled(true);
@@ -222,7 +217,7 @@ public class Browser implements EntryPoint {
 		    errorResponseLabel.setVisible(false);
 		else
 		    errorResponseLabel.setVisible(true);
-		
+
 		errorDialogBox.center();
 	    }
 	});
@@ -243,99 +238,98 @@ public class Browser implements EntryPoint {
 
     }
 
-	/**
-	 * Выдача сообщения об ошибке
-	 * @param e
-	 */
-	public static void showErrorDlg(Throwable e) {
+    /**
+     * Выдача сообщения об ошибке
+     * 
+     * @param e
+     */
+    public static void showErrorDlg(Throwable e) {
 
-		if(e instanceof DefaultGWTRPCException) {
-			DefaultGWTRPCException ex = (DefaultGWTRPCException)e;
-			errorResponseMsg.setText(e.getMessage());
-			errorResponseLabel.setHTML(ex.getMessage()+" <br><pre>Ошибка [" + ex.getLogMarker()+ "]\n"+ ex.getStack()+"</pre>");
-		} else {
-		    errorResponseMsg.setText(e.getMessage());
-		}
-		errorDialogBox.show();
-		errorDialogBox.center();
+	if (e instanceof DefaultGWTRPCException) {
+	    DefaultGWTRPCException ex = (DefaultGWTRPCException) e;
+	    errorResponseMsg.setText(e.getMessage());
+	    errorResponseLabel.setHTML(ex.getMessage() + " <br><pre>Ошибка [" + ex.getLogMarker() + "]\n"
+		    + ex.getStack() + "</pre>");
+	} else {
+	    errorResponseMsg.setText(e.getMessage());
 	}
+	errorDialogBox.show();
+	errorDialogBox.center();
+    }
 
-	
+    /**
+     * создание диалога состояния поцесса работы
+     */
+    private void _workStatusPopup() {
 
-	/**
-	 * создание диалога состояния поцесса работы
-	 */
-	private void _workStatusPopup() {
+	workStatusPopup = new PopupPanel();
+	workStatusPopup.hide();
+	workStatusPopup.setStyleName("msgPopupPanel");
+	// workStatusPanel.setAnimationEnabled(false);
+	workStatusPanel = new FlowPanel();
+	// workMsg = new HTML("");
+	workStatusPanel.addStyleName("msgPopupPanelItem");
+	workStatusPopup.add(workStatusPanel);
+    }
 
-		workStatusPopup = new PopupPanel();
-		workStatusPopup.hide();
-		workStatusPopup.setStyleName("msgPopupPanel");
-		// workStatusPanel.setAnimationEnabled(false);
-		workStatusPanel = new FlowPanel();
-		// workMsg = new HTML("");
-		workStatusPanel.addStyleName("msgPopupPanelItem");
-		workStatusPopup.add(workStatusPanel);
-	}
+    /**
+     * Показ панели состояния процесса
+     * 
+     * @param html
+     *            HTML сообщение
+     */
+    public void showWorkStatusMsg(String html) {
 
-	/**
-	 * Показ панели состояния процесса
-	 * 
-	 * @param html
-	 *            HTML сообщение
-	 */
-	public void showWorkStatusMsg(String html) {
+	workStatusPanel.add(new HTML(html));
+	workStatusPopuppopupCentering();
+    }
 
-		workStatusPanel.add(new HTML(html));
-		workStatusPopuppopupCentering();
-	}
+    /**
+     * Центровка сообщения
+     */
+    private void workStatusPopuppopupCentering() {
+	workStatusPopup.setPopupPositionAndShow(new PositionCallback() {
 
-	/**
-	 * Центровка сообщения
-	 */
-	private void workStatusPopuppopupCentering() {
-		workStatusPopup.setPopupPositionAndShow(new PositionCallback() {
+	    @Override
+	    public void setPosition(int offsetWidth, int offsetHeight) {
 
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
+		workStatusPopup.setPopupPosition(offsetWidth, offsetHeight);
+		int left = (Window.getClientWidth() - offsetWidth) >> 1;
+		int top = 0;
 
-				workStatusPopup.setPopupPosition(offsetWidth, offsetHeight);
-				int left = (Window.getClientWidth() - offsetWidth) >> 1;
-				int top = 0;
+		workStatusPopup.setPopupPosition(Window.getScrollLeft() + left, Window.getScrollTop() + top);
+	    }
 
-				workStatusPopup.setPopupPosition(Window.getScrollLeft() + left,
-						Window.getScrollTop() + top);
-			}
+	});
 
-		});
+    }
 
-	}
+    /**
+     * Добавление в сообщение строки
+     * 
+     * @param html
+     */
+    public void addToWorkStatusMsg(String html) {
+	workStatusPanel.add(new HTML(html));
+	workStatusPopuppopupCentering();
+    }
 
-	/**
-	 * Добавление в сообщение строки
-	 * 
-	 * @param html
-	 */
-	public void addToWorkStatusMsg(String html) {
-		workStatusPanel.add(new HTML(html));
-		workStatusPopuppopupCentering();
-	}
+    /**
+     * Добавление в сообщение виджета
+     * 
+     * @param html
+     */
+    public void addToWorkStatusWidget(Widget widget) {
+	workStatusPanel.add(widget);
+	workStatusPopuppopupCentering();
+    }
 
-	/**
-	 * Добавление в сообщение виджета
-	 * 
-	 * @param html
-	 */
-	public void addToWorkStatusWidget(Widget widget) {
-		workStatusPanel.add(widget);
-		workStatusPopuppopupCentering();
-	}
-
-	/**
-	 * Скрытие панели состояния процесса
-	 */
-	public static void hideWorkStatusMsg() {
-		workStatusPanel.clear();
-		workStatusPopup.hide();
-	}
+    /**
+     * Скрытие панели состояния процесса
+     */
+    public static void hideWorkStatusMsg() {
+	workStatusPanel.clear();
+	workStatusPopup.hide();
+    }
 
 }

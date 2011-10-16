@@ -55,14 +55,16 @@ public class WorkListPanel extends Composite {
 
     protected String sortOrder = null;
     public final static int maxResultCount = 300;
+    SearchPanel spanel;
 
     /**
      * @param application
      *            TODO Убрать и вызывать через static методы???
      */
-    public WorkListPanel(Browser application) {
+    public WorkListPanel(Browser application, final SearchPanel spanel) {
 
 	this.Application = application;
+	this.spanel = spanel;
 
 	dateBegin = Utils.dateFormatSql.format(new Date());
 	dateEnd = Utils.dateFormatSql.format(new Date());

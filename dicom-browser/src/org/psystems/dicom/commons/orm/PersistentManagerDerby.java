@@ -778,7 +778,11 @@ public class PersistentManagerDerby {
 	    if (request.getPatientName() != null) {
 		if (counterArguments++ > 0)
 		    sql += " AND ";
-		sql += " PATIENT_NAME = ? ";
+		//если есть wildcards, то делаем "близкий" поиск
+		if(request.getPatientName().contains("%"))
+		    sql += " UPPER(PATIENT_NAME) LIKE UPPER(?) ";
+		else
+		    sql += " UPPER(PATIENT_NAME) = UPPER(?) ";
 	    }
 	    if (request.getPatientSex() != null) {
 		if (counterArguments++ > 0)
