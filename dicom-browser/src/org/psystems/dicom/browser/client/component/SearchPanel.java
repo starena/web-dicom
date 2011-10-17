@@ -15,6 +15,7 @@ import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.QueryDirectionProxy;
+import org.psystems.dicom.browser.client.proxy.QueryStudyProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.proxy.SuggestTransactedResponse;
@@ -55,7 +56,7 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
     private Browser Application;
 
     private String searchTitle = "...введите фамилию (% - любой символ)...";
-    private SearchResultPanel resultPanel;
+    SearchResultPanel resultPanel;
     private Button sendButton;
     private Button clearButton;
     private SuggestBox nameField;
@@ -182,12 +183,14 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	    }
 
 	});
+	
+	
 
 	nameField.addSelectionHandler(new SelectionHandler<Suggestion>() {
 
 	    @Override
 	    public void onSelection(SelectionEvent<Suggestion> event) {
-		// System.out.println("addSelectionHandler "+event);
+
 		if (type.equals("study"))
 		    searchStudyes();
 		else if (type.equals("patient"))
@@ -563,7 +566,7 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	// resultPanel.add(new Label("!!!!!!!!!!!!!!" + querystr));
 
 	QueryDirectionProxy query = new QueryDirectionProxy();
-	//TODO Корявый костыль !!! ...введите фамилию (% - любой символ)...
+	// TODO Корявый костыль !!! ...введите фамилию (% - любой символ)...
 	if (querystr != null && querystr.length() > 0 && !querystr.equals("...введите фамилию (% - любой символ)..."))
 	    query.setPatientName(querystr + "%");
 	query.setManufacturerDevice(DirectionsPanel.manufacturerModelName);
@@ -616,12 +619,12 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 
     }
 
-    
     /**
      * Поиск исследований
      */
     void searchWorklist() {
 
+	// System.out.println("!!!! searchWorklist");
 	Date d = new Date();
 	searchTransactionID = d.getTime();
 
@@ -680,15 +683,27 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	// resultPanel.add(new Label("!!!!!!!!!!!!!!" + querystr));
 
 	
-	QueryDirectionProxy query = new QueryDirectionProxy();
-	//TODO Корявый костыль !!! ...введите фамилию (% - любой символ)...
+	QueryStudyProxy query = new QueryStudyProxy();
+	// TODO Корявый костыль !!! ...введите фамилию (% - любой символ)...
 	if (querystr != null && querystr.length() > 0 && !querystr.equals("...введите фамилию (% - любой символ)..."))
 	    query.setPatientName(querystr + "%");
-	query.setManufacturerDevice(DirectionsPanel.manufacturerModelName);
-	query.setDateTimePlannedBegin(DirectionsPanel.dateBegin);
-	query.setDateTimePlannedEnd(DirectionsPanel.dateEnd);
+	if (WorkListPanel.manufacturerModelName.length() > 0)
+	    query.setManufacturerModelName(WorkListPanel.manufacturerModelName);
+	
+	query.setBeginStudyDate(WorkListPanel.dateBegin);
+	query.setEndStudyDate(WorkListPanel.dateEnd);
 
-	Application.browserService.getDirections(query, new AsyncCallback<ArrayList<DirectionProxy>>() {
+	if (WorkListPanel.studyResult.equals("new"))
+	    query.setStudyNotComplite(true);
+
+	if (WorkListPanel.studyResult.equals("old"))
+	    query.setStudyComplite(true);
+
+	// query.setManufacturerDevice(DirectionsPanel.manufacturerModelName);
+	// query.setDateTimePlannedBegin(DirectionsPanel.dateBegin);
+	// query.setDateTimePlannedEnd(DirectionsPanel.dateEnd);
+
+	Application.browserService.getStudies(query, new AsyncCallback<ArrayList<StudyProxy>>() {
 
 	    @Override
 	    public void onFailure(Throwable caught) {
@@ -698,18 +713,21 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	    }
 
 	    @Override
-	    public void onSuccess(ArrayList<DirectionProxy> result) {
+	    public void onSuccess(ArrayList<StudyProxy> result) {
 
 		Application.hideWorkStatusMsg();
 
-		Label l = new Label("Количество Направлений: " + result.size());
+		Label l = new Label("Количество исследований: " + result.size());
 		l.addStyleName("DicomItem");
 		resultPanel.add(l);
+		WorkListPanel.studies = result;
 
-		for (DirectionProxy directionProxy : result) {
+		
+		for (StudyProxy studyProxy : result) {
 
-		    DirectionCard drn = new DirectionCard(directionProxy);
-		    resultPanel.add(drn);
+		    StudyCard s = new StudyCard(false);
+		    s.setProxy(studyProxy);
+		    resultPanel.add(s);
 
 		}
 
@@ -734,7 +752,6 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 
     }
 
-   
     protected void showNotFound() {
 	HTML emptyStr = new HTML();
 	emptyStr.setWidth("400px");
@@ -815,9 +832,9 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	    DirectionsPanel drnToolPanel = new DirectionsPanel(Application, this);
 	    toolPanel.add(drnToolPanel);
 	} else if (type.equals("worklist")) {
-	    WorkListPanel wrkToolPanel = new WorkListPanel(Application, this);
+	    WorkListPanel wrkToolPanel = new WorkListPanel(this);
 	    toolPanel.add(wrkToolPanel);
-	} 
+	}
 
     }
 
