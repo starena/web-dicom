@@ -90,6 +90,7 @@ import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.QueryDirectionProxy;
+import org.psystems.dicom.browser.client.proxy.QueryStudyProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
@@ -764,6 +765,28 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    throw Util.throwPortalException("getDirections study error! ", e);
 	}
 
+    }
+    
+    
+    
+
+    @Override
+    public ArrayList<StudyProxy> getStudies(QueryStudyProxy query) throws DefaultGWTRPCException {
+
+	try {
+	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+	    ArrayList<StudyProxy> studies = new ArrayList<StudyProxy>();
+	    
+	    for (Study study : pm.queryStudies(ORMHelpers.getQueryStudy(query))) {
+		studies.add(ORMHelpers.getStudyProxy(study));
+	    }
+	    return studies;
+
+	} catch (Throwable e) {
+	    logger.error(e);
+	    throw Util.throwPortalException("getDirections study error! ", e);
+	}
     }
 
     @Override
