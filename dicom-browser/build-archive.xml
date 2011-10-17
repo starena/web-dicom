@@ -13,9 +13,12 @@
 	<property name="dir.doc.api" value="${dir.doc}/api" />
 	<property name="dir.distrib" value="distrib" />
 	<property name="dir.data.db" value="data/db" />
+	<property name="dir.var" value="data" />
 	<property name="dir.data.incoming" value="data/incoming" />
 	<property name="db.connect" value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true" />
 	<property name="distrib.jar" value="dcmarchive.jar" />
+	<property name="archive.runkey" value="WEBDICOM" />
+
 
 	<path id="derby.classpath">
 		<fileset dir="lib/derby">
@@ -249,6 +252,7 @@
 			<sysproperty key="derby.drda.portNumber" value="1527" />
 			<sysproperty key="derby.drda.host" value="localhost" />
 			<sysproperty key="derby.drda.logConnections" value="true" />
+			<sysproperty key="archive.key" value="${archive.runkey}" />
 			<classpath refid="archive.classpath" />
 			<classpath refid="derby.classpath" />
 			<classpath refid="common.classpath" />
@@ -257,7 +261,59 @@
 	</target>
 
 
-	<target name="archve.test" description="start dicom archivr">
+	<!-- stop archive -->
+	<target name="archve.stop" description="start dicom archive">
+
+		<exec executable="jps" output="${dir.var}/javaprocess.log">
+			<arg value="-v" />
+
+		</exec>
+
+		<loadfile srcfile="${dir.var}/javaprocess.log" property="archive.allproc">
+			<filterchain>
+				<containsregex pattern="WEBDICOM" />
+			</filterchain>
+		</loadfile>
+
+		<echo message="ALL: ${archive.allproc}" />
+
+		<propertyregex property="archive.pid"
+			input="${archive.allproc}"
+			regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}"
+			select="\1"
+		/>
+
+		<echo message="PID: ${archive.pid}" />
+
+
+		<exec executable="jps" outputproperty="${java.allprocess}">
+			<arg value="-v" />
+		</exec>
+
+		
+
+		<propertyregex property="archive.pid" input="${java.allprocess}" regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}" select="\1" />
+
+		<echo message="PID: ${archive.pid}" />
+
+		<!-- 
+		<replaceregexp file="${dir.var}/javaprocess.log"
+			match="$(.*) Archive(.*)"
+			               replace="D \1 D"
+
+			byline="true">
+		</replaceregexp>
+		-->
+
+		<!-- 
+		<exec executable="taskkill" outputproperty="archive.pid">
+			<arg value="/pid 12323" />
+		</exec>
+		-->
+
+	</target>
+
+	<target name="archve.test" description="start dicom archive">
 		<parallel failonany="true">
 			<antcall target="archve.start"/>
 			<sequential>
@@ -289,7 +345,7 @@
 		
 		<mkdir dir="test/data" />
 		 -->
-		
+
 		<for param="file">
 			<path>
 				<fileset dir="test/data" includes="**/*.dcm" />
