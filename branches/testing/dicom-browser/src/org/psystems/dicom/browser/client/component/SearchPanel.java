@@ -567,8 +567,13 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 
 	QueryDirectionProxy query = new QueryDirectionProxy();
 	// TODO Корявый костыль !!! ...введите фамилию (% - любой символ)...
-	if (querystr != null && querystr.length() > 0 && !querystr.equals("...введите фамилию (% - любой символ)..."))
-	    query.setPatientName(querystr + "%");
+	if (querystr != null && querystr.length() > 0 && !querystr.equals("...введите фамилию (% - любой символ)...")) {
+	    if (querystr.matches("^\\D{5}\\d{2}$")) {//поиск по КБП
+		query.setPatientShortName(querystr);
+	    } else {
+		query.setPatientName(querystr + "%");
+	    }
+	}
 	query.setManufacturerDevice(DirectionsPanel.manufacturerModelName);
 	query.setDateTimePlannedBegin(DirectionsPanel.dateBegin);
 	query.setDateTimePlannedEnd(DirectionsPanel.dateEnd);
@@ -685,8 +690,13 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	
 	QueryStudyProxy query = new QueryStudyProxy();
 	// TODO Корявый костыль !!! ...введите фамилию (% - любой символ)...
-	if (querystr != null && querystr.length() > 0 && !querystr.equals("...введите фамилию (% - любой символ)..."))
-	    query.setPatientName(querystr + "%");
+	if (querystr != null && querystr.length() > 0 && !querystr.equals("...введите фамилию (% - любой символ)...")) {
+	    if (querystr.matches("^\\D{5}\\d{2}$")) {//поиск по КБП
+		query.setPatientShortName(querystr);
+	    } else {
+		query.setPatientName(querystr + "%");
+	    }
+	}
 	if (WorkListPanel.manufacturerModelName.length() > 0)
 	    query.setManufacturerModelName(WorkListPanel.manufacturerModelName);
 	
