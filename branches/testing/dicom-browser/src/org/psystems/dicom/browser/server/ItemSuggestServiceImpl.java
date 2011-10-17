@@ -55,6 +55,7 @@
 package org.psystems.dicom.browser.server;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -88,7 +89,7 @@ public class ItemSuggestServiceImpl extends RemoteServiceServlet implements
 		// specified by the request)
 
 		
-		List<Suggestion> suggestions = null;
+		List<Suggestion> suggestions = new ArrayList<SuggestOracle.Suggestion>();
 		try {
 			if(type.equals("study")) {
 			suggestions = Storage.getSearchStudiesSuggestions(
