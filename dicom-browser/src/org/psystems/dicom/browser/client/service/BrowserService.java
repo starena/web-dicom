@@ -66,6 +66,7 @@ import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.QueryDirectionProxy;
+import org.psystems.dicom.browser.client.proxy.QueryStudyProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
@@ -112,7 +113,7 @@ public interface BrowserService extends RemoteService {
 
     Session getSessionObject() throws DefaultGWTRPCException;
 
-    //FIXME переименовать в PDF....
+    // FIXME переименовать в PDF....
     ArrayList<OOTemplateProxy> getOOTemplates(String modality) throws DefaultGWTRPCException;
 
     ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query) throws DefaultGWTRPCException;
@@ -124,4 +125,6 @@ public interface BrowserService extends RemoteService {
      * @throws DefaultGWTRPCException
      */
     void saveDirection(DirectionProxy drn) throws DefaultGWTRPCException;
+
+    ArrayList<StudyProxy> getStudies(QueryStudyProxy query) throws DefaultGWTRPCException;
 }

@@ -501,7 +501,7 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
     }
 
     /**
-     * Поиск исследований
+     * Поиск направлений
      */
     void searchDirections() {
 
@@ -616,10 +616,11 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 
     }
 
+    
     /**
      * Поиск исследований
      */
-    private void searchWorklist() {
+    void searchWorklist() {
 
 	Date d = new Date();
 	searchTransactionID = d.getTime();
@@ -675,85 +676,65 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	String querystr = nameField.getText();
 	transactionStarted();
 
-	PatientsRPCRequest req = new PatientsRPCRequest();
-	req.setTransactionId(searchTransactionID);
-	req.setQueryStr(querystr);
-	req.setLimit(20);
+	// querystr = "Деренок Дмитрий Владимирович";// TODO убрать!!!
+	// resultPanel.add(new Label("!!!!!!!!!!!!!!" + querystr));
 
-	Application.browserService.findStudy(searchTransactionID, Browser.version, querystr, null,
-		new AsyncCallback<RPCDcmProxyEvent>() {
+	
+	QueryDirectionProxy query = new QueryDirectionProxy();
+	//TODO Корявый костыль !!! ...введите фамилию (% - любой символ)...
+	if (querystr != null && querystr.length() > 0 && !querystr.equals("...введите фамилию (% - любой символ)..."))
+	    query.setPatientName(querystr + "%");
+	query.setManufacturerDevice(DirectionsPanel.manufacturerModelName);
+	query.setDateTimePlannedBegin(DirectionsPanel.dateBegin);
+	query.setDateTimePlannedEnd(DirectionsPanel.dateEnd);
 
-		    public void onFailure(Throwable caught) {
+	Application.browserService.getDirections(query, new AsyncCallback<ArrayList<DirectionProxy>>() {
 
-			transactionFinished();
-			Application.showErrorDlg(caught);
+	    @Override
+	    public void onFailure(Throwable caught) {
+		transactionFinished();
+		Application.showErrorDlg(caught);
 
-		    }
+	    }
 
-		    public void onSuccess(RPCDcmProxyEvent result) {
+	    @Override
+	    public void onSuccess(ArrayList<DirectionProxy> result) {
 
-			// TODO попробовать сделать нормлаьный interrupt (дабы
-			// не качать все данные)
-			// Если сменился идентификатор транзакции, то ничего не
-			// принимаем
-			if (searchTransactionID != result.getTransactionId()) {
-			    return;
-			}
+		Application.hideWorkStatusMsg();
 
-			Application.hideWorkStatusMsg();
+		Label l = new Label("Количество Направлений: " + result.size());
+		l.addStyleName("DicomItem");
+		resultPanel.add(l);
 
-			ArrayList<StudyProxy> cortegeList = result.getData();
-			removedCards.clear();
+		for (DirectionProxy directionProxy : result) {
 
-			int removed = 0;
-			for (Iterator<StudyProxy> it = cortegeList.iterator(); it.hasNext();) {
+		    DirectionCard drn = new DirectionCard(directionProxy);
+		    resultPanel.add(drn);
 
-			    StudyProxy studyProxy = it.next();
+		}
 
-			    if (studyProxy.getStudyDateTimeRemoved() != null) {
-				removed++;
-				if (!showRemovedStudies) {
-				    removedCards.add(studyProxy);
-				    continue;
-				}
-			    }
+		if (result.size() >= DirectionsPanel.maxResultCount) {
+		    HTML emptyStr = new HTML();
+		    emptyStr.setWidth("900px");
+		    emptyStr.setStyleName("DicomItemValue");
+		    emptyStr.setHTML("Показаны только первые " + DirectionsPanel.maxResultCount
+			    + " строк! Чтобы посмотреть все - сужайте критерий поиска.");
 
-			    StudyCard s = new StudyCard(true);
-			    s.setProxy(studyProxy);
-			    resultPanel.add(s);
-			}
+		    resultPanel.add(emptyStr);
+		}
 
-			if (removed > 0) {
-			    final Label l = new Label("Показать удаленные исследования ( " + removed + " шт.)");
-			    l.removeFromParent();
-			    resultPanel.add(l);
-			    l.addStyleName("LabelLink");
-			    l.addClickHandler(new ClickHandler() {
+		if (result.size() == 0) {
+		    showNotFound();
+		}
 
-				@Override
-				public void onClick(ClickEvent event) {
+		transactionFinished();
 
-				    for (int i = 0; i < removedCards.size(); i++) {
-					StudyCard s = new StudyCard(true);
-					s.setProxy(removedCards.get(i));
-					resultPanel.add(s);
-				    }
+	    }
+	});
 
-				    l.removeFromParent();
-				}
-			    });
-			}
-			if (cortegeList.size() == 0) {
-			    showNotFound();
-			}
-
-			transactionFinished();
-
-		    }
-
-		});
     }
 
+   
     protected void showNotFound() {
 	HTML emptyStr = new HTML();
 	emptyStr.setWidth("400px");

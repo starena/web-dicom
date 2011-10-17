@@ -65,6 +65,7 @@ import org.psystems.dicom.browser.client.proxy.OOTemplateProxy;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.PatientsRPCResponse;
 import org.psystems.dicom.browser.client.proxy.QueryDirectionProxy;
+import org.psystems.dicom.browser.client.proxy.QueryStudyProxy;
 import org.psystems.dicom.browser.client.proxy.RPCDcmProxyEvent;
 import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
@@ -94,5 +95,7 @@ public interface BrowserServiceAsync {
     void saveDirection(DirectionProxy drn, AsyncCallback<Void> callback);
 
     void getStudiesByDirectionID(Long id, AsyncCallback<StudyProxy[]> callback);
+
+    void getStudies(QueryStudyProxy query, AsyncCallback<ArrayList<StudyProxy>> callback);
 
 }

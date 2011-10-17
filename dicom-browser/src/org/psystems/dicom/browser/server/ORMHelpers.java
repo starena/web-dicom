@@ -8,6 +8,7 @@ import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
 import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.PatientProxy;
 import org.psystems.dicom.browser.client.proxy.QueryDirectionProxy;
+import org.psystems.dicom.browser.client.proxy.QueryStudyProxy;
 import org.psystems.dicom.browser.client.proxy.ServiceProxy;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.commons.orm.entity.Diagnosis;
@@ -16,6 +17,7 @@ import org.psystems.dicom.commons.orm.entity.Employee;
 import org.psystems.dicom.commons.orm.entity.ManufacturerDevice;
 import org.psystems.dicom.commons.orm.entity.Patient;
 import org.psystems.dicom.commons.orm.entity.QueryDirection;
+import org.psystems.dicom.commons.orm.entity.QueryStudy;
 import org.psystems.dicom.commons.orm.entity.Service;
 import org.psystems.dicom.commons.orm.entity.Study;
 
@@ -82,27 +84,58 @@ public class ORMHelpers {
      * @param q
      * @return
      */
-    public static QueryDirection getQuerydirection(QueryDirectionProxy q) {
+    public static QueryStudy getQueryStudy(QueryStudyProxy qproxy) {
 
-	if (q == null)
+	if (qproxy == null)
+	    return null;
+
+	QueryStudy qstudy = new QueryStudy();
+	qstudy.setBeginStudyDate(qproxy.getBeginStudyDate());
+	qstudy.setBeginStudyDateTimeModify(qproxy.getBeginStudyDateTimeModify());
+	qstudy.setEndStudyDate(qproxy.getEndStudyDate());
+	qstudy.setEndStudyDateTimeModify(qproxy.getEndStudyDateTimeModify());
+	qstudy.setId(qproxy.getId());
+	qstudy.setManufacturerModelName(qproxy.getManufacturerModelName());
+	qstudy.setPatientBirthDate(qproxy.getPatientBirthDate());
+	qstudy.setPatientId(qproxy.getPatientId());
+	qstudy.setPatientName(qproxy.getPatientName());
+	qstudy.setPatientSex(qproxy.getPatientSex());
+	qstudy.setPatientShortName(qproxy.getPatientShortName());
+	qstudy.setSortOrder(qproxy.getSortOrder());
+	qstudy.setStudyComplite(qproxy.isStudyComplite());
+	qstudy.setStudyId(qproxy.getStudyId());
+	qstudy.setStudyModality(qproxy.getStudyModality());
+	qstudy.setStudyNotComplite(qproxy.isStudyNotComplite());
+	qstudy.setStudyResult(qproxy.getStudyResult());
+	qstudy.setStudyViewProtocol(qproxy.getStudyViewProtocol());
+	return qstudy;
+    }
+
+    /**
+     * @param qproxy
+     * @return
+     */
+    public static QueryDirection getQuerydirection(QueryDirectionProxy qproxy) {
+
+	if (qproxy == null)
 	    return null;
 
 	QueryDirection qdrn = new QueryDirection();
-	qdrn.setDateDirection(q.getDateDirection());
-	qdrn.setDateTimePlannedBegin(q.getDateTimePlannedBegin());
-	qdrn.setDateTimePlannedEnd(q.getDateTimePlannedEnd());
-	qdrn.setDirectionId(q.getDirectionId());
-	qdrn.setDirectionLocation(q.getDirectionId());
-	qdrn.setDoctorDirectCode(q.getDoctorDirectCode());
-	qdrn.setDoctorDirectName(q.getDoctorDirectName());
-	qdrn.setDoctorPerformedCode(q.getDoctorPerformedCode());
-	qdrn.setDoctorPerformedName(q.getDoctorPerformedName());
-	qdrn.setId(q.getId());
-	qdrn.setManufacturerDevice(q.getManufacturerDevice());
-	qdrn.setPatientBirthDate(q.getPatientBirthDate());
-	qdrn.setPatientId(q.getPatientId());
-	qdrn.setPatientName(q.getPatientName());
-	qdrn.setPatientSex(q.getPatientSex());
+	qdrn.setDateDirection(qproxy.getDateDirection());
+	qdrn.setDateTimePlannedBegin(qproxy.getDateTimePlannedBegin());
+	qdrn.setDateTimePlannedEnd(qproxy.getDateTimePlannedEnd());
+	qdrn.setDirectionId(qproxy.getDirectionId());
+	qdrn.setDirectionLocation(qproxy.getDirectionId());
+	qdrn.setDoctorDirectCode(qproxy.getDoctorDirectCode());
+	qdrn.setDoctorDirectName(qproxy.getDoctorDirectName());
+	qdrn.setDoctorPerformedCode(qproxy.getDoctorPerformedCode());
+	qdrn.setDoctorPerformedName(qproxy.getDoctorPerformedName());
+	qdrn.setId(qproxy.getId());
+	qdrn.setManufacturerDevice(qproxy.getManufacturerDevice());
+	qdrn.setPatientBirthDate(qproxy.getPatientBirthDate());
+	qdrn.setPatientId(qproxy.getPatientId());
+	qdrn.setPatientName(qproxy.getPatientName());
+	qdrn.setPatientSex(qproxy.getPatientSex());
 	return qdrn;
     }
 
