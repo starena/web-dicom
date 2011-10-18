@@ -308,11 +308,8 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
      */
     private void setProxy(StudyProxy proxy) {
 	this.proxy = proxy;
-	System.out.println("!!! proxy="+proxy.getStudyModality());
 	// TODO Реализовать инициализацию здесь !!!!
 	// Инициаизация полей
-	
-	
     }
 
     /**
@@ -882,7 +879,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    addFormRow(rowCounter++, "Направленные диагнозы", diagnosisDirrectPanel);
 
 	    //
-	    servicesDirrectPanel = new ServicePanel(false);
+	    servicesDirrectPanel = new ServicePanel(false,proxy.getId(),false);
 	    servicesDirrectPanel.setServices(direction.getServicesDirect());
 	    addFormRow(rowCounter++, "Направленные услуги", servicesDirrectPanel);
 
@@ -899,7 +896,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    }
 
 	    //
-	    servicesPerformedPanel = new ServicePanel(true);
+	    servicesPerformedPanel = new ServicePanel(true, proxy.getId(),true);
 	    addFormRow(rowCounter++, "Подтвержденные услуги", servicesPerformedPanel);
 	    // Если подтвержденных нет - копируем из назначенных
 	    if (direction.getServicesPerformed().length == 0) {

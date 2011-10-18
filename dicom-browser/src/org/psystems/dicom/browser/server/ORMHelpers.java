@@ -287,6 +287,7 @@ public class ORMHelpers {
 	proxy.setServiceCode(s.getServiceCode());
 	proxy.setServiceDescription(s.getServiceDescription());
 	proxy.setServiceCount(s.getServiceCount());
+	proxy.setStudyInternalId(s.getStudyInternalId());
 	return proxy;
     }
 
@@ -304,6 +305,7 @@ public class ORMHelpers {
 	srv.setServiceCode(proxy.getServiceCode());
 	srv.setServiceCount(proxy.getServiceCount());
 	srv.setServiceDescription(proxy.getServiceDescription());
+	srv.setStudyInternalId(proxy.getStudyInternalId());
 
 	return srv;
     }

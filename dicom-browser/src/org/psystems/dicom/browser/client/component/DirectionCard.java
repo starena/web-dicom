@@ -249,7 +249,7 @@ Resources resources = GWT.create(Resources.class);
 	row = makeFieldSimple(ftEdit, row++, "Направленные диагнозы:", diagnosisDirrectPanel);
 
 	// Направленные услуги
-	final ServicePanel servicesDirrectPanel = new ServicePanel(true);
+	final ServicePanel servicesDirrectPanel = new ServicePanel(true,-1,false);
 	servicesDirrectPanel.setServices(drnProxy.getServicesDirect());
 	row = makeFieldSimple(ftEdit, row++, "Направленные услуги:", servicesDirrectPanel);
 
@@ -311,7 +311,7 @@ Resources resources = GWT.create(Resources.class);
 	row = makeFieldSimple(ftEdit, row + 2, "Направленные диагнозы:", diagnosisPerformedPanel);
 
 	// Подтвержденные услуги
-	final ServicePanel servicesPerformedPanel = new ServicePanel(true);
+	final ServicePanel servicesPerformedPanel = new ServicePanel(true,-1,true);
 	servicesPerformedPanel.setServices(drnProxy.getServicesPerformed());
 	row = makeFieldSimple(ftEdit, row + 2, "Подтвержденные услуги:", servicesPerformedPanel);
 

@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -33,14 +34,21 @@ public class ServicePanel extends VerticalPanel {
     private ServiceProxy service4Add;
     private Button addBtn;
     private boolean editMode;
+    private long studyInternalId;
+    private boolean isPerformed;
 
     /**
      * @param editMode
      *            Режим "для редактирования"
+     * @param studyInternalId
+     * @param isPerformed
+     *            - тип "выполненные"
      */
-    public ServicePanel(boolean editMode) {
+    public ServicePanel(boolean editMode, long studyInternalId, boolean isPerformed) {
 
 	this.editMode = editMode;
+	this.studyInternalId = studyInternalId;
+	this.isPerformed = isPerformed;
 
 	// панель для вывода списка диагнозов
 	showServicePanel = new VerticalPanel();
@@ -130,7 +138,7 @@ public class ServicePanel extends VerticalPanel {
     private void refresh() {
 	showServicePanel.clear();
 	for (ServiceProxy srv : services) {
-	    ServiceItem item = new ServiceItem(srv);
+	    ServiceItem item = new ServiceItem(srv, isPerformed);
 	    showServicePanel.add(item);
 	}
     }
@@ -145,14 +153,43 @@ public class ServicePanel extends VerticalPanel {
 
 	private ServiceProxy srvs;
 
-	public ServiceItem(ServiceProxy d) {
+	public ServiceItem(ServiceProxy d, boolean isPerformed) {
 	    super();
 	    setSpacing(2);
 	    this.srvs = d;
+
 	    StringBuffer diaText = new StringBuffer();
 	    diaText.append(srvs.getServiceCode() + " (" + srvs.getServiceAlias() + " " + srvs.getServiceDescription()
 		    + ") [" + srvs.getServiceCount() + "]");
-	    add(new Label(diaText.toString()));
+
+	    if (isPerformed && (srvs.getStudyInternalId() <= 0 || srvs.getStudyInternalId() == studyInternalId)) {
+
+		final CheckBox cbService = new CheckBox(diaText.toString());
+
+		if (srvs.getStudyInternalId() == studyInternalId) {
+		    cbService.setValue(true);
+		} else {
+		    cbService.setValue(false);
+		}
+
+		add(cbService);
+
+		cbService.addClickHandler(new ClickHandler() {
+
+		    @Override
+		    public void onClick(ClickEvent event) {
+			if (cbService.getValue() && studyInternalId > 0)
+			    srvs.setStudyInternalId(studyInternalId);
+			else
+			    srvs.setStudyInternalId(0);
+		    }
+		});
+	    } else {
+		String res = diaText.toString(); 
+		if(srvs.getStudyInternalId()>0)
+		    res = "(занят study="+srvs.getStudyInternalId() + ")" + res;
+		add(new Label(res));
+	    }
 
 	    if (editMode) {
 		Label labelDel = new Label("Удалить");
