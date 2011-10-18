@@ -264,52 +264,51 @@
 	<!-- stop archive -->
 	<target name="archve.stop" description="start dicom archive">
 
-		<exec executable="jps" output="${dir.var}/javaprocess.log">
-			<arg value="-v" />
-
-		</exec>
-
-		<loadfile srcfile="${dir.var}/javaprocess.log" property="archive.allproc">
-			<filterchain>
-				<containsregex pattern="WEBDICOM" />
-			</filterchain>
-		</loadfile>
-
-		<echo message="ALL: ${archive.allproc}" />
-
-		<propertyregex property="archive.pid"
-			input="${archive.allproc}"
-			regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}"
-			select="\1"
-		/>
-
-		<echo message="PID: ${archive.pid}" />
-
-
-		<exec executable="jps" outputproperty="${java.allprocess}">
-			<arg value="-v" />
-		</exec>
-
+		<osfamily property="java.os"/>
+		<condition property="isWindows">
+			<and>
+				<os family="windows" />
+				<not>
+					<os family="unix" />
+				</not>
+			</and>
+		</condition>
 		
+		<exec executable="jps"  outputproperty="java.allprocess">
+			<arg value="-v" />
+		</exec>
 
 		<propertyregex property="archive.pid" input="${java.allprocess}" regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}" select="\1" />
 
-		<echo message="PID: ${archive.pid}" />
+		<if>
+			<isset property="archive.pid" />
+			<then>
 
-		<!-- 
-		<replaceregexp file="${dir.var}/javaprocess.log"
-			match="$(.*) Archive(.*)"
-			               replace="D \1 D"
+				<if>
+					<equals arg1="${isWindows}" arg2="true" />
+					<then>
+						<echo message="Archive stopping [${archive.pid}]..." />
+						<exec executable="taskkill" outputproperty="archive.stop.result">
+							<arg value="/pid" />
+							<arg value="${archive.pid}" />
+						</exec>
+						<echo message="Archive succesufully stopped." />
+					</then>
+					<else>
+						<echo message="is not Windows ${isWindows}" />
+					</else>
+				</if>
 
-			byline="true">
-		</replaceregexp>
-		-->
+			</then>
+			<else>
 
-		<!-- 
-		<exec executable="taskkill" outputproperty="archive.pid">
-			<arg value="/pid 12323" />
-		</exec>
-		-->
+				<echo message="Archive not working." />
+
+			</else>
+		</if>
+
+
+
 
 	</target>
 
