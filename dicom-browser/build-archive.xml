@@ -251,6 +251,19 @@
 
 	</target>
 
+	<!-- запуск тестовой инстанции  -->
+	<target name="test-instance.start">
+		<antcall target="db.start" />
+		<antcall target="archve.start" />
+	</target>
+
+
+	<!-- остановка тестовой инстанции  -->
+	<target name="test-instance.shutdown">
+		<antcall target="db.shutdown" />
+		<antcall target="archve.shutdown" />
+	</target>
+
 
 	<!-- start archive -->
 	<target name="archve.start" description="start dicom archive">
