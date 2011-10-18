@@ -414,33 +414,47 @@ public class PersistentManagerDerby {
 
 	    // Сохраняем услуги
 	    pstmt.close();
-	    sql = "INSERT INTO WEBDICOM.DIRECTION_SERVICE (" + "FID_DIRECTION," + // 1
-		    "TYPE_ON_DIRECTION," + // 2
-		    "SERVICE_CODE," + // 3
-		    "SERVICE_ALIAS," + // 4
-		    "SERVICE_DESCRIPTION," + // 5
-		    "SERVICE_COUNT" + // 6
-		    ") VALUES (?,?,?,?,?,?)";
+	    sql = "INSERT INTO WEBDICOM.DIRECTION_SERVICE (" +
+	    		"FID_DIRECTION," + //1
+	    		"FID_STUDY," + // 2
+		    "TYPE_ON_DIRECTION," + // 3
+		    "SERVICE_CODE," + // 4
+		    "SERVICE_ALIAS," + // 5
+		    "SERVICE_DESCRIPTION," + // 6
+		    "SERVICE_COUNT" + // 7
+		    ") VALUES (?,?,?,?,?,?,?)";
 	    pstmt = connection.prepareStatement(sql);
 
 	    if (drn.getServicesDirect() != null)
 		for (Service srv : drn.getServicesDirect()) {
 		    pstmt.setLong(1, resultId);
-		    pstmt.setString(2, "D");
-		    pstmt.setString(3, srv.getServiceCode());
-		    pstmt.setString(4, srv.getServiceAlias());
-		    pstmt.setString(5, srv.getServiceDescription());
-		    pstmt.setInt(6, srv.getServiceCount());
+		    
+		    if(srv.getStudyInternalId()>0)
+			pstmt.setLong(2, srv.getStudyInternalId());
+		    else
+			pstmt.setNull(2, java.sql.Types.INTEGER);
+		    
+		    pstmt.setString(3, "D");
+		    pstmt.setString(4, srv.getServiceCode());
+		    pstmt.setString(5, srv.getServiceAlias());
+		    pstmt.setString(6, srv.getServiceDescription());
+		    pstmt.setInt(7, srv.getServiceCount());
 		    count = pstmt.executeUpdate();
 		}
 	    if (drn.getServicesPerformed() != null)
 		for (Service srv : drn.getServicesPerformed()) {
 		    pstmt.setLong(1, resultId);
-		    pstmt.setString(2, "P");
-		    pstmt.setString(3, srv.getServiceCode());
-		    pstmt.setString(4, srv.getServiceAlias());
-		    pstmt.setString(5, srv.getServiceDescription());
-		    pstmt.setInt(6, srv.getServiceCount());
+		    
+		    if(srv.getStudyInternalId()>0)
+			pstmt.setLong(2, srv.getStudyInternalId());
+		    else
+			pstmt.setNull(2, java.sql.Types.INTEGER);
+		    
+		    pstmt.setString(3, "P");
+		    pstmt.setString(4, srv.getServiceCode());
+		    pstmt.setString(5, srv.getServiceAlias());
+		    pstmt.setString(6, srv.getServiceDescription());
+		    pstmt.setInt(7, srv.getServiceCount());
 		    count = pstmt.executeUpdate();
 		}
 
@@ -597,6 +611,7 @@ public class PersistentManagerDerby {
 		srv.setServiceAlias(rs.getString("SERVICE_ALIAS"));
 		srv.setServiceDescription(rs.getString("SERVICE_DESCRIPTION"));
 		srv.setServiceCount(rs.getInt("SERVICE_COUNT"));
+		srv.setStudyInternalId(rs.getLong("FID_STUDY"));
 
 		// направленные
 		if (rs.getString("TYPE_ON_DIRECTION").equals("D")) {
