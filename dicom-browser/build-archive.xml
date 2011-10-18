@@ -115,52 +115,54 @@
 
 	<!-- start database -->
 	<target name="db.ping" description="ping database">
-		<echo message="Pinging DATABASE..." />
-		<java classname="org.apache.derby.drda.NetworkServerControl" errorproperty="db.ping.error" outputproperty="db.ping.status" failonerror="true">
+
+		<java classname="org.apache.derby.drda.NetworkServerControl" errorproperty="db.ping.error" outputproperty="db.ping.status" failonerror="false">
 			<arg value="ping" />
 			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<classpath refid="derby.classpath" />
 		</java>
-		<echo message="Pinging DATABASE ${db.ping.status} - ${db.ping.error}" />
+		<echo message="Database ping ${db.ping.status} - ${db.ping.error}" />
+
 	</target>
 
 
 
 	<!-- start database -->
 	<target name="db.start" description="start database">
-		<echo message="Starting DATABASE..." />
 		<mkdir dir="${dir.data.db}" />
 		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
 			<arg value="start" />
 			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<classpath refid="derby.classpath" />
 		</java>
-		<echo message="Starting DATABASE [OK]" />
+		<echo message="Database succesufully started." />
 	</target>
 
 
 
 	<!-- stop database -->
-	<target name="db.stop" description="stop database">
+	<target name="db.shutdown" description="stop database">
 
-		<echo message="Stopping DATABASE..." />
+
 		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
 			<arg value="shutdown" />
 			<sysproperty key="derby.system.home" value="${dir.data.db}" />
 			<classpath refid="derby.classpath" />
 		</java>
-		<echo message="Stopping DATABASE [OK]" />
+		<echo message="Database shutdown complite." />
 
 	</target>
 
 
 
-	<!-- remove database with incoming data -->
-	<target name="db.instance.remove" depends="db.stop">
+	<!-- Удаление тестовой инстанции -->
+	<target name="test-instance.remove">
 
-		<echo message="Removing DATABASE and ALL incoming data..." />
+		<antcall target="archve.shutdown" />
+		<antcall target="db.shutdown" />
 
-		<available file="${dir.data.db}"  property="dir.data.db.present"/>
+
+		<available file="${dir.data.db}" property="dir.data.db.present" />
 
 		<if>
 			<isset property="dir.data.db.present" />
@@ -170,11 +172,11 @@
 				</delete>
 			</then>
 			<else>
-				<echo message="${dir.data.db} does no exist"/>
+				<echo message="${dir.data.db} does no exist." />
 			</else>
 		</if>
 
-		<available file="${dir.data.incoming}"  property="dir.data.incoming.present"/>
+		<available file="${dir.data.incoming}" property="dir.data.incoming.present" />
 
 		<if>
 			<isset property="dir.data.incoming.present" />
@@ -184,24 +186,26 @@
 				</delete>
 			</then>
 			<else>
-				<echo message="${dir.data.incoming} does no exist"/>
+				<echo message="${dir.data.incoming} does no exist." />
 			</else>
 		</if>
 
-		<echo message="Removing DATABASE and ALL incoming data [OK]" />
+		<echo message="Test instance removed." />
 
 	</target>
 
-	<!-- create test database  -->
-	<target name="db.instance.create" depends="db.instance.remove">
+	<!-- создание тестовой инстанции и заливка в нее тестовых данных -->
+	<target name="test-instance.create">
 
-		<echo message="Creating DATABASE..." />
+		<antcall target="test-instance.remove"/>
+		<echo message="waiting 3 seconds for stopping services..." />
+		<sleep seconds="3" />
 
-		<antcall target="db.start"/>
+		<antcall target="db.start" />
 
-		<echo message="waiting 3 seconds start db..."/>
-		<sleep seconds="3"/>
-		<antcall target="db.ping"/>
+		<echo message="waiting 3 seconds for start Database..." />
+		<sleep seconds="3" />
+		<antcall target="db.ping" />
 		<java classname="org.apache.derby.tools.ij" output="${dir.data.db}/makedb.log">
 			<arg value="database/derby/db.sql" />
 			<sysproperty key="ij.exceptionTrace" value="true" />
@@ -235,7 +239,15 @@
 			</condition>
 		</fail>
 
-		<echo message="Creating DATABASE [OK]" />
+		<echo message="Database creation complite." />
+
+		<antcall target="archve.start" />
+		<echo message="waiting 3 seconds for start Archive..." />
+		<sleep seconds="3" />
+
+		<antcall target="filltestdata" />
+
+		<echo message="Creating instance complite." />
 
 	</target>
 
@@ -243,28 +255,45 @@
 	<!-- start archive -->
 	<target name="archve.start" description="start dicom archive">
 
-		<echo message="Starting DICOM Archive..."/>
-		<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="false">
-			<sysproperty key="webdicom.home" value="distrib" />
-			<sysproperty key="log4j.configuration" value="log4j.properties" />
-			<sysproperty key="derby.system.home" value="${dir.data.db}" />
-			<sysproperty key="derby.drda.startNetworkServer" value="true" />
-			<sysproperty key="derby.drda.portNumber" value="1527" />
-			<sysproperty key="derby.drda.host" value="localhost" />
-			<sysproperty key="derby.drda.logConnections" value="true" />
-			<sysproperty key="archive.key" value="${archive.runkey}" />
-			<classpath refid="archive.classpath" />
-			<classpath refid="derby.classpath" />
-			<classpath refid="common.classpath" />
-		</java>
-		<echo message="Starting DICOM Archive [OK]"/>
+		<exec executable="jps" outputproperty="java.allprocess">
+			<arg value="-v" />
+		</exec>
+
+		<propertyregex property="archive.pid" input="${java.allprocess}" regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}" select="\1" />
+
+		<if>
+			<isset property="archive.pid" />
+			<then>
+				<echo message="Archive already started" />
+			</then>
+			<else>
+
+				<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="true">
+					<sysproperty key="webdicom.home" value="distrib" />
+					<sysproperty key="log4j.configuration" value="log4j.properties" />
+					<sysproperty key="derby.system.home" value="${dir.data.db}" />
+					<sysproperty key="derby.drda.startNetworkServer" value="true" />
+					<sysproperty key="derby.drda.portNumber" value="1527" />
+					<sysproperty key="derby.drda.host" value="localhost" />
+					<sysproperty key="derby.drda.logConnections" value="true" />
+					<sysproperty key="archive.key" value="${archive.runkey}" />
+					<classpath refid="archive.classpath" />
+					<classpath refid="derby.classpath" />
+					<classpath refid="common.classpath" />
+				</java>
+				<echo message="Archive started" />
+
+			</else>
+		</if>
+
+
 	</target>
 
 
 	<!-- stop archive -->
-	<target name="archve.stop" description="start dicom archive">
+	<target name="archve.shutdown" description="start dicom archive">
 
-		<osfamily property="java.os"/>
+		<osfamily property="java.os" />
 		<condition property="isWindows">
 			<and>
 				<os family="windows" />
@@ -273,8 +302,8 @@
 				</not>
 			</and>
 		</condition>
-		
-		<exec executable="jps"  outputproperty="java.allprocess">
+
+		<exec executable="jps" outputproperty="java.allprocess">
 			<arg value="-v" />
 		</exec>
 
@@ -312,23 +341,10 @@
 
 	</target>
 
-	<target name="archve.test" description="start dicom archive">
-		<parallel failonany="true">
-			<antcall target="archve.start"/>
-			<sequential>
-				<echo message="test1"/>
-				<sleep seconds="1"/>
-				<echo message="test2"/>
-				<sleep seconds="1"/>
-				<echo message="test3"/>
-				<sleep seconds="1"/>
-			</sequential>
-		</parallel>
-	</target>
 
 
 	<!-- send to archive -->
-	<target name="send2archive" description="Отправка dcm-файла в архив">
+	<target name="archive.dcmsend" description="Отправка dcm-файла в архив">
 		<echo message="file=${file}" />
 		<java classname="org.dcm4che2.tool.dcmsnd.DcmSnd">
 			<arg value="MAIN@localhost:11112" />
@@ -337,11 +353,10 @@
 		</java>
 	</target>
 
-	<!-- fill database test studies -->
-	<target name="db.fill" description="заливка тестовых исследваний">
+	<!-- Заливка тестовых данных -->
+	<target name="filltestdata" description="заливка тестовых исследваний">
 
 		<!-- TODO Сдесь нужно сделать закачку тестовых DCM-файлов
-		
 		<mkdir dir="test/data" />
 		 -->
 
@@ -350,7 +365,7 @@
 				<fileset dir="test/data" includes="**/*.dcm" />
 			</path>
 			<sequential>
-				<antcall target="send2archive">
+				<antcall target="archive.dcmsend">
 					<param name="file" value="@{file}" />
 				</antcall>
 			</sequential>
