@@ -1265,7 +1265,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     }
 
     /**
-     * Добавление строчки на форму
+     * Добавление вмджетов на форму
      * 
      * @param row
      * @param title
@@ -1281,7 +1281,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     }
 
     /**
-     * Добавление строчки на форму
+     * Добавление виджета на форму
      * 
      * @param row
      * @param input

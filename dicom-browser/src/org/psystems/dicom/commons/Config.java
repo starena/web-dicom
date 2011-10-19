@@ -100,9 +100,10 @@ public class Config {
 
 	dbUrl = doc.getElementsByTagName("db-connection").item(0).getAttributes().getNamedItem("url").getNodeValue();
 
-	if (doc.getElementsByTagName("db-connection").item(0).getAttributes().getNamedItem("jndi") != null)
+	if (doc.getElementsByTagName("db-connection").item(0).getAttributes().getNamedItem("jndi") != null) {
 	    dbJndi = doc.getElementsByTagName("db-connection").item(0).getAttributes().getNamedItem("jndi")
 		    .getNodeValue();
+	}
 
 	dbOmitsUrl = doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("url")
 		.getNodeValue();
@@ -110,13 +111,16 @@ public class Config {
 	dbOmitsDriver = doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("driver")
 		.getNodeValue();
 
-	if (doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("jndi") != null)
+	if (doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("jndi") != null) {
 	    dbOmitsJndi = doc.getElementsByTagName("omits-connection").item(0).getAttributes().getNamedItem("jndi")
 		    .getNodeValue();
+	}
 	
 	System.out.println("dicomconnect=" + aet + "@" + host + ":" + port + "; incomingFolder=" + incomingFolder
 		+ "; tmpFolder=" + tmpFolder + "; templateFolder=" + templateFolder + "; configPdf=" + configPdf
-		+ "; configJpg=" + configJpg + "; db=(" + dbDriver + ")" + dbUrl + "; omits=" + dbOmitsUrl);
+		+ "; configJpg=" + configJpg + "; db=(" + dbDriver + ")" + dbUrl + " jndi:" + dbJndi+ "; omits=" + dbOmitsUrl+
+		" jndi:"+dbOmitsJndi);
+	
 
 	NodeList listOfConnector = doc.getElementsByTagName("dicom-driver");
 
@@ -223,6 +227,15 @@ public class Config {
     public static String getDbOmitsDriver() {
         return dbOmitsDriver;
     }
+
+    public static String getDbOmitsUrl() {
+        return dbOmitsUrl;
+    }
+
+    public static String getDbOmitsJndi() {
+        return dbOmitsJndi;
+    }
+    
     
     
 

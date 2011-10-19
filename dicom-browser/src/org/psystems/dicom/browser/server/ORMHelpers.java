@@ -368,6 +368,7 @@ public class ORMHelpers {
 	    proxy.setServicesPerformed(srvs.toArray(new ServiceProxy[srvs.size()]));
 	}
 
+	proxy.setSenderLpu(d.getSenderLpu());
 	return proxy;
     }
 
@@ -389,19 +390,23 @@ public class ORMHelpers {
 
 	ArrayList<Diagnosis> dias;
 
-	dias = new ArrayList<Diagnosis>();
-	for (DiagnosisProxy diaproxy : proxy.getDiagnosisDirect()) {
-	    dias.add(getDiagnosis(diaproxy));
+	if (proxy.getDiagnosisDirect() != null) {
+	    dias = new ArrayList<Diagnosis>();
+	    for (DiagnosisProxy diaproxy : proxy.getDiagnosisDirect()) {
+		dias.add(getDiagnosis(diaproxy));
+	    }
+
+	    drn.setDiagnosisDirect(dias.toArray(new Diagnosis[dias.size()]));
 	}
 
-	drn.setDiagnosisDirect(dias.toArray(new Diagnosis[dias.size()]));
+	if (proxy.getDiagnosisPerformed() != null) {
+	    dias = new ArrayList<Diagnosis>();
+	    for (DiagnosisProxy diaproxy : proxy.getDiagnosisPerformed()) {
+		dias.add(getDiagnosis(diaproxy));
+	    }
 
-	dias = new ArrayList<Diagnosis>();
-	for (DiagnosisProxy diaproxy : proxy.getDiagnosisPerformed()) {
-	    dias.add(getDiagnosis(diaproxy));
+	    drn.setDiagnosisPerformed(dias.toArray(new Diagnosis[dias.size()]));
 	}
-
-	drn.setDiagnosisPerformed(dias.toArray(new Diagnosis[dias.size()]));
 
 	drn.setDirectionCode(proxy.getDirectionCode());
 	drn.setDirectionId(proxy.getDirectionId());
@@ -413,19 +418,25 @@ public class ORMHelpers {
 
 	ArrayList<Service> srvs;
 
-	srvs = new ArrayList<Service>();
-	for (ServiceProxy srvproxy : proxy.getServicesDirect()) {
-	    srvs.add(getService(srvproxy));
+	if (proxy.getServicesDirect() != null) {
+	    srvs = new ArrayList<Service>();
+	    for (ServiceProxy srvproxy : proxy.getServicesDirect()) {
+		srvs.add(getService(srvproxy));
+	    }
+
+	    drn.setServicesDirect(srvs.toArray(new Service[srvs.size()]));
 	}
 
-	drn.setServicesDirect(srvs.toArray(new Service[srvs.size()]));
+	if (proxy.getServicesPerformed() != null) {
+	    srvs = new ArrayList<Service>();
+	    for (ServiceProxy srvproxy : proxy.getServicesPerformed()) {
+		srvs.add(getService(srvproxy));
+	    }
 
-	srvs = new ArrayList<Service>();
-	for (ServiceProxy srvproxy : proxy.getServicesPerformed()) {
-	    srvs.add(getService(srvproxy));
+	    drn.setServicesPerformed(srvs.toArray(new Service[srvs.size()]));
 	}
-
-	drn.setServicesPerformed(srvs.toArray(new Service[srvs.size()]));
+	
+	drn.setSenderLpu(proxy.getSenderLpu());
 
 	return drn;
 

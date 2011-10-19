@@ -31,6 +31,8 @@ public class DirectionProxy implements Serializable {
     private String dateTimeRemoved;// Дата удаления. формат
 				   // "yyyy-mm-dd hh:mm:ss"
 
+    private String senderLpu;// Направившая поликлиника
+
     public Long getId() {
 	return id;
     }
@@ -175,6 +177,14 @@ public class DirectionProxy implements Serializable {
 	this.dateTimeRemoved = dateTimeRemoved;
     }
 
+    public String getSenderLpu() {
+	return senderLpu;
+    }
+
+    public void setSenderLpu(String senderLpu) {
+	this.senderLpu = senderLpu;
+    }
+
     @Override
     public String toString() {
 	return "DirectionProxy [id=" + id + ", directionId=" + directionId + ", modality=" + modality
@@ -184,7 +194,8 @@ public class DirectionProxy implements Serializable {
 		+ doctorPerformed + ", directionCode=" + directionCode + ", directionLocation=" + directionLocation
 		+ ", diagnosisPerformed=" + Arrays.toString(diagnosisPerformed) + ", servicesPerformed="
 		+ Arrays.toString(servicesPerformed) + ", datePerformed=" + datePerformed + ", patient=" + patient
-		+ ", dateTimeModified=" + dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved + "]";
+		+ ", dateTimeModified=" + dateTimeModified + ", dateTimeRemoved=" + dateTimeRemoved + ", senderLpu="
+		+ senderLpu + "]";
     }
 
 }
