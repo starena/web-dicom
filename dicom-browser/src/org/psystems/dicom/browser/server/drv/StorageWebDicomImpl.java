@@ -76,116 +76,111 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 /**
  * @author dima_d
  * 
- * Основной драйвер
- *
+ *         Основной драйвер
+ * 
  */
 public class StorageWebDicomImpl extends Storage {
 
-	private static Logger logger = Logger.getLogger(Storage.class.getName());
+    private static Logger logger = Logger.getLogger(Storage.class.getName());
 
-	/* (non-Javadoc)
-	 * @see org.psystems.dicom.browser.server.StorageDrv#getSuggestions(javax.servlet.ServletContext, java.lang.String, int)
-	 */
-	@Override
-	public List<Suggestion> getSuggestionsImpl(ServletContext context,
-			String queryStr, int limit) throws SQLException {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.psystems.dicom.browser.server.StorageDrv#getSuggestions(javax.servlet
+     * .ServletContext, java.lang.String, int)
+     */
+    @Override
+    public List<Suggestion> getSuggestionsImpl(ServletContext context, String queryStr, int limit) throws SQLException {
 
-		List<Suggestion> suggestions = new ArrayList<Suggestion>(limit);
-		PreparedStatement psSelect = null;
+	List<Suggestion> suggestions = new ArrayList<Suggestion>(limit);
+	PreparedStatement psSelect = null;
+	Connection connection = null;
 
-		try {
+	try {
 
-		    	Connection connection = ORMUtil.getConnection(context);
-			
-			String where = " UPPER(PATIENT_NAME) like UPPER(? || '%')";
-			
-			boolean codeSearch = false; 
-				
-			//Если поиск по КБП
-			if(queryStr.matches("^\\D{5}\\d{2}$")) {
-				where = " PATIENT_SHORTNAME = UPPER(?) ";
-				codeSearch = true;
-			}
-			
-//			Артемьева Наталья Александровна 14.12.1978
-			
-			Matcher matcher = Pattern.compile("^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
-			boolean fullSearch = matcher.matches();
-			
-			
-			
-			String fio = null,day = null,month = null,year = null;
-			if (fullSearch) {
-				fio = matcher.group(1);
-				day = matcher.group(2);
-				month = matcher.group(3);
-				year = matcher.group(4);
-				where = " UPPER(PATIENT_NAME) = UPPER(?) AND PATIENT_BIRTH_DATE = ?";
-			}
+	    connection = ORMUtil.getConnection(context);
 
+	    String where = " UPPER(PATIENT_NAME) like UPPER(? || '%')";
 
-			psSelect = connection
-					.prepareStatement("SELECT ID, PATIENT_NAME, PATIENT_BIRTH_DATE "
-							+ " FROM WEBDICOM.STUDY WHERE "
-							+ where
-							+ " order by PATIENT_NAME ");
+	    boolean codeSearch = false;
 
-			if(fullSearch) {
-				psSelect.setString(1, fio);
-				psSelect.setDate(2, java.sql.Date.valueOf(year+"-"+month+"-"+day));
-			} else {
-				psSelect.setString(1, queryStr);
-			}
-			
-			
-			ResultSet rs = psSelect.executeQuery();
-			int index = 0;
-			SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-			while (rs.next()) {
+	    // Если поиск по КБП
+	    if (queryStr.matches("^\\D{5}\\d{2}$")) {
+		where = " PATIENT_SHORTNAME = UPPER(?) ";
+		codeSearch = true;
+	    }
 
-				String name = rs.getString("PATIENT_NAME");
-				String date = format.format(rs.getDate("PATIENT_BIRTH_DATE"));
-				
-				String msgAddon = "";
-				if(fullSearch) {
-					msgAddon = "(поиск по ФИО+ДР)";
-				}
-				if(codeSearch) {
-					msgAddon = "(поиск по КБП)";
-				}
-				
-				
-				suggestions.add(new ItemSuggestion(name + " " + date + " " + msgAddon,
-						name + " " + date));
+	    // Артемьева Наталья Александровна 14.12.1978
 
-				if (index++ > limit) {
-					break;
-				}
+	    Matcher matcher = Pattern.compile(
+		    "^\\s{0,}(\\D+\\s+\\D+\\s+\\D+)\\s(\\d{1,2})\\.(\\d{1,2})\\.(\\d{4})\\s{0,}$").matcher(queryStr);
+	    boolean fullSearch = matcher.matches();
 
-			}
-			rs.close();
+	    String fio = null, day = null, month = null, year = null;
+	    if (fullSearch) {
+		fio = matcher.group(1);
+		day = matcher.group(2);
+		month = matcher.group(3);
+		year = matcher.group(4);
+		where = " UPPER(PATIENT_NAME) = UPPER(?) AND PATIENT_BIRTH_DATE = ?";
+	    }
 
-		} finally {
+	    psSelect = connection.prepareStatement("SELECT ID, PATIENT_NAME, PATIENT_BIRTH_DATE "
+		    + " FROM WEBDICOM.STUDY WHERE " + where + " order by PATIENT_NAME ");
 
-			try {
-				if (psSelect != null)
-					psSelect.close();
-			} catch (SQLException e) {
-				logger.error(e);
-				// throw new DefaultGWTRPCException(e.getMessage());
-			}
+	    if (fullSearch) {
+		psSelect.setString(1, fio);
+		psSelect.setDate(2, java.sql.Date.valueOf(year + "-" + month + "-" + day));
+	    } else {
+		psSelect.setString(1, queryStr);
+	    }
+
+	    ResultSet rs = psSelect.executeQuery();
+	    int index = 0;
+	    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+	    while (rs.next()) {
+
+		String name = rs.getString("PATIENT_NAME");
+		String date = format.format(rs.getDate("PATIENT_BIRTH_DATE"));
+
+		String msgAddon = "";
+		if (fullSearch) {
+		    msgAddon = "(поиск по ФИО+ДР)";
+		}
+		if (codeSearch) {
+		    msgAddon = "(поиск по КБП)";
 		}
 
-		return suggestions;
+		suggestions.add(new ItemSuggestion(name + " " + date + " " + msgAddon, name + " " + date));
+
+		if (index++ > limit) {
+		    break;
+		}
+
+	    }
+	    rs.close();
+
+	} finally {
+
+	    try {
+		if (psSelect != null)
+		    psSelect.close();
+		if (connection != null)
+		    connection.close();
+	    } catch (SQLException e) {
+		logger.error(e);
+		// throw new DefaultGWTRPCException(e.getMessage());
+	    }
 	}
 
-	@Override
-	public List<PatientProxy> getPatientsImpl(ServletContext context,
-			String queryStr, int limit) throws SQLException {
-		// TODO Auto-generated method stub
-		return new ArrayList<PatientProxy>();
-	}
+	return suggestions;
+    }
 
-	
+    @Override
+    public List<PatientProxy> getPatientsImpl(ServletContext context, String queryStr, int limit) throws SQLException {
+	// TODO Auto-generated method stub
+	return new ArrayList<PatientProxy>();
+    }
 
 }
