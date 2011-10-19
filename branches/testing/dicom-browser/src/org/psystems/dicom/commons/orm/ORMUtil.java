@@ -205,7 +205,7 @@ public class ORMUtil {
 		    try {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
+			DataSource ds = (DataSource) envCtx.lookup(Config.getDbJndi());
 			connection = ds.getConnection();
 		    } catch (NamingException e) {
 			throw new SQLException("JNDI error " + e);
@@ -226,7 +226,7 @@ public class ORMUtil {
 
 		Connection connection = null;
 
-		if (Config.getDbJndi() == null) {
+		if (Config.getDbOmitsJndi() == null) {
 		    // For local Development
 		    String connectionUrl = Config.getOmits();
 		    try {
@@ -244,7 +244,7 @@ public class ORMUtil {
 		    try {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-			DataSource ds = (DataSource) envCtx.lookup("jdbc/omits");
+			DataSource ds = (DataSource) envCtx.lookup(Config.getDbOmitsJndi());
 			connection = ds.getConnection();
 		    } catch (NamingException e) {
 			throw new SQLException("JNDI error " + e);
