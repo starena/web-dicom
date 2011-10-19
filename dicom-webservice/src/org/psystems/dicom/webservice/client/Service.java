@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="serviceCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="serviceCount" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="serviceDescription" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="studyInternalId" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,7 +34,8 @@ import javax.xml.bind.annotation.XmlType;
     "serviceAlias",
     "serviceCode",
     "serviceCount",
-    "serviceDescription"
+    "serviceDescription",
+    "studyInternalId"
 })
 public class Service {
 
@@ -41,6 +43,7 @@ public class Service {
     protected String serviceCode;
     protected int serviceCount;
     protected String serviceDescription;
+    protected long studyInternalId;
 
     /**
      * Gets the value of the serviceAlias property.
@@ -128,6 +131,22 @@ public class Service {
      */
     public void setServiceDescription(String value) {
         this.serviceDescription = value;
+    }
+
+    /**
+     * Gets the value of the studyInternalId property.
+     * 
+     */
+    public long getStudyInternalId() {
+        return studyInternalId;
+    }
+
+    /**
+     * Sets the value of the studyInternalId property.
+     * 
+     */
+    public void setStudyInternalId(long value) {
+        this.studyInternalId = value;
     }
 
 }

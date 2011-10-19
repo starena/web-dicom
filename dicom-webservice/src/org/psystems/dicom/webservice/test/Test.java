@@ -39,8 +39,8 @@ public class Test {
 
 	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
 
-	// private static final String WS_URL =
-	// "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
+//	 private static final String WS_URL =
+//	 "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
 	// private static final String WS_URL =
 	// "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
 //	 private static final String WS_URL =
@@ -82,9 +82,9 @@ public class Test {
 
 		// queryStudy();
 		// qetDirrection();
-		// queryDirrection();
+		 queryDirrection();
 //		 makeDirection();
-		getStudyImages();
+//		getStudyImages();
 //		getStudyProtocols();
 	}
 
@@ -119,14 +119,16 @@ public class Test {
 
 		QueryDirectionReq request = new QueryDirectionReq();
 		QueryDirection query = new QueryDirection();
-		query.setId(167l);
-		query.setSenderLPU("");
-		// query.setPatientShortName("ДЕРДВ74");
+		query.setId(1l);
+//		query.setSenderLPU("");
+//		query.setPatientShortName("%");
+//		query.setPatientShortName("ДЕРДВ74");
 		request.setQuery(query);
 
 		List<Direction> drns = port.queryDirections(request).getReturn();
 		for (Direction direction : drns) {
 			System.out.println("Direction: " + direction);
+			System.out.println(" srv: " + direction.getServicesDirect().get(0).getStudyInternalId());
 		}
 
 	}
