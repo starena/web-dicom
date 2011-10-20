@@ -77,131 +77,126 @@ import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class AttachementServlet extends HttpServlet {
 
-	private static Logger logger = Logger.getLogger(AttachementServlet.class
-			.getName());
+    private static Logger logger = Logger.getLogger(AttachementServlet.class.getName());
 
-	static {
-		// PropertyConfigurator.configure("WEB-INF/log4j.properties");
+    static {
+	// PropertyConfigurator.configure("WEB-INF/log4j.properties");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	// String teamColor = getServletConfig().getInitParameter("teamColor");
+	// System.out.println("!!! teamColor "+teamColor);
+
+	// System.out.println("!!! prop "+System.getProperty("myapp.notify-url"));
+	// System.out.println("!!! end "+System.getenv("DEFAULT_ENCODING_DDV"));
+
+	String path = req.getPathInfo().replaceFirst("/", "");
+	String fileName = null;
+	resp.setCharacterEncoding("utf-8");
+	resp.setContentType("image/jpeg");// По умолчанию
+
+	// FIXME убрать!
+	String imagesRootDir = getServletContext().getInitParameter("webdicom.dir.dst");
+	// String imagesRootDir = Config.getIncomingFolder();
+
+	int imageId = 0;
+	String type = "fullsize";
+
+	Matcher matcher = Pattern.compile("^(.*)\\.(.*)$").matcher(path);
+	if (matcher.matches()) {
+	    String id = matcher.group(1);
+	    type = matcher.group(2);
+	    // System.out.println("!!! " + id+ "=" + type);
+	    try {
+		imageId = Integer.valueOf(id);
+	    } catch (NumberFormatException ex) {
+		throw new IOException("Image not found! id=" + id);
+		// fileName = imagesRootDir + File.separator + path;
+	    }
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	// Смотрим, если передан Integer, зачит ищем по ID
 
-		// String teamColor = getServletConfig().getInitParameter("teamColor");
-		// System.out.println("!!! teamColor "+teamColor);
+	// try {
+	// imageId = Integer.valueOf(path);
+	// } catch (NumberFormatException ex) {
+	// fileName = imagesRootDir + File.separator + path;
+	// }
 
-		// System.out.println("!!! prop "+System.getProperty("myapp.notify-url"));
-		// System.out.println("!!! end "+System.getenv("DEFAULT_ENCODING_DDV"));
+	PreparedStatement psSelect = null;
+	Connection connection = null;
+	try {
 
-		String path = req.getPathInfo().replaceFirst("/", "");
-		String fileName = null;
-		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("image/jpeg");// По умолчанию
+	    connection = ORMUtil.getConnection(getServletContext());
 
-		//FIXME убрать!
-		String imagesRootDir = getServletContext().getInitParameter(
-				"webdicom.dir.dst");
-//		String imagesRootDir = Config.getIncomingFolder();
-		
-		int imageId = 0;
-		String type = "fullsize";
-		
-		Matcher matcher = Pattern.compile("^(.*)\\.(.*)$").matcher(path);
-		if (matcher.matches()) {
-			String id = matcher.group(1);
-			type = matcher.group(2);
-//			System.out.println("!!! " + id+ "=" + type);
-			try {
-				imageId = Integer.valueOf(id);
-			} catch (NumberFormatException ex) {
-				throw new IOException("Image not found! id="+id);
-//				fileName = imagesRootDir + File.separator + path;
-			}
-		}
-		
-		// Смотрим, если передан Integer, зачит ищем по ID
-		
-//		try {
-//			imageId = Integer.valueOf(path);
-//		} catch (NumberFormatException ex) {
-//			fileName = imagesRootDir + File.separator + path;
-//		}
+	    if (fileName == null) {
+		// ищем по ID
+		psSelect = connection.prepareStatement("SELECT ID, TYPE, DCM_FILE_NAME "
+			+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
+		psSelect.setInt(1, imageId);
+	    } else {
+		psSelect = connection.prepareStatement("SELECT ID, TYPE, DCM_FILE_NAME "
+			+ " FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ? ");
+		psSelect.setString(1, path);
+	    }
+	    ResultSet rs = psSelect.executeQuery();
+	    int index = 0;
+	    while (rs.next()) {
+		// String contentType = rs.getString("TYPE");
+		String file = rs.getString("DCM_FILE_NAME");
+		imageId = rs.getInt("ID");
+		fileName = imagesRootDir + File.separator + file + ".images" + File.separator + type + ".jpg";// +
+													      // "fullsize.jpg";
+		resp.setContentType("image/jpeg");
+		index++;
+		break;
+	    }
 
-		PreparedStatement psSelect = null;
-		try {
+	    // System.out.println("fileName="+fileName);
 
-			Connection connection = ORMUtil.getConnection(getServletContext());
+	    if (index == 0) {
+		resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
+		resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found! id=" + imageId + " file=" + fileName);
+		return;
+	    }
 
-			if (fileName == null) {
-				// ищем по ID
-				psSelect = connection
-						.prepareStatement("SELECT ID, TYPE, DCM_FILE_NAME "
-								+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
-				psSelect.setInt(1, imageId);
-			} else {
-				psSelect = connection
-						.prepareStatement("SELECT ID, TYPE, DCM_FILE_NAME "
-								+ " FROM WEBDICOM.DCMFILE WHERE DCM_FILE_NAME = ? ");
-				psSelect.setString(1, path);
-			}
-			ResultSet rs = psSelect.executeQuery();
-			int index = 0;
-			while (rs.next()) {
-				// String contentType = rs.getString("TYPE");
-				String file = rs.getString("DCM_FILE_NAME");
-				imageId = rs.getInt("ID");
-				fileName = imagesRootDir + File.separator + file + ".images" + File.separator
-						+type+".jpg";//+ "fullsize.jpg";
-				resp.setContentType("image/jpeg");
-				index++;
-				break;
-			}
-	
-//			System.out.println("fileName="+fileName);
-			
-			if (index == 0) {
-				resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
-				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
-						"Image not found! id=" + imageId + " file=" + fileName);
-				return;
-			}
-
-		} catch (SQLException e) {
-			logger.error(e);
-			e.printStackTrace();
-		} finally {
-			try {
-				if (psSelect != null)
-					psSelect.close();
-			} catch (SQLException e) {
-				logger.error(e);
-				e.printStackTrace();
-			}
-		}
-
-		FileInputStream in = null;
-		try {
-			in = new FileInputStream(fileName);
-		} catch (FileNotFoundException ex) {
-			resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
-			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found! "
-					+ fileName);
-			ex.printStackTrace();
-			return;
-		}
-		BufferedOutputStream out = new BufferedOutputStream(resp
-				.getOutputStream());
-
-		byte b[] = new byte[8];
-		int count;
-		while ((count = in.read(b)) != -1) {
-			out.write(b, 0, count);
-
-		}
-		out.flush();
-		out.close();
-		in.close();
+	} catch (SQLException e) {
+	    logger.error(e);
+	    e.printStackTrace();
+	} finally {
+	    try {
+		if (psSelect != null)
+		    psSelect.close();
+		if (connection != null)
+		    connection.close();
+	    } catch (SQLException e) {
+		logger.error(e);
+		e.printStackTrace();
+	    }
 	}
+
+	FileInputStream in = null;
+	try {
+	    in = new FileInputStream(fileName);
+	} catch (FileNotFoundException ex) {
+	    resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
+	    resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found! " + fileName);
+	    ex.printStackTrace();
+	    return;
+	}
+	BufferedOutputStream out = new BufferedOutputStream(resp.getOutputStream());
+
+	byte b[] = new byte[8];
+	int count;
+	while ((count = in.read(b)) != -1) {
+	    out.write(b, 0, count);
+
+	}
+	out.flush();
+	out.close();
+	in.close();
+    }
 
 }

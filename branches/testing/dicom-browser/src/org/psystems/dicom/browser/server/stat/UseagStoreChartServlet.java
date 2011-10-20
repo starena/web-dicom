@@ -98,10 +98,11 @@ public class UseagStoreChartServlet extends HttpServlet {
 	public JFreeChart getChart() {
 
 		PreparedStatement psSelect = null;
+		Connection connection = null;
 		
 		try {
 
-		    Connection connection = ORMUtil.getConnection(getServletContext());
+		    connection = ORMUtil.getConnection(getServletContext());
 			long dcmSizes = 0;
 			long imgSizes = 0;
 			//
@@ -190,9 +191,12 @@ public class UseagStoreChartServlet extends HttpServlet {
 			try {
 				if (psSelect != null)
 					psSelect.close();
+				if(connection!=null)
+				    connection.close();
 			} catch (SQLException e) {
 				logger.error(e);
 			}
+			
 		}
 		return null;
 

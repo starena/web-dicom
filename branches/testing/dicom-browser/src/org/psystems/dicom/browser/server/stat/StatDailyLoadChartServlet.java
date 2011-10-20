@@ -264,6 +264,8 @@ public class StatDailyLoadChartServlet extends HttpServlet {
 		} finally {
 			if (stmt != null)
 				stmt.close();
+			if(connection!=null)
+			    connection.close();
 		}
 	}
 

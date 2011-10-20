@@ -114,9 +114,10 @@ public class DcmViewPDFServlet extends HttpServlet {
 		}
 
 		PreparedStatement psSelect = null;
+		Connection connection = null;
 		try {
 
-		    Connection connection = ORMUtil.getConnection(getServletContext());
+		    connection = ORMUtil.getConnection(getServletContext());
 
 			if (fileName == null) {
 				// ищем по ID
@@ -155,6 +156,8 @@ public class DcmViewPDFServlet extends HttpServlet {
 			try {
 				if (psSelect != null)
 					psSelect.close();
+				if(connection!=null)
+				    connection.close();
 			} catch (SQLException e) {
 				logger.error(e);
 				e.printStackTrace();
