@@ -57,6 +57,10 @@ package org.psystems.dicom.browser.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.SimpleHttpConnectionManager;
+import org.apache.commons.httpclient.params.HttpClientParams;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -204,10 +208,28 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 	// specified by the request)
 
 	List<Suggestion> suggestions = new ArrayList<Suggestion>();
+	SolrServer server = null;
+	SimpleHttpConnectionManager cm = null;
+//	MultiThreadedHttpConnectionManager cmm = null;
+	HttpClient httpClient = null;
 
 	try {
 
-	    SolrServer server = new CommonsHttpSolrServer("http://localhost:8983/solr");
+//	   cmm = new MultiThreadedHttpConnectionManager();
+	   cm = new SimpleHttpConnectionManager(true);
+	   HttpConnectionManagerParams params = new HttpConnectionManagerParams();
+//	   params.setConnectionTimeout(1);
+	   cm.setParams(params);
+	   httpClient = new HttpClient(cm);
+	   
+	   HttpClientParams params1 = new HttpClientParams();
+//	   params1.setSoTimeout(1);
+	httpClient.setParams(params1 );
+//	    HttpParams params = new BasicHttpParams();
+//	    httpClient = new DefaultHttpClient(params);
+
+
+	    server = new CommonsHttpSolrServer("http://localhost:8983/solr",httpClient);
 
 	    // передача будет в бинарном формате
 	    ((CommonsHttpSolrServer) server).setRequestWriter(new BinaryRequestWriter());
@@ -238,6 +260,7 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 		    suggestions.add(item);
 		}
 
+		
 		// for (int i = 0; i < 10; i++) {
 		// DiagnosisProxy proxy = new DiagnosisProxy();
 		// proxy.setDiagnosisCode(req.getQuery() + i);
@@ -409,10 +432,15 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 		}
 	    }
 
-	} catch (Exception e) {
+	}
+	catch (Exception e) {
 	    e.printStackTrace();
 	    throw org.psystems.dicom.browser.server.Util.throwPortalException("Suggestions error! ", e);
-	}
+	} finally {
+	    cm.shutdown();
+//	    cm.closeIdleConnections(1);
+//	    server.
+	} 
 
 	// Now set the suggestions in the response
 	resp.setSuggestions(suggestions);
