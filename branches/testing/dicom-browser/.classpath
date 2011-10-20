@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="lib/dcm4che/dcm4che-net-2.0.21.jar"/>
 	<classpathentry kind="lib" path="lib/common/junit.jar"/>
 	<classpathentry kind="lib" path="lib/common/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-httpclient-3.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
