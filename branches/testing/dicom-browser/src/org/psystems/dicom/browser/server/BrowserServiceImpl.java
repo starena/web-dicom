@@ -128,12 +128,13 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	Util.checkClentVersion(version);
 
 	PreparedStatement psSelect = null;
-	Connection connection = null;
+//	Connection connection = null;
+	PersistentManagerDerby pm = null;
 
 	try {
 
-	    connection = ORMUtil.getConnection(getServletContext());
-
+//	    connection = ORMUtil.getConnection(getServletContext());
+	    pm = new PersistentManagerDerby(getServletContext());
 	    ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
 
 	    // TODO ТУт костыль под worklist !!!
@@ -178,7 +179,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		query.setStudyResult(studyResult);// TODO атавизм
 		query.setSortOrder(sortOrder);// TODO атавизм
 
-		PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 		studies = pm.queryStudies(query);
 
 		// studies = Study.getStudues(connection, null, null, null,
@@ -198,7 +198,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		query.setStudyResult(studyResult);// TODO атавизм
 		query.setSortOrder(sortOrder);// TODO атавизм
 
-		PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 		studies = pm.queryStudies(query);
 
 		// studies = Study.getStudues(connection, null, null, null,
@@ -216,7 +215,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		query.setStudyResult(studyResult);// TODO атавизм
 		query.setSortOrder(sortOrder);// TODO атавизм
 
-		PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 		studies = pm.queryStudies(query);
 
 		// studies = Study.getStudues(connection, null, null, null,
@@ -229,7 +227,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		// Получаем список файлов
 		// Сделана раздельная загрузка исследования и файлов для
 		// экономии траффика
-		studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection, studyProxy.getId()));
+		studyProxy.setFiles(pm.getDcmFileProxies(studyProxy.getId()));
 		data.add(studyProxy);
 	    }
 
@@ -261,8 +259,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
-		if(connection!=null)
-		    connection.close();
+		if(pm!=null)
+		    pm.relaseConnection();
+		
 	    } catch (SQLException e) {
 		logger.error(e);
 		throw Util.throwPortalException("Can't find study: ", e);
@@ -600,11 +599,12 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	Util.checkClentVersion(version);
 
 	PreparedStatement psSelect = null;
-	Connection connection = null;
+//	Connection connection = null;
+	PersistentManagerDerby pm = null;
 	try {
 
-	    connection = ORMUtil.getConnection(getServletContext());
-	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+//	    connection = ORMUtil.getConnection(getServletContext());
+	   pm = new PersistentManagerDerby(getServletContext());
 
 	    Study study = pm.getStudyByID(id);
 	    if (study == null)
@@ -613,7 +613,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    StudyProxy studyProxy = ORMHelpers.getStudyProxy(study);
 	    // Сделана раздельная загрузка исследования и файлов для экономии
 	    // траффика
-	    studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection, studyProxy.getId()));
+	    studyProxy.setFiles(pm.getDcmFileProxies(studyProxy.getId()));
 
 	    return studyProxy;
 
@@ -626,8 +626,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
-		if(connection!=null)
-		    connection.close();
+		if(pm!=null)
+		    pm.relaseConnection();
 	    } catch (Throwable e) {
 		logger.error(e);
 		throw Util.throwPortalException("Find study error! ", e);
@@ -641,11 +641,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     @Override
     public StudyProxy[] getStudiesByDirectionID(Long id) throws DefaultGWTRPCException {
 	PreparedStatement psSelect = null;
-	Connection connection = null;
+	PersistentManagerDerby pm = null;
 	try {
 
-	    connection = ORMUtil.getConnection(getServletContext());
-	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+	    pm = new PersistentManagerDerby(getServletContext());
 	    Study[] studies = pm.getStudiesByDirectionID(id);
 	    ArrayList<StudyProxy> proxies = new ArrayList<StudyProxy>();
 	    if (studies == null)
@@ -655,7 +654,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		StudyProxy studyProxy = ORMHelpers.getStudyProxy(study);
 		// Сделана раздельная загрузка исследования и файлов для
 		// экономии траффика
-		studyProxy.setFiles(PersistentManagerDerby.getDcmFileProxies(connection, studyProxy.getId()));
+		studyProxy.setFiles(pm.getDcmFileProxies(studyProxy.getId()));
 		proxies.add(studyProxy);
 	    }
 
@@ -670,8 +669,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
-		if(connection!=null)
-		    connection.close();
+		if(pm!=null)
+		    pm.relaseConnection();
 	    } catch (Throwable e) {
 		logger.error(e);
 		throw Util.throwPortalException("get study error! ", e);
@@ -757,9 +756,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     @Override
     public ArrayList<DirectionProxy> getDirections(QueryDirectionProxy query) throws DefaultGWTRPCException {
 
+	PersistentManagerDerby pm = null;
 	try {
 	    Connection connection = ORMUtil.getConnection(getServletContext());
-	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+	    pm = new PersistentManagerDerby(getServletContext());
 	    ArrayList<DirectionProxy> drns = new ArrayList<DirectionProxy>();
 	    for (Direction direction : pm.queryDirections(ORMHelpers.getQuerydirection(query))) {
 		drns.add(ORMHelpers.getDirectionProxy(direction));
@@ -769,6 +769,14 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	} catch (Throwable e) {
 	    logger.error(e);
 	    throw Util.throwPortalException("getDirections study error! ", e);
+	} finally {
+	    try {
+		if (pm != null)
+		    pm.relaseConnection();
+		
+	    } catch (SQLException e) {
+		throw Util.throwPortalException("getDirections error! ", e);
+	    }
 	}
 
     }
