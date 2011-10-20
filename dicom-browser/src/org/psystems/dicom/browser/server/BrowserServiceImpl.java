@@ -128,10 +128,11 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	Util.checkClentVersion(version);
 
 	PreparedStatement psSelect = null;
+	Connection connection = null;
 
 	try {
 
-	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    connection = ORMUtil.getConnection(getServletContext());
 
 	    ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
 
@@ -260,6 +261,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
+		if(connection!=null)
+		    connection.close();
 	    } catch (SQLException e) {
 		logger.error(e);
 		throw Util.throwPortalException("Can't find study: ", e);
@@ -351,6 +354,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	} finally {
 	    psSelect.close();
+	    connection.close();
 	}
 	throw new NoDataFoundException("No data");
     }
@@ -362,7 +366,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    // проверка версии клиента TODO сделать MOCK?
 	    Util.checkClentVersion(req);
 	    long idDcm = req.getIdDcm();
-	    PreparedStatement psSelect = null;
+	   
 
 	    try {
 		ArrayList<DcmTagProxy> data = getTags(idDcm);
@@ -373,13 +377,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	    } finally {
 
-		try {
-		    if (psSelect != null)
-			psSelect.close();
-		} catch (SQLException e) {
-		    logger.error(e);
-		    throw Util.throwPortalException("Can't getting tags: ", e);
-		}
+		
 	    }
 	} catch (Throwable e) {
 	    logger.error(e);
@@ -398,10 +396,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	    String dcmRootDir = getServletContext().getInitParameter("webdicom.dir.src");
 	    PreparedStatement psSelect = null;
-
+	    Connection connection = null;
 	    try {
 		String fileName = null;
-		Connection connection = ORMUtil.getConnection(getServletContext());
+		connection = ORMUtil.getConnection(getServletContext());
 		psSelect = connection.prepareStatement("SELECT ID,  DCM_FILE_NAME "
 			+ " FROM WEBDICOM.DCMFILE WHERE ID = ? ");
 		psSelect.setLong(1, idDcmFile);
@@ -426,6 +424,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		try {
 		    if (psSelect != null)
 			psSelect.close();
+		    if(connection!=null)
+			connection.close();
 		} catch (Throwable e) {
 		    logger.error(e);
 		    throw Util.throwPortalException("getDcmTagsFromFile error! id=" + idDcmFile, e);
@@ -524,9 +524,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     private ArrayList<DcmTagProxy> getTags(long idDcm) throws SQLException {
 
 	PreparedStatement psSelect = null;
-
+	Connection connection = null;
 	try {
-	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    connection = ORMUtil.getConnection(getServletContext());
 	    psSelect = connection
 		    .prepareStatement("SELECT TAG, TAG_TYPE, VALUE_STRING FROM WEBDICOM.DCMFILE_TAG WHERE FID_DCMFILE = ?");
 
@@ -567,6 +567,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	} finally {
 	    if (psSelect != null)
 		psSelect.close();
+	    if(connection!=null)
+		connection.close();
 	}
     }
 
@@ -598,10 +600,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	Util.checkClentVersion(version);
 
 	PreparedStatement psSelect = null;
-
+	Connection connection = null;
 	try {
 
-	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    connection = ORMUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 
 	    Study study = pm.getStudyByID(id);
@@ -624,6 +626,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
+		if(connection!=null)
+		    connection.close();
 	    } catch (Throwable e) {
 		logger.error(e);
 		throw Util.throwPortalException("Find study error! ", e);
@@ -637,10 +641,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     @Override
     public StudyProxy[] getStudiesByDirectionID(Long id) throws DefaultGWTRPCException {
 	PreparedStatement psSelect = null;
-
+	Connection connection = null;
 	try {
 
-	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    connection = ORMUtil.getConnection(getServletContext());
 	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
 	    Study[] studies = pm.getStudiesByDirectionID(id);
 	    ArrayList<StudyProxy> proxies = new ArrayList<StudyProxy>();
@@ -666,6 +670,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
+		if(connection!=null)
+		    connection.close();
 	    } catch (Throwable e) {
 		logger.error(e);
 		throw Util.throwPortalException("get study error! ", e);
