@@ -111,12 +111,12 @@ public class DicomService {
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
-		Connection connection;
+//		Connection connection;
+		PersistentManagerDerby pm = null;
 
 		try {
 
-			connection = ORMUtil.getConnection(servletContext);
-			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			pm = new PersistentManagerDerby(servletContext);
 			Direction drn = new Direction();
 			drn.setDirectionId(directionId);
 			drn.setModality(modality);
@@ -138,6 +138,14 @@ public class DicomService {
 			throwPortalException("make direction error:", e);
 		} catch (RuntimeException e) {
 			throwPortalException("make direction error:", e);
+		} finally {
+			try {
+				if (pm != null)
+					pm.relaseConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return -1;
 
@@ -155,16 +163,23 @@ public class DicomService {
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
-		Connection connection;
+		PersistentManagerDerby pm = null;
 		try {
-			connection = ORMUtil.getConnection(servletContext);
-			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			pm = new PersistentManagerDerby(servletContext);
 			return (Direction) pm.getDirectionByDirectionId(directionId);
 
 		} catch (SQLException e) {
 			throwPortalException("get direction error:", e);
 		} catch (DataException e) {
 			throwPortalException("get direction error:", e);
+		} finally {
+			try {
+				if (pm != null)
+					pm.relaseConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -180,16 +195,23 @@ public class DicomService {
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
-		Connection connection;
+		PersistentManagerDerby pm = null;
 		try {
-			connection = ORMUtil.getConnection(servletContext);
-			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			pm = new PersistentManagerDerby(servletContext);
 			return (Direction) pm.getDirectionByID(id);
 
 		} catch (SQLException e) {
 			throwPortalException("get direction error:", e);
 		} catch (DataException e) {
 			throwPortalException("get direction error:", e);
+		} finally {
+			try {
+				if (pm != null)
+					pm.relaseConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return null;
 
@@ -242,12 +264,10 @@ public class DicomService {
 			query.setStudyModality(null);
 
 		query.chechEntity();
-
-		Connection connection;
+		PersistentManagerDerby pm = null;
 		try {
 
-			connection = ORMUtil.getConnection(servletContext);
-			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			pm = new PersistentManagerDerby(servletContext);
 			ArrayList<Study> studies = pm.queryStudies(query);
 
 			// FIXME Сделать путь к ..
@@ -281,6 +301,14 @@ public class DicomService {
 			throwPortalException("query study error:", e);
 		} catch (DataException e) {
 			throwPortalException("query study error:", e);
+		} finally {
+			try {
+				if (pm != null)
+					pm.relaseConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -319,10 +347,9 @@ public class DicomService {
 		ServletContext servletContext = (ServletContext) context
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
-		Connection connection;
+		PersistentManagerDerby pm = null;
 		try {
-			connection = ORMUtil.getConnection(servletContext);
-			PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+			pm = new PersistentManagerDerby(servletContext);
 			ArrayList<Direction> directions = pm.queryDirections(query);
 			return directions.toArray(new Direction[directions.size()]);
 
@@ -330,6 +357,14 @@ public class DicomService {
 			throwPortalException("query direction error:", e);
 		} catch (DataException e) {
 			throwPortalException("query direction error:", e);
+		} finally {
+			try {
+				if (pm != null)
+					pm.relaseConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -345,10 +380,11 @@ public class DicomService {
 				.getMessageContext().get(MessageContext.SERVLET_CONTEXT);
 
 		ArrayList<Image> images = new ArrayList<Image>();
-		Connection connection = null;
+//		Connection connection = null;
 		PreparedStatement psSelect = null;
 
 		System.out.println("getStudyImages id=" + id);
+		Connection connection = null;
 		try {
 			connection = ORMUtil.getConnection(servletContext);
 
@@ -393,6 +429,8 @@ public class DicomService {
 			try {
 				if (psSelect != null)
 					psSelect.close();
+				if (connection!=null)
+					connection.close();
 				// connection.close();
 			} catch (SQLException e) {
 				throwPortalException("getImage error:", e);
@@ -507,7 +545,8 @@ public class DicomService {
 			try {
 				if (psSelect != null)
 					psSelect.close();
-				// connection.close();
+				if (connection!=null)
+					connection.close();
 			} catch (SQLException e) {
 				throwPortalException("getImage error:", e);
 			}
