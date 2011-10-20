@@ -325,6 +325,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	    // System.out.println("!!!! [I]  [" + date + "][" + metric + "]="+
 	    // value);
+	} finally {
+	    connection.close();
 	}
 
     }
@@ -758,7 +760,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	PersistentManagerDerby pm = null;
 	try {
-	    Connection connection = ORMUtil.getConnection(getServletContext());
+//	    Connection connection = ORMUtil.getConnection(getServletContext());
 	    pm = new PersistentManagerDerby(getServletContext());
 	    ArrayList<DirectionProxy> drns = new ArrayList<DirectionProxy>();
 	    for (Direction direction : pm.queryDirections(ORMHelpers.getQuerydirection(query))) {
@@ -787,11 +789,13 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     @Override
     public ArrayList<StudyProxy> getStudies(QueryStudyProxy query) throws DefaultGWTRPCException {
 
+	PersistentManagerDerby pm = null;
 	try {
-	    Connection connection = ORMUtil.getConnection(getServletContext());
-	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+	    // Connection connection =
+	    // ORMUtil.getConnection(getServletContext());
+	    pm = new PersistentManagerDerby(getServletContext());
 	    ArrayList<StudyProxy> studies = new ArrayList<StudyProxy>();
-	    
+
 	    for (Study study : pm.queryStudies(ORMHelpers.getQueryStudy(query))) {
 		studies.add(ORMHelpers.getStudyProxy(study));
 	    }
@@ -800,19 +804,34 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	} catch (Throwable e) {
 	    logger.error(e);
 	    throw Util.throwPortalException("getDirections study error! ", e);
+	} finally {
+	    try {
+		if (pm != null)
+		    pm.relaseConnection();
+	    } catch (SQLException e) {
+		throw Util.throwPortalException("getDirections study error! ", e);
+	    }
 	}
     }
 
     @Override
     public void saveDirection(DirectionProxy drn) throws DefaultGWTRPCException {
+	PersistentManagerDerby pm = null;
 	try {
-	    Connection connection = ORMUtil.getConnection(getServletContext());
-	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
+//	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    pm = new PersistentManagerDerby(getServletContext());
 	    pm.pesistentDirection(ORMHelpers.getDirection(drn));
 
 	} catch (Throwable e) {
 	    logger.error(e);
 	    throw Util.throwPortalException("saveDirection error! ", e);
+	} finally {
+	    try {
+		if (pm != null)
+		    pm.relaseConnection();
+	    } catch (SQLException e) {
+		throw Util.throwPortalException("saveDirection error! ", e);
+	    }
 	}
 
     }
