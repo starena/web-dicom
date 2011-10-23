@@ -669,7 +669,7 @@ public class Archive extends StorageService {
 			System.exit(1);
 		}
 		dcmrcv.setAEtitle(config.getAet());
-		dcmrcv.setHostname(config.getHost());
+//		dcmrcv.setHostname(config.getHost());
 
 		Extractor.connectionStr = config.getDbUrl();
 		dcmrcv.setDestination(config.getIncomingFolder());
