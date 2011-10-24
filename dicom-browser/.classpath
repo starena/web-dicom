@@ -18,7 +18,7 @@
 	<classpathentry kind="lib" path="lib/derby/derbynet.jar"/>
 	<classpathentry kind="lib" path="lib/derby/derbyrun.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che/dcm4che-audit-2.0.21.jar"/>
-	<classpathentry kind="lib" path="lib/dcm4che/dcm4che-core-2.0.21.jar"/>
+	<classpathentry kind="lib" path="lib/dcm4che/dcm4che-core-2.0.21.jar" sourcepath="lib/src/dcm4che-2.0.21-src.zip"/>
 	<classpathentry kind="lib" path="lib/dcm4che/dcm4che-filecache-2.0.21.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che/dcm4che-hp-2.0.21.jar"/>
 	<classpathentry kind="lib" path="lib/dcm4che/dcm4che-image-2.0.21.jar"/>
