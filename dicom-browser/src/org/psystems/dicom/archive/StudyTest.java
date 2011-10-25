@@ -246,7 +246,7 @@ public void testGetInstance_renex() {
 		dcmObj = din.readDicomObject();
 		Study study = Study.getInstance(dcmObj);
 		assertEquals(study.getClass().getName(),
-				"org.psystems.dicom.daemon.Study");
+				"org.psystems.dicom.archive.Study");
 		assertEquals(study.getStudyInstanceUID(),
 				"1.871.3.2012061332.26781.19950.4196603041.1454001991.1");
 		assertEquals(study.getModality(), "CR");
@@ -302,7 +302,7 @@ public void testGetInstance_renex_lookinside_67() {
 		dcmObj = din.readDicomObject();
 		Study study = Study.getInstance(dcmObj);
 		assertEquals(study.getClass().getName(),
-				"org.psystems.dicom.daemon.StudyImpLookInside");
+				"org.psystems.dicom.archive.StudyImpLookInside");
 		assertEquals(study.getStudyInstanceUID(),
 				"1.871.3.2012061332.26781.19950.4196603041.1454001991.1");
 		assertEquals(study.getModality(), "CR");

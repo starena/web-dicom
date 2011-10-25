@@ -141,7 +141,7 @@
 
 
 	<!-- stop database -->
-	<target name="db.shutdown" description="stop database">
+	<target name="db.stop" description="stop database">
 
 
 		<java classname="org.apache.derby.drda.NetworkServerControl" fork="true" spawn="true">
@@ -301,10 +301,47 @@
 
 
 	</target>
+	
+	<target name="archve.start.devmode" description="start dicom archive">
+
+			<exec executable="jps" outputproperty="java.allprocess">
+				<arg value="-v" />
+			</exec>
+
+			<propertyregex property="archive.pid" input="${java.allprocess}" regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}" select="\1" />
+
+			<if>
+				<isset property="archive.pid" />
+				<then>
+					<echo message="Archive already started" />
+				</then>
+				<else>
+
+					<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="false">
+						<sysproperty key="webdicom.home" value="distrib" />
+						<sysproperty key="log4j.configuration" value="log4j.properties" />
+						<sysproperty key="derby.system.home" value="${dir.data.db}" />
+						<sysproperty key="derby.drda.startNetworkServer" value="true" />
+						<sysproperty key="derby.drda.portNumber" value="1527" />
+						<sysproperty key="derby.drda.host" value="localhost" />
+						<sysproperty key="derby.drda.logConnections" value="true" />
+						<sysproperty key="archive.key" value="${archive.runkey}" />
+						<classpath refid="archive.classpath" />
+						<classpath refid="derby.classpath" />
+						<classpath refid="common.classpath" />
+					</java>
+					<echo message="Archive started" />
+
+				</else>
+			</if>
+
+
+		</target>
+
 
 
 	<!-- stop archive -->
-	<target name="archve.shutdown" description="start dicom archive">
+	<target name="archve.stop" description="start dicom archive">
 
 		<osfamily property="java.os" />
 		<condition property="isWindows">
