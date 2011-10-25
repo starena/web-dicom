@@ -41,7 +41,13 @@ public class ConfigDeviceDriver {
 
     @Override
     public String toString() {
-	return "ConfigDeviceDriver [aet=" + aet + ", javaclass=" + javaclass + ", conditions=" + conditions + "]";
+	String s = "";
+	for (ConfigDeviceDriverCondition condition : conditions) {
+	    s += condition.toString() + "\n";
+	}
+	
+	return "  <Driver> aet:=[" + aet + "] javaclass: [" + javaclass + "]\n" +
+			  s;
     }
 
 }

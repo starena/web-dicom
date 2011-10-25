@@ -15,7 +15,7 @@ public class ConfigDeviceDriverCondition {
 	super();
 	this.tag = tag;
 	this.type = type;
-	this.type = value;
+	this.value = value;
     }
 
     public String getTag() {
@@ -32,7 +32,7 @@ public class ConfigDeviceDriverCondition {
 
     @Override
     public String toString() {
-	return "ConfigDeviceDriverCondition [tag=" + tag + ", type=" + type + ", value=" + value + "]";
+	return "\t     <Condtiton> tag: [" + tag + "] type: [" + type + "] value: [" + value + "]";
     }
 
 }
