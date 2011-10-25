@@ -57,7 +57,8 @@ public class Config {
     public static void main(String[] args) {
 
 	try {
-	    new Config();
+	    Config c = new Config();
+	    logger.warn(c.toString());
 	} catch (Exception e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -114,33 +115,12 @@ public class Config {
 		    .getNodeValue();
 	}
 
-	System.out.println("dicomconnect=" + aet + "@" + host + ":" + port + "; incomingFolder=" + incomingFolder
-		+ "; tmpFolder=" + tmpFolder + "; templateFolder=" + templateFolder + "; configPdf=" + configPdf
-		+ "; configJpg=" + configJpg + "; db=(" + dbDriver + ")" + dbUrl + " jndi:" + dbJndi + "; omits="
-		+ dbOmitsUrl + " jndi:" + dbOmitsJndi);
-
-	NodeList listOfConnector = doc.getElementsByTagName("dicom-driver");
-
-	System.out.println("Total dcmconnector's : " + listOfConnector.getLength());
-
-	for (int s = 0; s < listOfConnector.getLength(); s++) {
-
-	    Node connector = listOfConnector.item(s);
-
-	    String aet = connector.getAttributes().getNamedItem("aet").getNodeValue();
-	    String name = connector.getAttributes().getNamedItem("name").getNodeValue();
-	    String driver = connector.getAttributes().getNamedItem("driver").getNodeValue();
-	    System.out.println(" driver name=" + name + "; aet=" + aet + "; driver=" + driver);
-
-	    // DcmConnector conn = new DcmConnector(aet, name, driver);
-	    // connectors.add(conn);
-
-	}
+	
 
 	// Ищем секцию <device>
 	NodeList listOfDevices = doc.getElementsByTagName("device");
 
-	System.out.println("Device's count : " + listOfDevices.getLength());
+//	System.out.println("Device's count : " + listOfDevices.getLength());
 
 	for (int s = 0; s < listOfDevices.getLength(); s++) {
 
@@ -150,8 +130,8 @@ public class Config {
 	    String name = deviceNode.getAttributes().getNamedItem("name").getNodeValue();
 	    String description = deviceNode.getAttributes().getNamedItem("description").getNodeValue();
 
-	    System.out.println("[" + s + "]\t modality:[" + modality + "] name:[" + name + "] description:["
-		    + description + "]");
+//	    System.out.println("[" + s + "]\t modality:[" + modality + "] name:[" + name + "] description:["
+//		    + description + "]");
 
 	    ConfigDevice device = new ConfigDevice(modality, name, description);
 
@@ -166,11 +146,11 @@ public class Config {
 
 		    if (driverNode.getAttributes().getNamedItem("aet") != null) {
 			aet = driverNode.getAttributes().getNamedItem("aet").getNodeValue();
-			System.out.println("\t driver aet=[" + aet + "]");
+//			System.out.println("\t driver aet=[" + aet + "]");
 		    }
 		    if (driverNode.getAttributes().getNamedItem("class") != null) {
 			javaclass = driverNode.getAttributes().getNamedItem("class").getNodeValue();
-			System.out.println("\t driver class=[" + javaclass + "]");
+//			System.out.println("\t driver class=[" + javaclass + "]");
 		    }
 
 		    ConfigDeviceDriver driver = new ConfigDeviceDriver(aet, javaclass);
@@ -188,23 +168,23 @@ public class Config {
 			    tag = conditionNode.getAttributes().getNamedItem("tag").getNodeValue();
 			    type = conditionNode.getAttributes().getNamedItem("type").getNodeValue();
 			    value = conditionNode.getAttributes().getNamedItem("value").getNodeValue();
-			    
+
 			    ConfigDeviceDriverCondition condition = new ConfigDeviceDriverCondition(tag, type, value);
 			    driver.addCondition(condition);
-			    
-			    System.out.println("\t\t tag tag[" + tag + "]");
-			    System.out.println("\t\t tag type[" + type + "]");
-			    System.out.println("\t\t tag value[" + value + "]");
+
+//			    System.out.println("\t\t tag tag[" + tag + "]");
+//			    System.out.println("\t\t tag type[" + type + "]");
+//			    System.out.println("\t\t tag value[" + value + "]");
 			}
 		    }
 
 		}
 	    }
 
-	    System.out.println("====================================================================");
-	    
+
 	    devices.add(device);
 	}
+
     }
 
     public static ArrayList<ConfigDevice> getDevices() {
@@ -269,6 +249,29 @@ public class Config {
 
     public static String getDbOmitsJndi() {
 	return dbOmitsJndi;
+    }
+
+    @Override
+    public String toString() {
+	String s = " dicom connection: [" + aet + "@" + host + ":" + port + "]\n" + 
+		" incomingFolder: ["
+		+ incomingFolder + "]\n" +
+		" tmpFolder: [" + tmpFolder + "]\n" +
+		" templateFolder: [" + templateFolder + "]\n" +
+		" configPdf: [" + configPdf + "]\n" +
+		" configJpg: [" + configJpg + "]\n" +
+		" db: [(" + dbDriver + ")" + dbUrl+ " jndi:" + dbJndi + "]\n" +
+		" omits db: [" + dbOmitsUrl + " jndi:" + dbOmitsJndi +
+		"]\n Devices: >>>>>>>>>>>>>>\n";
+	
+	
+	for (ConfigDevice configDevice : getDevices()) {
+	    
+	    s += configDevice + "\t </>\n";
+	}
+	
+	return "\n<<WebDicom Config:>>\n" + s + "<</>>";
+	
     }
 
 }

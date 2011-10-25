@@ -46,8 +46,13 @@ public class ConfigDevice {
 
     @Override
     public String toString() {
-	return "ConfigDevice [modality=" + modality + ", name=" + name + ", description=" + description + ", device="
-		+ driver + "]";
+	String driver = "no driver's\n";
+	if (getDriver() != null)
+	    driver = getDriver().toString();
+
+	return "\t <Device> modality:[" + modality + "] name:[" + name + "] description:[" + description + "]\n" + 
+	"\t " + driver;
+
     }
 
 }
