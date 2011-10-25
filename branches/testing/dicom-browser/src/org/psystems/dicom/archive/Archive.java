@@ -634,6 +634,7 @@ public class Archive extends StorageService {
 		
 		try {
 			config = new Config();
+			System.out.println("!!! config " + config.toString());
 		} catch (Exception ex) {
 			LOG.error("Can't load config file! " + ex);
 			System.err.println("Can't load config file! " + ex);
