@@ -23,6 +23,11 @@ public class StudyTest extends TestCase {
 		super.tearDown();
 	}
 
+	public void testgetTagIdfromStringt() {
+	    assertEquals(0x00020003, Study.getTagIdfromString("0002,0003"));
+	    
+	}
+	
 	public void testGetInstance_elektron_1() {
 
 		DicomObject dcmObj;
