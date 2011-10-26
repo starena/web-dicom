@@ -13,7 +13,7 @@
 	<property name="dir.doc.api" value="${dir.doc}/api" />
 	<property name="dir.distrib" value="distrib" />
 	<property name="dir.data.db" value="data/db" />
-	<property name="dir.var" value="data" />
+	<property name="dir.tmp" value="data/tmp" />
 	<property name="dir.data.incoming" value="data/incoming" />
 	<property name="db.connect" value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true" />
 	<property name="distrib.jar" value="dcmarchive.jar" />
@@ -269,6 +269,8 @@
 	<!-- start archive -->
 	<target name="archve.start" description="start dicom archive">
 
+		<mkdir dir="${dir.tmp}"/>
+		
 		<exec executable="jps" outputproperty="java.allprocess">
 			<arg value="-v" />
 		</exec>
@@ -305,6 +307,8 @@
 	
 	<target name="archve.start.devmode" description="start dicom archive">
 
+			<mkdir dir="${dir.tmp}"/>
+		
 			<exec executable="jps" outputproperty="java.allprocess">
 				<arg value="-v" />
 			</exec>
