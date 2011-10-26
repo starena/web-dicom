@@ -719,6 +719,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 			for (int j = 0; j < tmpls.length; j++) {
 			    File tmpl = tmpls[j];
 			    String fileName = tmpl.getName();
+			    if (!fileName.toUpperCase().endsWith(".PDF")) continue;
 			    // System.out.println(">>>>> TMPL: [" + fileName +
 			    // "]"+modality);
 			    OOTemplateProxy tmplProxy = new OOTemplateProxy();
