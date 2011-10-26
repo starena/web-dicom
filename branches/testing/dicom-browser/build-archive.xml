@@ -159,8 +159,8 @@
 	<!-- Удаление тестовой инстанции -->
 	<target name="test-instance.remove">
 
-		<antcall target="archve.shutdown" />
-		<antcall target="db.shutdown" />
+		<antcall target="archve.stop" />
+		<antcall target="db.stop" />
 
 
 		<available file="${dir.data.db}" property="dir.data.db.present" />
@@ -260,9 +260,9 @@
 
 
 	<!-- остановка тестовой инстанции  -->
-	<target name="test-instance.shutdown">
-		<antcall target="db.shutdown" />
-		<antcall target="archve.shutdown" />
+	<target name="test-instance.stop">
+		<antcall target="db.stop" />
+		<antcall target="archve.stop" />
 	</target>
 
 

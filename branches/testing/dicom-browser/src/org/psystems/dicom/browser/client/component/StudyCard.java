@@ -244,7 +244,7 @@ public class StudyCard extends Composite {
 
 				changeStudyBtn.removeFromParent();
 				changeStudyBtn = null;
-
+				
 			}
 		});
 		
@@ -335,6 +335,11 @@ public class StudyCard extends Composite {
 			if(changeStudyBtn!=null) {
 				changeStudyBtn.removeFromParent();
 				changeStudyBtn = null;
+			}
+			
+			if(removeStudyBtn!=null) {
+			    removeStudyBtn.removeFromParent();
+			    removeStudyBtn = null;
 			}
 		}
 	}
