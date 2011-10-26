@@ -370,6 +370,8 @@
 						<exec executable="taskkill" outputproperty="archive.stop.result">
 							<arg value="/pid" />
 							<arg value="${archive.pid}" />
+							<arg value="/T" />
+							<arg value="/F" />
 						</exec>
 						<echo message="Archive succesufully stopped." />
 					</then>
