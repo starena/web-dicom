@@ -73,6 +73,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class UseagStoreChartServlet extends HttpServlet {
@@ -132,8 +133,10 @@ public class UseagStoreChartServlet extends HttpServlet {
 			rs.close();
 			
 			
-			String dcmRootDir = getServletContext().getInitParameter(
-			"webdicom.dir.src");
+			String dcmRootDir = Config.getIncomingFolder();
+			
+//			String dcmRootDir = getServletContext().getInitParameter(
+//			"webdicom.dir.src");
 			long totalSize  = new File(dcmRootDir).getTotalSpace(); //TODO Убрать!
 			long freeSize  = new File(dcmRootDir).getFreeSpace();
 			long busySize = totalSize - freeSize;

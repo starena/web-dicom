@@ -79,6 +79,7 @@ import org.dcm4che2.data.Tag;
 import org.dcm4che2.data.VR;
 import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.StringUtils;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class DcmViewTagsServlet extends HttpServlet {
@@ -105,8 +106,9 @@ public class DcmViewTagsServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html");
 
-		String dcmRootDir = getServletContext().getInitParameter(
-				"webdicom.dir.src");
+		String dcmRootDir = Config.getIncomingFolder();
+//		String dcmRootDir = getServletContext().getInitParameter(
+//				"webdicom.dir.src");
 
 		// Смотрим, если передан Integer, зачит ищем по ID
 		int dcmId = 0;

@@ -21,6 +21,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.Session;
+import org.psystems.dicom.commons.Config;
 
 public class NewStudyServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(NewStudyServlet.class
@@ -37,8 +38,8 @@ public class NewStudyServlet extends HttpServlet {
 		System.out.println("isMultipart=" + isMultipart);
 		HttpSession session = req.getSession();
 
-		
-		String imgTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.uploadimages");
+		String imgTmpDir = Config.getTmpFolder();
+//		String imgTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.uploadimages");
 		
 		// Create a factory for disk-based file items
 		DiskFileItemFactory factory = new DiskFileItemFactory(100000, new File(imgTmpDir));

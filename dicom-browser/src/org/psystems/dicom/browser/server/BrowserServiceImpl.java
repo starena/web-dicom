@@ -96,6 +96,7 @@ import org.psystems.dicom.browser.client.proxy.Session;
 import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.Direction;
@@ -395,7 +396,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    // проверка версии клиента
 	    Util.checkClentVersion(version);
 
-	    String dcmRootDir = getServletContext().getInitParameter("webdicom.dir.src");
+	    String dcmRootDir = Config.getIncomingFolder();
+//	    String dcmRootDir = getServletContext().getInitParameter("webdicom.dir.src");
 	    PreparedStatement psSelect = null;
 	    Connection connection = null;
 	    try {
@@ -701,7 +703,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	try {
 	    ArrayList<OOTemplateProxy> result = new ArrayList<OOTemplateProxy>();
 
-	    String ootmplRootDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+	    String ootmplRootDir = Config.getTemplateFolder();
+//	    String ootmplRootDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
 
 	    File[] files = new File(ootmplRootDir).listFiles();
 	    for (int i = 0; i < files.length; i++) {

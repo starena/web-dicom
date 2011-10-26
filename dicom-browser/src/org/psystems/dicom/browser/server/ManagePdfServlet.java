@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
@@ -82,12 +83,14 @@ public class ManagePdfServlet extends HttpServlet {
     private void changePDFContent(HttpServletRequest req, HttpServletResponse resp, boolean finalPhase)
 	    throws IOException {
 
-	String dcmTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.tmp");
+//	String dcmTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.tmp");
+	String dcmTmpDir = Config.getTmpFolder();
 	String pdfTmpFilename = dcmTmpDir + "/" + new Date().getTime() + "_" + (int) (Math.random() * 10000000l)
 		+ ".pdf";
 	File pdfTmpFile = null;
 	// TODO Поменять имя переменной webdicom.dir.ootmpl на webdicom.dir.pdf
-	String tmplDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+	String tmplDir = Config.getTemplateFolder();
+//	String tmplDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
 	String file = tmplDir + req.getPathInfo();
 
 	try {

@@ -97,9 +97,8 @@ public class AttachementServlet extends HttpServlet {
 	resp.setCharacterEncoding("utf-8");
 	resp.setContentType("image/jpeg");// По умолчанию
 
-	// FIXME убрать!
-	String imagesRootDir = getServletContext().getInitParameter("webdicom.dir.dst");
-	// String imagesRootDir = Config.getIncomingFolder();
+//	String imagesRootDir = getServletContext().getInitParameter("webdicom.dir.dst");
+	String imagesRootDir = Config.getIncomingFolder();
 
 	int imageId = 0;
 	String type = "fullsize";

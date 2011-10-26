@@ -14,11 +14,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * @author dima_d
+ * 
+ */
 public class Config {
 
     private static Logger logger = Logger.getLogger(Config.class.getName());
 
     private static ArrayList<ConfigDevice> devices = new ArrayList<ConfigDevice>();
+
+    private static String webdicomHome;
+    private static String configPath = File.separator + "conf" + File.separator + "webdicom.xml";
 
     private static String aet;
     private static String host;
@@ -39,11 +46,12 @@ public class Config {
     static {
 	try {
 	    if (System.getenv("WEBDICOM_HOME") != null) {
-		loadConfig(System.getenv("WEBDICOM_HOME") + "/conf/conf.xml");
+		loadConfig(System.getenv("WEBDICOM_HOME"), System.getenv("WEBDICOM_HOME") + configPath);
 	    } else if (System.getProperty("webdicom.home") != null) {
-		loadConfig(System.getProperty("webdicom.home") + "/conf/conf.xml");
+		// System.out.println("!!!! webdicom.home=["+System.getProperty("webdicom.home")+"]");
+		loadConfig(System.getProperty("webdicom.home"), System.getProperty("webdicom.home") + configPath);
 	    } else {
-		loadConfig("conf/conf.xml");
+		loadConfig(".", File.separator + configPath);
 	    }
 	} catch (Exception e) {
 	    logger.fatal("Error load config file! ", e);
@@ -66,7 +74,17 @@ public class Config {
 
     }
 
-    public static void loadConfig(String file) throws ParserConfigurationException, SAXException, IOException {
+    /**
+     * @param home
+     * @param file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static void loadConfig(String home, String file) throws ParserConfigurationException, SAXException,
+	    IOException {
+
+	webdicomHome = home + File.separator;
 
 	DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 	DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -84,15 +102,17 @@ public class Config {
 
 	port = doc.getElementsByTagName("dicom-connection").item(0).getAttributes().getNamedItem("port").getNodeValue();
 
-	incomingFolder = "" + doc.getElementsByTagName("study-incoming-folder").item(0).getFirstChild().getNodeValue();
+	incomingFolder = webdicomHome
+		+ doc.getElementsByTagName("study-incoming-folder").item(0).getFirstChild().getNodeValue();
 
-	tmpFolder = "" + doc.getElementsByTagName("tmp-folder").item(0).getFirstChild().getNodeValue();
+	tmpFolder = webdicomHome + doc.getElementsByTagName("tmp-folder").item(0).getFirstChild().getNodeValue();
 
-	templateFolder = "" + doc.getElementsByTagName("template-folder").item(0).getFirstChild().getNodeValue();
+	templateFolder = webdicomHome
+		+ doc.getElementsByTagName("template-folder").item(0).getFirstChild().getNodeValue();
 
-	configPdf = "" + doc.getElementsByTagName("conf-pdf").item(0).getFirstChild().getNodeValue();
+	configPdf = webdicomHome + doc.getElementsByTagName("conf-pdf").item(0).getFirstChild().getNodeValue();
 
-	configJpg = "" + doc.getElementsByTagName("conf-jpg").item(0).getFirstChild().getNodeValue();
+	configJpg = webdicomHome + doc.getElementsByTagName("conf-jpg").item(0).getFirstChild().getNodeValue();
 
 	dbDriver = doc.getElementsByTagName("db-connection").item(0).getAttributes().getNamedItem("driver")
 		.getNodeValue();
@@ -115,12 +135,10 @@ public class Config {
 		    .getNodeValue();
 	}
 
-	
-
 	// Ищем секцию <device>
 	NodeList listOfDevices = doc.getElementsByTagName("device");
 
-//	System.out.println("Device's count : " + listOfDevices.getLength());
+	// System.out.println("Device's count : " + listOfDevices.getLength());
 
 	for (int s = 0; s < listOfDevices.getLength(); s++) {
 
@@ -130,8 +148,9 @@ public class Config {
 	    String name = deviceNode.getAttributes().getNamedItem("name").getNodeValue();
 	    String description = deviceNode.getAttributes().getNamedItem("description").getNodeValue();
 
-//	    System.out.println("[" + s + "]\t modality:[" + modality + "] name:[" + name + "] description:["
-//		    + description + "]");
+	    // System.out.println("[" + s + "]\t modality:[" + modality +
+	    // "] name:[" + name + "] description:["
+	    // + description + "]");
 
 	    ConfigDevice device = new ConfigDevice(modality, name, description);
 
@@ -146,11 +165,12 @@ public class Config {
 
 		    if (driverNode.getAttributes().getNamedItem("aet") != null) {
 			aet = driverNode.getAttributes().getNamedItem("aet").getNodeValue();
-//			System.out.println("\t driver aet=[" + aet + "]");
+			// System.out.println("\t driver aet=[" + aet + "]");
 		    }
 		    if (driverNode.getAttributes().getNamedItem("class") != null) {
 			javaclass = driverNode.getAttributes().getNamedItem("class").getNodeValue();
-//			System.out.println("\t driver class=[" + javaclass + "]");
+			// System.out.println("\t driver class=[" + javaclass +
+			// "]");
 		    }
 
 		    ConfigDeviceDriver driver = new ConfigDeviceDriver(aet, javaclass);
@@ -172,15 +192,16 @@ public class Config {
 			    ConfigDeviceDriverCondition condition = new ConfigDeviceDriverCondition(tag, type, value);
 			    driver.addCondition(condition);
 
-//			    System.out.println("\t\t tag tag[" + tag + "]");
-//			    System.out.println("\t\t tag type[" + type + "]");
-//			    System.out.println("\t\t tag value[" + value + "]");
+			    // System.out.println("\t\t tag tag[" + tag + "]");
+			    // System.out.println("\t\t tag type[" + type +
+			    // "]");
+			    // System.out.println("\t\t tag value[" + value +
+			    // "]");
 			}
 		    }
 
 		}
 	    }
-
 
 	    devices.add(device);
 	}
@@ -202,6 +223,11 @@ public class Config {
     public static String getPort() {
 	return port;
     }
+    
+    public static String getDicomConnectionStr() {
+	return aet + "@" + host + ":" + port;
+    }
+    
 
     public static String getIncomingFolder() {
 	return incomingFolder;
@@ -253,25 +279,19 @@ public class Config {
 
     @Override
     public String toString() {
-	String s = " dicom connection: [" + aet + "@" + host + ":" + port + "]\n" + 
-		" incomingFolder: ["
-		+ incomingFolder + "]\n" +
-		" tmpFolder: [" + tmpFolder + "]\n" +
-		" templateFolder: [" + templateFolder + "]\n" +
-		" configPdf: [" + configPdf + "]\n" +
-		" configJpg: [" + configJpg + "]\n" +
-		" db: [(" + dbDriver + ")" + dbUrl+ " jndi:" + dbJndi + "]\n" +
-		" omits db: [" + dbOmitsUrl + " jndi:" + dbOmitsJndi +
-		"]\n Devices: >>>>>>>>>>>>>>\n";
-	
-	
+	String s = " dicom connection: [" + aet + "@" + host + ":" + port + "]\n" + " incomingFolder: ["
+		+ incomingFolder + "]\n" + " tmpFolder: [" + tmpFolder + "]\n" + " templateFolder: [" + templateFolder
+		+ "]\n" + " configPdf: [" + configPdf + "]\n" + " configJpg: [" + configJpg + "]\n" + " db: [("
+		+ dbDriver + ")" + dbUrl + " jndi:" + dbJndi + "]\n" + " omits db: [" + dbOmitsUrl + " jndi:"
+		+ dbOmitsJndi + "]\n Devices: >>>>>>>>>>>>>>\n";
+
 	for (ConfigDevice configDevice : getDevices()) {
-	    
+
 	    s += configDevice + "\t </>\n";
 	}
-	
+
 	return "\n<<WebDicom Config:>>\n" + s + "<</>>";
-	
+
     }
 
 }

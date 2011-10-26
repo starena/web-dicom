@@ -12,7 +12,7 @@
 
 	<!-- Коннекторы к БД -->
 
-	<!-- БД проекта web-dicom -->
+	<!-- БД проекта web-dicom 
 
 
  	<resource-ref>
@@ -26,8 +26,9 @@
 		<param-name>webdicom.connection.main.url</param-name>
 		<param-value>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</param-value>
 	</context-param>
+	-->
 
-	<!-- БД проекта ОМИТЦ -->
+	<!-- БД проекта ОМИТЦ 
 
 	<resource-ref>
 		<description>OMITS Oracle connector</description>
@@ -45,63 +46,69 @@
 		<param-name>webdicom.connection.omits.url</param-name>
 		<param-value>jdbc:oracle:thin:DICOM_USER/EPy8jC5l@localhost:30001:SRGP1</param-value>
 	</context-param>
-	
+	-->
 	
 
 
 	<!-- Прочие настройки -->
 
-	<!-- Корневая папка файлов исследований -->
+	<!-- Корневая папка файлов исследований
 	<context-param>
 		<param-name>webdicom.dir.src</param-name>
 		<param-value>../data/incoming</param-value>
 	</context-param>
+	 -->
 
 	<!--
 		??? Очевидно это папка с картинками ??? TODO Переименовать в image...
-	-->
+	
 	<context-param>
 		<param-name>webdicom.dir.dst</param-name>
 		<param-value>../data/incoming</param-value>
 	</context-param>
+	-->
 
-	<!-- Директория для сохранения временных заугружаемых картинок -->
+	<!-- Директория для сохранения временных заугружаемых картинок
 	<context-param>
 		<param-name>webdicom.dir.newdcm.uploadimages</param-name>
 		<param-value>../tmp</param-value>
 	</context-param>
+	 -->
 
-	<!-- Директория для сохранения временных DCM-файлов  -->
+	<!-- Директория для сохранения временных DCM-файлов  
 	<context-param>
 		<param-name>webdicom.dir.newdcm.tmp</param-name>
 		<param-value>../tmp</param-value>
 	</context-param>
+	-->
 	
-	<!-- Директория с шаблонами openoffice  -->
+	<!-- Директория с шаблонами openoffice  
 	<context-param>
 		<param-name>webdicom.dir.ootmpl</param-name>
 		<param-value>../test/ootmpl</param-value>
 	</context-param>
-
+-->
 	
-	<!-- строка соединения с Dicom-архивом для передачи DCM-файлов  -->
+	<!-- строка соединения с Dicom-архивом для передачи DCM-файлов 
 	<context-param>
 		<param-name>webdicom.archive.connection</param-name>
 		<param-value>MAIN@localhost:11112</param-value>
 	</context-param>
+	 -->
 
-	<!-- Конфиг-прототип для создания JPG - DCM-файлов  -->
+	<!-- Конфиг-прототип для создания JPG - DCM-файлов  
 	<context-param>
 		<param-name>webdicom.dir.newdcm.jpg.cfg</param-name>
 		<param-value>../distrib/conf/jpg2dcm.cfg</param-value>
 	</context-param>
+	-->
 
-	<!-- Конфиг-прототип для создания DFP - DCM-файлов  -->
+	<!-- Конфиг-прототип для создания DFP - DCM-файлов  
 	<context-param>
 		<param-name>webdicom.dir.newdcm.pdf.cfg</param-name>
 		<param-value>../distrib/conf/pdf2dcm.cfg</param-value>
 	</context-param>
-
+-->
 	
 
 

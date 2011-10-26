@@ -68,6 +68,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.Config;
 
 /**
  * @author dima_d
@@ -109,9 +110,9 @@ public class DcmGetOOTemplateServlet extends HttpServlet {
 //        resp.setContentLength( (int)f.length() );
 		resp.setHeader( "Content-Disposition", "attachment; filename=\"" + id + "\"" );
 
-		
-		String tmplDir = getServletContext().getInitParameter(
-				"webdicom.dir.ootmpl");
+		String tmplDir = Config.getTemplateFolder();
+//		String tmplDir = getServletContext().getInitParameter(
+//				"webdicom.dir.ootmpl");
 
 //		resp.getWriter().write("!!!!!"+tmplDir+"["+fileName+"]"+"["+id+"]");
 
