@@ -76,6 +76,7 @@ import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
 import org.dcm4che2.io.DicomInputStream;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 
 public class DcmViewPDFServlet extends HttpServlet {
@@ -102,8 +103,9 @@ public class DcmViewPDFServlet extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		
 
-		String dcmRootDir = getServletContext().getInitParameter(
-				"webdicom.dir.src");
+		String dcmRootDir = Config.getIncomingFolder();
+//		String dcmRootDir = getServletContext().getInitParameter(
+//				"webdicom.dir.src");
 
 		// Смотрим, если передан Integer, зачит ищем по ID
 		int dcmId = 0;

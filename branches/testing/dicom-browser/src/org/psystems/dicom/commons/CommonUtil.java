@@ -161,8 +161,11 @@ public class CommonUtil {
 			if (contentType!=null && contentType.equals("application/pdf")) {
 
 				Pdf2Dcm pfg2Dcm = new Pdf2Dcm();
-				String cfg = context
-						.getInitParameter("webdicom.dir.newdcm.pdf.cfg");
+//				String cfg = context
+//						.getInitParameter("webdicom.dir.newdcm.pdf.cfg");
+				
+				String cfg = Config.getConfigPdf();
+				
 				pfg2Dcm.loadConfiguration(new File(cfg));
 
 				for (Iterator<Object> iter = props.keySet().iterator(); iter
@@ -199,8 +202,10 @@ public class CommonUtil {
 				// String dcmDir = getServletContext().getInitParameter(
 				// "webdicom.dir.newdcm");
 
-				String dcmTmpDir = context
-						.getInitParameter("webdicom.dir.newdcm.tmp");
+//				String dcmTmpDir = context
+//						.getInitParameter("webdicom.dir.newdcm.tmp");
+				
+				String dcmTmpDir = Config.getTmpFolder();
 
 				// String dcmFileName = dcmDir + "/" + prefix + ".dcm";
 				String tmpFileName = dcmTmpDir + "/" + prefix + ".dcm";
@@ -222,8 +227,11 @@ public class CommonUtil {
 			if (contentType !=null && contentType.equals("image/jpg")) {
 
 				Jpg2Dcm jpg2Dcm = new Jpg2Dcm();
-				String cfg = context
-						.getInitParameter("webdicom.dir.newdcm.jpg.cfg");
+//				String cfg = context
+//						.getInitParameter("webdicom.dir.newdcm.jpg.cfg");
+				
+				String cfg = Config.getConfigJpg();
+				
 				jpg2Dcm.loadConfiguration(new File(cfg), true);
 
 				for (Iterator<Object> iter = props.keySet().iterator(); iter
@@ -269,9 +277,11 @@ public class CommonUtil {
 			}
 
 			
-			String connectionStr = context
-					.getInitParameter("webdicom.archive.connection");
-
+//			String connectionStr = context
+//					.getInitParameter("webdicom.archive.connection");
+			
+			String connectionStr = Config.getDicomConnectionStr();
+			
 			DcmSnd.sendToArchive(connectionStr, dcmFileTmp);
 
 		}catch(Exception e) {

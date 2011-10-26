@@ -1,0 +1,57 @@
+<webdicom version="1">
+
+	<!-- Параметры dicom-архива  -->
+	<dicom-connection aet="MAIN" host="localhost" port="11112" />
+
+	<!-- Папка для входящих исследований (dcm-файлов) -->
+	<study-incoming-folder>data/incoming</study-incoming-folder>
+	
+	<!-- Папка для сохранения временных файлов (загружаемых картинок) -->
+	<tmp-folder>data/tmp</tmp-folder>
+	
+	<!-- Директория с шаблонами openoffice  -->
+	<template-folder>data/tmpl</template-folder>
+	
+	<!-- Конфиг-прототип для создания JPG-DCM-файлов  -->
+	<conf-jpg>conf/jpg2dcm.cfg</conf-jpg>
+
+	<!-- Конфиг-прототип для создания PDF-DCM-файлов  -->
+	<conf-pdf>conf/pdf2dcm.cfg</conf-pdf>
+
+	<!-- Параметры соединения с бд пректа -->
+	<db-connection driver="org.apache.derby.jdbc.ClientDriver"
+		url="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM"/>
+		
+<!--  	<db-connection jndi="jdbc/webdicom"/> -->
+		
+	<!-- Параметры соединения с бд ОМИТЦ -->
+	<omits-connection driver="oracle.jdbc.driver.OracleDriver"
+		url="jdbc:oracle:thin:DICOM_USER/EPy8jC5l@localhost:30001:SRGP1" />
+		
+<!-- 	<omits-connection jndi="jdbc/omits"/>  -->
+
+
+	<!-- ************************************  -->
+	<!--   Аппараты  -->
+	<!-- ************************************  -->
+	
+	<!-- Драйвер Electron -->
+	<device modality="CR" name="КРТ-Электрон" description="КРТ Электрон каб ХХХ">
+		<driver aet="" class="org.psystems.dicom.archive.StudyImplElektron">
+		 	<condition tag="0002,0002" type="eq" value="1.2.840.10008.5.1.4.1.1.1"/>
+		 	<condition tag="0002,0003" type="eq" value="1.2.826.0.1.3680043.2.634.0.19902.201041.165915.1"/>
+		</driver>
+	</device>
+
+	<!-- Драйвер Renex -->
+	<device modality="CR" name="RENEXFLUORO3" description="KRT Renex кабинет YYY">
+		<driver aet="" class="org.psystems.dicom.archive.StudyImplRenex">
+		 	<condition tag="0002,0002" type="eq" value="1.2.840.10008.5.1.4.1.1.1"/>
+		 	<condition tag="0002,0003" type="eq" value="1.871.3.2012061332.26781.19950.4196603041.1454001991.1.1.1"/>
+		</driver>
+	</device>
+	
+	<device modality="MG" name="DUODiagnost" description="Рентген (DUODiagnost)"/>
+		
+
+</webdicom>

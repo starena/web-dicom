@@ -14,6 +14,7 @@
 		name="createDatabase">create</Set> </New> </Arg> </New>
 	-->
 
+<!--
 	<New id="DSTest" class="org.mortbay.jetty.plus.naming.Resource">
 		<Arg></Arg>
 		<Arg>java:comp/env/jdbc/webdicom</Arg>
@@ -26,6 +27,6 @@
 			</New>
 		</Arg>
 	</New>
-
+-->
 
 </Configure>

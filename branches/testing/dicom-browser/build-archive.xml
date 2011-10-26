@@ -18,6 +18,7 @@
 	<property name="db.connect" value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true" />
 	<property name="distrib.jar" value="dcmarchive.jar" />
 	<property name="archive.runkey" value="WEBDICOM" />
+	<property name="webdicom.home" value="." />
 
 
 	<path id="derby.classpath">
@@ -282,7 +283,7 @@
 			<else>
 
 				<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="true">
-					<sysproperty key="webdicom.home" value="distrib" />
+					<sysproperty key="webdicom.home" value="${webdicom.home}" />
 					<sysproperty key="log4j.configuration" value="log4j.properties" />
 					<sysproperty key="derby.system.home" value="${dir.data.db}" />
 					<sysproperty key="derby.drda.startNetworkServer" value="true" />
@@ -318,7 +319,7 @@
 				<else>
 
 					<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="false">
-						<sysproperty key="webdicom.home" value="distrib" />
+						<sysproperty key="webdicom.home" value="${webdicom.home}" />
 						<sysproperty key="log4j.configuration" value="log4j.properties" />
 						<sysproperty key="derby.system.home" value="${dir.data.db}" />
 						<sysproperty key="derby.drda.startNetworkServer" value="true" />
