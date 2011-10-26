@@ -9,8 +9,8 @@
 	<!-- Папка для сохранения временных файлов (загружаемых картинок) -->
 	<tmp-folder>data/tmp</tmp-folder>
 	
-	<!-- Директория с шаблонами openoffice  -->
-	<template-folder>data/tmpl</template-folder>
+	<!-- Директория с PDF-шаблонами  -->
+	<template-folder>test/templates</template-folder>
 	
 	<!-- Конфиг-прототип для создания JPG-DCM-файлов  -->
 	<conf-jpg>conf/jpg2dcm.cfg</conf-jpg>
