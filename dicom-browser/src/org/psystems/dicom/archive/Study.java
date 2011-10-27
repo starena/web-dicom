@@ -100,19 +100,39 @@ public class Study {
 			ManufacturerModelName = element.getValueAsString(cs, element.length());
 		}
 		
-		//Определяем драйвер которым будем обрабатывать DCM-файл
-		ArrayList<ConfigDevice> devs = Config.getDevices();
-		for (ConfigDevice dev : devs) {
+	// Определяем драйвер которым будем обрабатывать DCM-файл
+	ArrayList<ConfigDevice> devs = Config.getDevices();
+	for (ConfigDevice dev : devs) {
+
+	    if (dev.getDriver() == null)
+		continue;// не из DICOM
+	    ConfigDeviceDriver driver = dev.getDriver();
+	    int countSuccesConditions = 0;//количество успешно сработанных 
+	    for (ConfigDeviceDriverCondition cond : driver.getConditions()) {
+		String tagName = cond.getTag();
+		String tagValue = cond.getValue();
+		String condType = cond.getType();
+		
+		//значение "eq" по умолчанию
+		if (condType==null || condType.length()==0) condType = "eq";
+		
+		int tag = getTagIdfromString(tagName);
+		DicomElement elt = dcmObj.get(tag);
+		if (elt != null) {
+		    String val = elt.getValueAsString(cs, elt.length());
 		    
-		    if(dev.getDriver()==null) continue;//не из DICOM
-		    ConfigDeviceDriver driver = dev.getDriver();
-		    for (ConfigDeviceDriverCondition cond : driver.getConditions()) {
-			String tag = cond.getTag();
-			String tagvalue = cond.getValue();
-//			tagvalue.split(',')
-//			dcmObj.get(123);
+		    if(val!=null && condType.equals("eq") && val.equalsIgnoreCase(tagValue)) {
+			countSuccesConditions++;
 		    }
 		}
+	    }
+	    
+	    //Попали на нужный драйвер
+	    if (countSuccesConditions == driver.getConditions().size()) {
+		String drvClass = driver.getJavaclass();
+		System.out.println("!!!!! find driver="+driver);
+	    }
+	}
 
 		//TODO можно и по модели и по MediaStorageSOPClassUID
 		//TODO как лучше???
