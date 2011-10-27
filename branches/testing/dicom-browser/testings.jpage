@@ -1,0 +1,5 @@
+int v1 = 2;
+int v2 = 3;
+int value = v2 + ((v1 <<16)&0xFFFF0000);
+
+System.out.println("!! "+0x00020003 + "="+value);

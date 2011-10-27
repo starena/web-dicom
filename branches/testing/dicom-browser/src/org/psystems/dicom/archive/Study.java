@@ -163,11 +163,10 @@ public class Study {
      */
     public static int getTagIdfromString (String tagStr) {
 	String t[] = tagStr.split(",");
-	int major = Integer.valueOf(t[0]).intValue();
-	int minor = Integer.valueOf(t[1]).intValue();
-	System.out.println("!!! major="+Integer.toHexString(major)+"; minor="+minor);
-	
-	return major + minor << 16;
+	int v1 = Integer.valueOf(t[0]).intValue();
+	int v2 = Integer.valueOf(t[1]).intValue();
+	int value = v2 + ((v1 <<16)&0xFFFF0000);
+	return value;
     }
     
     /**
