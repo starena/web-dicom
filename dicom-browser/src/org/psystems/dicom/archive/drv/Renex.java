@@ -37,8 +37,9 @@ public class Renex extends DicomDriver {
 	    logger.warn(getDebugStr("Patien Name (tag: PatientName) is empty!"));
 	} else {
 	    String pname = element.getValueAsString(cs, element.length());
-	    pname.replaceAll("\\^", " ");
-	    studySrc.setPatientName(pname);
+	    String newname = pname.replaceAll("\\^", " ");
+	    studySrc.setPatientName(newname);
+	    logger.info("Fix PatientName ["+pname+"] -> [" + newname+"]");
 	}
 
 	// StudyType
