@@ -1,10 +1,16 @@
 package org.psystems.dicom.archive;
 
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.SpecificCharacterSet;
 import org.dcm4che2.data.Tag;
+import org.psystems.dicom.commons.Config;
+import org.psystems.dicom.commons.ConfigDevice;
+import org.psystems.dicom.commons.ConfigDeviceDriver;
+import org.psystems.dicom.commons.ConfigDeviceDriverCondition;
 
 /**
  * Драйвер обработки тэгов исслеодвания (при приеме через DICOM)
@@ -25,25 +31,74 @@ public abstract class DicomDriver {
      * Получение конечного исследования
      * 
      * @param studySrc
-     * @param dcmObj TODO
+     * @param dcmObj
+     *            TODO
      * @return
      */
-    public abstract Study getStudy(Study studySrc, DicomObject dcmObj); 
+    public abstract Study getStudy(Study studySrc, DicomObject dcmObj);
 
     /**
      * @param dcmObj
      * @return
      */
-    public Study getStudy(DicomObject dcmObj) {
+    public static Study getStudy(DicomObject dcmObj) {
 
-	Study study = getDefaultStudy(dcmObj);
-	//TODO сделать
-	
 	// Создаем экземпляр с дефолтовым разбором тегов
+	Study study = getDefaultStudy(dcmObj);
 
 	// выбираем нужный драйвер
+	// Определяем драйвер которым будем обрабатывать DCM-файл
+	ArrayList<ConfigDevice> devs = Config.getDevices();
+	for (ConfigDevice dev : devs) {
 
-	return null;
+	    if (dev.getDriver() == null)
+		continue;// не из DICOM
+	    ConfigDeviceDriver driver = dev.getDriver();
+	    int countSuccesConditions = 0;// количество успешно сработанных
+	    for (ConfigDeviceDriverCondition cond : driver.getConditions()) {
+		String tagName = cond.getTag();
+		String tagValue = cond.getValue();
+		String condType = cond.getType();
+
+		// значение "eq" по умолчанию
+		if (condType == null || condType.length() == 0)
+		    condType = "eq";
+
+		int tag = getTagIdfromString(tagName);
+		DicomElement elt = dcmObj.get(tag);
+		if (elt != null) {
+		    String val = elt.getValueAsString(study.getCs(), elt.length());
+
+		    if (val != null && condType.equals("eq") && val.equalsIgnoreCase(tagValue)) {
+			countSuccesConditions++;
+		    }
+		}
+	    }
+
+	    // Попали на нужный драйвер
+	    if (countSuccesConditions == driver.getConditions().size()) {
+		String drvClass = driver.getJavaclass();
+		System.out.println("!!!!! find driver=" + driver);
+		try {
+		    Class<?> drv = Class.forName(drvClass);
+		    logger.info("Usage driver class: [" + driver.getJavaclass() + "]" + driver);
+		    DicomDriver drvImpl = (DicomDriver) drv.newInstance();
+		    return drvImpl.getStudy(study, dcmObj);
+		    // TODO Сделать возврат эксепшинов через throws
+		} catch (ClassNotFoundException e) {
+		    e.printStackTrace();
+		    logger.fatal("Driver not found! [" + driver + "][" + drvClass + "]");
+		} catch (InstantiationException e) {
+		    logger.fatal("Driver not found! [" + driver + "][" + drvClass + "]");
+		    e.printStackTrace();
+		} catch (IllegalAccessException e) {
+		    logger.fatal("Driver not found! [" + driver + "][" + drvClass + "]");
+		    e.printStackTrace();
+		}
+	    }
+	}
+
+	return study;
 
     }
 
@@ -53,7 +108,7 @@ public abstract class DicomDriver {
      * @param dcmObj
      * @return
      */
-    protected Study getDefaultStudy(DicomObject dcmObj) {
+    protected static Study getDefaultStudy(DicomObject dcmObj) {
 
 	SpecificCharacterSet cs;
 
@@ -242,12 +297,26 @@ public abstract class DicomDriver {
     }
 
     /**
+     * Конвертация строки xxxx,yyyy в тег
+     * 
+     * @param tagStr
+     * @return
+     */
+    public static int getTagIdfromString(String tagStr) {
+	String t[] = tagStr.split(",");
+	int v1 = Integer.valueOf(t[0]).intValue();
+	int v2 = Integer.valueOf(t[1]).intValue();
+	int value = v2 + ((v1 << 16) & 0xFFFF0000);
+	return value;
+    }
+
+    /**
      * Получение строки для лога
      * 
      * @param string
      * @return
      */
-    protected String getDebugStr(String string) {
+    protected static String getDebugStr(String string) {
 
 	// TODO Сделать префикс
 	// DicomElement element = dcmObj.get(Tag.StudyInstanceUID);
