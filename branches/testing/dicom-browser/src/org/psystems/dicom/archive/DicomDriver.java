@@ -55,6 +55,7 @@ public abstract class DicomDriver {
 		continue;// не из DICOM
 	    ConfigDeviceDriver driver = dev.getDriver();
 	    int countSuccesConditions = 0;// количество успешно сработанных
+	    int counter = 0;
 	    for (ConfigDeviceDriverCondition cond : driver.getConditions()) {
 		String tagName = cond.getTag();
 		String tagValue = cond.getValue();
@@ -65,23 +66,30 @@ public abstract class DicomDriver {
 		    condType = "eq";
 
 		int tag = getTagIdfromString(tagName);
+		logger.info("check condition " + counter + " of " + driver.getConditions().size() + " " + cond);
+		
 		DicomElement elt = dcmObj.get(tag);
 		if (elt != null) {
 		    String val = elt.getValueAsString(study.getCs(), elt.length());
 
 		    if (val != null && condType.equals("eq") && val.equalsIgnoreCase(tagValue)) {
 			countSuccesConditions++;
+			logger.info("condition successfully checked");
 		    }
 		}
+		counter++;
 	    }
+	    
+	    logger.info("checked conditions " + countSuccesConditions + " of " + driver.getConditions().size());
 
 	    // Попали на нужный драйвер
 	    if (countSuccesConditions == driver.getConditions().size()) {
 		String drvClass = driver.getJavaclass();
-		System.out.println("!!!!! find driver=" + driver);
+//		System.out.println("!!!!! find driver=" + driver);
 		try {
-		    Class<?> drv = Class.forName(drvClass);
 		    logger.info("Usage driver class: [" + driver.getJavaclass() + "]" + driver);
+		    Class<?> drv = Class.forName(drvClass);
+		    
 		    DicomDriver drvImpl = (DicomDriver) drv.newInstance();
 		    return drvImpl.getStudy(study, dcmObj);
 		    // TODO Сделать возврат эксепшинов через throws
@@ -98,6 +106,7 @@ public abstract class DicomDriver {
 	    }
 	}
 
+	logger.info("Usage default driver");
 	return study;
 
     }

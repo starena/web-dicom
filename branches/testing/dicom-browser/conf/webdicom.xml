@@ -37,19 +37,19 @@
 
 	<!-- Драйвер Electron -->
 	<device modality="CR" name="КРТ-Электрон" description="КРТ Электрон каб ХХХ">
-		<driver aet="" class="org.psystems.dicom.archive.StudyImplElektron">
+		<driver aet="" class="org.psystems.dicom.archive.drv.KRTElectron">
 			<condition tag="0002,0002" type="eq" value="1.2.840.10008.5.1.4.1.1.1" />
-			<condition tag="0002,0003" type="eq"
-				value="1.2.826.0.1.3680043.2.634.0.19902.201041.165915.1" />
+			<condition tag="0008,4240" type="eq" value="КРТ-Электрон" />
 		</driver>
 	</device>
 
 	<!-- Драйвер Renex -->
 	<device modality="CR" name="RENEXFLUORO3" description="KRT Renex кабинет YYY">
-		<driver aet="" class="org.psystems.dicom.archive.StudyImplRenex">
+		<driver aet="" class="org.psystems.dicom.archive.drv.Renex">
 			<condition tag="0002,0002" type="eq" value="1.2.840.10008.5.1.4.1.1.1" />
-			<condition tag="0002,0003" type="eq"
-				value="1.871.3.2012061332.26781.19950.4196603041.1454001991.1.1.1" />
+			<condition tag="0008,0112" type="eq" value="JV HELPIC (MOSCOW)" />
+			<condition tag="0008,4240" type="eq" value="RENEXFLUORO3" />
+
 		</driver>
 	</device>
 
@@ -67,7 +67,8 @@
 
 	<device modality="US" name="SonoScape-3" description="УЗИ-3 (SonoScape)" />
 
-	<device modality="US" name="VOLUSON 730 BT04 EXPERT" description="УЗИ (VOLUSON)" />
+	<device modality="US" name="VOLUSON 730 BT04 EXPERT"
+		description="УЗИ (VOLUSON)" />
 
 	<device modality="US" name="Acuson Sequoia" description="УЗИ (Acuson Sequoia) каб.408" />
 

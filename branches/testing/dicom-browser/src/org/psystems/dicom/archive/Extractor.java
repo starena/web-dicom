@@ -403,6 +403,8 @@ public class Extractor {
 				throw new WebDicomDataException("Error instantination Study", ex);
 			}
 			
+			
+			
 			String MIME_TYPE = study.getMimeType();
 			long DOCUMENT_SIZE = study.getEncapsulatedDocSize();
 			
@@ -506,7 +508,7 @@ public class Extractor {
 				stmt.setLong(20, studyInternalID);
 				stmt.executeUpdate();
 				stmt.close();
-
+				
 			} else {
 				// Делаем вставку
 				LOG.info("insert data in database [" + DCM_FILE_NAME + "]");
