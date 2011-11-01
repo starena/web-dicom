@@ -397,7 +397,8 @@ public class Extractor {
 			//TODO Нужно подробне глянуть. можно-ли еще глубже перекинуть
 			//Эксепшн.. внутрь класса Study
 			try {
-				study = Study.getInstance(dcmObj);
+			    study = DicomDriver.getStudy(dcmObj);
+//				study = Study.getInstance(dcmObj);
 			}catch(Exception ex) {
 				throw new WebDicomDataException("Error instantination Study", ex);
 			}

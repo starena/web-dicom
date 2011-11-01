@@ -120,6 +120,7 @@ public class StudyCard extends Composite {
 	private Label labelStudyViewprotocol;
 	private HorizontalPanel FilesPanel;
 	private boolean fullMode;
+	private boolean editMode;
 	private VerticalPanel mainPanel;
 	private FlexTable commonTable;
 
@@ -127,11 +128,14 @@ public class StudyCard extends Composite {
 	private StudyManagePanel studyManagePanel;
 
 
-	private Button changeStudyBtn;
-	private Button removeStudyBtn = new Button("Удалить");
+//	private Button changeStudyBtn;
+//	private Button removeStudyBtn = new Button("Удалить");
 
 
 	private boolean showDeletedDcmFiles = false;
+
+
+private HorizontalPanel buttonsPanel;
 
 	/**
 	 * Карточка исследования
@@ -226,12 +230,12 @@ public class StudyCard extends Composite {
 		FilesPanel = new HorizontalPanel();
 		FilesPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 		mainPanel.add(FilesPanel);
-		HorizontalPanel buttonsPanel = new HorizontalPanel();
+		buttonsPanel = new HorizontalPanel();
 		mainPanel.add(buttonsPanel);
 		
-		changeStudyBtn = new Button("описать/изменить исследование...");
+		Button changeStudyBtn = new Button("описать/изменить исследование...");
 		changeStudyBtn.setStyleName("DicomItem");
-		
+		buttonsPanel.add(changeStudyBtn);
 		
 		changeStudyBtn.addClickHandler(new ClickHandler() {
 			
@@ -241,19 +245,20 @@ public class StudyCard extends Composite {
 				studyManagePanel = new StudyManagePanel(StudyCard.this, proxy);
 				mainPanel.add(studyManagePanel);
 				// changeStudyBtn.setText("Закрыть форму ввода");
-
-				changeStudyBtn.removeFromParent();
-				changeStudyBtn = null;
+				editMode = true;
+//				changeStudyBtn.removeFromParent();
+//				changeStudyBtn = null;
 				
 			}
 		});
 		
 		
-		buttonsPanel.add(changeStudyBtn);
 		
 		
+		
+		Button removeStudyBtn = new Button("удалить/восстановить исследование");
 		removeStudyBtn.setStyleName("DicomItem");
-		
+		buttonsPanel.add(removeStudyBtn);
 		
 		removeStudyBtn.addClickHandler(new ClickHandler() {
 			
@@ -279,7 +284,7 @@ public class StudyCard extends Composite {
 			}
 		});
 		
-		buttonsPanel.add(removeStudyBtn);
+		
 		
 		
 		
@@ -326,21 +331,23 @@ public class StudyCard extends Composite {
 			commonTable = null;
 			FilesPanel.removeFromParent();
 			FilesPanel = null;
+			buttonsPanel.removeFromParent();
+			buttonsPanel = null;
 			
 			if(studyManagePanel!=null) {
 				studyManagePanel.removeFromParent();
 				studyManagePanel = null;
 			}
 			
-			if(changeStudyBtn!=null) {
-				changeStudyBtn.removeFromParent();
-				changeStudyBtn = null;
-			}
-			
-			if(removeStudyBtn!=null) {
-			    removeStudyBtn.removeFromParent();
-			    removeStudyBtn = null;
-			}
+//			if(changeStudyBtn!=null) {
+//				changeStudyBtn.removeFromParent();
+//				changeStudyBtn = null;
+//			}
+//			
+//			if(removeStudyBtn!=null) {
+//			    removeStudyBtn.removeFromParent();
+//			    removeStudyBtn = null;
+//			}
 		}
 	}
 
@@ -669,14 +676,15 @@ public class StudyCard extends Composite {
 	 * Установка режима показывающего что иследование удалено
 	 */
 	private void setRemovedStyle(boolean removed) {
-		if(removed) {
-			labelPatientName.addStyleName("DicomItemRemoved");
-			removeStudyBtn.setText("Восстановить");
-		}
-		else {
-			labelPatientName.removeStyleName("DicomItemRemoved");
-			removeStudyBtn.setText("Удалить");
-		}
+	    
+//		if(removed) {
+//			labelPatientName.addStyleName("DicomItemRemoved");
+//			removeStudyBtn.setText("Восстановить");
+//		}
+//		else {
+//			labelPatientName.removeStyleName("DicomItemRemoved");
+//			removeStudyBtn.setText("Удалить");
+//		}
 	}
 
 

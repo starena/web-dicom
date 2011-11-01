@@ -69,7 +69,7 @@
 
 	<device modality="US" name="VOLUSON 730 BT04 EXPERT" description="УЗИ (VOLUSON)" />
 
-	<device modality="US" name="Acuson Sequoia" description="УЗИ (Acuson Sequoia) каб.408" " />
+	<device modality="US" name="Acuson Sequoia" description="УЗИ (Acuson Sequoia) каб.408" />
 
 	<device modality="MG" name="LORAD AFFINITY" description="Маммограф (LORAD AFFINITY)" />
 
