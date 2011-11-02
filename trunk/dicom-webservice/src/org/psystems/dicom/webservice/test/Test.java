@@ -82,8 +82,8 @@ public class Test {
 
 		// queryStudy();
 		// qetDirrection();
-//		 queryDirrection();
-		 makeDirection();
+		 queryDirrection();
+//		 makeDirection();
 //		getStudyImages();
 //		getStudyProtocols();
 	}
