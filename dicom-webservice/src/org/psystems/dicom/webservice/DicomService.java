@@ -31,6 +31,7 @@ import org.dcm4che2.data.DicomElement;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.Tag;
 import org.dcm4che2.io.DicomInputStream;
+import org.psystems.dicom.commons.Config;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.DataException;
@@ -392,10 +393,10 @@ public class DicomService {
 					.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
 			psSelect.setLong(1, id);
 			ResultSet rs = psSelect.executeQuery();
-			// TODO убрать!!! ../dicom-browser/
-			// FIXME убрать! Перевести на Config.getIncomingFolder()
-			String imagesRootDir = servletContext
-					.getInitParameter("webdicom.dir.dst");
+			
+			String imagesRootDir = Config.getIncomingFolder();
+//			String imagesRootDir = servletContext
+//					.getInitParameter("webdicom.dir.dst");
 			String incoming = imagesRootDir;
 			ArrayList<String> fileNames = new ArrayList<String>();
 
@@ -464,8 +465,11 @@ public class DicomService {
 			ResultSet rs = psSelect.executeQuery();
 			// TODO убрать!!! ../dicom-browser/
 			// FIXME убрать! Перевести на Config.getIncomingFolder()
-			String imagesRootDir = servletContext
-					.getInitParameter("webdicom.dir.dst");
+			
+			String imagesRootDir = Config.getIncomingFolder();
+//			String imagesRootDir = servletContext
+//					.getInitParameter("webdicom.dir.dst");
+			
 			String incoming = imagesRootDir;
 			ArrayList<String> fileNames = new ArrayList<String>();
 
