@@ -233,7 +233,7 @@ private HorizontalPanel buttonsPanel;
 		buttonsPanel = new HorizontalPanel();
 		mainPanel.add(buttonsPanel);
 		
-		Button changeStudyBtn = new Button("описать/изменить исследование...");
+		Button changeStudyBtn = new Button("редактировать");
 		changeStudyBtn.setStyleName("DicomItem");
 		buttonsPanel.add(changeStudyBtn);
 		
@@ -256,7 +256,7 @@ private HorizontalPanel buttonsPanel;
 		
 		
 		
-		Button removeStudyBtn = new Button("удалить/восстановить исследование");
+		Button removeStudyBtn = new Button("удалить/восстановить");
 		removeStudyBtn.setStyleName("DicomItem");
 		buttonsPanel.add(removeStudyBtn);
 		

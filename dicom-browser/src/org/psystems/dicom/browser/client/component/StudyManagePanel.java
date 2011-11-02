@@ -1417,7 +1417,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		// +"</a><br>";
 		// }
 		
-		tmpls += "<b>TODO</b> Сделать разовой!";
+//		tmpls += "<b>TODO</b> Сделать разовой!";
 
 		ooTemplatePanel.setHTML(tmpls);
 	    }
