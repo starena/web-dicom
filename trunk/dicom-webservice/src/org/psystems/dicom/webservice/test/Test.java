@@ -82,8 +82,8 @@ public class Test {
 
 		// queryStudy();
 		// qetDirrection();
-		 queryDirrection();
-//		 makeDirection();
+//		 queryDirrection();
+		 makeDirection();
 //		getStudyImages();
 //		getStudyProtocols();
 	}
@@ -251,8 +251,8 @@ public class Test {
 		patient.setPatientShortName("ДЕРДВ74");
 
 		long id = port.makeDirection(new Date().getTime() + "", "DS", doctor,
-				diagnosis, services, "2011-09-21", device,
-				"2011-09-22 12:00:00", "CODE123", "GP1-ROOM515", patient,
+				diagnosis, services, "2011-10-21", device,
+				"2011-10-22 12:00:00", "CODE123", "GP1-ROOM515", patient,
 				"LPUTEST");
 
 		System.out.println("!!!! makeDirection id:" + id);
