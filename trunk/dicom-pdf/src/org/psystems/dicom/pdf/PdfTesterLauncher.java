@@ -16,9 +16,9 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-public class DynaServerLauncher {
+public class PdfTesterLauncher {
 
-    static Logger logger = Logger.getLogger(DynaServerLauncher.class);
+    static Logger logger = Logger.getLogger(PdfTesterLauncher.class);
 
 
     static String resource;
@@ -46,11 +46,11 @@ public class DynaServerLauncher {
 
 	
 	int jettyport = Integer.valueOf(args[0]).intValue();// 8080
-	String host = args[1];// "10.46.12.38"
-	int port = Integer.valueOf(args[2]).intValue();// 5020
-	String protocol = args[3];// OCM.SOI3
-	resource = args[4];// "resources"
-	resourceCommon = resource + "/common";
+//	String host = args[1];// "10.46.12.38"
+//	int port = Integer.valueOf(args[2]).intValue();// 5020
+//	String protocol = args[3];// OCM.SOI3
+//	resource = args[4];// "resources"
+//	resourceCommon = resource + "/common";
 	// final String project = args[5];//"test"
 
 

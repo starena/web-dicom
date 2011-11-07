@@ -6,7 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Connection;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -17,14 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
-import org.psystems.dicom.commons.Config;
-import org.psystems.dicom.commons.orm.ORMUtil;
-import org.psystems.dicom.commons.orm.PersistentManagerDerby;
-import org.psystems.dicom.commons.orm.entity.DataException;
-import org.psystems.dicom.commons.orm.entity.Study;
 
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
@@ -83,24 +77,17 @@ public class ManagePdfServlet extends HttpServlet {
     private void changePDFContent(HttpServletRequest req, HttpServletResponse resp, boolean finalPhase)
 	    throws IOException {
 
-//	String dcmTmpDir = getServletContext().getInitParameter("webdicom.dir.newdcm.tmp");
-	String dcmTmpDir = Config.getTmpFolder();
+	String dcmTmpDir = "./tmp";
 	String pdfTmpFilename = dcmTmpDir + "/" + new Date().getTime() + "_" + (int) (Math.random() * 10000000l)
 		+ ".pdf";
 	File pdfTmpFile = null;
-	// TODO Поменять имя переменной webdicom.dir.ootmpl на webdicom.dir.pdf
-	String tmplDir = Config.getTemplateFolder();
-//	String tmplDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+	String tmplDir = "./templates";
 	String file = tmplDir + req.getPathInfo();
 
 	try {
 
 	    long id = Long.valueOf(req.getParameter("id")).longValue();
 
-	    Connection connection = ORMUtil.getConnection(getServletContext());
-	    PersistentManagerDerby pm = new PersistentManagerDerby(connection);
-
-	    Study study = pm.getStudyByID(id);
 
 	    FileInputStream fis = new FileInputStream(file);
 	    PdfReader reader = new PdfReader(fis);
@@ -118,31 +105,27 @@ public class ManagePdfServlet extends HttpServlet {
 	    // ФИО Пациента
 	    fName = "PatientName";
 	    if (form.getField(fName) != null)
-		form.setField(fName, study.getPatientName());
+		form.setField(fName, "Иванов Иван Иванович");
 
 	    // ДР Пациента
 	    fName = "PatientBirthDate";
 	    if (form.getField(fName) != null)
-		form.setField(fName, ORMUtil.dateFormatUser.format(ORMUtil.dateFormatSQL.parse(study
-			.getPatientBirthDate())));
+		form.setField(fName, "20.03.1974");
 
 	    // Аппарат
 	    fName = "ManufacturerModelName";
 	    if (form.getField(fName) != null)
-		form.setField(fName, study.getManufacturerModelName());
+		form.setField(fName, "Аппарат XXX");
 
 	    // Протокол осмотра
 	    fName = "StudyViewprotocol";
-	    if (req.getParameter(fName) != null)
-		study.setStudyViewprotocol(req.getParameter(fName));
 	    if (form.getField(fName) != null)
-		form.setField(fName, study.getStudyViewprotocol());
+		form.setField(fName, "Протокол осмотра");
 
 	    // Дата протокола осмотра
 	    fName = "StudyViewprotocolDate";
 	    if (form.getField(fName) != null)
-		form.setField(fName, ORMUtil.dateFormatUser.format(ORMUtil.dateFormatSQL.parse(study
-			.getStudyViewprotocolDate())));
+		form.setField(fName, "20.03.2011");
 
 	    // ===================================================================
 	    // TODO !!!======== дополнить остальные поля ==================!!!!!
@@ -244,32 +227,26 @@ public class ManagePdfServlet extends HttpServlet {
 	    in.close();
 
 	    // Отправка данных в архив
-	    if (finalPhase)
-		sendToArchive(study, pdfTmpFile);
+//	    if (finalPhase)
+//		sendToArchive(study, pdfTmpFile);
 
 	} catch (DocumentException e) {
 	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    resp.setContentType("text/html; charset=UTF-8");
-	    String msg = Util.loggingException("<b>Bad PDF !</b> " + file, e);
+	    String msg = loggingException("<b>Bad PDF !</b> " + file, e);
 	    resp.getWriter().print(msg);
 	    logger.warn(msg);
 	} catch (FileNotFoundException e) {
 	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    resp.setContentType("text/html; charset=UTF-8");
-	    String msg = Util.loggingException("<b>PDF template not found!</b> " + file + " Не найден!", e);
+	    String msg = loggingException("<b>PDF template not found!</b> " + file + " Не найден!", e);
 	    resp.getWriter().print(msg);
 	    logger.warn(msg);
 	    return;
 	} catch (Exception e) {
 	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    resp.setContentType("text/html; charset=UTF-8");
-	    String msg = Util.loggingException(e.getMessage(), e);
-	    resp.getWriter().print(msg);
-	    logger.warn(msg);
-	} catch (DataException e) {
-	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	    resp.setContentType("text/html; charset=UTF-8");
-	    String msg = Util.loggingException(e.getMessage(), e);
+	    String msg = loggingException(e.getMessage(), e);
 	    resp.getWriter().print(msg);
 	    logger.warn(msg);
 	} finally {
@@ -279,160 +256,25 @@ public class ManagePdfServlet extends HttpServlet {
     }
 
     /**
-     * Отправка в архив PDF-ки
+     * Журналирование Эксепшина в логе файле Получением стека
      * 
-     * @param study
-     * @param pdf
-     * @throws DefaultGWTRPCException
-     * @throws IOException
-     * @throws FileNotFoundException
+     * @param e
+     * @return
      */
-    private void sendToArchive(Study study, File pdf) throws FileNotFoundException, IOException, DefaultGWTRPCException {
+    public static String loggingException(String msg, Throwable e) {
 
-	// TODO Коряво все это... переделать. логику сюда перенести.
+	String marker = Thread.currentThread().getId() + "_" + new Date().getTime();
+	StringWriter sw = new StringWriter();
+	PrintWriter pw = new PrintWriter(sw);
+	e.printStackTrace(pw);
+	String stack = sw.toString();
+	// TODO Сделать через Log4j
+	System.err.println("Portal Error [" + marker + "] " + e.getMessage() + " stack:\n" + stack);
+	return e.getClass() + "[" + marker + "] " + msg;
 
-	java.util.Properties props = new java.util.Properties();
-
-	// TODO Костылек, указвывает тип контента
-	props.put("content_type", "application/pdf");
-
-	// раскручивает теги:
-
-	// Hidden studyInstanceUID = new Hidden();
-	// studyInstanceUID.setName("0020000D");
-	// studyInstanceUID.setValue(proxy.getStudyInstanceUID());
-	// formDataPanel.add(studyInstanceUID);
-	if (study.getStudyInstanceUID() != null)
-	    props.put("0020000D", study.getStudyInstanceUID());
-
-	// Hidden studySeriesUID = new Hidden();
-	// studySeriesUID.setName("0020000E");
-	// studySeriesUID.setValue(proxy.getStudyInstanceUID() + "." + new
-	// Date().getTime());
-	// formDataPanel.add(studySeriesUID);
-	if (study.getStudyInstanceUID() != null)
-	    props.put("0020000E", study.getStudyInstanceUID() + "." + new Date().getTime());
-
-	// Hidden studyId = new Hidden();
-	// studyId.setName("00200010");
-	// studyId.setValue(proxy.getStudyId());
-	// formDataPanel.add(studyId);
-	if (study.getStudyId() != null)
-	    props.put("00200010", study.getStudyId());
-
-	//
-
-	// Hidden patientId = new Hidden();
-	// patientId.setName("00100021");
-	// patientId.setValue(proxy.getPatientId());
-	// formDataPanel.add(patientId);
-	if (study.getPatientId() != null)
-	    props.put("00100021", study.getPatientId());
-
-	// Hidden patientName = new Hidden();
-	// patientName.setName("00100010");
-	// patientName.setValue(proxy.getPatientName());
-	// formDataPanel.add(patientName);
-	if (study.getPatientName() != null)
-	    props.put("00100010", study.getPatientName());
-
-	// Hidden patientSex = new Hidden();
-	// patientSex.setName("00100040");
-	// patientSex.setValue(proxy.getPatientSex());
-	// formDataPanel.add(patientSex);
-	if (study.getPatientSex() != null)
-	    props.put("00100040", study.getPatientSex());
-
-	// Hidden patientBirthDateHidden = new Hidden();
-	// patientBirthDateHidden.setName("00100030");
-	// patientBirthDateHidden.setValue(proxy.getPatientBirthDate());
-	// formDataPanel.add(patientBirthDateHidden);
-	if (study.getPatientBirthDate() != null)
-	    props.put("00100030", study.getPatientBirthDate());
-
-	//
-
-	// Hidden manufacturerModelName = new Hidden();
-	// manufacturerModelName.setName("00081090");
-	// manufacturerModelName.setValue(proxy.getManufacturerModelName());
-	// formDataPanel.add(manufacturerModelName);
-	if (study.getManufacturerModelName() != null)
-	    props.put("00081090", study.getManufacturerModelName());
-
-	// Hidden modality = new Hidden();
-	// modality.setName("00080060");
-	// // modality.setValue(proxy.getStudyModality());
-	// modality.setValue(lbModality.getValue(lbModality.getSelectedIndex()));
-	// formDataPanel.add(modality);
-	if (study.getStudyModality() != null)
-	    props.put("00080060", study.getStudyModality());
-
-	// Hidden studyDateHidden = new Hidden();
-	// studyDateHidden.setName("00080020");
-	// studyDateHidden.setValue(proxy.getStudyDate());
-	// formDataPanel.add(studyDateHidden);
-	if (study.getStudyDate() != null)
-	    props.put("00080020", study.getStudyDate());
-
-	// // Study Completion Date
-	// Hidden studyViewProtocolDateHidden = new Hidden();
-	// studyViewProtocolDateHidden.setName("00321050");
-	// studyViewProtocolDateHidden.setValue(proxy.getStudyViewprotocolDate());
-	// formDataPanel.add(studyViewProtocolDateHidden);
-	if (study.getStudyViewprotocolDate() != null)
-	    props.put("00321050", study.getStudyViewprotocolDate());
-
-	// Hidden studyDoctorHidden = new Hidden();
-	// studyDoctorHidden.setName("00080090");
-	// studyDoctorHidden.setValue(proxy.getStudyDoctor());
-	// formDataPanel.add(studyDoctorHidden);
-	if (study.getStudyDoctor() != null)
-	    props.put("00080090", study.getStudyDoctor());
-
-	// Hidden studyOperatorHidden = new Hidden();
-	// studyOperatorHidden.setName("00081070");
-	// studyOperatorHidden.setValue(proxy.getStudyOperator());
-	// formDataPanel.add(studyOperatorHidden);
-	if (study.getStudyOperator() != null)
-	    props.put("00081070", study.getStudyOperator());
-
-	//
-	// proxy.setStudyDescription(studyDescription.getText());
-	//
-	// Hidden studyDescriptionHidden = new Hidden();
-	// studyDescriptionHidden.setName("00081030");
-	// studyDescriptionHidden.setValue(proxy.getStudyDescription());
-	// formDataPanel.add(studyDescriptionHidden);
-	if (study.getStudyDescription() != null)
-	    props.put("00081030", study.getStudyDescription());
-
-	//
-	// proxy.setStudyResult(studyResult.getText());
-	//
-	// Hidden studyResultHidden = new Hidden();
-	// studyResultHidden.setName("00102000");
-	// studyResultHidden.setValue(proxy.getStudyResult());
-	// formDataPanel.add(studyResultHidden);
-	if (study.getStudyResult() != null)
-	    props.put("00102000", study.getStudyResult());
-
-	//
-	// proxy.setStudyViewprotocol(studyComments.getText());
-	//
-	// // Tag.StudyComments
-	// Hidden studyCommentsHidden = new Hidden();
-	// studyCommentsHidden.setName("00324000");
-	// studyCommentsHidden.setValue(proxy.getStudyViewprotocol());
-	// formDataPanel.add(studyCommentsHidden);
-	if (study.getStudyViewprotocol() != null)
-	    props.put("00324000", study.getStudyViewprotocol());
-
-	//
-
-	FileInputStream fis = new FileInputStream(pdf);
-	org.psystems.dicom.commons.CommonUtil.makeSendDicomFile(getServletContext(), props, fis);
-	fis.close();
     }
+    
+    
 
     /**
      * Замена полей на текст
