@@ -82,8 +82,8 @@ public class Test {
 
 		// queryStudy();
 		// qetDirrection();
-		 queryDirrection();
-//		 makeDirection();
+//		 queryDirrection();
+		 makeDirection();
 //		getStudyImages();
 //		getStudyProtocols();
 	}
@@ -239,7 +239,7 @@ public class Test {
 
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
-		device.setModality("DS");
+		device.setModality("DF");
 		device.setManufacturerModelName("УЗИаппарат");
 
 		//
@@ -250,7 +250,7 @@ public class Test {
 		patient.setPatientBirthDate("1974-03-01");
 		patient.setPatientShortName("ДЕРДВ74");
 
-		long id = port.makeDirection(new Date().getTime() + "", "DS", doctor,
+		long id = port.makeDirection(new Date().getTime() + "", "DF", doctor,
 				diagnosis, services, "2011-10-21", device,
 				"2011-10-22 12:00:00", "CODE123", "GP1-ROOM515", patient,
 				"LPUTEST");
