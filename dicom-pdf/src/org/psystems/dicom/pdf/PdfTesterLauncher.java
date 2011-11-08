@@ -60,13 +60,13 @@ public class PdfTesterLauncher {
 	Server server = new Server(jettyport);
 
 	// Логгирование
-	RequestLogHandler requestLogHandler = new RequestLogHandler();
-	NCSARequestLog requestLog = new NCSARequestLog("logs/jetty-yyyy_mm_dd.request.log");
-        requestLog.setRetainDays(90);
-        requestLog.setAppend(true);
-        requestLog.setExtended(false);
-        requestLog.setLogTimeZone("GMT");
-        requestLogHandler.setRequestLog(requestLog);
+//	RequestLogHandler requestLogHandler = new RequestLogHandler();
+//	NCSARequestLog requestLog = new NCSARequestLog("logs/jetty-yyyy_mm_dd.request.log");
+//        requestLog.setRetainDays(90);
+//        requestLog.setAppend(true);
+//        requestLog.setExtended(false);
+//        requestLog.setLogTimeZone("GMT");
+//        requestLogHandler.setRequestLog(requestLog);
         
 	
 	//Статичные файлы
@@ -98,7 +98,7 @@ public class PdfTesterLauncher {
 	HandlerCollection handlers = new HandlerCollection();
 	ContextHandlerCollection contexts = new ContextHandlerCollection();
 	contexts.setHandlers(new Handler[] {  servletContext, jspServletContext, resourceContextHandler, /*webappConext*/ });
-	handlers.setHandlers(new Handler[] { contexts,  requestLogHandler });
+	handlers.setHandlers(new Handler[] { contexts/*,  requestLogHandler*/ });
 	server.setHandler(handlers);
 
 //	server.setHandler(context);
@@ -106,9 +106,24 @@ public class PdfTesterLauncher {
 
 	server.start();
 	
+	System.err.println("************************************************************");
+	System.err.println("************************************************************");
+	System.err.println("");
+	System.err.println("    [WEB-DICOM] pdf templates test program.");
+	System.err.println("");
+	System.err.println("     1) Put your test files to [pdfs] directory");
+	System.err.println("     2) Go to web browser http://localhost:" + jettyport+"/");
+	System.err.println("");
+	System.err.println("     Presss <Ctrl>+C for stop with program.");
+	System.err.println("");
+	System.err.println("************************************************************");
+	System.err.println("************************************************************");
+	System.err.println("");
 	
 	
 	server.join();	
+	
+	
 	
 
     }
