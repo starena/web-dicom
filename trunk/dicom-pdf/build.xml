@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="dicom-pdf" default="distrib" basedir=".">
+
+
+	<property name="distrib.dir" value="distrib" />
+	<property name="out.dir" value="${distrib.dir}/~build" />
+	<property name="classes.dir" value="build2" />
+
+	<path id="project.class.path">
+		<fileset dir="lib" includes="**/*.jar" />
+	</path>
+
+	<target name="javac" description="Compile java source">
+
+		<mkdir dir="${out.dir}" />
+
+		<javac srcdir="src" includes="**" encoding="utf-8" excludes="**/Test*" destdir="${out.dir}">
+			<classpath refid="project.class.path" />
+		</javac>
+
+	</target>
+
+	<target name="build" depends="javac" description="Build this project">
+		<jar destfile="${distrib.dir}/dicom-pdf.jar" basedir="${out.dir}">
+		</jar>
+		<delete dir="${out.dir}" />
+	</target>
+
+	<target name="distrib" depends="build" description="Create a war file">
+
+		<delete file="${distrib.dir}/dicom-pdf.zip" />
+		<mkdir dir="${distrib.dir}/lib" />
+		<mkdir dir="${distrib.dir}/pdfs" />
+		<mkdir dir="${distrib.dir}/www" />
+		<mkdir dir="${distrib.dir}/tmp" />
+		<mkdir dir="${distrib.dir}/fonts" />
+
+		<copy todir="${distrib.dir}/pdfs">
+			<fileset dir="pdfs" includes="*.pdf" />
+		</copy>
+		<copy todir="${distrib.dir}/lib">
+			<fileset dir="lib" includes="*.jar" />
+		</copy>
+		<copy todir="${distrib.dir}/www">
+			<fileset dir="www" />
+		</copy>
+		<copy todir="${distrib.dir}/fonts">
+			<fileset dir="fonts" />
+		</copy>
+
+		<zip destfile="${distrib.dir}/dicom-pdf.zip"  >
+			<zipfileset dir="${distrib.dir}" prefix="dicom-pdf"/>
+		</zip>
+		
+		<delete dir="${distrib.dir}/lib" />
+		<delete dir="${distrib.dir}/pdfs" />
+		<delete dir="${distrib.dir}/www" />
+		<delete dir="${distrib.dir}/tmp" />
+		<delete dir="${distrib.dir}/fonts" />
+
+	</target>
+
+
+
+</project>
