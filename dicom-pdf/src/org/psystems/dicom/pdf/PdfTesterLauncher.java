@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jetty.ajp.Ajp13SocketConnector;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.NCSARequestLog;
 import org.eclipse.jetty.server.Server;
@@ -101,6 +103,9 @@ public class PdfTesterLauncher {
 	handlers.setHandlers(new Handler[] { contexts/*,  requestLogHandler*/ });
 	server.setHandler(handlers);
 
+	
+
+	
 //	server.setHandler(context);
 //	server.setHandler(webapp);
 
