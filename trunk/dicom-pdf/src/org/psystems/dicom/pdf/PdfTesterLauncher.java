@@ -74,7 +74,6 @@ public class PdfTesterLauncher {
         resource_handler.setDirectoriesListed(true);
         resource_handler.setWelcomeFiles(new String[]{ "index.html" });
         resource_handler.setResourceBase("distrib/www");
-        
         ContextHandler resourceContextHandler = new ContextHandler("/www");
         resourceContextHandler.setHandler(resource_handler);
         
