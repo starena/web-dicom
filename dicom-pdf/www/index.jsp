@@ -13,7 +13,14 @@
 </head>
 <body>
 
-!<%= util.getPDFTemplates() %>!
+<h1> Шаблоны:</h1>
+
+	<%
+		for (String file : util.getPDFTemplates()) {
+	%>
+		<a href="/pdf/<%= file %>"> <%=file %> </a> <br>
+	<% } %>
+
 
 
 </body>

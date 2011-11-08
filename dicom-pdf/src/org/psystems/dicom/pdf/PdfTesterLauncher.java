@@ -73,8 +73,8 @@ public class PdfTesterLauncher {
 	ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true);
         resource_handler.setWelcomeFiles(new String[]{ "index.html" });
-        resource_handler.setResourceBase("distrib/www");
-        ContextHandler resourceContextHandler = new ContextHandler("/www");
+        resource_handler.setResourceBase("www");
+        ContextHandler resourceContextHandler = new ContextHandler("/");
         resourceContextHandler.setHandler(resource_handler);
         
 	
@@ -85,8 +85,9 @@ public class PdfTesterLauncher {
 
 	//JSP
 	ServletContextHandler jspServletContext = new ServletContextHandler(ServletContextHandler.SESSIONS);
-	jspServletContext.setResourceBase("distrib/www");
-	jspServletContext.setContextPath("/www");
+	jspServletContext.setResourceBase("www");
+	jspServletContext.setContextPath("/");
+	jspServletContext.setWelcomeFiles(new String[]{ "index.html" });
 	jspServletContext.addServlet(new ServletHolder(new org.apache.jasper.servlet.JspServlet()), "*.jsp");
 	
 	//Приложения

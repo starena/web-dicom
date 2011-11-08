@@ -81,12 +81,10 @@ public class ManagePdfServlet extends HttpServlet {
 	String pdfTmpFilename = dcmTmpDir + "/" + new Date().getTime() + "_" + (int) (Math.random() * 10000000l)
 		+ ".pdf";
 	File pdfTmpFile = null;
-	String tmplDir = "./templates";
+	String tmplDir = "./pdfs";
 	String file = tmplDir + req.getPathInfo();
 
 	try {
-
-	    long id = Long.valueOf(req.getParameter("id")).longValue();
 
 
 	    FileInputStream fis = new FileInputStream(file);
