@@ -1016,7 +1016,7 @@ public class PersistentManagerDerby {
 
 	    study.setPatientId(rs.getString("PATIENT_ID"));
 	    study.setStudyResult(rs.getString("STUDY_RESULT"));
-	    study.setStudyUrl("");// TODO сделать!!
+	    study.setStudyUrl("/study/"+rs.getLong("ID"));// TODO сделать!!
 	    study.setDcmFilesId(new Long[] { 1l, 2l, 3l });// TODO сделать!!
 
 	    study.setStudyDateTimeModify(ORMUtil.utilDateTimeToSQLDateTimeString(rs.getDate("DATE_MODIFIED")));
