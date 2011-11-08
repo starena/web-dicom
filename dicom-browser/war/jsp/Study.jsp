@@ -41,7 +41,7 @@ function openwindow (linka,name,_left,_top,_width,_height) {
 	String width = (String)request.getParameter("width");
 	String height = (String)request.getParameter("height");
 	String path = request.getPathInfo().replaceFirst("/", "");
-	Connection connection = util.getConnection("main",getServletContext());
+	Connection connection = util.getConnection(getServletContext());
 	PreparedStatement psSelect = null;
 	psSelect = connection.prepareStatement("SELECT * FROM WEBDICOM.DCMFILE WHERE FID_STUDY = ? ");
 	psSelect.setLong(1, Long.valueOf(path).longValue());
