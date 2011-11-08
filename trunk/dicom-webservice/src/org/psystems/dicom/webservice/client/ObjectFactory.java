@@ -47,107 +47,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Study }
+     * Create an instance of {@link Diagnosis }
      * 
      */
-    public Study createStudy() {
-        return new Study();
-    }
-
-    /**
-     * Create an instance of {@link Patient }
-     * 
-     */
-    public Patient createPatient() {
-        return new Patient();
-    }
-
-    /**
-     * Create an instance of {@link GetDirectionBydirectionIdResponse }
-     * 
-     */
-    public GetDirectionBydirectionIdResponse createGetDirectionBydirectionIdResponse() {
-        return new GetDirectionBydirectionIdResponse();
-    }
-
-    /**
-     * Create an instance of {@link Direction }
-     * 
-     */
-    public Direction createDirection() {
-        return new Direction();
-    }
-
-    /**
-     * Create an instance of {@link QueryStudyResp }
-     * 
-     */
-    public QueryStudyResp createQueryStudyResp() {
-        return new QueryStudyResp();
-    }
-
-    /**
-     * Create an instance of {@link ManufacturerDevice }
-     * 
-     */
-    public ManufacturerDevice createManufacturerDevice() {
-        return new ManufacturerDevice();
-    }
-
-    /**
-     * Create an instance of {@link GetStudyProtocols }
-     * 
-     */
-    public GetStudyProtocols createGetStudyProtocols() {
-        return new GetStudyProtocols();
-    }
-
-    /**
-     * Create an instance of {@link GetDirectionById }
-     * 
-     */
-    public GetDirectionById createGetDirectionById() {
-        return new GetDirectionById();
-    }
-
-    /**
-     * Create an instance of {@link MakeDirectionResponse }
-     * 
-     */
-    public MakeDirectionResponse createMakeDirectionResponse() {
-        return new MakeDirectionResponse();
-    }
-
-    /**
-     * Create an instance of {@link QueryStudy }
-     * 
-     */
-    public QueryStudy createQueryStudy() {
-        return new QueryStudy();
-    }
-
-    /**
-     * Create an instance of {@link QueryDirectionReq }
-     * 
-     */
-    public QueryDirectionReq createQueryDirectionReq() {
-        return new QueryDirectionReq();
-    }
-
-    /**
-     * Create an instance of {@link MakeDirection }
-     * 
-     */
-    public MakeDirection createMakeDirection() {
-        return new MakeDirection();
-    }
-
-    /**
-     * Create an instance of {@link QueryDirection }
-     * 
-     */
-    public QueryDirection createQueryDirection() {
-        return new QueryDirection();
+    public Diagnosis createDiagnosis() {
+        return new Diagnosis();
     }
 
     /**
@@ -159,27 +63,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetStudyImages }
+     * Create an instance of {@link QueryDirection }
      * 
      */
-    public GetStudyImages createGetStudyImages() {
-        return new GetStudyImages();
+    public QueryDirection createQueryDirection() {
+        return new QueryDirection();
     }
 
     /**
-     * Create an instance of {@link GetStudyImagesResponse }
+     * Create an instance of {@link QueryStudyReq }
      * 
      */
-    public GetStudyImagesResponse createGetStudyImagesResponse() {
-        return new GetStudyImagesResponse();
+    public QueryStudyReq createQueryStudyReq() {
+        return new QueryStudyReq();
     }
 
     /**
-     * Create an instance of {@link QueryDirectionResp }
+     * Create an instance of {@link GetDirectionBydirectionIdResponse }
      * 
      */
-    public QueryDirectionResp createQueryDirectionResp() {
-        return new QueryDirectionResp();
+    public GetDirectionBydirectionIdResponse createGetDirectionBydirectionIdResponse() {
+        return new GetDirectionBydirectionIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDirectionById }
+     * 
+     */
+    public GetDirectionById createGetDirectionById() {
+        return new GetDirectionById();
+    }
+
+    /**
+     * Create an instance of {@link QueryDirectionReq }
+     * 
+     */
+    public QueryDirectionReq createQueryDirectionReq() {
+        return new QueryDirectionReq();
+    }
+
+    /**
+     * Create an instance of {@link Direction }
+     * 
+     */
+    public Direction createDirection() {
+        return new Direction();
+    }
+
+    /**
+     * Create an instance of {@link Employee }
+     * 
+     */
+    public Employee createEmployee() {
+        return new Employee();
     }
 
     /**
@@ -199,11 +135,67 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Employee }
+     * Create an instance of {@link GetStudyImages }
      * 
      */
-    public Employee createEmployee() {
-        return new Employee();
+    public GetStudyImages createGetStudyImages() {
+        return new GetStudyImages();
+    }
+
+    /**
+     * Create an instance of {@link QueryStudy }
+     * 
+     */
+    public QueryStudy createQueryStudy() {
+        return new QueryStudy();
+    }
+
+    /**
+     * Create an instance of {@link GetStudyImagesResponse }
+     * 
+     */
+    public GetStudyImagesResponse createGetStudyImagesResponse() {
+        return new GetStudyImagesResponse();
+    }
+
+    /**
+     * Create an instance of {@link Patient }
+     * 
+     */
+    public Patient createPatient() {
+        return new Patient();
+    }
+
+    /**
+     * Create an instance of {@link MakeDirectionResponse }
+     * 
+     */
+    public MakeDirectionResponse createMakeDirectionResponse() {
+        return new MakeDirectionResponse();
+    }
+
+    /**
+     * Create an instance of {@link MakeDirection }
+     * 
+     */
+    public MakeDirection createMakeDirection() {
+        return new MakeDirection();
+    }
+
+    /**
+     * Create an instance of {@link ManufacturerDevice }
+     * 
+     */
+    public ManufacturerDevice createManufacturerDevice() {
+        return new ManufacturerDevice();
+    }
+
+    /**
+     * Create an instance of {@link QueryStudyResp }
+     * 
+     */
+    public QueryStudyResp createQueryStudyResp() {
+        return new QueryStudyResp();
     }
 
     /**
@@ -215,19 +207,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Diagnosis }
+     * Create an instance of {@link QueryDirectionResp }
      * 
      */
-    public Diagnosis createDiagnosis() {
-        return new Diagnosis();
+    public QueryDirectionResp createQueryDirectionResp() {
+        return new QueryDirectionResp();
     }
 
     /**
-     * Create an instance of {@link QueryStudyReq }
+     * Create an instance of {@link GetStudyProtocols }
      * 
      */
-    public QueryStudyReq createQueryStudyReq() {
-        return new QueryStudyReq();
+    public GetStudyProtocols createGetStudyProtocols() {
+        return new GetStudyProtocols();
+    }
+
+    /**
+     * Create an instance of {@link Study }
+     * 
+     */
+    public Study createStudy() {
+        return new Study();
     }
 
     /**
