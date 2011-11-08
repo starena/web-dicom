@@ -37,14 +37,11 @@ public class Test {
 	private static DicomServiceService service;
 	private static DicomService port;
 
-	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
+//	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
 
 //	 private static final String WS_URL =
 //	 "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
-	// private static final String WS_URL =
-	// "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
-//	 private static final String WS_URL =
-//	 "https://proxy.gp1.psystems.org:38081/dicom-webservice.test/DicomService?wsdl";
+	 private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -80,10 +77,10 @@ public class Test {
 		req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
 		/**********************************************************************/
 
-		// queryStudy();
+		 queryStudy();
 		// qetDirrection();
 //		 queryDirrection();
-		 makeDirection();
+//		 makeDirection();
 //		getStudyImages();
 //		getStudyProtocols();
 	}
@@ -95,13 +92,13 @@ public class Test {
 		QueryStudy query = new QueryStudy();
 		// query.set
 		// query.setId(18l);
-		query.setStudyComplite(true);
+		query.setStudyNotComplite(true);
 		QueryStudyReq request = new QueryStudyReq();
 		request.setQuery(query);
 
 		List<Study> studies = port.queryStudies(request).getReturn();
 		for (Study study : studies) {
-			System.out.println("study: " + study.getDcmFilesId());
+			System.out.println("study: " + study.getDcmFilesId()+" -> " + study.getStudyUrl());
 		}
 	}
 
@@ -119,7 +116,7 @@ public class Test {
 
 		QueryDirectionReq request = new QueryDirectionReq();
 		QueryDirection query = new QueryDirection();
-		query.setId(1l);
+		query.setId(2l);
 //		query.setSenderLPU("");
 //		query.setPatientShortName("%");
 //		query.setPatientShortName("ДЕРДВ74");
@@ -239,7 +236,8 @@ public class Test {
 
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
-		device.setModality("DF");
+
+		device.setModality("OT");
 		device.setManufacturerModelName("УЗИаппарат");
 
 		//
@@ -250,7 +248,9 @@ public class Test {
 		patient.setPatientBirthDate("1974-03-01");
 		patient.setPatientShortName("ДЕРДВ74");
 
-		long id = port.makeDirection(new Date().getTime() + "", "DF", doctor,
+
+		long id = port.makeDirection(new Date().getTime() + "", "OT", doctor,
+
 				diagnosis, services, "2011-10-21", device,
 				"2011-10-22 12:00:00", "CODE123", "GP1-ROOM515", patient,
 				"LPUTEST");
