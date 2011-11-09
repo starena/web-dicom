@@ -13,7 +13,7 @@
 
 <body>
 
-<jsp:include page="/Header.jsp"></jsp:include>
+<jsp:include page="/jsp/Header.jsp"></jsp:include>
 
 <jsp:useBean id="util" scope="page"
 	class="org.psystems.dicom.browser.server.Util" />
@@ -80,6 +80,7 @@ function openwindow (linka,name,_left,_top,_width,_height) {
 		<% 
 		}
 	}
+	connection.close();
 
 %>
 
