@@ -70,6 +70,7 @@ import org.apache.log4j.Logger;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
 import org.psystems.dicom.browser.client.exception.VersionGWTRPCException;
 import org.psystems.dicom.browser.client.proxy.ARPCRequest;
+import org.psystems.dicom.commons.orm.ORMUtil;
 
 /**
  * Утилитный класс
@@ -141,40 +142,7 @@ public class Util {
     }
 
 
-//    /**
-//     * Получение соединения внутри сервлета
-//     * 
-//     * @param sss TODO Убрать первый sss аргумент!!!
-//     * @param servletContext
-//     * @return
-//     * @throws SQLException
-//     */
-//    public static Connection getConnection(String sss, ServletContext servletContext) throws SQLException {
-//
-//	Connection connection = null;
-//
-//	if (Config.getDbJndi() == null) {
-//	  //For local Development
-//	    String connectionUrl = Config.getDbUrl();
-//	    Properties props = new Properties(); // connection properties
-//	    props.put("user", "user1"); // FIXME взять из конфига
-//	    props.put("password", "user1"); // FIXME взять из конфига
-//
-//	    connection = DriverManager.getConnection(connectionUrl + ";create=true", props);
-//	} else {
-//	    // for Tomcat
-//	    try {
-//		Context initCtx = new InitialContext();
-//		Context envCtx = (Context) initCtx.lookup("java:comp/env");
-//		DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
-//		connection = ds.getConnection();
-//	    } catch (NamingException e) {
-//		throw new SQLException("JNDI error " + e);
-//	    }
-//	}
-//
-//	return connection;
-//    }
+
 
     /**
      * @param jdbcName
@@ -183,78 +151,11 @@ public class Util {
      * @return
      * @throws SQLException
      */
-    public static Connection getConnection3(String jdbcName, ServletContext servletContext) throws SQLException {
-
-	Connection connection = null;
-
-	try {
-	    //
-	    // String connectionDriver =
-	    // servletContext.getInitParameter("webdicom.connection." + jdbcName
-	    // + ".driver");
-
-	    //
-	    // String connectionUrl =
-	    // servletContext.getInitParameter("webdicom.connection." + jdbcName
-	    // + ".url");
-	    // String connectionDriver = Config.getDbDriver();
-	    // String connectionUrl = Config.getDbUrl();
-	    // System.out.println("!!!!! connectionDriver="+connectionDriver +
-	    // "; connectionUrl="+connectionUrl);
-	    // if (connectionUrl != null) {
-	    // Properties props = new Properties(); // connection properties
-	    //
-	    // if (connectionDriver != null) {
-	    // try {
-	    // Class.forName(connectionDriver);
-	    // } catch (ClassNotFoundException exx) {
-	    // throw new SQLException("driver not found!  '" + connectionDriver
-	    // + "'");
-	    // }
-	    // }
-	    // connection = DriverManager.getConnection(connectionUrl, props);
-	    // } else {
-
-	    // for Tomcat
-	    try {
-		Context initCtx = new InitialContext();
-		Context envCtx = (Context) initCtx.lookup("java:comp/env");
-		DataSource ds = (DataSource) envCtx.lookup("jdbc/" + jdbcName);
-		connection = ds.getConnection();
-	    } catch (NamingException e) {
-		throw new SQLException("JNDI error " + e);
-	    }
-	    // }
-	} catch (SQLException ex) {
-	    System.err.println("DBERROR: " + ex + " code:" + ex.getErrorCode() + " state: " + ex.getSQLState());
-	    ex.printStackTrace();
-	    throw ex;
-	}
-
-	return connection;
+    public Connection getConnection(ServletContext servletContext) throws SQLException {
+	return ORMUtil.getConnection(servletContext);
     }
 
-    /**
-     * @param servletContext
-     * @return
-     * @throws SQLException
-     */
-//    public Connection getConnection2(ServletContext servletContext) throws SQLException {
-//
-//	Connection connection = null;
-//
-//	// for Tomcat
-//	try {
-//	    Context initCtx = new InitialContext();
-//	    Context envCtx = (Context) initCtx.lookup("java:comp/env");
-//	    DataSource ds = (DataSource) envCtx.lookup("jdbc/webdicom");
-//	    connection = ds.getConnection();
-//	} catch (NamingException e) {
-//	    throw new SQLException("JNDI error " + e);
-//	}
-//
-//	return connection;
-//    }
+
 
     /**
      * TODO !!! Убрать !!! Проверка версии клиентског запроса
