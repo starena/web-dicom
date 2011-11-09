@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,14 +32,18 @@ import com.itextpdf.text.pdf.BaseField;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.GrayColor;
+import com.itextpdf.text.pdf.PRAcroForm;
+import com.itextpdf.text.pdf.PRIndirectReference;
 import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfFormField;
 import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfObject;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import com.itextpdf.text.pdf.PdfString;
 import com.itextpdf.text.pdf.PushbuttonField;
 
 /**
@@ -86,13 +92,48 @@ public class ManagePdfServlet extends HttpServlet {
 
 	try {
 
-
 	    FileInputStream fis = new FileInputStream(file);
 	    PdfReader reader = new PdfReader(fis);
 	    pdfTmpFile = new File(pdfTmpFilename);
 	    // OutputStream out = resp.getOutputStream();
 	    // PdfStamper stamper = new PdfStamper(reader, out);
 	    PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(pdfTmpFile));
+
+	    // Ищем шрифты
+	    PdfDictionary resource = reader.getPageN(1).getAsDict(PdfName.RESOURCES);
+	    PdfDictionary fonts = resource.getAsDict(PdfName.FONT);
+	    if (fonts != null) {
+		PdfDictionary font;
+		for (PdfName key : fonts.getKeys()) {
+		    font = fonts.getAsDict(key);
+		    String name = font.getAsName(PdfName.BASEFONT).toString();
+		    if (name.length() > 8 && name.charAt(7) == '+') {
+			name = String.format("%s subset (%s)", name.substring(8), name.substring(1, 7));
+		    } else {
+			name = name.substring(1);
+			PdfDictionary desc = font.getAsDict(PdfName.FONTDESCRIPTOR);
+			if (desc == null)
+			    name += " nofontdescriptor";
+			else if (desc.get(PdfName.FONTFILE) != null)
+			    name += " (Type 1) embedded";
+			else if (desc.get(PdfName.FONTFILE2) != null)
+			    name += " (TrueType) embedded";
+			else if (desc.get(PdfName.FONTFILE3) != null)
+			    name += " (" + font.getAsName(PdfName.SUBTYPE).toString().substring(1) + ") embedded";
+		    }
+		    System.out.println("!!!! font: = " + name);
+		}
+
+	    }
+	    
+	    PRAcroForm fff = reader.getAcroForm();
+	    for (PdfName pdfName : fff.getKeys()) {
+		if(fff.get(pdfName) instanceof PdfArray) {
+		    PdfArray array = (PdfArray)fff.get(pdfName);
+		System.out.println(">> form="+pdfName+" val=" + array);
+		    
+		}
+	    }
 
 	    // Пробегаем по полям формы.
 	    // Если поле READ_ONLY - заменяем его на текст
@@ -163,8 +204,8 @@ public class ManagePdfServlet extends HttpServlet {
 		// Добавляем кнопку Submit
 		int btnWidth = 100;
 		int btnHeight = 30;
-		PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 90 + btnWidth,
-			60 + btnHeight), "submit");
+		PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(10, 10, 90 + btnWidth,
+			10 + btnHeight), "submit");
 		button.setText("Передать в архив...");
 		button.setBackgroundColor(new GrayColor(0.7f));
 
@@ -172,38 +213,45 @@ public class ManagePdfServlet extends HttpServlet {
 		PdfFormField submit = button.getField();
 		submit.setAction(PdfAction.createSubmitForm(req.getServletPath(), null, PdfAction.SUBMIT_HTML_FORMAT));
 
-		
-//		System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
-		String url = req.getRequestURI()+ "?final=" + finalPhase + "&" + req.getQueryString();
+		// System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
+		String url = req.getRequestURI() + "?final=" + finalPhase + "&" + req.getQueryString();
 		submit.setAction(PdfAction.createSubmitForm(url, null, PdfAction.SUBMIT_HTML_FORMAT));
 
-		stamper.addAnnotation(submit, 1);
+		// Количество страниц
+		int npages = reader.getNumberOfPages();
+		stamper.addAnnotation(submit, npages);
+
 	    } else {
 		// Добавляем кнопку "Закрыть"
-//		int btnWidth = 300;
-//		int btnHeight = 30;
-//		PushbuttonField button = new PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 90 + btnWidth,
-//			60 + btnHeight), "submit");
-//		button.setText("Данные сохранены. [закрыть]");
-//		
-//		button.setBackgroundColor(BaseColor.YELLOW);
-//
-//		button.setVisibility(PushbuttonField.VISIBLE_BUT_DOES_NOT_PRINT);
-//		PdfFormField submit = button.getField();
-//		submit.setAction(PdfAction.createSubmitForm(req.getServletPath(), null, PdfAction.SUBMIT_HTML_FORMAT));
-//
-//		
-////		System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
-//		String url = req.getRequestURI()+ "?final=" + finalPhase + "&" + req.getQueryString();
-//		
-//		 PdfAction action = PdfAction.javaScript(
-//		            "app.alert('This day is reserved for people with an accreditation "
-//		            + "or an invitation.');", stamper.getWriter());
-//		 
-//		 submit.setAction(action);
-//
-//
-//		stamper.addAnnotation(submit, 1);
+		// int btnWidth = 300;
+		// int btnHeight = 30;
+		// PushbuttonField button = new
+		// PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 90
+		// + btnWidth,
+		// 60 + btnHeight), "submit");
+		// button.setText("Данные сохранены. [закрыть]");
+		//
+		// button.setBackgroundColor(BaseColor.YELLOW);
+		//
+		// button.setVisibility(PushbuttonField.VISIBLE_BUT_DOES_NOT_PRINT);
+		// PdfFormField submit = button.getField();
+		// submit.setAction(PdfAction.createSubmitForm(req.getServletPath(),
+		// null, PdfAction.SUBMIT_HTML_FORMAT));
+		//
+		//
+		// //
+		// System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
+		// String url = req.getRequestURI()+ "?final=" + finalPhase +
+		// "&" + req.getQueryString();
+		//
+		// PdfAction action = PdfAction.javaScript(
+		// "app.alert('This day is reserved for people with an accreditation "
+		// + "or an invitation.');", stamper.getWriter());
+		//
+		// submit.setAction(action);
+		//
+		//
+		// stamper.addAnnotation(submit, 1);
 	    }
 
 	    stamper.close();
@@ -225,8 +273,8 @@ public class ManagePdfServlet extends HttpServlet {
 	    in.close();
 
 	    // Отправка данных в архив
-//	    if (finalPhase)
-//		sendToArchive(study, pdfTmpFile);
+	    // if (finalPhase)
+	    // sendToArchive(study, pdfTmpFile);
 
 	} catch (DocumentException e) {
 	    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -271,8 +319,6 @@ public class ManagePdfServlet extends HttpServlet {
 	return e.getClass() + "[" + marker + "] " + msg;
 
     }
-    
-    
 
     /**
      * Замена полей на текст
@@ -298,7 +344,16 @@ public class ManagePdfServlet extends HttpServlet {
 		continue;
 
 	    Item field = form.getFieldItem(fieldName);
+
 	    PdfDictionary widgetDict = field.getWidget(0);
+
+	    // System.out.println("********************** = " + form.get);
+
+	    // for (PdfName pdfName : field.getWidget(0).getKeys()) {
+	    // System.out.println("!!! pdfName="+pdfName +" = "+
+	    // field.getWidget(0).get(pdfName));
+	    // }
+
 	    // pdf rectangles are stored as [llx, lly, urx, ury]
 	    PdfArray rectArr = widgetDict.getAsArray(PdfName.RECT); // should
 	    float llX = rectArr.getAsNumber(0).floatValue();
@@ -336,6 +391,8 @@ public class ManagePdfServlet extends HttpServlet {
      */
     private boolean fieldIsREADONLY(AcroFields form, String fieldName) {
 
+//	ArrayList<BaseFont> fonts = form.getSubstitutionFonts();
+
 	Map<String, AcroFields.Item> fieldsMap = form.getFields();
 	AcroFields.Item item;
 	PdfDictionary dict;
@@ -347,6 +404,51 @@ public class ManagePdfServlet extends HttpServlet {
 
 		item = entry.getValue();
 		dict = item.getMerged(0);
+
+		System.out.println("\n\n!!! ************ FIELD ***************!!!!!!!!!!!!!!");
+		
+		PdfDictionary di = (PdfDictionary)dict.getAsDict(PdfName.DR);
+		
+		for (PdfName pdfName : di.getKeys()) {
+		     
+		    PdfDictionary di2 = (PdfDictionary) di.get(pdfName);
+		    
+		    for (PdfName pdfName2 : di2.getKeys()) {
+			
+			PRIndirectReference ref = (PRIndirectReference) di2.get(pdfName2);
+			System.out.println(" FONT:" + ref.getBytes());
+		    }
+		}
+		
+		
+		
+		
+		for (PdfName pdfName : item.getWidget(0).getKeys()) {
+		    System.out.println("!!! item key=" + pdfName + " val=" + item.getWidget(0).get(pdfName) + " class:"
+			    + item.getWidget(0).get(pdfName).getClass());
+		    
+		    
+		    
+		    if (item.getWidget(0).get(pdfName) instanceof PdfDictionary) {
+			PdfDictionary dic = ((PdfDictionary) item.getWidget(0).get(pdfName));
+
+			for (PdfName d : dic.getKeys()) {
+			    System.out.println("  !!! > [" + d + "]" + dic.get(d));
+
+			    if (dic.get(d) instanceof PdfDictionary) {
+				PdfDictionary ddd = (PdfDictionary) dic.get(d);
+				for (PdfName kkk : ddd.getKeys()) {
+				    System.out.println("      !!! > [" + kkk + "]" + ddd.get(kkk));
+				    PRIndirectReference ref = (PRIndirectReference)ddd.get(kkk);
+				}
+			    }
+
+			    
+
+			}
+		    }
+
+		}
 
 		if (dict.getAsNumber(PdfName.FF) != null)
 		    flags = dict.getAsNumber(PdfName.FF).intValue();
