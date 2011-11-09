@@ -18,7 +18,7 @@
 	<%
 		for (String file : util.getPDFTemplates()) {
 	%>
-		<a href="/pdf/<%= file %>"> <%=file %> </a> <br>
+		<a href="/pdf/<%= file %>" target="new"> <%=file %> </a> <br>
 	<% } %>
 
 

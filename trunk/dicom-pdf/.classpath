@@ -32,6 +32,6 @@
 	<classpathentry kind="lib" path="lib/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api-2.5.jar"/>
 	<classpathentry kind="lib" path="lib/tomcat-juli.jar"/>
-	<classpathentry kind="lib" path="lib/itextpdf-5.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/itextpdf-5.1.1.jar" sourcepath="/dicom-browser/lib/src/itextpdf-5.1.1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
