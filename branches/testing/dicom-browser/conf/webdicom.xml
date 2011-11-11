@@ -41,6 +41,10 @@
 			<condition tag="0002,0002" type="eq" value="1.2.840.10008.5.1.4.1.1.1" />
 			<condition tag="0008,4240" type="eq" value="КРТ-Электрон" />
 		</driver>
+		<employe type="doctor" name="Иванов И.И. врач флюорограф" />
+		<employe type="doctor" name="Петров И.И. врач флюорограф" />
+		<employe type="laborant" name="Сидоров И.И. лаюборант флюорограф" />
+		<employe type="laborant" name="Мельников И.И. лаюборант флюорограф" />
 	</device>
 
 	<!-- Драйвер Renex -->
@@ -53,7 +57,12 @@
 		</driver>
 	</device>
 
-	<device modality="MG" name="DUODiagnost" description="Рентген (DUODiagnost)" />
+	<device modality="MG" name="DUODiagnost" description="Рентген (DUODiagnost)">
+		<employe type="doctor" name="Иванов И.И. врач мамограф" />
+		<employe type="doctor" name="Петров И.И. врач мамограф" />
+		<employe type="laborant" name="Сидоров И.И. лаюборант мамограф" />
+		<employe type="laborant" name="Мельников И.И. лаюборант мамограф" />
+	</device>
 
 	<device modality="DF" name="CLINOMAT" description="Рентген (CLINOMAT)" />
 

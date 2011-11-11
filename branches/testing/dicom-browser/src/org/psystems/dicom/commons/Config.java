@@ -154,6 +154,35 @@ public class Config {
 
 	    ConfigDevice device = new ConfigDevice(modality, name, description);
 
+	    // Ищем секцию <employe>
+	    for (int i = 0; i < deviceNode.getChildNodes().getLength(); i++) {
+		Node employeNode = deviceNode.getChildNodes().item(i);
+		if (employeNode.getNodeName().equals("employe")) {
+
+		    String empType = null;
+		    String empName = null;
+		    if (employeNode.getAttributes().getNamedItem("type") != null) {
+			empType = employeNode.getAttributes().getNamedItem("type").getNodeValue();
+			// System.out.println("\t employe type=[" + empType +
+			// "]");
+		    }
+		    if (employeNode.getAttributes().getNamedItem("name") != null) {
+			empName = employeNode.getAttributes().getNamedItem("name").getNodeValue();
+			// System.out.println("\t employe empName=[" + empName +
+			// "]");
+		    }
+		    String empTypeStr = null;
+		    if (empType.equals("doctor"))
+			empTypeStr = ConfigDeviceEmploye.TYPE_DOCTOR;
+		    else if (empType.equals("laborant"))
+			empTypeStr = ConfigDeviceEmploye.TYPE_LABORANT;
+
+		    ConfigDeviceEmploye emp = new ConfigDeviceEmploye(empTypeStr,empName);
+		    device.addEmploye(emp);
+
+		}
+	    }
+
 	    // Ищем секцию <driver>
 
 	    for (int i = 0; i < deviceNode.getChildNodes().getLength(); i++) {
@@ -223,11 +252,10 @@ public class Config {
     public static String getPort() {
 	return port;
     }
-    
+
     public static String getDicomConnectionStr() {
 	return aet + "@" + host + ":" + port;
     }
-    
 
     public static String getIncomingFolder() {
 	return incomingFolder;
