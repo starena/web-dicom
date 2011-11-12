@@ -15,7 +15,7 @@
 	<property name="dir.data.db" value="data/db" />
 	<property name="dir.tmp" value="data/tmp" />
 	<property name="dir.data.incoming" value="data/incoming" />
-	<property name="db.connect" value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true" />
+	<property name="db.connect" value="jdbc:derby://localhost:1527/DICOM/DB/WEBDICOM;create=true" />
 	<property name="distrib.jar" value="dcmarchive.jar" />
 	<property name="archive.runkey" value="WEBDICOM" />
 	<property name="webdicom.home" value="." />
@@ -270,7 +270,7 @@
 	<target name="archve.start" description="start dicom archive">
 
 		<mkdir dir="${dir.tmp}"/>
-		
+
 		<exec executable="jps" outputproperty="java.allprocess">
 			<arg value="-v" />
 		</exec>
@@ -304,44 +304,44 @@
 
 
 	</target>
-	
+
 	<target name="archve.start.devmode" description="start dicom archive">
 
-			<mkdir dir="${dir.tmp}"/>
-		
-			<exec executable="jps" outputproperty="java.allprocess">
-				<arg value="-v" />
-			</exec>
+		<mkdir dir="${dir.tmp}"/>
 
-			<propertyregex property="archive.pid" input="${java.allprocess}" regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}" select="\1" />
+		<exec executable="jps" outputproperty="java.allprocess">
+			<arg value="-v" />
+		</exec>
 
-			<if>
-				<isset property="archive.pid" />
-				<then>
-					<echo message="Archive already started" />
-				</then>
-				<else>
+		<propertyregex property="archive.pid" input="${java.allprocess}" regexp="(.*) Archive(.*) -Darchive.key=${archive.runkey}" select="\1" />
 
-					<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="false">
-						<sysproperty key="webdicom.home" value="${webdicom.home}" />
-						<sysproperty key="log4j.configuration" value="log4j.properties" />
-						<sysproperty key="derby.system.home" value="${dir.data.db}" />
-						<sysproperty key="derby.drda.startNetworkServer" value="true" />
-						<sysproperty key="derby.drda.portNumber" value="1527" />
-						<sysproperty key="derby.drda.host" value="localhost" />
-						<sysproperty key="derby.drda.logConnections" value="true" />
-						<sysproperty key="archive.key" value="${archive.runkey}" />
-						<classpath refid="archive.classpath" />
-						<classpath refid="derby.classpath" />
-						<classpath refid="common.classpath" />
-					</java>
-					<echo message="Archive started" />
+		<if>
+			<isset property="archive.pid" />
+			<then>
+				<echo message="Archive already started" />
+			</then>
+			<else>
 
-				</else>
-			</if>
+				<java classname="org.psystems.dicom.archive.Archive" fork="true" spawn="false">
+					<sysproperty key="webdicom.home" value="${webdicom.home}" />
+					<sysproperty key="log4j.configuration" value="log4j.properties" />
+					<sysproperty key="derby.system.home" value="${dir.data.db}" />
+					<sysproperty key="derby.drda.startNetworkServer" value="true" />
+					<sysproperty key="derby.drda.portNumber" value="1527" />
+					<sysproperty key="derby.drda.host" value="localhost" />
+					<sysproperty key="derby.drda.logConnections" value="true" />
+					<sysproperty key="archive.key" value="${archive.runkey}" />
+					<classpath refid="archive.classpath" />
+					<classpath refid="derby.classpath" />
+					<classpath refid="common.classpath" />
+				</java>
+				<echo message="Archive started" />
+
+			</else>
+		</if>
 
 
-		</target>
+	</target>
 
 
 
@@ -381,7 +381,13 @@
 						<echo message="Archive succesufully stopped." />
 					</then>
 					<else>
-						<echo message="is not Windows ${isWindows}" />
+						<echo message="is not Windows, is Unix ${isWindows}" />
+						<exec executable="kill" outputproperty="archive.stop.result">
+
+							<arg value="${archive.pid}" />
+
+						</exec>
+						<echo message="Archive succesufully stopped." />
 					</else>
 				</if>
 
