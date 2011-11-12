@@ -20,7 +20,7 @@
 
 	<!-- Параметры соединения с бд пректа -->
 	<db-connection driver="org.apache.derby.jdbc.ClientDriver"
-		url="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM" />
+		url="jdbc:derby://localhost:1527/DICOM/DB/WEBDICOM" />
 
 	<!-- <db-connection jndi="jdbc/webdicom"/> -->
 
