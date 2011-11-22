@@ -1,10 +1,54 @@
-<project name="Web-Dicom" default="distrib.archive" basedir=".">
+<project name="Web-Dicom" default="distrib.archive" basedir="." xmlns:antcontrib="antlib:net.sf.antcontrib" xmlns:ant4eclipse="antlib:org.ant4eclipse">
 
-	<taskdef resource="net/sf/antcontrib/antlib.xml">
+	<taskdef  resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
 			<pathelement location="lib/test/ant-contrib-1.0b3.jar" />
 		</classpath>
 	</taskdef>
+
+	<!-- define ant4eclipse tasks  -->
+	<taskdef uri="antlib:org.ant4eclipse" resource="org/ant4eclipse/antlib.xml">
+		<classpath>
+			<pathelement location="lib/test/org.ant4eclipse_1.0.0.M4.jar" />
+		</classpath>
+	</taskdef>
+
+	<!-- import the ant4eclipse pde macros  
+	<import file="${basedir}/lib/test/macros/a4e-jdt-macros.xml" /> -->
+
+
+
+
+	<target name="test">
+	
+		
+		<buildJdtProject workspacedirectory="${workspace.dir}" 
+		                     projectname="${proj.name}">
+		      <finish>
+		        <jar destfile="${jar.dir}/myjar.jar">
+		          <ant4eclipse:jdtProjectFileSet 
+		              workspacedirectory="${workspace.dir}"
+		              projectname="${buildJdtProject.project.name}"/>
+		        </jar>
+		      </finish>
+		    </buildJdtProject>
+
+		
+		<!-- echo information for project -->
+		<ant4eclipse:forProject>
+			<echo>Executing project '${projectName}'...</echo>
+			<echo>Boot class path: ${executeJdtProject.boot.classpath}</echo>
+			<echo>Relative runtime class path: ${executeJdtProject.classpath.relative.runtime}</echo>
+			<echo>Absolute runtime class path: ${executeJdtProject.classpath.absolute.runtime}</echo>
+			<echo>Relative compiletime class path: ${executeJdtProject.classpath.relative.compiletime}</echo>
+			<echo>Absolue compiletime class path: ${executeJdtProject.classpath.absolute.compiletime}</echo>
+			<echo>Default output directory: ${executeJdtProject.default.output.directory}</echo>
+		</ant4eclipse:forProject>
+		 
+
+
+	</target>
+
 
 	<property name="dir.src" value="src" />
 	<property name="dir.bin" value="war/WEB-INF/classes" />
@@ -26,11 +70,11 @@
 	<property name="gwt.args" value="" />
 
 	<path id="browser.class.path">
-		<pathelement location="war/WEB-INF/classes"/>
-		<pathelement location="${gwt.sdk}/gwt-user.jar"/>
-		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
+		<pathelement location="war/WEB-INF/classes" />
+		<pathelement location="${gwt.sdk}/gwt-user.jar" />
+		<fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" />
 		<!-- Add any additional non-server libs (such as JUnit) -->
-		<fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>
+		<fileset dir="war/WEB-INF/lib" includes="**/*.jar" />
 	</path>
 
 	<target name="browser.libs" description="Copy libs to WEB-INF/lib">
@@ -490,9 +534,6 @@
 
 	</target>
 
-	<target name="test">
-
-	</target>
 
 </project>
 
