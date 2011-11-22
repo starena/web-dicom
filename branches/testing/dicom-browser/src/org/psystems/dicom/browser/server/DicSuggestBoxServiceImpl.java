@@ -437,7 +437,7 @@ public class DicSuggestBoxServiceImpl extends RemoteServiceServlet implements Di
 	    e.printStackTrace();
 	    throw org.psystems.dicom.browser.server.Util.throwPortalException("Suggestions error! ", e);
 	} finally {
-	    cm.shutdown();
+	    if(cm!=null) cm.shutdown();
 //	    cm.closeIdleConnections(1);
 //	    server.
 	} 

@@ -81,6 +81,8 @@ import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.util.StringUtils;
 import org.dcm4che2.util.TagUtils;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.ConfigDeviceEmployeProxy;
+import org.psystems.dicom.browser.client.proxy.ConfigDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
@@ -97,6 +99,8 @@ import org.psystems.dicom.browser.client.proxy.StudyProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.server.drv.Storage;
 import org.psystems.dicom.commons.Config;
+import org.psystems.dicom.commons.ConfigDevice;
+import org.psystems.dicom.commons.ConfigDeviceEmploye;
 import org.psystems.dicom.commons.orm.ORMUtil;
 import org.psystems.dicom.commons.orm.PersistentManagerDerby;
 import org.psystems.dicom.commons.orm.entity.Direction;
@@ -129,12 +133,12 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	Util.checkClentVersion(version);
 
 	PreparedStatement psSelect = null;
-//	Connection connection = null;
+	// Connection connection = null;
 	PersistentManagerDerby pm = null;
 
 	try {
 
-//	    connection = ORMUtil.getConnection(getServletContext());
+	    // connection = ORMUtil.getConnection(getServletContext());
 	    pm = new PersistentManagerDerby(getServletContext());
 	    ArrayList<StudyProxy> data = new ArrayList<StudyProxy>();
 
@@ -260,9 +264,9 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
-		if(pm!=null)
+		if (pm != null)
 		    pm.relaseConnection();
-		
+
 	    } catch (SQLException e) {
 		logger.error(e);
 		throw Util.throwPortalException("Can't find study: ", e);
@@ -368,7 +372,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    // проверка версии клиента TODO сделать MOCK?
 	    Util.checkClentVersion(req);
 	    long idDcm = req.getIdDcm();
-	   
 
 	    try {
 		ArrayList<DcmTagProxy> data = getTags(idDcm);
@@ -379,7 +382,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	    } finally {
 
-		
 	    }
 	} catch (Throwable e) {
 	    logger.error(e);
@@ -397,7 +399,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    Util.checkClentVersion(version);
 
 	    String dcmRootDir = Config.getIncomingFolder();
-//	    String dcmRootDir = getServletContext().getInitParameter("webdicom.dir.src");
+	    // String dcmRootDir =
+	    // getServletContext().getInitParameter("webdicom.dir.src");
 	    PreparedStatement psSelect = null;
 	    Connection connection = null;
 	    try {
@@ -427,7 +430,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		try {
 		    if (psSelect != null)
 			psSelect.close();
-		    if(connection!=null)
+		    if (connection != null)
 			connection.close();
 		} catch (Throwable e) {
 		    logger.error(e);
@@ -493,8 +496,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		    length = maxLength;
 
 		DcmTagProxy proxy = new DcmTagProxy();
-		proxy.init(idDcm, tag, major, majorStr, minor, minorStr, type, dcmObj.nameOf(tag), element
-			.getValueAsString(cs, length));
+		proxy.init(idDcm, tag, major, majorStr, minor, minorStr, type, dcmObj.nameOf(tag),
+			element.getValueAsString(cs, length));
 		data.add(proxy);
 
 	    }
@@ -560,8 +563,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		// StringUtils.shortToHex(tag, sb);
 		// String minor = sb.toString();
 
-		proxy.init(idDcm, tag, major, majorStr, minor, minorStr, rs.getString("TAG_TYPE"), TagUtils.toString(rs
-			.getInt("TAG")), rs.getString("VALUE_STRING"));
+		proxy.init(idDcm, tag, major, majorStr, minor, minorStr, rs.getString("TAG_TYPE"),
+			TagUtils.toString(rs.getInt("TAG")), rs.getString("VALUE_STRING"));
 		data.add(proxy);
 	    }
 	    rs.close();
@@ -570,7 +573,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	} finally {
 	    if (psSelect != null)
 		psSelect.close();
-	    if(connection!=null)
+	    if (connection != null)
 		connection.close();
 	}
     }
@@ -603,12 +606,12 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	Util.checkClentVersion(version);
 
 	PreparedStatement psSelect = null;
-//	Connection connection = null;
+	// Connection connection = null;
 	PersistentManagerDerby pm = null;
 	try {
 
-//	    connection = ORMUtil.getConnection(getServletContext());
-	   pm = new PersistentManagerDerby(getServletContext());
+	    // connection = ORMUtil.getConnection(getServletContext());
+	    pm = new PersistentManagerDerby(getServletContext());
 
 	    Study study = pm.getStudyByID(id);
 	    if (study == null)
@@ -630,7 +633,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
-		if(pm!=null)
+		if (pm != null)
 		    pm.relaseConnection();
 	    } catch (Throwable e) {
 		logger.error(e);
@@ -639,8 +642,6 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	}
 
     }
-    
-    
 
     @Override
     public StudyProxy[] getStudiesByDirectionID(Long id) throws DefaultGWTRPCException {
@@ -673,7 +674,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (psSelect != null)
 		    psSelect.close();
-		if(pm!=null)
+		if (pm != null)
 		    pm.relaseConnection();
 	    } catch (Throwable e) {
 		logger.error(e);
@@ -704,7 +705,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    ArrayList<OOTemplateProxy> result = new ArrayList<OOTemplateProxy>();
 
 	    String ootmplRootDir = Config.getTemplateFolder();
-//	    String ootmplRootDir = getServletContext().getInitParameter("webdicom.dir.ootmpl");
+	    // String ootmplRootDir =
+	    // getServletContext().getInitParameter("webdicom.dir.ootmpl");
 
 	    File[] files = new File(ootmplRootDir).listFiles();
 	    for (int i = 0; i < files.length; i++) {
@@ -719,13 +721,15 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 			for (int j = 0; j < tmpls.length; j++) {
 			    File tmpl = tmpls[j];
 			    String fileName = tmpl.getName();
-			    if (!fileName.toUpperCase().endsWith(".PDF")) continue;
+			    if (!fileName.toUpperCase().endsWith(".PDF"))
+				continue;
 			    // System.out.println(">>>>> TMPL: [" + fileName +
 			    // "]"+modality);
 			    OOTemplateProxy tmplProxy = new OOTemplateProxy();
 			    tmplProxy.setModality(dirName);
 			    tmplProxy.setTitle(tmpl.getName());
-//			    tmplProxy.setUrl("ootmpl/" + dirName + "/" + fileName);
+			    // tmplProxy.setUrl("ootmpl/" + dirName + "/" +
+			    // fileName);
 			    tmplProxy.setUrl("makepdf/" + dirName + "/" + fileName);
 			    result.add(tmplProxy);
 			}
@@ -764,7 +768,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 
 	PersistentManagerDerby pm = null;
 	try {
-//	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    // Connection connection =
+	    // ORMUtil.getConnection(getServletContext());
 	    pm = new PersistentManagerDerby(getServletContext());
 	    ArrayList<DirectionProxy> drns = new ArrayList<DirectionProxy>();
 	    for (Direction direction : pm.queryDirections(ORMHelpers.getQuerydirection(query))) {
@@ -779,16 +784,13 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    try {
 		if (pm != null)
 		    pm.relaseConnection();
-		
+
 	    } catch (SQLException e) {
 		throw Util.throwPortalException("getDirections error! ", e);
 	    }
 	}
 
     }
-    
-    
-    
 
     @Override
     public ArrayList<StudyProxy> getStudies(QueryStudyProxy query) throws DefaultGWTRPCException {
@@ -822,7 +824,8 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
     public void saveDirection(DirectionProxy drn) throws DefaultGWTRPCException {
 	PersistentManagerDerby pm = null;
 	try {
-//	    Connection connection = ORMUtil.getConnection(getServletContext());
+	    // Connection connection =
+	    // ORMUtil.getConnection(getServletContext());
 	    pm = new PersistentManagerDerby(getServletContext());
 	    pm.pesistentDirection(ORMHelpers.getDirection(drn));
 
@@ -838,6 +841,36 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	    }
 	}
 
+    }
+
+    @Override
+    public ArrayList<ConfigDeviceProxy> getDevices(String modality) throws DefaultGWTRPCException {
+	ArrayList<ConfigDeviceProxy> devices = new ArrayList<ConfigDeviceProxy>();
+	for (ConfigDevice device : Config.getDevices()) {
+
+	    if (modality != null && !modality.equalsIgnoreCase(device.getModality()))
+		continue;
+
+	    ConfigDeviceProxy deviceProxy = new ConfigDeviceProxy();
+	    deviceProxy.setDescription(device.getDescription());
+	    deviceProxy.setModality(device.getModality());
+	    deviceProxy.setName(device.getName());
+
+	    ArrayList<ConfigDeviceEmployeProxy> employes = new ArrayList<ConfigDeviceEmployeProxy>();
+	    for (ConfigDeviceEmploye emp : device.getEmployes()) {
+		ConfigDeviceEmployeProxy empProxy = new ConfigDeviceEmployeProxy();
+		empProxy.setName(emp.getName());
+		empProxy.setType(emp.getType());
+		employes.add(empProxy);
+	    }
+	    devices.add(deviceProxy);
+	}
+	return devices;
+    }
+
+    @Override
+    public ArrayList<ConfigDeviceProxy> getAllDevices() throws DefaultGWTRPCException {
+	return getDevices(null);
     }
 
 }

@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.ConfigDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
@@ -127,4 +128,16 @@ public interface BrowserService extends RemoteService {
     void saveDirection(DirectionProxy drn) throws DefaultGWTRPCException;
 
     ArrayList<StudyProxy> getStudies(QueryStudyProxy query) throws DefaultGWTRPCException;
+
+    /**
+     * 
+     * Аппараты из конфига
+     * 
+     * @param modality
+     * @return
+     * @throws DefaultGWTRPCException
+     */
+    ArrayList<ConfigDeviceProxy> getDevices(String modality) throws DefaultGWTRPCException;
+
+    ArrayList<ConfigDeviceProxy> getAllDevices() throws DefaultGWTRPCException;
 }

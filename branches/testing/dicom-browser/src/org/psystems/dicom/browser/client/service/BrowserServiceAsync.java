@@ -57,6 +57,7 @@ package org.psystems.dicom.browser.client.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.psystems.dicom.browser.client.proxy.ConfigDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagProxy;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCRequest;
 import org.psystems.dicom.browser.client.proxy.DcmTagsRPCResponse;
@@ -97,5 +98,9 @@ public interface BrowserServiceAsync {
     void getStudiesByDirectionID(Long id, AsyncCallback<StudyProxy[]> callback);
 
     void getStudies(QueryStudyProxy query, AsyncCallback<ArrayList<StudyProxy>> callback);
+
+    void getDevices(String modality, AsyncCallback<ArrayList<ConfigDeviceProxy>> callback);
+
+    void getAllDevices(AsyncCallback<ArrayList<ConfigDeviceProxy>> callback);
 
 }

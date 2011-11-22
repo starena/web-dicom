@@ -12,6 +12,8 @@ import java.util.TreeMap;
 import org.psystems.dicom.browser.client.Browser;
 import org.psystems.dicom.browser.client.ItemSuggestion;
 import org.psystems.dicom.browser.client.TransactionTimer;
+import org.psystems.dicom.browser.client.proxy.ConfigDeviceEmployeProxy;
+import org.psystems.dicom.browser.client.proxy.ConfigDeviceProxy;
 import org.psystems.dicom.browser.client.proxy.DirectionProxy;
 import org.psystems.dicom.browser.client.proxy.EmployeeProxy;
 import org.psystems.dicom.browser.client.proxy.ManufacturerDeviceProxy;
@@ -107,13 +109,15 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private ServicePanel servicesPerformedPanel;
     private DicSuggestBox patientNameBox;
     // private Label labelModality;
-    private DicSuggestBox doctorPerformedBox;
+//    private DicSuggestBox doctorPerformedBox;
     private DicSuggestBox operatorBox;
     private ListBox lbModality;
     private Button btnSaveAll;
+    private ListBox lbDevices;
+    private ListBox lbDoctorPerformed;
 
     // словари TODO Убрать! брать данные из индекса
-    static TreeMap<String, String> dicModel = new TreeMap<String, String>();
+//    static TreeMap<String, String> dicModel = new TreeMap<String, String>();
     static HashMap<String, String> dicModality = new HashMap<String, String>();
     // Ключи для сотрировки. TODO как то криво :(
     static ArrayList<String> dicModalityKeys = new ArrayList<String>();
@@ -137,35 +141,36 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// dicDoctors.put("Сосновских Э.А.", "Сосновских Э.А.");
 	// dicDoctors.put("Зубкова Т.М.", "Зубкова Т.М.");
 
-	dicModel.put("LORAD AFFINITY", "Маммограф (LORAD AFFINITY)");
-	dicModel.put("CLINOMAT", "Рентген (CLINOMAT)");
-	dicModel.put("РДК 50/6", "Рентген (РДК 50/6)");
-	dicModel.put("DUODiagnost", "Рентген (DUODiagnost)");
-	dicModel.put("FUJINON EG WR5", "Эндоскоп (FUJINON EG WR5)");
-	dicModel.put("SonoScape-1", "УЗИ-1 (SonoScape) ДП 523 каб.");
-	dicModel.put("SonoScape-2", "УЗИ-2 (SonoScape)");
-	dicModel.put("SonoScape-3", "УЗИ-3 (SonoScape)");
-	dicModel.put("VIVID 3", "УЗИ (VIVID) ДП 527 каб.");
-	dicModel.put("УЗИ (VOLUSON)", "VOLUSON 730 BT04 EXPERT");
-	dicModel.put("Acuson Sequoia", "УЗИ (Acuson Sequoia) каб.408");
+//	dicModel.put("LORAD AFFINITY", "Маммограф (LORAD AFFINITY)");
+//	dicModel.put("CLINOMAT", "Рентген (CLINOMAT)");
+//	dicModel.put("РДК 50/6", "Рентген (РДК 50/6)");
+//	dicModel.put("DUODiagnost", "Рентген (DUODiagnost)");
+//	dicModel.put("FUJINON EG WR5", "Эндоскоп (FUJINON EG WR5)");
+//	dicModel.put("SonoScape-1", "УЗИ-1 (SonoScape) ДП 523 каб.");
+//	dicModel.put("SonoScape-2", "УЗИ-2 (SonoScape)");
+//	dicModel.put("SonoScape-3", "УЗИ-3 (SonoScape)");
+//	dicModel.put("VIVID 3", "УЗИ (VIVID) ДП 527 каб.");
+//	dicModel.put("УЗИ (VOLUSON)", "VOLUSON 730 BT04 EXPERT");
+//	dicModel.put("Acuson Sequoia", "УЗИ (Acuson Sequoia) каб.408");
+//
+//	// TODO Уточнить имена и кабинеты
+//	dicModel.put("SSI-1000", "SSI-1000");
+//	dicModel.put("Эхоэнцефалоскоп-ЭЭС-25-ЭМА", "Эхоэнцефалоскоп-ЭЭС-25-ЭМА");
+//	dicModel.put("Электроэнцефалограф-Alliance", "Электроэнцефалограф-Alliance");
+//	dicModel.put("Companion III", "Companion III");
+//	dicModel.put("Microvit", "Microvit");
+//	dicModel.put("СМАД, Schiller AG", "СМАД, Schiller AG");
+//	dicModel.put("ЭКГ-Schiller Medical S.A.", "ЭКГ-Schiller Medical S.A.");
+//	dicModel.put("ЭКГ-Cardiovit AT-2 plus C", "ЭКГ-Cardiovit AT-2 plus C");
+//	dicModel.put("Велоэргометрия-АТ- 104 Schiller", "Велоэргометрия-АТ- 104 Schiller");
+//	dicModel.put("Voluson 730 Expert", "Voluson 730 Expert");
+//	dicModel.put("SSD-3500", "SSD-3500");
+//	dicModel.put("Спирометр-Spirovit SP-1", "Спирометр-Spirovit SP-1");
+//	dicModel.put("Спиро-Спектр 2", "Спиро-Спектр 2");
+//	dicModel.put("Aloka alfa", "Aloka alfa 6 каб.527 ДП");
+//	dicModel.put("Aloka 3500", "Aloka 3500 ВП 303 каб.");
 
-	// TODO Уточнить имена и кабинеты
-	dicModel.put("SSI-1000", "SSI-1000");
-	dicModel.put("Эхоэнцефалоскоп-ЭЭС-25-ЭМА", "Эхоэнцефалоскоп-ЭЭС-25-ЭМА");
-	dicModel.put("Электроэнцефалограф-Alliance", "Электроэнцефалограф-Alliance");
-	dicModel.put("Companion III", "Companion III");
-	dicModel.put("Microvit", "Microvit");
-	dicModel.put("СМАД, Schiller AG", "СМАД, Schiller AG");
-	dicModel.put("ЭКГ-Schiller Medical S.A.", "ЭКГ-Schiller Medical S.A.");
-	dicModel.put("ЭКГ-Cardiovit AT-2 plus C", "ЭКГ-Cardiovit AT-2 plus C");
-	dicModel.put("Велоэргометрия-АТ- 104 Schiller", "Велоэргометрия-АТ- 104 Schiller");
-	dicModel.put("Voluson 730 Expert", "Voluson 730 Expert");
-	dicModel.put("SSD-3500", "SSD-3500");
-	dicModel.put("Спирометр-Spirovit SP-1", "Спирометр-Spirovit SP-1");
-	dicModel.put("Спиро-Спектр 2", "Спиро-Спектр 2");
-	dicModel.put("Aloka alfa", "Aloka alfa 6 каб.527 ДП");
-	dicModel.put("Aloka 3500", "Aloka 3500 ВП 303 каб.");
-
+	//TODO Две структуры - это криво. И перенести все в Browser
 	// Не забываем про ключи для сортировки
 	dicModality.put("OT", "Прочее");
 	dicModality.put("CR", "Флюорография");
@@ -495,39 +500,77 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 		    .getManufacturerModelName()));
 	} else {
 
-	    final DicSuggestBox deviceBox = new DicSuggestBox("devices");
+//	    final DicSuggestBox deviceBox = new DicSuggestBox("devices");
+	    
+	    
+	    lbDevices = new ListBox();
+	    for (ConfigDeviceProxy device : Browser.getAllDevices()) {
+		lbDevices.addItem(device.getDescription() + "(" + 
+			device.getModality()+ ")",device.getName());
+	    }
 
-	    if (proxy.getManufacturerModelName() != null)
-		deviceBox.getSuggestBox().setText(proxy.getManufacturerModelName());
-
-	    deviceBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
-
-		@Override
-		public void onSelection(SelectionEvent<Suggestion> event) {
-		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
-		    ManufacturerDeviceProxy dev = (ManufacturerDeviceProxy) item.getEvent();
-		    proxy.setManufacturerModelName(dev.getManufacturerModelName());
-		    proxy.setStudyModality(dev.getModality());
+	    if (proxy.getManufacturerModelName() != null) {
+		lbDevices.addItem(proxy.getManufacturerModelName() + " ("+
+			proxy.getStudyModality()+")", proxy.getManufacturerModelName());
+		lbDevices.setSelectedIndex(lbDevices.getItemCount()-1);
+	    }
+	    
+	    lbDevices.addChangeHandler(new ChangeHandler() {
+	        
+	        @Override
+	        public void onChange(ChangeEvent event) {
+	            String value = lbDevices.getValue(lbDevices.getSelectedIndex());
+	            proxy.setManufacturerModelName(value);
+	            ConfigDeviceProxy dev = Browser.getDeviceByName(value);
+	            if(dev!=null) proxy.setStudyModality(dev.getModality());
 		    setModalityControls();
 		    validationBeforeSubmit();
-		}
+		    
+		    //Задаем списки для врача и лаборанта
+		    if(dev!=null) {
+			for (ConfigDeviceEmployeProxy emp : dev.getEmployes()) {
+			    if(emp.getType().equals(emp.TYPE_DOCTOR)) {
+				lbDoctorPerformed.addItem(emp.getName(),emp.getName());
+			    }
+			}
+			
+		    }
+	        }
 	    });
+	    
+	   
+	    
+		
+//		deviceBox.getSuggestBox().setText(proxy.getManufacturerModelName());
+//
+//	    deviceBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+//
+//		@Override
+//		public void onSelection(SelectionEvent<Suggestion> event) {
+//		    ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+//		    ManufacturerDeviceProxy dev = (ManufacturerDeviceProxy) item.getEvent();
+//		    proxy.setManufacturerModelName(dev.getManufacturerModelName());
+//		    proxy.setStudyModality(dev.getModality());
+//		    setModalityControls();
+//		    validationBeforeSubmit();
+//		}
+//	    });
+//
+//	    deviceBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+//
+//		@Override
+//		public void onBlur(BlurEvent event) {
+//		    if (proxy.getManufacturerModelName() != null)
+//			deviceBox.getSuggestBox().setText(proxy.getManufacturerModelName());
+//		    else
+//			deviceBox.getSuggestBox().setText("");
+//
+//		    setModalityControls();
+//		    validationBeforeSubmit();
+//		}
+//	    });
 
-	    deviceBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
-
-		@Override
-		public void onBlur(BlurEvent event) {
-		    if (proxy.getManufacturerModelName() != null)
-			deviceBox.getSuggestBox().setText(proxy.getManufacturerModelName());
-		    else
-			deviceBox.getSuggestBox().setText("");
-
-		    setModalityControls();
-		    validationBeforeSubmit();
-		}
-	    });
-
-	    addFormRow(rowCounter++, "Аппарат", deviceBox);
+	    addFormRow(rowCounter++, "Аппарат", lbDevices);
 
 	}
 
@@ -607,48 +650,66 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// Врач выполнивший исследования (Принимающий врач)
 	// *********************************************************************************
 
-	doctorPerformedBox = new DicSuggestBox("doctors");
+	lbDoctorPerformed = new ListBox();
+	lbDoctorPerformed.addChangeHandler(new ChangeHandler() {
+	    
+	    @Override
+	    public void onChange(ChangeEvent event) {
+		String value = lbDoctorPerformed.getValue(lbDoctorPerformed.getSelectedIndex());
+		proxy.setStudyDoctor(value);
+		if (proxy.getDirection() != null) {
+		    //TODO Сделать!!!!
+//		    proxy.getDirection().setDoctorPerformed(value);
+		}
+		
+	    }
+	});
+	
+//	doctorPerformedBox = new DicSuggestBox("doctors");
 	if (proxy.getDirection() != null) {
 	    if (proxy.getDirection().getDoctorPerformed() != null)
-		doctorPerformedBox.getSuggestBox().setText(proxy.getDirection().getDoctorPerformed().getEmployeeName());
+		lbDoctorPerformed.addItem(proxy.getDirection().getDoctorPerformed().getEmployeeName());
+	    	lbDoctorPerformed.setSelectedIndex(lbDoctorPerformed.getItemCount()-1);
 	} else {
-	    doctorPerformedBox.getSuggestBox().setText(proxy.getStudyDoctor());
-
+	    lbDoctorPerformed.addItem(proxy.getStudyDoctor());
+	    lbDoctorPerformed.setSelectedIndex(lbDoctorPerformed.getItemCount()-1);
 	}
+	
+	
+//
+//	doctorPerformedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
+//
+//	    @Override
+//	    public void onSelection(SelectionEvent<Suggestion> event) {
+//		ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
+//		EmployeeProxy doctor = (EmployeeProxy) item.getEvent();
+//		proxy.setStudyDoctor(doctor.getEmployeeName());
+//		if (proxy.getDirection() != null) {
+//		    proxy.getDirection().setDoctorPerformed(doctor);
+//		}
+//	    }
+//	});
+//
+//	doctorPerformedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
+//
+//	    @Override
+//	    public void onBlur(BlurEvent event) {
+//		if (proxy.getDirection() != null) {
+//		    if (proxy.getDirection().getDoctorPerformed() != null)
+//			doctorPerformedBox.getSuggestBox().setText(
+//				proxy.getDirection().getDoctorPerformed().getEmployeeName());
+//		    else
+//			doctorPerformedBox.getSuggestBox().setText("");
+//		} else {
+//		    if (proxy.getStudyDoctor() != null)
+//			doctorPerformedBox.getSuggestBox().setText(proxy.getStudyDoctor());
+//		    else
+//			doctorPerformedBox.getSuggestBox().setText("");
+//		}
+//	    }
+//	});
 
-	doctorPerformedBox.getSuggestBox().addSelectionHandler(new SelectionHandler<Suggestion>() {
-
-	    @Override
-	    public void onSelection(SelectionEvent<Suggestion> event) {
-		ItemSuggestion item = (ItemSuggestion) event.getSelectedItem();
-		EmployeeProxy doctor = (EmployeeProxy) item.getEvent();
-		proxy.setStudyDoctor(doctor.getEmployeeName());
-		if (proxy.getDirection() != null) {
-		    proxy.getDirection().setDoctorPerformed(doctor);
-		}
-	    }
-	});
-
-	doctorPerformedBox.getSuggestBox().getTextBox().addBlurHandler(new BlurHandler() {
-
-	    @Override
-	    public void onBlur(BlurEvent event) {
-		if (proxy.getDirection() != null) {
-		    if (proxy.getDirection().getDoctorPerformed() != null)
-			doctorPerformedBox.getSuggestBox().setText(
-				proxy.getDirection().getDoctorPerformed().getEmployeeName());
-		    else
-			doctorPerformedBox.getSuggestBox().setText("");
-		} else {
-		    if (proxy.getStudyDoctor() != null)
-			doctorPerformedBox.getSuggestBox().setText(proxy.getStudyDoctor());
-		    else
-			doctorPerformedBox.getSuggestBox().setText("");
-		}
-	    }
-	});
-
-	addFormRow(rowCounter++, "Врач", doctorPerformedBox);
+	addFormRow(rowCounter++, "Врач", lbDoctorPerformed);
 
 	// *********************************************************************************
 	// Лаборант

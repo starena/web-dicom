@@ -54,6 +54,8 @@
  */
 package org.psystems.dicom.browser.client;
 
+import java.util.ArrayList;
+
 import org.psystems.dicom.browser.client.component.DirectionsPanel;
 import org.psystems.dicom.browser.client.component.HeaderPanel;
 import org.psystems.dicom.browser.client.component.IntroPanel;
@@ -61,6 +63,7 @@ import org.psystems.dicom.browser.client.component.SearchPanel;
 import org.psystems.dicom.browser.client.component.SearchResultPanel;
 import org.psystems.dicom.browser.client.component.WorkListPanel;
 import org.psystems.dicom.browser.client.exception.DefaultGWTRPCException;
+import org.psystems.dicom.browser.client.proxy.ConfigDeviceProxy;
 import org.psystems.dicom.browser.client.service.BrowserService;
 import org.psystems.dicom.browser.client.service.BrowserServiceAsync;
 import org.psystems.dicom.browser.client.service.ManageStydyService;
@@ -74,6 +77,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -115,6 +119,8 @@ public class Browser implements EntryPoint {
     private SearchPanel searchPanel;
 
     private static Label errorResponseMsg;
+
+    private static ArrayList<ConfigDeviceProxy> devices = null;
 
     /**
      * This is the entry point method.
@@ -183,6 +189,23 @@ public class Browser implements EntryPoint {
 	});
 
 	History.fireCurrentHistoryState();
+
+	// Загрузка словарей
+	// проверяем, сохранилось ли направление...
+	browserService.getAllDevices(new AsyncCallback<ArrayList<ConfigDeviceProxy>>() {
+
+	    @Override
+	    public void onSuccess(ArrayList<ConfigDeviceProxy> result) {
+		// TODO Auto-generated method stub
+		devices = result;
+	    }
+
+	    @Override
+	    public void onFailure(Throwable caught) {
+		// TODO Auto-generated method stub
+		showErrorDlg(new Throwable("Ошибка загрузки словарея аппаратов", caught));
+	    }
+	});
 
     }
 
@@ -330,6 +353,24 @@ public class Browser implements EntryPoint {
     public static void hideWorkStatusMsg() {
 	workStatusPanel.clear();
 	workStatusPopup.hide();
+    }
+
+    public static ArrayList<ConfigDeviceProxy> getAllDevices() {
+	return devices;
+    }
+
+    /**
+     * получение из словаря аппарата по имени
+     * @param name
+     * @return
+     */
+    public static ConfigDeviceProxy getDeviceByName(String name) {
+	for (ConfigDeviceProxy dev : devices) {
+	    if (dev.getName().equals(name))
+		return dev;
+	}
+	return null;
+
     }
 
 }
