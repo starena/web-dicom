@@ -136,6 +136,7 @@ public class ORMHelpers {
 	qdrn.setPatientId(qproxy.getPatientId());
 	qdrn.setPatientName(qproxy.getPatientName());
 	qdrn.setPatientSex(qproxy.getPatientSex());
+	qdrn.setPatientShortName(qproxy.getPatientShortName());
 	return qdrn;
     }
 

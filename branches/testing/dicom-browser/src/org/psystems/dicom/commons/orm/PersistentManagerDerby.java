@@ -890,6 +890,9 @@ public class PersistentManagerDerby {
 	    if (counterArguments == 0)
 		throw new DataException("All query arguments empty! Set any argument's");
 
+//	    System.out.println("!!!! req="+request);
+//	    System.out.println("!!!! sql="+sql);
+	    
 	    pstmt = connection.prepareStatement(sql);
 	    counterArguments = 1;
 
@@ -941,7 +944,7 @@ public class PersistentManagerDerby {
 	    }
 
 	    if (request.getPatientShortName() != null) {
-		pstmt.setString(counterArguments++, request.getPatientShortName());
+		pstmt.setString(counterArguments++, request.getPatientShortName().toUpperCase());
 	    }
 
 	    if (request.getSenderLPU() != null) {

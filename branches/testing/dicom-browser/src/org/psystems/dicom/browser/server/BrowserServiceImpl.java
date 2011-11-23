@@ -861,6 +861,7 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 		ConfigDeviceEmployeProxy empProxy = new ConfigDeviceEmployeProxy();
 		empProxy.setName(emp.getName());
 		empProxy.setType(emp.getType());
+		empProxy.setCode(emp.getCode());
 //		employes.add(empProxy);
 		deviceProxy.addEmploye(empProxy);
 	    }

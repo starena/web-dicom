@@ -355,12 +355,18 @@ public class Browser implements EntryPoint {
 	workStatusPopup.hide();
     }
 
+    /**
+     * получение из словаря всех аппаратов 
+     * 
+     * @return
+     */
     public static ArrayList<ConfigDeviceProxy> getAllDevices() {
 	return devices;
     }
 
     /**
      * получение из словаря аппарата по имени
+     * 
      * @param name
      * @return
      */
@@ -370,6 +376,22 @@ public class Browser implements EntryPoint {
 		return dev;
 	}
 	return null;
+
+    }
+
+    /**
+     * получение из словаря аппаратов по модальности
+     * 
+     * @param name
+     * @return
+     */
+    public static ArrayList<ConfigDeviceProxy> getDeviceByModality(String modality) {
+	ArrayList<ConfigDeviceProxy> result = new ArrayList<ConfigDeviceProxy>();
+	for (ConfigDeviceProxy dev : devices) {
+	    if ("OT".equalsIgnoreCase(modality) ||(dev.getModality() != null && dev.getModality().equalsIgnoreCase(modality)))
+		result.add(dev);
+	}
+	return result;
 
     }
 

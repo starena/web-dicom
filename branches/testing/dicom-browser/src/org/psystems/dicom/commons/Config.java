@@ -161,6 +161,7 @@ public class Config {
 
 		    String empType = null;
 		    String empName = null;
+		    String empCode = null;
 		    if (employeNode.getAttributes().getNamedItem("type") != null) {
 			empType = employeNode.getAttributes().getNamedItem("type").getNodeValue();
 			// System.out.println("\t employe type=[" + empType +
@@ -171,13 +172,18 @@ public class Config {
 			// System.out.println("\t employe empName=[" + empName +
 			// "]");
 		    }
+		    if (employeNode.getAttributes().getNamedItem("code") != null) {
+			empCode = employeNode.getAttributes().getNamedItem("code").getNodeValue();
+			// System.out.println("\t employe empName=[" + empName +
+			// "]");
+		    }
 		    String empTypeStr = null;
 		    if (empType.equals("doctor"))
 			empTypeStr = ConfigDeviceEmploye.TYPE_DOCTOR;
 		    else if (empType.equals("laborant"))
 			empTypeStr = ConfigDeviceEmploye.TYPE_LABORANT;
 
-		    ConfigDeviceEmploye emp = new ConfigDeviceEmploye(empTypeStr,empName);
+		    ConfigDeviceEmploye emp = new ConfigDeviceEmploye(empTypeStr,empName,empCode);
 		    device.addEmploye(emp);
 
 		}
