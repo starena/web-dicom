@@ -521,21 +521,30 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	        public void onChange(ChangeEvent event) {
 	            String value = lbDevices.getValue(lbDevices.getSelectedIndex());
 	            proxy.setManufacturerModelName(value);
-	            System.out.println("!!! emp="+value);
 	            ConfigDeviceProxy dev = Browser.getDeviceByName(value);
 	            if(dev!=null) proxy.setStudyModality(dev.getModality());
 		    setModalityControls();
 		    validationBeforeSubmit();
-		    System.out.println("!!! dev="+dev);
 		    
+		    //TODO перенести в setModalityControls !!!
 		    //Задаем списки для врача и лаборанта
 		    if(dev!=null) {
 			
+			lbDoctorPerformed.clear();
+			
 			for (ConfigDeviceEmployeProxy emp : dev.getEmployes()) {
-			    System.out.println("!!!!!!! emp="+emp.getName());
 			    if(emp.getType().equals(emp.TYPE_DOCTOR)) {
 				lbDoctorPerformed.addItem(emp.getName(),emp.getName());
 			    }
+			}
+			
+			if (proxy.getDirection() != null) {
+			    if (proxy.getDirection().getDoctorPerformed() != null)
+				lbDoctorPerformed.addItem(proxy.getDirection().getDoctorPerformed().getEmployeeName());
+			    	lbDoctorPerformed.setSelectedIndex(lbDoctorPerformed.getItemCount()-1);
+			} else {
+			    lbDoctorPerformed.addItem(proxy.getStudyDoctor());
+			    lbDoctorPerformed.setSelectedIndex(lbDoctorPerformed.getItemCount()-1);
 			}
 			
 		    }
@@ -670,14 +679,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	});
 	
 //	doctorPerformedBox = new DicSuggestBox("doctors");
-	if (proxy.getDirection() != null) {
-	    if (proxy.getDirection().getDoctorPerformed() != null)
-		lbDoctorPerformed.addItem(proxy.getDirection().getDoctorPerformed().getEmployeeName());
-	    	lbDoctorPerformed.setSelectedIndex(lbDoctorPerformed.getItemCount()-1);
-	} else {
-	    lbDoctorPerformed.addItem(proxy.getStudyDoctor());
-	    lbDoctorPerformed.setSelectedIndex(lbDoctorPerformed.getItemCount()-1);
-	}
+
 	
 	
 //
