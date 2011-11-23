@@ -57,14 +57,15 @@
 		</driver>
 	</device>
 
-	<device modality="MG" name="DUODiagnost" description="Рентген (DUODiagnost)">
-		<employe type="doctor" name="Иванов И.И. врач мамограф" />
-		<employe type="doctor" name="Петров И.И. врач мамограф" />
-		<employe type="laborant" name="Сидоров И.И. лаюборант мамограф" />
-		<employe type="laborant" name="Мельников И.И. лаюборант мамограф" />
-	</device>
 
-	<device modality="DF" name="CLINOMAT" description="Рентген (CLINOMAT)" />
+	<device modality="DF" name="CLINOMAT" description="Рентген (CLINOMAT)">
+		<employe type="doctor" name="Иванов И.И. врач рентген" code="123" />
+		<employe type="doctor" name="Петров И.И. врач рентген" code="123" />
+		<employe type="laborant" name="Сидоров И.И. лаюборант рентген"
+			code="123" />
+		<employe type="laborant" name="Мельников И.И. лаюборант рентген"
+			code="123" />
+	</device>
 
 	<device modality="DF" name="РДК 50/6" description="Рентген (РДК 50/6)" />
 
@@ -81,7 +82,12 @@
 
 	<device modality="US" name="Acuson Sequoia" description="УЗИ (Acuson Sequoia) каб.408" />
 
-	<device modality="MG" name="LORAD AFFINITY" description="Маммограф (LORAD AFFINITY)" />
+	<device modality="MG" name="LORAD AFFINITY" description="Маммограф (LORAD AFFINITY)">
+		<employe type="doctor" name="Иванов И.И. врач мамограф" code="123"/>
+		<employe type="doctor" name="Петров И.И. врач мамограф" code="123"/>
+		<employe type="laborant" name="Сидоров И.И. лаюборант мамограф" code="123" />
+		<employe type="laborant" name="Мельников И.И. лаюборант мамограф" code="123" />
+	</device>
 
 	<device modality="ES" name="FUJINON EG WR5" description="Эндоскоп (FUJINON EG WR5)" />
 

@@ -16,6 +16,7 @@ public class ConfigDeviceEmployeProxy implements Serializable {
 
     private String type;
     private String name;
+    private String code;
 
     public String getType() {
 	return type;
@@ -31,6 +32,14 @@ public class ConfigDeviceEmployeProxy implements Serializable {
 
     public void setName(String name) {
 	this.name = name;
+    }
+
+    public String getCode() {
+	return code;
+    }
+
+    public void setCode(String code) {
+	this.code = code;
     }
 
 }

@@ -13,28 +13,30 @@ public class ConfigDeviceEmploye {
 
     private String type;
     private String name;
+    private String code;
 
-    public ConfigDeviceEmploye(String type, String name) {
+    public ConfigDeviceEmploye(String type, String name, String code) {
 	super();
 	this.type = type;
 	this.name = name;
+	this.code = code;
     }
 
     public String getType() {
 	return type;
     }
 
-   
-
     public String getName() {
 	return name;
     }
 
-   
+    public String getCode() {
+	return code;
+    }
 
     @Override
     public String toString() {
-	return "\t     <employe> type: [" + type + "] name: [" + name + "]";
+	return "\t     <employe> type: [" + type + "] name: [" + name + "] code: [" + code + "]";
     }
 
 }
