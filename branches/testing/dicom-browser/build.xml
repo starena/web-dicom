@@ -50,6 +50,7 @@
 	</target>
 
 
+	<property environment="env"/>
 	<property name="dir.src" value="src" />
 	<property name="dir.bin" value="war/WEB-INF/classes" />
 	<property name="dir.classes" value="classes" />
@@ -369,7 +370,7 @@
 
 		<mkdir dir="${dir.tmp}" />
 
-		<exec executable="jps" outputproperty="java.allprocess">
+		<exec executable="${env.JAVA_HOME}/bin/jps" outputproperty="java.allprocess">
 			<arg value="-v" />
 		</exec>
 
@@ -407,7 +408,7 @@
 
 		<mkdir dir="${dir.tmp}" />
 
-		<exec executable="C:\Program Files\Java\jdk1.6.0_18\bin/jps" outputproperty="java.allprocess">
+		<exec executable="${env.JAVA_HOME}/bin/jps" outputproperty="java.allprocess">
 			<arg value="-v" />
 		</exec>
 
@@ -456,7 +457,7 @@
 			</and>
 		</condition>
 
-		<exec executable="C:\Program Files\Java\jdk1.6.0_18\bin/jps" outputproperty="java.allprocess">
+		<exec executable="${env.JAVA_HOME}/bin/jps" outputproperty="java.allprocess">
 			<arg value="-v" />
 		</exec>
 
