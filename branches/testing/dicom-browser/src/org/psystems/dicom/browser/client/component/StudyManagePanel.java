@@ -504,6 +504,8 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    
 	    
 	    lbDevices = new ListBox();
+	    
+	    
 	    for (ConfigDeviceProxy device : Browser.getAllDevices()) {
 		lbDevices.addItem(device.getDescription() + "(" + 
 			device.getModality()+ ")",device.getName());

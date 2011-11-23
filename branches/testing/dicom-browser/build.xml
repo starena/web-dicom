@@ -407,7 +407,7 @@
 
 		<mkdir dir="${dir.tmp}" />
 
-		<exec executable="jps" outputproperty="java.allprocess">
+		<exec executable="C:\Program Files\Java\jdk1.6.0_18\bin/jps" outputproperty="java.allprocess">
 			<arg value="-v" />
 		</exec>
 
