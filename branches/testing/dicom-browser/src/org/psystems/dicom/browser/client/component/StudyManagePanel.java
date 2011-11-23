@@ -114,7 +114,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
     private ListBox lbModality;
     private Button btnSaveAll;
     private ListBox lbDevices;
-    private ListBox lbDoctorPerformed;
+    private ListBox lbDoctorPerformed = new ListBox();
 
     // словари TODO Убрать! брать данные из индекса
 //    static TreeMap<String, String> dicModel = new TreeMap<String, String>();
@@ -521,14 +521,18 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	        public void onChange(ChangeEvent event) {
 	            String value = lbDevices.getValue(lbDevices.getSelectedIndex());
 	            proxy.setManufacturerModelName(value);
+	            System.out.println("!!! emp="+value);
 	            ConfigDeviceProxy dev = Browser.getDeviceByName(value);
 	            if(dev!=null) proxy.setStudyModality(dev.getModality());
 		    setModalityControls();
 		    validationBeforeSubmit();
+		    System.out.println("!!! dev="+dev);
 		    
 		    //Задаем списки для врача и лаборанта
 		    if(dev!=null) {
+			
 			for (ConfigDeviceEmployeProxy emp : dev.getEmployes()) {
+			    System.out.println("!!!!!!! emp="+emp.getName());
 			    if(emp.getType().equals(emp.TYPE_DOCTOR)) {
 				lbDoctorPerformed.addItem(emp.getName(),emp.getName());
 			    }
@@ -650,7 +654,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// Врач выполнивший исследования (Принимающий врач)
 	// *********************************************************************************
 
-	lbDoctorPerformed = new ListBox();
+	
 	lbDoctorPerformed.addChangeHandler(new ChangeHandler() {
 	    
 	    @Override
