@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.Config;
+import org.psystems.dicom.commons.ConfigTemplate;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -88,8 +90,11 @@ public class ManagePdfServlet extends HttpServlet {
 		+ ".pdf";
 	File pdfTmpFile = null;
 	String tmplDir = "./pdfs";
-	String file = tmplDir + req.getPathInfo();
-
+	String file = tmplDir + req.getPathInfo() + ".pdf";
+	String tmplName = req.getPathInfo().replaceFirst("/", "");
+	
+	
+	
 	try {
 
 	    FileInputStream fis = new FileInputStream(file);
@@ -198,7 +203,7 @@ public class ManagePdfServlet extends HttpServlet {
 	    }
 
 	    // Удаляем поля
-	    replaceFields(reader, stamper, !finalPhase);
+	    replaceFields(reader, stamper, tmplName, !finalPhase);
 
 	    if (!finalPhase) {
 		// Добавляем кнопку Submit
@@ -330,7 +335,7 @@ public class ManagePdfServlet extends HttpServlet {
      * @throws IOException
      * @throws DocumentException
      */
-    private void replaceFields(PdfReader reader, PdfStamper stamper, boolean onlyROfields) throws IOException,
+    private void replaceFields(PdfReader reader, PdfStamper stamper, String tmplName, boolean onlyROfields) throws IOException,
 	    DocumentException {
 	Set<String> parameters = stamper.getAcroFields().getFields().keySet();
 	AcroFields form = stamper.getAcroFields();
@@ -370,7 +375,13 @@ public class ManagePdfServlet extends HttpServlet {
 	    // FIXME Сделать конфигуриремым или засунуть шоифт в CLASSPATH
 	    // Сейчас просто закинул на продуктиве в папку tomcat/lib
 	    String fontPath = "fonts/arial.ttf";
-	    Font font = new Font(BaseFont.createFont(fontPath, "Cp1251", BaseFont.NOT_EMBEDDED), 14);
+	    ConfigTemplate tmpl = Config.getTemplateByName(tmplName);
+	    int fontSize = 10;//по умолчанию
+	    if(tmpl!=null) {
+		fontSize = tmpl.getFontsize();
+	    }
+	    
+	    Font font = new Font(BaseFont.createFont(fontPath, "Cp1251", BaseFont.NOT_EMBEDDED), fontSize);
 
 	    Phrase phrase = new Phrase(value, font);
 

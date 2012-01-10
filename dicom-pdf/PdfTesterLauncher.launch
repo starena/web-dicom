@@ -9,5 +9,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.psystems.dicom.pdf.PdfTesterLauncher"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="8889"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="dicom-pdf"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dcom.sun.management.jmxremote.port=8096&#13;&#10;-Dcom.sun.management.jmxremote.ssl=false&#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dcom.sun.management.jmxremote.port=8096&#13;&#10;-Dcom.sun.management.jmxremote.ssl=false&#13;&#10;-Dcom.sun.management.jmxremote.authenticate=false&#13;&#10;&quot;-Dwebdicom.home=${project_loc:dicom-pdf}&quot;"/>
 </launchConfiguration>
