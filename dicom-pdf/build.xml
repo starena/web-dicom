@@ -34,18 +34,26 @@
 		<mkdir dir="${distrib.dir}/www" />
 		<mkdir dir="${distrib.dir}/tmp" />
 		<mkdir dir="${distrib.dir}/fonts" />
+		<mkdir dir="${distrib.dir}/conf" />
 
 		<copy todir="${distrib.dir}/pdfs">
 			<fileset dir="pdfs" includes="*.pdf" />
 		</copy>
+		
 		<copy todir="${distrib.dir}/lib">
 			<fileset dir="lib" includes="*.jar" />
 		</copy>
+		
 		<copy todir="${distrib.dir}/www">
 			<fileset dir="www" />
 		</copy>
+		
 		<copy todir="${distrib.dir}/fonts">
 			<fileset dir="fonts" />
+		</copy>
+		
+		<copy todir="${distrib.dir}/conf">
+			<fileset dir="conf" />
 		</copy>
 
 		<zip destfile="${distrib.dir}/dicom-pdf.zip"  >
@@ -57,6 +65,7 @@
 		<delete dir="${distrib.dir}/www" />
 		<delete dir="${distrib.dir}/tmp" />
 		<delete dir="${distrib.dir}/fonts" />
+		<delete dir="${distrib.dir}/conf" />
 
 	</target>
 
