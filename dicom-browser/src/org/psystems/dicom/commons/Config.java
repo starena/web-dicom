@@ -23,7 +23,7 @@ public class Config {
     private static Logger logger = Logger.getLogger(Config.class.getName());
 
     private static ArrayList<ConfigDevice> devices = new ArrayList<ConfigDevice>();
-    
+
     private static ArrayList<ConfigTemplate> templates = new ArrayList<ConfigTemplate>();
 
     private static String webdicomHome;
@@ -152,7 +152,7 @@ public class Config {
      * @param listOfTemplates
      */
     private static void parseTemplates(NodeList listOfTemplates) {
-	
+
 	for (int s = 0; s < listOfTemplates.getLength(); s++) {
 
 	    Node templateNode = listOfTemplates.item(s);
@@ -162,15 +162,13 @@ public class Config {
 	    String fontsize = templateNode.getAttributes().getNamedItem("fontsize").getNodeValue();
 	    String description = templateNode.getAttributes().getNamedItem("description").getNodeValue();
 
-
-	    ConfigTemplate device = new ConfigTemplate(modality, name, fontsize, description);
-
-	    
+	    ConfigTemplate device = new ConfigTemplate(modality, name, Integer.valueOf(fontsize).intValue(),
+		    description);
 
 	    templates.add(device);
 	}
     }
-    
+
     /**
      * Парсинг аппаратов
      * 
@@ -212,50 +210,50 @@ public class Config {
      */
     private static void parseDeviceDriver(Node deviceNode, ConfigDevice device) {
 	for (int i = 0; i < deviceNode.getChildNodes().getLength(); i++) {
-	Node driverNode = deviceNode.getChildNodes().item(i);
-	if (driverNode.getNodeName().equals("driver")) {
+	    Node driverNode = deviceNode.getChildNodes().item(i);
+	    if (driverNode.getNodeName().equals("driver")) {
 
-	    String aet = null;
-	    String javaclass = null;
+		String aet = null;
+		String javaclass = null;
 
-	    if (driverNode.getAttributes().getNamedItem("aet") != null) {
-		aet = driverNode.getAttributes().getNamedItem("aet").getNodeValue();
-		// System.out.println("\t driver aet=[" + aet + "]");
-	    }
-	    if (driverNode.getAttributes().getNamedItem("class") != null) {
-		javaclass = driverNode.getAttributes().getNamedItem("class").getNodeValue();
-		// System.out.println("\t driver class=[" + javaclass +
-		// "]");
-	    }
-
-	    ConfigDeviceDriver driver = new ConfigDeviceDriver(aet, javaclass);
-	    device.setDriver(driver);
-
-	    // Ищем секцию <condition> - условия для связки (через теги)
-	    for (int j = 0; j < driverNode.getChildNodes().getLength(); j++) {
-		Node conditionNode = driverNode.getChildNodes().item(j);
-
-		String tag = null;
-		String type = null;
-		String value = null;
-
-		if (conditionNode.getNodeName().equals("condition")) {
-		    tag = conditionNode.getAttributes().getNamedItem("tag").getNodeValue();
-		    type = conditionNode.getAttributes().getNamedItem("type").getNodeValue();
-		    value = conditionNode.getAttributes().getNamedItem("value").getNodeValue();
-
-		    ConfigDeviceDriverCondition condition = new ConfigDeviceDriverCondition(tag, type, value);
-		    driver.addCondition(condition);
-
-		    // System.out.println("\t\t tag tag[" + tag + "]");
-		    // System.out.println("\t\t tag type[" + type +
-		    // "]");
-		    // System.out.println("\t\t tag value[" + value +
+		if (driverNode.getAttributes().getNamedItem("aet") != null) {
+		    aet = driverNode.getAttributes().getNamedItem("aet").getNodeValue();
+		    // System.out.println("\t driver aet=[" + aet + "]");
+		}
+		if (driverNode.getAttributes().getNamedItem("class") != null) {
+		    javaclass = driverNode.getAttributes().getNamedItem("class").getNodeValue();
+		    // System.out.println("\t driver class=[" + javaclass +
 		    // "]");
 		}
-	    }
 
-	}
+		ConfigDeviceDriver driver = new ConfigDeviceDriver(aet, javaclass);
+		device.setDriver(driver);
+
+		// Ищем секцию <condition> - условия для связки (через теги)
+		for (int j = 0; j < driverNode.getChildNodes().getLength(); j++) {
+		    Node conditionNode = driverNode.getChildNodes().item(j);
+
+		    String tag = null;
+		    String type = null;
+		    String value = null;
+
+		    if (conditionNode.getNodeName().equals("condition")) {
+			tag = conditionNode.getAttributes().getNamedItem("tag").getNodeValue();
+			type = conditionNode.getAttributes().getNamedItem("type").getNodeValue();
+			value = conditionNode.getAttributes().getNamedItem("value").getNodeValue();
+
+			ConfigDeviceDriverCondition condition = new ConfigDeviceDriverCondition(tag, type, value);
+			driver.addCondition(condition);
+
+			// System.out.println("\t\t tag tag[" + tag + "]");
+			// System.out.println("\t\t tag type[" + type +
+			// "]");
+			// System.out.println("\t\t tag value[" + value +
+			// "]");
+		    }
+		}
+
+	    }
 	}
     }
 
@@ -267,37 +265,37 @@ public class Config {
      */
     private static void parseDeviceEmploye(Node deviceNode, ConfigDevice device) {
 	for (int i = 0; i < deviceNode.getChildNodes().getLength(); i++) {
-	Node employeNode = deviceNode.getChildNodes().item(i);
-	if (employeNode.getNodeName().equals("employe")) {
+	    Node employeNode = deviceNode.getChildNodes().item(i);
+	    if (employeNode.getNodeName().equals("employe")) {
 
-	    String empType = null;
-	    String empName = null;
-	    String empCode = null;
-	    if (employeNode.getAttributes().getNamedItem("type") != null) {
-		empType = employeNode.getAttributes().getNamedItem("type").getNodeValue();
-		// System.out.println("\t employe type=[" + empType +
-		// "]");
-	    }
-	    if (employeNode.getAttributes().getNamedItem("name") != null) {
-		empName = employeNode.getAttributes().getNamedItem("name").getNodeValue();
-		// System.out.println("\t employe empName=[" + empName +
-		// "]");
-	    }
-	    if (employeNode.getAttributes().getNamedItem("code") != null) {
-		empCode = employeNode.getAttributes().getNamedItem("code").getNodeValue();
-		// System.out.println("\t employe empName=[" + empName +
-		// "]");
-	    }
-	    String empTypeStr = null;
-	    if (empType.equals("doctor"))
-		empTypeStr = ConfigDeviceEmploye.TYPE_DOCTOR;
-	    else if (empType.equals("laborant"))
-		empTypeStr = ConfigDeviceEmploye.TYPE_LABORANT;
+		String empType = null;
+		String empName = null;
+		String empCode = null;
+		if (employeNode.getAttributes().getNamedItem("type") != null) {
+		    empType = employeNode.getAttributes().getNamedItem("type").getNodeValue();
+		    // System.out.println("\t employe type=[" + empType +
+		    // "]");
+		}
+		if (employeNode.getAttributes().getNamedItem("name") != null) {
+		    empName = employeNode.getAttributes().getNamedItem("name").getNodeValue();
+		    // System.out.println("\t employe empName=[" + empName +
+		    // "]");
+		}
+		if (employeNode.getAttributes().getNamedItem("code") != null) {
+		    empCode = employeNode.getAttributes().getNamedItem("code").getNodeValue();
+		    // System.out.println("\t employe empName=[" + empName +
+		    // "]");
+		}
+		String empTypeStr = null;
+		if (empType.equals("doctor"))
+		    empTypeStr = ConfigDeviceEmploye.TYPE_DOCTOR;
+		else if (empType.equals("laborant"))
+		    empTypeStr = ConfigDeviceEmploye.TYPE_LABORANT;
 
-	    ConfigDeviceEmploye emp = new ConfigDeviceEmploye(empTypeStr,empName,empCode);
-	    device.addEmploye(emp);
+		ConfigDeviceEmploye emp = new ConfigDeviceEmploye(empTypeStr, empName, empCode);
+		device.addEmploye(emp);
 
-	}
+	    }
 	}
     }
 
@@ -368,10 +366,17 @@ public class Config {
     public static String getDbOmitsJndi() {
 	return dbOmitsJndi;
     }
-    
 
     public static ArrayList<ConfigTemplate> getTemplates() {
-        return templates;
+	return templates;
+    }
+
+    public static ConfigTemplate getTemplateByName(String name) {
+	for (ConfigTemplate configTemplate : getTemplates()) {
+	    if (configTemplate.getName().equals(name))
+		return configTemplate;
+	}
+	return null;
     }
 
     @Override
@@ -386,7 +391,7 @@ public class Config {
 
 	    s += configDevice + "\t </>\n";
 	}
-	
+
 	for (ConfigTemplate configTemplate : getTemplates()) {
 
 	    s += configTemplate + "\t </>\n";

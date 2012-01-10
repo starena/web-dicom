@@ -95,8 +95,8 @@
 	<!-- Шаблоны -->
 	<!-- ************************************ -->
 	
-	<template modality="ES" name="test_ES1.pdf" fontsize="13" description="тестовый шаблон 1 ES" />
-	<template modality="ES" name="test_ES2.pdf" fontsize="13" description="тестовый шаблон 2 ES" />
+	<template modality="ES" name="test_ES1" fontsize="13" description="тестовый шаблон 1 ES" />
+	<template modality="ES" name="test_ES2" fontsize="13" description="тестовый шаблон 2 ES" />
 
 
 </webdicom>
