@@ -10,7 +10,7 @@ public class ConfigTemplate {
 
     private String modality;
     private String name;
-    private String fontsize;
+    private int fontsize;
     private String description;
 
     /**
@@ -18,7 +18,7 @@ public class ConfigTemplate {
      * @param name
      * @param description
      */
-    public ConfigTemplate(String modality, String name, String fontsize, String description) {
+    public ConfigTemplate(String modality, String name, int fontsize, String description) {
 	this.modality = modality;
 	this.name = name;
 	this.fontsize = fontsize;
@@ -41,11 +41,11 @@ public class ConfigTemplate {
 	this.name = name;
     }
 
-    public String getFontsize() {
+    public int getFontsize() {
 	return fontsize;
     }
 
-    public void setFontsize(String fontsize) {
+    public void setFontsize(int fontsize) {
 	this.fontsize = fontsize;
     }
 

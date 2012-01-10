@@ -18,10 +18,11 @@ public class ConfigTest {
 	assertEquals(12, Config.getDevices().size());
 	assertEquals(2, Config.getTemplates().size());
 	ConfigTemplate template = Config.getTemplates().get(0);
-	assertEquals("test_ES1.pdf", template.getName());
+	assertEquals("test_ES1", template.getName());
 	assertEquals("ES", template.getModality());
 	assertEquals("тестовый шаблон 1 ES", template.getDescription());
-	assertEquals("13", template.getFontsize());
+	assertEquals(13, template.getFontsize());
+	assertEquals("test_ES2", Config.getTemplateByName("test_ES2").getName());
     }
 
 }
