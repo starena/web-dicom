@@ -1,18 +1,13 @@
 package org.psystems.dicom.pdf;
 
-import java.io.File;
 import java.util.ArrayList;
+
+import org.psystems.dicom.commons.Config;
+import org.psystems.dicom.commons.ConfigTemplate;
 
 public class Utils {
 
-    public ArrayList<String> getPDFTemplates() {
-	ArrayList<String> result = new ArrayList<String>();
-	File[] files = new File("./pdfs").listFiles();
-	for (File file : files) {
-	   if(file.getName().endsWith(".pdf")) {
-	       result.add(file.getName());
-	   }
-	}
-	return result;
+    public ArrayList<ConfigTemplate> getPDFTemplates() {
+	return Config.getTemplates();
     }
 }

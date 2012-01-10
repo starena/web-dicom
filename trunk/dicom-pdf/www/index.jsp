@@ -2,6 +2,8 @@
 	pageEncoding="Cp1251" import="java.util.*"%>
 
 <%@ page import="java.util.*"%>
+<%@ page import="java.net.URLEncoder"%>
+<%@ page import="org.psystems.dicom.commons.*"%>
 
 <jsp:useBean id="util" scope="page" class="org.psystems.dicom.pdf.Utils" />
 
@@ -13,13 +15,20 @@
 </head>
 <body>
 
-<h1> Шаблоны:</h1>
+	<h1>Шаблоны:</h1>
 
 	<%
-		for (String file : util.getPDFTemplates()) {
+		for (ConfigTemplate template : util.getPDFTemplates()) {
+			String url = URLEncoder.encode(template.getName(),"UTF-8");
+			
+			
 	%>
-		<a href="/pdf/<%= file %>" target="new"> <%=file %> </a> <br>
-	<% } %>
+	<a href="/pdf/<%= url%>" target="new">
+		(<%=template.getModality()%>) <%=template.getDescription()%> </a>
+	<br>
+	<%
+		}
+	%>
 
 
 
