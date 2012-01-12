@@ -1,0 +1,2 @@
+serviceClass: org.psystems.dicom.pdfview.client.GreetingService
+path: 7CD4BAE0303BE5CC86D8823407D02F56.gwt.rpc
