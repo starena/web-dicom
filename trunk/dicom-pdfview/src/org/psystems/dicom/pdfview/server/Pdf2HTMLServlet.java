@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -50,16 +52,16 @@ import com.itextpdf.text.pdf.PushbuttonField;
  *         Сервлет управления формирования PDF шаблонов
  * 
  */
-public class ManagePdfServlet extends HttpServlet {
+public class Pdf2HTMLServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 8911247236211732365L;
-	private static Logger logger = Logger.getLogger(ManagePdfServlet.class);
+	private static Logger logger = Logger.getLogger(Pdf2HTMLServlet.class);
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		changePDFContent(req, resp, false);
+		prontForm(req, resp);
 	}
 
 	@Override
@@ -68,7 +70,7 @@ public class ManagePdfServlet extends HttpServlet {
 
 		req.setCharacterEncoding("cp1251");
 
-		changePDFContent(req, resp, true);
+//		changePDFContent(req, resp, true);
 	}
 
 	/**
@@ -80,13 +82,13 @@ public class ManagePdfServlet extends HttpServlet {
 	 *            - финальная стадия
 	 * @throws IOException
 	 */
-	private void changePDFContent(HttpServletRequest req,
-			HttpServletResponse resp, boolean finalPhase) throws IOException {
+	private void prontForm(HttpServletRequest req,
+			HttpServletResponse resp) throws IOException {
 
-		String dcmTmpDir = Config.getTmpFolder();
-		String pdfTmpFilename = dcmTmpDir + "/" + new Date().getTime() + "_"
-				+ (int) (Math.random() * 10000000l) + ".pdf";
-		File pdfTmpFile = null;
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
+//		resp.setContentType("text/html; charset=UTF-8");
+		
 		String tmplDir = Config.getTemplateFolder();
 		String file = tmplDir + req.getPathInfo() + ".pdf";
 		String tmplName = req.getPathInfo().replaceFirst("/", "");
@@ -95,11 +97,8 @@ public class ManagePdfServlet extends HttpServlet {
 
 			FileInputStream fis = new FileInputStream(file);
 			PdfReader reader = new PdfReader(fis);
-			pdfTmpFile = new File(pdfTmpFilename);
 			// OutputStream out = resp.getOutputStream();
 			// PdfStamper stamper = new PdfStamper(reader, out);
-			PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(
-					pdfTmpFile));
 
 			// Ищем шрифты
 			PdfDictionary resource = reader.getPageN(1).getAsDict(
@@ -129,7 +128,7 @@ public class ManagePdfServlet extends HttpServlet {
 											.toString().substring(1)
 									+ ") embedded";
 					}
-					System.out.println("!!!! font: = " + name);
+//					System.out.println("!!!! font: = " + name);
 				}
 
 			}
@@ -145,34 +144,35 @@ public class ManagePdfServlet extends HttpServlet {
 
 			// Пробегаем по полям формы.
 			// Если поле READ_ONLY - заменяем его на текст
-			AcroFields form = stamper.getAcroFields();
+			AcroFields form = reader.getAcroFields();
 
 			String fName;
 
+			
 			// ФИО Пациента
-			fName = "PatientName";
-			if (form.getField(fName) != null)
-				form.setField(fName, "Иванов Иван Иванович");
-
-			// ДР Пациента
-			fName = "PatientBirthDate";
-			if (form.getField(fName) != null)
-				form.setField(fName, "20.03.1974");
-
-			// Аппарат
-			fName = "ManufacturerModelName";
-			if (form.getField(fName) != null)
-				form.setField(fName, "Аппарат XXX");
-
-			// Протокол осмотра
-			fName = "StudyViewprotocol";
-			if (form.getField(fName) != null)
-				form.setField(fName, "Протокол осмотра");
-
-			// Дата протокола осмотра
-			fName = "StudyViewprotocolDate";
-			if (form.getField(fName) != null)
-				form.setField(fName, "20.03.2011");
+//			fName = "PatientName";
+//			if (form.getField(fName) != null)
+//				form.setField(fName, "Иванов Иван Иванович");
+//
+//			// ДР Пациента
+//			fName = "PatientBirthDate";
+//			if (form.getField(fName) != null)
+//				form.setField(fName, "20.03.1974");
+//
+//			// Аппарат
+//			fName = "ManufacturerModelName";
+//			if (form.getField(fName) != null)
+//				form.setField(fName, "Аппарат XXX");
+//
+//			// Протокол осмотра
+//			fName = "StudyViewprotocol";
+//			if (form.getField(fName) != null)
+//				form.setField(fName, "Протокол осмотра");
+//
+//			// Дата протокола осмотра
+//			fName = "StudyViewprotocolDate";
+//			if (form.getField(fName) != null)
+//				form.setField(fName, "20.03.2011");
 
 			// ===================================================================
 			// TODO !!!======== дополнить остальные поля ==================!!!!!
@@ -205,90 +205,16 @@ public class ManagePdfServlet extends HttpServlet {
 				// TextField.READ_ONLY, null);
 			}
 
-			// Удаляем поля
-			replaceFields(reader, stamper, tmplName, !finalPhase);
+			
+			printFields(resp, reader, tmplName);
 
-			if (!finalPhase) {
-				// Добавляем кнопку Submit
-				int btnWidth = 100;
-				int btnHeight = 30;
-				PushbuttonField button = new PushbuttonField(
-						stamper.getWriter(), new Rectangle(10, 10,
-								90 + btnWidth, 10 + btnHeight), "submit");
-				button.setText("Передать в архив...");
-				button.setBackgroundColor(new GrayColor(0.7f));
+			
 
-				// button.setVisibility(PushbuttonField.VISIBLE_BUT_DOES_NOT_PRINT);
-				PdfFormField submit = button.getField();
-				submit.setAction(PdfAction.createSubmitForm(
-						req.getServletPath(), null,
-						PdfAction.SUBMIT_HTML_FORMAT));
+			reader.close();
+			
+			resp.getWriter().print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-				// System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
-				String url = req.getRequestURI() + "?final=" + finalPhase + "&"
-						+ req.getQueryString();
-				submit.setAction(PdfAction.createSubmitForm(url, null,
-						PdfAction.SUBMIT_HTML_FORMAT));
-
-				// Количество страниц
-				int npages = reader.getNumberOfPages();
-				stamper.addAnnotation(submit, npages);
-
-			} else {
-				// Добавляем кнопку "Закрыть"
-				// int btnWidth = 300;
-				// int btnHeight = 30;
-				// PushbuttonField button = new
-				// PushbuttonField(stamper.getWriter(), new Rectangle(90, 60, 90
-				// + btnWidth,
-				// 60 + btnHeight), "submit");
-				// button.setText("Данные сохранены. [закрыть]");
-				//
-				// button.setBackgroundColor(BaseColor.YELLOW);
-				//
-				// button.setVisibility(PushbuttonField.VISIBLE_BUT_DOES_NOT_PRINT);
-				// PdfFormField submit = button.getField();
-				// submit.setAction(PdfAction.createSubmitForm(req.getServletPath(),
-				// null, PdfAction.SUBMIT_HTML_FORMAT));
-				//
-				//
-				// //
-				// System.out.println("!!!!!!!!!!! getRequestURI "+req.getRequestURI());
-				// String url = req.getRequestURI()+ "?final=" + finalPhase +
-				// "&" + req.getQueryString();
-				//
-				// PdfAction action = PdfAction.javaScript(
-				// "app.alert('This day is reserved for people with an accreditation "
-				// + "or an invitation.');", stamper.getWriter());
-				//
-				// submit.setAction(action);
-				//
-				//
-				// stamper.addAnnotation(submit, 1);
-			}
-
-			stamper.close();
-			resp.setContentType("application/pdf; charset=UTF-8");
-
-			// stamper.close();
-			// Передача результата в броузер
-			FileInputStream in = new FileInputStream(pdfTmpFilename);
-			BufferedOutputStream out = new BufferedOutputStream(
-					resp.getOutputStream());
-
-			byte b[] = new byte[8];
-			int count;
-			while ((count = in.read(b)) != -1) {
-				out.write(b, 0, count);
-
-			}
-			out.flush();
-			out.close();
-			in.close();
-
-			// Отправка данных в архив
-			// if (finalPhase)
-			// sendToArchive(study, pdfTmpFile);
+		
 
 		} catch (DocumentException e) {
 			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -311,8 +237,7 @@ public class ManagePdfServlet extends HttpServlet {
 			resp.getWriter().print(msg);
 			logger.warn(msg);
 		} finally {
-			if (pdfTmpFile != null)
-				pdfTmpFile.delete();
+			
 		}
 	}
 
@@ -347,19 +272,18 @@ public class ManagePdfServlet extends HttpServlet {
 	 * @throws IOException
 	 * @throws DocumentException
 	 */
-	private void replaceFields(PdfReader reader, PdfStamper stamper,
-			String tmplName, boolean onlyROfields) throws IOException,
+	private void printFields( HttpServletResponse resp, PdfReader reader, 
+			String tmplName) throws IOException,
 			DocumentException {
-		Set<String> parameters = stamper.getAcroFields().getFields().keySet();
-		AcroFields form = stamper.getAcroFields();
+		Set<String> parameters = reader.getAcroFields().getFields().keySet();
+		AcroFields form = reader.getAcroFields();
 
 		String[] fields = parameters.toArray(new String[parameters.size()]);
 
 		for (String fieldName : fields) {
 
 			// Замещаем только READ_ONLY поля
-			if (onlyROfields && !fieldIsREADONLY(form, fieldName))
-				continue;
+//			if (fieldIsREADONLY(form, fieldName)) continue;
 
 			Item field = form.getFieldItem(fieldName);
 
@@ -380,31 +304,32 @@ public class ManagePdfServlet extends HttpServlet {
 			float urY = rectArr.getAsNumber(3).floatValue();
 
 			String value = form.getField(fieldName);
-			// Удаляем поле
-			form.removeField(fieldName);
 
-			PdfContentByte canvas = stamper.getOverContent(1);
+			System.out.println("!!! fieldName="+fieldName + " " + llX+";"+llY+";"+urX+";"+urY);
+			String fieldNameDecoded = fieldName.replaceAll("#", "%");
+			fieldNameDecoded = URLDecoder.decode(fieldNameDecoded,"UTF-8");
+			
+			if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_COMBO) {
+				
+				System.out.println("!!! FIELD_TYPE_COMBO fieldName="+fieldName + " ---> " + fieldNameDecoded);
+				
+				resp.getWriter().println(fieldNameDecoded+"<select name='"+fieldName+"'>");
+					resp.getWriter().println("<option value=''>");
+				for (String fitem : form.getAppearanceStates(fieldName)) {
+					resp.getWriter().println("<option value='"+fitem+"'>" + fitem);
+					resp.getWriter().println("</option>");
+				}
+				resp.getWriter().println("</select><br>");
+				
+			} else {
+				resp.getWriter().println(fieldNameDecoded + " <input type='text' name='" +fieldName +
+						"' value='" + value +"'> <br>");
 
-			// FIXME Сделать конфигуриремым или засунуть шоифт в CLASSPATH
-			// Сейчас просто закинул на продуктиве в папку tomcat/lib
-			String fontPath = "../fonts/arial.ttf";
-			ConfigTemplate tmpl = Config.getTemplateByName(tmplName);
-			int fontSize = 10;// по умолчанию
-			if (tmpl != null) {
-				fontSize = tmpl.getFontsize();
 			}
+				
+			
+			
 
-			Font font = new Font(BaseFont.createFont(fontPath, "Cp1251",
-					BaseFont.NOT_EMBEDDED), fontSize);
-
-			Phrase phrase = new Phrase(value, font);
-
-			ColumnText columnText = new ColumnText(canvas);
-			columnText.setSimpleColumn(llX, llY, urX, urY,
-					columnText.getLeading(), Element.ALIGN_LEFT);
-			columnText.setText(phrase);
-
-			columnText.go();
 		}
 
 	}
