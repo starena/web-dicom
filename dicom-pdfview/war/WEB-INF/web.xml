@@ -25,6 +25,18 @@
 		<servlet-name>pdfServlet</servlet-name>
 		<url-pattern>/pdf/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>pdf2htmlServlet</servlet-name>
+		<servlet-class>org.psystems.dicom.pdfview.server.Pdf2HTMLServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>pdf2htmlServlet</servlet-name>
+		<url-pattern>/pdf2html/*</url-pattern>
+	</servlet-mapping>
+	
+	
 
 
 

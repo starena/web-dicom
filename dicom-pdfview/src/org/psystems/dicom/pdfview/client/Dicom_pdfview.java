@@ -93,7 +93,7 @@ public class Dicom_pdfview implements EntryPoint {
 		dialogVPanel.addStyleName("dialogVPanel");
 		
 		
-		Frame frame = new Frame("/pdf/" + dto.getName());
+		Frame frame = new Frame("http://localhost:8889/pdf/" + dto.getName());
 		frame.setSize("900px", "600px");
 		dialogVPanel.add(frame);
 		
