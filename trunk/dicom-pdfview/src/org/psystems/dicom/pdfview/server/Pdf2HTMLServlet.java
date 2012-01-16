@@ -1,15 +1,11 @@
 package org.psystems.dicom.pdfview.server;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -21,30 +17,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.psystems.dicom.commons.Config;
-import org.psystems.dicom.commons.ConfigTemplate;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.AcroFields.Item;
 import com.itextpdf.text.pdf.BaseField;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.GrayColor;
 import com.itextpdf.text.pdf.PRAcroForm;
 import com.itextpdf.text.pdf.PRIndirectReference;
-import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfArray;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
-import com.itextpdf.text.pdf.PdfFormField;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import com.itextpdf.text.pdf.PushbuttonField;
+import com.itextpdf.text.pdf.PdfString;
+import com.itextpdf.text.pdf.parser.PdfContentReaderTool;
+import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 /**
  * @author dima_d
@@ -209,7 +195,12 @@ public class Pdf2HTMLServlet extends HttpServlet {
 			printFields(resp, reader, tmplName);
 
 			
+//			String sss = PdfTextExtractor.getTextFromPage(reader, 1);
+//			System.out.println("========== " + sss);
+			
 
+			PdfContentReaderTool.listContentStreamForPage(reader, 1, new PrintWriter(System.out));
+			
 			reader.close();
 			
 			resp.getWriter().print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -295,6 +286,12 @@ public class Pdf2HTMLServlet extends HttpServlet {
 			// System.out.println("!!! pdfName="+pdfName +" = "+
 			// field.getWidget(0).get(pdfName));
 			// }
+			
+			
+			PdfString title = widgetDict.getAsString(PdfName.TITLE);
+			
+			
+			
 
 			// pdf rectangles are stored as [llx, lly, urx, ury]
 			PdfArray rectArr = widgetDict.getAsArray(PdfName.RECT); // should
@@ -306,26 +303,48 @@ public class Pdf2HTMLServlet extends HttpServlet {
 			String value = form.getField(fieldName);
 
 			System.out.println("!!! fieldName="+fieldName + " " + llX+";"+llY+";"+urX+";"+urY);
+			
+			for (PdfName pdfName :  widgetDict.getKeys()) {
+				
+				
+				
+				
+				
+				
+				if (widgetDict.get(pdfName) instanceof PdfDictionary) {
+
+					System.out.println("      > pdfName="+
+							PdfContentReaderTool.getDictionaryDetail((PdfDictionary)widgetDict.get(pdfName)));
+				}
+			}
+			
 			String fieldNameDecoded = fieldName.replaceAll("#", "%");
 			fieldNameDecoded = URLDecoder.decode(fieldNameDecoded,"UTF-8");
 			
-			if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_COMBO) {
+			resp.getWriter().println("("+title + ")" +fieldNameDecoded + ": ");
+			if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_COMBO || form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_LIST) {
 				
-				System.out.println("!!! FIELD_TYPE_COMBO fieldName="+fieldName + " ---> " + fieldNameDecoded);
+			
 				
-				resp.getWriter().println(fieldNameDecoded+"<select name='"+fieldName+"'>");
+				resp.getWriter().println("<select name='"+fieldName+"'>");
 					resp.getWriter().println("<option value=''>");
 				for (String fitem : form.getAppearanceStates(fieldName)) {
 					resp.getWriter().println("<option value='"+fitem+"'>" + fitem);
 					resp.getWriter().println("</option>");
 				}
-				resp.getWriter().println("</select><br>");
+				resp.getWriter().println("</select>");
 				
-			} else {
-				resp.getWriter().println(fieldNameDecoded + " <input type='text' name='" +fieldName +
-						"' value='" + value +"'> <br>");
+			} else if(form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_CHECKBOX) {
+				resp.getWriter().println("<input type='checkbox' name='" +fieldName +">");
+			} 
+			
+			else {
+				resp.getWriter().println("<input type='text' name='" +fieldName +
+						"' value='" + value +"'>");
 
 			}
+			
+			resp.getWriter().println("<br><br>");
 				
 			
 			
