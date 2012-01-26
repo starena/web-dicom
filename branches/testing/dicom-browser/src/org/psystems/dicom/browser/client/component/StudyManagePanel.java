@@ -948,38 +948,45 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	    @Override
 	    public void onClick(ClickEvent event) {
 
-		submitResult.setHTML("сохранение изменений в направлении...");
-		// btnSaveAll.setEnabled(false);
+//		submitResult.setHTML("сохранение изменений в направлении...");
+//
+//		if (proxy.getDirection() != null) {
+//		    proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
+//		    proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
+//		    proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
+//		    proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
+//
+//		    Browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//			    // btnSaveAll.setEnabled(true);
+//			    submitResult.setHTML("Ошибка сохранения направления!");
+//			    Browser.showErrorDlg(caught);
+//			}
+//
+//			@Override
+//			public void onSuccess(Void result) {
+//			    // btnSaveAll.setEnabled(true);
+//			    setHiddenFields();
+//			    submitResult.setHTML("направление сохранено. передача исследования...");
+//			    formPanel.submit();
+//			}
+//		    });
+//		} else {
+//		    setHiddenFields();
+//		    submitResult.setHTML("направление сохранено. передача исследования...");
+//		    formPanel.submit();
+//		}
+		
+		
+		
+		
+		 setHiddenFields();
+		  submitResult.setHTML("Передача исследования...");
+		  formPanel.submit();
 
-		if (proxy.getDirection() != null) {
-		    proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
-		    proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
-		    proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
-		    proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
-
-		    Browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-			    // btnSaveAll.setEnabled(true);
-			    submitResult.setHTML("Ошибка сохранения направления!");
-			    Browser.showErrorDlg(caught);
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-			    // btnSaveAll.setEnabled(true);
-			    setHiddenFields();
-			    submitResult.setHTML("направление сохранено. передача исследования...");
-			    formPanel.submit();
-			}
-		    });
-		} else {
-		    // btnSaveAll.setEnabled(true);
-		    setHiddenFields();
-		    submitResult.setHTML("направление сохранено. передача исследования...");
-		    formPanel.submit();
-		}
+		
 	    }
 	});
 
@@ -1401,6 +1408,34 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 			    msg = "Создано новое исследование.";
 			    timeClose = 10;
 			}
+			
+			
+			 //сохранение направления
+			if (proxy.getDirection() != null) {
+				
+			    submitResult.setHTML("сохранение изменений в направлении...");
+			    
+			    proxy.getDirection().setDiagnosisDirect(diagnosisDirrectPanel.getDiagnosis());
+			    proxy.getDirection().setServicesDirect(servicesDirrectPanel.getServices());
+			    proxy.getDirection().setDiagnosisPerformed(diagnosisPerformedPanel.getDiagnosis());
+			    proxy.getDirection().setServicesPerformed(servicesPerformedPanel.getServices());
+
+			    Browser.browserService.saveDirection(proxy.getDirection(), new AsyncCallback<Void>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+				    // btnSaveAll.setEnabled(true);
+				    submitResult.setHTML("Ошибка сохранения направления!");
+				    Browser.showErrorDlg(caught);
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+				    //TODO Здесь сделать логику?
+				}
+			    });
+			}
+			
 
 			// submitBtn.setEnabled(true);
 			// submitBtn.removeFromParent();
@@ -1430,6 +1465,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 				if (counter++ >= timeClose) {
 
 				    StudyManagePanel.this.removeFromParent();
+				    timer.cancel();
 				}
 			    }
 

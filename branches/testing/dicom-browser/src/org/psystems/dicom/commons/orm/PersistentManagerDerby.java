@@ -86,6 +86,7 @@ public class PersistentManagerDerby {
 	PreparedStatement pstmt = null;
 	String sql = null;
 
+	
 	drn.chechEntity();
 
 	if (drn.getPatient() == null) {
@@ -431,6 +432,20 @@ public class PersistentManagerDerby {
 		    count = pstmt.executeUpdate();
 		}
 
+	    //Ищем последнее исследование по этому направлению
+	    pstmt.close();
+	    sql = "select ID from WEBDICOM.STUDY where FID_DIRECTION = ?";
+	    pstmt = connection.prepareStatement(sql);
+	    pstmt.setLong(1, drn.getId());
+	    ResultSet rs = pstmt.executeQuery();
+	    
+	    Long idForService = 0l;
+	    while (rs.next()) {
+		idForService = rs.getLong("ID");
+	    }
+	    
+//	    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" drn.getId()="+drn.getId());
+	    
 	    // Сохраняем услуги
 	    pstmt.close();
 	    sql = "INSERT INTO WEBDICOM.DIRECTION_SERVICE (" + "FID_DIRECTION," + // 1
@@ -449,7 +464,9 @@ public class PersistentManagerDerby {
 
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
-		    else
+		    else if(idForService > 0) {
+			pstmt.setLong(2, idForService);
+		    } else
 			pstmt.setNull(2, java.sql.Types.INTEGER);
 
 		    pstmt.setString(3, "D");
@@ -465,7 +482,9 @@ public class PersistentManagerDerby {
 
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
-		    else
+		    else if(idForService > 0) {
+			pstmt.setLong(2, idForService);
+		    } else
 			pstmt.setNull(2, java.sql.Types.INTEGER);
 
 		    pstmt.setString(3, "P");
