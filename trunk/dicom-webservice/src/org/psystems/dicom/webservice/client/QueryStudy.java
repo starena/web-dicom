@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="studyId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="studyModality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="studyNotComplite" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="studyRemoved" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="studyResult" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="studyViewProtocol" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
@@ -60,6 +61,7 @@ import javax.xml.bind.annotation.XmlType;
     "studyId",
     "studyModality",
     "studyNotComplite",
+    "studyRemoved",
     "studyResult",
     "studyViewProtocol"
 })
@@ -81,6 +83,7 @@ public class QueryStudy {
     protected String studyId;
     protected String studyModality;
     protected boolean studyNotComplite;
+    protected boolean studyRemoved;
     protected String studyResult;
     protected String studyViewProtocol;
 
@@ -450,6 +453,22 @@ public class QueryStudy {
      */
     public void setStudyNotComplite(boolean value) {
         this.studyNotComplite = value;
+    }
+
+    /**
+     * Gets the value of the studyRemoved property.
+     * 
+     */
+    public boolean isStudyRemoved() {
+        return studyRemoved;
+    }
+
+    /**
+     * Sets the value of the studyRemoved property.
+     * 
+     */
+    public void setStudyRemoved(boolean value) {
+        this.studyRemoved = value;
     }
 
     /**
