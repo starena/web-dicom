@@ -37,11 +37,11 @@ public class Test {
 	private static DicomServiceService service;
 	private static DicomService port;
 
-//	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
+	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
 
 //	 private static final String WS_URL =
 //	 "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
-	 private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
+//	 private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -92,7 +92,8 @@ public class Test {
 		QueryStudy query = new QueryStudy();
 		// query.set
 		// query.setId(18l);
-		query.setStudyNotComplite(true);
+		query.setStudyRemoved(true);
+//		query.setStudyNotComplite(true);
 		QueryStudyReq request = new QueryStudyReq();
 		request.setQuery(query);
 
@@ -116,7 +117,7 @@ public class Test {
 
 		QueryDirectionReq request = new QueryDirectionReq();
 		QueryDirection query = new QueryDirection();
-		query.setId(2l);
+//		query.setId(9l);
 //		query.setSenderLPU("");
 //		query.setPatientShortName("%");
 //		query.setPatientShortName("ДЕРДВ74");
@@ -242,7 +243,7 @@ public class Test {
 
 		//
 		Patient patient = new Patient();
-		patient.setPatientName("Деренок Дмитрий Владимирович");
+		patient.setPatientName("Деренок Дмитрий Владимирович_8");
 		patient.setPatientId("PATID1234");
 		patient.setPatientSex("M");
 		patient.setPatientBirthDate("1974-03-01");
