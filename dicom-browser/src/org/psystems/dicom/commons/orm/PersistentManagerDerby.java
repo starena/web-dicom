@@ -1308,12 +1308,24 @@ public class PersistentManagerDerby {
 		sqlAddon += " AND ";
 	    sqlAddon += " ( STUDY_RESULT IS NULL OR STUDY_RESULT = '' )";
 	}
+	
+	if (request.isStudyRemoved()) {
+	    if (sqlAddon.length() != 0)
+		sqlAddon += " AND ";
+	    sqlAddon += " REMOVED IS NOT NULL ";
+	} else {
+	    if (sqlAddon.length() != 0)
+		sqlAddon += " AND ";
+	    sqlAddon += " REMOVED IS NULL ";
+	}
 
 	String order = "PATIENT_NAME, STUDY_DATE";
 	if (request.getSortOrder() != null) {
 	    order = request.getSortOrder();
 	}
+	
 
+	
 	String sql = "SELECT * FROM WEBDICOM.STUDY" + " WHERE " + sqlAddon + " order by " + order;
 
 	IllegalArgumentException ex = new IllegalArgumentException("All query arguments empty! Set any argument's");

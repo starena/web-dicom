@@ -38,6 +38,8 @@ public class QueryStudy {
     private boolean studyComplite;// Исследование выполнено
     private boolean studyNotComplite;// Исследование НЕвыполнено
 
+    private boolean studyRemoved;// Удаленные исследования
+
     // для фильтра в worklist типа сделать
     private String sortOrder;// TODO странное поле :-( идут перечисления полей в
 			     // БД... переделать..
@@ -176,6 +178,14 @@ public class QueryStudy {
 
     public void setStudyNotComplite(boolean studyNotComplite) {
 	this.studyNotComplite = studyNotComplite;
+    }
+
+    public boolean isStudyRemoved() {
+	return studyRemoved;
+    }
+
+    public void setStudyRemoved(boolean studyRemoved) {
+	this.studyRemoved = studyRemoved;
     }
 
     /**
