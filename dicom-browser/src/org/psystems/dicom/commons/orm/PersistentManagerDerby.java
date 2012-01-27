@@ -432,16 +432,22 @@ public class PersistentManagerDerby {
 		    count = pstmt.executeUpdate();
 		}
 
-	    //Ищем последнее исследование по этому направлению
-	    pstmt.close();
-	    sql = "select ID from WEBDICOM.STUDY where FID_DIRECTION = ?";
-	    pstmt = connection.prepareStatement(sql);
-	    pstmt.setLong(1, drn.getId());
-	    ResultSet rs = pstmt.executeQuery();
 	    
+	    
+	    
+	    pstmt.close();
 	    Long idForService = 0l;
-	    while (rs.next()) {
-		idForService = rs.getLong("ID");
+	    
+	    // Ищем последнее исследование по этому направлению
+	    if (drn.getId() != null) {
+		sql = "select ID from WEBDICOM.STUDY where FID_DIRECTION = ?";
+		pstmt = connection.prepareStatement(sql);
+		pstmt.setLong(1, drn.getId());
+		ResultSet rs = pstmt.executeQuery();
+
+		while (rs.next()) {
+		    idForService = rs.getLong("ID");
+		}
 	    }
 	    
 //	    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" drn.getId()="+drn.getId());
