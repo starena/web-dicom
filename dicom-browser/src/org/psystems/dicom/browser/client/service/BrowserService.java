@@ -139,5 +139,19 @@ public interface BrowserService extends RemoteService {
      */
     ArrayList<ConfigDeviceProxy> getDevices(String modality) throws DefaultGWTRPCException;
 
+    /**
+     * Все аппараты из конфига
+     * @return
+     * @throws DefaultGWTRPCException
+     */
     ArrayList<ConfigDeviceProxy> getAllDevices() throws DefaultGWTRPCException;
+    
+    /**
+     * 
+     * Все модальности аппаратов из конфига
+     * @return
+     * @throws DefaultGWTRPCException
+     */
+    HashMap<String, String> getDeviceModalities() throws DefaultGWTRPCException;
+    
 }

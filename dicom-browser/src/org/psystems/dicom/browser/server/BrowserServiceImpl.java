@@ -876,4 +876,10 @@ public class BrowserServiceImpl extends RemoteServiceServlet implements BrowserS
 	return getDevices(null);
     }
 
+    @Override
+    public HashMap<String, String> getDeviceModalities() throws DefaultGWTRPCException {
+	return Config.getDeviceModalities();
+    }
+
+    
 }

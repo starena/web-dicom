@@ -121,6 +121,7 @@ public class ORMHelpers {
 	    return null;
 
 	QueryDirection qdrn = new QueryDirection();
+	qdrn.setModality(qproxy.getModality());
 	qdrn.setDateDirection(qproxy.getDateDirection());
 	qdrn.setDateTimePlannedBegin(qproxy.getDateTimePlannedBegin());
 	qdrn.setDateTimePlannedEnd(qproxy.getDateTimePlannedEnd());

@@ -575,6 +575,7 @@ public class SearchPanel extends Composite implements ValueChangeHandler<String>
 	    }
 	}
 	query.setManufacturerDevice(DirectionsPanel.manufacturerModelName);
+	query.setModality(DirectionsPanel.modality);
 	query.setDateTimePlannedBegin(DirectionsPanel.dateBegin);
 	query.setDateTimePlannedEnd(DirectionsPanel.dateEnd);
 
