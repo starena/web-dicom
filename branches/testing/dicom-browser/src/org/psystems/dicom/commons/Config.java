@@ -3,12 +3,14 @@ package org.psystems.dicom.commons;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.log4j.Logger;
+import org.psystems.dicom.commons.orm.ORMUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -377,6 +379,23 @@ public class Config {
 		return configTemplate;
 	}
 	return null;
+    }
+    
+    
+    /**
+     * Получение списка всех доступных в конфиге модальностей
+     * 
+     * @return
+     */
+    public static HashMap<String, String> getDeviceModalities() {
+	ArrayList<ConfigDevice> dev = getDevices();
+	HashMap<String, String> result = new HashMap<String, String>();
+	HashMap<String, String> allMods = ORMUtil.modalityList;
+	for (ConfigDevice configDevice : dev) {
+	    String modality = configDevice.getModality();
+	    result.put(modality, allMods.get(modality));
+	}
+	return result;
     }
 
     @Override

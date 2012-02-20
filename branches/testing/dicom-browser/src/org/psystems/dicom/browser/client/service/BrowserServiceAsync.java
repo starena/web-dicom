@@ -103,4 +103,6 @@ public interface BrowserServiceAsync {
 
     void getAllDevices(AsyncCallback<ArrayList<ConfigDeviceProxy>> callback);
 
+    void getDeviceModalities(AsyncCallback<HashMap<String, String>> callback);
+
 }

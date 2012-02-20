@@ -450,6 +450,9 @@ public class PersistentManagerDerby {
 		}
 	    }
 	    
+	    
+	    
+	    
 //	    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" drn.getId()="+drn.getId());
 	    
 	    // Сохраняем услуги
@@ -911,6 +914,12 @@ public class PersistentManagerDerby {
 		    sql += " AND ";
 		sql += " SENDER_LPU = ? ";
 	    }
+	    
+	    if (request.getModality() != null) {
+		if (counterArguments++ > 0)
+		    sql += " AND ";
+		sql += " DEVICE_MODALITY = ? ";
+	    }
 
 	    if (counterArguments == 0)
 		throw new DataException("All query arguments empty! Set any argument's");
@@ -975,7 +984,12 @@ public class PersistentManagerDerby {
 	    if (request.getSenderLPU() != null) {
 		pstmt.setString(counterArguments++, request.getSenderLPU());
 	    }
+	    
+	    if (request.getModality() != null) {
+		pstmt.setString(counterArguments++, request.getModality());
+	    }
 
+//	    System.out.println("!!! request.getModality()="+request.getModality());
 	    // System.out.println("!!!!!!!!! sql="+sql + "[" +
 	    // request.getPatientShortName() + "]");
 

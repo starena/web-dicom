@@ -41,6 +41,8 @@ public class QueryDirection {
     private String patientShortName; // КБП пациента (код быстрого поиска)
     private String senderLPU; // направившее ЛПУ.
 
+    private String modality; // Модальность
+
     public Long getId() {
 	return id;
     }
@@ -183,6 +185,14 @@ public class QueryDirection {
 
     public void setSenderLPU(String senderLPU) {
 	this.senderLPU = senderLPU;
+    }
+
+    public String getModality() {
+	return modality;
+    }
+
+    public void setModality(String modality) {
+	this.modality = modality;
     }
 
     /**
