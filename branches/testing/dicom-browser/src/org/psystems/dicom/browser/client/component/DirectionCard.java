@@ -87,14 +87,8 @@ Resources resources = GWT.create(Resources.class);
 	Label labelPatient = new Label(drnProxy.getPatient().getPatientName() + " (" + sex + ") " + dateBirthday);
 	labelPatient.setStyleName("DicomItem");
 	
-	
-	if(drnProxy.getDoctorDirect()!=null) 
-	    docDirect = drnProxy.getDoctorDirect().getEmployeeName();
-	labelPatient.setTitle("Код:"+drnProxy.getDirectionId()+", внутр.№"+drnProxy.getId() +
-		", направил:"+docDirect + ", "+dateDirect);
-
 	hp.add(labelPatient);
-
+	
 	labelPatient.addClickHandler(new ClickHandler() {
 
 	    @Override
@@ -106,6 +100,23 @@ Resources resources = GWT.create(Resources.class);
 
 	});
 
+	
+	if(drnProxy.getDoctorDirect()!=null)  {
+	    docDirect = drnProxy.getDoctorDirect().getEmployeeName();
+	labelPatient.setTitle("Код:"+drnProxy.getDirectionId()+", внутр.№"+drnProxy.getId() +
+		", направил:"+docDirect + ", "+dateDirect);
+	
+		if(drnProxy.getServicesPerformed()!=null && drnProxy.getServicesPerformed().length > 0) {
+		    
+		    Label lbl = new Label("(вып. услуг " + drnProxy.getServicesPerformed().length+")");
+		    hp.add(lbl);
+		    lbl.setStyleName("DicomItem");
+		}
+	}
+
+	
+
+	
 	Label lblEdit = new Label(" /Напр./");
 	hp.add(lblEdit);
 	lblEdit.setStyleName("DicomItem");
