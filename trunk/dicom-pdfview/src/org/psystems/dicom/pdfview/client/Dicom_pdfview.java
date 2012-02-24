@@ -122,7 +122,10 @@ public class Dicom_pdfview implements EntryPoint {
 				
 				@Override
 				public void onClick(ClickEvent event) {
-					makePreviewDialog(dto);
+					
+					FormPdf form = new FormPdf(dto.getName());
+					templatesPanel.add(form);
+//					makePreviewDialog(dto);
 				}
 			});
 			templatesPanel.add(btn);

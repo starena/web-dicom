@@ -3,6 +3,7 @@ package org.psystems.dicom.pdfview.client;
 import java.util.ArrayList;
 
 import org.psystems.dicom.pdfview.dto.ConfigTemplateDto;
+import org.psystems.dicom.pdfview.dto.FormFieldDto;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -14,4 +15,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface PdfService extends RemoteService {
 
 	ArrayList<ConfigTemplateDto> getTemplates() throws IllegalArgumentException;
+	
+	ArrayList<FormFieldDto> getFormFields(String tmplName) throws IllegalArgumentException;
+	
 }
