@@ -5,10 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.psystems.dicom.commons.Config;
 
+import com.google.gwt.user.client.rpc.core.java.util.Arrays;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.AcroFields.Item;
@@ -47,7 +52,7 @@ public class Pdf2HTMLServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		prontForm(req, resp);
+		printForm(req, resp);
 	}
 
 	@Override
@@ -56,7 +61,7 @@ public class Pdf2HTMLServlet extends HttpServlet {
 
 		req.setCharacterEncoding("cp1251");
 
-//		changePDFContent(req, resp, true);
+		// changePDFContent(req, resp, true);
 	}
 
 	/**
@@ -68,12 +73,17 @@ public class Pdf2HTMLServlet extends HttpServlet {
 	 *            - финальная стадия
 	 * @throws IOException
 	 */
-	private void prontForm(HttpServletRequest req,
-			HttpServletResponse resp) throws IOException {
+	private void printForm(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
-//		resp.setContentType("text/html; charset=UTF-8");
+		// resp.setContentType("text/html; charset=UTF-8");
+
+		
+		resp.getWriter().println("<html><head>!!!!</head><body><form>");
+		
+	
 		
 		String tmplDir = Config.getTemplateFolder();
 		String file = tmplDir + req.getPathInfo() + ".pdf";
@@ -96,8 +106,8 @@ public class Pdf2HTMLServlet extends HttpServlet {
 					font = fonts.getAsDict(key);
 					String name = font.getAsName(PdfName.BASEFONT).toString();
 					if (name.length() > 8 && name.charAt(7) == '+') {
-						name = String.format("%s subset (%s)",
-								name.substring(8), name.substring(1, 7));
+						name = String.format("%s subset (%s)", name
+								.substring(8), name.substring(1, 7));
 					} else {
 						name = name.substring(1);
 						PdfDictionary desc = font
@@ -114,7 +124,7 @@ public class Pdf2HTMLServlet extends HttpServlet {
 											.toString().substring(1)
 									+ ") embedded";
 					}
-//					System.out.println("!!!! font: = " + name);
+					// System.out.println("!!!! font: = " + name);
 				}
 
 			}
@@ -134,31 +144,30 @@ public class Pdf2HTMLServlet extends HttpServlet {
 
 			String fName;
 
-			
 			// ФИО Пациента
-//			fName = "PatientName";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "Иванов Иван Иванович");
-//
-//			// ДР Пациента
-//			fName = "PatientBirthDate";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "20.03.1974");
-//
-//			// Аппарат
-//			fName = "ManufacturerModelName";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "Аппарат XXX");
-//
-//			// Протокол осмотра
-//			fName = "StudyViewprotocol";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "Протокол осмотра");
-//
-//			// Дата протокола осмотра
-//			fName = "StudyViewprotocolDate";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "20.03.2011");
+			// fName = "PatientName";
+			// if (form.getField(fName) != null)
+			// form.setField(fName, "Иванов Иван Иванович");
+			//
+			// // ДР Пациента
+			// fName = "PatientBirthDate";
+			// if (form.getField(fName) != null)
+			// form.setField(fName, "20.03.1974");
+			//
+			// // Аппарат
+			// fName = "ManufacturerModelName";
+			// if (form.getField(fName) != null)
+			// form.setField(fName, "Аппарат XXX");
+			//
+			// // Протокол осмотра
+			// fName = "StudyViewprotocol";
+			// if (form.getField(fName) != null)
+			// form.setField(fName, "Протокол осмотра");
+			//
+			// // Дата протокола осмотра
+			// fName = "StudyViewprotocolDate";
+			// if (form.getField(fName) != null)
+			// form.setField(fName, "20.03.2011");
 
 			// ===================================================================
 			// TODO !!!======== дополнить остальные поля ==================!!!!!
@@ -191,21 +200,31 @@ public class Pdf2HTMLServlet extends HttpServlet {
 				// TextField.READ_ONLY, null);
 			}
 
-			
 			printFields(resp, reader, tmplName);
 
-			
-//			String sss = PdfTextExtractor.getTextFromPage(reader, 1);
-//			System.out.println("========== " + sss);
-			
+			// System.out
+			// .println("====================== XObjects ================== ");
+			//
+			// Set<String> set = new TreeSet<String>();
+			//
+			// PdfDictionary resources;
+			// for (int k = 1; k <= reader.getNumberOfPages(); ++k) {
+			// resources = reader.getPageN(k).getAsDict(PdfName.RESOURCES);
+			// processResource(set, resources);
+			// }
+			//			
+			// System.out
+			// .println("====================== XObjects [END] ================== ");
 
-			PdfContentReaderTool.listContentStreamForPage(reader, 1, new PrintWriter(System.out));
-			
+			// String sss = PdfTextExtractor.getTextFromPage(reader, 1);
+			// System.out.println("========== " + sss);
+
+			PdfContentReaderTool.listContentStreamForPage(reader, 1,
+					new PrintWriter(System.out));
+
 			reader.close();
-			
-			resp.getWriter().print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-		
+			resp.getWriter().print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 		} catch (DocumentException e) {
 			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -228,7 +247,61 @@ public class Pdf2HTMLServlet extends HttpServlet {
 			resp.getWriter().print(msg);
 			logger.warn(msg);
 		} finally {
-			
+
+		}
+	}
+
+	/**
+	 * Extracts the font names from page or XObject resources.
+	 * 
+	 * @param set
+	 *            the set with the font names
+	 * @param resources
+	 *            the resources dictionary
+	 */
+	public static void processResource(Set<String> set, PdfDictionary resource) {
+		if (resource == null)
+			return;
+		PdfDictionary xobjects = resource.getAsDict(PdfName.XOBJECT);
+		if (xobjects != null) {
+			for (PdfName key : xobjects.getKeys()) {
+				processResource(set, xobjects.getAsDict(key));
+			}
+		}
+		PdfDictionary fonts = resource.getAsDict(PdfName.FONT);
+		if (fonts == null)
+			return;
+		PdfDictionary font;
+		for (PdfName key : fonts.getKeys()) {
+
+			font = fonts.getAsDict(key);
+			PdfDictionary fontdescr = font.getAsDict(PdfName.FONTDESCRIPTOR);
+			if (fontdescr != null) {
+				System.out.println(" font box: "
+						+ fontdescr.get(PdfName.FONTBBOX) + " -> "
+						+ fontdescr.get(PdfName.SIZE));
+			}
+
+			String name = font.getAsName(PdfName.BASEFONT).toString();
+			if (name.length() > 8 && name.charAt(7) == '+') {
+				name = String.format("%s subset (%s)", name.substring(8), name
+						.substring(1, 7));
+			} else {
+				name = name.substring(1);
+				PdfDictionary desc = font.getAsDict(PdfName.FONTDESCRIPTOR);
+				if (desc == null)
+					name += " nofontdescriptor";
+				else if (desc.get(PdfName.FONTFILE) != null)
+					name += " (Type 1) embedded";
+				else if (desc.get(PdfName.FONTFILE2) != null)
+					name += " (TrueType) embedded";
+				else if (desc.get(PdfName.FONTFILE3) != null)
+					name += " ("
+							+ font.getAsName(PdfName.SUBTYPE).toString()
+									.substring(1) + ") embedded";
+			}
+			set.add(name);
+			System.out.println("   Font: " + name);
 		}
 	}
 
@@ -263,9 +336,11 @@ public class Pdf2HTMLServlet extends HttpServlet {
 	 * @throws IOException
 	 * @throws DocumentException
 	 */
-	private void printFields( HttpServletResponse resp, PdfReader reader, 
-			String tmplName) throws IOException,
-			DocumentException {
+	private void printFields(HttpServletResponse resp, PdfReader reader,
+			String tmplName) throws IOException, DocumentException {
+
+		ArrayList<FormField> fieldsList = new ArrayList<FormField>();
+
 		Set<String> parameters = reader.getAcroFields().getFields().keySet();
 		AcroFields form = reader.getAcroFields();
 
@@ -274,7 +349,7 @@ public class Pdf2HTMLServlet extends HttpServlet {
 		for (String fieldName : fields) {
 
 			// Замещаем только READ_ONLY поля
-//			if (fieldIsREADONLY(form, fieldName)) continue;
+			// if (fieldIsREADONLY(form, fieldName)) continue;
 
 			Item field = form.getFieldItem(fieldName);
 
@@ -286,12 +361,8 @@ public class Pdf2HTMLServlet extends HttpServlet {
 			// System.out.println("!!! pdfName="+pdfName +" = "+
 			// field.getWidget(0).get(pdfName));
 			// }
-			
-			
+
 			PdfString title = widgetDict.getAsString(PdfName.TITLE);
-			
-			
-			
 
 			// pdf rectangles are stored as [llx, lly, urx, ury]
 			PdfArray rectArr = widgetDict.getAsArray(PdfName.RECT); // should
@@ -302,54 +373,143 @@ public class Pdf2HTMLServlet extends HttpServlet {
 
 			String value = form.getField(fieldName);
 
-			System.out.println("!!! fieldName="+fieldName + " " + llX+";"+llY+";"+urX+";"+urY);
-			
-			for (PdfName pdfName :  widgetDict.getKeys()) {
-				
-				
-				
-				
-				
-				
+			System.out.println("!!! fieldName=" + fieldName + " " + llX + ";"
+					+ llY + ";" + urX + ";" + urY + " -> " + widgetDict);
+
+			FormField ff = new FormField(fieldName, urY);
+
+			fieldsList.add(ff);
+
+			for (PdfName pdfName : widgetDict.getKeys()) {
+
 				if (widgetDict.get(pdfName) instanceof PdfDictionary) {
 
-					System.out.println("      > pdfName="+
-							PdfContentReaderTool.getDictionaryDetail((PdfDictionary)widgetDict.get(pdfName)));
+					System.out
+							.println("      > pdfName="
+									+ PdfContentReaderTool
+											.getDictionaryDetail((PdfDictionary) widgetDict
+													.get(pdfName)));
 				}
 			}
-			
+
 			String fieldNameDecoded = fieldName.replaceAll("#", "%");
-			fieldNameDecoded = URLDecoder.decode(fieldNameDecoded,"UTF-8");
-			
-			resp.getWriter().println("("+title + ")" +fieldNameDecoded + ": ");
-			if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_COMBO || form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_LIST) {
-				
-			
-				
-				resp.getWriter().println("<select name='"+fieldName+"'>");
-					resp.getWriter().println("<option value=''>");
+			fieldNameDecoded = URLDecoder.decode(fieldNameDecoded, "UTF-8");
+
+			resp.getWriter().println(
+					"[" + urX + ";" + urY + "](" + title + ")"
+							+ fieldNameDecoded + ": ");
+			if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_COMBO
+					|| form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_LIST) {
+
+				resp.getWriter().println("<select name='" + fieldName + "'>");
+				resp.getWriter().println("<option value=''>");
 				for (String fitem : form.getAppearanceStates(fieldName)) {
-					resp.getWriter().println("<option value='"+fitem+"'>" + fitem);
+					resp.getWriter().println(
+							"<option value='" + fitem + "'>" + fitem);
 					resp.getWriter().println("</option>");
 				}
 				resp.getWriter().println("</select>");
-				
-			} else if(form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_CHECKBOX) {
-				resp.getWriter().println("<input type='checkbox' name='" +fieldName +">");
-			} 
-			
+
+			} else if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_CHECKBOX) {
+				resp.getWriter().println(
+						"<input type='checkbox' name='" + fieldName + "'>");
+			}
+
 			else {
-				resp.getWriter().println("<input type='text' name='" +fieldName +
-						"' value='" + value +"'>");
+				resp.getWriter().println(
+						"<input type='text' name='" + fieldName + "' value='"
+								+ value + "'>");
 
 			}
-			
+
 			resp.getWriter().println("<br><br>");
-				
-			
-			
 
 		}
+
+		resp.getWriter().println("<hr> !!!!!!! fieldsList size " + fieldsList.size() + "<br><br><br><br>");
+		
+		
+
+		Collections.sort(fieldsList,Collections.reverseOrder());
+		for (FormField field : fieldsList) {
+			printFormElt(resp, reader, field);
+		}
+
+		
+
+	}
+
+	/**
+	 * @param resp
+	 * @param reader
+	 * @param ffield
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException
+	 */
+	private void printFormElt(HttpServletResponse resp, PdfReader reader,
+			FormField ffield) throws UnsupportedEncodingException, IOException {
+
+		Set<String> formParams = reader.getAcroFields().getFields().keySet();
+		AcroFields form = reader.getAcroFields();
+
+		for (String fieldName : formParams
+				.toArray(new String[formParams.size()])) {
+
+			if (!fieldName.equals(ffield.getFieldName()))
+				continue;
+
+			Item field = form.getFieldItem(fieldName);
+			PdfDictionary widgetDict = field.getWidget(0);
+
+			// pdf rectangles are stored as [llx, lly, urx, ury]
+			PdfArray rectArr = widgetDict.getAsArray(PdfName.RECT); // should
+			float llX = rectArr.getAsNumber(0).floatValue();
+			float llY = rectArr.getAsNumber(1).floatValue();
+			float urX = rectArr.getAsNumber(2).floatValue();
+			float urY = rectArr.getAsNumber(3).floatValue();
+
+			// Значение поля
+			String value = form.getField(fieldName);
+
+			// переколировка в QUERY_STRING
+			String fieldNameDecoded = fieldName.replaceAll("#", "%");
+			fieldNameDecoded = URLDecoder.decode(fieldNameDecoded, "UTF-8");
+
+			resp.getWriter().println(
+					"[" + urX + ";" + urY + "]" + fieldNameDecoded + ": ");
+
+			// Если комбо или лист
+			if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_COMBO
+					|| form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_LIST) {
+
+				resp.getWriter().println("<select name='" + fieldName + "'>");
+				resp.getWriter().println("<option value=''>");
+				for (String fitem : form.getAppearanceStates(fieldName)) {
+					resp.getWriter().println(
+							"<option value='" + fitem + "'>" + fitem);
+					resp.getWriter().println("</option>");
+				}
+				resp.getWriter().println("</select>");
+
+			}
+			// Если чекбокс
+			else if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_CHECKBOX) {
+				resp.getWriter().println(
+						"<input type='checkbox' name='" + fieldName + "'>");
+			}
+			// Если текстовое поле
+			else {
+				resp.getWriter().println(
+						"<input type='text' name='" + fieldName + "' value='"
+								+ value + "'>");
+
+			}
+
+			resp.getWriter().println("<br><br>");
+
+		}
+
+		
 
 	}
 
