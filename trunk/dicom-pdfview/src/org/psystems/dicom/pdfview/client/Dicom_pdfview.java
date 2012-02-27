@@ -36,7 +36,7 @@ public class Dicom_pdfview implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final PdfServiceAsync service = GWT.create(PdfService.class);
+	public static final PdfServiceAsync service = GWT.create(PdfService.class);
 
 	private DialogBox previewDdialog;
 

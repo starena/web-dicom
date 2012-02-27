@@ -376,7 +376,8 @@ public class Pdf2HTMLServlet extends HttpServlet {
 			System.out.println("!!! fieldName=" + fieldName + " " + llX + ";"
 					+ llY + ";" + urX + ";" + urY + " -> " + widgetDict);
 
-			FormField ff = new FormField(fieldName, urY);
+			FormField ff = new FormField(fieldName);
+			ff.setUpperRightY(urY);
 
 			fieldsList.add(ff);
 
