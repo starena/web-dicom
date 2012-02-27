@@ -223,7 +223,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	//
 
 	Hidden patientId = new Hidden();
-	patientId.setName("00100021");
+	patientId.setName("00100020");
 	patientId.setValue(proxy.getPatientId());
 	formDataPanel.add(patientId);
 
@@ -426,7 +426,7 @@ public class StudyManagePanel extends Composite implements ValueChangeHandler<St
 	// *********************************************************************************
 
 	if (proxy.getDirection() != null) {
-	    addFormRow(rowCounter++, "Пациент", new Label(proxy.getPatientName() + " (из направления)"));
+	    addFormRow(rowCounter++, "Пациент", new Label(proxy.getPatientName()+ "(" + proxy.getPatientId() + ") [из направления]"));
 	} else {
 
 	    patientNameBox = new DicSuggestBox("patients");
