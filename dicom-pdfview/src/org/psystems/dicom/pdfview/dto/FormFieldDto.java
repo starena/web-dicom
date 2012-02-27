@@ -11,24 +11,17 @@ import java.io.Serializable;
 public class FormFieldDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private String type;
+	private String fieldName;
+	private String fieldNameEncoded;
 	private String value;
+	public float upperRightY;
 
-	public String getName() {
-		return name;
+	public String getFieldName() {
+		return fieldName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
 	}
 
 	public String getValue() {
@@ -37,6 +30,22 @@ public class FormFieldDto implements Serializable {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public String getFieldNameEncoded() {
+		return fieldNameEncoded;
+	}
+
+	public void setFieldNameEncoded(String fieldNameEncoded) {
+		this.fieldNameEncoded = fieldNameEncoded;
+	}
+
+	public float getUpperRightY() {
+		return upperRightY;
+	}
+
+	public void setUpperRightY(float upperRightY) {
+		this.upperRightY = upperRightY;
 	}
 
 }

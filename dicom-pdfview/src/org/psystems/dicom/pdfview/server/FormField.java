@@ -3,16 +3,17 @@ package org.psystems.dicom.pdfview.server;
 public class FormField implements Comparable<FormField> {
 
 	public String fieldName;
+	private String fieldNameEncoded;// перекодирован в QUERY_STRING
+	private String value;
 	public float upperRightY;
 
 	/**
 	 * @param name
 	 * @param upperRightY
 	 */
-	public FormField(String name, float upperRightY) {
+	public FormField(String name) {
 		super();
 		this.fieldName = name;
-		this.upperRightY = upperRightY;
 	}
 
 	public String getFieldName() {
@@ -29,6 +30,22 @@ public class FormField implements Comparable<FormField> {
 
 	public void setUpperRightY(float upperRightY) {
 		this.upperRightY = upperRightY;
+	}
+
+	public String getFieldNameEncoded() {
+		return fieldNameEncoded;
+	}
+
+	public void setFieldNameEncoded(String fieldNameEncoded) {
+		this.fieldNameEncoded = fieldNameEncoded;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	@Override
