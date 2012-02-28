@@ -37,7 +37,7 @@
 	<!-- ************************************ -->
 	
 	<template modality="ES" name="test_ES1" fontsize="13" description="тестовый шаблон 1 ES" />
-	<template modality="ES" name="test_ES2" fontsize="13" description="тестовый шаблон 2 ES" />
+	<template modality="ES" name="datasheet" fontsize="13" description="тестовый шаблон 2 datasheet" />
 	<template modality="MG" name="usi_moloch_gelez_pdf" fontsize="14" description="US" />
 	<template modality="MG" name="test" fontsize="14" description="test" />
 	 
