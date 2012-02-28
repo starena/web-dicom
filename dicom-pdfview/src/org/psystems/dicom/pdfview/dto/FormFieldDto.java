@@ -15,6 +15,9 @@ public class FormFieldDto implements Serializable {
 	private String fieldNameEncoded;
 	private String value;
 	public float upperRightY;
+	public float upperRightX;
+	public float lowerLeftY;
+	public float lowerLeftX;
 
 	public String getFieldName() {
 		return fieldName;
@@ -46,6 +49,30 @@ public class FormFieldDto implements Serializable {
 
 	public void setUpperRightY(float upperRightY) {
 		this.upperRightY = upperRightY;
+	}
+
+	public float getUpperRightX() {
+		return upperRightX;
+	}
+
+	public void setUpperRightX(float upperRightX) {
+		this.upperRightX = upperRightX;
+	}
+
+	public float getLowerLeftY() {
+		return lowerLeftY;
+	}
+
+	public void setLowerLeftY(float lowerLeftY) {
+		this.lowerLeftY = lowerLeftY;
+	}
+
+	public float getLowerLeftX() {
+		return lowerLeftX;
+	}
+
+	public void setLowerLeftX(float lowerLeftX) {
+		this.lowerLeftX = lowerLeftX;
 	}
 
 }
