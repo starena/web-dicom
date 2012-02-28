@@ -6,6 +6,9 @@ public class FormField implements Comparable<FormField> {
 	private String fieldNameEncoded;// перекодирован в QUERY_STRING
 	private String value;
 	public float upperRightY;
+	public float upperRightX;
+	public float lowerLeftY;
+	public float lowerLeftX;
 
 	/**
 	 * @param name
@@ -30,6 +33,30 @@ public class FormField implements Comparable<FormField> {
 
 	public void setUpperRightY(float upperRightY) {
 		this.upperRightY = upperRightY;
+	}
+
+	public float getUpperRightX() {
+		return upperRightX;
+	}
+
+	public void setUpperRightX(float upperRightX) {
+		this.upperRightX = upperRightX;
+	}
+
+	public float getLowerLeftY() {
+		return lowerLeftY;
+	}
+
+	public void setLowerLeftY(float lowerLeftY) {
+		this.lowerLeftY = lowerLeftY;
+	}
+
+	public float getLowerLeftX() {
+		return lowerLeftX;
+	}
+
+	public void setLowerLeftX(float lowerLeftX) {
+		this.lowerLeftX = lowerLeftX;
 	}
 
 	public String getFieldNameEncoded() {

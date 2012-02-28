@@ -15,6 +15,7 @@ import org.psystems.dicom.pdfview.dto.ConfigTemplateDto;
 import org.psystems.dicom.pdfview.dto.FormFieldCheckboxDto;
 import org.psystems.dicom.pdfview.dto.FormFieldDto;
 import org.psystems.dicom.pdfview.dto.FormFieldListDto;
+import org.psystems.dicom.pdfview.dto.FormFieldRadioBtnDto;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.itextpdf.text.pdf.AcroFields;
@@ -74,6 +75,13 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 				else if (ffield instanceof FormFieldCheckbox) {
 					dto = new FormFieldCheckboxDto();
 				}
+				// Если радиокнопка
+				else if (ffield instanceof FormFieldRadioBtn) {
+
+					dto = new FormFieldRadioBtnDto();
+					((FormFieldRadioBtnDto) dto).setValues(((FormFieldRadioBtn) ffield)
+							.getValues());
+				}
 				// Если текстовое поле
 				else {
 					dto = new FormFieldDto();
@@ -82,7 +90,10 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 				dto.setFieldName(ffield.getFieldName());
 				dto.setFieldNameEncoded(ffield.getFieldNameEncoded());
 				dto.setValue(ffield.getValue());
+				dto.setUpperRightX(ffield.getUpperRightX());
 				dto.setUpperRightY(ffield.getUpperRightY());
+				dto.setLowerLeftX(ffield.getLowerLeftX());
+				dto.setLowerLeftY(ffield.getLowerLeftY());
 				result.add(dto);
 			}
 
@@ -110,9 +121,10 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 			throws UnsupportedEncodingException {
 
 		ArrayList<FormField> fieldsList = new ArrayList<FormField>();
-		Set<String> parameters = reader.getAcroFields().getFields().keySet();
+//		Set<String> parameters = reader.getAcroFields().getFields().keySet();
 		AcroFields form = reader.getAcroFields();
-		String[] fields = parameters.toArray(new String[parameters.size()]);
+//		String[] fields = parameters.toArray(new String[parameters.size()]);
+		Set<String> fields = form.getFields().keySet();
 
 		for (String fieldName : fields) {
 
@@ -149,6 +161,16 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 
 				ff = new FormFieldCheckbox(fieldName);
 			}
+			// Если радиокнопка
+			else if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_RADIOBUTTON) {
+
+				ff = new FormFieldRadioBtn(fieldName);
+				ArrayList<String> opts = new ArrayList<String>();
+				for (String opt : form.getAppearanceStates(fieldName)) {
+					opts.add(opt);
+				}
+				((FormFieldRadioBtn) ff).setValues(opts);
+			}
 			// Если текстовое поле
 			else {
 
@@ -157,8 +179,13 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 
 			ff.setFieldNameEncoded(fieldNameDecoded);
 			ff.setUpperRightY(urY);
+			ff.setUpperRightX(urX);
+			ff.setLowerLeftY(llY);
+			ff.setLowerLeftX(llX);
 			ff.setValue(value);
 			fieldsList.add(ff);
+			
+//			System.out.println(" !!!! ff="+ff);
 
 		}
 
