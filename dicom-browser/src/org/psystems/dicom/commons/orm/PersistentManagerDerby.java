@@ -447,13 +447,16 @@ public class PersistentManagerDerby {
 
 		while (rs.next()) {
 		    idForService = rs.getLong("ID");
+		    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService);
+		    break;
 		}
 	    }
 	    
 	    
 	    
 	    
-//	    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" drn.getId()="+drn.getId());
+	    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+"; drn.getId()="+drn.getId()+
+		    "; drn.getDirectionCode()="+drn.getDirectionCode());
 	    
 	    // Сохраняем услуги
 	    pstmt.close();
@@ -471,6 +474,8 @@ public class PersistentManagerDerby {
 		for (Service srv : drn.getServicesDirect()) {
 		    pstmt.setLong(1, resultId);
 
+		    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
+		    
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
 		    else if(idForService > 0) {
@@ -489,6 +494,8 @@ public class PersistentManagerDerby {
 		for (Service srv : drn.getServicesPerformed()) {
 		    pstmt.setLong(1, resultId);
 
+		    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
+		    
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
 		    else if(idForService > 0) {
