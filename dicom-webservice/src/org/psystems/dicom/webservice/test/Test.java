@@ -37,11 +37,11 @@ public class Test {
 	private static DicomServiceService service;
 	private static DicomService port;
 
-//	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
+	private static final String WS_URL = "http://localhost:8080/dicom-webservice/DicomService?wsdl";
 
 //	 private static final String WS_URL =
 //	 "https://proxy.gp1.psystems.org:38081/dicom-webservice3/DicomService?wsdl";
-	 private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
+//	 private static final String WS_URL = "https://proxy.gp1.psystems.org:38081/dicom-webservice/DicomService?wsdl";
 	/**
 	 * @param args
 	 * @throws MalformedURLException
@@ -78,9 +78,9 @@ public class Test {
 		/**********************************************************************/
 
 //		 queryStudy();
-//		 qetDirrection();
-		 queryDirrection();
-//		 makeDirection();
+		// qetDirrection();
+//		 queryDirrection();
+		 makeDirection();
 //		getStudyImages();
 //		getStudyProtocols();
 	}
@@ -117,7 +117,7 @@ public class Test {
 
 		QueryDirectionReq request = new QueryDirectionReq();
 		QueryDirection query = new QueryDirection();
-		query.setId(233l);
+//		query.setId(9l);
 //		query.setSenderLPU("");
 //		query.setPatientShortName("%");
 //		query.setPatientShortName("ДЕРДВ74");
@@ -238,22 +238,23 @@ public class Test {
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
 
-		device.setModality("OT");
+		device.setModality("US");
 		device.setManufacturerModelName("УЗИаппарат");
 
+		int code = 15;
 		//
 		Patient patient = new Patient();
-		patient.setPatientName("Деренок Дмитрий Владимирович_9");
-		patient.setPatientId("PATID1234");
+		patient.setPatientName("Деренок Дмитрий Владимирович_" + code);
+		patient.setPatientId("PATID_"+code);
 		patient.setPatientSex("M");
 		patient.setPatientBirthDate("1974-03-01");
 		patient.setPatientShortName("ДЕРДВ74");
 
 
-		long id = port.makeDirection(new Date().getTime() + "", "OT", doctor,
+		long id = port.makeDirection(new Date().getTime() + "", "US", doctor,
 
-				diagnosis, services, "2011-12-21", device,
-				"2011-12-22 12:00:00", "CODE123", "GP1-ROOM515", patient,
+				diagnosis, services, "2012-02-21", device,
+				"2011-10-22 12:00:00", "DIRECTCODE_" + code, "GP1-ROOM515", patient,
 				"LPUTEST");
 
 		System.out.println("!!!! makeDirection id:" + id);
