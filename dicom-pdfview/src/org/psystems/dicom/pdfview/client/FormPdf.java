@@ -2,6 +2,7 @@ package org.psystems.dicom.pdfview.client;
 
 import java.util.ArrayList;
 
+import org.psystems.dicom.pdfview.client.ui.FormListBox;
 import org.psystems.dicom.pdfview.dto.FormFieldCheckboxDto;
 import org.psystems.dicom.pdfview.dto.FormFieldDto;
 import org.psystems.dicom.pdfview.dto.FormFieldListDto;
@@ -68,7 +69,7 @@ public class FormPdf extends Composite {
 
 							// Если комбо или лист
 							if (formFieldDto instanceof FormFieldListDto) {
-								ListBox listBox = new ListBox(false);
+								FormListBox listBox = new FormListBox(false);
 
 								for (String val : ((FormFieldListDto) formFieldDto)
 										.getValues()) {
