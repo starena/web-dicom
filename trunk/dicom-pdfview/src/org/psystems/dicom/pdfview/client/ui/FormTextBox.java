@@ -4,23 +4,27 @@ import org.psystems.dicom.pdfview.dto.FormFieldDto;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 
-public class FormListBox extends ListBox implements IFormInput {
+/**
+ * @author dima_d
+ * 
+ */
+public class FormTextBox extends TextBox implements IFormInput {
 
 	FormFieldDto formField = new FormFieldDto();
 
-	public FormListBox() {
-		super(false);
-		
-		addItem("...", "");
-		
+	/**
+	 * 
+	 */
+	public FormTextBox() {
+
 		addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
-				// TODO Auto-generated method stub
-				formField.setValue(FormListBox.this.getValue(FormListBox.this.getSelectedIndex()));
+				formField.setValue(FormTextBox.this.getValue());
+
 			}
 		});
 	}
@@ -31,13 +35,7 @@ public class FormListBox extends ListBox implements IFormInput {
 
 	public void setFormField(FormFieldDto formField) {
 		this.formField = formField;
-		String val = formField.getValue();
-		for(int i=0; i<getItemCount(); i++) {
-			if(getValue(i).equals(val)) {
-				setSelectedIndex(i);
-				break;
-			}
-		}
+		setValue(formField.getValue());
 	}
 
 }

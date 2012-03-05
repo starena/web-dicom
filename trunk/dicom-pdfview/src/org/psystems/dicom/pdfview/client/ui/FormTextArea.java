@@ -4,25 +4,34 @@ import org.psystems.dicom.pdfview.dto.FormFieldDto;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextArea;
 
-public class FormListBox extends ListBox implements IFormInput {
+public class FormTextArea extends TextArea implements IFormInput {
 
 	FormFieldDto formField = new FormFieldDto();
 
-	public FormListBox() {
-		super(false);
-		
-		addItem("...", "");
-		
+	public FormTextArea() {
+
 		addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
-				// TODO Auto-generated method stub
-				formField.setValue(FormListBox.this.getValue(FormListBox.this.getSelectedIndex()));
+				formField.setValue(FormTextArea.this.getValue());
 			}
 		});
+
+	}
+
+	/**
+	 * Интелектуальное изменение размера
+	 */
+	protected void resizeIntelegent() {
+		String val = this.getValue();
+		String[] s = val.split("\n");
+		int lines = this.getVisibleLines();
+
+		if (s.length > lines)
+			FormTextArea.this.setVisibleLines(s.length);
 	}
 
 	public FormFieldDto getFormField() {
@@ -31,13 +40,7 @@ public class FormListBox extends ListBox implements IFormInput {
 
 	public void setFormField(FormFieldDto formField) {
 		this.formField = formField;
-		String val = formField.getValue();
-		for(int i=0; i<getItemCount(); i++) {
-			if(getValue(i).equals(val)) {
-				setSelectedIndex(i);
-				break;
-			}
-		}
+		setValue(formField.getValue());
 	}
 
 }
