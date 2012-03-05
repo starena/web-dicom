@@ -2,12 +2,18 @@ package org.psystems.dicom.pdfview.client;
 
 import java.util.ArrayList;
 
+import org.psystems.dicom.pdfview.client.ui.FormCheckBox;
 import org.psystems.dicom.pdfview.client.ui.FormListBox;
+import org.psystems.dicom.pdfview.client.ui.FormRadioButton;
+import org.psystems.dicom.pdfview.client.ui.FormTextArea;
+import org.psystems.dicom.pdfview.client.ui.FormTextBox;
 import org.psystems.dicom.pdfview.dto.FormFieldCheckboxDto;
 import org.psystems.dicom.pdfview.dto.FormFieldDto;
 import org.psystems.dicom.pdfview.dto.FormFieldListDto;
 import org.psystems.dicom.pdfview.dto.FormFieldRadioBtnDto;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -30,6 +36,8 @@ public class FormPdf extends Composite {
 	private int panelHeight = 1000;
 	private int singlePanelMaxHeight = 20;// Ширина однострочной панели
 
+	protected ArrayList<FormFieldDto> fields;//Поля формы
+
 	public FormPdf(String tmplName) {
 
 		// mainPanel = new VerticalPanel();
@@ -38,6 +46,27 @@ public class FormPdf extends Composite {
 		// mainPanel.setSize("1000px", panelHeight+"px");
 		initWidget(mainPanel);
 		initPanel(tmplName);
+		
+		Button btn = new Button("Сохранить");
+		mainPanel.add(btn);
+		btn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				save();
+				
+			}
+		});
+	}
+
+	/**
+	 * Сохранение данных
+	 */
+	protected void save() {
+		for (FormFieldDto field : fields) {
+			System.out.println("!!! field="+ field.getFieldNameEncoded() + "(" +")=[" +field.getValue()+"]");
+		}
 	}
 
 	/**
@@ -52,6 +81,8 @@ public class FormPdf extends Composite {
 					public void onSuccess(ArrayList<FormFieldDto> result) {
 						// TODO Auto-generated method stub
 
+						fields = result;
+						
 						for (FormFieldDto formFieldDto : result) {
 
 							mainPanel.add(new Label(formFieldDto
@@ -69,12 +100,13 @@ public class FormPdf extends Composite {
 
 							// Если комбо или лист
 							if (formFieldDto instanceof FormFieldListDto) {
-								FormListBox listBox = new FormListBox(false);
+								FormListBox listBox = new FormListBox();
 
 								for (String val : ((FormFieldListDto) formFieldDto)
 										.getValues()) {
 									listBox.addItem(val);
 								}
+								listBox.setFormField(formFieldDto);
 								mainPanel.add(listBox);
 
 							}
@@ -83,16 +115,18 @@ public class FormPdf extends Composite {
 								for (String val : ((FormFieldRadioBtnDto) formFieldDto)
 										.getValues()) {
 
-									RadioButton radioButton = new RadioButton(
+									FormRadioButton radioButton = new FormRadioButton(
 											formFieldDto.getFieldName(), val);
+									radioButton.setFormField(formFieldDto);
 									mainPanel.add(radioButton);
 								}
 
 							}
 							// Если чекбокс
 							else if (formFieldDto instanceof FormFieldCheckboxDto) {
-								CheckBox checkBox = new CheckBox(formFieldDto
+								FormCheckBox checkBox = new FormCheckBox(formFieldDto
 										.getFieldNameEncoded());
+								checkBox.setFormField(formFieldDto);
 								mainPanel.add(checkBox);
 							}
 							// Если текстовое поле
@@ -104,13 +138,15 @@ public class FormPdf extends Composite {
 
 								// широкое текстовое поле ввода
 								if(height > singlePanelMaxHeight) {
-									TextArea normalText = new TextArea();
+									FormTextArea normalText = new FormTextArea();
 									normalText.setVisibleLines((int)(height / singlePanelMaxHeight));
+									normalText.setFormField(formFieldDto);
 									mainPanel.add(normalText);
 								}
 								// обычное текстовое поле ввода
 								else {
-									TextBox normalText = new TextBox();
+									FormTextBox normalText = new FormTextBox();
+									normalText.setFormField(formFieldDto);
 									mainPanel.add(normalText);
 								}
 								

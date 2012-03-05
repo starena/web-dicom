@@ -81,6 +81,7 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 					dto = new FormFieldRadioBtnDto();
 					((FormFieldRadioBtnDto) dto).setValues(((FormFieldRadioBtn) ffield)
 							.getValues());
+					
 				}
 				// Если текстовое поле
 				else {
@@ -95,6 +96,7 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 				dto.setLowerLeftX(ffield.getLowerLeftX());
 				dto.setLowerLeftY(ffield.getLowerLeftY());
 				result.add(dto);
+				
 			}
 
 			reader.close();
