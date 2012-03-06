@@ -15,7 +15,11 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface PdfService extends RemoteService {
 
 	ArrayList<ConfigTemplateDto> getTemplates() throws IllegalArgumentException;
-	
-	ArrayList<FormFieldDto> getFormFields(String tmplName) throws IllegalArgumentException;
-	
+
+	ArrayList<FormFieldDto> getFormFields(String tmplName)
+			throws IllegalArgumentException;
+
+	void makePdf(String tmplName, ArrayList<FormFieldDto> fields)
+			throws IllegalArgumentException;
+
 }
