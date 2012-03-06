@@ -38,8 +38,12 @@ public class FormPdf extends Composite {
 
 	protected ArrayList<FormFieldDto> fields;//Поля формы
 
+	private String tmplName;
+
 	public FormPdf(String tmplName) {
 
+		this.tmplName =  tmplName;
+		
 		// mainPanel = new VerticalPanel();
 		// mainPanel.add(new Button("!!"));
 
@@ -67,6 +71,23 @@ public class FormPdf extends Composite {
 		for (FormFieldDto field : fields) {
 			System.out.println("!!! field="+ field.getFieldNameEncoded() + "(" +")=[" +field.getValue()+"]");
 		}
+		
+		Dicom_pdfview.service.makePdf(tmplName, fields, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				RootPanel.get().add(new Label("Make PDF fault! "+caught));
+				System.err.println("Make PDF fault! "+caught);
+				caught.printStackTrace();
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				// TODO Auto-generated method stub
+				System.out.println("!!!!! success !!!!");
+			}
+		});
 	}
 
 	/**

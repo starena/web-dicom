@@ -13,4 +13,7 @@ public interface PdfServiceAsync {
 
 	void getFormFields(String tmplName,
 			AsyncCallback<ArrayList<FormFieldDto>> callback);
+
+	void makePdf(String tmplName, ArrayList<FormFieldDto> fields,
+			AsyncCallback<Void> callback);
 }
