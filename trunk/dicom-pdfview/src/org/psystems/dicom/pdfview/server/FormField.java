@@ -1,5 +1,8 @@
 package org.psystems.dicom.pdfview.server;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 public class FormField implements Comparable<FormField> {
 
 	private String fieldName;
@@ -25,37 +28,35 @@ public class FormField implements Comparable<FormField> {
 	/**
 	 * @param name
 	 * @param upperRightY
+	 * @throws UnsupportedEncodingException
 	 */
-	public FormField(String name) {
+	public FormField(String name) throws UnsupportedEncodingException {
 		super();
-		this.fieldName = name;
-		init();
-	}
-
-	/**
-	 * Разбор имени поля (Поле форматированного ввода дата
-	 * DD.MM.YYYY|tag=00030004|format=DD.MM.YYYY)
-	 */
-	public void init() {
-		fieldTitle = fieldName;
-		String[] vals = fieldName.split("\\|");
-		if(vals.length>0) fieldTitle = vals[0];
-		for (String token : vals) {
-			if(token.startsWith("tag=")) {
-				setTag(token.replaceAll("tag\\=", ""));
-			}
-			if(token.startsWith("format=")) {
-				setFormat(token.replaceAll("format\\=", ""));
-			}
-		}
+		setFieldName(name);
 	}
 
 	public String getFieldName() {
 		return fieldName;
 	}
 
-	public void setFieldName(String name) {
+	public void setFieldName(String name) throws UnsupportedEncodingException {
 		this.fieldName = name;
+		String fieldNameEnc = name.replaceAll("#", "%");
+		fieldNameEnc = URLDecoder.decode(fieldNameEnc, "UTF-8");
+		fieldNameEncoded = fieldNameEnc;
+
+		fieldTitle = fieldNameEncoded;
+		String[] vals = fieldNameEncoded.split("\\|");
+		if (vals.length > 0)
+			fieldTitle = vals[0];
+		for (String token : vals) {
+			if (token.startsWith("tag=")) {
+				tag = token.replaceAll("tag\\=", "");
+			}
+			if (token.startsWith("format=")) {
+				format = token.replaceAll("format\\=", "");
+			}
+		}
 	}
 
 	public float getUpperRightY() {
@@ -94,10 +95,6 @@ public class FormField implements Comparable<FormField> {
 		return fieldNameEncoded;
 	}
 
-	public void setFieldNameEncoded(String fieldNameEncoded) {
-		this.fieldNameEncoded = fieldNameEncoded;
-	}
-
 	public String getValue() {
 		return value;
 	}
@@ -110,24 +107,12 @@ public class FormField implements Comparable<FormField> {
 		return fieldTitle;
 	}
 
-	public void setFieldTitle(String fieldTitle) {
-		this.fieldTitle = fieldTitle;
-	}
-
 	public String getTag() {
 		return tag;
 	}
 
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
-
 	public String getFormat() {
 		return format;
-	}
-
-	public void setFormat(String format) {
-		this.format = format;
 	}
 
 	@Override
