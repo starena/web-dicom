@@ -1,10 +1,11 @@
 package org.psystems.dicom.pdfview.server;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class FormFieldRadioBtn extends FormField {
 
-	public FormFieldRadioBtn(String name) {
+	public FormFieldRadioBtn(String name) throws UnsupportedEncodingException {
 		super(name);
 	}
 

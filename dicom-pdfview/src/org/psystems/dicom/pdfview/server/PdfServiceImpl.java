@@ -105,6 +105,9 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 
 				dto.setFieldName(ffield.getFieldName());
 				dto.setFieldNameEncoded(ffield.getFieldNameEncoded());
+				dto.setFieldTitle(ffield.getFieldTitle());
+				dto.setTag(ffield.getTag());
+				dto.setFormat(ffield.getFormat());
 				dto.setValue(ffield.getValue());
 				dto.setUpperRightX(ffield.getUpperRightX());
 				dto.setUpperRightY(ffield.getUpperRightY());
@@ -194,7 +197,7 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 				ff = new FormField(fieldName);
 			}
 
-			ff.setFieldNameEncoded(fieldNameDecoded);
+			
 			ff.setUpperRightY(urY);
 			ff.setUpperRightX(urX);
 			ff.setLowerLeftY(llY);

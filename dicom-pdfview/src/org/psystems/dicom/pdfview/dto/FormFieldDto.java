@@ -13,11 +13,14 @@ public class FormFieldDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String fieldName;
 	private String fieldNameEncoded;
+	private String fieldTitle;
 	private String value;
 	public float upperRightY;
 	public float upperRightX;
 	public float lowerLeftY;
 	public float lowerLeftX;
+	private String tag;
+	private String format;
 
 	public String getFieldName() {
 		return fieldName;
@@ -73,6 +76,30 @@ public class FormFieldDto implements Serializable {
 
 	public void setLowerLeftX(float lowerLeftX) {
 		this.lowerLeftX = lowerLeftX;
+	}
+
+	public String getFieldTitle() {
+		return fieldTitle;
+	}
+
+	public void setFieldTitle(String fieldTitle) {
+		this.fieldTitle = fieldTitle;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 
 }

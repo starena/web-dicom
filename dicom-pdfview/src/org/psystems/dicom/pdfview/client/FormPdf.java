@@ -36,30 +36,30 @@ public class FormPdf extends Composite {
 	private int panelHeight = 1000;
 	private int singlePanelMaxHeight = 20;// Ширина однострочной панели
 
-	protected ArrayList<FormFieldDto> fields;//Поля формы
+	protected ArrayList<FormFieldDto> fields;// Поля формы
 
 	private String tmplName;
 
 	public FormPdf(String tmplName) {
 
-		this.tmplName =  tmplName;
-		
+		this.tmplName = tmplName;
+
 		// mainPanel = new VerticalPanel();
 		// mainPanel.add(new Button("!!"));
 
 		// mainPanel.setSize("1000px", panelHeight+"px");
 		initWidget(mainPanel);
 		initPanel(tmplName);
-		
+
 		Button btn = new Button("Сохранить");
 		mainPanel.add(btn);
 		btn.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				save();
-				
+
 			}
 		});
 	}
@@ -69,25 +69,28 @@ public class FormPdf extends Composite {
 	 */
 	protected void save() {
 		for (FormFieldDto field : fields) {
-			System.out.println("!!! field="+ field.getFieldNameEncoded() + "(" +")=[" +field.getValue()+"]");
+			System.out.println("!!! field=" + field.getFieldNameEncoded() + "("
+					+ ")=[" + field.getValue() + "]");
 		}
-		
-		Dicom_pdfview.service.makePdf(tmplName, fields, new AsyncCallback<Void>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				RootPanel.get().add(new Label("Make PDF fault! "+caught));
-				System.err.println("Make PDF fault! "+caught);
-				caught.printStackTrace();
-			}
+		Dicom_pdfview.service.makePdf(tmplName, fields,
+				new AsyncCallback<Void>() {
 
-			@Override
-			public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-				System.out.println("!!!!! success !!!!");
-			}
-		});
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						RootPanel.get().add(
+								new Label("Make PDF fault! " + caught));
+						System.err.println("Make PDF fault! " + caught);
+						caught.printStackTrace();
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						System.out.println("!!!!! success !!!!");
+					}
+				});
 	}
 
 	/**
@@ -103,11 +106,11 @@ public class FormPdf extends Composite {
 						// TODO Auto-generated method stub
 
 						fields = result;
-						
+
 						for (FormFieldDto formFieldDto : result) {
 
 							mainPanel.add(new Label(formFieldDto
-									.getFieldNameEncoded()));
+									.getFieldTitle()));
 
 							// Button btn = new Button(formFieldDto
 							// .getFieldNameEncoded());
@@ -145,8 +148,8 @@ public class FormPdf extends Composite {
 							}
 							// Если чекбокс
 							else if (formFieldDto instanceof FormFieldCheckboxDto) {
-								FormCheckBox checkBox = new FormCheckBox(formFieldDto
-										.getFieldNameEncoded());
+								FormCheckBox checkBox = new FormCheckBox(
+										formFieldDto.getFieldNameEncoded());
 								checkBox.setFormField(formFieldDto);
 								mainPanel.add(checkBox);
 							}
@@ -158,9 +161,10 @@ public class FormPdf extends Composite {
 										- formFieldDto.getLowerLeftY();
 
 								// широкое текстовое поле ввода
-								if(height > singlePanelMaxHeight) {
+								if (height > singlePanelMaxHeight) {
 									FormTextArea normalText = new FormTextArea();
-									normalText.setVisibleLines((int)(height / singlePanelMaxHeight));
+									normalText
+											.setVisibleLines((int) (height / singlePanelMaxHeight));
 									normalText.setFormField(formFieldDto);
 									mainPanel.add(normalText);
 								}
@@ -170,7 +174,7 @@ public class FormPdf extends Composite {
 									normalText.setFormField(formFieldDto);
 									mainPanel.add(normalText);
 								}
-								
+
 							}
 
 							// mainPanel.add(btn, (int) formFieldDto
