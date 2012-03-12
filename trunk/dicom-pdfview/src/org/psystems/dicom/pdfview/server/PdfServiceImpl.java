@@ -197,7 +197,6 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 				ff = new FormField(fieldName);
 			}
 
-			
 			ff.setUpperRightY(urY);
 			ff.setUpperRightX(urX);
 			ff.setLowerLeftY(llY);
@@ -222,9 +221,9 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 		String pdfTmpFilename = dcmTmpDir + "/" + new Date().getTime() + "_"
 				+ (int) (Math.random() * 10000000l) + ".pdf";
 		File pdfTmpFile = null;
-		String tmplDir =  Config.getTemplateFolder();
+		String tmplDir = Config.getTemplateFolder();
 		String file = tmplDir + File.separator + tmplName + ".pdf";
-//		String tmplName = req.getPathInfo().replaceFirst("/", "");
+		// String tmplName = req.getPathInfo().replaceFirst("/", "");
 
 		try {
 
@@ -233,9 +232,8 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 			pdfTmpFile = new File(pdfTmpFilename);
 			PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(
 					pdfTmpFile));
-			
-			System.err.println("!!! pdfTmpFilename="+pdfTmpFilename);
 
+			System.err.println("!!! pdfTmpFilename=" + pdfTmpFilename);
 
 			PRAcroForm fff = reader.getAcroForm();
 			for (PdfName pdfName : fff.getKeys()) {
@@ -291,13 +289,13 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 
 				// Установка значений полей из QUERY_STRING
 				for (FormFieldDto formFieldDto : fields) {
-					if(formFieldDto.getFieldName().equals(fieldName))
-					form.setField(fieldName, formFieldDto.getValue());
+					if (formFieldDto.getFieldName().equals(fieldName))
+						form.setField(fieldName, formFieldDto.getValue());
 				}
-				
-//				if (req.getParameter(fieldName) != null) {
-//					form.setField(fieldName, req.getParameter(fieldName));
-//				}
+
+				// if (req.getParameter(fieldName) != null) {
+				// form.setField(fieldName, req.getParameter(fieldName));
+				// }
 
 				// Свойства поля
 
@@ -317,14 +315,14 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 			replaceFields(reader, stamper, tmplName);
 
 			stamper.close();
-//			resp.setContentType("application/pdf; charset=UTF-8");
-//
-//			// Передача результата в броузер
+			// resp.setContentType("application/pdf; charset=UTF-8");
+			//
+			// // Передача результата в броузер
 			FileInputStream in = new FileInputStream(pdfTmpFilename);
 			FileOutputStream out = new FileOutputStream("../tmp/ttt.pdf");
-//			BufferedOutputStream out = new BufferedOutputStream(
-//					resp.getOutputStream());
-//
+			// BufferedOutputStream out = new BufferedOutputStream(
+			// resp.getOutputStream());
+			//
 			byte b[] = new byte[8];
 			int count;
 			while ((count = in.read(b)) != -1) {
@@ -337,36 +335,35 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 
 			// Отправка данных в архив
 			// if (finalPhase)
-//			 sendToArchive(study, pdfTmpFile);
+			// sendToArchive(study, pdfTmpFile);
 
 		} catch (DocumentException e) {
-//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//			resp.setContentType("text/html; charset=UTF-8");
-//			String msg = loggingException("<b>Bad PDF !</b> " + file, e);
-//			resp.getWriter().print(msg);
+			// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			// resp.setContentType("text/html; charset=UTF-8");
+			// String msg = loggingException("<b>Bad PDF !</b> " + file, e);
+			// resp.getWriter().print(msg);
 			throw new IllegalArgumentException(e);
-//			logger.warn(msg);
+			// logger.warn(msg);
 		} catch (FileNotFoundException e) {
-//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//			resp.setContentType("text/html; charset=UTF-8");
-//			String msg = loggingException("<b>PDF template not found!</b> "
-//					+ file + " Не найден!", e);
-//			resp.getWriter().print(msg);
-////			logger.warn(msg);
-//			return;
+			// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			// resp.setContentType("text/html; charset=UTF-8");
+			// String msg = loggingException("<b>PDF template not found!</b> "
+			// + file + " Не найден!", e);
+			// resp.getWriter().print(msg);
+			// // logger.warn(msg);
+			// return;
 			throw new IllegalArgumentException(e);
 		} catch (Exception e) {
-//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//			resp.setContentType("text/html; charset=UTF-8");
-//			String msg = loggingException(e.getMessage(), e);
-//			resp.getWriter().print(msg);
-////			logger.warn(msg);
+			// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			// resp.setContentType("text/html; charset=UTF-8");
+			// String msg = loggingException(e.getMessage(), e);
+			// resp.getWriter().print(msg);
+			// // logger.warn(msg);
 			throw new IllegalArgumentException(e);
 		} finally {
 			if (pdfTmpFile != null)
 				pdfTmpFile.delete();
 		}
-
 
 	}
 
@@ -377,147 +374,147 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 	 * @param resp
 	 * @throws IOException
 	 */
-//	private void changePDFContent(HttpServletRequest req,
-//			HttpServletResponse resp) throws IOException {
-//
-//		String dcmTmpDir = "./tmp";
-//		String pdfTmpFilename = dcmTmpDir + "/" + new Date().getTime() + "_"
-//				+ (int) (Math.random() * 10000000l) + ".pdf";
-//		File pdfTmpFile = null;
-//		String tmplDir = "./pdfs";
-//		String file = tmplDir + req.getPathInfo() + ".pdf";
-//		String tmplName = req.getPathInfo().replaceFirst("/", "");
-//
-//		try {
-//
-//			FileInputStream fis = new FileInputStream(file);
-//			PdfReader reader = new PdfReader(fis);
-//			pdfTmpFile = new File(pdfTmpFilename);
-//			PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(
-//					pdfTmpFile));
-//
-//
-//			PRAcroForm fff = reader.getAcroForm();
-//			for (PdfName pdfName : fff.getKeys()) {
-//				if (fff.get(pdfName) instanceof PdfArray) {
-//					PdfArray array = (PdfArray) fff.get(pdfName);
-//					System.out.println(">> form=" + pdfName + " val=" + array);
-//
-//				}
-//			}
-//
-//			// Пробегаем по полям формы.
-//			// Если поле READ_ONLY - заменяем его на текст
-//			AcroFields form = stamper.getAcroFields();
-//
-//			String fName;
-//
-//			// ФИО Пациента
-//			fName = "PatientName";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "Иванов Иван Иванович");
-//
-//			// ДР Пациента
-//			fName = "PatientBirthDate";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "20.03.1974");
-//
-//			// Аппарат
-//			fName = "ManufacturerModelName";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "Аппарат XXX");
-//
-//			// Протокол осмотра
-//			fName = "StudyViewprotocol";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "Протокол осмотра");
-//
-//			// Дата протокола осмотра
-//			fName = "StudyViewprotocolDate";
-//			if (form.getField(fName) != null)
-//				form.setField(fName, "20.03.2011");
-//
-//			// ===================================================================
-//			// TODO !!!======== дополнить остальные поля ==================!!!!!
-//			// ===================================================================
-//
-//			for (String fieldName : form.getFields().keySet()) {
-//
-//				// пропускаем "радиобаттоны"
-//				if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_RADIOBUTTON)
-//					continue;
-//
-//				// Установка значений полей из БД
-//
-//				// Установка значений полей из QUERY_STRING
-//				if (req.getParameter(fieldName) != null) {
-//					form.setField(fieldName, req.getParameter(fieldName));
-//				}
-//
-//				// Свойства поля
-//
-//				// boolean readOnly = fieldIsREADONLY(form, fieldName);
-//				// System.out.println("!!! field " + fieldName + " RO is " +
-//				// readOnly);
-//
-//				// ------------
-//
-//				// //Задаем доп. флаги для поля
-//				// fields.setField(fieldName, "Тестимся");
-//				// fields.setFieldProperty(fieldName, "setfflags",
-//				// TextField.READ_ONLY, null);
-//			}
-//
-//			// Удаляем поля
-//			replaceFields(reader, stamper, tmplName);
-//
-//			stamper.close();
-//			resp.setContentType("application/pdf; charset=UTF-8");
-//
-//			// Передача результата в броузер
-//			FileInputStream in = new FileInputStream(pdfTmpFilename);
-//			BufferedOutputStream out = new BufferedOutputStream(
-//					resp.getOutputStream());
-//
-//			byte b[] = new byte[8];
-//			int count;
-//			while ((count = in.read(b)) != -1) {
-//				out.write(b, 0, count);
-//
-//			}
-//			out.flush();
-//			out.close();
-//			in.close();
-//
-//			// Отправка данных в архив
-//			// if (finalPhase)
-//			// sendToArchive(study, pdfTmpFile);
-//
-//		} catch (DocumentException e) {
-//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//			resp.setContentType("text/html; charset=UTF-8");
-//			String msg = loggingException("<b>Bad PDF !</b> " + file, e);
-//			resp.getWriter().print(msg);
-////			logger.warn(msg);
-//		} catch (FileNotFoundException e) {
-//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//			resp.setContentType("text/html; charset=UTF-8");
-//			String msg = loggingException("<b>PDF template not found!</b> "
-//					+ file + " Не найден!", e);
-//			resp.getWriter().print(msg);
-////			logger.warn(msg);
-//			return;
-//		} catch (Exception e) {
-//			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//			resp.setContentType("text/html; charset=UTF-8");
-//			String msg = loggingException(e.getMessage(), e);
-//			resp.getWriter().print(msg);
-////			logger.warn(msg);
-//		} finally {
-//			if (pdfTmpFile != null)
-//				pdfTmpFile.delete();
-//		}
-//	}
+	// private void changePDFContent(HttpServletRequest req,
+	// HttpServletResponse resp) throws IOException {
+	//
+	// String dcmTmpDir = "./tmp";
+	// String pdfTmpFilename = dcmTmpDir + "/" + new Date().getTime() + "_"
+	// + (int) (Math.random() * 10000000l) + ".pdf";
+	// File pdfTmpFile = null;
+	// String tmplDir = "./pdfs";
+	// String file = tmplDir + req.getPathInfo() + ".pdf";
+	// String tmplName = req.getPathInfo().replaceFirst("/", "");
+	//
+	// try {
+	//
+	// FileInputStream fis = new FileInputStream(file);
+	// PdfReader reader = new PdfReader(fis);
+	// pdfTmpFile = new File(pdfTmpFilename);
+	// PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(
+	// pdfTmpFile));
+	//
+	//
+	// PRAcroForm fff = reader.getAcroForm();
+	// for (PdfName pdfName : fff.getKeys()) {
+	// if (fff.get(pdfName) instanceof PdfArray) {
+	// PdfArray array = (PdfArray) fff.get(pdfName);
+	// System.out.println(">> form=" + pdfName + " val=" + array);
+	//
+	// }
+	// }
+	//
+	// // Пробегаем по полям формы.
+	// // Если поле READ_ONLY - заменяем его на текст
+	// AcroFields form = stamper.getAcroFields();
+	//
+	// String fName;
+	//
+	// // ФИО Пациента
+	// fName = "PatientName";
+	// if (form.getField(fName) != null)
+	// form.setField(fName, "Иванов Иван Иванович");
+	//
+	// // ДР Пациента
+	// fName = "PatientBirthDate";
+	// if (form.getField(fName) != null)
+	// form.setField(fName, "20.03.1974");
+	//
+	// // Аппарат
+	// fName = "ManufacturerModelName";
+	// if (form.getField(fName) != null)
+	// form.setField(fName, "Аппарат XXX");
+	//
+	// // Протокол осмотра
+	// fName = "StudyViewprotocol";
+	// if (form.getField(fName) != null)
+	// form.setField(fName, "Протокол осмотра");
+	//
+	// // Дата протокола осмотра
+	// fName = "StudyViewprotocolDate";
+	// if (form.getField(fName) != null)
+	// form.setField(fName, "20.03.2011");
+	//
+	// // ===================================================================
+	// // TODO !!!======== дополнить остальные поля ==================!!!!!
+	// // ===================================================================
+	//
+	// for (String fieldName : form.getFields().keySet()) {
+	//
+	// // пропускаем "радиобаттоны"
+	// if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_RADIOBUTTON)
+	// continue;
+	//
+	// // Установка значений полей из БД
+	//
+	// // Установка значений полей из QUERY_STRING
+	// if (req.getParameter(fieldName) != null) {
+	// form.setField(fieldName, req.getParameter(fieldName));
+	// }
+	//
+	// // Свойства поля
+	//
+	// // boolean readOnly = fieldIsREADONLY(form, fieldName);
+	// // System.out.println("!!! field " + fieldName + " RO is " +
+	// // readOnly);
+	//
+	// // ------------
+	//
+	// // //Задаем доп. флаги для поля
+	// // fields.setField(fieldName, "Тестимся");
+	// // fields.setFieldProperty(fieldName, "setfflags",
+	// // TextField.READ_ONLY, null);
+	// }
+	//
+	// // Удаляем поля
+	// replaceFields(reader, stamper, tmplName);
+	//
+	// stamper.close();
+	// resp.setContentType("application/pdf; charset=UTF-8");
+	//
+	// // Передача результата в броузер
+	// FileInputStream in = new FileInputStream(pdfTmpFilename);
+	// BufferedOutputStream out = new BufferedOutputStream(
+	// resp.getOutputStream());
+	//
+	// byte b[] = new byte[8];
+	// int count;
+	// while ((count = in.read(b)) != -1) {
+	// out.write(b, 0, count);
+	//
+	// }
+	// out.flush();
+	// out.close();
+	// in.close();
+	//
+	// // Отправка данных в архив
+	// // if (finalPhase)
+	// // sendToArchive(study, pdfTmpFile);
+	//
+	// } catch (DocumentException e) {
+	// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	// resp.setContentType("text/html; charset=UTF-8");
+	// String msg = loggingException("<b>Bad PDF !</b> " + file, e);
+	// resp.getWriter().print(msg);
+	// // logger.warn(msg);
+	// } catch (FileNotFoundException e) {
+	// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	// resp.setContentType("text/html; charset=UTF-8");
+	// String msg = loggingException("<b>PDF template not found!</b> "
+	// + file + " Не найден!", e);
+	// resp.getWriter().print(msg);
+	// // logger.warn(msg);
+	// return;
+	// } catch (Exception e) {
+	// resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	// resp.setContentType("text/html; charset=UTF-8");
+	// String msg = loggingException(e.getMessage(), e);
+	// resp.getWriter().print(msg);
+	// // logger.warn(msg);
+	// } finally {
+	// if (pdfTmpFile != null)
+	// pdfTmpFile.delete();
+	// }
+	// }
 
 	/**
 	 * Замена полей на текст
@@ -544,6 +541,7 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 			float urY = rectArr.getAsNumber(3).floatValue();
 
 			String value = form.getField(fieldName);
+			int fieldType = form.getFieldType(fieldName);
 			// Удаляем поле
 			form.removeField(fieldName);
 
@@ -569,6 +567,32 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 			columnText.setText(phrase);
 
 			columnText.go();
+
+			// Выделям выбранные чекбоксы
+			// TODO Сделать и для RadioButton
+			if (fieldType == AcroFields.FIELD_TYPE_CHECKBOX
+					&& (value.equalsIgnoreCase("On") || value
+							.equalsIgnoreCase("Yes"))) {
+
+				canvas.saveState();
+				canvas.setLineWidth(2);
+				canvas.setRGBColorFill(0x00, 0x00, 0x00);
+
+				canvas.moveTo(llX, llY);
+				canvas.lineTo(urX, urY);
+
+				canvas.moveTo(llX, urY);
+				canvas.lineTo(urX, llY);
+
+				// canvas.rectangle(llX, llY, (urX-llX),
+				// (urY-llY));//x,y,w,h
+				// canvas.fill();
+
+				canvas.stroke();
+				canvas.restoreState();
+
+			}
+
 		}
 
 	}
