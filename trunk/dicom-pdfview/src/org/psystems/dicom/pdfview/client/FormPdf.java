@@ -15,16 +15,11 @@ import org.psystems.dicom.pdfview.dto.FormFieldRadioBtnDto;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class FormPdf extends Composite {
@@ -32,6 +27,7 @@ public class FormPdf extends Composite {
 	// private VerticalPanel mainPanel;
 	// private AbsolutePanel mainPanel = new AbsolutePanel();
 	private VerticalPanel mainPanel = new VerticalPanel();
+//	private Grid mainPanel = new Grid();
 
 	private int panelHeight = 1000;
 	private int singlePanelMaxHeight = 20;// Ширина однострочной панели
