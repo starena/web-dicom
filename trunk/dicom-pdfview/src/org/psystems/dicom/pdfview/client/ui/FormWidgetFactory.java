@@ -1,18 +1,34 @@
 package org.psystems.dicom.pdfview.client.ui;
 
 import org.psystems.dicom.pdfview.dto.FormFieldCheckboxDto;
+import org.psystems.dicom.pdfview.dto.FormFieldDateDto;
 import org.psystems.dicom.pdfview.dto.FormFieldDto;
 import org.psystems.dicom.pdfview.dto.FormFieldListDto;
 import org.psystems.dicom.pdfview.dto.FormFieldRadioBtnDto;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * 
  * Фабрика виджетов для PDF-форм
  * 
  * @author dima_d
- *
+ * 
  */
 public class FormWidgetFactory {
+
+	public static DateTimeFormat dateFormatUser = DateTimeFormat
+			.getFormat("dd.MM.yyyy");
+	public static DateTimeFormat dateFormatDicom = DateTimeFormat
+			.getFormat("yyyyMMdd");
+	public static DateTimeFormat dateFormatSql = DateTimeFormat
+			.getFormat("yyyy-MM-dd");
+	public static DateTimeFormat dateTimeFormatSql = DateTimeFormat
+			.getFormat("yyyy-MM-dd HH:mm:ss");
+	public static DateTimeFormat dateTimeFormatUser = DateTimeFormat
+			.getFormat("dd.MM.yyyy HH:mm:ss");
+	public static DateTimeFormat dateFormatYEARONLY = DateTimeFormat
+			.getFormat("yyyy");
 
 	/**
 	 * 
@@ -21,7 +37,7 @@ public class FormWidgetFactory {
 	 * @param dto
 	 * @return
 	 */
-	public static IFormInput getInstance(FormFieldDto formFieldDto) {
+	public static IFormInput getWidgetInstance(FormFieldDto formFieldDto) {
 
 		// Если комбо или лист
 		if (formFieldDto instanceof FormFieldListDto) {
@@ -51,6 +67,12 @@ public class FormWidgetFactory {
 					formFieldDto.getFieldNameEncoded());
 			checkBox.setFormField(formFieldDto);
 			return checkBox;
+		}
+		// Если Календарик
+		else if (formFieldDto instanceof FormFieldDateDto) {
+
+			FormDateBox dateBox = new FormDateBox();
+			return dateBox;
 		}
 		// Если текстовое поле
 		else {

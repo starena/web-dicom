@@ -3,6 +3,8 @@ package org.psystems.dicom.pdfview.server;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import com.google.gwt.dev.util.collect.HashMap;
+
 public class FormField implements Comparable<FormField> {
 
 	private String fieldName;
@@ -32,32 +34,20 @@ public class FormField implements Comparable<FormField> {
 	 */
 	public FormField(String name) throws UnsupportedEncodingException {
 		super();
-		setFieldName(name);
+		this.fieldName = name;
+		
+		HashMap<String, String> atts = FormFieldFactory.getFieldAtts(fieldName);
+		if(atts.get("encname")!=null) fieldNameEncoded = atts.get("encname");
+		if(atts.get("title")!=null) fieldTitle = atts.get("title");
+		if(atts.get("tag")!=null) tag = atts.get("tag");
+		if(atts.get("format")!=null) format = atts.get("format");
 	}
 
 	public String getFieldName() {
 		return fieldName;
 	}
+	
 
-	public void setFieldName(String name) throws UnsupportedEncodingException {
-		this.fieldName = name;
-		String fieldNameEnc = name.replaceAll("#", "%");
-		fieldNameEnc = URLDecoder.decode(fieldNameEnc, "UTF-8");
-		fieldNameEncoded = fieldNameEnc;
-
-		fieldTitle = fieldNameEncoded;
-		String[] vals = fieldNameEncoded.split("\\|");
-		if (vals.length > 0)
-			fieldTitle = vals[0];
-		for (String token : vals) {
-			if (token.startsWith("tag=")) {
-				tag = token.replaceAll("tag\\=", "");
-			}
-			if (token.startsWith("format=")) {
-				format = token.replaceAll("format\\=", "");
-			}
-		}
-	}
 
 	public float getUpperRightY() {
 		return upperRightY;

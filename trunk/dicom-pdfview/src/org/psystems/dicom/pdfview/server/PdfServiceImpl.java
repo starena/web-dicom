@@ -19,6 +19,7 @@ import org.psystems.dicom.commons.ConfigTemplate;
 import org.psystems.dicom.pdfview.client.PdfService;
 import org.psystems.dicom.pdfview.dto.ConfigTemplateDto;
 import org.psystems.dicom.pdfview.dto.FormFieldCheckboxDto;
+import org.psystems.dicom.pdfview.dto.FormFieldDateDto;
 import org.psystems.dicom.pdfview.dto.FormFieldDto;
 import org.psystems.dicom.pdfview.dto.FormFieldListDto;
 import org.psystems.dicom.pdfview.dto.FormFieldRadioBtnDto;
@@ -98,6 +99,10 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 							.setValues(((FormFieldRadioBtn) ffield).getValues());
 
 				}
+				// Если календарь
+				else if (ffield instanceof FormFieldDate) {
+					dto = new FormFieldDateDto();
+				}
 				// Если текстовое поле
 				else {
 					dto = new FormFieldDto();
@@ -147,65 +152,10 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 		Set<String> fields = form.getFields().keySet();
 
 		for (String fieldName : fields) {
-
-			Item field = form.getFieldItem(fieldName);
-			PdfDictionary widgetDict = field.getWidget(0);
-
-			// pdf rectangles are stored as [llx, lly, urx, ury]
-			PdfArray rectArr = widgetDict.getAsArray(PdfName.RECT); // should
-			float llX = rectArr.getAsNumber(0).floatValue();
-			float llY = rectArr.getAsNumber(1).floatValue();
-			float urX = rectArr.getAsNumber(2).floatValue();
-			float urY = rectArr.getAsNumber(3).floatValue();
-
-			String value = form.getField(fieldName);
-			// перекодировка в QUERY_STRING
-			String fieldNameDecoded = fieldName.replaceAll("#", "%");
-			fieldNameDecoded = URLDecoder.decode(fieldNameDecoded, "UTF-8");
-
-			FormField ff = null;
-
-			// Если комбо или лист
-			if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_COMBO
-					|| form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_LIST) {
-
-				ff = new FormFieldList(fieldName);
-				ArrayList<String> opts = new ArrayList<String>();
-				for (String opt : form.getAppearanceStates(fieldName)) {
-					opts.add(opt);
-				}
-				((FormFieldList) ff).setValues(opts);
-			}
-			// Если чекбокс
-			else if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_CHECKBOX) {
-
-				ff = new FormFieldCheckbox(fieldName);
-			}
-			// Если радиокнопка
-			else if (form.getFieldType(fieldName) == AcroFields.FIELD_TYPE_RADIOBUTTON) {
-
-				ff = new FormFieldRadioBtn(fieldName);
-				ArrayList<String> opts = new ArrayList<String>();
-				for (String opt : form.getAppearanceStates(fieldName)) {
-					opts.add(opt);
-				}
-				((FormFieldRadioBtn) ff).setValues(opts);
-			}
-			// Если текстовое поле
-			else {
-
-				ff = new FormField(fieldName);
-			}
-
-			ff.setUpperRightY(urY);
-			ff.setUpperRightX(urX);
-			ff.setLowerLeftY(llY);
-			ff.setLowerLeftX(llX);
-			ff.setValue(value);
+			FormFieldFactory.getFormFieldInstance(form, fieldName);
+			FormField ff = FormFieldFactory.getFormFieldInstance(form,
+					fieldName);
 			fieldsList.add(ff);
-
-			// System.out.println(" !!!! ff="+ff);
-
 		}
 
 		Collections.sort(fieldsList, Collections.reverseOrder());
@@ -366,8 +316,6 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 		}
 
 	}
-
-	
 
 	/**
 	 * Замена полей на текст
