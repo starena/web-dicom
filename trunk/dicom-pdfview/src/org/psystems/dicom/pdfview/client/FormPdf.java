@@ -17,8 +17,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -26,11 +28,15 @@ public class FormPdf extends Composite {
 
 	// private VerticalPanel mainPanel;
 	// private AbsolutePanel mainPanel = new AbsolutePanel();
-	private VerticalPanel mainPanel = new VerticalPanel();
-//	private Grid mainPanel = new Grid();
+	private Panel mPanel;
+	// private Grid mainPanel = new Grid();
 
-	private int panelHeight = 1000;
+	// private int panelHeight = 1000;
 	private int singlePanelMaxHeight = 20;// Ширина однострочной панели
+
+	// Максимальный разброс по ккординете Y для выравнивания полей вовда в
+	// строку
+	private int flexLayoutMaxInterval = 10;
 
 	protected ArrayList<FormFieldDto> fields;// Поля формы
 
@@ -40,24 +46,18 @@ public class FormPdf extends Composite {
 
 		this.tmplName = tmplName;
 
-		// mainPanel = new VerticalPanel();
-		// mainPanel.add(new Button("!!"));
+		// mPanel = new VerticalPanel();
+		// initWidget(mPanel);
+		// initAsVerticalPanel(tmplName, (VerticalPanel) mPanel);
+		//
+		// mPanel = new FlexTable();
+		// initWidget(mPanel);
+		// initAsFlexTable(tmplName, (FlexTable) mPanel);
 
-		// mainPanel.setSize("1000px", panelHeight+"px");
-		initWidget(mainPanel);
-		initPanel(tmplName);
+		mPanel = new VerticalPanel();
+		initWidget(mPanel);
+		initAsVerticalandHorizontalLyout(tmplName, (VerticalPanel) mPanel);
 
-		Button btn = new Button("Сохранить");
-		mainPanel.add(btn);
-		btn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				save();
-
-			}
-		});
 	}
 
 	/**
@@ -90,9 +90,259 @@ public class FormPdf extends Composite {
 	}
 
 	/**
+	 * 
+	 * Самый оптимальный лайоут (соседние виджеты собираем в одну строчку)
+	 * 
 	 * @param tmplName
+	 * @param panel
 	 */
-	private void initPanel(String tmplName) {
+	private void initAsVerticalandHorizontalLyout(String tmplName,
+			final VerticalPanel panel) {
+
+		Dicom_pdfview.service.getFormFields(tmplName,
+				new AsyncCallback<ArrayList<FormFieldDto>>() {
+
+					@Override
+					public void onSuccess(ArrayList<FormFieldDto> result) {
+
+						Button btn = new Button("Сохранить");
+						mPanel.add(btn);
+						btn.addClickHandler(new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+
+								save();
+
+							}
+						});
+
+						fields = result;
+
+						// предыдущее координаты виджета
+						float prevUpperY = Float.MAX_VALUE;
+
+						HorizontalPanel hp = null;
+
+						for (FormFieldDto formFieldDto : result) {
+
+							VerticalPanel vp = new VerticalPanel();
+							vp.add(new Label(formFieldDto.getFieldTitle()));
+
+							if (Math.abs(prevUpperY
+									- formFieldDto.getUpperRightY()) < flexLayoutMaxInterval) {
+							} else {
+								prevUpperY = formFieldDto.getUpperRightY();
+								hp = new HorizontalPanel();
+								panel.add(hp);
+							}
+
+							hp.add(vp);
+
+							// Если комбо или лист
+							if (formFieldDto instanceof FormFieldListDto) {
+								FormListBox listBox = new FormListBox();
+
+								for (String val : ((FormFieldListDto) formFieldDto)
+										.getValues()) {
+									listBox.addItem(val);
+								}
+								listBox.setFormField(formFieldDto);
+								vp.add(listBox);
+
+							}
+							// Если радиокнопка
+							else if (formFieldDto instanceof FormFieldRadioBtnDto) {
+								for (String val : ((FormFieldRadioBtnDto) formFieldDto)
+										.getValues()) {
+
+									FormRadioButton radioButton = new FormRadioButton(
+											formFieldDto.getFieldName(), val);
+									radioButton.setFormField(formFieldDto);
+									vp.add(radioButton);
+								}
+
+							}
+							// Если чекбокс
+							else if (formFieldDto instanceof FormFieldCheckboxDto) {
+								FormCheckBox checkBox = new FormCheckBox(
+										formFieldDto.getFieldNameEncoded());
+								checkBox.setFormField(formFieldDto);
+								vp.add(checkBox);
+							}
+							// Если текстовое поле
+							else {
+
+								// ширина поля ввода
+								float height = formFieldDto.getUpperRightY()
+										- formFieldDto.getLowerLeftY();
+
+								// широкое текстовое поле ввода
+								if (height > singlePanelMaxHeight) {
+									FormTextArea normalText = new FormTextArea();
+									normalText
+											.setVisibleLines((int) (height / singlePanelMaxHeight));
+									normalText.setFormField(formFieldDto);
+									vp.add(normalText);
+								}
+								// обычное текстовое поле ввода
+								else {
+									FormTextBox normalText = new FormTextBox();
+									normalText.setFormField(formFieldDto);
+									vp.add(normalText);
+								}
+
+							}
+
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Выдать сообщение в случае ошибки !!!
+						RootPanel.get().add(
+								new Label("Load templates fault! " + caught));
+						System.err.println("Load templates fault! " + caught);
+						caught.printStackTrace();
+					}
+				});
+
+	}
+
+	/**
+	 * @param tmplName
+	 * @param panel
+	 */
+	private void initAsFlexTable(String tmplName, final FlexTable panel) {
+
+		Dicom_pdfview.service.getFormFields(tmplName,
+				new AsyncCallback<ArrayList<FormFieldDto>>() {
+
+					@Override
+					public void onSuccess(ArrayList<FormFieldDto> result) {
+						// TODO Auto-generated method stub
+
+						fields = result;
+
+						int row = -1;
+						int col = 0;
+						// предыдущее координаты виджета
+						float prevUpperY = Float.MAX_VALUE;
+
+						for (FormFieldDto formFieldDto : result) {
+
+							row++;
+
+							VerticalPanel vp = new VerticalPanel();
+							vp.add(new Label(formFieldDto.getFieldTitle()));
+
+							if (Math.abs(prevUpperY
+									- formFieldDto.getUpperRightY()) < flexLayoutMaxInterval) {
+								col++;
+								if (row > 0)
+									row--;
+							} else {
+								prevUpperY = formFieldDto.getUpperRightY();
+								col = 0;
+							}
+
+							panel.setWidget(row, col, vp);
+
+							// System.out.println("!!!! "
+							// + formFieldDto.getFieldTitle() + "[" + row
+							// + ";" + col + "]");
+
+							// Если комбо или лист
+							if (formFieldDto instanceof FormFieldListDto) {
+								FormListBox listBox = new FormListBox();
+
+								for (String val : ((FormFieldListDto) formFieldDto)
+										.getValues()) {
+									listBox.addItem(val);
+								}
+								listBox.setFormField(formFieldDto);
+								vp.add(listBox);
+
+							}
+							// Если радиокнопка
+							else if (formFieldDto instanceof FormFieldRadioBtnDto) {
+								for (String val : ((FormFieldRadioBtnDto) formFieldDto)
+										.getValues()) {
+
+									FormRadioButton radioButton = new FormRadioButton(
+											formFieldDto.getFieldName(), val);
+									radioButton.setFormField(formFieldDto);
+									vp.add(radioButton);
+								}
+
+							}
+							// Если чекбокс
+							else if (formFieldDto instanceof FormFieldCheckboxDto) {
+								FormCheckBox checkBox = new FormCheckBox(
+										formFieldDto.getFieldNameEncoded());
+								checkBox.setFormField(formFieldDto);
+								vp.add(checkBox);
+							}
+							// Если текстовое поле
+							else {
+
+								// ширина поля ввода
+								float height = formFieldDto.getUpperRightY()
+										- formFieldDto.getLowerLeftY();
+
+								// широкое текстовое поле ввода
+								if (height > singlePanelMaxHeight) {
+									FormTextArea normalText = new FormTextArea();
+									normalText
+											.setVisibleLines((int) (height / singlePanelMaxHeight));
+									normalText.setFormField(formFieldDto);
+									vp.add(normalText);
+								}
+								// обычное текстовое поле ввода
+								else {
+									FormTextBox normalText = new FormTextBox();
+									normalText.setFormField(formFieldDto);
+									vp.add(normalText);
+								}
+
+							}
+
+							// mainPanel.add(btn, (int) formFieldDto
+							// .getLowerLeftX(), panelHeight - (int)
+							// formFieldDto
+							// .getLowerLeftY());
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Выдать сообщение в случае ошибки !!!
+						RootPanel.get().add(
+								new Label("Load templates fault! " + caught));
+						System.err.println("Load templates fault! " + caught);
+						caught.printStackTrace();
+					}
+				});
+
+	}
+
+	/**
+	 * @param tmplName
+	 * @param panel
+	 */
+	private void initAsVerticalPanel(String tmplName, final VerticalPanel panel) {
+
+		Button btn = new Button("Сохранить");
+		mPanel.add(btn);
+		btn.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				save();
+
+			}
+		});
 
 		Dicom_pdfview.service.getFormFields(tmplName,
 				new AsyncCallback<ArrayList<FormFieldDto>>() {
@@ -105,8 +355,7 @@ public class FormPdf extends Composite {
 
 						for (FormFieldDto formFieldDto : result) {
 
-							mainPanel.add(new Label(formFieldDto
-									.getFieldTitle()));
+							panel.add(new Label(formFieldDto.getFieldTitle()));
 
 							// Button btn = new Button(formFieldDto
 							// .getFieldNameEncoded());
@@ -127,7 +376,7 @@ public class FormPdf extends Composite {
 									listBox.addItem(val);
 								}
 								listBox.setFormField(formFieldDto);
-								mainPanel.add(listBox);
+								panel.add(listBox);
 
 							}
 							// Если радиокнопка
@@ -138,7 +387,7 @@ public class FormPdf extends Composite {
 									FormRadioButton radioButton = new FormRadioButton(
 											formFieldDto.getFieldName(), val);
 									radioButton.setFormField(formFieldDto);
-									mainPanel.add(radioButton);
+									panel.add(radioButton);
 								}
 
 							}
@@ -147,7 +396,7 @@ public class FormPdf extends Composite {
 								FormCheckBox checkBox = new FormCheckBox(
 										formFieldDto.getFieldNameEncoded());
 								checkBox.setFormField(formFieldDto);
-								mainPanel.add(checkBox);
+								panel.add(checkBox);
 							}
 							// Если текстовое поле
 							else {
@@ -162,13 +411,13 @@ public class FormPdf extends Composite {
 									normalText
 											.setVisibleLines((int) (height / singlePanelMaxHeight));
 									normalText.setFormField(formFieldDto);
-									mainPanel.add(normalText);
+									panel.add(normalText);
 								}
 								// обычное текстовое поле ввода
 								else {
 									FormTextBox normalText = new FormTextBox();
 									normalText.setFormField(formFieldDto);
-									mainPanel.add(normalText);
+									panel.add(normalText);
 								}
 
 							}
