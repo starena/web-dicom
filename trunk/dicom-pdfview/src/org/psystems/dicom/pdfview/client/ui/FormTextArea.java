@@ -9,6 +9,9 @@ import com.google.gwt.user.client.ui.TextArea;
 public class FormTextArea extends TextArea implements IFormInput {
 
 	FormFieldDto formField = new FormFieldDto();
+	
+	// Ширина однострочной панели (для определения какой виджет ставить TextArea или TextBox)
+	public final static int singlePanelMaxHeight = 20;
 
 	public FormTextArea() {
 
