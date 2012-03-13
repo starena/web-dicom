@@ -134,6 +134,7 @@ public class FormPdf extends Composite {
 							} else {
 								prevUpperY = formFieldDto.getUpperRightY();
 								hp = new HorizontalPanel();
+								hp.setSpacing(10);
 								panel.add(hp);
 							}
 
