@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -35,7 +36,7 @@ public class NewStudyServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.setCharacterEncoding("UTF-8");
 		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
-		System.out.println("isMultipart=" + isMultipart);
+		System.out.println(new Date() + " [DEBUG] isMultipart=" + isMultipart);
 		HttpSession session = req.getSession();
 
 		String imgTmpDir = Config.getTmpFolder();
@@ -156,7 +157,7 @@ public class NewStudyServlet extends HttpServlet {
 		// TODO Зделать _авто_ определение кодировки !!!
 		String value = item.getString("UTF-8");
 
-		System.out.println("!!! FormFiled: " + name + "=" + value);
+		System.out.println("[DEBUG] FormFiled: " + name + "=" + value);
 
 		//Исключаем не IDCOM поля
 		if(name.equalsIgnoreCase("ID")) return;

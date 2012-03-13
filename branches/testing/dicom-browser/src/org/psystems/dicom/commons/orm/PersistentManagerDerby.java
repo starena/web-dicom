@@ -437,29 +437,37 @@ public class PersistentManagerDerby {
 	    
 	    
 	    pstmt.close();
-	    Long idForService = 0l;
+	    Long studyIdForService = 0l;
 	    
-	    System.err.println(new Date()+" DEBUG [1] " + drn);
+	    System.err.println(new Date()+" DEBUG [1] Input Direction=" + drn);
 	    
 	    
 	    // Ищем последнее исследование по этому направлению
 	    if (drn.getId() != null) {
-		sql = "select ID from WEBDICOM.STUDY where FID_DIRECTION = ?";
+		
+		System.err.println("!!! DEBUG is EXIST DIRECTION");
+		
+		sql = "select * from WEBDICOM.STUDY where FID_DIRECTION = ?";
 		pstmt = connection.prepareStatement(sql);
 		pstmt.setLong(1, drn.getId());
 		ResultSet rs = pstmt.executeQuery();
 
 		while (rs.next()) {
-		    idForService = rs.getLong("ID");
-		    System.err.println("!!!!!!!!!!!!!!!!! DEBUG idForService="+idForService + " drn.getId()="+drn.getId());
+		    studyIdForService = rs.getLong("ID");
+		    String studyStr = "ID=" + studyIdForService + "; STUDY_ID="+rs.getString("STUDY_ID")+
+		    "; PATIENT_ID="+rs.getString("PATIENT_ID")+"; PATIENT_NAME="+rs.getString("PATIENT_NAME");
+		    System.err.println("!!! DEBUG finded Study_internal_id="+studyIdForService + 
+			    " drn.getId()="+drn.getId()+" -> "+studyStr);
 		    break;
 		}
+	    } else {
+		 System.err.println("!!! DEBUG is NEW DIRECTION");
 	    }
 	    
 	    
 	    
 	    
-	    System.err.println("!!!!!!!!!!!!!!!!! DEBUG idForService="+idForService+"; drn.getId()="+drn.getId()+
+	    System.err.println(new Date() +" !!! DEBUG idForService="+studyIdForService+"; drn.getId()="+drn.getId()+
 		    "; drn.getDirectionCode()="+drn.getDirectionCode());
 	    
 	    // Сохраняем услуги
@@ -476,15 +484,22 @@ public class PersistentManagerDerby {
 
 	    if (drn.getServicesDirect() != null)
 		for (Service srv : drn.getServicesDirect()) {
+		    
+		    if(srv.getStudyInternalId()<=0)
+			srv.setStudyInternalId(studyIdForService);
+		    
+		    System.err.println("!!! DEBUG Service DIRRECT studyIdForService="+studyIdForService+" srv.getStudyInternalId()="+srv.getStudyInternalId()+
+			    " srv="+srv);
+		    
+		    
+		    
 		    pstmt.setLong(1, resultId);
-
-		    System.err.println("!!!!!!!!!!!!!!!!! DEBUG DIRRECT idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
+		    
 		    
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
-		    else if(idForService > 0) {
-			pstmt.setLong(2, idForService);
-		    } else
+		    
+		     else
 			pstmt.setNull(2, java.sql.Types.INTEGER);
 
 		    pstmt.setString(3, "D");
@@ -496,15 +511,19 @@ public class PersistentManagerDerby {
 		}
 	    if (drn.getServicesPerformed() != null)
 		for (Service srv : drn.getServicesPerformed()) {
-		    pstmt.setLong(1, resultId);
+		   
 
-		    System.err.println("!!!!!!!!!!!!!!!!! DEBUG PERFORMED idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
+		    if(srv.getStudyInternalId()<=0)
+			srv.setStudyInternalId(studyIdForService);
+		    
+		    System.err.println("!!!!! DEBUG Service PERFORMED studyIdForService="+studyIdForService+" srv.getStudyInternalId()="+srv.getStudyInternalId()+
+			    " srv="+srv);
+		    
+		    pstmt.setLong(1, resultId);
 		    
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
-		    else if(idForService > 0) {
-			pstmt.setLong(2, idForService);
-		    } else
+		    else
 			pstmt.setNull(2, java.sql.Types.INTEGER);
 
 		    pstmt.setString(3, "P");
@@ -515,7 +534,7 @@ public class PersistentManagerDerby {
 		    count = pstmt.executeUpdate();
 		}
 
-	    System.err.println(new Date()+" DEBUG [2] " + drn);
+	    System.err.println(new Date()+" DEBUG [2] Output Direction=" + drn);
 	    
 	    connection.commit();
 
