@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletContext;
 
@@ -438,6 +439,9 @@ public class PersistentManagerDerby {
 	    pstmt.close();
 	    Long idForService = 0l;
 	    
+	    System.err.println(new Date()+" DEBUG [1] " + drn);
+	    
+	    
 	    // Ищем последнее исследование по этому направлению
 	    if (drn.getId() != null) {
 		sql = "select ID from WEBDICOM.STUDY where FID_DIRECTION = ?";
@@ -447,7 +451,7 @@ public class PersistentManagerDerby {
 
 		while (rs.next()) {
 		    idForService = rs.getLong("ID");
-		    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService);
+		    System.err.println("!!!!!!!!!!!!!!!!! DEBUG idForService="+idForService + " drn.getId()="+drn.getId());
 		    break;
 		}
 	    }
@@ -455,7 +459,7 @@ public class PersistentManagerDerby {
 	    
 	    
 	    
-	    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+"; drn.getId()="+drn.getId()+
+	    System.err.println("!!!!!!!!!!!!!!!!! DEBUG idForService="+idForService+"; drn.getId()="+drn.getId()+
 		    "; drn.getDirectionCode()="+drn.getDirectionCode());
 	    
 	    // Сохраняем услуги
@@ -474,7 +478,7 @@ public class PersistentManagerDerby {
 		for (Service srv : drn.getServicesDirect()) {
 		    pstmt.setLong(1, resultId);
 
-		    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
+		    System.err.println("!!!!!!!!!!!!!!!!! DEBUG DIRRECT idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
 		    
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
@@ -494,7 +498,7 @@ public class PersistentManagerDerby {
 		for (Service srv : drn.getServicesPerformed()) {
 		    pstmt.setLong(1, resultId);
 
-		    System.err.println("!!!!!!!!!!!!!!!!! idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
+		    System.err.println("!!!!!!!!!!!!!!!!! DEBUG PERFORMED idForService="+idForService+" srv.getStudyInternalId()="+srv.getStudyInternalId());
 		    
 		    if (srv.getStudyInternalId() > 0)
 			pstmt.setLong(2, srv.getStudyInternalId());
@@ -511,6 +515,8 @@ public class PersistentManagerDerby {
 		    count = pstmt.executeUpdate();
 		}
 
+	    System.err.println(new Date()+" DEBUG [2] " + drn);
+	    
 	    connection.commit();
 
 	} catch (SQLException e) {
