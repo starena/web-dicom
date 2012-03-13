@@ -138,7 +138,7 @@ public class FormPdf extends Composite {
 							hp.add(vp);
 
 							IFormInput widget = FormWidgetFactory
-									.getInstance(formFieldDto);
+									.getWidgetInstance(formFieldDto);
 							vp.add((Widget) widget);
 
 						}
@@ -196,7 +196,7 @@ public class FormPdf extends Composite {
 							panel.setWidget(row, col, vp);
 
 							IFormInput widget = FormWidgetFactory
-									.getInstance(formFieldDto);
+									.getWidgetInstance(formFieldDto);
 							vp.add((Widget) widget);
 
 						}
@@ -242,7 +242,7 @@ public class FormPdf extends Composite {
 						for (FormFieldDto formFieldDto : result) {
 							panel.add(new Label(formFieldDto.getFieldTitle()));
 							IFormInput widget = FormWidgetFactory
-									.getInstance(formFieldDto);
+									.getWidgetInstance(formFieldDto);
 							panel.add((Widget) widget);
 						}
 					}
