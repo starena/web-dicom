@@ -1,9 +1,7 @@
 package org.psystems.dicom.pdfview.server;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
-import com.google.gwt.dev.util.collect.HashMap;
+import java.util.HashMap;
 
 public class FormField implements Comparable<FormField> {
 
@@ -35,19 +33,21 @@ public class FormField implements Comparable<FormField> {
 	public FormField(String name) throws UnsupportedEncodingException {
 		super();
 		this.fieldName = name;
-		
+
 		HashMap<String, String> atts = FormFieldFactory.getFieldAtts(fieldName);
-		if(atts.get("encname")!=null) fieldNameEncoded = atts.get("encname");
-		if(atts.get("title")!=null) fieldTitle = atts.get("title");
-		if(atts.get("tag")!=null) tag = atts.get("tag");
-		if(atts.get("format")!=null) format = atts.get("format");
+		if (atts.get("encname") != null)
+			fieldNameEncoded = atts.get("encname");
+		if (atts.get("title") != null)
+			fieldTitle = atts.get("title");
+		if (atts.get("tag") != null)
+			tag = atts.get("tag");
+		if (atts.get("format") != null)
+			format = atts.get("format");
 	}
 
 	public String getFieldName() {
 		return fieldName;
 	}
-	
-
 
 	public float getUpperRightY() {
 		return upperRightY;
