@@ -72,6 +72,7 @@ public class FormWidgetFactory {
 		else if (formFieldDto instanceof FormFieldDateDto) {
 
 			FormDateBox dateBox = new FormDateBox();
+			dateBox.setFormField(formFieldDto);
 			return dateBox;
 		}
 		// Если текстовое поле

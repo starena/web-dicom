@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -342,7 +341,15 @@ public class PdfServiceImpl extends RemoteServiceServlet implements PdfService {
 			float urY = rectArr.getAsNumber(3).floatValue();
 
 			String value = form.getField(fieldName);
+			
+			
+			
+			
 			int fieldType = form.getFieldType(fieldName);
+			
+			
+			
+			
 			// Удаляем поле
 			form.removeField(fieldName);
 

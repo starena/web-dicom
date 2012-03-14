@@ -2,14 +2,13 @@ package org.psystems.dicom.pdfview.client.ui;
 
 import java.util.Date;
 
-
+import org.psystems.dicom.pdfview.dto.FormFieldDateDto;
 import org.psystems.dicom.pdfview.dto.FormFieldDto;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
@@ -24,21 +23,34 @@ public class FormDateBox extends DateBox implements IFormInput {
 	 * 
 	 */
 	public FormDateBox() {
-		
+
 		setFormat(new DateBox.DefaultFormat(FormWidgetFactory.dateFormatUser));
-		setValue(new Date());
-		
+		// Date date = new Date();
+		setValue(null);
+		// formField.setValue(FormWidgetFactory.dateFormatDicom
+		// .format(date));
+
 		addValueChangeHandler(new ValueChangeHandler<Date>() {
-			
+
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				// TODO Auto-generated method stub
 				Date date = event.getValue();
-				formField.setValue(FormWidgetFactory.dateFormatDicom.format(date));
+				formField.setValue(FormWidgetFactory.dateFormatUser
+						.format(date));
+
+				try {
+					((FormFieldDateDto) formField)
+							.chekBeforeClientSerialization();
+				} catch (IllegalArgumentException caught) {
+					RootPanel.get().add(
+							new Label("Select date fault! " + caught));
+					System.err.println("Select date fault! " + caught);
+					caught.printStackTrace();
+				}
+
 			}
 		});
 
-		
 	}
 
 	public FormFieldDto getFormField() {
@@ -47,7 +59,14 @@ public class FormDateBox extends DateBox implements IFormInput {
 
 	public void setFormField(FormFieldDto formField) {
 		this.formField = formField;
-		setValue(FormWidgetFactory.dateFormatDicom.parse(formField.getValue()));
+
+		// if (formField.getValue() != null && formField.getValue().length() >
+		// 0)
+		// setValue(FormWidgetFactory.dateFormatDicom.parse(formField
+		// .getValue()));
+		// else
+		// setValue(new Date());
+
 	}
 
 }

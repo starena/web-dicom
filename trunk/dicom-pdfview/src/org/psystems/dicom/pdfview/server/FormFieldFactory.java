@@ -2,15 +2,15 @@ package org.psystems.dicom.pdfview.server;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Properties;
+import java.util.HashMap;
 
-import com.google.gwt.dev.util.collect.HashMap;
 import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.AcroFields.Item;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfName;
-import com.itextpdf.text.pdf.AcroFields.Item;
 
 /**
  * Фабрика PDF-полей
@@ -19,6 +19,21 @@ import com.itextpdf.text.pdf.AcroFields.Item;
  * 
  */
 public class FormFieldFactory {
+
+	public static SimpleDateFormat dateFormatSQL = new SimpleDateFormat(
+			"yyyy-MM-dd");
+
+	public static SimpleDateFormat dateTimeFormatSQL = new SimpleDateFormat(
+			"yyyy-MM-dd HH:mm:ss");
+
+	public static SimpleDateFormat dateFormatUser = new SimpleDateFormat(
+			"dd.MM.yyyy");
+
+	public static SimpleDateFormat dateFormatDicom = new SimpleDateFormat(
+			"yyyyMMdd");
+
+	public static SimpleDateFormat dateTimeFormatUser = new SimpleDateFormat(
+			"dd.MM.yyyy HH:mm:ss");
 
 	/**
 	 * @param form
@@ -78,15 +93,15 @@ public class FormFieldFactory {
 		else {
 			// Если календарик
 			if (atts.get("format") != null
-					&& (atts.get("format").equalsIgnoreCase("dd.mm.yyyy") || 
-							atts.get("format").equalsIgnoreCase("dd_mm_yyyy"))) {
+					&& (atts.get("format").equalsIgnoreCase("dd.mm.yyyy") || atts
+							.get("format").equalsIgnoreCase("dd_mm_yyyy"))) {
 
 				ff = new FormFieldDate(fieldName);
-				
+
 			} else {
 				ff = new FormField(fieldName);
 			}
-			
+
 		}
 
 		ff.setUpperRightY(urY);
