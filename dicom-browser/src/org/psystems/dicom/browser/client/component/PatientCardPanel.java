@@ -78,6 +78,13 @@ public class PatientCardPanel extends Composite {
 			proxy.setPatientSex(patientProxy.getPatientSex());
 			// proxy.setPatientBirthDate(ORMUtil.userDateStringToSQLDateString(patientProxy.getPatientBirthDate()));
 			proxy.setPatientBirthDate(patientProxy.getPatientBirthDate());
+			
+			// FIXME Задать инстанс. UID-аппарата (из конфига) + ddmmyyyyhhmmss
+			// Это в том случае если исследование НОВОЕ, если доописываем,
+			// то брать из предудущего изменения (предыдущее изменение того же исследования)
+			// Тут нужно еще разбираться и с SOP Clss UID и прочеее
+			// и о том как оно формируется
+			proxy.setStudyInstanceUID(studyInstanceUID);
 
 			studyManagePanel = new StudyManagePanel(null, proxy);
 			mainPanel.add(studyManagePanel);
