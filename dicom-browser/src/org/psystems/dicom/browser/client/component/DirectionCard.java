@@ -521,12 +521,13 @@ Resources resources = GWT.create(Resources.class);
 		//
 		proxy.setStudyViewprotocolDate(Utils.dateFormatSql.format(new Date()));
 		
+		String studyInstanceUID = ""+new java.util.Date().getTime()+"."+Math.random();
 		// FIXME Задать инстанс. UID-аппарата (из конфига) + ddmmyyyyhhmmss
 		// Это в том случае если исследование НОВОЕ, если доописываем,
 		// то брать из предудущего изменения (предыдущее изменение того же исследования)
 		// Тут нужно еще разбираться и с SOP Clss UID и прочеее
 		// и о том как оно формируется
-		proxy.setStudyInstanceUID(studyInstanceUID);
+		proxy.setStudyInstanceUID(studyInstanceUID );
 		
 
 	    } else {
