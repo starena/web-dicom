@@ -79,6 +79,7 @@ public class PatientCardPanel extends Composite {
 			// proxy.setPatientBirthDate(ORMUtil.userDateStringToSQLDateString(patientProxy.getPatientBirthDate()));
 			proxy.setPatientBirthDate(patientProxy.getPatientBirthDate());
 			
+			String studyInstanceUID = ""+new java.util.Date().getTime()+"."+Math.random();
 			// FIXME Задать инстанс. UID-аппарата (из конфига) + ddmmyyyyhhmmss
 			// Это в том случае если исследование НОВОЕ, если доописываем,
 			// то брать из предудущего изменения (предыдущее изменение того же исследования)
