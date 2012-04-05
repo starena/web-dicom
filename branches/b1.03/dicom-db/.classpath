@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (3)"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/derby.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/derbyclient.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/derbyLocale_ru.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/derbynet.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/derbyrun.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/derbytools.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

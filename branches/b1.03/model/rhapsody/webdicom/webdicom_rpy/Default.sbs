@@ -1,0 +1,35 @@
+I-Logix-RPY-Archive version 8.0.9 Java 893629
+{ ISubsystem 
+	- _id = GUID 942f29b3-a5da-4a49-8776-2999c8907fcf;
+	- _myState = 8192;
+	- _name = "Default";
+	- _lastID = 1;
+	- weakCGTime = 2.24.2010::4:25:4;
+	- strongCGTime = 2.24.2010::4:21:38;
+	- _defaultComposite = GUID c23c2eb9-f2a2-4ca7-a8c5-cd9951243392;
+	- _eventsBaseID = -1;
+	- Classes = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IClass 
+			- _id = GUID c23c2eb9-f2a2-4ca7-a8c5-cd9951243392;
+			- _myState = 40960;
+			- _name = "TopLevel";
+			- weakCGTime = 2.24.2010::4:25:4;
+			- strongCGTime = 2.24.2010::4:21:38;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 0;
+			}
+			- _classModifier = Unspecified;
+		}
+	}
+	- Actors = { IRPYRawContainer 
+		- size = 0;
+	}
+	- _configurationRelatedTime = 2.24.2010::4:25:4;
+}
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="Dicom Web Service" default="war" basedir=".">
+
+	<path id= "svnant.classpath" >
+		<fileset dir= "lib/svnant" >
+			<include name= "*.jar" />
+		</fileset>
+	</path>
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.classpath"/>
+
+	<property name="version" value="2"/>
+	<property name="distdir" value="distrib"/>
+	<property name="distfile" value="${distdir}/dicom-webservice${version}.war"/>
+
+	<tstamp>
+		<format property="today" pattern="yyyy/MM/dd HH:mm:ss" locale="en" />
+	</tstamp>
+
+
+	<target name="clean" description="Cleans this project">
+		<delete dir="${distdir}" failonerror="true"/>
+	</target>
+
+	<target name="build" description="Build this project" depends="clean">
+		<echo> ******* TODO ******** </echo>
+		<echo> *  Make Build Task  * </echo>
+		<echo> ******* TODO ******** </echo>
+
+
+	</target>
+
+
+	<target name="war" depends="build" description="Create a war file">
+
+		<!--svn javahl="false" svnkit="true">
+			<wcversion path="." />
+			<status path="." textStatusProperty="testStatus.textStatus"/>
+		</svn>
+		<echo message= "Subversion repository status: ${testStatus.textStatus}" />
+		<echo message= "Subversion repository url: ${repository.url}" /-->
+
+
+		<property name="source-root" value="." />
+		<property name="repository.URL" value="http://sources.example.com" />
+		<java classname="org.tmatesoft.svn.cli.SVN" dir="${source-root}/src" fork="true"
+			classpathref="svnant.classpath" output="WebContent/revision.txt">
+			<arg value="info" />
+		</java>
+
+		
+		<mkdir dir="${distdir}"/>
+		<zip destfile="${distfile}" basedir="WebContent" includes="**/**" excludes="**/todo.html">
+		</zip>
+	</target>
+
+</project>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_h5LjMR0aEd-qqPeZ1l9oTw" name="Участники бизнес-процесса &quot;Исследование&quot;">
+  <ownedComment xmi:id="_sY2CkB_kEd-mkbhMtD1fdA">
+    <body>Уточнить: кто печатает выписку?</body>
+  </ownedComment>
+  <elementImport xmi:id="_h7Hc4B0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_h7RN4B0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_h7RN4R0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_h7RN4h0aEd-qqPeZ1l9oTw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <elementImport xmi:id="_D-mBUB_kEd-mkbhMtD1fdA"/>
+  <elementImport xmi:id="_EKOCgB_kEd-mkbhMtD1fdA"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_j4SUMB0aEd-qqPeZ1l9oTw" name="Узский специалист"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_lOkKoB0aEd-qqPeZ1l9oTw" name="Лаборант"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_mcMbYB0aEd-qqPeZ1l9oTw" name="Терапевт"/>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_271BIB0bEd-izY3W2mLslw" name="Архив"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_Oth7wB0cEd-izY3W2mLslw" name="Создание направления на исследование"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_UWJKEB0cEd-izY3W2mLslw" memberEnd="_UWJKER0cEd-izY3W2mLslw _UWJKFB0cEd-izY3W2mLslw" navigableOwnedEnd="_UWJKER0cEd-izY3W2mLslw _UWJKFB0cEd-izY3W2mLslw">
+    <ownedEnd xmi:id="_UWJKER0cEd-izY3W2mLslw" name="src" type="_mcMbYB0aEd-qqPeZ1l9oTw" association="_UWJKEB0cEd-izY3W2mLslw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UWJKEx0cEd-izY3W2mLslw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UWJKEh0cEd-izY3W2mLslw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_UWJKFB0cEd-izY3W2mLslw" name="dst" type="_Oth7wB0cEd-izY3W2mLslw" association="_UWJKEB0cEd-izY3W2mLslw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_UWJKFh0cEd-izY3W2mLslw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_UWJKFR0cEd-izY3W2mLslw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_WhdyIB0cEd-izY3W2mLslw" name="Пациент"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_7j8mUB0cEd-cwcIPSutrGw" name="Формирование снимков"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_CnwAQB0dEd-cwcIPSutrGw" memberEnd="_CnwAQR0dEd-cwcIPSutrGw _CnwARB0dEd-cwcIPSutrGw" navigableOwnedEnd="_CnwAQR0dEd-cwcIPSutrGw _CnwARB0dEd-cwcIPSutrGw">
+    <ownedEnd xmi:id="_CnwAQR0dEd-cwcIPSutrGw" name="src" type="_7j8mUB0cEd-cwcIPSutrGw" association="_CnwAQB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CnwAQx0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CnwAQh0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_CnwARB0dEd-cwcIPSutrGw" name="dst" type="_lOkKoB0aEd-qqPeZ1l9oTw" association="_CnwAQB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CnwARh0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CnwARR0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_GtaOEB0dEd-cwcIPSutrGw" name="Обработка снимков"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_IredQB0dEd-cwcIPSutrGw" name="Формирование результатов (анализа)">
+    <include xmi:id="_RLXvMB_lEd-mkbhMtD1fdA" addition="_JQG-QB_kEd-mkbhMtD1fdA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_WjShoB0dEd-cwcIPSutrGw" memberEnd="_WjShoR0dEd-cwcIPSutrGw _WjbrkR0dEd-cwcIPSutrGw" navigableOwnedEnd="_WjShoR0dEd-cwcIPSutrGw _WjbrkR0dEd-cwcIPSutrGw">
+    <ownedEnd xmi:id="_WjShoR0dEd-cwcIPSutrGw" name="src" type="_j4SUMB0aEd-qqPeZ1l9oTw" association="_WjShoB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_WjbrkB0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_WjShoh0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_WjbrkR0dEd-cwcIPSutrGw" name="dst" type="_GtaOEB0dEd-cwcIPSutrGw" association="_WjShoB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Wjbrkx0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Wjbrkh0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_XbnQwB0dEd-cwcIPSutrGw" memberEnd="_XbnQwR0dEd-cwcIPSutrGw _XbnQxB0dEd-cwcIPSutrGw" navigableOwnedEnd="_XbnQwR0dEd-cwcIPSutrGw _XbnQxB0dEd-cwcIPSutrGw">
+    <ownedEnd xmi:id="_XbnQwR0dEd-cwcIPSutrGw" name="src" type="_j4SUMB0aEd-qqPeZ1l9oTw" association="_XbnQwB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XbnQwx0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XbnQwh0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_XbnQxB0dEd-cwcIPSutrGw" name="dst" type="_IredQB0dEd-cwcIPSutrGw" association="_XbnQwB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_XbnQxh0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_XbnQxR0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_bSYG8B0dEd-cwcIPSutrGw" name="Получение результатов исследования">
+    <include xmi:id="_WXymMB_kEd-mkbhMtD1fdA" addition="_JQG-QB_kEd-mkbhMtD1fdA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_gy8MgB0dEd-cwcIPSutrGw" memberEnd="_gy8MgR0dEd-cwcIPSutrGw _gy8MhB0dEd-cwcIPSutrGw" navigableOwnedEnd="_gy8MgR0dEd-cwcIPSutrGw _gy8MhB0dEd-cwcIPSutrGw">
+    <ownedEnd xmi:id="_gy8MgR0dEd-cwcIPSutrGw" name="src" type="_bSYG8B0dEd-cwcIPSutrGw" association="_gy8MgB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gy8Mgx0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gy8Mgh0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_gy8MhB0dEd-cwcIPSutrGw" name="dst" type="_mcMbYB0aEd-qqPeZ1l9oTw" association="_gy8MgB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gy8Mhh0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gy8MhR0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_lpLisB0dEd-cwcIPSutrGw" name="Передача исследования в архив"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_oZBNEB0dEd-cwcIPSutrGw" memberEnd="_oZBNER0dEd-cwcIPSutrGw _oZBNFB0dEd-cwcIPSutrGw" navigableOwnedEnd="_oZBNER0dEd-cwcIPSutrGw _oZBNFB0dEd-cwcIPSutrGw">
+    <ownedEnd xmi:id="_oZBNER0dEd-cwcIPSutrGw" name="src" type="_lOkKoB0aEd-qqPeZ1l9oTw" association="_oZBNEB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oZBNEx0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oZBNEh0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_oZBNFB0dEd-cwcIPSutrGw" name="dst" type="_lpLisB0dEd-cwcIPSutrGw" association="_oZBNEB0dEd-cwcIPSutrGw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oZBNFh0dEd-cwcIPSutrGw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oZBNFR0dEd-cwcIPSutrGw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_yduyoB_jEd-mkbhMtD1fdA" name="Приход на прием"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_5C_PYB_jEd-mkbhMtD1fdA" memberEnd="_5DIZUB_jEd-mkbhMtD1fdA _5DIZUx_jEd-mkbhMtD1fdA" navigableOwnedEnd="_5DIZUx_jEd-mkbhMtD1fdA">
+    <ownedEnd xmi:id="_5DIZUB_jEd-mkbhMtD1fdA" name="src" type="_WhdyIB0cEd-izY3W2mLslw" association="_5C_PYB_jEd-mkbhMtD1fdA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5DIZUh_jEd-mkbhMtD1fdA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5DIZUR_jEd-mkbhMtD1fdA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_5DIZUx_jEd-mkbhMtD1fdA" name="dst" type="_yduyoB_jEd-mkbhMtD1fdA" association="_5C_PYB_jEd-mkbhMtD1fdA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5DIZVR_jEd-mkbhMtD1fdA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5DIZVB_jEd-mkbhMtD1fdA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_7jUeIB_jEd-mkbhMtD1fdA" name="Пойти на исследование"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="__c6l4B_jEd-mkbhMtD1fdA" memberEnd="__c6l4R_jEd-mkbhMtD1fdA __c6l5B_jEd-mkbhMtD1fdA" navigableOwnedEnd="__c6l5B_jEd-mkbhMtD1fdA">
+    <ownedEnd xmi:id="__c6l4R_jEd-mkbhMtD1fdA" name="src" type="_7jUeIB_jEd-mkbhMtD1fdA" association="__c6l4B_jEd-mkbhMtD1fdA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__c6l4x_jEd-mkbhMtD1fdA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__c6l4h_jEd-mkbhMtD1fdA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="__c6l5B_jEd-mkbhMtD1fdA" name="dst" type="_WhdyIB0cEd-izY3W2mLslw" association="__c6l4B_jEd-mkbhMtD1fdA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__c6l5h_jEd-mkbhMtD1fdA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__c6l5R_jEd-mkbhMtD1fdA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_JQG-QB_kEd-mkbhMtD1fdA" name="Получить результат (выписку)"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_MTTpgB_kEd-mkbhMtD1fdA" memberEnd="_MTTpgR_kEd-mkbhMtD1fdA _MTTphB_kEd-mkbhMtD1fdA" navigableOwnedEnd="_MTTphB_kEd-mkbhMtD1fdA">
+    <ownedEnd xmi:id="_MTTpgR_kEd-mkbhMtD1fdA" name="src" type="_JQG-QB_kEd-mkbhMtD1fdA" association="_MTTpgB_kEd-mkbhMtD1fdA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MTTpgx_kEd-mkbhMtD1fdA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MTTpgh_kEd-mkbhMtD1fdA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_MTTphB_kEd-mkbhMtD1fdA" name="dst" type="_WhdyIB0cEd-izY3W2mLslw" association="_MTTpgB_kEd-mkbhMtD1fdA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MTTphh_kEd-mkbhMtD1fdA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MTTphR_kEd-mkbhMtD1fdA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>

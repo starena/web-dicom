@@ -1,0 +1,5071 @@
+I-Logix-RPY-Archive version 8.0.9 Java 893629
+{ IUCDiagram 
+	- _ownerHandle = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "webdicom.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "webdicom";
+		- _id = GUID 521d3a46-1337-4062-9390-ad4f82175e2c;
+	}
+	- _id = GUID 5ddf46c9-3e6f-4d33-b7fa-73e0ffe79a81;
+	- _myState = 8192;
+	- _properties = { IPropertyContainer 
+		- Subjects = { IRPYRawContainer 
+			- size = 1;
+			- value = 
+			{ IPropertySubject 
+				- _Name = "Format";
+				- Metaclasses = { IRPYRawContainer 
+					- size = 6;
+					- value = 
+					{ IPropertyMetaclass 
+						- _Name = "Actor";
+						- Properties = { IRPYRawContainer 
+							- size = 7;
+							- value = 
+							{ IProperty 
+								- _Name = "DefaultSize";
+								- _Value = "0,26,84,168";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,128";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "111,0,107";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Association";
+						- Properties = { IRPYRawContainer 
+							- size = 5;
+							- value = 
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,128";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "221,0,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Class";
+						- Properties = { IRPYRawContainer 
+							- size = 8;
+							- value = 
+							{ IProperty 
+								- _Name = "DefaultSize";
+								- _Value = "0,34,84,148";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "121,122,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineStyle";
+								- _Value = "0";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Depends";
+						- Properties = { IRPYRawContainer 
+							- size = 6;
+							- value = 
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,128";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "0,16,230";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineStyle";
+								- _Value = "1";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "0";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Note";
+						- Properties = { IRPYRawContainer 
+							- size = 7;
+							- value = 
+							{ IProperty 
+								- _Name = "DefaultSize";
+								- _Value = "0,0,84,96";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,207";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "225,225,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "UseCase";
+						- Properties = { IRPYRawContainer 
+							- size = 7;
+							- value = 
+							{ IProperty 
+								- _Name = "DefaultSize";
+								- _Value = "0,21,129,92";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "111,0,107";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	- _name = "usecase-main";
+	- _displayName = "usecase-main";
+	- _lastModifiedTime = "3.2.2010::5:7:46";
+	- _graphicChart = { CGIClassChart 
+		- _id = GUID e7e7ea5f-816d-41fb-92ac-dc0a4e8685bc;
+		- m_type = 0;
+		- m_pModelObject = { IHandle 
+			- _m2Class = "IUCDiagram";
+			- _id = GUID 5ddf46c9-3e6f-4d33-b7fa-73e0ffe79a81;
+		}
+		- m_pParent = ;
+		- m_name = { CGIText 
+			- m_str = "";
+			- m_style = "Arial" 10 0 0 0 1 ;
+			- m_color = { IColor 
+				- m_fgColor = 0;
+				- m_bgColor = 0;
+				- m_bgFlag = 0;
+			}
+			- m_position = 1 0 0  ;
+			- m_nIdent = 0;
+			- m_bImplicitSetRectPoints = 0;
+			- m_nOrientationCtrlPt = 8;
+		}
+		- m_drawBehavior = 0;
+		- m_bIsPreferencesInitialized = 0;
+		- elementList = 50;
+		{ CGICompositeClass 
+			- _id = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_type = 78;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "TopLevel";
+				- _id = GUID 7d6e047a-9159-499b-a317-720efd3d6602;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 0;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 0 ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID a47af141-b23a-4fa6-b0be-4c566036cb6e;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\“\е\р\а\п\е\в\т";
+				- _id = GUID 589abb65-3598-4179-81c0-41cbbc4f61f3;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\“\е\р\а\п\е\в\т";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 441.895 337.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID f1c52a70-ce4d-4570-9eb0-472f4f3404b9;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "Patient";
+				- _id = GUID 1ba32a22-22e7-4b08-b69f-f376849e74ce;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "Patient";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 436.895 107.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID a0328c92-3600-4477-87e5-1848a665c416;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\Ћ\а\б\о\р\а\н\т";
+				- _id = GUID 238c84ea-18d5-44ca-a84e-c1d06415b6e6;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\Ћ\а\б\о\р\а\н\т";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 454.895 541.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 23f1c5df-1289-4dfa-b068-f5ac46e5a0a1;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID 7a6d4719-8a67-460f-9fad-f6d0b64e2a52;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\”з\кий \с\п\е\ци\а\ли\с\т";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 450.895 763.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 3939c5fd-24ac-4012-9fce-a4b24c1b949d;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\ѕ\о\с\е\щ\е\ни\е \т\е\р\а\п\е\в\т\а";
+				- _id = GUID dc0ef173-df7a-4cd4-abe6-8579ae9d35aa;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\ѕ\о\с\е\щ\е\ни\е \т\е\р\а\п\е\в\т\а";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 116.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID b3910002-66c6-4421-bc37-f481b882c0fb;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "usecase_6";
+				- _id = GUID 5ee35283-0625-46ec-b435-3bef5dc3eb6f;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "usecase_6";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 231.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 3055b92a-38cf-49fb-a27a-6883bb403b28;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\ѕ\о\с\л\а\т\ь \п\а\ци\е\н\т\а \н\а \о\б\с\л\е\д\о\в\а\ни\е";
+				- _id = GUID a8af3936-7c66-4849-b255-40dd99ef2958;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\ѕ\о\с\л\а\т\ь \п\а\ци\е\н\т\а \н\а \о\б\с\л\е\д\о\в\а\ни\е";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 339.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID b3365cb5-e284-4746-b3f9-f2cf59add1c2;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\ѕ\о\с\е\щ\е\ни\е \т\е\р\а\п\е\в\т\а";
+				- _name = "itsPatient";
+				- _id = GUID 2fc9fe85-83df-40df-a40c-0c30b5aa37b7;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 3939c5fd-24ac-4012-9fce-a4b24c1b949d;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f1c52a70-ce4d-4570-9eb0-472f4f3404b9;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 287 542 ;
+			- m_TargetPort = 658 823 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "Patient";
+				- _name = "its\ѕ\о\с\е\щ\е\ни\е \т\е\р\а\п\е\в\т\а";
+				- _id = GUID e7b88dac-36ac-4ac3-a6c8-bd6545df6e9d;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 103af4fb-4dfc-4c8d-8d41-e16ee7515b5b;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "usecase_6";
+				- _name = "itsPatient";
+				- _id = GUID 91df5882-1dd1-4f3a-8e1d-075a7cffb438;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID b3910002-66c6-4421-bc37-f481b882c0fb;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f1c52a70-ce4d-4570-9eb0-472f4f3404b9;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 269 497 ;
+			- m_TargetPort = 478 928 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "Patient";
+				- _name = "itsUsecase_6";
+				- _id = GUID d29b8ec4-bbe2-4832-ac06-25946a59ff1d;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 17b2cf00-28ba-42ab-be6c-a5c74e47097e;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\ѕ\о\с\л\а\т\ь \п\а\ци\е\н\т\а \н\а \о\б\с\л\е\д\о\в\а\ни\е";
+				- _name = "its\“\е\р\а\п\е\в\т";
+				- _id = GUID 2ce5e2b5-444b-49fa-a39e-bca14506f2c0;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 3055b92a-38cf-49fb-a27a-6883bb403b28;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID a47af141-b23a-4fa6-b0be-4c566036cb6e;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 16 557 ;
+			- m_TargetPort = 710 734 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\“\е\р\а\п\е\в\т";
+				- _name = "its\ѕ\о\с\л\а\т\ь \п\а\ци\е\н\т\а \н\а \о\б\с\л\е\д\о\в\а\ни\е";
+				- _id = GUID 54711737-f13f-4fa8-9de2-fd3bcb8602e2;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIBasicClass 
+			- _id = GUID bbec6bcc-7521-419d-a048-2a45cf729c26;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\ѕ\о\л\у\ч\е\ни\е \р\ез\у\л\ь\т\а\т\о\в \о\б\с\л\е\д\о\в\а\ни\€";
+				- _id = GUID b4ee3af8-cce7-4439-977a-158546ec2e9f;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\ѕ\о\л\у\ч\е\ни\е \р\ез\у\л\ь\т\а\т\о\в \о\б\с\л\е\д\о\в\а\ни\€";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 434.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID de98bdcf-260a-4882-9ea8-9b756d62253b;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\“\е\р\а\п\е\в\т";
+				- _name = "its\ѕ\о\л\у\ч\е\ни\е \р\ез\у\л\ь\т\а\т\о\в \о\б\с\л\е\д\о\в\а\ни\€";
+				- _id = GUID 54f07f94-7481-4de8-85b9-62c72351fb2a;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID a47af141-b23a-4fa6-b0be-4c566036cb6e;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID bbec6bcc-7521-419d-a048-2a45cf729c26;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 555 839 ;
+			- m_TargetPort = 628 663 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\ѕ\о\л\у\ч\е\ни\е \р\ез\у\л\ь\т\а\т\о\в \о\б\с\л\е\д\о\в\а\ни\€";
+				- _name = "its\“\е\р\а\п\е\в\т";
+				- _id = GUID a192cf40-35a0-4624-9f33-950014a0a5aa;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 9e625fbb-cf0d-43dd-bd7e-ecc2d953faf9;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "usecase_9";
+				- _id = GUID 68679760-07a0-4b14-845a-19cb6b40c3cc;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "usecase_9";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 556.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID fd63575f-c797-470e-88b8-a7c6958f6f37;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\ѕ\е\р\е\д\а\ч\а и\с\с\л\е\д\о\в\а\ни\€ \в \а\р\хи\в";
+				- _id = GUID fbdf6c2f-6874-4b43-9855-54fada4aaca4;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\ѕ\е\р\е\д\а\ч\а и\с\с\л\е\д\о\в\а\ни\€ \в \а\р\хи\в";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 653.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 6fafae2e-8834-46ab-baf7-8bd3d3faca7a;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\ѕ\о\л\у\ч\е\ни\е и\с\с\л\е\д\о\в\а\ни\€ из \а\р\хи\в\а";
+				- _id = GUID 36389b5b-09d4-40a5-99fd-27bfc7464360;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\ѕ\о\л\у\ч\е\ни\е и\с\с\л\е\д\о\в\а\ни\€ из \а\р\хи\в\а";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 768.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 876548c2-59eb-431d-9108-b2ccce0b6ca4;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "usecase_12";
+				- _id = GUID bf06c660-4c08-444b-b1ca-064e81b4de0c;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "usecase_12";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.199291 0 0 0.0662932 80.3986 860.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID d9c392c0-ec95-49f3-b1c4-02edad340c2e;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "usecase_9";
+				- _name = "its\Ћ\а\б\о\р\а\н\т";
+				- _id = GUID be48209e-d75e-4573-a604-6d813c8b6a48;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9e625fbb-cf0d-43dd-bd7e-ecc2d953faf9;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID a0328c92-3600-4477-87e5-1848a665c416;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 115 557 ;
+			- m_TargetPort = 568 726 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\Ћ\а\б\о\р\а\н\т";
+				- _name = "itsUsecase_9";
+				- _id = GUID f3676b4b-2f6f-492f-aa23-0eb5d6404949;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID ece3c395-d241-440f-b65d-7ec36df51c82;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\ѕ\е\р\е\д\а\ч\а и\с\с\л\е\д\о\в\а\ни\€ \в \а\р\хи\в";
+				- _name = "its\Ћ\а\б\о\р\а\н\т";
+				- _id = GUID 06a43b2a-3c92-4a30-9ae1-ed6b3977b8d1;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID fd63575f-c797-470e-88b8-a7c6958f6f37;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID a0328c92-3600-4477-87e5-1848a665c416;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 119 482 ;
+			- m_TargetPort = 491 783 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\Ћ\а\б\о\р\а\н\т";
+				- _name = "its\ѕ\е\р\е\д\а\ч\а и\с\с\л\е\д\о\в\а\ни\€ \в \а\р\хи\в";
+				- _id = GUID 7e91ff4f-fb7c-4fd1-9d44-5c1f59fa8404;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 8984e414-fee9-4b72-9f56-29a4826c3bba;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\ѕ\о\л\у\ч\е\ни\е и\с\с\л\е\д\о\в\а\ни\€ из \а\р\хи\в\а";
+				- _name = "its\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID 3a62d7bc-24ba-4556-8fb3-4a000ea7fa23;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 6fafae2e-8834-46ab-baf7-8bd3d3faca7a;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 23f1c5df-1289-4dfa-b068-f5ac46e5a0a1;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 348 391 ;
+			- m_TargetPort = 542 734 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _name = "its\ѕ\о\л\у\ч\е\ни\е и\с\с\л\е\д\о\в\а\ни\€ из \а\р\хи\в\а";
+				- _id = GUID 1e81f411-e58d-421b-818b-d5e82c857e49;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID e721514d-efc2-431e-b76e-ccc33c87bdd0;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "usecase_12";
+				- _name = "its\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID 79d4f5f3-6318-4ebb-8aae-d7d41fe7305d;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 876548c2-59eb-431d-9108-b2ccce0b6ca4;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 23f1c5df-1289-4dfa-b068-f5ac46e5a0a1;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 349 874 ;
+			- m_TargetPort = 594 742 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _name = "itsUsecase_12";
+				- _id = GUID a849e5c4-86b2-4125-90eb-a46ca9ae680c;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAnnotation 
+			- _id = GUID 34c9f6f3-ec75-45d0-a680-6ef6b03b6578;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 2;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "Format";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Note";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "Font.Height";
+										- _Value = "18";
+										- _Type = Int;
+									}
+									{ IProperty 
+										- _Name = "Font.Size";
+										- _Value = "14";
+										- _Type = Int;
+									}
+								}
+							}
+						}
+					}
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "FitBoxToItsTextuals";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 90;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\”\ч\а\с\т\ни\ки \биз\н\е-\п\р\о\ц\е\с\с\а \"\ќ\б\с\л\е\д\о\в\а\ни\е \п\а\ци\е\н\т\а\"";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 4096;
+			- m_transform = 0.285978 0 0 0.0456204 64 13.8631 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 0 3  0 1099  1084 1099  1084 3  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- _iTempdisplayTextFlag = 1;
+			- m_bIsBoxStyle = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID de5004f3-cdca-4488-b3d9-79f2d290dc00;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "DICOM-\ј\р\хи\в";
+				- _id = GUID 42512bb8-5da5-4119-9639-47d4148ed3c9;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "DICOM-\ј\р\хи\в";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 1102.89 303.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 438d0f3d-6a59-4885-bb26-2ecd233021df;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "DICOM-\Ѕ\ƒ";
+				- _id = GUID 0c770993-c977-484d-a633-852f258fb010;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "DICOM-\Ѕ\ƒ";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 897.895 318.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 9d4ce0b2-5e78-46cf-a1ce-a0d0cc7dcc16;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "DICOM-WEB-\с\е\р\ви\с";
+				- _id = GUID 1a057b77-9e91-4bcf-ab43-62319c99e18a;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "DICOM-WEB-\с\е\р\ви\с";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 895.895 99.0227 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 3c2abff3-cb1a-4604-a3b0-6129eb1a2973;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "DICOM-WEB-и\н\т\е\р\ф\ей\с";
+				- _id = GUID 576b4e48-34c4-43a8-85cc-38961d89d9ae;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "DICOM-WEB-и\н\т\е\р\ф\ей\с";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 900.895 555.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 96484ba3-8422-4067-84ff-3fccfd9403c2;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "actor_17";
+				- _id = GUID 3adbad29-da59-44a0-96ae-0c1de02803af;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "actor_17";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 1153.89 99.0227 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 7964a5ec-39ff-4611-b3bf-ef39415d6c98;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WEB-и\н\т\е\р\ф\ей\с\о\м";
+				- _id = GUID 3a56fd54-403b-4754-9e2c-b3c935175e1f;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WEB-и\н\т\е\р\ф\ей\с\о\м";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.141718 0 0 0.0709617 644.283 503.071 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 3503ee45-8814-458f-b4fa-8aefd1ded165;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\¬з\аи\м\о\д\ей\с\т\ви\е \с \≈\»\— \ќ\ћ\—";
+				- _id = GUID a9b6fb57-12a5-4e55-8ac2-06f5d756a6f2;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\¬з\аи\м\о\д\ей\с\т\ви\е \с \≈\»\— \ќ\ћ\—";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.16209 0 0 0.0662932 629.324 280.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID e993e768-ade7-4503-8ee3-073823285084;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\Ћ\а\б\о\р\а\н\т";
+				- _name = "its\¬з\аи\м\о\д\ей\с\т\ви\е \с WEB-и\н\т\е\р\ф\ей\с\о\м";
+				- _id = GUID 5f7ef49c-5bd7-4fe1-ae23-7f55ec516e14;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID a0328c92-3600-4477-87e5-1848a665c416;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 7964a5ec-39ff-4611-b3bf-ef39415d6c98;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "view_study";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -37 -8  135 -8  135 10  -37 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 594 618 ;
+				- m_nHorizontalSpacing = -45;
+				- m_nVerticalSpacing = 45;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 645 629 ;
+			- m_TargetPort = 217 690 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WEB-и\н\т\е\р\ф\ей\с\о\м";
+				- _name = "its\Ћ\а\б\о\р\а\н\т";
+				- _id = GUID b1951cc3-db20-485b-8069-90818bf2a2b1;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID e07868f5-3e46-4308-8169-fea60d9ae027;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\“\е\р\а\п\е\в\т";
+				- _name = "its\¬з\аи\м\о\д\ей\с\т\ви\е \с WEB-и\н\т\е\р\ф\ей\с\о\м";
+				- _id = GUID d39a6fe8-8f2c-4dc2-86cf-342a70b9745a;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID a47af141-b23a-4fa6-b0be-4c566036cb6e;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 7964a5ec-39ff-4611-b3bf-ef39415d6c98;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "view_all";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -28 -8  148 -8  148 10  -28 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 567 475 ;
+				- m_nHorizontalSpacing = -44;
+				- m_nVerticalSpacing = 9;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 633 758 ;
+			- m_TargetPort = 266 563 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WEB-и\н\т\е\р\ф\ей\с\о\м";
+				- _name = "its\“\е\р\а\п\е\в\т";
+				- _id = GUID 27371dd6-fb1e-49a4-9ed5-3d8b4db0761e;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 7edea121-f6dd-4dfb-9414-fcada2d1077b;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\“\е\р\а\п\е\в\т";
+				- _name = "its\¬з\аи\м\о\д\ей\с\т\ви\е \с \≈\»\— \ќ\ћ\—";
+				- _id = GUID 088f765a-9b04-4967-897a-4f330fe9739d;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID a47af141-b23a-4fa6-b0be-4c566036cb6e;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 3503ee45-8814-458f-b4fa-8aefd1ded165;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "oms_view_all";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -44 -8  132 -8  132 10  -44 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 544 348 ;
+				- m_nHorizontalSpacing = -78;
+				- m_nVerticalSpacing = -11;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 620 791 ;
+			- m_TargetPort = 296 497 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\¬з\аи\м\о\д\ей\с\т\ви\е \с \≈\»\— \ќ\ћ\—";
+				- _name = "its\“\е\р\а\п\е\в\т";
+				- _id = GUID 57f778b8-8163-4a1a-9846-710876cacfb8;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 5f376bf7-b239-48e8-ba7c-db2c0fd6171e;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-\ј\р\хи\в";
+				- _name = "itsDICOM-\Ѕ\ƒ";
+				- _id = GUID 84b5dcf4-5553-4518-be4c-282846c3f434;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID de5004f3-cdca-4488-b3d9-79f2d290dc00;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 438d0f3d-6a59-4885-bb26-2ecd233021df;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 594 758 ;
+			- m_TargetPort = 607 637 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-\Ѕ\ƒ";
+				- _name = "itsDICOM-\ј\р\хи\в";
+				- _id = GUID 26b0bbca-8d84-40a6-bbf2-5a630dcc9d69;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIBasicClass 
+			- _id = GUID f88b937c-5616-493d-aa69-3f620ae84f87;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "DICOM-filestore";
+				- _id = GUID eb3576df-012a-4d3f-82ea-a8d8943c7d73;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "DICOM-filestore";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 1105.89 553.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 620eb7fe-add7-48a9-8790-0d151d911ea2;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-\ј\р\хи\в";
+				- _name = "itsDICOM-filestore";
+				- _id = GUID 7e23c010-ea0b-4de8-9d8d-1eab9ff8fdb0;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID de5004f3-cdca-4488-b3d9-79f2d290dc00;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f88b937c-5616-493d-aa69-3f620ae84f87;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 633 831 ;
+			- m_TargetPort = 581 686 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-filestore";
+				- _name = "itsDICOM-\ј\р\хи\в";
+				- _id = GUID 3ebc4800-ac51-4d95-9e65-aeb8913a8747;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIBasicClass 
+			- _id = GUID a5168a20-63a2-41f4-8a8d-edd195cf0dea;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "DICOM_workstation";
+				- _id = GUID 376cdd31-fabc-4cc3-a5ed-5e01a55872ea;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "DICOM_workstation";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 903.895 746.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID fd455ae3-86c9-4bdc-912c-26f4b958a9fe;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _name = "its\¬з\аи\м\о\д\ей\с\т\ви\е \с WorkStation";
+				- _id = GUID 17389ae8-356d-4fd9-bbdf-2058ec1cf051;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 23f1c5df-1289-4dfa-b068-f5ac46e5a0a1;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 7b026436-6f7d-4692-8d0d-3755afd6c9d2;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 607 750 ;
+			- m_TargetPort = 525 663 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WorkStation";
+				- _name = "its\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID 3d07c506-3819-4528-9a77-5d90ae425a0d;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID e1854a49-cfd4-48bb-b78b-76544c03db66;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\Ћ\а\б\о\р\а\н\т";
+				- _name = "its\¬з\аи\м\о\д\ей\с\т\ви\е \с WorkStation";
+				- _id = GUID 69498023-80eb-4ba5-a537-66cc1cb87031;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID a0328c92-3600-4477-87e5-1848a665c416;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 7b026436-6f7d-4692-8d0d-3755afd6c9d2;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 620 783 ;
+			- m_TargetPort = 655 617 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WorkStation";
+				- _name = "its\Ћ\а\б\о\р\а\н\т";
+				- _id = GUID ac13617f-8ab4-40e4-af02-406c97bb0022;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 7b026436-6f7d-4692-8d0d-3755afd6c9d2;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WorkStation";
+				- _id = GUID 1276049c-6872-4596-8dca-c62d9cfddca9;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\¬з\аи\м\о\д\ей\с\т\ви\е \с WorkStation";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.146147 0 0 0.0662932 584.292 758.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIInheritance 
+			- _id = GUID f6fcf18f-5272-4be3-9929-b3e863fd252c;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _name = "DICOM_workstation";
+				- _id = GUID 3f451d90-12b0-4532-a524-9c2af3ea0054;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "DICOM_workstation";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 8;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 23f1c5df-1289-4dfa-b068-f5ac46e5a0a1;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID a5168a20-63a2-41f4-8a8d-edd195cf0dea;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 607 815 ;
+			- m_TargetPort = 620 855 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID 4988ef40-20b1-458b-893d-443262038c7a;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\Ћ\а\б\о\р\а\н\т";
+				- _name = "DICOM_workstation";
+				- _id = GUID 710b7ce5-15b0-44b5-994c-c4bb2c0d46c0;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "DICOM_workstation";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 8;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID a0328c92-3600-4477-87e5-1848a665c416;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID a5168a20-63a2-41f4-8a8d-edd195cf0dea;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 671 670 ;
+			- m_TargetPort = 633 686 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID 2bb7d80d-ef05-4a51-a50f-f29e5fc8cb08;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-WEB-и\н\т\е\р\ф\ей\с";
+				- _name = "DICOM_filestore";
+				- _id = GUID 6d8643ee-461c-4840-b898-75b4fd80c4af;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "DICOM_filestore";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 8;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 3c2abff3-cb1a-4604-a3b0-6129eb1a2973;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f88b937c-5616-493d-aa69-3f620ae84f87;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 555 799 ;
+			- m_TargetPort = 568 815 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID 624be3d5-e42c-464a-bc7b-1fc2f7c157af;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-WEB-и\н\т\е\р\ф\ей\с";
+				- _name = "DICOM__\ƒ";
+				- _id = GUID fef9a9aa-5b8e-4aea-a079-c173c5e1e561;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 8;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 3c2abff3-cb1a-4604-a3b0-6129eb1a2973;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 438d0f3d-6a59-4885-bb26-2ecd233021df;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 633 678 ;
+			- m_TargetPort = 581 750 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID 41f7b570-b66f-476c-a256-c28b2e95fc1c;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-WEB-\с\е\р\ви\с";
+				- _name = "DICOM__\ƒ";
+				- _id = GUID 27253ded-eaa4-4b97-9277-743e94fb2ab9;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 8;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9d4ce0b2-5e78-46cf-a1ce-a0d0cc7dcc16;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 438d0f3d-6a59-4885-bb26-2ecd233021df;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 517 920 ;
+			- m_TargetPort = 607 395 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID 89d7cdbf-693e-4f51-b734-7ac70eecf18a;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "DICOM-WEB-\с\е\р\ви\с";
+				- _name = "DICOM_filestore";
+				- _id = GUID 264d08fa-f009-4c52-95f7-9d3fa538a08c;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "DICOM_filestore";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 8;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9d4ce0b2-5e78-46cf-a1ce-a0d0cc7dcc16;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f88b937c-5616-493d-aa69-3f620ae84f87;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_arrow = 2 1241 357  1241 553  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 620 863 ;
+			- m_TargetPort = 607 807 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID 77b442ed-b9a0-49ec-b563-241c4c55c812;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "actor_17";
+				- _name = "DICOM_WEB___\р_и_";
+				- _id = GUID 13013e76-ed3f-4e01-b3d0-6523c18fe0a1;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 8;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 96484ba3-8422-4067-84ff-3fccfd9403c2;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 9d4ce0b2-5e78-46cf-a1ce-a0d0cc7dcc16;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 607 718 ;
+			- m_TargetPort = 568 718 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 7487c955-fad5-460f-8ed8-c91f01596d04;
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\«\а\п\р\о\с \в WEB-\с\е\р\ви\с\у";
+				- _id = GUID 3ecf5471-27b3-45ea-9926-914f93bae0ad;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\«\а\п\р\о\с \в WEB-\с\е\р\ви\с\у";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.11426 0 0 0.0662932 996.229 63.0663 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 46cdd1e7-333f-4271-8d3c-601af1383452;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "actor_17";
+				- _name = "its\«\а\п\р\о\с \в WEB-\с\е\р\ви\с\у";
+				- _id = GUID a4d6d413-c388-4800-a599-32274a5b0271;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 96484ba3-8422-4067-84ff-3fccfd9403c2;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 7487c955-fad5-460f-8ed8-c91f01596d04;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 671 605 ;
+			- m_TargetPort = 471 708 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\«\а\п\р\о\с \в WEB-\с\е\р\ви\с\у";
+				- _name = "itsActor_17";
+				- _id = GUID 674d5330-605d-4b69-bf07-34e953fc5492;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 1689d4f3-bead-449a-bb73-84686cbee05d;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "Format";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "UseCase";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "Fill.FillColor";
+										- _Value = "255,255,0";
+										- _Type = Color;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 125;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IUseCase";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "";
+				- _name = "\ѕ\е\ч\а\т\ь \в\ы\пи\с\ки";
+				- _id = GUID ef70a650-6b9a-4acb-8c21-213b3632397b;
+			}
+			- m_pParent = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+			- m_name = { CGIText 
+				- m_str = "\ѕ\е\ч\а\т\ь \в\ы\пи\с\ки";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.141718 0 0 0.0662932 598.283 879.066 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 -2 -1  -2 1070  1127 1070  1127 -1  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID ffddcb9e-0f73-4e1e-bb75-7718c9bb4c90;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 94;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _name = "its\ѕ\е\ч\а\т\ь \в\ы\пи\с\ки";
+				- _id = GUID 448e858a-ee53-4dd7-baf2-dafbc00ba1ae;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 23f1c5df-1289-4dfa-b068-f5ac46e5a0a1;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 1689d4f3-bead-449a-bb73-84686cbee05d;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 0;
+			- m_SourcePort = 633 871 ;
+			- m_TargetPort = 191 633 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "webdicom.sbs";
+				- _subsystem = "webdicom";
+				- _class = "\ѕ\е\ч\а\т\ь \в\ы\пи\с\ки";
+				- _name = "its\”з\кий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID 4c148588-21ef-4314-b4d6-cbc06c49f015;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 0;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 0;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 0;
+			- m_bShowQualifier2 = 0;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		
+		- m_access = 'Z';
+		- m_modified = 'N';
+		- m_fileVersion = "";
+		- m_nModifyDate = 0;
+		- m_nCreateDate = 0;
+		- m_creator = "";
+		- m_bScaleWithZoom = 1;
+		- m_arrowStyle = 'S';
+		- m_pRoot = GUID 1fa7bf10-8fd8-4552-8ebd-d0a2675ec69d;
+		- m_currentLeftTop = 0 0 ;
+		- m_currentRightBottom = 0 0 ;
+	}
+	- _defaultSubsystem = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "webdicom.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "webdicom";
+		- _id = GUID 521d3a46-1337-4062-9390-ad4f82175e2c;
+	}
+}
+

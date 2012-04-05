@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project name="dicom-index" basedir=".">
+
+	<property name="solr.port" value="8983"/>
+	<property name="solr.stop.port" value="8984"/>
+	<property name="solr.stop.key" value="webdicom"/>
+	<property name="solr.spawn" value="true"/>
+	
+	<property name="solr.root.dir" location="distrib/dicom-index"/>
+	<property name="solr.home.dir" location="${solr.root.dir}/solr"/>
+	<property name="solr.data.dir" location="${solr.root.dir}/solr/data"/>
+	<property name="solr.instance" value="webdicomserver"/>
+
+	<target name="start-solr" description="Start Solr">
+		<java jar="${solr.root.dir}/start.jar" fork="true" dir="${solr.root.dir}"
+          spawn="${solr.spawn}" maxmemory="738m">
+			<sysproperty key="jetty.port" value="${solr.port}"/>
+			<sysproperty key="solr.solr.home" file="${solr.home.dir}"/>
+			<sysproperty key="solr.data.dir" file="${solr.data.dir}"/>
+			<sysproperty key="STOP.PORT" value="${solr.stop.port}"/>
+			<sysproperty key="STOP.KEY" value="${solr.stop.key}"/>
+		</java>
+	</target>
+
+	<target name="stop-solr" description="Stop Solr">
+		<java jar="${solr.root.dir}/start.jar" fork="true" dir="${solr.root.dir}">
+			<arg value="--stop"/>
+			<sysproperty key="STOP.PORT" value="${solr.stop.port}"/>
+			<sysproperty key="STOP.KEY" value="${solr.stop.key}"/>
+		</java>
+	</target>
+
+
+</project>

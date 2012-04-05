@@ -1,0 +1,17 @@
+#ifndef __org_psystems_dicom_ooplugin_studymgr_xdicomplugin_idl__
+#define __org_psystems_dicom_ooplugin_studymgr_xdicomplugin_idl__
+
+#include <com/sun/star/text/XTextDocument.idl>
+module org { module psystems { module dicom { module ooplugin { module studymgr { 	
+
+	interface XDicomplugin {
+		[attribute] string PORT;
+		string getStudy([in] string url);
+		void sendStudy([in] string url, [in] string data);
+		string dicomImport([in] string docName, [in] string config, [in] com::sun::star::text::XTextDocument docObj);
+		string dicomExport([in] string config, [in] string pdffile, [in] com::sun::star::text::XTextDocument docObj);
+
+	};
+
+ }; }; }; }; };
+#endif
