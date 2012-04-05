@@ -1,0 +1,2 @@
+serviceClass: org.psystems.dicom.browser.client.service.BrowserService
+path: ACB944F416843CA195B0B8A63682E89C.gwt.rpc

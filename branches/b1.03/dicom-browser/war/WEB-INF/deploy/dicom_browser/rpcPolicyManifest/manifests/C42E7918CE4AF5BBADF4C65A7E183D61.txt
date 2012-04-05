@@ -1,0 +1,2 @@
+serviceClass: org.psystems.dicom.browser.client.service.ItemSuggestService
+path: 3815E8A541F39B9A64F6B7611E0E234E.gwt.rpc
