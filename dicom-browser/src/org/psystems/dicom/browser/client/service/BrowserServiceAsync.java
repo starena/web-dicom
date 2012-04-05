@@ -73,26 +73,30 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface BrowserServiceAsync {
 
-    void findStudy(long transactionId, String version, String queryStr, HashMap<String, String> attrs,
-	    AsyncCallback<RPCDcmProxyEvent> callback);
+	void findStudy(long transactionId, String version, String queryStr,
+			HashMap<String, String> attrs,
+			AsyncCallback<RPCDcmProxyEvent> callback);
 
-    void getDcmTagsFromFile(long transactionId, String version, long idDcmFile,
-	    AsyncCallback<ArrayList<DcmTagProxy>> callback);
+	void getDcmTagsFromFile(long transactionId, String version, long idDcmFile,
+			AsyncCallback<ArrayList<DcmTagProxy>> callback);
 
-    void getPatients(PatientsRPCRequest req, AsyncCallback<PatientsRPCResponse> callback);
+	void getPatients(PatientsRPCRequest req,
+			AsyncCallback<PatientsRPCResponse> callback);
 
-    void getDcmTags(DcmTagsRPCRequest req, AsyncCallback<DcmTagsRPCResponse> callback);
+	void getDcmTags(DcmTagsRPCRequest req,
+			AsyncCallback<DcmTagsRPCResponse> callback);
 
-    void getStudyByID(long transactionId, String version, Long id, AsyncCallback<StudyProxy> callback);
+	void getStudyByID(long transactionId, String version, Long id,
+			AsyncCallback<StudyProxy> callback);
 
-    void getSessionObject(AsyncCallback<Session> callback);
+	void getSessionObject(AsyncCallback<Session> callback);
 
-    void getOOTemplates(String modality, AsyncCallback<ArrayList<OOTemplateProxy>> callback);
+	void getOOTemplates(String modality,
+			AsyncCallback<ArrayList<OOTemplateProxy>> callback);
 
-    void getDirections(QueryDirectionProxy query, AsyncCallback<ArrayList<DirectionProxy>> callback);
+	void getDirections(QueryDirectionProxy query,
+			AsyncCallback<ArrayList<DirectionProxy>> callback);
 
-    void saveDirection(DirectionProxy drn, AsyncCallback<Void> callback);
-
-    void getStudiesByDirectionID(Long id, AsyncCallback<StudyProxy[]> callback);
+	
 
 }

@@ -9,7 +9,6 @@ public class ServiceProxy implements Serializable {
 	private String serviceCode;// Код
 	private String serviceAlias;// краткий код
 	private String serviceDescription;// Описание
-	private int serviceCount = 1;
 
 	public String getServiceCode() {
 		return serviceCode;
@@ -35,19 +34,11 @@ public class ServiceProxy implements Serializable {
 		this.serviceDescription = serviceDescription;
 	}
 
-	public int getServiceCount() {
-		return serviceCount;
-	}
-
-	public void setServiceCount(int serviceCount) {
-		this.serviceCount = serviceCount;
-	}
-
 	@Override
 	public String toString() {
 		return "ServiceProxy [serviceAlias=" + serviceAlias + ", serviceCode="
-				+ serviceCode + ", serviceCount=" + serviceCount
-				+ ", serviceDescription=" + serviceDescription + "]";
+				+ serviceCode + ", serviceDescription=" + serviceDescription
+				+ "]";
 	}
 
 }

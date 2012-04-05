@@ -1,6 +1,9 @@
 package org.psystems.dicom.commons.orm.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Услуга
@@ -13,7 +16,7 @@ public class Service implements Serializable {
 	private String serviceCode;// Код
 	private String serviceAlias;// краткий код
 	private String serviceDescription;// Описание
-	private int serviceCount = 1;// количество услуг
+
 
 	public String getServiceCode() {
 		return serviceCode;
@@ -39,19 +42,11 @@ public class Service implements Serializable {
 		this.serviceDescription = serviceDescription;
 	}
 
-	public int getServiceCount() {
-		return serviceCount;
-	}
-
-	public void setServiceCount(int serviceCount) {
-		this.serviceCount = serviceCount;
-	}
-
 	@Override
 	public String toString() {
 		return "Service [serviceAlias=" + serviceAlias + ", serviceCode="
-				+ serviceCode + ", serviceCount=" + serviceCount
-				+ ", serviceDescription=" + serviceDescription + "]";
+				+ serviceCode + ", serviceDescription=" + serviceDescription
+				+ "]";
 	}
 
 }

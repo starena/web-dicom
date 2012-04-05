@@ -266,20 +266,6 @@
 		<servlet-name>DcmGetOOTemplateServlet</servlet-name>
 		<url-pattern>/ootmpl/*</url-pattern>
 	</servlet-mapping>
-	
-	<!--  Получение PDF шаблона   -->
-	
-	<servlet>
-		<servlet-name>ManagePdfServlet</servlet-name>
-		<servlet-class>org.psystems.dicom.browser.server.ManagePdfServlet
-		</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>ManagePdfServlet</servlet-name>
-		<url-pattern>/makepdf/*</url-pattern>
-	</servlet-mapping>
 
 	<!-- ************************************************* -->
 	<!-- ***    СЕРВЛЕТЫ ОТОБРАЖЕНИЯ КАРТИНКИ В МИС     *** -->

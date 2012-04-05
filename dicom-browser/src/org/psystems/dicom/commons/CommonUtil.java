@@ -187,7 +187,7 @@ public class CommonUtil {
 					if (key.equals("00102000")
 							&& value != null
 							&& value
-									.equals(StudyManagePanel.studyResultTitle)) {
+									.equals(StudyManagePanel.medicalAlertsTitle)) {
 						value = "";
 					}
 					pfg2Dcm.setCfgProperty(key, value);
@@ -218,7 +218,7 @@ public class CommonUtil {
 				// dcmFile = new File(dcmFileName);
 
 				// dcmFileTmp.renameTo(dcmFile);
-				System.out.println("!!!! making PDF dcm SUCCESS!");
+				System.out.println("!!!! making IMAGE dcm SUCCESS!");
 
 			}
 
@@ -241,7 +241,7 @@ public class CommonUtil {
 					if (key.equals("00102000")
 							&& value != null
 							&& value
-									.equals(StudyManagePanel.studyResultTitle)) {
+									.equals(StudyManagePanel.medicalAlertsTitle)) {
 						value = "";
 					}
 					jpg2Dcm.setCfgProperty(key, value);

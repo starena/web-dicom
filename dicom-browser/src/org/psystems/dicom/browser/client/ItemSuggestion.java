@@ -54,15 +54,12 @@
  */
 package org.psystems.dicom.browser.client;
 
-import java.io.Serializable;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class ItemSuggestion implements IsSerializable, Suggestion {
 	private String display;
 	private String replacement;
-	private Serializable event;
 
 	// Required for IsSerializable to work
 	public ItemSuggestion() {
@@ -81,15 +78,5 @@ public class ItemSuggestion implements IsSerializable, Suggestion {
 	public String getReplacementString() {
 		return replacement;
 	}
-
-	public Serializable getEvent() {
-	    return event;
-	}
-
-	public void setEvent(Serializable event) {
-	    this.event = event;
-	}
-	
-	
 
 }

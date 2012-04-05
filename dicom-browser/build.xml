@@ -10,7 +10,8 @@
 	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="svnant.classpath" />
 
 	<!-- TODO Задать путь через переменную проекта !!! -->
-	<property name="gwt.sdk" location="C:\eclipse\3.5\plugins\com.google.gwt.eclipse.sdkbundle.2.0.3_2.0.3.v201002191036\gwt-2.0.3" />
+	<!-- property name="gwt.sdk" location="C:\eclipse\3.5\plugins\com.google.gwt.eclipse.sdkbundle.2.0.3_2.0.3.v201002191036\gwt-2.0.3" /-->
+	<property name="gwt.sdk" location="/home/ddv/.eclipse/org.eclipse.platform_3.7.0_1440728042/plugins/com.google.gwt.eclipse.sdkbundle_2.4.0.v201201120043-rel-r37/gwt-2.4.0" />
 	<property name="version" value=""/>
 
 	<path id="project.class.path">
