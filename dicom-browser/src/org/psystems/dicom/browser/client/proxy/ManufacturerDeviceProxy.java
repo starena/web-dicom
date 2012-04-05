@@ -7,7 +7,8 @@ public class ManufacturerDeviceProxy implements Serializable {
 	private static final long serialVersionUID = 8971937698612066578L;
 
 	private String ManufacturerModelName; // Модель
-	private String modality; // Модальность. ORMUtil.modalityList
+	private String ManufacturerModelType; // Тип исследования которые аппарат
+	// может выполнять. Проверка согласно списку ORMUtil.modalityList
 
 	private String ManufacturerModelTypeDescription; // Описание типа
 	// исследования
@@ -23,13 +24,12 @@ public class ManufacturerDeviceProxy implements Serializable {
 		ManufacturerModelName = manufacturerModelName;
 	}
 
-
-	public String getModality() {
-		return modality;
+	public String getManufacturerModelType() {
+		return ManufacturerModelType;
 	}
 
-	public void setModality(String modality) {
-		this.modality = modality;
+	public void setManufacturerModelType(String manufacturerModelType) {
+		ManufacturerModelType = manufacturerModelType;
 	}
 
 	public String getManufacturerModelTypeDescription() {
@@ -55,7 +55,7 @@ public class ManufacturerDeviceProxy implements Serializable {
 		return "ManufacturerDeviceProxy [ManufacturerModelDescription="
 				+ ManufacturerModelDescription + ", ManufacturerModelName="
 				+ ManufacturerModelName + ", ManufacturerModelType="
-				+ modality + ", ManufacturerModelTypeDescription="
+				+ ManufacturerModelType + ", ManufacturerModelTypeDescription="
 				+ ManufacturerModelTypeDescription + "]";
 	}
 

@@ -16,8 +16,6 @@
 	<property name="dir.doc.api" value="${dir.doc}/api" />
 	<property name="dir.distrib" value="distrib" />
 	<property name="dir.instance" value="database/instance" />
-	<property name="db.connect" value="jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM;create=true" />
-	
 
 	<property name="distrib.jar" value="dcmarchive.jar" />
 
@@ -144,9 +142,6 @@
 		<java classname="org.apache.derby.tools.ij" output="${dir.instance}/makedb.log">
 			<arg value="database/derby/db.sql" />
 			<sysproperty key="derby.system.home" value="${dir.instance}"  />
-			<sysproperty key="ij.database" value="${db.connect}"  />
-			
-
 			<classpath refid="derby.classpath" />
 		</java>
 	</target>
@@ -171,7 +166,7 @@
 	<target name="send2archive" description="Отправка dcm-файла в архив">
 		<echo message="file=${file}" />
 		<java classname="org.dcm4che2.tool.dcmsnd.DcmSnd">
-			<arg value="MAIN@localhost:11112" />
+			<arg value="DDV@localhost:11112" />
 			<arg value="${file}" />
 			<classpath refid="dcmsend.classpath" />
 		</java>

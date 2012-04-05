@@ -540,7 +540,7 @@
 	<field name="patientSex" type="string" indexed="true" stored="true"/>
 	<field name="patientBirthDate" type="date" indexed="true" stored="true"/>
 	
-	<field name="confItem" type="string" indexed="true" stored="true"/>
+	
 	
 	
 	<!-- *************  Web-Dicom  ***************** -->

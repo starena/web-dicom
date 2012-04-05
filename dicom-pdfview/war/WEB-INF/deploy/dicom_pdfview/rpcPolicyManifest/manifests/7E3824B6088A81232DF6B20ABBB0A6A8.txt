@@ -1,2 +1,0 @@
-serviceClass: org.psystems.dicom.pdfview.client.PdfService
-path: FF7F2173AB229E11D0BDC95666FA9F61.gwt.rpc

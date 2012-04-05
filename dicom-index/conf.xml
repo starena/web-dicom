@@ -1,9 +1,0 @@
-<webdicom>
-
-	<!-- Конфигурация индексатора -->	
-	<index>
-		<solr port="8983"/>
-		<admin port="8985" login="admin" password="admin"/>
-	</index>
-	
-</webdicom>

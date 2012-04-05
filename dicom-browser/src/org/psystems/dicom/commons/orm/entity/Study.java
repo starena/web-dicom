@@ -86,7 +86,7 @@ public class Study implements Serializable {
 	private String studyDateTimeRemoved;// Дата удаления исследования. формат
 										// "yyyy-mm-dd hh:mm:ss"
 
-	private Direction direction;// Id связанного направления
+	private Long directionID;// Id связанного направления
 
 	public Long getId() {
 		return id;
@@ -272,14 +272,14 @@ public class Study implements Serializable {
 		this.studyDateTimeRemoved = studyDateRemoved;
 	}
 
-
-	public Direction getDirection() {
-		return direction;
+	public Long getDirectionID() {
+		return directionID;
 	}
 
-	public void setDirection(Direction direction) {
-		this.direction = direction;
+	public void setDirectionID(Long directionID) {
+		this.directionID = directionID;
 	}
+
 
 	/**
 	 * Проверка всех полей.
@@ -316,8 +316,8 @@ public class Study implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Study [id=" + id + ", studyId=" + studyId + ", direction="
-				+ direction + ", ManufacturerModelName="
+		return "Study [id=" + id + ", studyId=" + studyId + ", directionID="
+				+ directionID + ", ManufacturerModelName="
 				+ ManufacturerModelName + ", ManufacturerModelUID="
 				+ ManufacturerModelUID + ", dateFormat=" + dateFormat
 				+ ", dcmFilesId=" + Arrays.toString(dcmFilesId)

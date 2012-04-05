@@ -14,9 +14,9 @@ public class ManufacturerDeviceTest extends TestCase {
 
 	public void testSetManufacturerModelType() {
 		ManufacturerDevice dev = new ManufacturerDevice();
-		dev.setModality("CR");
+		dev.setManufacturerModelType("CR");
 		dev.chechEntity();
-		dev.setModality("CC");
+		dev.setManufacturerModelType("CC");
 		try {
 			dev.chechEntity();
 			fail("Wrong field type");

@@ -167,7 +167,6 @@ public class Test {
 		Service service1 = new Service();
 		service1.setServiceCode("code1");
 		service1.setServiceDescription("Описание1");
-		service1.setServiceCount(10);
 
 		Service service2 = new Service();
 		service2.setServiceCode("code2");
@@ -181,7 +180,7 @@ public class Test {
 
 		//
 		ManufacturerDevice device = new ManufacturerDevice();
-		device.setModality("CR");
+		device.setManufacturerModelType("CR");
 		device.setManufacturerModelName("Электрон");
 		query.setDevice(device);
 
@@ -234,7 +233,6 @@ public class Test {
 		request.setPatientSex("F");//Работает.
 		
 		request.setStudyModality("US");
-		request.setBeginStudyDateTimeModify("2011-05-01 00:00:00");
 		
 //		request.setBeginStudyDate("2011-05-01");
 //		request.setEndStudyDate("2011-05-02");

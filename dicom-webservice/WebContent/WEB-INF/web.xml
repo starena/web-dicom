@@ -1,9 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	id="WebApp_ID" version="2.5">
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>dicom-webservice</display-name>
+	
+	<context-param>
+		<param-name>webdicom.connection.url</param-name>
+		<param-value>jdbc:derby://localhost:1527//DICOM/DB/WEBDICOM</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>webdicom.ws.viewstudy.url</param-name>
+		<param-value>"http://127.0.0.1:8888/study/</param-value>
+	</context-param>
+	
+	<!-- Директория для сохранения временных DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.tmp</param-name>
+		<param-value>C:\temp\dcm.tmp</param-value>
+	</context-param>
+	
+	<!-- строка соединения с Dicom-архивом для передачи DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.archive.connection</param-name>
+		<param-value>DDV@localhost:11112</param-value>
+	</context-param>
+
+	<!-- Конфиг-прототип для создания JPG - DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.jpg.cfg</param-name>
+		<param-value>C:\WORK\workspace\dicom-browser\test\data\jpg2dcm.cfg</param-value>
+	</context-param>
+	
+	<!-- Конфиг-прототип для создания DFP - DCM-файлов  -->
+	<context-param>
+		<param-name>webdicom.dir.newdcm.pdf.cfg</param-name>
+		<param-value>C:\WORK\workspace\dicom-browser\test\data\pdf2dcm.cfg</param-value>
+	</context-param>
+	
+	
+	
+	<servlet>
+		<display-name>Apache-Axis Servlet</display-name>
+		<servlet-name>AxisServlet</servlet-name>
+		<servlet-class>
+		org.apache.axis2.transport.http.AxisServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>Apache-Axis Admin Servlet Web Admin</display-name>
+		<servlet-name>AxisAdminServlet</servlet-name>
+		<servlet-class>
+		org.apache.axis2.transport.http.AxisAdminServlet</servlet-class>
+		<load-on-startup>100</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/servlet/AxisServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>*.jws</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AxisAdminServlet</servlet-name>
+		<url-pattern>/axis2-admin/*</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
@@ -11,38 +74,42 @@
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>/axis2-web/index.jsp</welcome-file>
 	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/axis2-web/Error/error404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/axis2-web/Error/error500.jsp</location>
+	</error-page>
 
+	<!--<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Web Service Authentication</web-resource-name>
+			<url-pattern>/services/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>studymanager</role-name>
+		</auth-constraint>
+	</security-constraint>
 
-	<!--
-		??? Очевидно это папка с картинками ??? TODO Переименовать в image...
-		TODO Убрать!!!
-	
-	<context-param>
-		<param-name>webdicom.dir.dst</param-name>
-		<param-value>C:\Documents and Settings\dima_d\workspace\dicom-browser/data/incoming</param-value>
-	</context-param>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Axis Basic Authentication Area</realm-name>
+	</login-config>
+
+	<security-role>
+		<description>The web-service-user has full access to all web services
+  </description>
+		<role-name>studymanager</role-name>
+	</security-role>
+
+	--><!--
+
+		<user-data-constraint>
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
 	-->
-	
-	<listener>
-		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
-	</listener>
-
-	<servlet>
-		<servlet-name>jax-ws</servlet-name>
-		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	
-	<servlet-mapping>
-		<servlet-name>jax-ws</servlet-name>
-		<url-pattern>/UserManager</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>jax-ws</servlet-name>
-		<url-pattern>/DicomService</url-pattern>
-	</servlet-mapping>
-
-
 </web-app>

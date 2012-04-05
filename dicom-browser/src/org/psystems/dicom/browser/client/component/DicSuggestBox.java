@@ -82,14 +82,4 @@ public class DicSuggestBox extends Composite {
 
 	}
 
-	/**
-	 * Получить внутренний SuggestBox
-	 * @return
-	 */
-	public SuggestBox getSuggestBox() {
-	    return box;
-	}
-	
-	
-
 }

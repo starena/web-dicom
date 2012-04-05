@@ -114,7 +114,7 @@ public class StudyCard extends Composite {
 	private Label labelManufacturerModelName;
 	private Label labelStudyDoctor;
 	private Label labelStudyOperator;
-	private Label labelStudyModality;
+	private Label labelStudyType;
 	private Label labelStudyDescription;
 	private Label labelResult;
 	private Label labelStudyViewprotocol;
@@ -207,8 +207,8 @@ public class StudyCard extends Composite {
 		createItemName(commonTable, 2, 4, "лаборант:");
 		labelStudyOperator = createItemValue(commonTable, 2, 5, "");
 
-		createItemName(commonTable, 3, 0, "Модальность:");
-		labelStudyModality = createItemValue(commonTable, 3, 1, "");
+		createItemName(commonTable, 3, 0, "Тип исследования:");
+		labelStudyType = createItemValue(commonTable, 3, 1, "");
 		
 		createItemName(commonTable, 3, 2, "Описание:");
 		labelStudyDescription = createItemValue(commonTable, 3, 3, "");
@@ -222,6 +222,7 @@ public class StudyCard extends Composite {
 		labelStudyViewprotocol = createItemValue(commonTable, 5, 1, "");
 		commonTable.getFlexCellFormatter().setColSpan(5, 1, 5);
 
+	
 		
 		FilesPanel = new HorizontalPanel();
 		FilesPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
@@ -616,7 +617,6 @@ public class StudyCard extends Composite {
 			}
 		}
 		
-		
 		//Задаем свойство "удален"
 		if(proxy.getStudyDateTimeRemoved()!=null) setRemovedStyle(true); else setRemovedStyle(false);
 		
@@ -633,7 +633,7 @@ public class StudyCard extends Composite {
 		labelManufacturerModelName.setText(proxy.getManufacturerModelName());
 		labelStudyDoctor.setText(proxy.getStudyDoctor());
 		labelStudyOperator.setText(proxy.getStudyOperator());
-		labelStudyModality.setText(proxy.getStudyModality());
+		labelStudyType.setText(proxy.getStudyType());
 		labelStudyDescription.setText(proxy.getStudyDescription());
 		
 		

@@ -1,49 +1,60 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<project name="dicom-webservice" default="war" basedir=".">
+<project name="okocits3 demo serviceses" default="compile" basedir=".">
 
-	<!-- <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport" /> -->
+	<!-- Configure the directory into which the web application is built -->
+	<property name="build"    value="${basedir}/build"/>
 
-	<property name="distrib.dir" value="distrib/build" />
-	<property name="classes.dir" value="build2" />
+	<!-- Configure the context path for this application -->
+	<property name="path"     value="/okocits3-webservice"/>
 
-	<path id="project.class.path">
-		<pathelement location="WebContent/WEB-INF/classes" />
-		<pathelement location="lib/servlet-api.jar" />
-		<!-- <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" /> -->
-		<!-- Add any additional non-server libs (such as JUnit) -->
-		<fileset dir="WebContent/WEB-INF/lib" includes="**/*.jar" />
-	</path>
+	<!-- Configure properties to access the Manager application -->
+	<property name="url"      value="http://localhost:8080/manager"/>
+	<property name="username" value="admin"/>
+	<property name="password" value="admin"/>
 
-	<target name="javac" description="Compile java source">
-		<mkdir dir="${distrib.dir}/WEB-INF/classes"/>
-		<javac srcdir="src" includes="**" encoding="utf-8" excludes="**/Test*"
-	        destdir="${distrib.dir}/WEB-INF/classes">
-			<classpath refid="project.class.path"/>
-		</javac>
+	<!-- Configure the custom Ant tasks for the Manager application -->
+	<taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"/>
+	<taskdef name="list"      classname="org.apache.catalina.ant.ListTask"/>
+	<taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"/>
+	<taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"/>
+	<taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"/>
+	<taskdef name="start"     classname="org.apache.catalina.ant.StartTask"/>
+	<taskdef name="stop"      classname="org.apache.catalina.ant.StopTask"/>
+	<taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/>
 
-		<copy todir="${distrib.dir}">
-			<fileset dir="WebContent" />
-		</copy>
+	<!-- Executable Targets -->
+	<target name="compile" description="Compile web application">
+		<!-- ... construct web application in ${build} subdirectory, and
+            generated a ${path}.war ... -->
 
-		<copy todir="${distrib.dir}/WEB-INF/classes">
-			<fileset dir="src" excludes="**/*.java"/>
-		</copy>
+		<war destfile="${build}${path}.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent"/>
+			<classes dir="build/classes"/>
+		</war>
 
 	</target>
 
-	<target name="build" depends="javac" description="Build this project" />
-
-	<target name="war" depends="build" description="Create a war file">
-		<zip destfile="distrib/dicom-webservice.war" basedir="${distrib.dir}"/>
+	<target name="deploy" description="Install web application"
+          depends="compile">
+		<deploy url="${url}" username="${username}" password="${password}"
+            path="${path}" war="file:${build}${path}.war"/>
 	</target>
 
-	<target name="make.client" description="Making WS client http://download.oracle.com/docs/cd/E17802_01/webservices/webservices/docs/2.0/jaxws/wsimport.html#Ant_task">
+	<target name="reload" description="Reload web application"
+          depends="compile">
+		<reload  url="${url}" username="${username}" password="${password}"
+            path="${path}"/>
+	</target>
 
-		<wsimport keep="false" sourcedestdir="${source.dir}"
-			wsdllocation="http://localhost:8080/dicom-webservice/DicomService?wsdl"
-			destdir="${classes.dir}"
-			package="org.psystems.dicom.webservice.client"/>
+	<target name="undeploy" description="Remove web application">
+		<undeploy url="${url}" username="${username}" password="${password}" path="${path}" />
+	</target>
 
+	<target name="stop" description="Stop web application">
+		<stop url="${url}" username="${username}" password="${password}" path="${path}" />
+	</target>
+
+	<target name="start" description="Start web application">
+		<start url="${url}" username="${username}" password="${password}" path="${path}" />
 	</target>
 
 </project>
