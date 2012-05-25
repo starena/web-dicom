@@ -1,0 +1,96 @@
+I-Logix-RPY-Archive version 8.0.9 * 893629
+{ CGEMdiWorkspace 
+	- stubList = { IRPYRawContainer 
+		- size = 0;
+	}
+	- myViewsWithID = { IRPYRawContainer 
+		- size = 3;
+		- value = 
+		{ CGEMdiDiagramParams 
+			- _placement = { CCommon_WINDOWPLACEMENT 
+				- m_nLength = 44;
+				- m_nFlags = 0;
+				- m_showCmd = 1;
+				- m_ptMinPositionX = -1;
+				- m_ptMinPositionY = -1;
+				- m_ptMaxPositionX = -4;
+				- m_ptMaxPositionY = -30;
+				- m_nLeft = 44;
+				- m_nTop = 58;
+				- m_nRight = 1009;
+				- m_nBottom = 719;
+			}
+			- _wasOpenedOnCloseProject = 1;
+			- _theDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "\Ê\ë\à\ñ\ñ\û.omd";
+				- _subsystem = "Classes";
+				- _class = "";
+				- _name = "\Ê\ë\à\ñ\ñ\û";
+				- _id = GUID 92bc0c5d-ba69-49fd-85fe-c217644b96ff;
+			}
+			- _UpLeft = 0 0 ;
+			- _DownRight = 1215 787 ;
+			- _instanceName = "";
+		}
+		{ CGEMdiDiagramParams 
+			- _placement = { CCommon_WINDOWPLACEMENT 
+				- m_nLength = 44;
+				- m_nFlags = 0;
+				- m_showCmd = 1;
+				- m_ptMinPositionX = -1;
+				- m_ptMinPositionY = -1;
+				- m_ptMaxPositionX = -4;
+				- m_ptMaxPositionY = -30;
+				- m_nLeft = 22;
+				- m_nTop = 29;
+				- m_nRight = 987;
+				- m_nBottom = 690;
+			}
+			- _wasOpenedOnCloseProject = 1;
+			- _theDiagram = { IHandle 
+				- _m2Class = "IMSC";
+				- _filename = "sequencediagram_10.msc";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "sequencediagram_10";
+				- _id = GUID b890a1bb-8eb8-4d80-87e3-204205357669;
+			}
+			- _UpLeft = 0 0 ;
+			- _DownRight = 936 586 ;
+			- _instanceName = "";
+		}
+		{ CGEMdiDiagramParams 
+			- _placement = { CCommon_WINDOWPLACEMENT 
+				- m_nLength = 44;
+				- m_nFlags = 2;
+				- m_showCmd = 3;
+				- m_ptMinPositionX = -1;
+				- m_ptMinPositionY = -1;
+				- m_ptMaxPositionX = -4;
+				- m_ptMaxPositionY = -30;
+				- m_nLeft = 132;
+				- m_nTop = 174;
+				- m_nRight = 1128;
+				- m_nBottom = 835;
+			}
+			- _wasOpenedOnCloseProject = 1;
+			- _theDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "Model1.omd";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "Model1";
+				- _id = GUID 69f4a80c-4ced-4eab-af4e-97377323e45a;
+			}
+			- _UpLeft = 0 0 ;
+			- _DownRight = 1122 747 ;
+			- _instanceName = "";
+		}
+	}
+	- _fullName = "C:\\WORK\\Models\\WEBDICOM\\Project";
+	- m_SearchScopeList = { IRPYRawContainer 
+		- size = 0;
+	}
+}
+

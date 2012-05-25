@@ -1,0 +1,699 @@
+I-Logix-RPY-Archive version 8.0.9 Java 893629
+{ ISubsystem 
+	- _id = GUID 81bb897e-5814-41e1-a7b9-db8fd6377126;
+	- _myState = 8192;
+	- _name = "Classes";
+	- Annotations = { IRPYRawContainer 
+		- size = 5;
+		- value = 
+		{ IRequirement 
+			- _id = GUID e4045b2f-5e0e-4af3-827c-2427d0095a44;
+			- _myState = 2048;
+			- _name = "requirement_0";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}{\\f1\\fnil\\fcharset0 Arial;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20\\'d1\\'ef\\'e8\\'f1\\'ee\\'ea \\'f3\\'f1\\'eb\\'f3\\'e3 - \\'ee\\'e4\\'ed\\'e0 \\'e4\\'eb\\'e8\\'ed\\'ed\\'e0\\'ff \\'ef\\'f0\\'ee\\'e8\\'e7\\'e2\\'ee\\'eb\\'fc\\'ed\\'e0\\'ff \\'f1\\'f2\\'f0\\'ee\\'ea\\'e0. \\'ee\\'ed\\'e0 \\'e1\\'f3\\'e4\\'e5\\'f2 \\'e2\\'fb\\'e2\\'ee\\'e4\\'e8\\'f2\\'f1\\'ff \\'e8 \\'ef\\'ee\\'ea\\'e0\\'e7\\'fb\\'e2\\'f2\\'fc\\'e0\\'f1\\'ff \\'e2 \\lang1033\\f1 WORKLIS-\\lang1049\\f0\\'e5 \\'ed\\'e0 \\'e0\\'ef\\'ef\\'e0\\'f0\\'e0\\'f2\\'e5. \\'cf\\'ee \\'ed\\'e5\\'e9 \\'e4\\'ee\\'eb\\'e6\\'ed\\'ee \\'e1\\'fb\\'f2\\'fc \\'ef\\'ee\\'ed\\'ff\\'f2\\'ed\\'ee \\'f7\\'f2\\'ee \\'e4\\'ee\\'eb\\'e6\\'e5\\'ed \\'e4\\'e5\\'eb\\'e0\\'f2\\'fc \\'eb\\'e0\\'e1\\'ee\\'f0\\'e0\\'ed\\'f2\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID e4be57f5-15db-46c3-9bca-f96b5da68e0d;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 8b695b67-40d7-4d35-ad00-f9535f0dbbb1;
+					}
+				}
+			}
+		}
+		{ IRequirement 
+			- _id = GUID 44e2028f-368d-4f04-a6e0-d3fadd145132;
+			- _myState = 2048;
+			- _name = "requirement_1";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}{\\f1\\fnil\\fcharset0 Arial;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\f0\\fs20\\'c4\\'e0\\'f2\\'e0 \\'e2 \\'f4\\'ee\\'eb\\'ec\\'e0\\'f2\\'e5 \\lang1033\\f1 ANSI SQL Date - yyyymmdd\\lang1049\\f0\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID a8919b89-2a00-45cd-9a5f-7be33621c285;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 8b695b67-40d7-4d35-ad00-f9535f0dbbb1;
+					}
+				}
+			}
+		}
+		{ IRequirement 
+			- _id = GUID 1013fc3c-2956-4aa8-a733-ee715cfd4f35;
+			- _myState = 2048;
+			- _name = "requirement_3";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\lang1033\\fs20 ContentData - \\lang1049\\f1\\'e1\\'e8\\'ed\\'e0\\'f0\\'ed\\'fb\\'e9 \\'ef\\'ee\\'f2\\'ee\\'ea\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID 9f4c131e-e818-45e0-b098-aadc7a835a30;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 17557ee4-29a5-442f-a9e2-eb1d8964a55a;
+					}
+				}
+			}
+		}
+		{ IRequirement 
+			- _id = GUID 32e3ae6c-eb3f-4d3c-a84e-03ad1e625ea7;
+			- _myState = 2048;
+			- _name = "requirement_5";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\lang1033\\fs20 makeDirection - \\lang1049\\f1\\'e2\\'ee\\'e7\\'e2\\'f0\\'e0\\'f9\\'e0\\'e5\\'f2 \\lang1033\\f0 UID \\lang1049\\f1\\'ed\\'e0\\'ef\\'f0\\'e0\\'e2\\'eb\\'e5\\'ed\\'e8\\'ff\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID aebca51f-9c7e-44cd-bb60-795e6147be4b;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 26302c75-1ec4-4cea-987d-906d7b15f54a;
+					}
+				}
+			}
+		}
+		{ IRequirement 
+			- _id = GUID d88798f4-b5e9-4f96-93de-ece41402e2f9;
+			- _myState = 2048;
+			- _name = "requirement_7";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049{\\fonttbl{\\f0\\fnil\\fcharset0 Arial;}{\\f1\\fnil\\fcharset204{\\*\\fname Arial;}Arial CYR;}}
+{\\colortbl ;\\red0\\green0\\blue0;}
+\\viewkind4\\uc1\\pard\\cf1\\lang1033\\fs20 Images[] - \\lang1049\\f1\\'e8\\'ec\\'e5\\'ed\\'e0 \\'ea\\'e0\\'f0\\'f2\\'e8\\'ed\\'ee\\'ea (\\'e4\\'eb\\'ff \\'e4\\'ee\\'f1\\'f2\\'f3\\'ef\\'e0 \\'f7\\'e5\\'f0\\'e5\\'e7 \\lang1033\\f0 URL\\lang1049\\f1 )\\par
+}
+";
+			}
+			- _body = "";
+			- Anchors = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAnchor 
+					- _id = GUID 62d114d3-c076-4eb2-a186-eda3f3d83ed7;
+					- _myState = 2048;
+					- _name = "anchor_1";
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _id = GUID bd05b064-0af0-47fa-94c7-14e6eedfbb59;
+					}
+				}
+			}
+		}
+	}
+	- _lastID = 8;
+	- Declaratives = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IDiagram 
+			- fileName = "\Ê\ë\à\ñ\ñ\û";
+			- _id = GUID 92bc0c5d-ba69-49fd-85fe-c217644b96ff;
+		}
+	}
+	- weakCGTime = 4.20.2012::10:41:1;
+	- strongCGTime = 4.20.2012::10:40:30;
+	- _defaultComposite = GUID bb86ed90-0691-4bce-a290-96e3844475e6;
+	- _eventsBaseID = -1;
+	- Classes = { IRPYRawContainer 
+		- size = 5;
+		- value = 
+		{ IClass 
+			- _id = GUID bb86ed90-0691-4bce-a290-96e3844475e6;
+			- _myState = 40960;
+			- _name = "TopLevel";
+			- weakCGTime = 1.1.1970::6:0:0;
+			- strongCGTime = 1.1.1970::6:0:0;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID 8b695b67-40d7-4d35-ad00-f9535f0dbbb1;
+			- _myState = 8192;
+			- _name = "Direction";
+			- _theMainDiagram = { IHandle 
+				- _m2Class = "IDiagram";
+				- _filename = "\Ê\ë\à\ñ\ñ\û.omd";
+				- _subsystem = "Classes";
+				- _class = "";
+				- _name = "\Ê\ë\à\ñ\ñ\û";
+				- _id = GUID 92bc0c5d-ba69-49fd-85fe-c217644b96ff;
+			}
+			- _lastID = 9;
+			- weakCGTime = 4.20.2012::10:42:0;
+			- strongCGTime = 4.20.2012::10:42:0;
+			- Attrs = { IRPYRawContainer 
+				- size = 9;
+				- value = 
+				{ IAttribute 
+					- _id = GUID 15aee8be-0641-4b54-bce4-c4bd3d26bce5;
+					- _name = "Code";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID e5f69b25-cd9d-46de-aca4-b0c1fa8e5875;
+					- _name = "PatientName";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID ea76f01c-c2e6-4eae-8e57-1e42809187ce;
+					- _name = "PatientId";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID e3cfc61f-937a-4c18-bcf9-28ec4103e0c9;
+					- _name = "DoctorSenderName";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID b999e445-e747-46f6-88e4-14c83cafd3fd;
+					- _name = "DoctorSenderCode";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID 72af8f93-61b1-42cd-883a-4f30869b375d;
+					- _name = "Services";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID 5ffc3f83-7fb1-47e3-90ee-44801ae3dab5;
+					- _name = "DateSending";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID fbbde754-e343-479d-bced-3158500862bc;
+					- _name = "PatienBirthday";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID 02050119-9dc9-44bd-b3aa-7679dbea2173;
+					- _name = "Modality";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "int";
+						- _id = GUID 3b5a0555-e8e5-4b86-9ea1-95ae819b6564;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAssociationEnd 
+					- _id = GUID 16c553b2-7a70-4b76-b0a7-d9e6ad937431;
+					- _myState = 10240;
+					- _name = "itsWebDicomService";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 26302c75-1ec4-4cea-987d-906d7b15f54a;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 6d95912e-b547-4371-abe2-9e309ba65d43;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID 17557ee4-29a5-442f-a9e2-eb1d8964a55a;
+			- _myState = 8192;
+			- _name = "StudyAttachement";
+			- _lastID = 3;
+			- weakCGTime = 4.20.2012::10:41:54;
+			- strongCGTime = 4.20.2012::10:41:54;
+			- Attrs = { IRPYRawContainer 
+				- size = 3;
+				- value = 
+				{ IAttribute 
+					- _id = GUID 1a91950f-5866-4460-8b61-344e2a93dbbc;
+					- _name = "StudyId";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID defacb5e-7321-446d-9a65-07a3184b857c;
+					- _name = "ContentType";
+					- _defaultValue = "";
+					- _typeOf = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+				{ IAttribute 
+					- _id = GUID 9c47c13d-84fb-4845-9975-2e93410bb41a;
+					- _name = "ContentData";
+					- _defaultValue = "";
+					- myTypeOf = { IType 
+						- _id = GUID ddb08931-cd76-41fa-b7a5-6e796535d8d8;
+						- _myState = 8192;
+						- _declaration = "byte[]";
+						- _kind = Language;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAssociationEnd 
+					- _id = GUID 39e8ede3-2484-4dbd-bcfe-8297b152082d;
+					- _myState = 10240;
+					- _name = "itsWebDicomService";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 26302c75-1ec4-4cea-987d-906d7b15f54a;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 43153f91-690b-4038-ad45-b8363ec28ac4;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID 26302c75-1ec4-4cea-987d-906d7b15f54a;
+			- _myState = 8192;
+			- _name = "WebDicomService";
+			- _lastID = 3;
+			- weakCGTime = 4.20.2012::10:42:10;
+			- strongCGTime = 4.20.2012::10:42:10;
+			- Operations = { IRPYRawContainer 
+				- size = 3;
+				- value = 
+				{ IPrimitiveOperation 
+					- _id = GUID 351e1f83-3626-4cd5-a271-6f63da0056b0;
+					- _name = "makeDirection";
+					- _virtual = 0;
+					- Args = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IArgument 
+							- _id = GUID 4cf2cdd3-01a4-4140-95f1-de0ef9e90782;
+							- _name = "direction";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IClass";
+								- _id = GUID 8b695b67-40d7-4d35-ad00-f9535f0dbbb1;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "String";
+						- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+				}
+				{ IPrimitiveOperation 
+					- _id = GUID 178676bc-fe88-4d47-9b26-deca5ca23dd9;
+					- _name = "getStudies";
+					- _virtual = 0;
+					- Args = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IArgument 
+							- _id = GUID 824f5a2f-e5ae-44a4-b550-dda4ed6cd8bb;
+							- _name = "directionCode";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "PredefinedTypesJava.sbs";
+								- _subsystem = "PredefinedTypesJava";
+								- _class = "";
+								- _name = "String";
+								- _id = GUID cb97d0d7-bf5d-4020-b25e-f6a87117705a;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- myReturnType = { IType 
+						- _id = GUID b7d1fdbd-1492-4aa1-956b-f908ba8d47c3;
+						- _myState = 8192;
+						- _declaration = "Study[]";
+						- _kind = Language;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+				}
+				{ IPrimitiveOperation 
+					- _id = GUID 361936b0-046d-4139-ac7b-eca61cd0ba14;
+					- _name = "addAttachement";
+					- _virtual = 0;
+					- Args = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IArgument 
+							- _id = GUID db118a61-198e-43bc-9aa2-050dc0d92517;
+							- _name = "data";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IClass";
+								- _id = GUID 17557ee4-29a5-442f-a9e2-eb1d8964a55a;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesJava.sbs";
+						- _subsystem = "PredefinedTypesJava";
+						- _class = "";
+						- _name = "void";
+						- _id = GUID 38d26ae8-de64-4b2e-8b3e-d6cbe8e0a76d;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 3;
+				- value = 
+				{ IAssociationEnd 
+					- _id = GUID 43153f91-690b-4038-ad45-b8363ec28ac4;
+					- _myState = 10240;
+					- _name = "itsStudyAttachement";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 17557ee4-29a5-442f-a9e2-eb1d8964a55a;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 39e8ede3-2484-4dbd-bcfe-8297b152082d;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
+				{ IAssociationEnd 
+					- _id = GUID 6d95912e-b547-4371-abe2-9e309ba65d43;
+					- _myState = 10240;
+					- _name = "itsDirection";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 8b695b67-40d7-4d35-ad00-f9535f0dbbb1;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 16c553b2-7a70-4b76-b0a7-d9e6ad937431;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
+				{ IAssociationEnd 
+					- _id = GUID c6639020-d815-44e7-a640-b434fc53d7a0;
+					- _myState = 10240;
+					- _name = "itsStudy";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _id = GUID bd05b064-0af0-47fa-94c7-14e6eedfbb59;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID 1b012765-88d0-4520-8d24-6d4e3bafd7a9;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID bd05b064-0af0-47fa-94c7-14e6eedfbb59;
+			- _myState = 8192;
+			- _name = "Study";
+			- _lastID = 1;
+			- weakCGTime = 4.20.2012::10:42:10;
+			- strongCGTime = 4.20.2012::10:42:10;
+			- Attrs = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAttribute 
+					- _id = GUID 5f8810a3-553a-4c8a-9fd6-e9f7275e99fe;
+					- _name = "Images";
+					- _defaultValue = "";
+					- myTypeOf = { IType 
+						- _id = GUID 0ccc1b56-5398-4fc1-9a86-f04f3fea7237;
+						- _myState = 8192;
+						- _declaration = "String[]";
+						- _kind = Language;
+					}
+					- _isOrdered = 0;
+					- _protection = iPublic;
+					- _static = 0;
+					- _isReference = 0;
+					- _isConstant = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IAssociationEnd 
+					- _id = GUID 1b012765-88d0-4520-8d24-6d4e3bafd7a9;
+					- _myState = 10240;
+					- _name = "itsWebDicomService";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _id = GUID 26302c75-1ec4-4cea-987d-906d7b15f54a;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "IAssociationEnd";
+						- _id = GUID c6639020-d815-44e7-a640-b434fc53d7a0;
+					}
+					- _linkName = "";
+					- _linkType = Assoc;
+					- _navigability = Navigable;
+				}
+			}
+			- _classModifier = Unspecified;
+		}
+	}
+	- _configurationRelatedTime = 1.1.1970::6:0:0;
+}
+
