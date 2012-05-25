@@ -1,0 +1,15 @@
+I-Logix-RPY-Archive version 8.0.9 * 893629
+
+- filesTable = { IRPYRawContainer 
+	- size = 8;
+	- value = "Project.rpy" ""
+	"Project_rpy\\Classes.sbs" "Classes"
+	"Project_rpy\\Default.sbs" "Default"
+	"Project_rpy\\DefaultComponent.cmp" "DefaultComponent"
+	"Project_rpy\\Model1.omd" "Model1"
+	"Project_rpy\\sequencediagram_10.msc" "Default::sequencediagram_10"
+	"Project_rpy\\\Ê\ë\à\ñ\ñ\û.omd" "Classes::\Ê\ë\à\ñ\ñ\û"
+	"Projects.rpl" ""
+	
+}
+

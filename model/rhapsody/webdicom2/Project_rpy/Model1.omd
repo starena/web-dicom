@@ -1,0 +1,3392 @@
+I-Logix-RPY-Archive version 8.0.9 Java 893629
+{ IDiagram 
+	- _id = GUID 69f4a80c-4ced-4eab-af4e-97377323e45a;
+	- _myState = 8192;
+	- _properties = { IPropertyContainer 
+		- Subjects = { IRPYRawContainer 
+			- size = 1;
+			- value = 
+			{ IPropertySubject 
+				- _Name = "Format";
+				- Metaclasses = { IRPYRawContainer 
+					- size = 2;
+					- value = 
+					{ IPropertyMetaclass 
+						- _Name = "Actor";
+						- Properties = { IRPYRawContainer 
+							- size = 7;
+							- value = 
+							{ IProperty 
+								- _Name = "DefaultSize";
+								- _Value = "0,26,84,168";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,128";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "111,0,107";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Association";
+						- Properties = { IRPYRawContainer 
+							- size = 5;
+							- value = 
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Arial";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.FontColor";
+								- _Value = "0,0,128";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "10";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "221,0,0";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	- _name = "Model1";
+	- _lastModifiedTime = "4.20.2012::9:42:27";
+	- _graphicChart = { CGIClassChart 
+		- _id = GUID 79e738bb-116c-485b-9b61-a9adfe5cab1e;
+		- m_type = 0;
+		- m_pModelObject = { IHandle 
+			- _m2Class = "IDiagram";
+			- _id = GUID 69f4a80c-4ced-4eab-af4e-97377323e45a;
+		}
+		- m_pParent = ;
+		- m_name = { CGIText 
+			- m_str = "";
+			- m_style = "Arial" 10 0 0 0 1 ;
+			- m_color = { IColor 
+				- m_fgColor = 0;
+				- m_bgColor = 0;
+				- m_bgFlag = 0;
+			}
+			- m_position = 1 0 0  ;
+			- m_nIdent = 0;
+			- m_bImplicitSetRectPoints = 0;
+			- m_nOrientationCtrlPt = 8;
+		}
+		- m_drawBehavior = 0;
+		- m_bIsPreferencesInitialized = 0;
+		- elementList = 30;
+		{ CGIClass 
+			- _id = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_type = 78;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "TopLevel";
+				- _id = GUID 827b4a01-0c5e-4eb5-83be-62b4a2195192;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "TopLevel";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 0;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 0 ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Attrs = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Operations = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIBasicClass 
+			- _id = GUID 34fe6618-7a0e-41e6-9997-e0e99b978a1b;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "AssociatedImageFile";
+										- _Value = "C:\\temp\\pics\\PACS.jpg";
+										- _Type = File;
+									}
+									{ IProperty 
+										- _Name = "EnableImageView";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "WEB-DICOM";
+				- _id = GUID 693ce1d5-c56b-4626-a500-81a0c0df4317;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "WEB-DICOM";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.154344 0 0 0.091623 797.826 74.0942 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_pImageViewData = { IHandle 
+				- _m2Class = "OMGEElement";
+				- _id = GUID 1c29bd9a-7ce5-4526-92e8-5d534c1ec557;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID a6fd9f0f-c61b-43cc-81f8-3cdf6b8ddc94;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "AssociatedImageFile";
+										- _Value = "C:\\temp\\pics\\workstation.jpg";
+										- _Type = File;
+									}
+									{ IProperty 
+										- _Name = "EnableImageView";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "Workstation";
+				- _id = GUID 426b5d66-012b-42cd-ac5b-a510266d52f1;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "Workstation";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.154344 0 0 0.116928 680.826 279.768 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_pImageViewData = { IHandle 
+				- _m2Class = "OMGEElement";
+				- _id = GUID 3ebe55af-8df3-48e4-8c65-44df83f8bacd;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 6efed4d5-ee64-4510-8f76-7c99780255e1;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "AssociatedImageFile";
+										- _Value = "C:\\temp\\pics\\divece.jpg";
+										- _Type = File;
+									}
+									{ IProperty 
+										- _Name = "EnableImageView";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "\А\п\п\а\р\а\т";
+				- _id = GUID 90746b6b-41c4-4e61-807d-3d5f4a6ecfde;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "\А\п\п\а\р\а\т";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.14695 0 0 0.111693 912.122 286.077 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_pImageViewData = { IHandle 
+				- _m2Class = "OMGEElement";
+				- _id = GUID cfbb87e1-da79-4d9c-b7de-63ae29a88b73;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 9a5ec266-0efd-4a18-9c46-1bb2c9211f71;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "\Л\а\б\о\р\а\н\т";
+				- _id = GUID 41284dd9-0389-4726-9ea7-4d278369ded2;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "\Л\а\б\о\р\а\н\т";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 934.895 506.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIImageData 
+			- _id = GUID 3ebe55af-8df3-48e4-8c65-44df83f8bacd;
+			- m_type = 0;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_dataSize = 16835;
+			- m_data = "227d#Zd8ZWGH4a464946G0101GG01G01GGZdbG84G0906061411H15141313161415151518171617181917181917171815171416161419181c261e1c1a23191a18202f202527292c2e2c151e3135302a35262b2c2a01090a0a0e0c0e1a0f0f19I241f2529312e352c34352f2c35292f3129292f2d352a2c362c302a2c2c2c2c352c2d2f2c2c2c2c29352a2c29352c2c2c2c35352c29ZUG1108Gc6Gfe030122G021101031101Zc4G1cGG0202030101g0b0504060103070208Zc4G48HG020102040107040c0e03010101GG010211G03041221310506132241516171528191d1071415172332I344292a1b116535473828393a2b2b3c1c2d2Y6272e1436324Zc4G190
+101G030101g0c0102040305Zc4G2b1101GG040503030305g080102031404111561910541d12162c131a1Y1213427181ZdaG0c0301G02110311G3fG59Ne1575074943e8a3eIN0ac8274eb3fd2bMc230G1b62J8279cb824eba91dbb7a29763b8f5fb77592dda0e02960c5d96J716da74cQc9277dbd1584e33896600d9b4248126eb18250dcca61499004766a3a8cd6f97a8d797d3d32ZG7cb247074e31ce3f1e0d5b04dd7687ed2e8ff7ZG6bcfb4dcO16c7c5cb21de672919b6de758db4a5038f630ed8J469ffd7b416eb3a69dT56V371bc492a39ab4acd1a1baf201e78eSa47ff16d26751df168753c465dbefe51654bf32f062d83624420076f947d74236da76f
+38ad588e1bM9f23TI7693d63c079aRcdec92Wfc82c83e5b6fe8ac1f64c73ffc07d76fK5e5eabO9639c32fbf9563Na51864b3fb8d7bb4fdLf5560709Te51fac7dK5a1ec9aff891f5dbd5565b18V5b35acb6acfc2c1cdcebNNR36672547944693R3754137875ac57b78574ea3b86e11746ec47e937Rb1XKcf2bf78fRa2e2b8e62d6e3a9c323142549177786cbaL83a990044e86bc0e3b8a8d30c84c9e8f3a67452dIb1d01d019d2a61d6b1397ae5c1a751dcc2df04bcdb12623e9f6edbd7bfc1fbfdZG5e96e1f9578a85e6ec2317K680ee201Ga8Vea14986d9498d662b77e14e3bf264d768babaf876ffe523d6b15db2e0874ea1ba67e0fdfeffaf5e2e706bcTb47
+ePfe9516df2b71877b16d7a25ba5746c0c19d34ebdfb0d6b3ca5c538626c5b0c84ab29T0c08e6e748eae704f64198d250eb58aef9M69d4374cf722ef95fbc7d547b9377ca3f59bd550871ec5e938KGc7ZG5ed2cbd5ZG53e8add678ce20960f696dN2e6560e5a5912e1eOO894ebedf446b58bf6f09d3a86ede78Kdf2bf78fR81c26ef95fbc7d548ed728b10cI1bd87550J9661T411b4c693f54d67f08711a11Oc2c18d4b46a72c8d8ed9bec34d6b1597f1e11a750dcefdc8Te51facdeR3dc9Te57ef37aRbd8ae565f4b65b9eSc465e8aea4e683a76c4ebe0696fbe1e23fe3e8a6b58bf6Y9d3a86eb91e1577cafde3eR3dcbb9e57ef1f5K34fb21e23fe3e8a3df0b
+11d8be8a9875ac4f7cb8469d4775cbdcT9e57ef1fK1ee55cf2bf78faR9bef85Oec5f454ee11cabc5625ca2b5a52119e5e141ca34504fd2LcaQ76Sa9d6b13bM69d477e564f72ee795fbc7d547b9773cafde3eRa6fbWe23b17d153f87f2b6fdd5626f58b64180afd19eb91a6dbfa3be9ad6276Wd3a8efcac7X5dcf2bf78fR8f72X795fbc7d548bY8fHL2fe160189cd1bc76af7fd86bcbf29ef868e7Se7a32082379020cedbcf5eNe94d6b13b7069d477e4ffdcbb9e57ef1f551XKcf2bf78fR911e51e23f1f849eVZGLab14372931G4f3f863061b2P81P5676d753f613b6b4d6b13bM69d4775dede2dc366807a20413227bJ811d5a77578c45e77b4aP44afd29df4e
+bf3c9f39df48a62f28bH76bf85O07e3475127423aa23ce2a5Yfe3775ae65376d3886239b831958282d2349P1dd5e7d4c4cf532fd5dbfb87cb651aMa318c652X3189b698a72c2e160edb17ecc3856b60Ha1965ceb209001dc52fe266c8ce539dcZG0a54fc3020e7b794b67df4ce274d0a93074a77c6d3119ae9b4a8e9370119ae0601adRb31e9048d081da46c48908317c7aYS736422eb5f46e95c6324a3b120b65812b9634e8cc4ea733aHbe31c992ec4e8373b2O5fJd0579f6c369d23a446a748da3c2b5d14051451J56fb58db8a432bb291b10c411b1d08db503d15a28a0de71f73a5d3639e736a4e6cc416cddb2409ed815e3dSde537a4f647dda56ba28360
+c4344L3036d4e9ace9e7d68f6c37947d2698Mae4fbe214b232886cbd2cfbe52da429076db7eb88d6a59e46dd060ba6e07ZG4ec33f4358222049d562432921ef0d7b08d6939cb9756e1f8e46LGf4b69ffa29fd79f22b6adac2dcIcfdeV5a4bc1f8cd9092e760010ed3d837d04ea7e445e1T5bf8a5b76ea311f17c35d8L04914c78470bc558188b286d43f41c9eMe86d1e92651e45e88227a674Nd0H2cd9b390af3d758334ae50e7419b22b6905b563a75861237If84ad9e798da7ba7a37a15a7285361V4903599d7b3abaea461ae630595ba2d5Qa884020dU0a5ae841cad920f387f6L600d65WX5f6505c5916f2346JeaUfb5182caSd065cbddb65d0d027c3e302
+aRfb61350ba1J72c5b41bf383b23bcaedad56f8P9bcf0c1cL3d20201d7703Rac898ab6c6d06c4194c8Je6492085581204b415020f5411d6296fb9965d5985e667398a816dc8L968526372321fd38efQ4745648ac50145145015Pac51J51451405640ac548Ue39acb874d1802079c4506ac87Sd391ca2b8cc335T5b8126d095dc48ebd27f7476578fc2dc479427fea3d158Tcabc436ec3e306f8a3Md9c7ef6be7340d85cb46e31e770eG85916a03030e582160201217acc24e9bPbc25c1bc08b969c9b6c5b9b4c9049b67a53ab6fbc7577d564f296f12c732f4c4374575195934d34d19b68de9cf2678b5cbd7a1c884b642Ud81649fb8504de357708310e2fb5Ud
+ce6b94be8ac114981d18cQc81a9d76814b2d9c090b9cb4982df2a44e5e91048f19ZG9658e8cd3de3f6b10ccd92dd9b8bP9403f2910ec49260G086883bcK7f0b83c50c83P47e6d5adGc5081998b91abe9d22447791b93415d6b647518ff4d78ab4dec2e23136090158deTcfH1ae482Vd6d44374227319049f28fc51494f05b82ddc73039a2030P32481dJ8d0b090483af5c18081451450145145014514506c4c4b2O0cU4cU2409O9f457af6e3c4676890624ee2G3e6007Q569a2836fb65bca6d88dcec771e147b69e49Vd24c932753aea7bf53af79ad54506ce7dbca3e93ddea1e814eb92f89Lc443I37c15edc93b597037f13e9a434eb925f39fdKefe4bd035bd
+6cb8b479cc474726506Vc1e86a8546d04408d74ed8ac616db4Qe73103201cd916b6561d2397299d16756dNdfM8471cbcbb391032e9e488e8f86834eeaf7f847Od7e10ebd9a6dd7a75f7efa0a0dc30764I0bed711a49f8S483960c6431f4e7c0543e1fc1eedf31690b77eU7893a55ab9IU0e2c0bf8821964Rac019a372c63699db5PIdb76b3865450Ra1546cGG0eb8d3R839d5bf63ebe777b6a7b258fdcb150b1fc91bf68ecadZG561f71835d3dc6fa6fddf776545c56183e5ea83dJ6a08823cf41cbfdc0c47e25fd1593c9ec475da61e303fad75cc2d811HG1ddad6bc4a281a9024f77d9ff941VSdc8dc4b91dGQf5b11fd24fd94eMdec6c4c67bW13d4a85bed24
+Ke90ed1074ff645797194e6eaGc8de75dfbe828f8ef6356504dbbc1bb9972fda09Ra63f865cSd96e2153d53b1f023435da39W478fd9e1d95138861d2f0caeRcbd8Jf4f8f7d0718a2ad7ca1e4a3d819ed00f6c6a7a20b2f8e9d25eZG4f6d564e20eba2ebZG11e1a76506Rb17227e59ff37fdcb48fdb26672afd514fb919726f36N45b3S8fa4Td032e506230e97X1624dcVf2b3740f91636fe2U033e51b9f8ed31516ddeUc89bd7O1cdebf0804af41V093044303bO223685bcb1f9f5ef11fc0b49682d76713825cb9aedde89272af3b9J29Rdb92ada5d0184c48224c8a59c6aed9ca9ccb92481ce6b70cc224Lce04S63M08111976I49e8Q28a28a028a28Q28a28a0
+28a28Q28a28a029d724be73fRbdfc97a4b4eb925f39fdKefe4bd02ac461d90f494ac8cc24112a76227M7b6bK32c7f282f5e2bce386e6d05b5e8ae88b3036efa8bedf7ed1f557d541d239318a5b783b293a95263af562dfd69a7b7bb7a3ac09eb3dd543c2728bdaeb69d583929d2481a6a46a634edaf573974fMc3RRVe801208d46f1e141796bQ75d6a3781fa40f8556Xf296dbd9cf9b291baeN93a6c3afc6Qbf2c572c287edd42ZGb14176c671eb566cIc8628a657af368Gf393bd728e27c4X622e17b8649eaeQ3b14750ab2263bdb165f2f44989242902086d80eefb6a361f9358b6307228f28e4Oedd013Jf7923c589c38627a484db33ac8Hc1bcJ68fd114f3
+138e16ede7277320189IS1f7d29b1c19ec5b587cfbcc2a8e934GJY02bde3585b4cf8a6Od13459Ofa2003ad064629f10c4ac22ae9b9267cd5951794922e4103K6d41eccbK4b9caf74522c9cb24ccaaf988efab4M0c5ddbd875b8ec0c93S076246bd9413538b38Gbda3b7d1f5573fe54a20c44db4c819412bb74a483a757557544563d7d5d8beRe7fcbcc4b2e254023e4c4e8a7e93777645054eac9c8b422f348226dc8ef198091e83e8a47edf7ed1f557d5565e4b7137TM2be53cdd92R42a8394dUd0c40d609313dbJb3963f3ebde23f81692d3ae58fcfaf788fW5a4bJ514514051456ec1d8e72e22794cabe920504fe0fc9db988d474506ec7ee1db564b3c8fSb
+f183dcedd72fa206d4eS161442a8855d14770d27c4efe7Xa6f6Sfdd4149c57232dSf836287b0f487aeaabc4786bd87cae20f51ea23b41aeb97f0fddKce516085cb17011aR9743d857a4c3Uacf9e2839e514514051451J53ae497ce7f557bf92f4969d724be73fRbdfc97Q4cdb9ac57b64Ib1af2ca46e2283145145014564d3ce45MKc5e3acd96f8aec011aebac01a75491Jd3d8fb9278dc4de9b168f34443TOb71d5d26d0P1d5ad75f1c83baJ01ac927601fee95ae809Ud5K513a16d0GRQ0511b181d73d75T0fc2913aa4f54d07cebcb8e257Y2c6cb5bc8c095cc4c898064469b104573ee23c5aX208376e3391b4ec3U0d05778f672e4c964e787c57caae4fd1b
+8b391N3b48e8e9d95f3f5c42a483b8307c46941e6a560b8a5db3f27719759807427bc6c6a2d141dc791585bd8dc1ade5b44c4ab9G448df2ebaf877d729e59e345dc6dd23652H7eNca7ed06bb8f26b959678772652e2b2f3b6ed95c9Q6e7eebI20653aX737fd54f657ceb72e162493249927b49dc9a0f3562e44fcb3fe6ZGb96aT562e44fcb3fe6ffb96823f2c7e7d7bc47f02d25a75cb1f9f5ef11fUb496Na28a280a95c31a2f5b3d8ea7d041a8b5Xd3e56046Wcfa283abYa7528181d4f57fed36b37973G4c03f7e94a3832da36c3ab364cQ9d0684f56fd474a9b8Gaea598110d0b04490aIb6f1a747d341bcdf1a899831dda77525e2e5729ed6575f4aH3fa54b
+beca8e3a9586T4cec4f6761f3f7d40e5435T76c9V64a9c9b4ce53dfdb1af79a0e61451450145145014eb925f38fd55efe4bd25a75c92f9cfeRf7f25e8192b1636fe19c919341618423a734c745398658Gf5cb9893ac0e515b672af99ee9N18f36c81498206a3b59bd0298e1430fa77d33a200cb6c196ca1bM932541Od604e6351aef1842157db578NW906dacaeK9560677cc144789a040f84750494600182482003a8827cc7d15a69bf18e2Pc6Kbcf741G36750a742363bc18527b72899814a2Nabcfb1da3e1b13Lf94301c5c8db328dN3df27eca6dec3c9c20I3e39bffe849645ba07I9544ca753dcff8b776504eb5d5382f27Xe3b19edec4da16ecc459b2c3a
+650484375765041cd1db1d42818f12f6414b4bd155762b232b92aa4ec1ce51af7K76dfb24e25092dcdSf26223U833537963c9eb78b371b08W622c022e59d54301d808dfS8d0e9b6f541e49Mabbc43H2d09K066e315fOa379d373S1da682e5cb9cKdc670a5bc159ed125aWcabd1c86032e51396736b5c2b943c9cbb6K6f946e6ee6cf06I0dc4ed3da2beabf6c6132fb4b3a81939ae6e6342b94a86f2a3be6aad7b93c6c33ae1d45eSdf2b83bc07480ddac39fa71aNd1e3b407cbf56de49f25Ie5bf7c45b1Ra9d3301f49T13ef8ecdfab7293d8bY366dfb6d5acd9b440622fe816750015925bab2c13de6b907293956d7a6ddb245bd89d8b81b69d4bdde9eca0d7c
+aee5Gc45ccb6f4b484e5ff931f8ce7c761dde355fad96acIce504c0931ac01d75eedW6e3296546217e3H0c0d09Id9Q341a2ac5c89f967fcdZG72d25b9c3ee2901adb02c6141520927603b771e9ab0724S4f6efb674659b6624113d25f58f4d06de59f272f06b98b81Vb5UNc89cd972ede2a7bfaf6aa9K8f963c4eefb66f5ace79b95e87d1db3eddb9P8cZGc8f69aae50145145014514505d79178e6caca3ac78ecJ1a79eba2e2acRdbb6720da4eb224e844787df5c83933c439ab9dc641edd7ac78574cb789ce8ba820f58eade27d1f6504fb581418762a8030cd97689d761dd1d95cdb9698c3214P31ZG9fd2aefc471fcd27c61b4f56de6ae5bc73O73d7091b6
+c3c3bfbZGdd6816d14514051451JK8792f8265b89Mc65b96b1214c8fa1698348eadcK7aac9c93e2770b0b25cf3412fb85d2031b2f241dc504T79155465c50883a32406099646bd9a7877694a31fc20Je652f4c9cd9f26d02232f5ce6fb29bWY68533734ae7a060de7Ha5K8fc51f6eb126488d57e2389d856cad872594c365bae14c15922075c37d6a059ee45df20fd947b9177c83f6549c4f16b6d6caad9c8dd186cec4O0334cef241f4d2de7dbca3e934127dc9Te41fb2aebc9ef647e2b83bLd06376de5cQ5ce9320fZG379cc23a81240ea1541e7dbca3e93473ede51f49Qea1c3f96c43adc6b57ad5c07e329568ed33209f4Kd70beca186b58265b61c5f7739
+Ob6cb39b7b848589891db2078d7cf5cfb7947d26a7f08c75b4726fabdc528ca02b658L1943cffc64S1d65J3a4d0748Tca5b206d75fb8219f4b915bfdf931b6ad94b387cfe45cbe7I2fN53af9c9ae45cfb7947d26a7f0fe2O8ac2e5ae7493a36765207608ef1f7d04ce398ec7635f3e219ee1d601202ac99391042aebd82967b9177c83f654df75ac6b361a6748baf11a48fbfd35e5f8bda2645920658239c275906448d3J469db341a2ce02fa4eK22441db507a8ZGbdKb2cd8c4a2b2a8750ZG1803Gc820cebd86b6fbaf636f6bb78f3d727c7b27cd4dXMddG1616410646227e90d1e4V65571a03af768412b5bc5165639f3246533aac124653323526ad587c486
+c46655bO82V7c219e967fa32edf442ceba904U98a58305d22ad842182ce97ce5904a1d648d5bbfe81dea7f0bb596fe9685b95b874bbcW6f84588f2401a77d5a136508U577963f3ebde23f81692d3ae58fcfaf7Ofe05a4b5505145140515bedd9307683a778d674ff7aeb6fb5020Vda8eQ3afc7b0504ec270d812549efab060efe5b7a17de3427abUefK57c7I1d63c3d54dM58b213ac74879b7eba065c6db39d4b1d06f274f3d54f1f6029d269d713c7366dc8N36Xd35a8aR2f03b661b8ed1db40928a92f8320P1a0358T853b85NL359d3bcd047a2b2562b1J53ae497ce7f557bf92f4969d724be73fRbdfc97Q6048516bWYc436504fJP2883a6324882412635e9
+41ebRX3eW6bae42R82c745f8a35fa3dd5625e23cd9b5f346072ace524af4J9b834f3f789d359f36312ac8a85b0a9ce869394928092658cf45ba640ee48a0abd15Xea431120c12246c75dc578Q28a28a028a28Q28a28a02a4W307cebe50caba132da010275351a8a077f8307f1f67c7318Ydbfdd7b286e4e9420f3d61a1U8cd332e17b36eb3dc6925141M0143dc3cdeH8195Nce2205b272Q65320e5ea1a971b8a97c2ad8175212cafc11d2d924ZGf2f94cdacfa773544ab17227e59ff37fdcb411f963f3ebde23f81692d3ae58fcfaf7Ofe05a4b405640ac56db49341370987V3b3acf9b7fb2a2e2efe66ec1S1dd4e2d265b4e7b465f4eff6523b9bd04ab3625a0
+8fbfcd565Wfc36428991bc7748eba4581b633932446be83dL6af9U30ba4902237f38de811f29f8L440c1bac48f1ebf4fdf55fc35ce6dcH35dc1eaeddaba2714c34e504065ebf081bd52f1dc2cdb7303aIe31e3eba0cdf05fa5260P8ea1da3d35a712a204f654ce0cb9832fLa3ba0c11e8d7cd5a78a26a62812e26dee7b2a154e9956f03f674R0d014eb925f39fd55efe4bd25a75c92f9cfeRf7f25e81c1beac1335eb27a2N13641236e8121a60H4798cea44afc57137b571c5b16X202a67200a6167e20397Tb74ef335e6dcd6281eMfe237d58adT609624810749cb3001dba2Teddd53b87f23740d789d7e8afdc5bd5e9a9dc97c22a61d5a0667924f5c49G7869
+f6d37a05ebc9cb0a0fc10d37924f7f6d47c57256c93a2153dc4fdcL9b560d0221c8b431d27d76f8b593c8db63e93e9bedeaab028a5b8ee5059b4d95892c378131e341a6cf23ec83a8L3dedea8a9d6384da580b6935dba2093e7335bacdWW11b1123bc57a2683462783daM735a5ec9G023ce35aaef14e4732c9b32dd790ef1dc7afc37f1ab435c8deS2e0341ce0e15bc9347b59bb3baaedc5fN25f123a2fe50ebZGb76f8ef54bc660dad39471047da3b4775079f6ab7934ZG9196Obcc4O9b7a7d65Rdd58b913f2cff9bfX5a08fcb1f9f5ef11fc0b4969d72c7e7d7bc47f02d25a028a28Q28a28a028a28Q28a28a028a28Q28a28a029d724be73fRbdfc97a4b4eb9
+25f39fdKefe4bd06be2dU4d936e2edab9ce5b5b9d175194b4ca349f8c235a83ed26ed4faf6ffcab436e6b141d0f8427Udb595dH7d24ecf1a96d6c8eb5fac9ebR51e51b2db454G15500b1d76ec1e15a30fc7Xab496cfdcdb79a82f8c23ad7eb2faeS17bd7eb2faeab3f8KY5a8f84eceaf1a81f8517bfe3e8ZGda0b5f13c5325972a54102074d3724283bf54d510e118ea4a7ed13fcRd5c2f88ae250ab0d63a4a7ac777756eb7c97Sa64a93dc58c7d9J7272db0c3a82574668e9a6d33dbdb34d2e03d4549edccba7db5e05850aG01Jd001S1d94b78af1d4S2148773dJe83fed1f76f40c92Vc9257ebafaebd7b5fbd4fe92faea898ce3572e2804UPd044f8eba8ab2
+f03e256cda452e338H431d49X9de81c0c391b32fd65f5d5539578426f2994f883e9Qfa4ddf56d02aPcafb937c0ec41f6927fad02bf69376a7d7b7feKLe4c70b6b371589522ed92c0a90622e652a60X201fd21551ab1722be59ZG37fdcb413b94dc043e22e5c3751643315dI0e6cGc22772ba8ed823R97Mfe4c2dd556e7Q1553f14182c5c14d5c74ba1a6c0c8d44acbae3a961712cef86TMf3N48f8971f4ca9bec4J3a4c83512d60edadb707057890d7618a49cbf47319d0N0891b6ac24e802a97532b1120c12246c63ac77578a9a7835e9039a796f8a32P30c1741bfc620789af0fc2X842e6db85112d94c09O93e71e91db41168a28Q28a28a028a28Q28a28a02
+8a28Q29d724be73faabdfc97a4b4eb925f39fd55efe4bd0266dcd62Pbf0279Gb274a48e94ec9ce4680eb94ae9daU6f311f89Md6Sf918a9313d1248dc8eS3b28228aca2ce9a78931f7e95e6b341eP729dc1Yacd9b45d82a8249dG14IO0328046e7593e3ac7a2ac5c87c0e6be1Od2728f13bc79b4fd2a077c0791e2c74eeb4bH3a2bd40eba93d5fec75d3e4c2a13Hde623fa8a677Mf3d22224d630d8Mc601f1da8293cb1b0d6d1c231201Gf6e43fd262a8b5d7f94b815e6c1ccac672H0832S778f479eb947Hc2f357597a81d3Uea3eca0d11227b37ac6dJ15b2c61d9d82a8924c0a0eb1c97e02d7S562eIc35dV2d8237c9Gb337509d078572X2d8ae76f3bf51631W
+345fS0abf714eK7b5b86ae172fc20536ed383b2b7ca123c2Jef69eaae6bJK8b913f2cZG9bfee5Red58b913f2cff9bfX5a077ca1c2dc3719d2e5b95760032292142c90188248924911033492045463edc2V4e22dae85343a4b74fJ17468d731dJf1d7771bK3887cf866b83I9ceaNe6G581ab7585e983dP97cd5ee2a2daabdb165addc179OV355bM61092c4ceda47d1993341b389f1ec42df21dd73db375I2011YP83e5811f48c4011a46c29b63Md76eJ6c4db617aebab1088194L59c827312d0a722f565edaa656L81f5X493030b76d9e965d4c449004e52c235df6d849240ad56392aeUfc25910581963f45P49Hba89531e6a4b45048c760cdab850952446R641
+90184798d47a2b6e1Scd71d5H4b3b0551daV600f39341aa8acbac120X34ac5014515bMVa1d4b8Va18161312275Gf548Qd5454ec7dfb6ce0a0d275e87372207d10eU75ec7ff1ae238aWcbab0c39ca19cb2c050654e5021ce99b2e9d414eac58d05729d724be73faabdfc97ac263Mdeda0e2d1e64020a1127e29506IN4cc1de27a8f5da30f824b65630cd68bdab8558e5323dac5a2439d72b26840cd9831898abc249a68463087d0cc9Yf6d0c4ae1542f36e58932d1ba9067a899d3531d95ab8a70e5b8a855b0c90K62d9df3041Pe75007593da6b79c4a3adb25Sc754539ad80c06Jdaf4WN465ead49a497b8b48239T624a9e8aUe8c8H26359d7aV78cd07ac67071
+6d4Sbd69e23456P04O8f4cc771988a5c05364e50919a6cda6ccd9ba40986da756ecad7Xe6b3V58d8Oe6c41920c913be913d84d06ae1bc22f626Wb7651ae346U4c0ed63b281da74abdYde05730ce9654137560c2748e73ae91d7dd4af939ec92d8646b46cdb16d9b39e6d421ce16179c8f8e80eb97b7d1576e4b63ec49bc196f341372e13a2Lde13Md3a491d7Q141138a62efdb636ae67430332b1Ia89ebd452c1763634fb1bc6d31286dddJ187c8dd05815d7e2b493d023ab60768935ab931cGI0bd89d30f6c92dbfc265d4Rc6e3b4fae83d62b8393845796e7154T2e501421f88336f9c8868ec61554e23c9538a4cd6a0dc41aafd28eb31d63c351d91573c472
+ab9cb8d99211a62342927703453e1f68a8Ld1L0e8dd20652e2486046d3d73dc75ef8Qe5c39397e63279e447a66ac584c2dbc15a2ee417eb3d64f90bfef79ab1f29b9618309d240f89O3cd10ab9c1826e11d1ea3b0275eaae618fe20f79b339Y03603bGQcf11c7b5eb85dbaf61d407501516a4d9c286b6cd9c0208017493a1Ia99fJ3df1a4V3c22df341fdb0930094fa424a82343ac024f9bc601K58b913f2cff9bfX5a863835beMa7b6132859ce2226JcaI30d75ff40243ce01c2c58be40b81f35b24U22066483aeSL46df780c85bf17c9e7b99e310556W329cdaS86G309275dbedY8d76b93b7136c5b6ec639a4225d8b3699bb49f4d14567fdc8b1c6b4c45ef6
+f6bf28b9fb35ff2a3deded7e5173fLbfe558a2bdda185a73d29668fd63070bPd9f7b7b5f945cfd9aff951ef6f6bf28b9fb35ff2ac515daca922e6a33ef6f6bf28b9fb35ZG2adb84e40a5ab8971311M3232b29e6d0c3290Uc1683a8a28a59522e676b7f63ab449271172499f935ff2ac7bdbdafca2e7ecd7fcab1452ca91733b3ef6f6bf28b9fb35ZG2a3deded7e5173f66bfeK8a296548b99d9f7b7b5f945cfd9aZG951ef6f6bf28b9fb35ZG2ac514b2a45ccec8f638b5f945cfd9aff953b3c198e5cdO2f911d114dab6825ac8b20b1432485541264c28a28ab430d24Sca19fa97Ia1afGc5J1cfda8G0f933b011db50b1dc88bd7N0d76d0824f46de53a80358df
+6145155b2a49b9a887ef68ZG8e5fR6b1ef68ff8e5faa6b3452ca922e6763ded5ff1cbf54d7bb5ec79750cae2029ed0181fb0d1452ca917550d30fc9dc52efO468f290fde0834d2c58c5a29Kb9696411203cc120903a5a7c51aef4514b2a45cd4437W78Od2e595fd173fdd50313c8fc4dc90d8ad0eW02Qf7H37f3d1452ca91735H3decdff1cbe8347bd9bfe397ea9a28a59522e6M3d8cdff1cbe8347bd9bfe397d068a29654P638ead9b3ef68ff8e5f41a7f6b815f6bdce5dba8e45bc82015d3397efeb27d3d8228a2ad674eHc917d55fZd9";
+			- m_srcFile = "C:\\temp\\pics\\workstation.jpg";
+			- m_fileModifiedTime = 4.20.2012::11:20:12;
+		}
+		{ CGIImageData 
+			- _id = GUID cfbb87e1-da79-4d9c-b7de-63ae29a88b73;
+			- m_type = 0;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_dataSize = 9674;
+			- m_data = "13e7#Zd8ZWGH4a464946G0101GG01G01GGZdbG84G0906061412H1514121414H15H141415141615HH151514121514151514141514171b261e1819231912141f2f202328292c2c2c151e3135302a35262b2c2901090a0a0e0c0e150f0f14291814182929292929292929292929292929292929292929292929292929292929292929292929292e29292929292929292929292929ZUG1108GdfGe2030122G021101031101Zc4G1cG01G0203010101g0a0405030607020108Zc4G4bHG0103010404080908080505g0401G020311041221310506415107132261718191b12332425282a1b2c1d1142462727392c2Y1516I435363b3e13483a2c3f144849394d3Zc4G1
+601010101g0e0102Zc4G171101010101g0d011112ZdaG0c0301G02110311G3fGX28ONOO08ONOO08ONOO08ONOO08ONOO08ONOO08ONOO08ONOO08ONOO088bcb9e06640eb41e9163e38739e804a71bV7d43de83222c7c61ddebfec97cX1da7W83222c77cee1da7e097cX1dbfd9064458c48777ac2fSca1c2a39fd4687b907b444J44440445Y941f5146769060f2bd44f705We948f79fb8ef8209Oa17e978f79fb8ef82f9fa623de7ee3be089a9c8b0d9ad8d9055a6b4cf3c3a8acc8a22220222202222022220f12e47a1790U320bd4be29e83dcbe2022220222202c2f2fd943eaf8aVO3c465de5G3a093ee5f2c4391e93fdb72c8b1d8fc53f5e4fea3904851adb682
+d02ed09276d7dca4a87a47c9e93dc8224d6f9036b568f44fc5616694977b7X9f8af1a458e313834dc7H435dJebae20NebT6871a732afd0f669591dd9e513bea79623118ba721M6ede8cad5da5a41eL44e4ed94e7e75f61d24f7821c1Q0dc4e3cd8a8d20c7a8f7851a4aeca678d6b973536ab2696ae639c6f1da17c7G760ec54d3bb924738dfbc25924782da571a541272da68725be59d5a3a31b943b736814ba9fcd542b79c1615e3454e5b3369e51ba79c15b485a6e8a82ececc5c6ae1eIdcedT2ab730a350444451HR0d2dae30599d499cd8b12017c91b03OG9a5e38e682fd169cX152c23f7Y7fecc5X2b09e172c1fc787aa5af735135Ta2d0dfc315N7efa3e
+a329X8d62770d3601fbd6fdcb41ZG6d30d6fd2647Qf72f816b5ab3afMdbdce1010f0d375c6ec8da12d2478cd15f14ad918701d03b822bea22202222022220158ac2792efb493fa8e58edf6f6c4d0e7548269875a8166d3ad683c971ab9ced9e51aef4178a1e901e2f49X517f585be6Tb42c13e9a6be9c9229ce112d7bb50e4f5851e31eef7af32dbc38529eSb136d62bbf2dTcd1119ad1286e2e21aG38b9U0c481995e227c6e6175ebc01a558We18509f17aK26be9fPbfd0feab162e0e7fc11fb49bfa71ab041d68d677d8e7Odd13Jfe32f3727601b74b5f5aLW68462be68ee146395fc5c7L901a134e362028Ic40e755fc23b2ad83fVX8d50ea3d981b736b971
+7257b02d23adb26b4b8022cecc77dada3fdb51ad51dadc7fc3c63feY7ff25b142dQa73bbda2bdHb2b8a4d05a366e36f4V646198Nd94c849351e63694eb5b428b6418b8f40ec15f7a94a3422220f85713e1e63c233ba73fea841fc2T695c9f862b1b5fc587d6efca622ea67778a92a074d29d6ac4aacW62db0c91becf3430bdd1Hf63dYc2498cd039b522a6ebba7c65Qebe3f8cb74d2b58191ba42230d680de2db46b6N61936bd656d760b4c50ba39622595639920cGa96126X35QQ14d9b545d336c87e486311I8c7b58e2f701Na6201c4eec30a5dc15469bQ757a6b5cbc5c2d2e399cJG0cc924ZG7522d3ab8e2c73e10e7b631cba02698d2f505683ad5c6a86Pf
+93b5c58Yc223PP728b9eM2dcf95J31d83ad4dd15a5042d90d68258df1b81a8c30a65911407a422ae78029292cedfa511ZG4cc3dcT74790e85c4b81cM16fbJ1fc93852879520270c3ca5db63380508f4O8a28OO08O829b5ac7Nf487715a368dd3904f208a0922964209baca971aL721cddab7bd68fd87a43b9cb94Y65abb69b2db471b1S31efc5ed918eM23Gd201add35af4NOdb67d1720e5383e31960d2057af6a359J0107af027715b1dac378a2d15a09c56f0a62e792ea7354950de182682e82434b862313490903b491d5441472d4H4b7104d0Kd86c3568a57a14db2bb94eU3792dcabe76d58f4T1a0b2e12416e75Ge248a927a12c59TH79232a79c8560e11
+24a58dfd31ZGKab1f068fad849fe64ffd38d64d7eb2ba5b2bd8c179c4c6682bb246939742M7f607c3622d905d37a7750d4605ac1b7a1588a4eH716c1fe676d2355ba8Mfcf87d94bf856cfa7f42b67e27961805e3Oade2fbb5da29e2fad5f686d5a8600da461d20696P05e6975e22b856N6037e4aea3L64K6f3d5ded15f38977376af91dac0bad3505d53cc2aea67d24294165b63822ba3a492b2a2202222015ca78716d2cc48f264b39f5bdbef5d58ad23848d5c7db6230b2a2f88cd6ebO05921763J895c16cda78b9cc690G2f6834af94J2463867fYabe7d28f7541c2b9e35fKGda57468f810976bc8eOa4f7d142b4Y6fL866104b6b6b6675291f164T1cR03b9
+35a6Gd2T39e8e78c948c8d14936e7dd02b506a73271a918f3e1eb5d62cdc0835cdbdc6388cfc460ef7a9b1M171645ef34c7c68c7379a506adU7cbf3e946f8eId92b47e25fQ19976f7ad2756b831658a5e32226f101a6f3c1176f35c681ac18f256Xdf79ef2a0fa8O8a2222022220a9d671f373d23b9cb51b3cc58fbe05d25c31cf1c715ba69db3b9Y96b4171a8cbafe2b581a2a5cb8b38117a97c73d301b4HOf136979a56dd79e49a1c6e815ae1534c13481786P03c4cf68175b79Q9a52N1a9a533ad362fb26O9b1a31ed15fa58015c316f3eda8c32585d6495Qb698b9b779798cf11963963f90095ee79bcfc49cf11d9860b258dbca23e88f696086UYc60762e
+686de37a979U6271c73d8549b244e121270174018b4d31c72fce28Ie90b5dda919d283a4bN59b46497a22492M97b828b678P397b5f5a34372343P39d3982c5ac5a5dba3ac8646Sc82f0650be9fb4U9ad365HK5bad0f16ab3b63923635a2f4bc655c4b1ae6d1b1b4637a97f10283I82dd1bN2695189f18934d8281a5M9d35adbf2a9192714237435ba1b3c97eb86356b30cSc55d68aeH6d78563748194ba1f7dd4230ade2dad698K51d6ec9a7ace7639ce6e3fb27f24e2062e039d4d8f58622f0ce534b890dab73a67O5a3e87d7f323e363ece5a64786bc8778b78f8d4205ec48c2b9K6f0db1c6ec9d193b080d27bd305935We46abd2c166b3dc1bea6beQ3bN59d
+45111H1797bcG49U0c4f32f4S5b2cdc630b49Q767965d6822dab4dc4c6975e0eQad0667a16b168759dd2194Ic23cd4bde222ea53G1d4ad00a018e4af9daad11cdcf35e768f72f4cd55807927ef14451fe920327H4115a53b311cU249ac649afac17d7bf0eR2d8dba0601e457a5ce3ef55da76d366b2475746d73cfOcdae3d79377941f196f79683c61783Oa50387d6c95e46Meb2bP68ad234772cb1e5c4dGae05d52285d88a61Pcb35b7I495c175f2004G5d57G45ef16T85061bd06c48a84e9c6ff159f787c57cfd36dfe3Ief8f8a1abf45ad3b4e30bc34c83104deaf2302050babJec7259db6e67f1PZG93WK17c8a9c5bab948d3d0eaf72f136922d04df6f268
+4f2f115cR39f66f50d5daa6b4e9Oe2e31ce75d1135cf90dd7d031bPU6341T60e6503f4bc8ea51c69526a2870ad294fce6b33192117cb71209M14248dd8675f7a689b2c93b8de8dc2e968a51a0d7e90MVHab67b7ca24a3d85d4a72a806071c30d8a7eac6827595ae671ae7c4483144e6b7e6Wd4ba26bc78V15140472JQc3291a64f8be97b90545b9c6X3e773a815cZG3b14db71e40e955c5df9ea410f47e968e174a65919082582af340472ea01c81cb3K3c27e958a5d1c78a96293c345e24ac76153b1aK6ebf474b393be46773d68967a973063e3b36Tcf1d4920811da9cdf2a9cd5f8aP63b43c9c05fc7cU7b82e8efb38271Gf4b415d33536202c71W078f90a7
+96e5Kf9f6c11e942e0608e7176f069641907541a1Tb89cKbc1aada7a63ff52daed7cfc50f590bf43d1289a3916a77061a461b6c168b4da1a590bcb9Vf944f238f25c29422ee646d5d791140444J44440444J5ae69fd5a6c8e7V5c6a23f14b5a5bc804822ab635e5ec04H710703d05071e769f8d8ef15cd236f140761bcabdd6f321739b95ead6ae189c6b420e27a76aea5a5b41c0d68T130171a56e02461b2b82a19754a2Ma1be456b4bd415df414aRcb538f4848d14a547392bdfe9878f2076ff75b3bf5623defed3f151dfaaf1f9cfed3f14d1adc9a5a43bc745df8a45a49Ud4b6f749L7dab603ab31f9cfed3f15e7f5623f39dda7e29Rafb15b0be46975c6G
+e1c9ab395cdc935ce9f9caf9b2b434b7021c6a6f191c4eX5381386c15Q5063d578daWWe702d208V8a8e62bddaeccf6d031c1c4d48063006189c42224c160648Wd6S3b7d1cf1746f3960b69d076925X8cd0Odadead94a6V16a96295ec06e90d2e6dd2J35df81270c95Xa94775efe768ef515b42a9d39e47a5X56ca9f4f1c59e97e142aa2d8X475aac715616c3c8eb50037f3dO8d5b5f63ad947dab3779af5a0d959e163fb48f67d36ae83aZGfe187dab7dP1687a3dbe1e21fcd8f67d36aS7463162ba36aQf9a47e97b6e5Qddc7f3b9741d591f358bQfb4e5162d111114444J44440444J44440445YQadd273Sbdb1de17e85f76bcab95T7a9bRJaf3af2db3e0b4eb
+16b036d3a76d02225d1d96cbc4b9d5e4f1a2769M1bb10473969d945bd403044447d95439acRf4c6a3cb020d7a485612d5713d9dJ96155111257f83a6d27d545edcd58241O3b055078b2b3357baba3c23bea7e20a8ec6ecd5deaZGed4fd43ded506c4a97588e2cf4bf0aba545aca718fd2fc28b551683c951167Pd828f541abM847e6cdfb56fb122d1b44ff8O7eda2f6dab75e115df3667db0f6245a4684756d50fdac7ed05623a92e81ab83e6b17d5f795cffe1ee5d0757c7cda2fa81458b144445111H11110111H1111017c2bea20d563d5e6595f3c8c0c1f2a9cc8f75d3c6173R4349caeb497d3eb74d6e6cb360Seb531df2590b3cLGf1d0d3577aRb45b2eb3
+ca3684474d0e5e5e169306b749cdeb529bad8ff3476a1ad8a68d57cd1aaf3aceef3476ac4fd6027c95512258d57db7774afafd37f456275a84N9a5283bd41f6c273579abe7c31fa87bdR86U73579abe7c37QXf6Qd996bfad2718fd3fc2b605ae6b63b951f43fYa2d534870586abd9760b12235bd7bd1f24Yb1b130bdc25a9029Nb8f1535206642d73426a6da193c723c358d8ded7H64693406b401b55d11eb1bb2K583e0ba1e821f368becdbdcb9fd1743d0e3e6f17d9b3d90a113111114444J44440444J4444044441e64602083882287a0e6b943f435d7b9a1de2b9c3a8123dcbacae716f349a4e691fed144a8d06O779c14f8f423f6Hbcd9e556967b42aca2
+0d052732f8ed0726e57d0cea4b64515a93f43c9e6ac42c8e656a08047fc2dcc9Kba60782775778456bf612af757cf87f41dde150d8b357babe7c3fa2ef7223695abeb8bb951743fbdab68Rd4b5d9fcb8beabfbda8dK431d822cM9c0ac8d465e5cbc39b82ced62c9c460ac10ae2e83a2c7818fecd9ec85a5baceaeac5adS86c4ca39b79c60aba8d0d9e303c13ea6ad71152da8c465b1291b222a93a7Jb4081edb8e7b2f444b8524a78ed69f39b812Ia1ae4be3b4e816864177952b269072c78b13dac351ce5e14696e8abd9a61a6d1c451d7c462538b69Mbcb37d731b94Y83ea2220222202222022K2a83e15ce34b616897ed1fed15d1c95cfed723649a420826f
+bea36We232ea44a88c72P0ccbc8N6e59a3b385594db3da14f8e65060b285362b1f3a2b389144d2a6b13bQ778531b63e751f49594889c79bde1456bd13684741f729b64b518df79b81a11dR097f28741f72f16bb45d6d50595ab4ebf6bcf51a772a5b6c8e94822a6e83S92461b37e1d6R60PX95e4ca1c08e447763bcdaed19178G506dc76e0b2c1637da251190cbe1a4de6be6b3da58d03cMd736ae6d79cb71c95c3596c9a55952dbe2b50286a1UX2ca5e69e62075aS16903638f434ef57b60d4cbc1aL22ad65ca86Scae69a5e0f92XGd2a4342bL6a9d947ee5bdaef8a4c31aad978c7f8b191cX21a3d6a7b6Vd68f0d3c6c0730d7b41fbce3dc15Yd58b37Y587a4
+13de5488343c2cf1228db4dd1S1eda2bb131456274Kf9bc6f98f9e1a6ef499a414ecaa91fa9f1ba47ca5ce64935c32dc2d2c73e3a716ebaf69179QG1c28M5b0517d52dd6955fabcd38ba5b43a9bed328f64841ab918356ba766795Rd1b4d4W5e76e2ad5141590e836b641209252e02ed5ce6b896835ba5c5b7aed4d6955668O08ONbe2220K2abe2f25c805cbcb8aYf71e85166889da7b50659ad2d6e6W3a485cb74cc74b4ca5a486P1c5a6ee1426b81c3795d064d1ea33f46R8d26cf6e9464f6TPcdafac1aa9d16969066c61e87b877bKf4ba09a736b4fa216076af37cda7439c3dea18890e9e23389dd4f8cf790a647acdfca93b59X2b1feafee2f1e903de0af
+add04ed8e77630fe1431206b49d9191d21c7b82f32e977482e9340765c232c76acb06ac4a7cabbd21bdcac6cfRQ52fc85dbU6bJ3cd5ceO35fd1ba1a49b97ca6b726d282a2bPa8382b71a961c29248e2370a0f58016cV6002N500dcbd22b4ad21c1358a7a719c692dc8b64bae15ce8J53742ea1b2caW62b45aXb4fecdf3b64611b451Va81d042da1H7c017d44J44440444J44440444J444405f17d441f17cbabd512O3c162f2635968be20c2615e4Ua42208bf264f912968823b6c2ddb8acad8Uc8Gbda20222202222022220222202222022220222202222022220Zd9";
+			- m_srcFile = "C:\\temp\\pics\\divece.jpg";
+			- m_fileModifiedTime = 4.20.2012::11:21:24;
+		}
+		{ CGIImageData 
+			- _id = GUID 1c29bd9a-7ce5-4526-92e8-5d534c1ec557;
+			- m_type = 0;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_dataSize = 15843;
+			- m_data = "2062#Zd8ZWGH4a464946G0101GG01G01GGZdbG84G0906061312H15141214161512141417151814171417181815151616181717151415171b261e181a23191414202f202327292c2c2c151e3135302a35322b2c2a01090a0a0e0c0e1a0f0f1a2a241f242c2a2c2c2c2c292c2c2c2c2c2c292c2c2c2c2c2a292c2c2c2c2c292c2c2c2c2c2c292c2c2c292c292c2c2c2c2c2c2c2c2c2cZUG1108Gb90111030122G021101031101Zc4G1cG01G0203010101g0a0506030407020108Zc4G4cHG02010203050307070808050501GG010203G1104122105061331412251610732718191a1b12342527292b2c11416I537382d1d2152462638393a2c244a3b4e1Y253454K
+b343Zc4G18010101010101g0c01020304Zc4G2b110101G02G0502050305g070102110312213151416113223291Y71d1e1044281a1b1ZdaG0c0301G02110311G3fGX34a52814a52815c8fca36fde370d8e7860972461HN23426ecb73ab293cebae5706f2bc3ff537fd945f03560d487ca3ed1209fca5eff563fe4acf89f297b463365c507fYa136d48eNe86d71adec7502R5873d9358a3d4b7a8fc6a8bd613cb66393cf48241e28ca7dRd6f7Kef713ca6ZG484cd0b41c3658cbe612L536205ac5411cfc6b8861aIf36c18ba20245c0cf981d0fa054fc181c6615c3f178487432aGb75eQ32ebd0695ac70b9761fa2a95c876762259630cb8ec41d18df8874ca2fcR
+b98cde6c796b61b1b2c9a6a2ec5bd9a56bWe492bfJd2b82ecbde3da6924a31Ica08c2621d41622c44Lcd6bf3075158e2de2dS635904X51866b8b9b03af6b5d3e1589c3cadd2bbf52b8Xc9dbb8b9175c7b67G121429b1245c5cf3e75836Xf563Q62a98cVWdb2b2adeb7Y724dc769a57e7f1bf9b6342f29119603370c0eLd6048aefea7415cf2c6e3dd5f694a564294a50294a50294a507cL039d785c4a9360U9eeb8bfb2aa3bc9b6e467648240852W1e60b75bdba74f6d411de1c5ae92619245ead0c82f6fab25Oe9ca8977e8e9f4R160f7a92ca3886390fV65962b9ee5ce0a37a8d4ce177858e818313f497f143f855dIcd3d564aK771dbef87c32c6716e90894
+909Pfceb5ae4682c351a9ef152b80db30cc15a2911c30254ab02180d0dOd0dbc2a36dda52940a52940a52940a52940aWde595c2ed337eb046795f9Laef35c3fcac460ed53M0dSc96b8beb98f7fa6ac1cf20c725O26dea3fc2b36H5cb7Q7e3568da5bb11c0501c8e248c3dc28522fdc41371dc6e2f63a0aac6c9d6ff557fdd546e601019101e4L8afe8bb57ade0de590ca6c6c83b217Q5e82d5ef0aQ48N8d4c896f48275f65fdb509b4Hf148eb9bd7cfa9af470bb54f574adc28b8f84948G300e2fd2e547f1R0a6d89609cR36528e45d48e60f7d5ZG7224e161b28e6d989d3beb9c6d58Nc4b587ce3a116235e55e8bb62775ef68e2b89694699f676209f4d994db
+d62a1b696dc6830d0c719b7c92I1ef2J201f01a6952560b878cb723819efdf632b03ebe7ebRa6de1fa3Xe1a5bec8e55c67d792cf4583c9fe284f89ca4768a9371e91ced5abbf323e1f1d2682ecd994e874e439eb59fc9d270e43275cb61a779ffb56bf949b3e2b375205efd7b88f6576eba3d52836T62MGb9bc91cd1293dea5b4f58b5bd95dfd790afce1Td1ZG5393T8bGZG59ZGbdbd75fa3d6bc9c7fa9717da5295c1a294a50294a502bc4ad6527c2bdd6b6d13689fea9a0d0c5ece827fd220279661a30fde163501b4375f26b1VJ3d2452dfea4d7a7d1ad98f6830af534eb25b316041041562396b598b51136c3c528d63122f7a3037fdd363Xad093026fac2
+e8fcc5d5945c723ae9ced5788f688a2e3016637e565f7663f787b29b34a1ed5dcd6c46200c5c5849S71a651207953111aG5acaUe5739afaGa3d15f309891132084Md23cab1a2fVJ745f1ef27a9249ab46f3e37e4728f9ec01f40d4fUK3d52f4575e06bed7c4e43d15f6b4c94a52814a52814a52815c2bcabcd6daZGWa2fb4123de3df5dd6bN7961b1da920d411145af8dae08f68f655820b118be1c4edd6d61e2c7451ed22a3f640b315ee551ec045619e5cd94T13975b58017efb0eLbd6c73dbd7Pd7ef1bK1358Kb62203d38ab51bb520cb29be9af21fc6a48cP1a37fa3203cafcRU67d9P2e57Hf2fd268bb37fG1f4f5debbf0b2926ab37T2ee84678480f51f1
+a87df2dde2932c83512ebfbc0ebeda95U6f1c08c2e2J07f74c7e15b1b7b6fe166882acefP4681Yb28d6dcb38bfb6d5dfe263e52eda1bc365c3U05cdY120e5d78ed7bZG1f4557b6ec37588ff7318bfa117956XI6849322dc65e1c0ea7b2W32f12e45caf6892ca74eea92d98d817897f2b9240ca8abc3489c8195Jd5adaf2e9edae332932b763437306adcedQa97df6d8464884a39c76047f64ZG0fe358Qda78488da32c12ZG41ZG854dc9bcb8478593f2855cc2d95e19Tade72a9aedcf8f92ab9b2a311ecb9491a8c441a75b02e74f4d74a5f28dI799b3b14c3c548ZG61ae5bfd30a15a0528caL8983a93a85626c0150473eb5fa2abcfc4cb1e6f24954b1bf18c3
+cb65e23d6d6f8c75ebf3d719ZGd5cff6c7f2Kcad4ae5cd8f8ZGa72df2a67e7d62879db331207876bfdb5bHeff5fcec0e357fU2dY356ba539b1Ybabe50987dX85b9a6213ebe1671efc847beb7a2db303e8b2a5cf4V01fb275f756ed7P220c2cU11dc45fe359e8bd589964f9aca7d2a7e20fe15a98e9e5c8c1a2b82a45d1c1b69V86ca7d97a908e20a2cQ01dc0587ba8eb704778a2a904d78209f0f79a13ad33561a782a47ce3Xfe158d310c0b76be77fb56b2935aa4eadf5bfdab418b68e28b1507a5ZG0ad07e75b18b3da1ebfc2b5653afb283ad619ae8a7bd41f7564ad6d9a6Yc7fb34fba2b66b4c94a52814a52814a5281549df0f25f163a6I095e1948G9015
+95b28b0254eb7b5baf4ab66d0da51c099e560abef27b947326R3b4f78a4950c85c61309cbOdfa497c2303527c17da6ba61c3b975f4632ce63d1ce76df92b681f2a63126909d2211bLbf758160b5f709e4f1Ye4498e9a2c3211M0b6795beacJ5cd4T6f7bLWecb85959b4e2b2879dfbec35083ff34a98d8be4ae495b8T42562cda9456Ve7f6929f82dfd35dae18e33aZG2e733caf6fe10b84de08636e1ecec1Pa6e934cbc490f7948945907a08f115250f93ec7634e7c6cab1273c965247f869645f59bd748d9db161c3c6530f1ac62dV0d49ef627563e9355c9b74b14d2176984bf59dd47a94ab81eaae7789afa637c9bfRb80edeUa458b9e35d5639a4J4817215
+ca826c2dd2bbef93dd8f879366c0cYc4c487d4c4849f947ea4K7715e4655dd98ad8T1636c4b73637361c0d39d4b43b8f8c4cbc29d620b61d9663QY11adeb8dae8b926c6805ed0cJ116368d751dc74e5Qd3c2b19d8186ZGe3c3fe527f0ad9Uc6eb1a89583cN76982e504f785b9bK7b6d6efe2e594b2ce3877d23ced1N3b980560de9341c93cb161d23da7962511a882I950651725f5b2db5ab3f91ad9106230f371a2490abQ05c6622e1b9135bdb63c941c4c9c49076f285bae200161cb4e078d67d9de4ef13878c261e411N49cdc537249bea56317e741718b75308be6c118d41S5d2e35171c8d4b54LUc2e2238b2e264595c1d19411a7f689f38f8d8549d0294
+a50294a50294a50294a5050f1832c8e3bP87bcd62cd535b6777a42ed247dQc6e57911e8be86Qa45653L054f71041f7d65a7a2d5ac4f69bd23X8ac85eS13a9f57c0506be30eabebfc2S4501924545e6ecR2fde4dabced7c5ac60I1bG0fa49d2c0789acdb1f65be2dd444742aae5ec4040403e9bf3007523d741d570f1654Kfa2a07S5ab257945bG39d85afdf5eab4c94a52814a5281509bc1bcc987ec28cf3b5b2c63a5f916b7c3Pf7d61de8de5eG1144I621f9002f96fQ247527QZGc3429b19209ff27cI07c7ca5849396d2236259237d7e52c0e67e9c877d7a387c2e9cd97e7Ye19f13fb7164dbT7d617cf8823118ce90ZGfca1X12dbPfeec7acd696c6dd6c5e
+d5938d3T2c3fac61V7d1813901e3cbd26a5775fc99e5943e38aSbfL2525839e7790e9a7875eba687a8220g045801QG72G56f3e2c9d31fcfd19c387bX8ed85bb906123c90201f498eaee7bd9bafa397Ma93a52bcb6efTd3268a52950297af320d3d9f1aaded9c395302T672653adb2e8594db43c85ed5459R237ab68c90615e5854b3a3467285V59788a1c01e2a5b5e9cea5e94975473dc2efLd044779e25b472M4dd182e7762f9c9405b222054d06a5c56ee377T16d148d1618a958a0b0218bf1e7cbd855cb621436a49abad2b7cf3c26950c36f94ed361eIGf9684c8c4713Sd676cb628396K07c491a697d6d9dbef8967c346f87bb4d1191d955c042448caG23
+5b04G8e773edbc52a734f06942c3efa62f84b23440fc8c2cdd9711a3cf2bf69aca5f2a46a0102fa9adf877ca769201f929092087884e7ba1978a4e5197501630dadbcW39d5ba94b94f06903ba3bc3262e391a48b86524cQ0cda8b03f3945f9ffd854f52959b77KY9a5eab9bdfS64c4988a2472R092f0cacca85dcG9236507364b37674f3b422a30ee3ca71c9O675ca924J2827308a28J0448Ub5f897badfb409b9bd6a6335dd36T5ebed54f6fXdcd363Q9d44652229a9LV1558b3N96f389b5P597a86b8a8e8b65ed3970ae44ce92b4968d5df232c285f297cQf6d8SbdOd146bdX59e4dafb5e25855859N23b8N7e354bda5bb7b40b4cf14f95dcU07cab58a24455
+d4767S78a735c7306bX3f777693c859714545N167207656117ca16d72c2663e9039539679369dc5eeb44de6dd0f81b8f61fc2d5038ddd4P092b690781b1fb27Y26a6362ecfc5a62fHf3499a07fd1a672d97b5d172Na32dbdfa9e753f58b24595cab13bT3e218c28b95b24N97042aL52Qb697e67a5426Udad26076O43f37fab3a93d9240cQfaIN41X26T85M9f29099369cf974f31bdL2437f6d77e0632db2f872e35b24aed7b2f69a62231247c8e841e6ac39aSefadbaQX4ed12b8b78fe6cQS1dV3b42dfba5bd82afd59e2e1c99697879f34d94a52b93a1517bc5b6c61a12dcdcf6517bdTcfNe66a52b9c6dbc70c4e31cb9feaf87562d6fd5c7abdbc59865f58ae
+dc1c2657af68e5c5cf9674ef501b676bb61dIe62717O0583758a26d0c9Wefa85ee5b9Xadaf265bSc5bf2d92eb1c79b863e9b58ab37d50091e27d1Kac14126d1c780c6cd33dd88e48N5cdbc150587a057737c1a4587e1c602a2265503aG2c2bbf1b3d4d7ad72e161bebe1Wa2b323585c58a923519bTT4a91a8f8f927a17f0a90af13d30a52945294a50797e5ecf8d406f3afca61bf6c3e2b53eff88f8d42ef0ade5c37ed7f96a89ca5792e07323a9e7d07I5f1a6502e4N3bc916f6d41ee95f01afb40a52940a52940a52940a52940a52940a52940a52940afcfdbdd8afca7684e535cf2f0d7c72da35b7a728f6d763df6de1183c23bdfe518648c752ec39fee8T7
+aab926e3e06f8833b8bc5855e2b5fabf2892fde5ec7f74d7ab81352e4f3f1aef58aebb120b6d5cabc919c7a910a7c47beba25523c9f608b3cb886ebd807bd89Ve7Xfb4d5deb3fd45f9b5e2697813e5df9294a579dddabb5313c382471cd63L1e90a48ae3db4a6c98094f59658a1bZG640695bda512T06d6c319209507368d947a4a9b7beb8bedc24e0add062509Ycd1483fdb5ecfe9fe9bfac7978df54ZG2b0791ad9a0bcf391aa85897f7T4fY4ae97bJfc937d53YR4f91c23f249bbf8e7ffcd2ae52f69883a8e56ae1c6bf3d76e1cf9630a91d8248b597ad48837aa2ef06fa6030d33413e60eG2408P85985c6a34e55a186f2a380521637956e458089ad76e5a
+72ea2b86dd34e954ac185c4861V160351dc7ae959eb414a56843b6a369a5805c4S85628c32e64617578c9d196e0adc722a41Qdd7fc47c6a2b6d2de583c189fbb5b32ed021e35642I9e7997b26d7b1efeed2b436b622d3cGf5723db637f7K4456ZGecd3318b34b878625cc6f2c8636949S78I6968d92f7e7736d34d7dedcdd2971491c6264e02T488386b641c22b0aa8b1591416e67a56cef5Xa3e2e589d645K895c6521f52e56ec1a3753c96d51d3X4cedO9c89ad1cSV15c16bab4a540465cd6ca88a4295b5b377d75994d4ea9a63c3Xfe2b0f24238d6823c314H47I6777113e611ab595O76b86d2c02f2b54fX8e0b111e1c1c548cf3bdP813709650a117d42e7
+bc926a0f68XL24c272cf9e52261f39J388923Vca4b1b658959Jf1e75e9bc9f48c91ab624d919db2aeMa33cd1b954eddc0cO545c9bL2696cb3adff42ed5e59c0eLc341ae9a93603da4K3f0bb8b2a4986718a62204ca476ac48676b819b91cWH7a201e8f985f27ecR8ad3670b3e1e621831V6142afa96d0bILbfN158d63e577573a5295852b162bH2346736b2a9637200d05f9b1G7a4e9596bcc91860KN2a410411M41d0820f314154c17941430979a178dc48c9c25edb0cb1f15f30214ae54d4dc5ad6209bd64977e944e5161778f3c11ac8a476a49d7OG523908fb475bf4b75a95fcd8c2Yf87f93c5c3cd9f2e416cd6b66f4db4f456c9d9Hdefc24be7592f947e
+9H0557f4NGbf7574de3e13R0e0f28b8372c159ee885dbb16b055b9b926dV84fac6d5e93cQ614a2b0e26568e4949e193c34898ab34963a0cU816bdea546efe1acc3811d9d4ab7617b4a58b1074d46624fa6bdc1b16041648a303218ec1458a1258a1fec92c4dbc4d4de1e0eaf1b0f6e478a8b89166cb98a90cb621873047ac72efa90ac182c0cMQ48915105ecR2c35d4d67acdf652b162712b1aIT054505P8eN01V9a62b16912Ic8c11145cb31S03c4d71cdf2df493684820c3abM735950039eLe85877750beb3e1bc38773ac679cc63477af7824da58b558c1281b870c7d4dcf9c47466b5cf7G3b8d58e2d959163c0404Ie6cfI8e4d35b5d7e82016f577d78d97
+b23f205c8bf29b425194e5d7f2756f98847390f53f873bd6ebXWc325dac667f39bb87dG7bTcf53eaaf5dca6137f6fdde698dceebeffb24f66e016189634e4a2de93d49f126e7d75b34a5786ddf5af649a294a5JR0ef5X7b15c408c5d265e2201f3678ceMb6X61c4Gf7bdRfd4ade19dc3b3196132eX4de47b6b059e5809fd2a875fac97b8f4956bfee574d1Vfa4fc6b97efc6ee4980c5ae3Mc2d1970fQd23909d548fa0d7f791dd5d0b61ed218O12603289173dTaf7b8bf5b1bd74e2eafcf3d58e1f4f96fa388f95e6ZGd5a4fd9c5f72R985078a9a1f3a3e9e2b56bf2Ua7fa564b72e145a5ZGb3K1c2a9e347f5e3f8ad78adeaf4cecfd31825b4a87bd9bde0d4f5
+45ecfU1cc1dbJ2f9477dfa9f554a5758c35369e3b83197b5ec40b5edccdRbf36d312bc5298c2ba06018f9c15c76d0b74072adfc54558f1d825950a35ec7bb9d5671904514aS4259e54432320d724606K2ed6b2e637G1373636e46b734cddb636e6dae188dc2e6b1Sb91cc8b6b6ea2fcebecd30962cV013949b73bH0d6a4f81ed2092e73ea40e43b3M0697Sad277b131c648772028ea6fcc6ba567d57d168dda9PSe331bd8903U0dGa95aNdcac04Ye14ae22e1f8d2bGV18Ocb92N952479b6d2f53f56f7214a52a294a52814a528158e67Sf581ed207e3592Se2790fac9f7850417e77c598ae73756287e4feMGdbceX20d6f45b4dP432872a791115f97ef573f753
+2e2e6092a90ad3ae5eddd58a22a0b15cb759048da7d21ceb26176163d6243P5a4e2bb5b885470da3caa2W7cd92edeca8ae8498973c837adGf8b57bcf2771fb29fcf5cff15063967919a50b87c92e539cdf3b448b19200360b2073fbdd6a3767efee1Ye8cb8cc586941be8b29b2d957905fa573fbd4d8ea59e4ee3f653f9e99e4ee3f653f9ea85b3b7fb073fe86567ZG0e41f15153231ba5ed25Tf29a9b119bddN18a932cd8a95115acb0ac4P730ebe7dddb43af4d6d6ad5dPb35706523c1a34b8Pd5cf1dd4068dKf230Kd428d39fb6fa0a969b68c6Q960c3c4a1a92dddc624af13c7aa343258dOe53107423bc1aeb8f16ce97b39e5c395b3TTb2b8719dce79dbc
+e73adafV2df5f49e67dd5394a54cb2b95dd5c7198cd4294a565a294a50294a5062c4e1964464750c8c2c548b820f422a2b03814c2aO50d912f9731d429626d73ced7b7a854d547ede895b0f206171958fS1abec8a3ef2f93dc3eI1aL9a7605d5H44P013945bce3726fW2a5b65f9Ic14562b8742c2dL90P0e9c8f68917f50adac5eca06c913M5d94059154128dV301d7972afS6dac5e1fb38d87O83fe270e0b0b77c90f9ebe2541152612f52dd2V8b6007Mafb5a9b3b6b43884cd0c8b22f52a6f63dcc39a9f035b7452b562d9712194R2ab4c7348c058b9ca16ec46b7cQ0adaa504L23L22f6Xc594585dc9G1b03a7226dd4d42e222031387f193f0ab26d03f267d
+5f1155ac59feb385fda7e15516ea529514a52940a52940a5797M05c9G779d2a271bbe1838bcfc4cJf7070c7eca5cd592dec96e93158713c87d64fbc2a9d8ef2b7834d22124add32ae507d6f63eeac181deeda18a9a20b83e161ccb1e77Md7c99c5c866ca3d80d6fe1e5add679f1f4523646d0b6d3c62dZGe2e61feaae9d85c57657d3f8d705c76d7e16dac50efc5c9f7adf8576dd937e082753a7bcf4ac46a9b6dc14615f9fb7d20b4b21e996debcebfc0d77cdW84Yd88eX5e1627f8d708df27bf13d5f7854579dc6c4e5906bd01fbd5da63da3f2235e89f0ae13babO449867205e2b2dcd8662f61e9e75d7f66fca2653cac35fH3f8d51abbcT68O8d8f4ab6792
+d7be1Ma7fbPZGea9c5730df272975bdfbeba5792337c1613f613ffd54950743a529Ja529Ja529Ja529Ja8fdbc7fabc9f51bX9a90a8dde36b6165fa8df74d20d707e553d553K08a7e553d22a6ea411f8bd83048d9da3024fd6a12927f9O437bebc47b3e68fcc9cbafd1P039f53a656f5b66a93ac73cea8b99d82a8eac401a9Sd4f8d6b7534c0bO9479d183e28e0fb4385fc68f1249V383e9743f6948f8d678b128de6b2b7Q83Yaf4cW0b9361de68a8ac56V28a489a52a2dd8L0ea7d2594bf8e8dd2abfb5e3769b0e22M9217395cae60a6c752bd6ac38adb113de356T9e5d93636d4d8dadc8543e2d2d89c312J0af7249b74b7c48a7541f6Ld707b38bc337d6NafU
+1af3c3db63e7609bd520fc2adcae0f220fQd7Rd73fb4fb272fba9c5b6df760bfe656I06dc3f3f08beNc7e2a6aeb4a73fb44e5f7aa41d8bb65bcec6c29f52307e31d783b8d8f7fd26d396ddc8ac3e0e055ea957e25f4d7d8e49f95cf5bc9a61c9feb189c4Vdebfe563efadb8773b67c5e6We6988fa4b211ZG30Rd5de957e2d4e48ae60e2923ffdbe02387c4bc69ed11a935b061c592a649225Je97444L2cI0dIb9d3d42a6eSe2b90fac9f78566e7ed3f3f5598fTf286Y439b6de27c31721ff59aef1b267222504f41d3baddf5Vb696e5ce76ae225cN46f3T82658f51c426f9735c7aeba56cf2R83Ia9d011da17d45fe1635cf6e8f9bd9bJ261ae4ea6e069aebdfa
+dM1dWc5e732fa17ef8ffcf5d774deK59546565d05bce1a126d6d7c481ebae57b5bMe7L91c2060cR132cb1768160c49bScb6d3bf9f4abb450ddac50ZG647c4d75ddcadb39Q52c49624ebd7a81cfd154efcc8c598V4b84569085edP62VP4b1217b76dJf8f3d2acfbb5b9f8d8a250Y9045f4cf19d2f71a87f13536ad6df450d9ed7bfa7adaba6791ZGfd8e0ff6137fd549549da3ba78972d684904fd241fXae89e4ebL361e0c344e0864826b836d2fO76e848ebdf5768Td294Q5294Q5294Q5294Q568edac3712168f5ed8ca48eN8b13ec35bd4a08K521c1b5c8e952f1b1235163dd7af74Q5639Q5616617ac94a08f9361427e60f60fe158c6c30a6e8c47812c57d97
+adada5b4a3c3c665Pb246b6TH4daeJ1aG4f322b5b646f2e1b1458412ab9517205c1Gf5b3G6de357575b4e9d98db67c80dU43eb20fbd6b1cd8673e7c44fd93f037aded97bL1c4ab3412075562848be8c3a6a3c79d69c5be38369b82b3a197365035b16fa21ed949bf406aea9b8846d893c98a1652987428cb67c84Sb121c153985efd6ae950d8cdf1c1c5370649d16404020deca4f20cU6553a8e66a4368ed28W8cc92b658c5aed62JVJ17S3d48a9R6e366951e77830e2L878abc544e232eba2581cd7b5b91079d6b6237c70691472bcea12504a1b312U684850I5afe14e5a6e2L951526f4e1461c620ccbU2d9438b9198fcd200b83W4579U6f6e126591a2P5844
+a5dfce05540b96ca45c8d3Qa72dY6e25e951477a30df23f2abfd62dc200312We9MGb81e26d5ae77e305c5e171d7899f87972bf9f9b2daf96dcf4a72df06e276bc4d166523517ea398f1158307b4a394c82360c62731b817ecb8e60deb4769ef7e130f270e69d55f4257b472df966cQ85f5da9ab7a1b8f7fdG3f5d37dbaf9f9be3f5d37dbad8fe9b83384e22e668b8c3b9a21f3c37223d75af06f5615d2375P4a4b27090d9bb527d1b5ae3d74e5a6e3efe6f8fd74df6ebe7e6f8fd74df6ea5a951513f9be3f5b37dbafbfd003f5d37fP52b4Q8afeN1fae9bfccad8c16ca58db3L776b5aXd7Se761ebadda50294a50294a50294a50294a50294a50294a50294a505
+77cQ60de5d9f2a46a5dc94b2a8b9369149Sf4035058fdda9f0f1493abc9Oc54908c3Q11RYd5c8b9213eObebdf57fa56e6764d3371db9deX6eX2f07388d914438O0c4cf167609222f6247bf226e45f957cd8e92c3041836d9e64923946791d470ac189e32c9af6ad6b5c74ae8b5f2adcedX9c9aece5fbc9b32713e20c50620492c80aOd565c34e34b34cafe6b73b8d75f6d5eb6b6cd33e01e16501de02b947257c9a01W180f654bd2a5cedd2cc5c824ddbc69c29c4f0e4fca9dda164ca73701QHdede1947b6ac736c87c1e2Sf3M1e785308S5a350cd13a9be60848b8373af89abe52ade25a93091cb71bSb132617112081e3fca31b14a9081db445b82e54723a82
+7d15bebTf3c7Oc58944b3bc98391209c2Na4153789d5J0af7e5d0d743a53e2539239a6eaec19f05261a778de51347c29014264c31bf6081V25b43eba91dd6dda984d3c8f24Sa8c648e22cab92KcdMd7617bH6da1e957R52f12d261228db231f2613138c0f85c4b89714cead1c619729d2f72c3dd5O47260e7c6e7c24988fca5cc91ba20604303f272126e9626dcaafd4a9cfecbcae59b4b75b171ecfc2Md18e2116685d545cac78Nda1b777bb356e6c9dd0961da71c795bf24849c42b5T3c4689H8bf7e75bdaba3d2afc4ba4e485294ae6d94a52814a52814a52814a52814a5283Zd9";
+			- m_srcFile = "C:\\temp\\pics\\PACS.jpg";
+			- m_fileModifiedTime = 4.20.2012::11:24:10;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 69b8b097-8fdd-4a07-a2b6-c327afa7f26d;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "\Узкий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID f87d72e3-1bb4-43bf-a3ec-701565e64e78;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "\Узкий \с\п\е\ци\а\ли\с\т";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 735.895 531.023 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 9c614ac2-aff3-4ae1-863c-c90f40e7e5de;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "AssociatedImageFile";
+										- _Value = "C:\\temp\\pics\\arm.jpg";
+										- _Type = File;
+									}
+									{ IProperty 
+										- _Name = "EnableImageView";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- _id = GUID 2f142e62-6623-40e8-8784-3372e94f1ddd;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.141405 0 0 0.100349 287.344 438.913 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_pImageViewData = { IHandle 
+				- _m2Class = "OMGEElement";
+				- _id = GUID f0729c55-ec0d-414b-a21a-4340e64dac52;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIImageData 
+			- _id = GUID f0729c55-ec0d-414b-a21a-4340e64dac52;
+			- m_type = 0;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_dataSize = 19758;
+			- m_data = "286e#Zd8ZWGH4a464946G0101GG01G01GGZdbG84G09060614H1115141212131515141917171815151813161816191617181517151c19181e261f171924191918202f2023282a2f2c2c171e3135302a35262b2c2901090a0a0e0c0e190f0f1a311c1c252c292c2a2c2c35352c2c29293029292e292c2c2c29292d2929352c292c29292c29292c2c2c2c292c2c2d292c292e2a292c2cZUG1108Gba010f030122G021101031101Zc4G1bGG01050101g0c02030405060107Zc4G4cHG010203030609060c04060203g03010211G03210412310513224151611415325371819192d10623I42a1d2345262648293b1b2b3c1d3Y16244383546372a2a3e1074435Kf1Zc4
+G1b010101010101010101g0901020304060507Zc4G3811G02G02070507010607g070102110312135152a1d104142131610641718191b1c162051622323443I537292e1Yf1ZdaG0c0301G02110311G3fGb1cbb91ad17a6cc44cca0a52a72d4112a6cd4a44bcf35d48M90f2c3863af1d515763cP69ML71cf245e099a6e85141bU1332f3051481d152418fJb7e4c4V59Kf98938682ca6N9386111e6e464a9de64e63ea8529abab0c23a414X152eL5c13302bc996d61778e5dc3de9a9c2Y7665fc47eb6d51213932d55ffe64535cd4e2d83056dda4611bfb3d9020117e6aaf51d6a5288a1143a8d7188d2f22a52001367809Q016a01N6aN18d49386cd41a37bcbb896
+4af317c5b6Qc41caeada9I1b562e2660efadZG3ab193b2b7cfbeb667bf1e9d64S0965f3939659b4d448daecV0f4432bc8e9249132725cbb254426aabc74406da1f798ab6a6T911d12bcf3a193f2afcf7eb667bf0b160cabf3dfacPefc7a3d9f2784107393944534944de0cd50d5db1301fdd62ef6f0a163d59e5e2c3953e79f58bf7a162c394fe79f58bf7a3d2e64d4a794a487da40fb613c325f392fbe9f189bdbc2858abd9e742c594be77f58bf7a162c794be77f58bf7a3d0b85cbe725f793e30Mb97ce4bef27c61bdbc2858abd9N163ca3f3afac5fbd0e0b2650f9d77d7ef46fd2Q438208da2a3d91d86f4f0a258abd981165b7fce7bebf7a1c165b7fce7b
+ebf7a374d03437a78516c55eVJb35bbe71df5fbd0b167b6fce3bebf7a369044de9e142c55eV7a6cf6cf9c77d5ef42848b67f9fdf578c6ba0686f4Ya258abd995122d7fe7f795e30b4c9b57f9dde578c69e3bMec3d861bcbc2858abdPa126d3fe77795e30e265da7fcdef2bc634370ec3d860b8761ec313797850b157b2N4bb46d9bde578c38113ffcdef1f18bT8761ec305c3b0f618bbcbc28582bd94e133b6ccef1f18584cedbIb4f8c5b5c3Sf6182e1d87Sc4de5e142c15ecac026ed5f69f18M099b57da7c627dc3Sf6182e1d87Sc4de1dc8582bd90c5fdaaed30a54e5a52484a965a89bVe7K4dGdf5e8312ae1d87Sc1Mec3d8623a76d4a48R852739b28ed33
+ad4a2e94cd43fR0c8201600b920a8dM2929da46a84e569b39426dW44af5432430bc9605892a2f5e8a621d57a52761ec3H32e7c1e67d1fbe98e558e9549d3fd6ebfce1acd8ce05159c0812e801daac6adf9ee10ecff5be97e7021815160ea6a9a9175d9bL263268RP2ad4010954b34c56X49497ba4GG05Pc7b2152d36a62ea90f74b51745306bdb43Tb6e68e9c907d59f351851259db59da4eb3896858c9Rd2fe6276906e5726aee3582d4eON4a85a68c64625cb2ea1c5d60d8b5e18ec8916113J39e32c9a35Ua1Rae0ef861593165bf989a19f5e3506b56d4dd67G5a3b2326a92b4a8da272827d4529c174ddabd4d45ee97dS04f8e1c475fe51d78e6b1d7f94Gd
+949ce065aH6eab4964G34e5122b896069e1136c02e2c1P6a92b4N414ba2a592c5f7H7edcK480b49I52132d4b371744dc71a52aba4a02189193ad295bP530a0de749V92e5Xb12bQ1b234886af8659fe3c9ef222a3ca8b4cb559c894a49592184bP715bf4d0952903781bb5c562b27cf32d694489a95152c857Pa3cd2ac42fe2d3ae3bI27cf324aK226295b5a4Gd79c7aZG16G4a4a54P497944e9969a5252094ce292QMa94f59Hea565205e91939474412932ea4dc72da8556ZGe9d7814650b25a1c19722603J02b30d5352d7f4b45cb6abb47730e9b1cdce03c1a6b5c50fe862K2cf39b8cGf585482b19d91604a2ae5265120b6236827a318b5ccd8be2d97b24c6
+7a458a7898af373149ae8348bc9258a41f39J34ba45da41U27Lc81226a4df529c192344cd2b21c4ca68d2Gd0e66c5b2cbd9260Vd8b6597b24c673N4f326eR4cc5ab4748L1982927e3d6831d70aca360b429b372a6a306fJ2aX7d72X3a19b7980343Pb17c5b2f6498Rcbc2V94a7342ca157839cd2L8bae2f0696c416U938ed864d8e6e742b834d6b8a1fd0c4a9079cd8219b158ed016b0a94b5072424L0a9378ba41d3c2efecU0f587d123fd23744b5eba6b3b77434HJGa4a4d5d259c5496a123b0c72d456fa37313cQa3f61dd10a397bMf6f8U0ee1edf1Obe776caec5f8c1e776caec5f8cJ348cbd24e2Q9342caM59J149a134208871196249765a4S0697cd14J
+491b41240a3e2213c1d7f1646af515ab0d7a987608e26ceb1826Je8428605c60768f6J095f9436718cc474ba9850a9ceUc31ea87139L49769882c1cf2a9a573ef53a619193f93a167d1a2741540c53b76123ae1cWRf8b67ee1e9dbb40ec8Ge3fb3d7cecba63K53f7e1b44778X4dW90b4952884N2f624903a9d2475424d9144bdd9147f5Kae875c08b228608b38d74411d743G4fbdb87b7c60bdb87b7c622b4ddb2bb17e3034ddb2T17e3G7664d25653460259ebI140fddHc65cf83ccfa3f7d30e094a0a2a514d73696483eaac9d67e57b21bcb9Y799f47efa6GSP89e93f6c22e8d83b042a69627ae1b44c2402113483507353bdd8Q62db6d4ca6bc9a1bd5G5024
+0249fde2c35c46197e49f8d473c83806d9fea1edd8f1637cf373beR77T05f57373beR77T0902bce5e92c0e931d79b56e18Ifac3540acbb283ba54d7429c25dddf50e8c703a9e2c6fabe24efR9dXc7093cdcea61e6a75357c584811119450b415218GS82560801d49493bcG5e9b22c11645Ld332f4b285N53752a0485G41a9c1a1a24967973a852af453b14a8287abb4089332dcb5a6e9429203632e62052803a801d5G1929f8J6e6e67df9517126db7d6b4022f4bT7a87d60e1ab5a45364b6e101cb79b99adbd695163267ab3a414808d2d20aad2edd7d2ab82aXc69722326249Ge189d5bfa6112e79P2c2c502921J115621c3b1844f98d2d6505dJ28a45e3535
+618ed845966952159c17082aG05beO2424d09c52c6290edba6242eKf352bd061eb5c50ad70627acO925eYa8Uea3b46f885946728119b015426a5d8deJ1eSf54afb3b6592971a5a8fac776fN2359560ce9b749be2e0538d101894ddaef31Nf297ZG2e2ec96c9b641644VbaQ90bcea917afa52ac2e16e5362708de48b42ccd20a40432b4ef5490Q1347f8bafec68aacafe46d8a71P3d76595367172ea25d4521935bc35003R3a51b813fc6aL624df231d91fZG2f2d53acf64e069409864cSacf295752b29482d9b0eJ386ed8c63d1b28a90172Vce52495a1aYGba6512J531f4831da629ac1e425865913059642L2164a149774dc579b5728d5803f90c22e3294e52
+48cda52ba6b561a72fe50f54a8f4Q45a4M395452Ha6b993cbde15181d4776f88565b4a73aS93a4b725Yf3644b347e8ab576d184b25378696a3eb1ddbe20d9d6a334baH1202b4ef693df648c7029af4c723443ca3e91515f94822a1783a4e17b924V34634641269803161943d229bc6234f9414485G450dJ3505Kac60d1432a4ca144db9412G602620I5deabaU51b5ec2d1dV4a48f86cc70c495ce760087d63H921ceb271c22d55932513e891ac7243559dc60M15N64b943fa52fbOdfT79edN2b91225aae816c986e9229353789514aJ2dadd80d6eada61567c80a512894T43228c26cb4e29770285b4f1da3745Nc9f2c1044b96Wb83752We2e294341161932726
+4952O254a2f4d42ea03Ib1R5df7U19fb7e485d9d37e6cdb4212e05e54f96cea2Jf6abd89d90Yc9c5687136724aU507593759050392453d621ea62eb2cda73e8094a952eQde179e9a814a9243W771311654bba94a5dee801d99db5b396edN2a2d192820dfKa6784d0729c8bcb490090392f42e35e2044bb3daa52129499b78e8875ab48950bc9bdb14411b2262d00e201c0d6b51507b611c110ef7Hf4add1ab0ec803b292a5a94944Tc5343a681a92R025db4856136f2ab3a0cc9b2c2H19d4a992d83d06b89b93La65294a2095289L7a02P69219d8d500bc2b2cdab3f2ee254a965c1bc1eY6d852a4907f278bc0857a177920bI94d1dfd723574431973e0fIe8fd
+f4c4812eeaJ776bb5L7d32M72d8edOf973Wf33e8fdf4c64a4db560be857e712ec7e4e02Na13a726fNa2942aea5d4915d163b35ea1bde25aS5f42bf38d1e4ef452ffd09fba2350919588f26d419ed76a2df2f7246c7f57b49db12f26e4a324979d3L3801a62af3313514M4bd7Q458411a203Jd041G0dH32Uf37d6227c40cb1e8fac447c822af251fe6053fa7Iefca897667e10a39ebdcb6940e1c97a159c29aa8e1Pc8313250fe603737Iefca8b89593c254560e929c926f1c6ebS2a60345386c105c8ac45b14734badca2b4c9a277d1Jd37111cb1ccf3674b3955e9020e2a26ef28e0edd50eaecf7d2a493455e059c1ae3505c4264d884a414a282a7d63525c97
+276c520d652b2V98d9b5943020f2Recc74569c2b8Xd4Wcb2a2e28M3b368dYTa768ecZGb84149bc2a303ab78dY044b3d9662La9656a2937P1560e52d8ace0cM0394Mc21db4214b96b4a5d24dW15Sbe3a2a07SO93755b4767fdc225a4d6a313ab7f4c011acb2572e5dd5a95314ea378Sc54e035e340edd509ca165P30a6ea94N1dd9dcd41182Ud5ac1c7a5e5cd058d4767fdc2eeab68ecffbNH546f60M3b368df10ecd639aPR5aa629492ed2f525c82ee5Lac3a2bJ30898526Ya8Ueade37c2Xab68ecZGb80283289f38a86968a92ed5fb3ab7c3b947d22a235aad484165280249353d118342b37f2bf7d9066fe57efb222f194be713db11f285a513H52Pc8493af4
+ba7dK038b6bc1e202cb37f2bedf08I7f2bedY8a032cb922dcc486e4a481422809a312fd38b8601e94b65026d97802e414Q023e2d3ed8Qb9cdfcafb7c20cdfcafdf64511bdNb70e9bO7c19f1ebc23a6f57f9X8d1974e56ad7OXefN2fI7f2bf7d9066fe57efb229e7cd242aedaU24b8Q0121NTae8ee7ada98c3242af3f0e0cdf152fca25O76Ub38af6J17d9bf95fbec8337f2bf7d910a45bd09480a9c95H2aR07dec3085f194be713dbH0e4c507baee7J9e82b207d862365cf83ccfa3f7d31d44e4ae628a4822ecQe36e72653da239973e0ebfa3f7d3G169ca66f14e626a8152d208cd32aedebVeb05b4K8b610f7f11cd427d04Y94Sfe8d30G7a4e81Had52d4a525
+2d2c273b3cde52d430cfa892I6a0d4c2afaf189e8f26a7a5052I641293a53a62P8a4b0fI41a2cd1d13577bea6ebab967a82fca59c904PIU01cfQQ153fd48e8f29279fe8cfZG83f522249f245650148129ae324e754cd9bcd834901c36ad5a9a19e2452890Pb290ad2bd727943b2e65e7f315655f15c2e6e24d9f4f7d45758567a963fc473f989fZG07ea477fOe7f313ZGWfd48affe1cPaed2359f862c7c67c24e01faae8d9126458d7252e664950528b297685a9b46f5d0449aG94935dY9fd3efa8af0e159ea3dfc473f989ZGY7ea436bf28L4c0419138b163e8684G79cd8476c3d2a5V5a8253982a22f367L3b302fe8M6527b6215b3c9fP7dd665254541Ja672
+c2N2d2d9f304804962cd8O93fa7df515e1c2b3d4549caeQa253679d793a24f99a384ac8f49b2e987cf941387f427f6c9fd4O73bc9e5a0dd5R582aR499f342982H87be64382e9724114201a4266f93532e926d2002ec785aNd6W799d4ff6459f4f7d4578Macf526a3ca19a402244f62c4564d5c383e923bc7d38ff427f6c9fd48843c9c5ea992906a92513ccbbc520de1e81d4d7f696a6bHe4ac89312a0ae1082ca7adac9058a89491P62395dddd456e9efa8af0e159ea3f2fca39aQ08933c8381793fa90ae3e9dcc4fed93fa915a9f27660P74ce9695N01T3952dd92964decc69001Jb39aa81a43ZGc3d31fe1097663fcdaab5772I2c0e92451a977ad5ba7bea2
+bc38567a92f8fe77313fb64fea4032f4ee627f6c9fd4872K9e6048015662U54da1449Qa939RT8aefdf04c4ad2092ab2b0a9f3eafd2856fa7df515e1c2b3d4651e514d5241122790aG8ac9a821c1f49b215c7f3b989fdb27f522b8644501773a84R5aJ5144f9O7ba8a97cc696048a961861089792262884Y83789096cfce482482U5f90Wb286bc6eX856e9efa8aYe159ea592bca29Q81989ee5dab275IZG53788571fcX627f6c9fd4Od6df2726a25f9d54TNd54b9cb51d254bba1f3141790357ad0dcbf27669d136842944014b5ac6956a066897c712Md6d0add3df515e1c2b3d490bca93145cd9a73ff67f521a565353N64da1d4ed591Ra7d786ecP256a4a9ad0
+853d0bda5418a5579c0320355c528d4852fc989d2c5f5cc429G3bae74c994371b192429c8d8c4H1b125358567a8aeb0acf51ce1ebe62d3db23df8eMf5f3169ed91efc224e41980a54Pe8ba082cab52c8L240632a9O357a06a42ed391a669acce4b5d512136P8c9157504a64b86bd8ea61126b0fbea2bab967a8Mf5f3169ed91efcMe5258206Ld0e5dab275Ifafbc76c2ec192a7266367Hb528137153a6b31378H1525c1G818ebae2G7f29e479V1730484a50X4cc591K20877904He9U822b09fd2b3d457572cf52370f5f3169ed91efc7119496Qe24dQ87231938a49491cbda0c4397e4f3f9b1346916093689ac4835a190caab39abc489be4fV0bbaa9a942eaad
+19f311a2L29J3e61b156da93b1Nb358567a8aeae59ea3bc3d7cc5a7b647bf099794d4Qe24dQ8a8c64ea2527d7da0f6448b1e4a9Oa89b2574034ad4a50c5c1f458d71dc21afe109b303f9a379cba6728a58Vce06f3246a01fa7aa4d6159ea2bab967a894e53592J9369M58d64d0b05372f6107ae3bc3d7V5a7b647bf11e6f92eb42XR64a412a5V48ce5d354cb4acdeWf4c138363ae1c19016Mb4Qb6cb628b7fc3166b0acf515d5cb3d45aadeaMf22d05c8G3c9a9268397b618cab6c52a52d2a93365bN415e6db45687e4a89d622664df27d6Pd2c99e9584a924836954dc093449961d5a24623056f86f2e64712e54e9b78952989aG0952e5873bd920446d5defa9
+2bab967a9d0cP8952d4e8ce5a5d0c052eda1eae09a3eb18c6ce602c6bec8c259272c5Sb22f04R7291e716ea5916abc8cdb9G511aJ0e56ba98dd4d486353da7c622398c64f9a95ca06590135G50W48c4288386d8a1b64eb182acfcTR0a2e6ea94545f95e6d44872ad6d1Qb228R582b050a38a6f1da46dd78f5c78f641ca9952dd7V9ca39bcddd0a13112cd557e89bb2Y17063b4474860ad373911b91bfcfd8124a680bb285c9b8a48705f61487de043d2d56464a512c14cd50c12abae8299609bc68d9c15fcd84631565cae14a4f1c48Md428Gd6b519ba6adb0b4d972a95371b4bde190fca18799ae8deeb68b516259e849bb8f40c94a95354K2d37548d1738b32
+69ca2e2N754396db4a1335095b15a9aef2680cc40142a7e5dd2edab7479aY4cb5ZGdad9dfa3abPdb1adf27edf3e4c84a6d73e54e9a092bP7949174a83I252392e2QKab1228543de99539f7165e504f909616948524a4d4W13ac117812fbG2f855a22e76c49487d217a633a26a8debc2fd057122bb86c896acaLf129baa493acadUG51c38c5ff748M6514a43265b634bcQ2a5de89d6497a76c73P6443b6cfb25d22M175d61ca54S5928bea749346bb8ecOe6d193eb449aHad09a5c79c72768a2eTf7Ob41951a974Hf4d25860c19e85cbbeca341c6bf23fdeadZG27a3b4ecR62442b5aeca4Na4de09ba41a5d53aH972eae4dcb952c0dd1535762UT19P2d32e4G575
+4a85d205dGK4165O05NdeJc4Ob119496a014892a521412a05d64dd2029cb12096245d1836f109b1dba7296806414a54f7d4cb4dd22eea2749df1c036e8a091fc3121c1cda681998b6adf8d3daaf8c5f87c95bI36L5eV0e0414918ec24759db169706d3de3e305c1b4f78f8U19fb5a64P81I2528dd5dc70c412aJf552b2a6baa7c298ec876cf94a44d9c10c6f12958bc19d571243a2f3a484dde50151b443b68b7cc42881675ad3a8a54756049f59c568298434329ac57814d04b8e525f1c4b6a258ebdbaQ09b969694492L8bc8052e903175a42758c1441c7545K827d8cac093451018a53352c2b577a0606Te25a728cd5d383ad068c56a2a1598941a24dJ492a
+c701R13232ba94a015659a1248d304a93acdec2a1Uc36834N2bd16cS9be552c24fad7a5acfaca62e9245K7b5d6f7cRdbcf12cd9d040795e6ae252e8704a44ba95060e5389d511c6549Ub1b24cK1ef256U170e92097a56a2859c631327da94248584284c213e6f4d4524900821352d53d5G514b9d93ca520a06cacb98a2eba1495026f1254d89a93b61c9394aU97bac2f8292d2eMMTc483d2ca8989cb136e83Ue712413453601f05174bb501da37b3a9caI5416d669O294a9492b512091409a1c4f8J0d9ca324133407225e72f8c54909beG7502V758677188312ed76c4Rcf9c53R59G94S762d4a2bd80dM638412e72f3aH51Qd5582a676cG7c1df1dd8bd1fb7a8
+a65932c5e50c12eRd45290055cab64a3350334Qa2b5049201620d4d166ed7516d8dR0caf68b389b76d0907021653783d1920055eM2b83577d644bb54ebe90a95a25441502bdHec0e357da23b6db64c973191255311b524bde7a92496ba06efSS1548b464f2068a1aY67973794c86eb6b9d83645c645b44a290991445d4a92d2d694dd25JG4eb174d311488e8cad35be073bH1af8f92e6a45039ee9dcf6360997d014a42a5938a54a723750U15P6a7c84VJb425dc28a4b12035ca3053b97d9b46bad6aed1938f2827d5a2913b0b82eb07a8286a6b1b62eb285ad72d62e4a54d4906f5d2Q41d1T5259R7b06c2445e37981ff929c4d392a3570e2aJc3038b18023d8
+a7584cd466c233979374dc998e95d651a6a3ecdd0794fY599f47f11313ecd94e629601b2cd48246995060f7aa41d8c3bdd0f43e52ce55c525e8cR744c94df69Oca233e13352da2ace5a196a42825c89eda45242aad4afb2353I2b4962cb43c6232dbaN0404a73d3f4c907fc46ad5dbR1e474c7b767d9e1a482b367cd7dadf6c52ec54Yd1c10a69a5Vd5d8f29a04S26cd94a5b17291425cb3061a9a2b953d6a2a79a85a01374271Ga9452fa23d5213f476926282VG48655e1b76c2f264f9728cc378Rf1add495310a5aO375d8e9815d82354T2a8619c336cf3ec1f6f474f4ca0aK0c30cdf19f4eaf8798X534cb2ad3b32e631Ma4826b7428e18721293aR9decd4P
+5285058969G8f513b4328G5cb50ee6dd12d595Hf8V1fdb987f28471c20H0ad6e7019b5396c58374c786ce3bPf48b6cd9dfX43eab5235ac4be4aac73149058H9a514e0862ed794f4d6fb21b968920b8S4d714732c6f179c9ab81O73b627232c21J14a9646d12d45c76471595902856b7df2d5bJd9d03ae1671dVTdecf395a43eab52c244b0948090c316d8f53d6e4c2e2Se5P60Na5adceacda876521632a27e34cfab5f842ca3b98df367fe643eab52c23a9c4455f1c21d82d6f5aLd4f467a36d23b61e4e57J6f49abfa6bY859c7731be6cebf721f55a8ed8add3132e5e6e759ee844b64cU69e6e58502c97aHb22b8aabJd128e569a2b9cb21dc02f73549daefS0
+7GT0c6c9bG2c04e5256024948674e8Q1a6aQ03af7bc48eGae7d6fZGe6add5ed8fd15b226bbcf95a4ed0d24314955cf5e3e26a4eK9f569b633b091306cd5dbafc6148ca7374c99b6572137432X8209bce59ea198d70c2326727ab54fPf6b769fdbc74d84a6f133d756a9aI125fdb0dcd7531f78e93e9Vd44dca5312a744d90abda97c9468962024050aSc55d58c29195676bP6318b30985b66c76a74dM8ca26ce80a27381d2429Kad12056b4147aed312916c412c169276021f6c696cM5e623ed1ed0bf2U9faf0ccd08ca930921532cUI8520H5dea015053161ad347d704acab381d2996352411c913028a5eb8d0288ea73ba33b6c424a194aba1d249c30502cfb
+d9bae224T010af8428a9862c5U3811Sc1ecMa7cd968fb494d14338a1857afcI5abca7301d09b20824939cd40a94c949480fa177118eb2f498aca6954a48I25266e85e28c0545fbb7927117Pc6beb8c3Y3724cb9cc2f1bc12c43b827a15RSf4e93e6aeaa60d4eb50c43eba8c68226e70decafb474b34a50e735Pa49794a7G019b64a302e1649c1cb8G3e259807N6559f4f3b61ec9Tdff2f6c64d193554227aS01c7c56f57760614T02N24daL0a1734a50b9dcd8f544dcd7535f78a93e9Vd82b282883e7a485196cc9e4a665d150e825829ea75101a8e5e9PJ193744e9626b0d2aId1cf2703b18748c63128900941cfde20aca5X9bUb38c6a043aab28128aK30b3f
+295O24bfdb87545dce1bd997da3a64d29439defa9ab956c216926d12ca2f12Q425ca5e803203536bf4eb8edb7281ce5e9Ia4ddLbab76c5cR8977d5ca68c74ab34bbe0aL870a2581152f81da63b6T2aKId3142a81810e0dd98c58eb62b3f475b51b9c32e6cbf78a9a72ab0f2ebae66ad1956735L589dc6a9b868b9e97bdecdf132c194c50ce9b23921d284a832dd57O24d5245da36dac62a5d8540839f59620b1a835248eb76ea1d72a42G486538dbfbc62ad8a17cdb39c7da5a6854d430bf5f966d46K90e74d1fb1d10ae3691f1d1182b558afa8282d4920114de4787eeaec9c9abff113061bf531a93b6b11ec4ba9a87b4948d26eR7e7f07a2caca5254Q12a49
+2M02325e5272Kd0bfc4950c640b0a85a659I96594ec598SK3adfd9d8ZG949c95742ff125478f68a2b38923e8becadb9ed945146e5c1cb8782bc8596c501591733d3eN14abZG61f4af74ea1e2e21a1bcb68ba12a3795e7a76897293e9e81201d9be1c42b747bb63fe1b3e57b49fab83c17T1ab214dd175dab8924e3577ae2f102d0ab3a9642dc28138a943d615001QM0f644fb2Vbc906eddf93b2b1127db039bd214a6K1937b92b60ad54Q31ebOfc3a16eb4527def9353f5971230956I517717c57ad8fe43b224d9a6480529428383J14ac4de3af1d7ecdd09e1a9fYeba57d18d4feda7b442d16Q5eec962086252003a575c14be153d15d7195W8eb1b89a937179
+b5a1db15R584cb4Q2805bdd7abI3e2698c2ed0a94162f72d8604e01619db55e23db0a90S54a19b02eb316a17G96Q6ad20b45a4a5JLca852ba83aNd8Mc7b235dcM9a74bc39cba4f8f1e72bb98d65232a82682c41ab90Gf59dOa34306K9ae80a621d4cf78d4975500e8d5126dd68bade6af8672c92a34cG0d53b2a21a45ad17414c85HeaQ48a31a9c7597f6c47cceb46e2a90c9bf2692efe9c3e4e4d5d9f4afed29378a98S4a8fb1T77c326K92b86b7aafe5bfJe5fb76c4b5dab11992J05P38e1J08035edd5aeacdMf48ffd799aZGa637d3d9fee1bda34ba1b8628e5c1c5e4d6837695d9ef5d538ba769bb54aGea20a406d60ef8e4a9765069ab592b3801b7606ea
+87a65b58bM75114a84b9c12d466a3918W9ea80db53ae42c0ff4a46cdfae81b5e1ba2709f23538eaa537e4d6847cd5946b01a8da63Le7d5874c02cd642e183001cbadP4e91f9f6c4855b93aecebee24fb5e3a9b68d2f30b60dea072e4bd3763dM92b916bd24bf345fdcba7413311294Q0aL50b3b9675269bc515ba26aacc925c838856271GG5ba84308b41bc3cdG1c07ab8748af258302d8ea6898f1d2147869e92252fc5dde3fYLd8a484e902J29Qdb7837b5a2ba54ab2d2e962eGd253853d074b8c376c11656a98c9M9bd514e9207b1dfaa21a2da934V286fb81b957497c5S383bKa85a44b89d3678a2b3Wdf970fK21b9e24295a6e95027126a1c3edd17e8ea8
+94932d3285d72N03313b43Ief6a430ab582a6K9d458b83743514cee5Nd46bbf6397f3a1528112c105O4286d38bG5b6c45de748dc528536e53e92f2bO09165c3e9172b6dad8e3ae152cd9118148a11ca5e1748fba0f5030ea6d6961fcbac3I012f0d54c290b45b01c2ceQ589179G0a25d9ebd1d3195e4767145c78c52f15Q05c92a411a4495849049620ba817de7ab543d32d32d728RR45416dc58f57e50da67e92066454a9d40512451f0d6dT73c48b41094121015868b6386c06bfba46fb8f244d28a153e3ddc55efaMZG5f7915I6515a7454ee425dfadab411cb70905444c05d80249500c6fG287fd5ed87116937N328549ad695c4ba47b3b6396T5dd53664a
+c0637N24Wa383620848c7d6d4d58f91d538abY7c657abeZG8234b3650a04162e08Rf1157ff77fba2c6cf311c947c549d7c93c9c7a222cT62490330b1501ccb0c1c90efb29ed11364VM346eXd9ba2c1d0e7b43757f137e6d3f816f1d81W78e923c13eabd3fc13722fa797d3f9186bca4e4aba17f892a1dc8a7cfcbe9fc8c35e5272Kd0bfc4951f93b77e75W7f41ecb7e963feaf8468b22e4c945256654b2bI27699426f7a698394cf8522cf814be6d1dd4f8445c87e8bfb93bf1a6458478933e9dc30be6867814be6d1dd4f8473814be6d1dd4f843Y459b259c17218e052f9b47753eHM297cda3ba9Y87W84d8b382e4IUa5f368Xa7c20e052f9b47753eHf4H9b16
+M5c867814be6d1dd4f8473814be6d1dd4f843Y426c59c37218W52f9b47753e1070297cda3ba9f087e084d8b382e431c0a5f368eea7c20W52f9b47753e10fc109b1670dc863814be6d1dd4f841c0a5f368eea7c21f821362cWb90cM297cda3ba9Y8eY297cda3ba9Y87Q84d8b382e4IUa5f368Xa7c239Ua5f368Xa7c21f821362ce0b90c70297cda3ba9f08ef0297cda3ba9f087a084d8b382e431c0a5f368eea7c20W52f9b47753e10fc109b16705c863814be6d1dd4f8477814be6d1dd4f843d0426c59c17218e032f9b47753eHM297cda3ba9Y87W84d8b382e431Ua5f368Xa7c23bUa5f368Xa7c21e821362ce0b90cf0297f111dd4f841c0a5fc447753eHf4H9
+b16M5c869365Ja842411aU02313e5272Kd0bfc4951bb3183f2915a2ae85fe24a8cbLe1497235P0fd17f7277e34c8b08afc87e8bfb93bf1a645845J208208G820820020820N082082G208208G820820020820N082082G208208G820820020820N082082G208208G820820020820N386325e51d9509b34c294212746a94a41f489d6046b4c65bca7f82Vfa3fO988c17590fd17f7277e34c8b08afc87e8bfb93bf1a645845J208208G820820020820N082082G208208G820820020820N082082G208208G820820020820N082082G208208G820820020820N38632de53fc1L7d1fc44c6a4c65bca7f82ccfa3f889Oc173908f9afee4efc6P1631e48acad3812d3a6eb
+f5d7e31ce389fcfcdefafc6Gf5c823c8f8e27f3f37bebf1838e27f3f37bebf184c1eb904791f1c4fe7e6f7d7e3071c4fe7e6f7d7e30983d7208f23e389fcfcdefafc60e389fcfcdefafc61307ae411e47c713f9f9bdf5f8c1c713f9f9bdf5f8c260f5c823c8f8e27f3f37bebf1838e27f3f37bebf184c1eb904791f1c4fe7e6f7d7e3071c4fe7e6f7d7e30983d7208f23e389fcfcdefafc60e389fcfcdefafc61307ae411e47c713f9f9bdf5f8c1c713f9f9bdf5f8c260f5c823c8f8e27f3f37bebf1838e27f3f37bebf184c1eb904791f1c4fe7e6f7d7e3071c4fe7e6f7d7e30983d7208f23e389fcfcdefafc60e389fcfcdefafc61307ae411e47c713f9f9bd
+f5f8c1c713f9f9bdf5f8c260f5c823c8f8e27f3f37bebf1838e27f3f37bebf184c1eb904791f1c4fe7e6f7d7e3071c4fe7e6f7d7e30983d7208f23e389fcfcdefafc60e389fcfcdefafc61307ad98c2e5ecaf7e5cd960061aef2157825728de484a8901d4daJ17186b8cf71bcfe7e6f7d7e311b285beL6d4338b62cfa4aae903b6053Zd9";
+			- m_srcFile = "C:\\temp\\pics\\arm.jpg";
+			- m_fileModifiedTime = 4.20.2012::11:25:55;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 07a9594c-f2ef-40e2-a621-d876a6439cbd;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "AssociatedImageFile";
+										- _Value = "C:\\temp\\pics\\db.jpg";
+										- _Type = File;
+									}
+									{ IProperty 
+										- _Name = "EnableImageView";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- _id = GUID aa41e22c-d0b8-42df-bead-d4986a9bbe32;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.0896488 0 0 0.102967 323.414 222.258 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_pImageViewData = { IHandle 
+				- _m2Class = "OMGEElement";
+				- _id = GUID 1bfc5110-217d-4b7f-8128-1471f0d7b020;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIImageData 
+			- _id = GUID 1bfc5110-217d-4b7f-8128-1471f0d7b020;
+			- m_type = 0;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_dataSize = 7836;
+			- m_data = "103d#Zd8ZWGH4a464946G0101GG01G01GGZdbG84G090606HH1111H0fHH0f0f0dH0d0d0f0fH0f0f0f0eH0c14H151414H1212181b261e1719231912121f31202427292c2c2c151e3135302a35262c2c2901090a0a0e0c0c140d0d14291814182929292929292929292929292929292929292929292929292929292929292929292929292929292929292929292929292929ZUG1108GecGd5030122G021101031101Zc4G1bGG01050101g0b03G020405060701Zc4G45HG0202G0204090904080505g040102G030411050621311232415161717291b107134243818292a1c22252c1d11623I536293a2d2141583b2Y2454d3e1e2Zc4G1601010101g0e0102Zc4G151
+10101g0f11ZdaG0c0301G02110311G3fGX31451405145036e2957a4f30N69e3301bc81d72beV6b1ddf64746fefN273dfb7aW58b635072e7d4209b48732f7P0a28121b1cfd03d918714e7d23f2H51J79b9bef1ef31bc23ce7be3498d2f01e5a30bc1978c2fG86c8df3ec3731ef304cf065e049ff1ae3d36ef267a34b5a3d2cfac0908bc197945Re9e71bd54f5663f387af5813d2565eac984a02Y6cY35d4e93a9f73ae7cc7ec9ee3254c233c7d1a46caf88ec3a33cd7b8ec906e22PV26b5f25cbef27e2a65X1b16968e156c18746f1d0472J345145014514501444c522e3ecc9Jfbc76f50N1c46309d8bS73f2P1a28Q28a28a028a784c69780e2634bc1978c6780
+f678c2f06cf185e03cbc617832f185e50f2f185Wcbc617Nf2f185Wcbc617Nf2f185Wcbc6IU7978c2Y65e30bU7978ea31af5b06ad8aSe51cdcc472O026790373a0f4f2e20M5b25b546647230fbcbf94b79VYd896add6c5d8c8430fcbdbTdb3aK6fc2G8dV011d44J7451452052bf49d991ac1f4b863dT2584a7d60f57d6ZG4c0f2291Yf89dP377fe70cddH3d2630bc63341978042f065e30bc1978042f18cf065e0d9e504678c2Y6cY65WHbc617832Y65W119e30bc19783678042f185e0cbc61780f2f185e3098Q22628a29428a112863c990e99228c1163928cf9c9dc2046ae92cJ1cbf21cf3a4d03ecaf657c263eac28J7949de7f01d13634f157b2be1321f145
+140529f583d5fbZG4cb894fac1eafdZGa60575725d7225725dM3d6836ac1e8ea84682780c6c29e43dY2f867e6cfaO852e472cf3fc591cNca21ba30dea47b0c0b3cb45d2406f53ec31dfe6351e30ef5ce05317836797be7Ya778afdaP7e11c2bc11fdd7c657f1819d6783679a8182U9e5abf9c47d51dfe5da3f9eafe79fee8192678c2f35ad81cGfdd7f389faa30d5811b853f36fce0648Peaa93b867d5bLabfc461471K3d957fea78748a7a20f7G2067130369dc8ded1978c32eOb39782bd67If29727179ee1f39eMb38158ba29471989ead924d5a3feea81d27fe672720865811e9d16TdcYba06c10ccaGc8GGe41b0490202c9044b66aa9e2af657c2656d9Ra7
+8abd95YNf8a28a0294fac1eafdZGa65c4a7d60f57eZGd302bab92eb912b92eb81eb413c2b413U0bJb4IJb4Q2d02d0cd02d002Y4d0aY2dG2d1823da30J2ac32c0ac32c032432Ua432U32432c0a432c032c2ac12c2ac80c202c87H16J896cd553c55ecaf84cadb3K4f157b2be101f145140529358af50d4a16019fce955276S5e0e7973e598977323e51b44b6229afcdecbRLb6a20e4784Gcd41e4V7cUN5aa4bae73bd0baf6f59f378c56600f07ce8195N8dP3a72fb36f419bcd1ba42abd7874d8b62f3a9cf23Vc3783d06049682785682780168168668169405Q5a19Q5aG5e05a19e05Q05a3047b4608055865815865N648658148658064865814865N658558258
+55901840590e267f4Xb6e1Sd9ab3f9cb47aRc8L07f88ee5f6ede881I1360KL62155412V4eJ01bc9335787605148dc5548eaca71aa311Od2970167d8c2d643bd6b9f0382368527d263f2da7213b353c55ecaf8J7c5145014a7d60f57eZGd32e253eS7abf7fe98191d37aa9562b37195777decbecbf6c7e236f5cc562b4362f04e19787530d8b623101ba038d87a8f74ea55c92H3021N653b0820H47483bW73ac07945c4d592e26b5b87defd95bde0704f74d160b5eS76ef734b735abc11f18cd7e6249d21a9d86bIW83513c8b9357Y1fc3299bc7793e236a647a51b827e16d9dc606caTd1c709195d79d1830ef11ad39bd9Rd88a8e68c51b9c87a9be210d5e374a
+Kb9acS0e7e05e3e7P81bc681698d1aeb8a4fdad087ad2ca8fe5f287af5f90f1a861d9b15bc4094695W5a530d74c39deb6afbR7c1a3bf4af0a7d361d75bfe102c5a304N75930c7d67f459f9468d61c37ef7fa2cfcQ5b2c32ca51acd851eb0fb12cfca23adf861cb61eRcfe2440d02432ccb36bc5237576b75Y17f1323bebfb6eae819ff1585be4G81b748649803ac9a4adfd9d5U0795686ff73e6202dc1691Tf6b6S07d16b721f026c906ff17a670f4fed6ead0fdd2c0bfc236fca50e3fca4d0P8a2b7b8fde6fd557f8b1X129309a8b636fe11cfP456bdedbe5fe8fd42ad722e40ec8e137c4dbTQL71facd8fc56c2e6aadb6M2b06b523989eI77c99a1750ec7c9a
+ecea4dfb47eb1bb2be8f59X9bec0686a29db5d6385f7dbed3fc4777b3287b2056d182ae9415d4a15173d83793ca49e53dI634f157b2be132b6cdK3cKecaf8407c5145014a7d60f57effd32e253eb07abf7fe9815d5c975c895c975Uf5Q9e15Q9eG5e44b30c877aaf76525bJb4a229Q0dd98f6ec80b30751e35K3f6ab43e224b68168109b44608f1S957ba383e19461d05a34efc291d9b2c1f5c94f02d004357f44f2e1X1d56d9fdf1cbQ3437X311fcd7fef8c68c1GZGe43a23930b69ebb6cffc91c343e8d1c5c183da773e2c60d619603d301851c4c250bfe9a13f31242281c5K4eca85Y824865Nf1483bc67dMf5Q1bN1d43283486580658K8258K9018J590e20
+2c8112d9Ra78abd95YP5bLR9e2af657c203e28a280a53eb07abf7feP7131de51b1375294e22939f996b3ced676ab54dc1da474H36f2L7a6048ae4bae67340eb4518ac941f376f2d4e4Mb3fe03e90eadbd13475c0f5a09e15a09W05Q5a19Q5a50168168L8168017816867816N168c11ed1820156196056196019219605219601921960521960196156096156406H1643891b136aa82cV1554LVc42a81ce49dd0235b3K4f157b2be1395693d6d3738c36076b587806f23628e5280f30VY8f36X59d530eb9228da72K199da7772c0245145014a6d635042020H7cW20ed04HI044bP4fac1eafdffa6072fd60d4a6426dc302d5f18a0ccbd7d5cac3e63a77U68ad78c5
+e1b25b3fea2b1b32S9e181d166fefce746aa44d23ab387c466597Ne7d626418f686e6f6c089a3b5fM776419cd0e7d1b762e7d160fb3df94T16061c252194X6520a9ea2260f49793T17I59160fWfb2ded43b3b8ca45d198bcI7ea9deb6e60cd531eb53SUea6d02d30156b8e3e9d96a8bGe5b2bc8fc6P0f193f0fe5150fed2865e9add5c771ca06a9Q5a54d5ae5836f58c9dbadc7cc662494d35867e2df51ff5141ee3283bUb47f9e53c5656ea607c23584G34608461062015619609042aU32432c8671b52f1acad7b4e83c4c0beb261137df59ece6ZGed0605c2432ccb5daf78Ke28b6ceaJa3bdOY95f7f944b1b653875079386cd61f8572f181bf582cL95a2819
+dd6a57d0cc3847a9779f609ce2fd2ba4efdXf529e45ca8197b3ed19e60b536fb4e6784d9ef61b14f5d8dbe41a1d29e532b5cd70b51b1b707b3344f620fb47e53I63e37485N397b0ef158fb35Qe7WX51d276cd768bf27d5aedb5bdcaf3dbd761dbdc04d15383aea5W548a8a391465Pe72794f498141a0b569308a49c9ee619If228fba9d1d3cb3a253cKecaf84cadb3554f157b2beH1f1451J529f583d5fbff4cb894fac07f67eZGd302bab92eb912b92eb81eb405c81864U30e62011dc61da09W565ba2293b9783d9247cb74afc46ad52dbd51bb48a4f78db2f5a05QL6dd4bc31f40af62c71f2398915f50e83badb53afNe3U4d53Jb4a32a7c9e2fa38b51daab2
+fae397c9ddde86329efb17c099a278179053af939c6f26328fe75e3e9841e4d31ZGf7947f3eZGed939846012cH9bc9ae2fd2c6d1fcdb8fe1067c9bb7a78da7d8a5bc584b64Hc902917c9e5238d8b2dd8a947e2648af51Sa37b5cfd6eR3e4a25ca432c0aba754f0aTR4eb6e1587fa8cb1a34354bS0c8732N83e524a432U6d181ad7722e7ce4L7bV9aS4b0ab203080b21c40590225b3554f157b2be132b6cd553c55ecaf8J7c514501aed90943a5efe1151cd9fe12e716d90985d3ba6850eacf9f0385c16cb6e40f2c0b8ae4bae41c2dcaeaae8432S0cac0e608e71275703d682785682780168168668169405Q5a19Q5aG5e05a19e05Q05a3047b46080558658158
+65N648658148658064865814865N65855825855901840590e202c8112d9a4c0ddc251d426334c6974a782a4feb2c20220dad9139Mb2ZG9f23349abf6f097d9f940bOa28aG314b989cfb5b301c20dbI0739d1P7394ba5b468707640e43a274fdf8172abf6ea2736a989e09e953e89e9eY67Jd09ae385c46403f9ab0fabb48524f32b6e6f1e899bd3dab5bf2131f8ad1ce877L254aX4f02f38fe8cd6bc561b25aX6e08f5767dbafaN3bbd844d3e07ca58390c45197f1d2d98f81bfba456cdQ5a56e1b5T076eebd509f46c06b3de767ce582d818La430e752187789Jda05a19a05Q05W5a19W5aG5a3047b460NK8658158658064865814865N648658148cc4691a6af
+dadb5d7da7553ddbe04f5855996c5ebf612be217b8fY2f057e26cbe59ccfe90f291886V5289Jfbc7f5b6779d9f29074ac46292a52f63ad6837b3SKefI15a77ca256I4c20f38dTceb822b1d2R76b7b721d730d88c5df886e158ef6b7de76272ea1c9ec969a2b57d988246M95274161acbadf3d6967b18e659b699d6bJKc15f67e5Iba07JY72d936384a782204Oa28a14a31ebce3e281538dd161b9266749eaU39ec9bb220acc383038fe90d53dfb250e27579d77662771bf45a9e49578ad5d53c92a4714b3076af267ec8c4b5d0e6386879d0907bc653abe2b5501e49KOd50eO18ba75a7149bafb7a9fed8feQ64dab5e71237b54fda4c8ff4912d6fd50e890add5
+23cd0126bd59cb5567aP97f3841aedcf4775bffcc82fR87XfcQ5bKdb98c156875c97f72df18fca7835bd3f72ZG1afe52abf469fa7e717e8dbf4fce0ab6fdI5e4a5bdb601f4cYebT72503db613f4cab1ab2dV7eM8bRcdcd054a7d7aT91295ebe1b7d522dbae98a3badKec569e241922bd533f764ca7544f34159dbf4de22ce35b738e6e1b05Xcf291d6a73b977f3cdce1f543a25a61b5487340e774e89b1b9fd9b25ae0bK89de2746c2eac28e496d86d08a392062746ea9e596626af476810b96c9774e080e49255009140c3e142c920451J514514051451J514514053c2a27b1J1b500c136081e49262815efa314f240be875e696d1Ja36d06bcd067J2f34d065
+3cca0674eaf2f345fa3cbcd3459459Jcf0d5f5e6845d02bcd2f728b2814e9a1579a1934528e4967140869a3d47242ae140878Q305623b29ec501451450145145014514503fZd9";
+			- m_srcFile = "C:\\temp\\pics\\db.jpg";
+			- m_fileModifiedTime = 4.20.2012::9:11:51;
+		}
+		{ CGIBasicClass 
+			- _id = GUID cfbdde2e-a941-45b7-bda9-51c3153b9c3d;
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "\В\р\а\ч";
+				- _id = GUID 15d329c6-28dd-4328-a507-bdc7afd9f632;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "\В\р\а\ч";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.077634 0 0 0.123909 18.8946 0.0227051 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIBasicClass 
+			- _id = GUID aa5ea83c-eb61-4d9c-9013-d36c06b64555;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "AssociatedImageFile";
+										- _Value = "C:\\temp\\pics\\register.jpg";
+										- _Type = File;
+									}
+									{ IProperty 
+										- _Name = "EnableImageView";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "\А\Р\М \В\р\а\ч\а";
+				- _id = GUID a9857350-53f7-4039-9cb0-8e1544f4c796;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "\А\Р\М \В\р\а\ч\а";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.140481 0 0 0.082897 101.381 230.276 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_pImageViewData = { IHandle 
+				- _m2Class = "OMGEElement";
+				- _id = GUID 6e13c516-d9a5-4c64-bbc2-5281e4adcb71;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIImageData 
+			- _id = GUID 6e13c516-d9a5-4c64-bbc2-5281e4adcb71;
+			- m_type = 0;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_dataSize = 17135;
+			- m_data = "22f6#Zd8ZWGH4a464946G0101GG01G01GGZdbG84G09060614121114141214151515141515181515171817141717141614151818161514171c261e1719231914151f2f202327292c2c2c151e3135302a35262b2c2901090a0a0e0c0e1a0f0f1a29241f242c292c292c2c292c2c292c2c2c292929292c29292c2c2c2c2c29292929292c2c29292c292c2c292c35292c2e2c292c29292cZUG1108Gc20103030122G021101031101Zc4G1bGG01050101g0b04G020305060107Zc4G41HG010302040208030507030305g0301G0203041105122131415106132232617181a14291b1075272c1d1141523I6292Y4382e13453631673a2c2f1Zc4G1a01G02030101g0b02
+03G01040506Zc4G2f11G02020105G02G040309g060102110304122131411351223261d10591f1141523427181a1b1YZdaG0c0301G02110311G3fGba38bdb66fba8dd8Tb9040a565e49ea32cbd394f2c9fa16ec4dfcfd933f6b79f88a6c746f77758e3e4d25171e0539da277ad9bf52Rf2cbecadd2604f90f329b995V7d149cef91be6ebfd022a3e863be295be8d27ea512d3e59784daLcb972eb5d1f43a3f89ef3e595bfaa2a2e8bd38dd8e779b9c7db44d8e8e616c30fec9cd6df6d7cb5fa2f428Y785b6b44c1e396ZGK2415S97f56c7c59c6ec6bP987fb41ba72d13f641ac527d23051e192bTb1bcZGb48fR2e2e8c541f82df89cd1f9ada516251V1c62787e4
+7163ad7d1e3769b8dc28f17aeea209250c32756d2ec8d201206f627c354e5a282e5b2fe27T6d72Le2e8749f13d8df2bb918ce86b7e2909fc2d03eb7525774a431949335a1d4f50e0d74849bc79c760db622fa155d8d74b65a6af2c7b41aLc71b9e437b718792deb2fc5a1c2c7cd1ad3625e1a63a29cbcfb7ZGbf52e22e8aU3839de6e3fJ89184c118b98e3681c5c069eaeKbd34a67cb44f740e76L01237ab716e76b7573730e05b7b2cbd4e15031S3e32f34b5f198252f7ba4cb23cL8a425c7421da7a267c718f490ec3a384e36dZGc1b8fdf34ed63de258b2c42f21616bb28e6e0cd428Rfa4513256444b9cf9237491802e1cd6826c1dccdb40b0dd1fc3249e4
+85aca6645fb317c15720735a2569696b9a621a9b8b1d503fTa7352e845faec3W2e84fde114a1f1e9c7346eca8ecdd1fe1f87734e5d2fe86eM9e92cb5403a2a3904443b2caf7S02W0d816b75d5c2de0a867fb4399d4d9e38d8c9a39436588ddc0b1c480e613cdcd2df02abe87f676cfd63db54e8a60ca8a66c0642d6bdc6f24658cb6a1e0ee88c4fa31354be4969e27c62J268fac0232d903c75913c13a071636J7983cd534df43960d3c65f8971e7edd9e8187d73L8992b356c8d0e1e4eff2ca52a9fa2f85494ec9237e5cPcbe2Gdcb1afed3aIc2cd7975adc15cb82651c2cb18c66d47a3Id2R0b16cad1be8ff3WK1dIb5b7f5348fX175b9aca51231cc3f10b7a
+Yf75842c2c7f105a7dc2c135f0e653137b6568b8aa3db779a87324e93376b9ea9965eR32528a68d2a99dV9664d495854398754f2e4c8c2e942c8381d53afa93ZG8cfd428c94c2ZGe67eG3e6e48c9f9438f64Jaea8f324S1a0eWd86f5d258e8d1abadbdb90f12b6b4f48c60b31ad68Y03ebbaca745aS3660c3feQM1fO58dbd45d6c973b4908fc699c58254701Kd8e63d15246249b358b835a1a3I9ce37bG15904c9626bad99ad758dcLGN471d46fe2b5d0fc6e2a4b72b45560dd298R1ee8c3658a568cc6395b91d94fc438H8283a70dfdba4a5963eac35f9192deed73edMd77dd246ca9b1dc43aPZG79473d3d446cfe0f543b2f630bT595c0f69U83ba0bHc3e4Ra
+eac8611091332194994b9a59d905af665d736a86d9dac7a4c4edbe135ebe9fa5eK57d6bebe4a564f140d0d1244Xa43dcf8f8d893de1add563fa41531c65d2c8e32505465a968d04b4d21b3642d1bdae0a6ccdab0e84c913dfKJf68cec0e2da9a693436771Me23c168714e8f3df5ac998d0639e274356d2434e4b761d94X46de8a73W6de38d465b6abfebf7I50636e6e2750Ye3d44eZGd9f35ee1af747789U6c35d3d51dd07e8f52cd4c049165a8a6Pc24702592891ae2412f1ae522da6ca7c23ecf5Va3a8a79a46e695e1d1c8dbb8Sb2d91c6f6ed0b7bab7ade8832521e6596298S3259607757d6N2ddb6eQf9Xa24d133ea70bb84254b8e57e9fb99fa8R7c75d9
+a8a785b157ebd63da64609e316M1c9c473579d1bc7e49L9e96774723e2b1eb22d19231da6ad074M3716f14543d0da614eca77479e363b30ce4df39ddc5c2dbdd494f151d18393f67801df56b49b7337b946a2VPb538670a4b9f1d7d7bfc8c6d1741e27cb5949275a1Vedd33b3bc3046f04b486df2ddaed0a9e2c12a6ae5a674cd9a1bdIe1a87b7283P8ed01cd7T5fbecaXb7ed26822ef54b1dWU5ca927fb65a73a410544e7fa5b61ed744b1b2ffbc32be5234bd1bc1a5a4cY978929c5ba82e3791a0f7a370b58b791f15053f43582965a57c85d13e473a3Sb3a205c1U35c6f721d7b79acac9f68fO49fc9a011f2331b7d48fa215f8ce2d2f7aa2086fc18d24fb0
+1f547f17dPbe5cadb7f67a3d0e091c52492b736794304849d1c582c1d9760e2372a3Rc429217996492063c8ca5e5cdcf946a1a48d6cbcbe5c16690ff1eb6793c1b660f7b95c8fa294c376193c647b9fed7b7b23d8816a726db66d6afed5Me8b46cf9bc22693fQK927dade7ZGa6a1a997c5ddN7d6cRdbJd6G226b22e65b1b36e5b7ba73a94bTcf90f807651e7a2ada89b111e21f69d88cJc8fa58191b6dPPb349949b5f43a2f44e8ee38caca764Vd03c6dc88d085e735186b32b865d1e08771bdfP5cfb22c54c13cd4321d8de3f4dede62cKc926b802MK68f562165fa4f4595e1e367e87f101fa7d16acQb15a3eb627378daedf070dbf458b510dYIc9M63e924d2
+dc94e4Re6bcb4f96ff9a3b3adbfc373efc7b1f686629714c725P46e7db924331d9a4f902ba963c9aIRe94d6c4e1a901be2e23f251c957137bd2b6fc9bda3ed742e48ba2525445dfccff60fa9517ef18fe18e47f8Tb23dd35f5cf70b1646c6f217274e65Lcb34d50c8a620e493415d590758139c459cdd1cd399be6dd7dc5c2f45c3eac4b1b5edd9ed07fe3d0dd79eb82d0742ebac5Y1d87f119e44f680f23f55c6d164eWMf1bf0d5d925d2125d31c8a897a1f46e93ac753445e4dc9cba13bdcb6f627d1133e274d112e7cSc66d624b981d61S246b61c905d34a374b45I5af7c7a34b9ccef646905cd17e61799d2f41699c038ba696ZG79f97d08681f54c8462dd
+1a374f2Me47a1d6fda5d047bd407783039dfQ54K5f6d54Qda18a694fa0f6172Re9ba2b4aceec11dc71Mce7ff95d59c5G6f74068e4d01bfJ9bb62458d7Q8ffb50ae93f91405a3839e1dZGd8b42825e906312fc50c37e445fe4d07eaadb2dd055b89c7168fbded7d02b55e209422Kc984Kcbfcfae90f30U47T9df92eb3a154fbc8L97f1c86df265915fbe0bb48e173b7d49W36d00f15d64d52eb12c6S1bdee40b5dbaH4f22Kf2124912536054d1f729e21e39038ff73ae518e9c345ae1a3d1bQY54cf613a4954d1cf293a6dcb41cb54c7c508M396590ddc346d9b7b6420f9e9e77529b2c3a5c5221f183e5a9f6437efa69Gb18f7df6b5bc386a537f77922cc81acb
+5ac64eddc7893bHOL1b2dac65ca39346c3934e80294J67d64e47L26b77d5e6dcac753e689a6a9f85ee697dc8ecdf43a1b1f143cf87c11b8095cf398685c74d0f123cd2662710ee44e7127M01bf01a9e26c147442cecbb9506279dcd25b135874b6737d0eW8e04288d3cda19270cdaed636fc76279M425b2c1c164fa481d4d5H5647T1c03fcb85fd2e3e4b591V1d7b5f4e62c85c530f1344f8ddb3da4791W7d0d94JYcf49c32b9b342c9186ed7b4387R22cbcdfec771d3924a497bY1360795f51f3faaf4a297254L6a8c5749283ab9491a078cc395f88f9a022a86b47698e79eG1d3d6e56c31fa1eb2236ef37b4df4dc7cbe8b12d3aae6a93d3e7b5d3171fc33b0
+8fde527c1146cfc46e7e4d51be795dde948Y600df7372aRb3a4Sc648T9c41b10d6f1fI65593f4c8fc1181f89c4fb0fd5751ea3f53b30d34a5d23446941efL7fe27177b14fG347c2d1e8d0b153748e77fc7947fJcbefbaae966738f69c5df8893f54P67354744fdLe67c72066f2b4fNed1f655f374c183b8c7bbcecc1f995946f21edafd11516172bb6611e2eec8f74bf9252e90f5a6c51e64cb53d3293fedc63fb8fbaea05b80496efIe67f44956dca4fY0dP2941546291928ff4dd7239Se8e1f2d5454d3e76070e2138ae1424f1cdIc6f4cf4d8eJW0837045c1f03a84f59de85e219a1313bbd09cbe6c3ab4fcb45a2baf4316a4ad1a57d9c2d04H45c1162398e
+4Sb5386b69e47b1a1d6b82388b5b4b15T0aab1e0d6b0485Pc8Sb5afa70f746924ec6c1f26672ae8627bb12cfa18f201b1b5bcc2X5ff382759a395c3230d55d3472P3f95116822cf26XG8d6c083aa8P5756f696O72T35b3e8d6d81d6c1dV71d575d4156f203aLc60ee5N1235Xdb7d8ee893a20e7504c7bf3968d346Gdd07894dL0f0bc9Vf3291a1eddec3958Mba16R18076249e426f9b624f69a4581e5a2b1c2638753135ed2G6f6811a6e37dd1372489U44787c6dd98d1eNe9eaa6c8a5b275905901fab4d21105R1afc4d9135b68c39ced05f6bf23c944af829ca816aa1be5b4624373beb974e490a49f4166b05f4d37d387244b7117642W031c5ba8W1dadbdH1
+49883ac5d2b9d775bb2ef848e2156de05b6db09930bGd9f2N5c746dc8277d0151cac821682417388db89bMd7c50c6171Pce0d73ef620589b3b983b59152e192bf26Le520dcL36b723a7d15ed48943810eGb7JJ36e23cd70b148da3c8e21d2b4bed72c1cb9a6d5dd8db8b152834V857ce6871186a9bdc79cb272b81637f3163e8bdb29e60f6873750eG8f221796748b0bfda69dcd1b917678386a3f4fK75f64dd24ebe97a979edU729bef9787cb6f44I56ac0c8bd46e89585c728bRPc383T4df23c3d0adc954bd27a2cf1L1de8f5f36fc5f91583K8f742d786792b4795749Md3d607b1a4e7deU9ed0ZG855b1e0f21dc06fe2207b6eb692bI0239fd7821d9859f24
+5a38432c797d1d5d3eba7f1a82ed19d8S2fbcZGed1f9bbf4464383c63e1bfe225dec2c15f4786734645420705d15871c7a4325a8c92ed9490d3H3b22de0d01bf4528a127fcd55ef521I26a8df1d0aef9657370b36495cN92N5190e8fd56ec3c350ae4ac8524f91ed778ebe4775ae63ee2e38af27aO53b39125c85e0b5dd4d431c4d9affe1bfd7ba4f91fRf445e5d2c59811V5bf43f3b2def46b13eba9d8e3df1d97fe36e87f5f55bf45937476fd078df85add473U1ed734ece1652a41742c6d988968831c411720db5f04f6ab6e9052d9c1fc1dbf98fd42ce493cc2Jd6c6d31f175ec6daM3b9d7d9393b34ae5167260X91b63d91a6b7b1f651c7d1d8c3T649b6a
+0dc9f96d65155e256d0bac47b83a2822c48bO0dd4dbd3d4abda29a6d963d4c1ae41770e27972d42e54e2a23b656b75db9e9R022a19dfab633a926ee238eff92259813dc6cf9326973601d7f2d74574fd2bb5cb1ceaNf371b9175dca9d0e1f0349cb239efb6e4e96e22c13eca86c249aW84b50d518675ae0dV071d45f6e5e28eb2e16f2f4f351309Nfec10b1f91d297485a6cdb0b7adbc972Ra22832Oe16b9eebdb36b723717277Y43d2613267798e371ccebea1Q349df2b8f35627037b8b4485adMd76cdf2f146eac573e8d9ebde22718U6bec0e53S36d469ecNa3adM68cef2e71b1b1d0b491ab7c51ffb2c0c25ae95cf765b9d2cdb03c2dc7d571f5f132c2189
+84df52e1c3c38dd0b69701461bb94acaR4a2707b8b58e792e39743d9b8d4663bf156c295c5995e2ce1af34cc52b641111173dbfa4X01W7c5369b306N4975afda3a152524d5d86a12fa05a761176f23a791596a7aafddb8ab64da1a8ef72b93daf9137ff72db4a40f05538d746db5ac6b4b8b72bc38385afe237e2106f486ac3292R3d19b2070b8e29ae171cefa1f259ea49248dad6b5ceb34G2e6fQ1c6fba2c6292710d3e8424X8bW0968e6baI18ad17K2bPc2f76f8b4edfe782752c976db8856d8f5a56b4N43dbc39b4f8f9acfc2f2d7eba730Se197c19b9eP9a319629fe245859382565cbeaTa6e3aed931a9ced935532d1267494174956e0b69e7a568Y2aac
+Vb1ddba7a2ce145e115592417d9da15e7f347744e2c95a352adfa235dd5d418cf766171ZGb8ddfe63e8R132571167b7bVM7b7cdbc3d45d64d34fe3c89ffbG9d1ea6124350560962648dd9ed047a8dbfce4aMTe8d243O53759196f1dc798d5649d61726U0dc9d2c3c56d42cd6314J3dU8bb5We9W7708Wc6e397N945244f3721b206e973ad8faefa238e2N76435a1bb6N7e5c157d3d1b58dcac01a36d2e7ea9Y6005c2ef98069eG6bf33a26a2e48551O9cQ0274238dT37fdHVc4ce8dbddda8S37df82b3L0f036dbc82e6f98f1f4e0a53O4719cad8d8c1Q36cb7d763cd4W570994d0d0Vf7L644fbdc9Tacd009df53c1593295ecG496cde06e3e69dK8990db35c411b
+5bfe50b1e2972d6b8dcdf9dd40e0e9d50496ae654fcbe7a6ea264W9201d46e2dXa86d83e2b572362223363c2e371c5bb8b5f9a168Rf2NVc5ce26faea41236568626bTU1171M50K9d206c6eeaQ89ad75cb6ee686836bed73722c2f74c8db5485ca93S5a5c224ed86446ce24ebL817d080e3cHb2743a56b89648d06d72d7136f475b5f5e6acf11af9723446e0ddc3869c45f471d05b6f5Y43d3H5859624bc1Vdbe6G91ad8f01754d27cb0a39251fca504d34ec395c2f6fba4381b7H424ec69c37056830fc1a568391a4Lf89e5adb696d38d91326Hd24991W0e3a36dfdc786e81e28f86Oea5aeccd7ef8V35b84761d5678a871c7dI6377560dc775c7e2f1b8e1faR8
+c271d69e3e16e37e4953c69746bc7977726f2196e110dM5474b58485631d45c2cee268b2c44438850d4d031e3b4d07ebf3503711b6e9dfbc7fcff854e37d91a4fb217e183e1711e63f3517Xd7731ee8e65603c429P537e49cb2cd702de2894f352b8Mbf921415a5I8e24281fd5T720a259dfa817897850a4aebf7746bOfe68fd15f13fb3c84ae5d75c57085cc3826bMca9cf183c763e68b2b3dd1faab38Sfc5fKa25cVb1db212f86683a0f5b6eb203Y1cecfc0e3a81e4ebad6af34a4adea268e5Wd7657f8c6fd0dfcb42bd281b85dad364df8d31d07c1db20b16a6Vcbf16fd0X8e488b85a50c4eP8cac8a53611383799b0246a3517df4b8f552d5d4e46f3078ef
+af929311718a4b1b169363e4762bb4588b1cfb36e4b753a69bea35e3R7afb1cda9204a56ccffe5c6f20f122c3dd15160123892e7b1a2fbd8e645d562cebe874Sdb983adfc2df44354e28087723bfeaaffd055b7d2086W71G039c64ed6bc35f4e08969863ecb6360d37b7e675baa5a57c8ed236bdf7b5f4ecfcd18dc1a679d5ec6b47137bfc91725f3e85533c12791d3f455759198e50ed81363e4559c786O8692179275d2c3d3c136b9a241622dVQf43fd5118431c143dc5c5e1a34f84177a13b22e38ed61c90f89d3e78dcdb5ee36e371a823c4151Mc27d11538a6cfd5b5dd61162ebd9Uf911caZGK14fd2239faa8636b0826e1c1adbd8ea2de5adfc428Ydc22
+602cc63ac4dfIecdb5fNe36477X617717c99471S6df6df3267098bf392bf17ac91U06Tb25b62d04375078b8ee2d7d3c1Jd883a3eada0903517d4820dc58edM765674935397658c17e5d7b567075f8b4ff9ba0ea71d749763G60cb72c36bdb5041b77483c14e688aaccee338439f186b5d972df527Pbfc283c1ba3ec8I3b3192476ee3dd1f85bf9a9a49e47696239a0aRb1ecd06c9125267531b8c5522e7afcbcJ5d8f14b71597755bb73743cb54X764b511bb8da1c507dWa1931116ef0f9ac8d051cf50fc90c6e91dW0d85f8b9c7J16ae1fb2f9c8ed4d137c067758f9ab71152cd18f6c84f48434Y2b8ee99db85947897d9ecf0bI75b1bc5eda0702396eb3f538
+44ac177374e60dc7b20dd1ba05678b7cI46de9703bdd17174O1d468b0994a922948e289c531aa67a08c65258d6e2b60920da16Y7212017207e66823O4e590f3e3a27e5M23M56c20973341e616395X0353M5bcb6593530b56048b5919M41d8Xb65d0dc47acaMd777e2391de9dd3eadb2c7dd1bd1badea6a8026cd98643f8dbdd27V5c29a2c9b65b5fa541d33dG94W5312057647955d22a2VVdcb43f92acc367Vd17bL1d93cf4e24f95969a68fI483c42Vd4d19ca5ac26I71723736dfe69b07c50d83278b078de4b9X781f75b603e7ba2626Jdbf56db116373724f86a81644e8e301a4bOe3c48bdf8951c1433c9a86651cde72fb26a2P6b518b916008b721W85971
+7dcdf7dd719N8bZG12422c35cb6b13W5131414ecb860d6db92493f3501e0ac8eadeed236b9de40dbe6ac883c458f10a5a8c5aU65200eJ213f6c0f71e76bR61c5925f451b9c9ce5114234afc6f12989c83ba437T6bdef67662e3b58dc5b928059f1f56dccecb620e848703M470b856125I5ddeGd93ad6d801e5a7d116X05a815f4b46f02c341727b56bea6f6S1b78295d8736e6e49f0d07d354514956e61a4814d0b3X34db98ba6494cd3a16b48e45Qa28a8dcaac2bIb8e74604ac3d4b8c4f1a8b5b293cO3b7a2cb60942e123c4VTPc1c38fN3b85e9ada373b61ea7Jb93e0ec7b6d25ae3bae1T7c2e770a4671ba632326Lba157a5a873013d44e6ed17ee49f76dc
+8f05e8b7582aea092023303949d1e3569b6c41W56af07c584V1f786e39f885271ae508cb077b836a600f639876Mb7e87e6b053c658e2d3a16920fa2f4059ae94d0ea251b1d1de7c173bK8ed6f5e19a5fL76a7038aLdc0c8fe25bc4ZG50d8acd62581c909ed0bb7ef0d47af25aea492c6dc0a37c169c1259217e9T0e4dd13cd024b7b274729dc49318b9e4481f21b2499b59a6cf3bc16ab42d3c351e4558172ced14f95e0fcfc8abf2b16454ceI1fP138754e4901f9a112095256a8a37Gdd4553192decf7810e6fe269b8fa21S7aacf18bX3428e5cab7090a37f82e2227823947c4d171c9c3423e6118b1fd07afc924S1d8ff123f23a3da3d75fKb15e8612528a9
+23427684aab138acebf03f556b75057c1P8798d47a26c5f21c5dI3f35M6b836c4eda8e478db744d4e206ULb11bf8a6ae8a28e4Meb01d07322fe69e86e4a69520718a1240ddc9b0d2cf21bb6323c5dd91eead239e26765b1b5be36d7e67551d46256G0274e4787ff88cKfd220181126d2484580be5b1bf913b29d9470b2e180e6db31249fdH2714d80df6e6a1fe2b89b36d7e2ed1K16acb3M4c7d879a6c5190d009b9e24269423c694c29e4a63cN093aG093eJ5ca12aeb9389055f2634db02c6975f35c1ec901adcc743b9b1b8e68f64NN41b82343Wa934fa02I52e87c2d69759d7dbcb8a29a437bQ0f7f755b504dae376ea1058ade56Gd7H6e0ee469a8d6dbdaf
+7f4597337166dc38f7f459dLI1b0d9cf682785eX3fed1af1K8ee95c59Ned59d601d6d2f7e57bf154d4f80461c1cf712e16Xf606NG49dc9f14643045190591b411c6d73b5b73af059659228dSd332d2ae43a86b8b730239N7812d3a1590e896392bea9Y3c3193Sbad96ed6bcb77197617d0fRd0P4bb6d54f43d1168ae6d667G8639ae6004e679160ecdc2c3e765b7065728d331eaa2b1be19R8ef617163c4722a1ada51231V3fHf7W51Ga489a5254ce6Icf268cb5c41d0b4d8f9846c32dU28X9450d9c241f1687f173f50R29e4b1b735cfd34de1caWfa2f0cf64e9875d753J5d5d63a768f136abda19b3305f71a15451ecac30b9ac6dcfeab1e4568e432dacba17
+014aeb3948b4U6af2bf2f072d22c4c4fca411U85b1a597I41e6173f530a762e4b91c2a8c324730ff4ddaf8b1da387cb5f45e9b1c81c011b1b11e457Pc8d0458ec4H7c8ad57422bcbe9fab71edJec87YXd3f25b343938dac283Yd2249b7497446953594f62e1b5ef6f5bea81a4a32c06ef2e278916d7cd5e56c5717e5f442474ae76cd3e7b0f74f52556c7c64dc68a9fd9a571d6c3c49bfb053bMc6dbb64bb5dfba3cbc95c45877de77Qfd4a9844c6ec2e799d4fba09678a09JR82O7c0cf503f32bafd09bYdd58c954ab2ae5ed83c1da1f31b20867dd2a19f1b4acebceO6a89086bO049009G6e4db8221ca12b435629f28a135b2bfab372c776da5a36ebdb6395c
+3939bM15a1a9058c90b88616d8b781cd6163a5X350b8fc35a4bdc4121e1b76edda6ecW46c7f44e64658d6b63680d02d726f6f9X9518b5d99e3192bdc554586481W5ac183b3212329ca7b171bdf292d2aca8202c6G4836bf76f6G93Qbf01744c387b9da9d7Pb58229b8L51a9f41fa9K14a21e382c6eU8954b88ccd8cf7Ne36bdc8f4456I13acJ240f0d164a6832955920b2RLac39de3768366c5bX8f53a7b2125ab7T8dbcb4505d3ca90cH8f48bc9aacb3ed96d83d4596bf0f9d60e824b396af0e9f64728d19T344d7275d430bee14aN5836254c2489ed3f7491e6350b0d75b5c63126c11973cd8bb460e2e71dG038f3bac4d97I59c4d35d8a9f6584354328bee9
+2aeca9225ac690efed0cf2Ob653UebH7921e1d94f1adb2172ecbe63ae01e69e82c3e5d2dc91ab2d7250acafba3dKa1672d42a144e1d5192407d0a5L86e8952e51ae289e8fd775356d27T30eaddcb30d584fdHQdfK0d5465V21ba386ad3c9Udc158704f6644c52747a92e8Kf816242a208e41f13751c9c3470f9a3815df340e2b92V96641574P75e7a7Rcf9db8c6cd7aKba7b41b15c7e3832f586d98d879dUdfc3303e573c166aa3a69248d1d406e676819fV7b5ed70b876cd2d2dbf682b3af91b25b3806c6e2fcec5a7d2c509fb406b72bJ6802U0dG0b22V92e4edc346d90e115d387c9d6b5e1a49377bc3OM3b340f86c40bZG4a36Ra6e3e9e6141132493b8d24
+73e1f33a2360e8fb8ff31e0783753fIa2a8b9ce57141ce383146a72086497683cd3d9038ec3d761X8ba7a56c60068db89d4fcd4a5cT3bdd1e7a5257UI28f99f41faa9db1346c3d77292e8281b6c06d9200959343977321a04aeafa5b8d964b15a0dd6e9e2ea8f14a6dd12745a305236c52694L274e4127fcf9R69315636e2f98f26ebefb26a74132c63362afa86ac35b77383Je2e2Gf995O931879XNd1Vf68fe81329da1c6ef25e7fa8e6f903a2564cd1J3951e823a6f137489af9ddfd032b3d647e9f242d4f486b25d33b29dbca219e4f591dQf40a8e9a6d95831eb9b935If3812e4d91b291a1d98973de777bdc5eefPdbd14c576ea39660d177H3cd636dc9dS
+0902480763M8dIfb24af6489479a41b2PR183653357665d8e9761749259c15b8548d56d4d25da3dd22J92a44ae14ae80b3538454e78c731a146d967300a9cafcbc1dfKa50572b2c76c853e196dd08adc92cb013a3bf88cf5ef81ebafRda597981a930c91cc3fd2702ef163b477ebe8bd32278M046c45c791d57674d937e34320f81d650dK387b4b4fa1e454c4a453e515254c6c26Wf72287ZG4f389ed4N0fG4bbdf408ca7c16266b9731e6fed7b6c1582e59261a7cMe91ab26bb364e1cbf9M3084d4f2132cb4192ec565c2T64d2a12c44aeG9142e238b434e2f3cac8c7f51b38f93773f254Jb5d01642a7a7f9f4a481d27fe49bf851f986f79deca9eb2a2a67ZG
+a8a87e53fe943fc28fc8dbb4ef52973cd0876cab3638a74aa9a9cda495a5ZGf6d9fc593fb5T1f3b2cc629d2e9a5d218044dfbf39ccf239889ba0f52Na7a36462V6868Y1a9fIb94f7356496b1ff9515b8cX234f2486f2c8f90f23a34793068ab7f672169aa2155d514ca47337d93732Qb54b04962bb525addc8ff3c157beb75ec8f9a7ae510d253cea738cb1T9bf80595150e3b93fe7829185225897a2d9773f481e7ba328fPK92cae7eae24f9aW2ba8545220d0d0927a48OLWd94cd5d496d9761cT25623e87629249120435342ea484226aIfc46f9adN5d4973f53da17321RX3bYTe8b79d1675e920bfdc0924b5687a65c3b2d0ae2492e90d1b75c71492508349
+4d6a492843a9a4a49285951d2ea8747492398e731d6dda4b4edcc2f2aeO8eSbdf276df73db7769dfdc754924bcdf9194cdIcaedd24971051c4c5d49J903d42Rc61dL69a79689249f8bS8ca4a7K1b374925d1458446O8d249048064ec5d49249608924925443Zd9";
+			- m_srcFile = "C:\\temp\\pics\\register.jpg";
+			- m_fileModifiedTime = 4.20.2012::11:30:14;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID fd5af6ab-8145-4182-95c0-ea2d3e1d80b6;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "Workstation";
+				- _name = "itsWEB-DICOM";
+				- _id = GUID f007a125-bac1-440a-a973-47c61b0ba5c5;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID a6fd9f0f-c61b-43cc-81f8-3cdf6b8ddc94;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 34fe6618-7a0e-41e6-9997-e0e99b978a1b;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "QRY_FIND_STORE";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -63 -8  68 -8  68 10  -63 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 761 239 ;
+				- m_nHorizontalSpacing = -103;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 779 255  824 255  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 636 601 ;
+			- m_TargetPort = 170 1396 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "WEB-DICOM";
+				- _name = "itsWorkstation";
+				- _id = GUID 3fc22045-b453-4a46-a21c-39e77e0c4490;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 5648017a-7d87-40a9-b9e2-a8dd4c2494d9;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "WEB-DICOM";
+				- _name = "its\А\п\п\а\р\а\т";
+				- _id = GUID 1020e061-3d0e-485b-8bee-829f441b863a;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 34fe6618-7a0e-41e6-9997-e0e99b978a1b;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 6efed4d5-ee64-4510-8f76-7c99780255e1;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "WLM_STORE";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -47 -8  51 -8  51 10  -47 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 1022 241 ;
+				- m_nHorizontalSpacing = -15;
+				- m_nVerticalSpacing = -1;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 955 258  1021 258  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 1018 818 ;
+			- m_TargetPort = 740 331 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\п\п\а\р\а\т";
+				- _name = "itsWEB-DICOM";
+				- _id = GUID 84dd4707-a68a-4cc2-8fe8-771aba9810c5;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID b22b55a9-b518-4af3-96ac-af04d94dfa62;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\Л\а\б\о\р\а\н\т";
+				- _name = "its\А\п\п\а\р\а\т";
+				- _id = GUID 29f2aa56-1306-47d4-a80b-fd64f61e2bb7;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9a5ec266-0efd-4a18-9c46-1bb2c9211f71;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 6efed4d5-ee64-4510-8f76-7c99780255e1;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "Study";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -23 -8  148 -8  148 10  -23 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 1045 503 ;
+				- m_nHorizontalSpacing = -8;
+				- m_nVerticalSpacing = 28;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 986 491  1049 491  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 658 750 ;
+			- m_TargetPort = 931 1163 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\п\п\а\р\а\т";
+				- _name = "its\Л\а\б\о\р\а\н\т";
+				- _id = GUID 3e88ffd5-db6b-4863-8e6f-9eb3968fc504;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 0d8ac437-4304-4021-b0a7-0180906f130a;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\Узкий \с\п\е\ци\а\ли\с\т";
+				- _name = "itsWorkstation";
+				- _id = GUID d6842097-af72-4ced-b2ba-afe514bf24e3;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 69b8b097-8fdd-4a07-a2b6-c327afa7f26d;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID a6fd9f0f-c61b-43cc-81f8-3cdf6b8ddc94;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "PROTO";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -28 -8  117 -8  117 10  -28 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 770 486 ;
+				- m_nVerticalSpacing = -5;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 779 507  714 507  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 555 605 ;
+			- m_TargetPort = 215 1080 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "Workstation";
+				- _name = "its\Узкий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID 9dd08c59-bb4f-4c1e-b485-9bad817ebf08;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 62fb01d4-d1d7-44db-b74c-dbd24af78fb4;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- _name = "its\Узкий \с\п\е\ци\а\ли\с\т";
+				- _id = GUID 3d0e9bb1-36e7-4e13-9199-1b342cd593ed;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9c614ac2-aff3-4ae1-863c-c90f40e7e5de;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 69b8b097-8fdd-4a07-a2b6-c327afa7f26d;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "________PDF_________";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 536 532  536 633  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 981 928 ;
+			- m_TargetPort = 504 823 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\Узкий \с\п\е\ци\а\ли\с\т";
+				- _name = "its\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- _id = GUID ad1f3613-0b90-4847-8ddb-508bf8ab8d22;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 4;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIBasicClass 
+			- _id = GUID 9029fbd1-2fe5-4705-88dd-a44b49fa7571;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "AssociatedImageFile";
+										- _Value = "C:\\temp\\pics\\ws.jpg";
+										- _Type = File;
+									}
+									{ IProperty 
+										- _Name = "EnableImageView";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 124;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IActor";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "";
+				- _name = "WebService";
+				- _id = GUID a7954346-d407-486a-bc27-7b3e01d70826;
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "WebService";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 2056;
+			- m_transform = 0.114603 0 0 0.0820244 557.416 66.4939 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_pImageViewData = { IHandle 
+				- _m2Class = "OMGEElement";
+				- _id = GUID 0eaada25-a86f-46c2-8858-995252e66775;
+			}
+			- m_polygon = 4 40 250  40 1396  1122 1396  1122 250  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+		}
+		{ CGIImageData 
+			- _id = GUID 0eaada25-a86f-46c2-8858-995252e66775;
+			- m_type = 0;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_dataSize = 7750;
+			- m_data = "10af#Zd8ZWGH4a464946G0101GG01G01GGZdbG84G0906060e12h030fh0511H0eH0fH1312h0415H151415H1512181d261f1819231c13121f2f202527292c2c38171e3136302a35322c2c2901090a0a0e0c0e1a0f0f1a2d241e25302b352f32322c2c2c342f2c2f2c292c2c292e292c292c292c2c2c2c29292c2c29292c29292929292c2c2c292c2c2c2c2c29ZUG1108Ge1Ge1030122G021101031101Zc4G1cG01G0203010101g0a0506030407020108Zc4G4aHG0201020303050a0b060309g050102031104051206213114224151610713325371818391a3d115162334527393a1b2c3d22442728292c243a2b125I35626374b3c1e1Zc4G1a0101G03010101g0b
+030405020106Zc4G211101G02020301G030101g0701020311041221311332418114ZdaG0c0301G02110311G3fGX20g3f06a6679a51c3d3752b4b4c7825c6527f462ba5Pf115e308ca73768c13949f524aed9ce7195aa62eb3ab3ba8add4e1d10875795f16ZGf8066cc76cf1b59b5412a14fa1a4a5Kaed93dcbVbce454Yf8b9Tcebd793eda93f7964c1e5292W6fc7GNa67c1d5fc6d5fb49fbcfbf0757f1b57ed27ef2e9c851f390Q299f0757f1b57ed27ef1Y757f1b57ed27ef2e7c850e42Na67c1d5fc6d5fb49fbc7c1d5fc6d5fb49fbcb9f214390a02PY757f1b57ed27ef1f0757f1b57ed27ef2e7c850e4280a67c1d5fc6d5fb49fbc7c1d5fc6d5fb49fbcb9f
+214390Q299f0757f1b57ed27ef3e7c1d5fc6d5fb49fbcba7214390a0291c93131778d6af16ba554a89ffa9bb81daeV30ed6b9728874c6af856eca8b7faX59e797a23b1d94269eW2cP0ed1d0c5c1ba6dc671b6ba52Ye1dbdaT512a723a94Re1eac6b517a6M774fa1ae98b5d29f4a3a764d9ac3134215a1T52e7478b84d6e945f9181bUg092bdb69O6a8c292ff1L93fe18f39fdfa48ecb3089246d6d9ae7e1bd2fe59f72f5b901b9089eNG5636e769ab6129d15878c2K6bd4M8f7cbe98a516dcacad7fddf596739aedfe363531f87a51929778a5394d277dI9b8d93ea768dfce4b869def15439afd293687bd9cdacc642b3963ab2ab4aa593b4631545f44959783d
+77bf59d1a334d5d3ba7bce4679K31517f258bc4524b8414db825d4a2ee92343370b7ee36760e76bV8e81b51b6587c146d2f94ad25f278787872ed7f463dafef306ce6dc52c4b8d2a94e742bc96e84b9d09595de99aec4f8dPcf6865c94eK6a4aK6acddeK26f549b2d3b1987d58952fa1094bceecbff6c8edc48a639b5a7d4b5e64df2c56b1e2feGI9aJg0301e2a53bP0fN57b37c12699f7b9f625c6ae230fd0d2af15d4d35097aef0f51bfPc37322b63f763e5db46a5ffaW05fcg0905676c573f0de97f2cf5N5b91e76bfc3c37a5fcb3265eb701b7639b7748c6Ka98aa1855df29d2a51e5129c5ca1ae6ef18eP2e3aKZGa8e99623Idc8e9e269eP6e9c6ee15171
+8cbddd689315ab5bc4dbe22cb5b5a9315fae650cd73184650a58ca9a5a71f9451a928dfa6336ae9f9cd2U60234d377729c9b94e727794a4f8b6df132d2aca49b4efLe375c1d9daebd47bb9bd4c5489ed58605f2e4b475b4bddc5cd8cb72dab5e7a292bbe2dbdd18aeb6cPc5ec3626H728ca151a57718dd3f35f88bLa527569f5e53064bc76ac78af5cd8c0665528548d5a7c63c63d138f4c59a97f7791f50b9dda22d1a9f8e2bI59dc7d5da3ddI2ebda72ab4df4eR351af5c5344f64f9de1b1507530f51548a9686ed28da564ecd349f4a39534ba9172ee7d85ab1efb2d36aI4acf85e69f14baacf8f61959f895c759b44b5f8fcbb64bc5L171b0b1eec2c67b45
+e2c2c7bSS1e2c2c7bSS11b99ae6b22364be7efea6a7e281IPae6b21f64fe7efea6a7e28017cg09015adaef0f0de97f2ccb97adc8c7b5be1e1fd2ZG619b2f5b901b962036c36ae860a8b737Rad44e3468c7c39cadc7b22b75df4796c8b03470cV30f5658cc4d4c5cdd5af0ab3a777ba318464f428c7a23669dbb49f062fcb6d20cf97f1576f195d371a504f8db7f94dad463d4351bf11a8d3e7e7d9dafddcea50d1596ed7ad5faf4e9ddf7ea2e3638bW733af426R509ePadcd3df192fa325d28deVTa1e6b560e9d3850a0e4aceb41ca734bae29ee4fdL57238d79c936afT6b71b9348c715b79a6be798984b1f8d54eda23K2ddc35e88ebff36afbcd6d469e0b0ca
+9c6d7T7be527bdb6f8b6cd8d46962acd6915966e5b45af3684d6V65d0af898539df45a53925bae9747de752a546314a3149452b24b7248e4bb3d9dac2d78d5947542ce13b784a2dabc92e96acb71d6f0f5e13846706a5192528c96f4d35b9a32f9ddbbc6fe35383d7a4ebebd5858fa7d282fbcd858f561603cd858f56160237I5cd6436ca7cfdfd4d4fc5026f335cd6426cafcfdfd4d4fc5G2f60g092b7b5be1e1fd2ff619f2fe08c1b5be1e1fd2ZG619f2fWNde23R6cf612K25565429caa4ece5394536ec925c7b122441ec4cc7c793113fK0dTd9da4f0d2af4d469cb0f194dd924a54d2bca2edeb47368d4baba3af6da7fc3b1bff6d5bff1b38ce1e5V8f911a
+bc1bVc4d6597cea444c5a1b3a86a36b0191e2abc5ce8d19ce29d9c9592bf52bf130e3b2faf45aKa9ce9b95f4ea56bdb8d9f497Td77adfR3d2dadebc63d46c60b035ab371a34eK1a576a2af65da68bP68daada1a984a187UW60e8d5af4615Re252b38c65b9e87dI6d3dfd1fe9166cb34d45637329Me28bX6d3aO44d5ca7151Ya8565e8e5ee3a8ecbe5bc9M9084def49d49ddX839739a5d497bce7b93f743c7d0b46ba8e2e9ae2dda15d7f3256979d79cd4dQX839863233a34e10c2e1e69c25bf5d69c1ab35ab846eba95fb4a79eI65d526ab983f0e2dda2cd3V3693178bc457af4f1589a5465371a14e9d59d38f7b8ee8cb4a7c5db579ce97dcf7I955c268a9395
+4a9464e129cdb94e49f3a2db7bdee76f31c9e853518a8aW95892cab687158593961e50e75b5c2a2d509a57bMb35c5ef4c972716271eab1ea2c7cP8c9bb4f8edUe4d99f754cc27150c3e1e9d09b5cfad2977d49ZGc91b2fbefe421728cff1d42bf2P622a57a8f75485493709c2f7d0a3c23d8d2ddeb451af1725bf8bd6e5638febb9831616b39c2137171728c64e2f8c6eafa5f6a329K651fPY6426cb7cfdfd4d4fc5026fIWc84d96f9fbfa9a9f8aG5eNg0956f6b5f3Yfe97fb0cb97bdc8c1b5fe1e1bd2fe5P32f96eJ48dc5cc7a86a0189a10a90953a915284e2e128cb7a945ab34d152a9dVYbdf63284a71a49de5478a7d8a7c52f5f98b6ea1a8ee992d4fd674
+e2f8eb7fdQc361e14e318538a8c62aca29592468ed06474b174654a7b9f184d78509f4497bba4ded4351V4cc4X1d4c44c6a5cb30bdceb1d2938cfbdd38a6e3adcb56a5f4a315bede5b12fdd3728b50c3578ef7876a8cdffd39a493f34947d6cbb62b1f4a92d556a429c57ef4e4a2bd6ce69dd2b6d70dOa34f0984af1aae75632ace9b728c69c39c96a5b9de5a783e82dc67c992f5Pfe2b4e1a63a5a23fRa6a1a8c2Pf6e6d3234cba86a2d5977736c554a6a73a90a4e4aeQd39497f16f56f2H39X455f09350ac95a57M9c77c66971b76f0dc4Kcd8ed3d627d496c37ac6e63c69ea25765f04ab62e85395b4b9ea95fa5456ab79ec426aIWb1b2a5529d587854e719
+aedb3e1e7debce7578Pacc47d734d45a265dfd0b95ac976fb01O6a11Ra9d5e1deRfc9cdbecbee9799b2c3a8f9d98989d4b7a2627d869e66f9ac85d95f9fbfa9a9f8a04be672e6b21b64dfedefea6a7e281e3d5f4g09055f6c9f3f0de97f2cfbN96e478db57cec37a6fcb3cW25b8092d43518b50d4065d43518b50d4065d43518b50d4072fXT8373c561a528374d519ad567a14bbe5ed7WP4ea74e31W923bfd48c64ad249a7c53574ce7fdd13L68d3Qb1387a718384d77d50564e12ddab4f05Le3ebL8717915aea931fea97230dadT44a89a8ddc92b538e2Mf2a96d0aad372bY4b52defb08cd4351a968dc699f1e4edfa2233dc52bbac54a6b05072b6bKe92a7d6
+dTa925fcbabd45I2eX8798d0a6a9c7bd578cKa1df756b8ae85a93debcTfb485cdb37c5e32aRb8b9a968bf7ba705a69d3bf1b2ebe1bdef3271f172572434af9e9347cd47dd461d46fe45973c46229515c272e735d105be4fd4PadI158dcb362bb9d43525494f9ae3Rfb92b5db7dOXd91271c2e1e324d35469269dX9aa6959f69ad95e4185c3af91a518be995b54df964f7925a8c6e4e78cbad43530619c7f65ab994b73227645fedefea6a7e28123994b732I639fedefea6a7e2815165d04g09054f6e1f3b0be9bf2cc3819ee3dedfXe4d2e8d5563e76QZGb59a597d6dc8097d6359814cfbac0cdac6b30eb1ac0cdac6b30eb1ac0cdaca5f755cdfbdWd518be7e2
+671a5dba173a6fd492fe62ddaca9eddeca4b171855a6df7ea0a5a60df367195aeT25b959f9bc9de3d768dfc717df59d397a67dd45d3667b9f4a76ab8c4e31e2a87093fe36b8793898f6af60e3429cf11879c9c21ce95296f718df7b52ea5c77facd9ZGab1f6eTLfe0bf5eda53f50d463b92790e415b1751c2938ad294a5295ed14ddba38bf7162d68ac6e51456L750d0d4496cee72f0d89a75bf753d35175d396e97ab8f98bK5ee5cbbdf3310fbef4b94577b7d965bd7ad90d86X7f8c75e34ea45469f19568b528e95d5d37ec68ad3c8c57acc4ca6fc392b313a75ca759349a774d269aWd1eb59a783c3c695385285f4d38c611bTT2565bccdacc46a35b3196e6
+47ec5bff683fa8a9f8a067cceaee66aec13d58fa8fe8e1e6fda53J74Mg09H3b6b97bab84938ef9516ab24b8b514d497f4b97a8a5eK8ddcb79d48e67b4fb3f2c2547569afd9a72dd6ZG0a4ff71f52bf07e6f284b52ad732eb2bb84ccfb4df863d758127a86a23f9721cb90121a86a23f9721cb90121a86a23f9721cb90121a8f3522a49c6493524d34f834fQd1e5c872e40730Vf63b174eb54852a352a5252f939cKd383de95fad70f3177d81c9a74284aK62e156acdb7196e6a2b7453fbdf9c98e5c872e459bf26d7a749435c35adbb424350d447f2e439722b26486b3c4eb58d0963d759a38bcd15bO1fI8c6ee64e77Icbda856c4c97fbd92aMfe085eefcf26d
+7f2957cab2aad8eaddee1754e2d3ab57a211ea4fa64fa179f81d6M9858538429d38a8c211518c57424Ncag0a79a94e324e324a5169a716934d3e869f13d0029b9b773b849b9e16a77a6f7f7a9de54efd8f8c57afV41d4d8ecce2eca9cLbe942a42dfe669fdc74eG730f8ab9a7Of6947f50f8ab9a788f6947f51d3c01V3e2ae69e23da51fd43e2ae69e23da51fd474Y0730f8ab9a788f6947f50f8ab9a7Of6947f51d3U1cc3e2ae69e23da51fd43e2ae69e23da51fd474fG730f8ab9a7Of6947f50f8ab9a788f6947f51d3c01V3e2ae69e23da51fd43e2ae69e23da51fd474Y072f5b239a376ef2a3db2a94edf736c95cb7b9bc9b52c5d6baf1546fbfcb51abfa9
+79cbdN3060S34a8c234e942308478462b7797b5f6bdecceg611fZd9";
+			- m_srcFile = "C:\\temp\\pics\\ws.jpg";
+			- m_fileModifiedTime = 4.20.2012::9:13:6;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 61dc665b-1714-4ff7-9e32-421b314e8592;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "WebService";
+				- _name = "itsWEB-DICOM";
+				- _id = GUID 9fdd961d-d323-4bc1-bd0f-f2e16bb410cd;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9029fbd1-2fe5-4705-88dd-a44b49fa7571;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 34fe6618-7a0e-41e6-9997-e0e99b978a1b;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "Integration";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -36 -8  46 -8  46 10  -36 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 746 114 ;
+				- m_nHorizontalSpacing = -35;
+				- m_nVerticalSpacing = -12;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 1078 921 ;
+			- m_TargetPort = 338 741 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "WEB-DICOM";
+				- _name = "itsWebService";
+				- _id = GUID ecba099f-7100-49fe-843b-23e4e0484a3b;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 4;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 4d4d6b6b-8c6d-4135-ba25-e84d8fc04af5;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "WebService";
+				- _name = "its\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- _id = GUID d4121ee8-4ba6-4a9f-9da7-2aff408e480c;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9029fbd1-2fe5-4705-88dd-a44b49fa7571;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 07a9594c-f2ef-40e2-a621-d876a6439cbd;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "Collaboration";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -43 -8  57 -8  57 10  -43 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 547 255 ;
+				- m_nHorizontalSpacing = -4;
+				- m_nVerticalSpacing = 25;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 493 149  493 313  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 40 1006 ;
+			- m_TargetPort = 1033 881 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- _name = "itsWebService";
+				- _id = GUID 1c81e594-c601-4138-96b4-c52e3ba13a53;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 4;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 0b7da50e-b665-4921-89eb-9547a1a2226e;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\В\р\а\ч";
+				- _name = "its\А\Р\М \В\р\а\ч\а";
+				- _id = GUID fba64937-9485-447e-87f5-64ebb444f88f;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID cfbdde2e-a941-45b7-bda9-51c3153b9c3d;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID aa5ea83c-eb61-4d9c-9013-d36c06b64555;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "Direction";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -31 -8  148 -8  148 10  -31 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 98 204 ;
+				- m_nHorizontalSpacing = -1;
+				- m_nVerticalSpacing = -4;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 65 224  122 224  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 594 847 ;
+			- m_TargetPort = 147 576 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\Р\М \В\р\а\ч\а";
+				- _name = "its\В\р\а\ч";
+				- _id = GUID f3dec6df-af51-47aa-9db3-2945553019b3;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 140bb989-4386-4e37-9dca-9dcf1dad6537;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\Р\М \В\р\а\ч\а";
+				- _name = "its\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- _id = GUID 0a7d652b-4d44-4b40-bfa2-83af7db7a70d;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID aa5ea83c-eb61-4d9c-9013-d36c06b64555;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 07a9594c-f2ef-40e2-a621-d876a6439cbd;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "OCI";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 -17 -8  20 -8  20 10  -17 10  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_transform = 1 0 0 1 301 279 ;
+				- m_nHorizontalSpacing = -13;
+				- m_nVerticalSpacing = -7;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 2 310 308  310 302  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 1058 938 ;
+			- m_TargetPort = 587 774 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- _name = "its\А\Р\М \В\р\а\ч\а";
+				- _id = GUID f3f60f49-8597-4dc5-99fb-90825f772df6;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 4;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID c05b5e07-07d2-457d-9f4c-9fc0bfabde7f;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- _name = "its\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- _id = GUID b76e70c0-1de1-4e27-bfae-07799065be0a;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 07a9594c-f2ef-40e2-a621-d876a6439cbd;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 9c614ac2-aff3-4ae1-863c-c90f40e7e5de;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 564 1318 ;
+			- m_TargetPort = 613 419 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- _name = "its\М\е\д\И\н\ф\о\Си\с\т\е\м\а";
+				- _id = GUID 964224bb-bb9c-4f8c-8ea2-2c3bf5f6d7e6;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 8e94c9dc-9740-406d-8707-c33bb0efda3d;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "WebService";
+				- _name = "its\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- _id = GUID 454897ff-edc8-4fd1-8f4a-d13938c40c0a;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 9029fbd1-2fe5-4705-88dd-a44b49fa7571;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 9c614ac2-aff3-4ae1-863c-c90f40e7e5de;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "HZ";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 1 606 499  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 424 1298 ;
+			- m_TargetPort = 1030 599 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\Р\М \узк\о\г\о \с\п\е\ци\а\ли\с\т\а";
+				- _name = "itsWebService";
+				- _id = GUID 58c14ea7-436d-429f-8b0a-0f7d568534d6;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		{ CGIAssociationEnd 
+			- _id = GUID 1aa90393-63ad-4bfb-a2ac-bdb2e451ebb6;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "General";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Graphics";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "ShowLabels";
+										- _Value = "False";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- m_type = 92;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "\А\Р\М \В\р\а\ч\а";
+				- _name = "itsWebService";
+				- _id = GUID 08101f87-3eeb-4295-8d71-dbe200d4e6d6;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID aa5ea83c-eb61-4d9c-9013-d36c06b64555;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 9029fbd1-2fe5-4705-88dd-a44b49fa7571;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "HZ1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 7;
+			}
+			- m_arrow = 1 275 127  ;
+			- m_anglePoint1 = 0 0 ;
+			- m_anglePoint2 = 0 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 916 383 ;
+			- m_TargetPort = 145 738 ;
+			- m_pInverseModelObject = { IAssociationEndHandle 
+				- _m2Class = "IAssociationEnd";
+				- _filename = "Default.sbs";
+				- _subsystem = "Default";
+				- _class = "WebService";
+				- _name = "its\А\Р\М \В\р\а\ч\а";
+				- _id = GUID 3330b767-5e60-44ae-9011-f09387988dd6;
+			}
+			- m_pInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_pInverseInstance = { IObjectLinkHandle 
+				- _m2Class = "";
+			}
+			- m_bShowSourceMultiplicity = 1;
+			- m_bShowSourceRole = 0;
+			- m_bShowTargetMultiplicity = 1;
+			- m_bShowTargetRole = 0;
+			- m_bShowLinkName = 1;
+			- m_bShowSpecificType = 0;
+			- m_bInstance = 0;
+			- m_bShowQualifier1 = 1;
+			- m_bShowQualifier2 = 1;
+			- m_sourceRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 2;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_targetRole = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 3;
+				- m_bImplicitSetRectPoints = 0;
+			}
+			- m_sourceMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 4;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 6;
+			}
+			- m_targetMultiplicity = { CGIText 
+				- m_str = "1";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 5;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 4;
+			}
+			- m_sourceQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 6;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_targetQualifier = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 7;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_specificType = symmetric_type;
+		}
+		
+		- m_access = 'Z';
+		- m_modified = 'N';
+		- m_fileVersion = "";
+		- m_nModifyDate = 0;
+		- m_nCreateDate = 0;
+		- m_creator = "";
+		- m_bScaleWithZoom = 1;
+		- m_arrowStyle = 'S';
+		- m_pRoot = GUID bbba1a9e-3331-4303-bf28-5e3454b71358;
+		- m_currentLeftTop = 0 0 ;
+		- m_currentRightBottom = 0 0 ;
+	}
+	- _defaultSubsystem = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "Default.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "Default";
+		- _id = GUID 8556af67-c900-4b7c-8a22-c85a752cae31;
+	}
+}
+
