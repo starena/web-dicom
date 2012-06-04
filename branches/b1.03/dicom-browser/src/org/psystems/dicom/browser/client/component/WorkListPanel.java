@@ -157,6 +157,7 @@ public class WorkListPanel extends Composite {
 		lbManufacturerModelName.addItem("Aloka alfa");
 		lbManufacturerModelName.addItem("Aloka 3500 ВП 303 каб.","Aloka 3500");
 		
+		lbManufacturerModelName.addItem("Acuson X-300 ДП 525 каб.","Acuson X-300");
 		
 		
 		

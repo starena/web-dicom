@@ -86,7 +86,7 @@
 	<!-- строка соединения с Dicom-архивом для передачи DCM-файлов  -->
 	<context-param>
 		<param-name>webdicom.archive.connection</param-name>
-		<param-value>DDV@localhost:11112</param-value>
+		<param-value>MAIN@localhost:11112</param-value>
 	</context-param>
 
 	<!-- Конфиг-прототип для создания JPG - DCM-файлов  -->
