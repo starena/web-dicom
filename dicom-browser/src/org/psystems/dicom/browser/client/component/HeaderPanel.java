@@ -36,9 +36,9 @@ public class HeaderPanel extends HorizontalPanel {
 		Hyperlink worklistStudy = new Hyperlink("Список исследований", "workliststudy");
 		itemsPanel.add(worklistStudy);
 		itemsPanel.add(new Label("|"));
-		Hyperlink directions = new Hyperlink("Направления", "directions");
-		itemsPanel.add(directions);
-		itemsPanel.add(new Label("|"));
+//		Hyperlink directions = new Hyperlink("Направления", "directions");
+//		itemsPanel.add(directions);
+//		itemsPanel.add(new Label("|"));
 		Hyperlink showIntro = new Hyperlink("Помощь", "showintro");
 		itemsPanel.add(showIntro);
 		

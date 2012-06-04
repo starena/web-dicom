@@ -225,6 +225,7 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("Aloka alfa","Aloka alfa 6 каб.527 ДП");
 		dicModel.put("Aloka 3500","Aloka 3500 ВП 303 каб.");
 		
+		dicModel.put("Acuson X-300","Acuson X-300 ДП 525 каб.");
 		
 		
 		
