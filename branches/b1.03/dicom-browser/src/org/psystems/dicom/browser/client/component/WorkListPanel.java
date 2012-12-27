@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
 import org.psystems.dicom.browser.client.TransactionTimer;
@@ -121,43 +123,56 @@ public class WorkListPanel extends Composite {
 		label.addStyleName("DicomItemValue");
 		toolPanel.add(label);
 		
+		
+		
 		//
 		final ListBox lbManufacturerModelName = new ListBox();
-//		lbCommentsTemplates.setName("00100040");
-		lbManufacturerModelName.addItem("RENEXFLUORO3", "RENEXFLUORO3");
-		lbManufacturerModelName.addItem("КРТ-Электрон","КРТ-Электрон");
-		lbManufacturerModelName.addItem("Маммограф (LORAD AFFINITY)","LORAD AFFINITY");
-		lbManufacturerModelName.addItem("Эндоскоп (FUJINON EG WR5)","FUJINON EG WR5");
-		lbManufacturerModelName.addItem("Рентген (CLINOMAT)","CLINOMAT");
-		lbManufacturerModelName.addItem("Рентген (РДК 50/6)","РДК 50/6");
-		lbManufacturerModelName.addItem("Рентген (DUODiagnost)","DUODiagnost");
-		
-		lbManufacturerModelName.addItem("УЗИ-1 (SonoScape) ДП 523 каб.","SonoScape-1");
-		lbManufacturerModelName.addItem("УЗИ-2 (SonoScape)","SonoScape-2");
-		lbManufacturerModelName.addItem("УЗИ-3 (SonoScape)","SonoScape-3");
-		lbManufacturerModelName.addItem("УЗИ (VIVID) ДП 527 каб.","VIVID 3");
-		lbManufacturerModelName.addItem("VOLUSON 730 BT04 EXPERT","УЗИ (VOLUSON)");
-		lbManufacturerModelName.addItem("УЗИ (Acuson Sequoia) каб.408","Acuson Sequoia");
+		// lbCommentsTemplates.setName("00100040");
 
-		//TODO Уточнить имена и кабинеты
-		lbManufacturerModelName.addItem("SSI-1000");
-		lbManufacturerModelName.addItem("Эхоэнцефалоскоп-ЭЭС-25-ЭМА");
-		lbManufacturerModelName.addItem("Электроэнцефалограф-Alliance");
-		lbManufacturerModelName.addItem("Companion III");
-		lbManufacturerModelName.addItem("Microvit");
-		lbManufacturerModelName.addItem("СМАД, Schiller AG");
-		lbManufacturerModelName.addItem("ЭКГ-Schiller Medical S.A.");
-		lbManufacturerModelName.addItem("ЭКГ-Cardiovit AT-2 plus C");
-		lbManufacturerModelName.addItem("Велоэргометрия-АТ- 104 Schiller");
-		lbManufacturerModelName.addItem("Voluson 730 Expert");
-		lbManufacturerModelName.addItem("SSD-3500");
-		lbManufacturerModelName.addItem("Спирометр-Spirovit SP-1");
-		lbManufacturerModelName.addItem("Спиро-Спектр 2");
+		for (String dev : Dicom_browser.dicDevices.keySet()) {
+			if (Dicom_browser.dicDevices.get(dev).length() > 0)
+				lbManufacturerModelName.addItem(dev, Dicom_browser.dicDevices.get(dev));
+			else
+				lbManufacturerModelName.addItem(dev);
+		}
 		
-		lbManufacturerModelName.addItem("Aloka alfa");
-		lbManufacturerModelName.addItem("Aloka 3500 ВП 303 каб.","Aloka 3500");
+//		lbManufacturerModelName.addItem("RENEXFLUORO3", "RENEXFLUORO3");
+//		lbManufacturerModelName.addItem("КРТ-Электрон","КРТ-Электрон");
+//		lbManufacturerModelName.addItem("Маммограф (LORAD AFFINITY)","LORAD AFFINITY");
+//		lbManufacturerModelName.addItem("Эндоскоп (Olympus)","Olympus");
+//		lbManufacturerModelName.addItem("Рентген (CLINOMAT)","CLINOMAT");
+//		lbManufacturerModelName.addItem("Рентген (РДК 50/6)","РДК 50/6");
+//		lbManufacturerModelName.addItem("Рентген (DUODiagnost)","DUODiagnost");
+//		
+//		lbManufacturerModelName.addItem("УЗИ-1 (SonoScape) ДП 523 каб.","SonoScape-1");
+//		lbManufacturerModelName.addItem("УЗИ-2 (SonoScape)","SonoScape-2");
+//		lbManufacturerModelName.addItem("УЗИ-3 (SonoScape)","SonoScape-3");
+//		lbManufacturerModelName.addItem("УЗИ (VIVID) ДП 527 каб.","VIVID 3");
+//		lbManufacturerModelName.addItem("VOLUSON 730 BT04 EXPERT","УЗИ (VOLUSON)");
+//		lbManufacturerModelName.addItem("УЗИ (Acuson Sequoia) каб.408","Acuson Sequoia");
+//
+//		//TODO Уточнить имена и кабинеты
+//		lbManufacturerModelName.addItem("SSI-1000");
+//		lbManufacturerModelName.addItem("Эхоэнцефалоскоп-ЭЭС-25-ЭМА");
+//		lbManufacturerModelName.addItem("Электроэнцефалограф-Alliance");
+//		lbManufacturerModelName.addItem("Companion III");
+//		lbManufacturerModelName.addItem("Microvit");
+//		lbManufacturerModelName.addItem("СМАД, Schiller AG");
+//		lbManufacturerModelName.addItem("ЭКГ-Schiller Medical S.A.");
+//		lbManufacturerModelName.addItem("ЭКГ-Cardiovit AT-2 plus C");
+//		lbManufacturerModelName.addItem("Велоэргометрия-АТ- 104 Schiller");
+//		lbManufacturerModelName.addItem("Voluson 730 Expert");
+//		lbManufacturerModelName.addItem("SSD-3500");
+//		lbManufacturerModelName.addItem("Спирометр-Spirovit SP-1");
+//		lbManufacturerModelName.addItem("Спиро-Спектр 2");
+//		
+//		lbManufacturerModelName.addItem("Aloka alfa");
+//		lbManufacturerModelName.addItem("Aloka 3500 ВП 303 каб.","Aloka 3500");
+//		
+//		lbManufacturerModelName.addItem("Acuson X-300 ДП 525 каб.","Acuson X-300");
+//		lbManufacturerModelName.addItem("Колоноскоп Fujinon EC250 LP50","Fujinon EC250 LP50");
 		
-		lbManufacturerModelName.addItem("Acuson X-300 ДП 525 каб.","Acuson X-300");
+		
 		
 		
 		

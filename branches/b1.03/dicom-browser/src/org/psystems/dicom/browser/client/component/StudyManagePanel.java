@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.psystems.dicom.browser.client.Dicom_browser;
@@ -199,7 +200,7 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("CLINOMAT", "Рентген (CLINOMAT)");
 		dicModel.put("РДК 50/6", "Рентген (РДК 50/6)");
 		dicModel.put("DUODiagnost", "Рентген (DUODiagnost)");
-		dicModel.put("FUJINON EG WR5", "Эндоскоп (FUJINON EG WR5)");
+		dicModel.put("Olympus", "Эндоскоп (Olympus)");
 		dicModel.put("SonoScape-1", "УЗИ-1 (SonoScape) ДП 523 каб.");
 		dicModel.put("SonoScape-2", "УЗИ-2 (SonoScape)");
 		dicModel.put("SonoScape-3", "УЗИ-3 (SonoScape)");
@@ -226,6 +227,7 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("Aloka 3500","Aloka 3500 ВП 303 каб.");
 		
 		dicModel.put("Acuson X-300","Acuson X-300 ДП 525 каб.");
+		dicModel.put("Fujinon EC250 LP50","Колоноскоп Fujinon EC250 LP50");
 		
 		
 		
@@ -434,32 +436,47 @@ public class StudyManagePanel extends Composite implements
 //		addFormRow(rowCounter++, "Врач", studyDoctror);
 //		
 		
+		//TODO Вынести в конфиг!!!
+		
+		TreeMap<String, String> dicDoctors = new TreeMap<String, String>();
+		dicDoctors.put("Петрова  Н.Н.", "");
+		dicDoctors.put("Девяткова И.А.", "");
+		dicDoctors.put("Солоница В.Д.", "");
+		dicDoctors.put("Корж С.С.", "");
+		dicDoctors.put("Лызлова И.Е", "");
+		dicDoctors.put("Шешеня Т.В.", "");
+		dicDoctors.put("Тимошенко С.А.", "");
+		dicDoctors.put("Леткина З.Ю.", "");
+		dicDoctors.put("Перлова Е.В.", "");
+		dicDoctors.put("Сотиболдиев А.И.", "");
+		dicDoctors.put("Сосновских Э.А.", "");
+		dicDoctors.put("Зубкова Т.М.", "");
+		dicDoctors.put("Ческидов Ю.С.", "");
+		dicDoctors.put("Элизбарян А.Н.", "");
+		dicDoctors.put("Вальтер А.В.", "ES");
+		dicDoctors.put("Симонов В.С.", "ES");
+		dicDoctors.put("Халикова З.И.", "DF");
+		dicDoctors.put("Чечелян А.А.", "DF");
+		dicDoctors.put("Волков В.Е", "US");
+		dicDoctors.put("Вологжанина Н.А.", "");
+		dicDoctors.put("Саттарова Д.Ш.", "US");
+		dicDoctors.put("Шпилевая Н.Н.", "US");
+		dicDoctors.put("Фаворов Н.Г.", "");
+		dicDoctors.put("Леконцева Т.Е.", "");
+		dicDoctors.put("Попова Е.В.", "US");
+		dicDoctors.put("Амосова С.Г.", "US");
+		dicDoctors.put("Ческидов Ю.С.", "DF");
+		
+		
 		studyDoctror = new ListBox();
 		studyDoctror.setName("00080090");
-		//TODO Вынести в конфиг!!!
+		
 		studyDoctror.addItem("Выберите врача...", "");
-		studyDoctror.addItem("Петрова  Н.Н.", "Петрова  Н.Н.");
-		studyDoctror.addItem("Девяткова И.А.", "Девяткова И.А.");
-		studyDoctror.addItem("Солоница В.Д.", "Солоница В.Д.");
-		studyDoctror.addItem("Корж С.С.", "Корж С.С.");
-		studyDoctror.addItem("Кузнецова Е.А.", "Кузнецова Е.А.");
-		studyDoctror.addItem("Лызлова И.Е", "Лызлова И.Е");
-		studyDoctror.addItem("Шешеня Т.В.", "Шешеня Т.В.");
-		studyDoctror.addItem("Тимошенко С.А.", "Тимошенко С.А.");
 		
-		studyDoctror.addItem("Батрак С.И.", "Батрак С.И.");
-		studyDoctror.addItem("Леткина З.Ю.", "Леткина З.Ю.");
-		studyDoctror.addItem("Перлова Е.В.", "Перлова Е.В.");
+		for (String doc : dicDoctors.keySet()) {
+			studyDoctror.addItem(doc,doc);
+		}
 		
-		studyDoctror.addItem("Сотиболдиев А.И.", "Сотиболдиев А.И.");
-		studyDoctror.addItem("Сосновских Э.А.", "Сосновских Э.А.");
-		
-		studyDoctror.addItem("Зубкова Т.М.", "Зубкова Т.М.");
-		studyDoctror.addItem("Ческидов Ю.С.", "Ческидов Ю.С.");
-		
-		studyDoctror.addItem("Элизбарян А.Н.", "Элизбарян А.Н.");
-		
-//		studyDoctror2.addItem("Ввести нового...", "manualinput");
 		
 		boolean find = false;
 		for( int i=0; i< studyDoctror.getItemCount(); i++) {
@@ -497,29 +514,43 @@ public class StudyManagePanel extends Composite implements
 //		addFormRow(rowCounter++, "Лаборант", studyOperator);
 		
 		//TODO Вынести в конфиг!!!
+		TreeMap<String, String> dicLaborants = new TreeMap<String, String>();
+		dicLaborants.put("Михеева И.А.", "");
+		dicLaborants.put("Тебенев Е.Н.", "");
+		dicLaborants.put("Диденко В.А.", "");
+		dicLaborants.put("Гиниатуллина Г.Н.", "");
+		dicLaborants.put("Иванова О.И.", "");
+		dicLaborants.put("Бабошкина Л.В.", "");
+		dicLaborants.put("Хозяшева Д.А.", "");
+		dicLaborants.put("Донских А.И.", "");
+		dicLaborants.put("Букина Б.Б.", "");
+		dicLaborants.put("Аюпова Ф.Х.", "");
+		dicLaborants.put("Багавтинова Ф.А.", "");
+		dicLaborants.put("Богданова А.Н.", "");
+		dicLaborants.put("Озганбаева Э.М.", "");
+		dicLaborants.put("Полякова Н.И.", "");
+		dicLaborants.put("Юсифова Р.М.", "");
+		dicLaborants.put("Мурдасова Е.А.", "");
+		dicLaborants.put("Табаев А.Н.", "");
+		dicLaborants.put("Гаврилова Н.Г.", "");
+		dicLaborants.put("Шевченко М.Ю.", "");
+		dicLaborants.put("Огаркова Ж.А.", "");
+		dicLaborants.put("Короткова Л.Н.", "");
+
+		dicLaborants.put("Столярова Т.И.", "");
+		dicLaborants.put("Улитина Е.Г.", "");
+		
+		dicLaborants.put("Собирова Г.К.", "");
+		
 		studyOperator = new ListBox();
 		studyOperator.setName("00081070");
 		studyOperator.addItem("Выберите лаборанта...", "");
-		studyOperator.addItem("Михеева И.А.", "Михеева И.А.");
-//		studyOperator.addItem("Давыдов В.С.", "Давыдов В.С.");
-		studyOperator.addItem("Тебенев Е.Н.", "Тебенев Е.Н.");
-		studyOperator.addItem("Диденко В.А.", "Диденко В.А.");
 		
-		studyOperator.addItem("Серенина Е.И.", "Серенина Е.И.");
-		studyOperator.addItem("Кайдалова Ю.А.", "Кайдалова Ю.А.");
-		studyOperator.addItem("Серенко Л.Е.", "Серенко Л.Е.");
-		studyOperator.addItem("Гиниатуллина Г.Н.", "Гиниатуллина Г.Н.");
-		studyOperator.addItem("Собирова Г.К.", "Собирова Г.К.");
-		studyOperator.addItem("Иванова О.И.", "Иванова О.И.");
-		studyOperator.addItem("Бабушкина Л.В.", "Бабушкина Л.В.");
-		studyOperator.addItem("Иригбаева А.Э.", "Иригбаева А.Э.");
+		for (String lab : dicLaborants.keySet()) {
+			studyOperator.addItem(lab,lab);
+		}
 		
 
-		studyOperator.addItem("Хозяшева Д.А.", "Хозяшева Д.А.");
-		studyOperator.addItem("Донских А.И.", "Донских А.И.");
-		studyOperator.addItem("Букина Б.Б.", "Букина Б.Б.");
-//		studyOperator2.addItem("Ввести нового...", "manualinput");
-		
 		find = false;
 		for( int i=0; i< studyOperator.getItemCount(); i++) {
 			String item = studyOperator.getItemText(i);
