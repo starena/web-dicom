@@ -54,6 +54,8 @@
  */
 package org.psystems.dicom.browser.client;
 
+import java.util.TreeMap;
+
 import org.psystems.dicom.browser.client.component.DirectionsPanel;
 import org.psystems.dicom.browser.client.component.HeaderPanel;
 import org.psystems.dicom.browser.client.component.IntroPanel;
@@ -117,6 +119,46 @@ public class Dicom_browser implements EntryPoint {
 	public boolean showPageIntro = true;// Показ страницы с приглашением
 
 	private SearchPanel searchPanel;
+	
+	public static TreeMap<String, String> dicDevices = new TreeMap<String, String>();
+
+	{
+		dicDevices.put("RENEXFLUORO3", "RENEXFLUORO3");
+		dicDevices.put("КРТ-Электрон", "КРТ-Электрон");
+		dicDevices.put("Маммограф (LORAD AFFINITY)", "LORAD AFFINITY");
+		dicDevices.put("Эндоскоп (Olympus)", "Olympus");
+		dicDevices.put("Рентген (CLINOMAT)", "CLINOMAT");
+		dicDevices.put("Рентген (РДК 50/6)", "РДК 50/6");
+		dicDevices.put("Рентген (DUODiagnost)", "DUODiagnost");
+
+		dicDevices.put("УЗИ-1 (SonoScape) ДП 523 каб.", "SonoScape-1");
+		dicDevices.put("УЗИ-2 (SonoScape)", "SonoScape-2");
+		dicDevices.put("УЗИ-3 (SonoScape)", "SonoScape-3");
+		dicDevices.put("УЗИ (VIVID) ДП 527 каб.", "VIVID 3");
+		dicDevices.put("VOLUSON 730 BT04 EXPERT", "УЗИ (VOLUSON)");
+		dicDevices.put("УЗИ (Acuson Sequoia) каб.408", "Acuson Sequoia");
+
+		// TODO Уточнить имена и кабинеты
+		dicDevices.put("SSI-1000", "");
+		dicDevices.put("Эхоэнцефалоскоп-ЭЭС-25-ЭМА", "");
+		dicDevices.put("Электроэнцефалограф-Alliance", "");
+		dicDevices.put("Companion III", "");
+		dicDevices.put("Microvit", "");
+		dicDevices.put("СМАД, Schiller AG", "");
+		dicDevices.put("ЭКГ-Schiller Medical S.A.", "");
+		dicDevices.put("ЭКГ-Cardiovit AT-2 plus C", "");
+		dicDevices.put("Велоэргометрия-АТ-104 Schiller", "");
+		dicDevices.put("Voluson 730 Expert", "");
+		dicDevices.put("SSD-3500", "");
+		dicDevices.put("Спирометр-Spirovit SP-1", "");
+		dicDevices.put("Спиро-Спектр 2", "");
+
+		dicDevices.put("Aloka alfa", "");
+		dicDevices.put("Aloka 3500 ВП 303 каб.", "Aloka 3500");
+
+		dicDevices.put("Acuson X-300 ДП 525 каб.", "Acuson X-300");
+		dicDevices.put("Колоноскоп Fujinon EC250 LP50", "Fujinon EC250 LP50");
+	}
 
 	/**
 	 * This is the entry point method.
