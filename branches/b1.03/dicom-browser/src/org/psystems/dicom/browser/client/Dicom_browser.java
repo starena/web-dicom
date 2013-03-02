@@ -158,6 +158,10 @@ public class Dicom_browser implements EntryPoint {
 
 		dicDevices.put("Acuson X-300 ДП 525 каб.", "Acuson X-300");
 		dicDevices.put("Колоноскоп Fujinon EC250 LP50", "Fujinon EC250 LP50");
+		
+		dicDevices.put("Томограф (КТР-Phillips) ВП", "KTP");
+		dicDevices.put("Маммограф (МАММО-4-МТ) ВП", "МАММО-4-МТ");
+		dicDevices.put("Рентген (ARES RС) ДП 515 каб.", "ARES RС");
 	}
 
 	/**
