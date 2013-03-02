@@ -229,6 +229,9 @@ public class StudyManagePanel extends Composite implements
 		dicModel.put("Acuson X-300","Acuson X-300 ДП 525 каб.");
 		dicModel.put("Fujinon EC250 LP50","Колоноскоп Fujinon EC250 LP50");
 		
+		dicModel.put("KTP","Томограф (КТР-Phillips) ВП");
+		dicModel.put("МАММО-4-МТ","Маммограф (МАММО-4-МТ) ВП");
+		dicModel.put("ARES RС","Рентген (ARES RС) ДП 515 каб.");
 		
 		
 		
