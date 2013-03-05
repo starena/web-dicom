@@ -3,9 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/hapi-base-2.0-jdk14.jar"/>
 	<classpathentry kind="lib" path="lib/hapi-base-2.0.jar"/>
-	<classpathentry kind="lib" path="lib/hapi-examples-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/hapi-structures-v21-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/hapi-structures-v22-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/hapi-structures-v23-2.0.jar"/>
