@@ -242,6 +242,7 @@ public class StudyManagePanel extends Composite implements
 		dicModality.put("US", "Узи" );
 		dicModality.put("ES", "Эндоскопия");
 		dicModality.put("MG", "Маммография");
+		dicModality.put("CT", "Томография");
 		
 		if (proxy.getManufacturerModelName() != null) {
 			
