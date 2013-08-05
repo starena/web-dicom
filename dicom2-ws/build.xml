@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="dicom2-ws" default="war" basedir=".">
+
+	<!-- taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport"
+	<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport2">
+		<classpath refid="build.ws.class.path" />
+	</taskdef>
+	-->
+
+	<property name="distrib.dir" value="distrib/build" />
+	<property name="src.dir" value="src" />
+	<property name="classes.dir" value="build" />
+	<property name="distrib.name" value="dicom2-ws.war" />
+
+
+	<path id="project.class.path">
+		<pathelement location="WebContent/WEB-INF/classes" />
+		<pathelement location="lib/servlet-api.jar" />
+		<!-- <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar" /> -->
+		<!-- Add any additional non-server libs (such as JUnit) -->
+		<fileset dir="WebContent/WEB-INF/lib" includes="**/*.jar" />
+	</path>
+
+	<path id="build.ws.class.path">
+		<pathelement location="lib.ws\jaxws-tools.jar" />
+	</path>
+
+	<target name="javac" description="Compile java source">
+
+		<delete dir="${distrib.dir}/build"/>
+		<delete file="${distrib.dir}/${distrib.name}"/>
+		<mkdir dir="${distrib.dir}/WEB-INF/classes"/>
+		<javac srcdir="src" includes="**" encoding="utf-8" excludes="**/Test*"
+	        destdir="${distrib.dir}/WEB-INF/classes">
+			<classpath refid="project.class.path"/>
+		</javac>
+
+		<copy todir="${distrib.dir}">
+			<fileset dir="WebContent" />
+		</copy>
+
+		<copy todir="${distrib.dir}/WEB-INF/classes">
+			<fileset dir="src" excludes="**/*.java"/>
+		</copy>
+
+	</target>
+
+	<target name="build" depends="javac" description="Build this project" />
+
+	<target name="war" depends="build" description="Create a war file">
+		<zip destfile="distrib/${distrib.name}" basedir="${distrib.dir}"/>
+	</target>
+
+	<target name="make.client.datagate" description="Making WS client http://download.oracle.com/docs/cd/E17802_01/webservices/webservices/docs/2.0/jaxws/wsimport.html#Ant_task">
+
+		<wsimport  
+			
+			sourcedestdir="${src.dir}"
+			keep="false"
+			wsdl="http://localhost:8080/okocits3-ueh-ws/DataGate?wsdl"
+			destdir="${classes.dir}"
+			package="com.asutp.okocits3.ueh.ws.client.stub"
+			verbose="true"
+			debug="true"
+			xdebug="true"
+			
+			
+		/>
+
+	</target>
+
+</project>
