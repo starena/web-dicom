@@ -18,6 +18,13 @@ public class Direction {
 	public String dateStudy;
 	public String serviceName;
 
-
+	@Override
+	public String toString() {
+		return "Direction [barCode=" + barCode + ", patientId=" + patientId
+				+ ", patientName=" + patientName + ", patientNameTranslit="
+				+ patientNameTranslit + ", sex=" + sex + ", dateBirsday="
+				+ dateBirsday + ", modality=" + modality + ", dateStudy="
+				+ dateStudy + ", serviceName=" + serviceName + "]";
+	}
 
 }
