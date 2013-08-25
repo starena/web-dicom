@@ -1,6 +1,15 @@
 package org.psystems.webdicom2.ws;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -35,6 +44,40 @@ public class Gate {
 	@Resource
 	private WebServiceContext context;
 
+	String testDrnDatafile = "/tmp/webdicom.data.xml";
+
+	private static Properties drnProp;
+
+	private void loadTestData() throws IOException {
+
+		try {
+			FileInputStream fis = new FileInputStream(testDrnDatafile);
+			drnProp = new Properties();
+			drnProp.loadFromXML(fis);
+			fis.close();
+		} catch (FileNotFoundException ex) {
+			drnProp = new Properties();
+		}
+	}
+
+	private void saveTestData() throws IOException {
+
+		Properties tmp = new Properties() {
+
+			@Override
+			public Set<Object> keySet() {
+				return Collections.unmodifiableSet(new TreeSet<Object>(super
+						.keySet()));
+			}
+
+		};
+
+		tmp.putAll(drnProp);
+		FileOutputStream fos = new FileOutputStream(testDrnDatafile);
+		tmp.storeToXML(fos, "WebdicomProperties File", "UTF-8");
+		fos.close();
+	}
+
 	/**
 	 * Создание исследования
 	 * 
@@ -42,6 +85,30 @@ public class Gate {
 	 * @return
 	 */
 	public Direction sendDirection(Direction drn) {
+
+		try {
+
+			loadTestData();
+
+			drnProp.put("drn." + drn.barCode + ".barCode", drn.barCode);
+			drnProp.put("drn." + drn.barCode + ".dateBirsday", drn.dateBirsday);
+			drnProp.put("drn." + drn.barCode + ".dateStudy", drn.dateStudy);
+			drnProp.put("drn." + drn.barCode + ".modality", drn.modality);
+			drnProp.put("drn." + drn.barCode + ".patientId", drn.patientId);
+			drnProp.put("drn." + drn.barCode + ".patientName", drn.patientName);
+			drnProp.put("drn." + drn.barCode + ".serviceName", drn.serviceName);
+			drnProp.put("drn." + drn.barCode + ".sex", drn.sex);
+
+			saveTestData();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return drn;
 	}
 
@@ -63,6 +130,30 @@ public class Gate {
 	 */
 	public StudyResult getStudyResult(String barCode) {
 
+
+//		try {
+//
+//				loadTestData();
+//
+//			drnProp.put("drn." + drn.barCode + ".barCode", drn.barCode);
+//			drnProp.put("drn." + drn.barCode + ".dateBirsday", drn.dateBirsday);
+//			drnProp.put("drn." + drn.barCode + ".dateStudy", drn.dateStudy);
+//			drnProp.put("drn." + drn.barCode + ".modality", drn.modality);
+//			drnProp.put("drn." + drn.barCode + ".patientId", drn.patientId);
+//			drnProp.put("drn." + drn.barCode + ".patientName", drn.patientName);
+//			drnProp.put("drn." + drn.barCode + ".serviceName", drn.serviceName);
+//			drnProp.put("drn." + drn.barCode + ".sex", drn.sex);
+//
+//			saveTestData();
+//
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		StudyResult result = new StudyResult();
 		result.result = "Отклонений не обнаружено";
 		result.imageUrls = new String[] {
@@ -86,6 +177,22 @@ public class Gate {
 	 * @return
 	 */
 	public String sendPdf(String barCode, byte[] content) {
+		
+		try {
+			loadTestData();
+			long  id = new Date().getTime();
+			String filename = barCode + "." + id + ".pdf"; 
+			drnProp.put("drn." + barCode + ".pdf."+id, filename);
+			FileOutputStream fos = new FileOutputStream("/tmp/"+filename);
+			fos.write(content);
+			fos.flush();
+			fos.close();
+			saveTestData();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// TODO Нужно узнать, будет ли несколько исследований по одному
 		// напралвению
 		return "http://localhost:8080/pdf/" + barCode + "/1.pdf";
@@ -99,6 +206,16 @@ public class Gate {
 	 * @param resultStr
 	 */
 	public String sendFinalResult(String barCode, String resultStr) {
+
+		try {
+			loadTestData();
+			drnProp.put("drn." + barCode + ".finalResult", resultStr);
+			saveTestData();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		// TODO Что лучше возвращать?
 		return barCode + "=" + resultStr;
 	}
@@ -110,6 +227,15 @@ public class Gate {
 	 * @param resultStr
 	 */
 	public String sendPhysician(String barCode, String fio) {
+		
+		try {
+			loadTestData();
+			drnProp.put("drn." + barCode + ".physician", fio);
+			saveTestData();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO Что лучше возвращать?
 		return barCode + "=" + fio;
 	}
