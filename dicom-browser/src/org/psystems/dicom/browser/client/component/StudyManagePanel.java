@@ -548,6 +548,8 @@ public class StudyManagePanel extends Composite implements
 		
 		dicLaborants.put("Потапова Е.А", "");
 		
+		dicLaborants.put("Когут Л.И", "");
+		
 		studyOperator = new ListBox();
 		studyOperator.setName("00081070");
 		studyOperator.addItem("Выберите лаборанта...", "");
