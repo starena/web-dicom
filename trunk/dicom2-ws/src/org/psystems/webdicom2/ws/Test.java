@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.soap.MTOMFeature;
 
 import org.psystems.webdicom2.ws.client.stub.Dcm;
 import org.psystems.webdicom2.ws.client.stub.Direction;
@@ -42,7 +43,7 @@ public class Test {
 		QName qname = new QName("http://ws.webdicom2.psystems.org/", "GateService");
 		
 		service = new GateService(url,qname);
-		port = service.getGatePort();
+		port = service.getGatePort(new MTOMFeature());
 
 		AuthBASIC();
 		
@@ -95,9 +96,29 @@ public class Test {
 		
 		List<Dcm> dcm = port.getDCM(barCode);
 		for (Dcm dcmDto : dcm) {
-			System.out.println(" !!! dcm id "+dcmDto.getId() + " barCode " + dcmDto.getBarCode() );
+			System.out.println(" !!! dcm id "+dcmDto.getId() + " barCode " + dcmDto.getBarCode() + " img:" + dcmDto.getImageId()+" pdf:"+dcmDto.getPdfId());
+			
+			if(dcmDto.getImageId()!=null) {
+				byte[] content = port.getDCMContent(barCode, dcmDto.getImageId());
+				System.out.println("!!! image content "+content.length);
+			}
+			
+			if(dcmDto.getPdfId()!=null) {
+				byte[] content = port.getDCMContent(barCode, dcmDto.getPdfId());
+				System.out.println("!!! pdf content "+content.length);
+			}
 		}
-//		
+		
+//		String id = "1380553624798";
+//		String id = "1380557182924";
+		
+//		byte[] content = port.getDCMContent(barCode, id);
+		
+		
+		
+//		System.out.println("!!! content "+content);
+//		System.out.println("!!! content "+content.length);
+		
 //		List<RisCode> codes = port.getRISCodes();
 //		for (RisCode risCode : codes) {
 //			System.out.println("RisCode: " + risCode);

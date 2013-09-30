@@ -1,5 +1,6 @@
 package org.psystems.webdicom2.ws;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,12 +18,15 @@ import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.soap.MTOM;
 import javax.jws.soap.SOAPBinding.Style;
 
 import org.psystems.webdicom2.ws.dto.Direction;
 import org.psystems.webdicom2.ws.dto.RISCode;
 import org.psystems.webdicom2.ws.dto.DCM;
 import org.psystems.webdicom2.ws.dto.StudyResult;
+
+import javax.imageio.ImageIO;
 
 /**
  * @author dima_d
@@ -36,7 +40,7 @@ import org.psystems.webdicom2.ws.dto.StudyResult;
  *         аттачменты:
  *         http://www.mkyong.com/webservices/jax-ws/jax-ws-attachment-with-mtom/
  */
-@javax.xml.ws.soap.MTOM
+@MTOM
 @WebService
 @SOAPBinding(style = Style.DOCUMENT)
 public class Gate {
@@ -177,7 +181,11 @@ public class Gate {
 
 //						String fileID = datafile.getName().replaceFirst(".pdf", "");
 //						fileID = datafile.getName().replaceFirst(".jpg", "");
-//						System.out.println("!!!! fileID="+fileID);
+						
+						if(datafile.getName().endsWith(".pdf"))
+							dcmDto.pdfId = dcmDir.getName();
+						if(datafile.getName().endsWith(".jpg"))
+							dcmDto.imageId = dcmDir.getName();
 						
 						dcmDto.id=dcmDir.getName();;
 						dcmDto.barCode=drnDir.getName();
@@ -201,35 +209,56 @@ public class Gate {
 	 * @return
 	 * @throws IOException
 	 */
-	public byte[] getDCMContent(String barCode, String id) throws IOException {
-		File drnDir = new File(testDrnDataDir + File.separator + barCode);
+	public byte[] getDCMContent(String barCode, String id) throws WsException {
+	
+	File drnDir = new File(testDrnDataDir + File.separator + barCode);
 
-		File[] files = drnDir.listFiles();
-		for (File dcmDir : files) {
-			if (dcmDir.isDirectory()) {
-				File[] dataFiles = dcmDir.listFiles();
-				for (File datafile : dataFiles) {
-					if (datafile.getName().endsWith(".pdf")
-							|| datafile.getName().endsWith(".jpg")) {
+	File[] files = drnDir.listFiles();
+	for (File studyDir : files) {
+		if (studyDir.isDirectory() && studyDir.getName().equals(id)) {
+			
+			File[] dataFiles = studyDir.listFiles();
+			for (File datafile : dataFiles) {
+				if (datafile.getName().endsWith(".pdf")
+						|| datafile.getName().endsWith(".jpg")) {
 
-						String fileID = datafile.getName().replaceFirst(".pdf", "");
-						fileID = datafile.getName().replaceFirst(".jpg", "");
-						
-						System.out.println("!!!! fileID="+fileID);
-						
+					String fileID = datafile.getName().replaceFirst(".pdf", "");
+					fileID = datafile.getName().replaceFirst(".jpg", "");
+					
+//					fileID = "data.jpg";
+					
+//					System.out.println("!!!! id="+id);
+//					System.out.println("!!!! fileID="+fileID);
+//					System.out.println("!!!! datafile="+datafile);
+					
+//					try {
+//						return ImageIO.read(datafile);
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						throw new WsException(e.getCause());
+//					}
+					
+					try {
 						FileInputStream fis = new FileInputStream(datafile);
 						byte[] data = new byte[(int) datafile.length()];
 						fis.read(data);
 						fis.close();
 						return data;
-
+					} catch (IOException e) {
+						e.printStackTrace();
+						throw new WsException(e.getCause());
 					}
+					
+					
+
 				}
 			}
 		}
-		return null;
-
 	}
+	return null;
+
+}
 
 	/**
 	 * @param barCode

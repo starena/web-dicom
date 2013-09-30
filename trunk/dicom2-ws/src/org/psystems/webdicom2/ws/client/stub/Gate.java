@@ -56,20 +56,6 @@ public interface Gate {
      * 
      * @param arg0
      * @return
-     *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.Dcm>
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getDCM", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCM")
-    @ResponseWrapper(localName = "getDCMResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMResponse")
-    public List<Dcm> getDCM(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
-
-    /**
-     * 
-     * @param arg0
-     * @return
      *     returns org.psystems.webdicom2.ws.client.stub.StudyResult
      */
     @WebMethod
@@ -144,11 +130,24 @@ public interface Gate {
 
     /**
      * 
+     * @param arg0
+     * @return
+     *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.Dcm>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getDCM", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCM")
+    @ResponseWrapper(localName = "getDCMResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMResponse")
+    public List<Dcm> getDCM(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      * @return
      *     returns byte[]
-     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -158,8 +157,6 @@ public interface Gate {
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0,
         @WebParam(name = "arg1", targetNamespace = "")
-        String arg1)
-        throws IOException_Exception
-    ;
+        String arg1);
 
 }
