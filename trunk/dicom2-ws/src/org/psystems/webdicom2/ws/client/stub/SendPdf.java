@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/>
+ *         &lt;element name="barCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="content" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -30,61 +30,61 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "sendPdf", propOrder = {
-    "arg0",
-    "arg1"
+    "barCode",
+    "content"
 })
 public class SendPdf {
 
-    protected String arg0;
-    @XmlElementRef(name = "arg1", type = JAXBElement.class)
-    protected JAXBElement<byte[]> arg1;
+    protected String barCode;
+    @XmlElementRef(name = "content", type = JAXBElement.class)
+    protected JAXBElement<byte[]> content;
 
     /**
-     * Gets the value of the arg0 property.
+     * Gets the value of the barCode property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getArg0() {
-        return arg0;
+    public String getBarCode() {
+        return barCode;
     }
 
     /**
-     * Sets the value of the arg0 property.
+     * Sets the value of the barCode property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setArg0(String value) {
-        this.arg0 = value;
+    public void setBarCode(String value) {
+        this.barCode = value;
     }
 
     /**
-     * Gets the value of the arg1 property.
+     * Gets the value of the content property.
      * 
      * @return
      *     possible object is
      *     {@link JAXBElement }{@code <}{@link byte[]}{@code >}
      *     
      */
-    public JAXBElement<byte[]> getArg1() {
-        return arg1;
+    public JAXBElement<byte[]> getContent() {
+        return content;
     }
 
     /**
-     * Sets the value of the arg1 property.
+     * Sets the value of the content property.
      * 
      * @param value
      *     allowed object is
      *     {@link JAXBElement }{@code <}{@link byte[]}{@code >}
      *     
      */
-    public void setArg1(JAXBElement<byte[]> value) {
-        this.arg1 = ((JAXBElement<byte[]> ) value);
+    public void setContent(JAXBElement<byte[]> value) {
+        this.content = ((JAXBElement<byte[]> ) value);
     }
 
 }

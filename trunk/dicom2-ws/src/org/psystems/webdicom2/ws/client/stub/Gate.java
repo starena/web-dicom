@@ -26,7 +26,7 @@ public interface Gate {
 
     /**
      * 
-     * @param arg0
+     * @param direction
      * @return
      *     returns org.psystems.webdicom2.ws.client.stub.Direction
      */
@@ -35,12 +35,12 @@ public interface Gate {
     @RequestWrapper(localName = "sendDirection", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendDirection")
     @ResponseWrapper(localName = "sendDirectionResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendDirectionResponse")
     public Direction sendDirection(
-        @WebParam(name = "arg0", targetNamespace = "")
-        Direction arg0);
+        @WebParam(name = "direction", targetNamespace = "")
+        Direction direction);
 
     /**
      * 
-     * @param arg0
+     * @param barCode
      * @return
      *     returns int
      */
@@ -49,12 +49,12 @@ public interface Gate {
     @RequestWrapper(localName = "removeDirrection", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.RemoveDirrection")
     @ResponseWrapper(localName = "removeDirrectionResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.RemoveDirrectionResponse")
     public int removeDirrection(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
+        @WebParam(name = "barCode", targetNamespace = "")
+        String barCode);
 
     /**
      * 
-     * @param arg0
+     * @param barCode
      * @return
      *     returns org.psystems.webdicom2.ws.client.stub.StudyResult
      */
@@ -63,13 +63,13 @@ public interface Gate {
     @RequestWrapper(localName = "getCompliteStudyResult", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetCompliteStudyResult")
     @ResponseWrapper(localName = "getCompliteStudyResultResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetCompliteStudyResultResponse")
     public StudyResult getCompliteStudyResult(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
+        @WebParam(name = "barCode", targetNamespace = "")
+        String barCode);
 
     /**
      * 
-     * @param arg1
-     * @param arg0
+     * @param content
+     * @param barCode
      * @return
      *     returns java.lang.String
      */
@@ -78,15 +78,15 @@ public interface Gate {
     @RequestWrapper(localName = "sendPdf", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPdf")
     @ResponseWrapper(localName = "sendPdfResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPdfResponse")
     public String sendPdf(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        byte[] arg1);
+        @WebParam(name = "barCode", targetNamespace = "")
+        String barCode,
+        @WebParam(name = "content", targetNamespace = "")
+        byte[] content);
 
     /**
      * 
-     * @param arg1
-     * @param arg0
+     * @param resultStr
+     * @param barCode
      * @return
      *     returns java.lang.String
      */
@@ -95,15 +95,15 @@ public interface Gate {
     @RequestWrapper(localName = "sendFinalResult", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendFinalResult")
     @ResponseWrapper(localName = "sendFinalResultResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendFinalResultResponse")
     public String sendFinalResult(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1);
+        @WebParam(name = "barCode", targetNamespace = "")
+        String barCode,
+        @WebParam(name = "resultStr", targetNamespace = "")
+        String resultStr);
 
     /**
      * 
-     * @param arg1
-     * @param arg0
+     * @param barCode
+     * @param fio
      * @return
      *     returns java.lang.String
      */
@@ -112,10 +112,10 @@ public interface Gate {
     @RequestWrapper(localName = "sendPhysician", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPhysician")
     @ResponseWrapper(localName = "sendPhysicianResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPhysicianResponse")
     public String sendPhysician(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1);
+        @WebParam(name = "barCode", targetNamespace = "")
+        String barCode,
+        @WebParam(name = "fio", targetNamespace = "")
+        String fio);
 
     /**
      * 
@@ -130,7 +130,7 @@ public interface Gate {
 
     /**
      * 
-     * @param arg0
+     * @param barCode
      * @return
      *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.Dcm>
      */
@@ -139,13 +139,13 @@ public interface Gate {
     @RequestWrapper(localName = "getDCM", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCM")
     @ResponseWrapper(localName = "getDCMResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMResponse")
     public List<Dcm> getDCM(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
+        @WebParam(name = "barCode", targetNamespace = "")
+        String barCode);
 
     /**
      * 
-     * @param arg1
-     * @param arg0
+     * @param id
+     * @param barCode
      * @return
      *     returns byte[]
      */
@@ -154,9 +154,9 @@ public interface Gate {
     @RequestWrapper(localName = "getDCMContent", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMContent")
     @ResponseWrapper(localName = "getDCMContentResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMContentResponse")
     public byte[] getDCMContent(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1);
+        @WebParam(name = "barCode", targetNamespace = "")
+        String barCode,
+        @WebParam(name = "id", targetNamespace = "")
+        String id);
 
 }

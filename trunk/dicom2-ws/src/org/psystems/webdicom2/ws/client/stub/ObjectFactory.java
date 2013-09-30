@@ -43,7 +43,7 @@ public class ObjectFactory {
     private final static QName _SendFinalResultResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendFinalResultResponse");
     private final static QName _GetCompliteStudyResult_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getCompliteStudyResult");
     private final static QName _GetDCMContentResponseReturn_QNAME = new QName("", "return");
-    private final static QName _SendPdfArg1_QNAME = new QName("", "arg1");
+    private final static QName _SendPdfContent_QNAME = new QName("", "content");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.psystems.webdicom2.ws.client.stub
@@ -419,9 +419,9 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "", name = "arg1", scope = SendPdf.class)
-    public JAXBElement<byte[]> createSendPdfArg1(byte[] value) {
-        return new JAXBElement<byte[]>(_SendPdfArg1_QNAME, byte[].class, SendPdf.class, ((byte[]) value));
+    @XmlElementDecl(namespace = "", name = "content", scope = SendPdf.class)
+    public JAXBElement<byte[]> createSendPdfContent(byte[] value) {
+        return new JAXBElement<byte[]>(_SendPdfContent_QNAME, byte[].class, SendPdf.class, ((byte[]) value));
     }
 
 }
