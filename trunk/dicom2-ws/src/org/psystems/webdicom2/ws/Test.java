@@ -12,9 +12,11 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
 
+import org.psystems.webdicom2.ws.client.stub.Dcm;
 import org.psystems.webdicom2.ws.client.stub.Direction;
 import org.psystems.webdicom2.ws.client.stub.Gate;
 import org.psystems.webdicom2.ws.client.stub.GateService;
+import org.psystems.webdicom2.ws.client.stub.StudyResult;
 
 public class Test {
 
@@ -75,8 +77,26 @@ public class Test {
 		byte[] b = new byte[(int)f.length()];
 		f.read(b);
 		
-		port.sendPdf(barCode, b);
+		String studyUID = "study456";
+		port.sendPdf(barCode , b);
 		
+		StudyResult complResult = port.getCompliteStudyResult(barCode);
+		System.out.println("Compl Result: " + complResult );
+		
+		for (String url : complResult.getImageUrls()) {
+			System.out.println("  img: " + url);
+		}
+		
+		for (String url : complResult.getPdfUrls()) {
+			System.out.println("  pdf: " + url);
+		}
+		
+		
+		
+		List<Dcm> dcm = port.getDCM(barCode);
+		for (Dcm dcmDto : dcm) {
+			System.out.println(" !!! dcm id "+dcmDto.getId() + " barCode " + dcmDto.getBarCode() );
+		}
 //		
 //		List<RisCode> codes = port.getRISCodes();
 //		for (RisCode risCode : codes) {

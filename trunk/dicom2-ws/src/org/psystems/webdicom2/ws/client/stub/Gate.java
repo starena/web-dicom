@@ -56,13 +56,27 @@ public interface Gate {
      * 
      * @param arg0
      * @return
+     *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.Dcm>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getDCM", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCM")
+    @ResponseWrapper(localName = "getDCMResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMResponse")
+    public List<Dcm> getDCM(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+
+    /**
+     * 
+     * @param arg0
+     * @return
      *     returns org.psystems.webdicom2.ws.client.stub.StudyResult
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getStudyResult", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetStudyResult")
-    @ResponseWrapper(localName = "getStudyResultResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetStudyResultResponse")
-    public StudyResult getStudyResult(
+    @RequestWrapper(localName = "getCompliteStudyResult", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetCompliteStudyResult")
+    @ResponseWrapper(localName = "getCompliteStudyResultResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetCompliteStudyResultResponse")
+    public StudyResult getCompliteStudyResult(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0);
 
@@ -127,5 +141,25 @@ public interface Gate {
     @RequestWrapper(localName = "getRISCodes", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetRISCodes")
     @ResponseWrapper(localName = "getRISCodesResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetRISCodesResponse")
     public List<RisCode> getRISCodes();
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns byte[]
+     * @throws IOException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getDCMContent", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMContent")
+    @ResponseWrapper(localName = "getDCMContentResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMContentResponse")
+    public byte[] getDCMContent(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1)
+        throws IOException_Exception
+    ;
 
 }
