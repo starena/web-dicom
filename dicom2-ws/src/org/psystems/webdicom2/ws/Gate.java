@@ -15,12 +15,14 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.soap.MTOM;
 import javax.jws.soap.SOAPBinding.Style;
 
+import org.apache.commons.io.FileUtils;
 import org.psystems.webdicom2.ws.dto.Direction;
 import org.psystems.webdicom2.ws.dto.RISCode;
 import org.psystems.webdicom2.ws.dto.DCM;
@@ -115,7 +117,7 @@ public class Gate {
 	 * @param drn
 	 * @return
 	 */
-	public Direction sendDirection(Direction drn) {
+	public Direction sendDirection(@WebParam(name = "direction") Direction drn) {
 
 		try {
 
@@ -149,11 +151,21 @@ public class Gate {
 	 * @param barCode
 	 *            - штрих код
 	 * @return - количество связанных исследований
+	 * @throws WsException 
 	 * 
 	 */
-	public int removeDirrection(String barCode) {
+	public int removeDirrection(@WebParam(name = "barCode") String barCode) throws WsException {
 		// TODO реализовать удаление директории
-		return 10;
+		File drnDir = new File(testDrnDataDir + File.separator + barCode);
+		System.out.println("! path=" +drnDir.getAbsolutePath());
+		try {
+			FileUtils.deleteDirectory(drnDir);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new WsException(e);
+		}
+		return 0;
 	}
 
 	/**
@@ -162,7 +174,7 @@ public class Gate {
 	 * @param barCode
 	 * @return
 	 */
-	public DCM[] getDCM(String barCode) {
+	public DCM[] getDCM(@WebParam(name = "barCode") String barCode) {
 		
 		File drnDir = new File(testDrnDataDir + File.separator + barCode);
 		ArrayList<DCM> result = new ArrayList<DCM>();
@@ -209,7 +221,7 @@ public class Gate {
 	 * @return
 	 * @throws IOException
 	 */
-	public byte[] getDCMContent(String barCode, String id) throws WsException {
+	public byte[] getDCMContent(@WebParam(name = "barCode") String barCode, @WebParam(name = "id") String id) throws WsException {
 	
 	File drnDir = new File(testDrnDataDir + File.separator + barCode);
 
@@ -264,7 +276,7 @@ public class Gate {
 	 * @param barCode
 	 * @return
 	 */
-	public StudyResult getCompliteStudyResult(String barCode) {
+	public StudyResult getCompliteStudyResult(@WebParam(name = "barCode")  String barCode) {
 
 		StudyResult result = new StudyResult();
 
@@ -312,7 +324,7 @@ public class Gate {
 	 * @param content
 	 * @return
 	 */
-	public String sendPdf(String barCode, byte[] content) {
+	public String sendPdf(@WebParam(name = "barCode")  String barCode, @WebParam(name = "content")  byte[] content) {
 
 		long id = new Date().getTime();
 		File theDir = new File(testDrnDataDir + File.separator + barCode
@@ -356,7 +368,7 @@ public class Gate {
 	 * @param barCode
 	 * @param resultStr
 	 */
-	public String sendFinalResult(String barCode, String resultStr) {
+	public String sendFinalResult(@WebParam(name = "barCode")  String barCode, @WebParam(name = "resultStr") String resultStr) {
 
 		try {
 			loadTestData(barCode);
@@ -377,7 +389,7 @@ public class Gate {
 	 * @param barCode
 	 * @param resultStr
 	 */
-	public String sendPhysician(String barCode, String fio) {
+	public String sendPhysician(@WebParam(name = "barCode") String barCode, @WebParam(name = "fio") String fio) {
 
 		try {
 			loadTestData(barCode);

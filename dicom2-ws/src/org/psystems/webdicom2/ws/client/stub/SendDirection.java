@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://ws.webdicom2.psystems.org/}direction" minOccurs="0"/>
+ *         &lt;element name="direction" type="{http://ws.webdicom2.psystems.org/}direction" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -27,34 +27,34 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "sendDirection", propOrder = {
-    "arg0"
+    "direction"
 })
 public class SendDirection {
 
-    protected Direction arg0;
+    protected Direction direction;
 
     /**
-     * Gets the value of the arg0 property.
+     * Gets the value of the direction property.
      * 
      * @return
      *     possible object is
      *     {@link Direction }
      *     
      */
-    public Direction getArg0() {
-        return arg0;
+    public Direction getDirection() {
+        return direction;
     }
 
     /**
-     * Sets the value of the arg0 property.
+     * Sets the value of the direction property.
      * 
      * @param value
      *     allowed object is
      *     {@link Direction }
      *     
      */
-    public void setArg0(Direction value) {
-        this.arg0 = value;
+    public void setDirection(Direction value) {
+        this.direction = value;
     }
 
 }

@@ -108,16 +108,8 @@ public class Test {
 				System.out.println("!!! pdf content "+content.length);
 			}
 		}
-		
-//		String id = "1380553624798";
-//		String id = "1380557182924";
-		
-//		byte[] content = port.getDCMContent(barCode, id);
-		
-		
-		
-//		System.out.println("!!! content "+content);
-//		System.out.println("!!! content "+content.length);
+
+		//port.removeDirrection(barCode);
 		
 //		List<RisCode> codes = port.getRISCodes();
 //		for (RisCode risCode : codes) {
