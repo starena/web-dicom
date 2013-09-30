@@ -1,5 +1,6 @@
 package org.psystems.webdicom2.ws;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,6 +21,7 @@ import javax.jws.soap.SOAPBinding.Style;
 
 import org.psystems.webdicom2.ws.dto.Direction;
 import org.psystems.webdicom2.ws.dto.RISCode;
+import org.psystems.webdicom2.ws.dto.DCM;
 import org.psystems.webdicom2.ws.dto.StudyResult;
 
 /**
@@ -44,14 +46,17 @@ public class Gate {
 	@Resource
 	private WebServiceContext context;
 
-	String testDrnDatafile = "/tmp/webdicom.data.xml";
+	String testDrnDataDir = "/tmp/webdicom";
+	String testDrnDatafile = "direction.xml";
 
 	private static Properties drnProp;
 
-	private void loadTestData() throws IOException {
+	private void loadTestData(String barCode) throws IOException {
 
 		try {
-			FileInputStream fis = new FileInputStream(testDrnDatafile);
+			FileInputStream fis = new FileInputStream(testDrnDataDir
+					+ File.separator + barCode + File.separator
+					+ testDrnDatafile);
 			drnProp = new Properties();
 			drnProp.loadFromXML(fis);
 			fis.close();
@@ -60,7 +65,7 @@ public class Gate {
 		}
 	}
 
-	private void saveTestData() throws IOException {
+	private void saveTestData(String barCode) throws IOException {
 
 		Properties tmp = new Properties() {
 
@@ -73,7 +78,29 @@ public class Gate {
 		};
 
 		tmp.putAll(drnProp);
-		FileOutputStream fos = new FileOutputStream(testDrnDatafile);
+
+		File theDir = new File(testDrnDataDir);
+		// if the directory does not exist, create it
+		if (!theDir.exists()) {
+			boolean result = theDir.mkdir();
+
+			if (result) {
+				// System.out.println("DIR created");
+			}
+		}
+
+		theDir = new File(testDrnDataDir + File.separator + barCode);
+		// if the directory does not exist, create it
+		if (!theDir.exists()) {
+			boolean result = theDir.mkdir();
+
+			if (result) {
+				// System.out.println("DIR created");
+			}
+		}
+
+		FileOutputStream fos = new FileOutputStream(testDrnDataDir
+				+ File.separator + barCode + File.separator + testDrnDatafile);
 		tmp.storeToXML(fos, "WebdicomProperties File", "UTF-8");
 		fos.close();
 	}
@@ -88,18 +115,18 @@ public class Gate {
 
 		try {
 
-			loadTestData();
+			loadTestData(drn.barCode);
 
-			drnProp.put("drn." + drn.barCode + ".barCode", drn.barCode);
-			drnProp.put("drn." + drn.barCode + ".dateBirsday", drn.dateBirsday);
-			drnProp.put("drn." + drn.barCode + ".dateStudy", drn.dateStudy);
-			drnProp.put("drn." + drn.barCode + ".modality", drn.modality);
-			drnProp.put("drn." + drn.barCode + ".patientId", drn.patientId);
-			drnProp.put("drn." + drn.barCode + ".patientName", drn.patientName);
-			drnProp.put("drn." + drn.barCode + ".serviceName", drn.serviceName);
-			drnProp.put("drn." + drn.barCode + ".sex", drn.sex);
+			drnProp.put("barCode", drn.barCode);
+			drnProp.put("dateBirsday", drn.dateBirsday);
+			drnProp.put("dateStudy", drn.dateStudy);
+			drnProp.put("modality", drn.modality);
+			drnProp.put("patientId", drn.patientId);
+			drnProp.put("patientName", drn.patientName);
+			drnProp.put("serviceName", drn.serviceName);
+			drnProp.put("sex", drn.sex);
 
-			saveTestData();
+			saveTestData(drn.barCode);
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -121,50 +148,129 @@ public class Gate {
 	 * 
 	 */
 	public int removeDirrection(String barCode) {
+		// TODO реализовать удаление директории
 		return 10;
+	}
+
+	/**
+	 * Получение списка выполненных сейрий
+	 * 
+	 * @param barCode
+	 * @return
+	 */
+	public DCM[] getDCM(String barCode) {
+		
+		File drnDir = new File(testDrnDataDir + File.separator + barCode);
+		ArrayList<DCM> result = new ArrayList<DCM>();
+		
+		
+		File[] files = drnDir.listFiles();
+		for (File dcmDir : files) {
+			if (dcmDir.isDirectory()) {
+				
+				DCM dcmDto = new DCM();
+				
+				File[] dataFiles = dcmDir.listFiles();
+				for (File datafile : dataFiles) {
+					if (datafile.getName().endsWith(".pdf")
+							|| datafile.getName().endsWith(".jpg")) {
+
+//						String fileID = datafile.getName().replaceFirst(".pdf", "");
+//						fileID = datafile.getName().replaceFirst(".jpg", "");
+//						System.out.println("!!!! fileID="+fileID);
+						
+						dcmDto.id=dcmDir.getName();;
+						dcmDto.barCode=drnDir.getName();
+						result.add(dcmDto);
+
+					}
+				}
+			}
+		}
+		
+		return result.toArray(new DCM[result.size()]);
+
+	}
+
+	/**
+	 * 
+	 * Получение бинарного контента
+	 * 
+	 * @param barCode
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
+	public byte[] getDCMContent(String barCode, String id) throws IOException {
+		File drnDir = new File(testDrnDataDir + File.separator + barCode);
+
+		File[] files = drnDir.listFiles();
+		for (File dcmDir : files) {
+			if (dcmDir.isDirectory()) {
+				File[] dataFiles = dcmDir.listFiles();
+				for (File datafile : dataFiles) {
+					if (datafile.getName().endsWith(".pdf")
+							|| datafile.getName().endsWith(".jpg")) {
+
+						String fileID = datafile.getName().replaceFirst(".pdf", "");
+						fileID = datafile.getName().replaceFirst(".jpg", "");
+						
+						System.out.println("!!!! fileID="+fileID);
+						
+						FileInputStream fis = new FileInputStream(datafile);
+						byte[] data = new byte[(int) datafile.length()];
+						fis.read(data);
+						fis.close();
+						return data;
+
+					}
+				}
+			}
+		}
+		return null;
+
 	}
 
 	/**
 	 * @param barCode
 	 * @return
 	 */
-	public StudyResult getStudyResult(String barCode) {
+	public StudyResult getCompliteStudyResult(String barCode) {
 
-
-//		try {
-//
-//				loadTestData();
-//
-//			drnProp.put("drn." + drn.barCode + ".barCode", drn.barCode);
-//			drnProp.put("drn." + drn.barCode + ".dateBirsday", drn.dateBirsday);
-//			drnProp.put("drn." + drn.barCode + ".dateStudy", drn.dateStudy);
-//			drnProp.put("drn." + drn.barCode + ".modality", drn.modality);
-//			drnProp.put("drn." + drn.barCode + ".patientId", drn.patientId);
-//			drnProp.put("drn." + drn.barCode + ".patientName", drn.patientName);
-//			drnProp.put("drn." + drn.barCode + ".serviceName", drn.serviceName);
-//			drnProp.put("drn." + drn.barCode + ".sex", drn.sex);
-//
-//			saveTestData();
-//
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		StudyResult result = new StudyResult();
-		result.result = "Отклонений не обнаружено";
-		result.imageUrls = new String[] {
-				"http://localhost:8080/images/" + barCode + "/1.jpg",
-				"http://localhost:8080/images/" + barCode + "/2.jpg",
-				"http://localhost:8080/images/" + barCode + "/3.jpg" };
 
-		result.pdfUrls = new String[] {
-				"http://localhost:8080/pdf/" + barCode + "/1.pdf",
-				"http://localhost:8080/pdf/" + barCode + "/2.pdf",
-				"http://localhost:8080/pdf/" + barCode + "/3.pdf" };
+		File drnDir = new File(testDrnDataDir + File.separator + barCode);
+		ArrayList<String> pdfs = new ArrayList<String>();
+		ArrayList<String> jpgs = new ArrayList<String>();
+
+		File[] files = drnDir.listFiles();
+		for (File dcmDir : files) {
+			if (dcmDir.isDirectory()) {
+				File[] dataFiles = dcmDir.listFiles();
+				for (File datafile : dataFiles) {
+					if (datafile.getName().endsWith(".pdf")) {
+						pdfs.add(dcmDir.getName());
+					} else if (datafile.getName().endsWith(".jpg")) {
+						jpgs.add(dcmDir.getName());
+					}
+				}
+			}
+		}
+
+		result.imageUrls = jpgs.toArray(new String[jpgs.size()]);
+		result.pdfUrls = pdfs.toArray(new String[pdfs.size()]);
+
+		// result.result = "Отклонений не обнаружено";
+		//
+		// result.imageUrls = new String[] {
+		// "http://localhost:8080/images/" + barCode + "/1.jpg",
+		// "http://localhost:8080/images/" + barCode + "/2.jpg",
+		// "http://localhost:8080/images/" + barCode + "/3.jpg" };
+		//
+		// result.pdfUrls = new String[] {
+		// "http://localhost:8080/pdf/" + barCode + "/1.pdf",
+		// "http://localhost:8080/pdf/" + barCode + "/2.pdf",
+		// "http://localhost:8080/pdf/" + barCode + "/3.pdf" };
 
 		return result;
 	}
@@ -173,29 +279,45 @@ public class Gate {
 	 * Создание PDF-ки в исследовании
 	 * 
 	 * @param barCode
+	 * @param studyUID
 	 * @param content
 	 * @return
 	 */
 	public String sendPdf(String barCode, byte[] content) {
-		
+
+		long id = new Date().getTime();
+		File theDir = new File(testDrnDataDir + File.separator + barCode
+				+ File.separator + id);
+		// if the directory does not exist, create it
+		if (!theDir.exists()) {
+			boolean result = theDir.mkdir();
+
+			if (result) {
+				// System.out.println("DIR created");
+			}
+		}
 		try {
-			loadTestData();
-			long  id = new Date().getTime();
-			String filename = barCode + "." + id + ".pdf"; 
-			drnProp.put("drn." + barCode + ".pdf."+id, filename);
-			FileOutputStream fos = new FileOutputStream("/tmp/"+filename);
+			loadTestData(barCode);
+
+			String filename = "data.pdf";
+			// drnProp.put("pdf." + id, filename);
+			FileOutputStream fos = new FileOutputStream(testDrnDataDir
+					+ File.separator + barCode + File.separator + id
+					+ File.separator + filename);
 			fos.write(content);
 			fos.flush();
 			fos.close();
-			saveTestData();
+			saveTestData(barCode);
+			return "http://localhost:8080/pdf/" + barCode + File.separator
+					+ filename;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		// TODO Нужно узнать, будет ли несколько исследований по одному
 		// напралвению
-		return "http://localhost:8080/pdf/" + barCode + "/1.pdf";
+		return null;
 
 	}
 
@@ -208,9 +330,9 @@ public class Gate {
 	public String sendFinalResult(String barCode, String resultStr) {
 
 		try {
-			loadTestData();
-			drnProp.put("drn." + barCode + ".finalResult", resultStr);
-			saveTestData();
+			loadTestData(barCode);
+			drnProp.put("finalResult", resultStr);
+			saveTestData(barCode);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -227,11 +349,11 @@ public class Gate {
 	 * @param resultStr
 	 */
 	public String sendPhysician(String barCode, String fio) {
-		
+
 		try {
-			loadTestData();
-			drnProp.put("drn." + barCode + ".physician", fio);
-			saveTestData();
+			loadTestData(barCode);
+			drnProp.put("physician", fio);
+			saveTestData(barCode);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
