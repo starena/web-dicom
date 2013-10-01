@@ -22,7 +22,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl Test.jsp -logLevel INFO -codeServerPort 9997 -port 8888 -war &quot;C:\Documents and Settings\dima_d\workspace\dicom-browser\war&quot; org.psystems.dicom.browser.Dicom_browser org.psystems.dicom.browser.Browser"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl Test.jsp -war /home/ddv/workspace/dicom-browser/war -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -codeServerPort 9997 -port 8888 org.psystems.dicom.browser.Browser org.psystems.dicom.browser.Dicom_browser"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="dicom-browser"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512m -Djava.naming.factory.initial=org.mortbay.naming.InitialContextFactory"/>
 </launchConfiguration>
