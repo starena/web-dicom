@@ -468,7 +468,7 @@ public class StudyManagePanel extends Composite implements
 		dicDoctors.put("Фаворов Н.Г.", "");
 		dicDoctors.put("Леконцева Т.Е.", "");
 		dicDoctors.put("Попова Е.В.", "US");
-		dicDoctors.put("Амосова С.Г.", "US");
+		dicDoctors.put("Горбова С.Г.", "US");
 		dicDoctors.put("Ческидов Ю.С.", "DF");
 		dicDoctors.put("Балдахов А.Т.", "US");
 		dicDoctors.put("Замятина А.Н.", "DF");
@@ -534,7 +534,7 @@ public class StudyManagePanel extends Composite implements
 		dicLaborants.put("Богданова А.Н.", "");
 		dicLaborants.put("Озганбаева Э.М.", "");
 		dicLaborants.put("Полякова Н.И.", "");
-		dicLaborants.put("Юсифова Р.М.", "");
+		dicLaborants.put("Сангатова Р.М.", "");
 		dicLaborants.put("Мурдасова Е.А.", "");
 		dicLaborants.put("Табаев А.Н.", "");
 		dicLaborants.put("Гаврилова Н.Г.", "");
