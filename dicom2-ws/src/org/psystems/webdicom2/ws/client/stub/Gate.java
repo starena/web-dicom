@@ -40,21 +40,7 @@ public interface Gate {
 
     /**
      * 
-     * @param barCode
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "removeDirrection", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.RemoveDirrection")
-    @ResponseWrapper(localName = "removeDirrectionResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.RemoveDirrectionResponse")
-    public int removeDirrection(
-        @WebParam(name = "barCode", targetNamespace = "")
-        String barCode);
-
-    /**
-     * 
-     * @param barCode
+     * @param misId
      * @return
      *     returns org.psystems.webdicom2.ws.client.stub.StudyResult
      */
@@ -63,13 +49,13 @@ public interface Gate {
     @RequestWrapper(localName = "getCompliteStudyResult", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetCompliteStudyResult")
     @ResponseWrapper(localName = "getCompliteStudyResultResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetCompliteStudyResultResponse")
     public StudyResult getCompliteStudyResult(
-        @WebParam(name = "barCode", targetNamespace = "")
-        String barCode);
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId);
 
     /**
      * 
      * @param content
-     * @param barCode
+     * @param misId
      * @return
      *     returns java.lang.String
      */
@@ -78,15 +64,15 @@ public interface Gate {
     @RequestWrapper(localName = "sendPdf", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPdf")
     @ResponseWrapper(localName = "sendPdfResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPdfResponse")
     public String sendPdf(
-        @WebParam(name = "barCode", targetNamespace = "")
-        String barCode,
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId,
         @WebParam(name = "content", targetNamespace = "")
         byte[] content);
 
     /**
      * 
+     * @param misId
      * @param resultStr
-     * @param barCode
      * @return
      *     returns java.lang.String
      */
@@ -95,14 +81,14 @@ public interface Gate {
     @RequestWrapper(localName = "sendFinalResult", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendFinalResult")
     @ResponseWrapper(localName = "sendFinalResultResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendFinalResultResponse")
     public String sendFinalResult(
-        @WebParam(name = "barCode", targetNamespace = "")
-        String barCode,
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId,
         @WebParam(name = "resultStr", targetNamespace = "")
         String resultStr);
 
     /**
      * 
-     * @param barCode
+     * @param misId
      * @param fio
      * @return
      *     returns java.lang.String
@@ -112,8 +98,8 @@ public interface Gate {
     @RequestWrapper(localName = "sendPhysician", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPhysician")
     @ResponseWrapper(localName = "sendPhysicianResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendPhysicianResponse")
     public String sendPhysician(
-        @WebParam(name = "barCode", targetNamespace = "")
-        String barCode,
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId,
         @WebParam(name = "fio", targetNamespace = "")
         String fio);
 
@@ -130,7 +116,7 @@ public interface Gate {
 
     /**
      * 
-     * @param barCode
+     * @param misId
      * @return
      *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.Dcm>
      */
@@ -139,13 +125,13 @@ public interface Gate {
     @RequestWrapper(localName = "getDCM", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCM")
     @ResponseWrapper(localName = "getDCMResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMResponse")
     public List<Dcm> getDCM(
-        @WebParam(name = "barCode", targetNamespace = "")
-        String barCode);
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId);
 
     /**
      * 
-     * @param id
-     * @param barCode
+     * @param misId
+     * @param contentId
      * @return
      *     returns byte[]
      */
@@ -154,9 +140,71 @@ public interface Gate {
     @RequestWrapper(localName = "getDCMContent", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMContent")
     @ResponseWrapper(localName = "getDCMContentResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMContentResponse")
     public byte[] getDCMContent(
-        @WebParam(name = "barCode", targetNamespace = "")
-        String barCode,
-        @WebParam(name = "id", targetNamespace = "")
-        String id);
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId,
+        @WebParam(name = "contentId", targetNamespace = "")
+        String contentId);
+
+    /**
+     * 
+     * @param misId
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "removeDirection", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.RemoveDirection")
+    @ResponseWrapper(localName = "removeDirectionResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.RemoveDirectionResponse")
+    public int removeDirection(
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId);
+
+    /**
+     * 
+     * @param content
+     * @param misId
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "sendImage", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendImage")
+    @ResponseWrapper(localName = "sendImageResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.SendImageResponse")
+    public String sendImage(
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId,
+        @WebParam(name = "content", targetNamespace = "")
+        byte[] content);
+
+    /**
+     * 
+     * @param dcmId
+     * @return
+     *     returns org.psystems.webdicom2.ws.client.stub.HashMap
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getDCMTags", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMTags")
+    @ResponseWrapper(localName = "getDCMTagsResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMTagsResponse")
+    public HashMap getDCMTags(
+        @WebParam(name = "dcmId", targetNamespace = "")
+        String dcmId);
+
+    /**
+     * 
+     * @param misId
+     * @param date
+     * @return
+     *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.Dcm>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getDCMbyDate", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMbyDate")
+    @ResponseWrapper(localName = "getDCMbyDateResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMbyDateResponse")
+    public List<Dcm> getDCMbyDate(
+        @WebParam(name = "misId", targetNamespace = "")
+        String misId,
+        @WebParam(name = "date", targetNamespace = "")
+        String date);
 
 }

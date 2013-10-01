@@ -54,9 +54,11 @@ public class Test {
 
 		
 		String barCode = "123456675";
+		String misId = "54321";
 		
 		Direction drn = new Direction();
 		drn.setBarCode(barCode);
+		drn.setMisId(misId);
 		drn.setDateBirsday("1974/03/01");
 		drn.setDateStudy("2013/08/10");
 		drn.setModality("MG");
@@ -66,11 +68,12 @@ public class Test {
 		drn.setSex("M");
 		Direction resultDrn = port.sendDirection(drn);
 		
+		
 		System.out.println("Direction:"+resultDrn);
 		
-		port.sendFinalResult(barCode, "Финальный результат");
+		port.sendFinalResult(misId, "Финальный результат");
 		
-		port.sendPhysician(barCode, "Врач Иванов");
+		port.sendPhysician(misId, "Врач Иванов");
 		
 //		FileInputStream fidPdf = new FileInputStream("/tmp/usi_pochek.pdf");
 		
@@ -78,10 +81,16 @@ public class Test {
 		byte[] b = new byte[(int)f.length()];
 		f.read(b);
 		
-		String studyUID = "study456";
-		port.sendPdf(barCode , b);
+		port.sendPdf(misId , b);
 		
-		StudyResult complResult = port.getCompliteStudyResult(barCode);
+		
+		f = new RandomAccessFile("/tmp/data.jpg", "r");
+		b = new byte[(int)f.length()];
+		f.read(b);
+		
+		port.sendImage(misId , b);
+		
+		StudyResult complResult = port.getCompliteStudyResult(misId);
 		System.out.println("Compl Result: " + complResult );
 		
 		for (String url : complResult.getImageUrls()) {
@@ -92,24 +101,28 @@ public class Test {
 			System.out.println("  pdf: " + url);
 		}
 		
+		System.out.println("Compl Result getResult: " + complResult.getResult() );
 		
 		
-		List<Dcm> dcm = port.getDCM(barCode);
+		
+		List<Dcm> dcm = port.getDCM(misId);
 		for (Dcm dcmDto : dcm) {
-			System.out.println(" !!! dcm id "+dcmDto.getId() + " barCode " + dcmDto.getBarCode() + " img:" + dcmDto.getImageId()+" pdf:"+dcmDto.getPdfId());
+			System.out.println(" !!! dcm id "+dcmDto.getDcmId() + " misId " + dcmDto.getMisId() + " img:" + dcmDto.getImageId()+" pdf:"+dcmDto.getPdfId());
 			
 			if(dcmDto.getImageId()!=null) {
-				byte[] content = port.getDCMContent(barCode, dcmDto.getImageId());
+				byte[] content = port.getDCMContent(misId, dcmDto.getImageId());
 				System.out.println("!!! image content "+content.length);
 			}
 			
 			if(dcmDto.getPdfId()!=null) {
-				byte[] content = port.getDCMContent(barCode, dcmDto.getPdfId());
+				byte[] content = port.getDCMContent(misId, dcmDto.getPdfId());
 				System.out.println("!!! pdf content "+content.length);
 			}
 		}
 
-		//port.removeDirrection(barCode);
+//		port.sendPdf("rrrr" , b);
+		
+//		port.removeDirection(barCode);
 		
 //		List<RisCode> codes = port.getRISCodes();
 //		for (RisCode risCode : codes) {

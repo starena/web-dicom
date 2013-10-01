@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="barCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="misId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientNameTranslit" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "direction", propOrder = {
     "barCode",
+    "misId",
     "patientId",
     "patientName",
     "patientNameTranslit",
@@ -48,6 +50,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Direction {
 
     protected String barCode;
+    protected String misId;
     protected String patientId;
     protected String patientName;
     protected String patientNameTranslit;
@@ -79,6 +82,30 @@ public class Direction {
      */
     public void setBarCode(String value) {
         this.barCode = value;
+    }
+
+    /**
+     * Gets the value of the misId property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMisId() {
+        return misId;
+    }
+
+    /**
+     * Sets the value of the misId property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setMisId(String value) {
+        this.misId = value;
     }
 
     /**
