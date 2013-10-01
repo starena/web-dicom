@@ -26,30 +26,44 @@ public class ObjectFactory {
 
     private final static QName _SendPdf_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendPdf");
     private final static QName _GetRISCodes_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getRISCodes");
+    private final static QName _GetDCMbyDate_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCMbyDate");
+    private final static QName _GetDCMbyDateResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCMbyDateResponse");
     private final static QName _GetDCMContent_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCMContent");
+    private final static QName _SendImageResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendImageResponse");
     private final static QName _GetDCMResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCMResponse");
     private final static QName _GetCompliteStudyResultResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getCompliteStudyResultResponse");
+    private final static QName _GetDCMTagsResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCMTagsResponse");
     private final static QName _SendDirection_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendDirection");
+    private final static QName _RemoveDirectionResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "removeDirectionResponse");
+    private final static QName _GetDCMTags_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCMTags");
+    private final static QName _SendImage_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendImage");
     private final static QName _GetDCMContentResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCMContentResponse");
     private final static QName _GetDCM_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getDCM");
-    private final static QName _RemoveDirrectionResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "removeDirrectionResponse");
     private final static QName _SendFinalResult_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendFinalResult");
     private final static QName _SendDirectionResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendDirectionResponse");
-    private final static QName _RemoveDirrection_QNAME = new QName("http://ws.webdicom2.psystems.org/", "removeDirrection");
     private final static QName _SendPdfResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendPdfResponse");
     private final static QName _GetRISCodesResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getRISCodesResponse");
+    private final static QName _RemoveDirection_QNAME = new QName("http://ws.webdicom2.psystems.org/", "removeDirection");
     private final static QName _SendPhysician_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendPhysician");
     private final static QName _SendPhysicianResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendPhysicianResponse");
     private final static QName _SendFinalResultResponse_QNAME = new QName("http://ws.webdicom2.psystems.org/", "sendFinalResultResponse");
     private final static QName _GetCompliteStudyResult_QNAME = new QName("http://ws.webdicom2.psystems.org/", "getCompliteStudyResult");
     private final static QName _GetDCMContentResponseReturn_QNAME = new QName("", "return");
-    private final static QName _SendPdfContent_QNAME = new QName("", "content");
+    private final static QName _SendImageContent_QNAME = new QName("", "content");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: org.psystems.webdicom2.ws.client.stub
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link GetDCMbyDateResponse }
+     * 
+     */
+    public GetDCMbyDateResponse createGetDCMbyDateResponse() {
+        return new GetDCMbyDateResponse();
     }
 
     /**
@@ -61,83 +75,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Direction }
+     * Create an instance of {@link SendPdfResponse }
      * 
      */
-    public Direction createDirection() {
-        return new Direction();
-    }
-
-    /**
-     * Create an instance of {@link GetDCMContentResponse }
-     * 
-     */
-    public GetDCMContentResponse createGetDCMContentResponse() {
-        return new GetDCMContentResponse();
-    }
-
-    /**
-     * Create an instance of {@link RemoveDirrection }
-     * 
-     */
-    public RemoveDirrection createRemoveDirrection() {
-        return new RemoveDirrection();
-    }
-
-    /**
-     * Create an instance of {@link StudyResult }
-     * 
-     */
-    public StudyResult createStudyResult() {
-        return new StudyResult();
-    }
-
-    /**
-     * Create an instance of {@link SendDirectionResponse }
-     * 
-     */
-    public SendDirectionResponse createSendDirectionResponse() {
-        return new SendDirectionResponse();
-    }
-
-    /**
-     * Create an instance of {@link RemoveDirrectionResponse }
-     * 
-     */
-    public RemoveDirrectionResponse createRemoveDirrectionResponse() {
-        return new RemoveDirrectionResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDCM }
-     * 
-     */
-    public GetDCM createGetDCM() {
-        return new GetDCM();
-    }
-
-    /**
-     * Create an instance of {@link Dcm.Tags }
-     * 
-     */
-    public Dcm.Tags createDcmTags() {
-        return new Dcm.Tags();
-    }
-
-    /**
-     * Create an instance of {@link GetRISCodesResponse }
-     * 
-     */
-    public GetRISCodesResponse createGetRISCodesResponse() {
-        return new GetRISCodesResponse();
-    }
-
-    /**
-     * Create an instance of {@link SendFinalResultResponse }
-     * 
-     */
-    public SendFinalResultResponse createSendFinalResultResponse() {
-        return new SendFinalResultResponse();
+    public SendPdfResponse createSendPdfResponse() {
+        return new SendPdfResponse();
     }
 
     /**
@@ -149,11 +91,99 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Dcm.Tags.Entry }
+     * Create an instance of {@link GetDCMTags }
      * 
      */
-    public Dcm.Tags.Entry createDcmTagsEntry() {
-        return new Dcm.Tags.Entry();
+    public GetDCMTags createGetDCMTags() {
+        return new GetDCMTags();
+    }
+
+    /**
+     * Create an instance of {@link SendImageResponse }
+     * 
+     */
+    public SendImageResponse createSendImageResponse() {
+        return new SendImageResponse();
+    }
+
+    /**
+     * Create an instance of {@link SendFinalResult }
+     * 
+     */
+    public SendFinalResult createSendFinalResult() {
+        return new SendFinalResult();
+    }
+
+    /**
+     * Create an instance of {@link GetDCMContent }
+     * 
+     */
+    public GetDCMContent createGetDCMContent() {
+        return new GetDCMContent();
+    }
+
+    /**
+     * Create an instance of {@link SendDirectionResponse }
+     * 
+     */
+    public SendDirectionResponse createSendDirectionResponse() {
+        return new SendDirectionResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDCMContentResponse }
+     * 
+     */
+    public GetDCMContentResponse createGetDCMContentResponse() {
+        return new GetDCMContentResponse();
+    }
+
+    /**
+     * Create an instance of {@link RisCode }
+     * 
+     */
+    public RisCode createRisCode() {
+        return new RisCode();
+    }
+
+    /**
+     * Create an instance of {@link GetCompliteStudyResultResponse }
+     * 
+     */
+    public GetCompliteStudyResultResponse createGetCompliteStudyResultResponse() {
+        return new GetCompliteStudyResultResponse();
+    }
+
+    /**
+     * Create an instance of {@link SendPdf }
+     * 
+     */
+    public SendPdf createSendPdf() {
+        return new SendPdf();
+    }
+
+    /**
+     * Create an instance of {@link HashMap }
+     * 
+     */
+    public HashMap createHashMap() {
+        return new HashMap();
+    }
+
+    /**
+     * Create an instance of {@link StudyResult }
+     * 
+     */
+    public StudyResult createStudyResult() {
+        return new StudyResult();
+    }
+
+    /**
+     * Create an instance of {@link GetDCMTagsResponse }
+     * 
+     */
+    public GetDCMTagsResponse createGetDCMTagsResponse() {
+        return new GetDCMTagsResponse();
     }
 
     /**
@@ -165,19 +195,75 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SendDirection }
+     * Create an instance of {@link Direction }
      * 
      */
-    public SendDirection createSendDirection() {
-        return new SendDirection();
+    public Direction createDirection() {
+        return new Direction();
     }
 
     /**
-     * Create an instance of {@link GetDCMContent }
+     * Create an instance of {@link RemoveDirectionResponse }
      * 
      */
-    public GetDCMContent createGetDCMContent() {
-        return new GetDCMContent();
+    public RemoveDirectionResponse createRemoveDirectionResponse() {
+        return new RemoveDirectionResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDCMResponse }
+     * 
+     */
+    public GetDCMResponse createGetDCMResponse() {
+        return new GetDCMResponse();
+    }
+
+    /**
+     * Create an instance of {@link SendFinalResultResponse }
+     * 
+     */
+    public SendFinalResultResponse createSendFinalResultResponse() {
+        return new SendFinalResultResponse();
+    }
+
+    /**
+     * Create an instance of {@link RemoveDirection }
+     * 
+     */
+    public RemoveDirection createRemoveDirection() {
+        return new RemoveDirection();
+    }
+
+    /**
+     * Create an instance of {@link GetDCMbyDate }
+     * 
+     */
+    public GetDCMbyDate createGetDCMbyDate() {
+        return new GetDCMbyDate();
+    }
+
+    /**
+     * Create an instance of {@link GetDCM }
+     * 
+     */
+    public GetDCM createGetDCM() {
+        return new GetDCM();
+    }
+
+    /**
+     * Create an instance of {@link GetRISCodesResponse }
+     * 
+     */
+    public GetRISCodesResponse createGetRISCodesResponse() {
+        return new GetRISCodesResponse();
+    }
+
+    /**
+     * Create an instance of {@link SendImage }
+     * 
+     */
+    public SendImage createSendImage() {
+        return new SendImage();
     }
 
     /**
@@ -197,51 +283,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SendPdfResponse }
+     * Create an instance of {@link SendDirection }
      * 
      */
-    public SendPdfResponse createSendPdfResponse() {
-        return new SendPdfResponse();
-    }
-
-    /**
-     * Create an instance of {@link RisCode }
-     * 
-     */
-    public RisCode createRisCode() {
-        return new RisCode();
-    }
-
-    /**
-     * Create an instance of {@link GetDCMResponse }
-     * 
-     */
-    public GetDCMResponse createGetDCMResponse() {
-        return new GetDCMResponse();
-    }
-
-    /**
-     * Create an instance of {@link SendFinalResult }
-     * 
-     */
-    public SendFinalResult createSendFinalResult() {
-        return new SendFinalResult();
-    }
-
-    /**
-     * Create an instance of {@link GetCompliteStudyResultResponse }
-     * 
-     */
-    public GetCompliteStudyResultResponse createGetCompliteStudyResultResponse() {
-        return new GetCompliteStudyResultResponse();
-    }
-
-    /**
-     * Create an instance of {@link SendPdf }
-     * 
-     */
-    public SendPdf createSendPdf() {
-        return new SendPdf();
+    public SendDirection createSendDirection() {
+        return new SendDirection();
     }
 
     /**
@@ -263,12 +309,39 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDCMbyDate }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "getDCMbyDate")
+    public JAXBElement<GetDCMbyDate> createGetDCMbyDate(GetDCMbyDate value) {
+        return new JAXBElement<GetDCMbyDate>(_GetDCMbyDate_QNAME, GetDCMbyDate.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDCMbyDateResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "getDCMbyDateResponse")
+    public JAXBElement<GetDCMbyDateResponse> createGetDCMbyDateResponse(GetDCMbyDateResponse value) {
+        return new JAXBElement<GetDCMbyDateResponse>(_GetDCMbyDateResponse_QNAME, GetDCMbyDateResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetDCMContent }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "getDCMContent")
     public JAXBElement<GetDCMContent> createGetDCMContent(GetDCMContent value) {
         return new JAXBElement<GetDCMContent>(_GetDCMContent_QNAME, GetDCMContent.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SendImageResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "sendImageResponse")
+    public JAXBElement<SendImageResponse> createSendImageResponse(SendImageResponse value) {
+        return new JAXBElement<SendImageResponse>(_SendImageResponse_QNAME, SendImageResponse.class, null, value);
     }
 
     /**
@@ -290,12 +363,48 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDCMTagsResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "getDCMTagsResponse")
+    public JAXBElement<GetDCMTagsResponse> createGetDCMTagsResponse(GetDCMTagsResponse value) {
+        return new JAXBElement<GetDCMTagsResponse>(_GetDCMTagsResponse_QNAME, GetDCMTagsResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SendDirection }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "sendDirection")
     public JAXBElement<SendDirection> createSendDirection(SendDirection value) {
         return new JAXBElement<SendDirection>(_SendDirection_QNAME, SendDirection.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveDirectionResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "removeDirectionResponse")
+    public JAXBElement<RemoveDirectionResponse> createRemoveDirectionResponse(RemoveDirectionResponse value) {
+        return new JAXBElement<RemoveDirectionResponse>(_RemoveDirectionResponse_QNAME, RemoveDirectionResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetDCMTags }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "getDCMTags")
+    public JAXBElement<GetDCMTags> createGetDCMTags(GetDCMTags value) {
+        return new JAXBElement<GetDCMTags>(_GetDCMTags_QNAME, GetDCMTags.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SendImage }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "sendImage")
+    public JAXBElement<SendImage> createSendImage(SendImage value) {
+        return new JAXBElement<SendImage>(_SendImage_QNAME, SendImage.class, null, value);
     }
 
     /**
@@ -317,15 +426,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveDirrectionResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "removeDirrectionResponse")
-    public JAXBElement<RemoveDirrectionResponse> createRemoveDirrectionResponse(RemoveDirrectionResponse value) {
-        return new JAXBElement<RemoveDirrectionResponse>(_RemoveDirrectionResponse_QNAME, RemoveDirrectionResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SendFinalResult }{@code >}}
      * 
      */
@@ -344,15 +444,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveDirrection }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "removeDirrection")
-    public JAXBElement<RemoveDirrection> createRemoveDirrection(RemoveDirrection value) {
-        return new JAXBElement<RemoveDirrection>(_RemoveDirrection_QNAME, RemoveDirrection.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SendPdfResponse }{@code >}}
      * 
      */
@@ -368,6 +459,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "getRISCodesResponse")
     public JAXBElement<GetRISCodesResponse> createGetRISCodesResponse(GetRISCodesResponse value) {
         return new JAXBElement<GetRISCodesResponse>(_GetRISCodesResponse_QNAME, GetRISCodesResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RemoveDirection }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.webdicom2.psystems.org/", name = "removeDirection")
+    public JAXBElement<RemoveDirection> createRemoveDirection(RemoveDirection value) {
+        return new JAXBElement<RemoveDirection>(_RemoveDirection_QNAME, RemoveDirection.class, null, value);
     }
 
     /**
@@ -419,9 +519,18 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
      * 
      */
+    @XmlElementDecl(namespace = "", name = "content", scope = SendImage.class)
+    public JAXBElement<byte[]> createSendImageContent(byte[] value) {
+        return new JAXBElement<byte[]>(_SendImageContent_QNAME, byte[].class, SendImage.class, ((byte[]) value));
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
+     * 
+     */
     @XmlElementDecl(namespace = "", name = "content", scope = SendPdf.class)
     public JAXBElement<byte[]> createSendPdfContent(byte[] value) {
-        return new JAXBElement<byte[]>(_SendPdfContent_QNAME, byte[].class, SendPdf.class, ((byte[]) value));
+        return new JAXBElement<byte[]>(_SendImageContent_QNAME, byte[].class, SendPdf.class, ((byte[]) value));
     }
 
 }

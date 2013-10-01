@@ -1,6 +1,5 @@
 package org.psystems.webdicom2.ws.dto;
 
-import java.util.HashMap;
 
 /**
  * Файл DCM Исследования
@@ -10,16 +9,20 @@ import java.util.HashMap;
  */
 public class DCM {
 
-	public String barCode;// TODO Это StudyId
-	public String id;
+	public String misId;// TODO Это StudyId
+	public String dcmId;
+	public String modality;
+	public String deviceName;
+	public String patientName;
+	public String physicianName;
 	public String imageId;
 	public String pdfId;
-	public HashMap<String, String> tags;
+	public boolean idMis;
 
 	@Override
 	public String toString() {
-		return "DCM [barCode=" + barCode + ", id=" + id + ", imageId="
-				+ imageId + ", pdfId=" + pdfId + ", tags=" + tags + "]";
+		return "DCM [misId=" + misId + ", dcmId=" + dcmId + ", imageId=" + imageId
+				+ ", pdfId=" + pdfId + ", idMis=" + idMis + "]";
 	}
 
 }

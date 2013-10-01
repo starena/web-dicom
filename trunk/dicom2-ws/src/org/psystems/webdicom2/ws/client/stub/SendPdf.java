@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="barCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="misId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="content" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -30,37 +30,37 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "sendPdf", propOrder = {
-    "barCode",
+    "misId",
     "content"
 })
 public class SendPdf {
 
-    protected String barCode;
+    protected String misId;
     @XmlElementRef(name = "content", type = JAXBElement.class)
     protected JAXBElement<byte[]> content;
 
     /**
-     * Gets the value of the barCode property.
+     * Gets the value of the misId property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getBarCode() {
-        return barCode;
+    public String getMisId() {
+        return misId;
     }
 
     /**
-     * Sets the value of the barCode property.
+     * Sets the value of the misId property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setBarCode(String value) {
-        this.barCode = value;
+    public void setMisId(String value) {
+        this.misId = value;
     }
 
     /**

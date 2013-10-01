@@ -9,6 +9,7 @@ package org.psystems.webdicom2.ws.dto;
 public class Direction {
 
 	public String barCode;
+	public String misId;
 	public String patientId;
 	public String patientName;
 	public String patientNameTranslit;
@@ -20,11 +21,12 @@ public class Direction {
 
 	@Override
 	public String toString() {
-		return "Direction [barCode=" + barCode + ", patientId=" + patientId
-				+ ", patientName=" + patientName + ", patientNameTranslit="
-				+ patientNameTranslit + ", sex=" + sex + ", dateBirsday="
-				+ dateBirsday + ", modality=" + modality + ", dateStudy="
-				+ dateStudy + ", serviceName=" + serviceName + "]";
+		return "Direction [barCode=" + barCode + ", misId=" + misId
+				+ ", patientId=" + patientId + ", patientName=" + patientName
+				+ ", patientNameTranslit=" + patientNameTranslit + ", sex="
+				+ sex + ", dateBirsday=" + dateBirsday + ", modality="
+				+ modality + ", dateStudy=" + dateStudy + ", serviceName="
+				+ serviceName + "]";
 	}
 
 }
