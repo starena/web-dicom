@@ -11,8 +11,8 @@
 
 	<!-- TODO Задать путь через переменную проекта !!! -->
 	<!--property name="gwt.sdk" location="C:\eclipse\3.6\plugins\com.google.gwt.eclipse.sdkbundle_2.3.0.r36v201105191508\gwt-2.3.0" /-->
-	<property name="gwt.sdk" location="/opt/eclipse/3.7/plugins/com.google.gwt.eclipse.sdkbundle_2.5.0.v201211121242-rel-r37/gwt-2.5.0" />
-	<property name="version" value=".03"/>
+	<property name="gwt.sdk" location="/opt/eclipse/3.7/plugins/com.google.gwt.eclipse.sdkbundle_2.5.1/gwt-2.5.1" />
+	<property name="version" value=""/>
 
 	<path id="project.class.path">
 		<pathelement location="war/WEB-INF/classes"/>
