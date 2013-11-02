@@ -180,19 +180,18 @@ public interface Gate {
      * 
      * @param dcmId
      * @return
-     *     returns org.psystems.webdicom2.ws.client.stub.HashMap
+     *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.DcmTag>
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "getDCMTags", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMTags")
     @ResponseWrapper(localName = "getDCMTagsResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMTagsResponse")
-    public HashMap getDCMTags(
+    public List<DcmTag> getDCMTags(
         @WebParam(name = "dcmId", targetNamespace = "")
         String dcmId);
 
     /**
      * 
-     * @param misId
      * @param date
      * @return
      *     returns java.util.List<org.psystems.webdicom2.ws.client.stub.Dcm>
@@ -202,8 +201,6 @@ public interface Gate {
     @RequestWrapper(localName = "getDCMbyDate", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMbyDate")
     @ResponseWrapper(localName = "getDCMbyDateResponse", targetNamespace = "http://ws.webdicom2.psystems.org/", className = "org.psystems.webdicom2.ws.client.stub.GetDCMbyDateResponse")
     public List<Dcm> getDCMbyDate(
-        @WebParam(name = "misId", targetNamespace = "")
-        String misId,
         @WebParam(name = "date", targetNamespace = "")
         String date);
 

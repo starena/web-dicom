@@ -1,0 +1,94 @@
+usage: dcmmwl <aet>[@<host>[:<port>]] [Options]
+Query specified remote Application Entity (=Modality Worklist SCP) If
+<port> is not specified, DICOM default port 104 is assumed. If also no
+<host> is specified localhost is assumed.
+Options:
+ -acceptTO <ms>             timeout in ms for receiving A-ASSOCIATE-AC, 5s
+                            by default
+ -aet <aet>                 specify matching Scheduled Station AE title.
+                            Shortcut for -q00400100/00400001=<aet>.
+ -C <num>                   cancel query after receive of specified number
+                            of responses, no cancel by default
+ -connectTO <ms>            timeout in ms for TCP connect, no timeout by
+                            default
+ -date <date>               specify matching SPS start date (range).
+                            Shortcut for -q00400100/00400002=<date>.
+ -device <name>             set device name, use DCMMWL by default
+ -fuzzy                     negotiate support of fuzzy semantic person
+                            name attribute matching.
+ -h,--help                  print this message
+ -highprior                 HIGH priority of the C-FIND operation, MEDIUM
+                            by default
+ -ivrle                     offer only Implicit VR Little Endian Transfer
+                            Syntax.
+ -keypw <password>          password for accessing the key in the
+                            keystore, keystore password by default
+ -keystore <file|url>       file path or URL of P12 or JKS keystore,
+                            resource:tls/test_sys_1.p12 by default
+ -keystorepw <password>     password for keystore file, 'secret' by
+                            default
+ -L <aet[@host]>            set AET and local address of local Application
+                            Entity, use device name and pick up any valid
+                            local address to bind the socket by default
+ -lowprior                  LOW priority of the C-FIND operation, MEDIUM
+                            by default
+ -mod <modality>            specify matching Modality. Shortcut for
+                            -q00400100/00080060=<modality>.
+ -no_ssl2                   disable the use of SSLv2 for TLS connections
+ -no_ssl3                   disable the use of SSLv3 for TLS connections
+ -no_tls1                   disable the use of TLSv1 for TLS connections
+ -noclientauth              disable client authentification for TLS
+ -passcode <passcode>       optional passcode for User Identity
+                            Negotiation, only effective with option
+                            -username
+ -pdv1                      send only one PDV in one P-Data-TF PDU, pack
+                            command and data PDV in one P-DATA-TF PDU by
+                            default.
+ -q <[seq/]attr=value>      specify matching key. attr can be specified by
+                            name or tag value (in hex), e.g. PatientName
+                            or 00100010. Attributes in nested Datasets can
+                            be specified by preceding the name/tag value
+                            of the sequence attribute, e.g.
+                            00400100/00400009 for Scheduled Procedure Step
+                            ID in the Scheduled Procedure Step Sequence.
+ -r <attr>                  specify additional return key. attr can be
+                            specified by name or tag value (in hex).
+ -rcvpdulen <KB>            maximal length in KB of received P-DATA-TF
+                            PDUs, 16KB by default
+ -reaper <ms>               period in ms to check for outstanding
+                            DIMSE-RSP, 10s by default
+ -releaseTO <ms>            timeout in ms for receiving A-RELEASE-RP, 5s
+                            by default
+ -rspTO <ms>                timeout in ms for receiving DIMSE-RSP, 10s by
+                            default
+ -sndpdulen <KB>            maximal length in KB of sent P-DATA-TF PDUs,
+                            16KB by default
+ -soclosedelay <ms>         delay in ms for Socket close after sending
+                            A-ABORT, 50ms by default
+ -sorcvbuf <KB>             set SO_RCVBUF socket option to specified value
+                            in KB
+ -sosndbuf <KB>             set SO_SNDBUF socket option to specified value
+                            in KB
+ -ssl3                      disable the use of TLSv1 and SSLv2 for TLS
+                            connections
+ -tcpdelay                  set TCP_NODELAY socket option to false, true
+                            by default
+ -time <time>               specify matching SPS start time (range).
+                            Shortcut for -q00400100/00400003=<time>.
+ -tls <NULL|3DES|AES>       enable TLS connection without, 3DES or AES
+                            encryption
+ -tls1                      disable the use of SSLv3 and SSLv2 for TLS
+                            connections
+ -truststore <file|url>     file path or URL of JKS truststore,
+                            resource:tls/mesa_certs.jks by default
+ -truststorepw <password>   password for truststore file, 'secret' by
+                            default
+ -uidnegrsp                 request positive User Identity Negotation
+                            response, only effective with option -username
+ -username <username>       enable User Identity Negotiation with
+                            specified username and  optional passcode
+ -V,--version               print the version information and exit
+
+Example: dcmmwl MWLSCP@localhost:11112 -mod CT -date 20060502
+=> Query Application Entity MWLSCP listening on local port 11112 for CT
+procedure steps scheduled for May 2, 2006.
