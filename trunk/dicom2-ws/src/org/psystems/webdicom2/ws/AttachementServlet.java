@@ -108,7 +108,8 @@ public class AttachementServlet extends HttpServlet {
 		
 //		System.out.println("!!!! id="+id+" type="+type);
 
-		File rootDir = new File(Gate.testDrnDataDir);
+		//TODO ВЫнести в делегата
+		File rootDir = new File(GateDrvDev.testDrnDataDir);
 
 		File[] drnDirs = rootDir.listFiles();
 		for (File drnDir : drnDirs) {
@@ -117,7 +118,9 @@ public class AttachementServlet extends HttpServlet {
 				
 				for(File studyDir : studyDirs) {
 					if(studyDir.isDirectory() && studyDir.getName().equals(id)) {
-						filePath = Gate.testDrnDataDir + File.separator + drnDir.getName() + File.separator + id + File.separator;
+						
+						//TODO ВЫнести в делегата
+						filePath = GateDrvDev.testDrnDataDir + File.separator + drnDir.getName() + File.separator + id + File.separator;
 						if(type.equals("pdf")) {
 							resp.setContentType("application/pdf");
 							filePath+="data.pdf";
