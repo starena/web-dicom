@@ -6,10 +6,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
@@ -24,6 +27,7 @@ import javax.xml.ws.soap.MTOM;
 import javax.jws.soap.SOAPBinding.Style;
 
 import org.apache.commons.io.FileUtils;
+import org.psystems.webdicom2.ws.dto.DCMTag;
 import org.psystems.webdicom2.ws.dto.Direction;
 import org.psystems.webdicom2.ws.dto.RISCode;
 import org.psystems.webdicom2.ws.dto.DCM;
@@ -55,6 +59,9 @@ public class Gate {
 
 	String testDrnDataDir = "/tmp/webdicom";
 	String testDrnDatafile = "direction.xml";
+	String testDCMDatafile = "dcm.xml";
+
+	public SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
 	// /private static Properties drnProp;
 
@@ -120,7 +127,7 @@ public class Gate {
 		FileOutputStream fos = new FileOutputStream(testDrnDataDir
 				+ File.separator + drnProp.getProperty("misId")
 				+ File.separator + testDrnDatafile);
-		tmp.storeToXML(fos, "WebdicomProperties File", "UTF-8");
+		tmp.storeToXML(fos, "Webdicom direction properties file", "UTF-8");
 		fos.close();
 	}
 
@@ -196,29 +203,87 @@ public class Gate {
 		for (File dcmDir : files) {
 			if (dcmDir.isDirectory()) {
 
-				DCM dcmDto = new DCM();
+				result.add(getDCMDto(drnDir, dcmDir));
+			}
+		}
 
-				File[] dataFiles = dcmDir.listFiles();
-				for (File datafile : dataFiles) {
-					if (datafile.getName().endsWith(".pdf")
-							|| datafile.getName().endsWith(".jpg")) {
+		return result.toArray(new DCM[result.size()]);
 
-						// String fileID =
-						// datafile.getName().replaceFirst(".pdf", "");
-						// fileID = datafile.getName().replaceFirst(".jpg", "");
+	}
 
-						if (datafile.getName().endsWith(".pdf"))
-							dcmDto.pdfId = dcmDir.getName();
-						if (datafile.getName().endsWith(".jpg"))
-							dcmDto.imageId = dcmDir.getName();
+	private DCM getDCMDto(File drnDir, File dcmDir) {
+		DCM dcmDto = new DCM();
 
-						dcmDto.dcmId = dcmDir.getName();
-						;
-						dcmDto.misId = drnDir.getName();
-						result.add(dcmDto);
+		File[] dataFiles = dcmDir.listFiles();
+		for (File datafile : dataFiles) {
+			if (datafile.getName().endsWith(".pdf")
+					|| datafile.getName().endsWith(".jpg")) {
+
+				if (datafile.getName().endsWith(".pdf"))
+					dcmDto.pdfId = dcmDir.getName();
+				if (datafile.getName().endsWith(".jpg"))
+					dcmDto.imageId = dcmDir.getName();
+
+				dcmDto.dcmId = dcmDir.getName();
+				dcmDto.misId = drnDir.getName();
+
+			}
+		}
+		return dcmDto;
+	}
+
+	/**
+	 * 
+	 * DCM-ки по дате
+	 * 
+	 * @param date
+	 *            - формат YYYYMMDD
+	 * @return
+	 * @throws WsException
+	 */
+	public DCM[] getDCMbyDate(@WebParam(name = "date") String date)
+			throws WsException {
+
+		ArrayList<DCM> result = new ArrayList<DCM>();
+
+		File dicomDir = new File(testDrnDataDir);
+		File[] drnDirs = dicomDir.listFiles();
+		for (File drnDir : drnDirs) {
+			if (drnDir.isDirectory()) {
+
+				File[] dcmDirs = drnDir.listFiles();
+				for (File dcmDir : dcmDirs) {
+					if (dcmDir.isDirectory()) {
+
+						Properties dcmProp = new Properties();
+
+						try {
+							FileInputStream fis = new FileInputStream(
+									testDrnDataDir + File.separator
+											+ drnDir.getName() + File.separator
+											+ dcmDir.getName() + File.separator
+											+ testDCMDatafile);
+							dcmProp.loadFromXML(fis);
+							fis.close();
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							throw new WsException(e);
+						} catch (InvalidPropertiesFormatException e) {
+							e.printStackTrace();
+							throw new WsException(e);
+						} catch (IOException e) {
+							e.printStackTrace();
+							throw new WsException(e);
+						}
+
+						if (dcmProp.get("StudyDate").equals(date)) {
+
+							result.add(getDCMDto(drnDir, dcmDir));
+						}
 
 					}
 				}
+
 			}
 		}
 
@@ -227,30 +292,67 @@ public class Gate {
 	}
 
 	/**
-	 * 
-	 * DCM-ки по дате
-	 * 
-	 * @param misId
-	 * @param date
-	 *            - формат YYYYMMDD
-	 * @return
-	 */
-	public DCM[] getDCMbyDate(@WebParam(name = "misId") String misId,
-			@WebParam(name = "date") String date) {
-		return null;
-
-	}
-
-	/**
 	 * Список тэгов
 	 * 
 	 * @param dcmId
 	 * @return
+	 * @throws WsException
 	 */
-	public HashMap<String, String> getDCMTags(
-			@WebParam(name = "dcmId") String dcmId) {
-		return null;
+	public DCMTag[] getDCMTags(@WebParam(name = "dcmId") String dcmId)
+			throws WsException {
 
+		File dicomDir = new File(testDrnDataDir);
+		File[] drnDirs = dicomDir.listFiles();
+		for (File drnDir : drnDirs) {
+			if (drnDir.isDirectory()) {
+
+				File[] dcmDirs = drnDir.listFiles();
+				for (File dcmDir : dcmDirs) {
+					if (dcmDir.isDirectory() && dcmId.equals(dcmDir.getName())) {
+
+						Properties dcmProp = new Properties();
+
+						try {
+							FileInputStream fis = new FileInputStream(
+									testDrnDataDir + File.separator
+											+ drnDir.getName() + File.separator
+											+ dcmDir.getName() + File.separator
+											+ testDCMDatafile);
+							dcmProp.loadFromXML(fis);
+							fis.close();
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+							throw new WsException(e);
+						} catch (InvalidPropertiesFormatException e) {
+							e.printStackTrace();
+							throw new WsException(e);
+						} catch (IOException e) {
+							e.printStackTrace();
+							throw new WsException(e);
+						}
+
+						ArrayList<DCMTag> tags = new ArrayList<DCMTag>();
+
+						for (Iterator<Object> iter = dcmProp.keySet()
+								.iterator(); iter.hasNext();) {
+							String key = (String) iter.next();
+							String val = (String) dcmProp.get(key);
+							DCMTag tag = new DCMTag();
+							tag.name = key;
+							tag.value = val;
+							tag.id = "";
+							tag.type = "";
+							tags.add(tag);
+						}
+
+						return tags.toArray(new DCMTag[tags.size()]);
+
+					}
+				}
+
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -392,12 +494,57 @@ public class Gate {
 			fos.write(content);
 			fos.flush();
 			fos.close();
+
+			DCM dcm = new DCM();
+			dcm.dcmId = "" + id;
+			dcm.misId = misId;
+			saveDCMProps(dcm);
+
 			return "http://localhost:8080/pdf/" + misId + File.separator
 					+ filename;
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WsException(e);
 		}
+
+	}
+
+	/**
+	 * @param dcm
+	 * @throws IOException
+	 */
+	private void saveDCMProps(DCM dcm) throws IOException {
+
+		Properties prop = new Properties() {
+
+			@Override
+			public Set<Object> keySet() {
+				return Collections.unmodifiableSet(new TreeSet<Object>(super
+						.keySet()));
+			}
+
+		};
+
+		// tmp.putAll(drnProp);
+
+		Properties drnProp = loadDrnFromPropFile(dcm.misId);
+
+		prop.put("misId", dcm.misId);
+		prop.put("dcmId", dcm.dcmId);
+		prop.put("StudyId", dcm.misId);
+
+		prop.put("StudyDate", df.format(new Date()));
+
+		prop.put("modality", drnProp.get("modality"));
+		prop.put("deviceName", "ANYDEVICE");
+		prop.put("patientName", drnProp.get("patientName"));
+		prop.put("physicianName", drnProp.get("physicianName"));
+
+		FileOutputStream fos = new FileOutputStream(testDrnDataDir
+				+ File.separator + dcm.misId + File.separator + dcm.dcmId
+				+ File.separator + testDCMDatafile);
+		prop.storeToXML(fos, "Webdicom dcm properties file", "UTF-8");
+		fos.close();
 
 	}
 
@@ -425,7 +572,12 @@ public class Gate {
 			fos.write(content);
 			fos.flush();
 			fos.close();
-			// saveDrnToPropFile(barCode);
+
+			DCM dcm = new DCM();
+			dcm.dcmId = "" + id;
+			dcm.misId = misId;
+			saveDCMProps(dcm);
+
 			return "http://localhost:8080/img/" + misId + File.separator
 					+ filename;
 		} catch (IOException e) {
@@ -468,7 +620,7 @@ public class Gate {
 
 		try {
 			Properties drnProp = loadDrnFromPropFile(misId);
-			drnProp.put("physician", fio);
+			drnProp.put("physicianName", fio);
 			saveDrnToPropFile(drnProp);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

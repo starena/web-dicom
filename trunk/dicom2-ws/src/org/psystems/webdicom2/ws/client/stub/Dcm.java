@@ -18,9 +18,12 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="misId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="dcmId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="modality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="deviceName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="patientName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="physicianName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="imageId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="pdfId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="idMis" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,17 +36,23 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "dcm", propOrder = {
     "misId",
     "dcmId",
+    "modality",
+    "deviceName",
+    "patientName",
+    "physicianName",
     "imageId",
-    "pdfId",
-    "idMis"
+    "pdfId"
 })
 public class Dcm {
 
     protected String misId;
     protected String dcmId;
+    protected String modality;
+    protected String deviceName;
+    protected String patientName;
+    protected String physicianName;
     protected String imageId;
     protected String pdfId;
-    protected boolean idMis;
 
     /**
      * Gets the value of the misId property.
@@ -94,6 +103,102 @@ public class Dcm {
     }
 
     /**
+     * Gets the value of the modality property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getModality() {
+        return modality;
+    }
+
+    /**
+     * Sets the value of the modality property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setModality(String value) {
+        this.modality = value;
+    }
+
+    /**
+     * Gets the value of the deviceName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    /**
+     * Sets the value of the deviceName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDeviceName(String value) {
+        this.deviceName = value;
+    }
+
+    /**
+     * Gets the value of the patientName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getPatientName() {
+        return patientName;
+    }
+
+    /**
+     * Sets the value of the patientName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setPatientName(String value) {
+        this.patientName = value;
+    }
+
+    /**
+     * Gets the value of the physicianName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getPhysicianName() {
+        return physicianName;
+    }
+
+    /**
+     * Sets the value of the physicianName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setPhysicianName(String value) {
+        this.physicianName = value;
+    }
+
+    /**
      * Gets the value of the imageId property.
      * 
      * @return
@@ -139,22 +244,6 @@ public class Dcm {
      */
     public void setPdfId(String value) {
         this.pdfId = value;
-    }
-
-    /**
-     * Gets the value of the idMis property.
-     * 
-     */
-    public boolean isIdMis() {
-        return idMis;
-    }
-
-    /**
-     * Sets the value of the idMis property.
-     * 
-     */
-    public void setIdMis(boolean value) {
-        this.idMis = value;
     }
 
 }

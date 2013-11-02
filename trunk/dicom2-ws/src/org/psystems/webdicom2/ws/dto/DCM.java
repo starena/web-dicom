@@ -17,12 +17,11 @@ public class DCM {
 	public String physicianName;
 	public String imageId;
 	public String pdfId;
-	public boolean idMis;
 
 	@Override
 	public String toString() {
 		return "DCM [misId=" + misId + ", dcmId=" + dcmId + ", imageId=" + imageId
-				+ ", pdfId=" + pdfId + ", idMis=" + idMis + "]";
+				+ ", pdfId=" + pdfId + "]";
 	}
 
 }

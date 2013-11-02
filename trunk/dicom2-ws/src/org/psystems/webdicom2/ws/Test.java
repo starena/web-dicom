@@ -14,6 +14,7 @@ import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.soap.MTOMFeature;
 
 import org.psystems.webdicom2.ws.client.stub.Dcm;
+import org.psystems.webdicom2.ws.client.stub.DcmTag;
 import org.psystems.webdicom2.ws.client.stub.Direction;
 import org.psystems.webdicom2.ws.client.stub.Gate;
 import org.psystems.webdicom2.ws.client.stub.GateService;
@@ -23,39 +24,34 @@ public class Test {
 
 	/**
 	 * @param args
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
 		System.out.println("test!");
 		new Test();
 	}
 
-	
 	private GateService service;
 	private static Gate port;
 	private static final String WS_URL = "http://localhost:8080/dicom2-ws/ws?wsdl";
 
 	public Test() throws IOException {
 
-		
-		
 		URL url = new URL(WS_URL);
-		QName qname = new QName("http://ws.webdicom2.psystems.org/", "GateService");
-		
-		service = new GateService(url,qname);
+		QName qname = new QName("http://ws.webdicom2.psystems.org/",
+				"GateService");
+
+		service = new GateService(url, qname);
 		port = service.getGatePort(new MTOMFeature());
 
 		AuthBASIC();
-		
-		testDirrection();
+
+		testDirrection("127", "11111");
 	}
 
-	private void testDirrection() throws IOException {
+	private void testDirrection(String misId, String barCode)
+			throws IOException {
 
-		
-		String barCode = "123456675";
-		String misId = "54321";
-		
 		Direction drn = new Direction();
 		drn.setBarCode(barCode);
 		drn.setMisId(misId);
@@ -67,70 +63,106 @@ public class Test {
 		drn.setServiceName("mammografia");
 		drn.setSex("M");
 		Direction resultDrn = port.sendDirection(drn);
-		
-		
-		System.out.println("Direction:"+resultDrn);
-		
+
+		System.out.println("Direction:" + resultDrn);
+
 		port.sendFinalResult(misId, "Финальный результат");
-		
+
 		port.sendPhysician(misId, "Врач Иванов");
-		
-//		FileInputStream fidPdf = new FileInputStream("/tmp/usi_pochek.pdf");
-		
-		RandomAccessFile f = new RandomAccessFile("/tmp/usi_pochek.pdf", "r");
-		byte[] b = new byte[(int)f.length()];
+
+		// FileInputStream fidPdf = new FileInputStream("/tmp/usi_pochek.pdf");
+
+		RandomAccessFile f = new RandomAccessFile("/tmp/data.pdf", "r");
+		byte[] b = new byte[(int) f.length()];
 		f.read(b);
-		
-		port.sendPdf(misId , b);
-		
-		
+
+		port.sendPdf(misId, b);
+
 		f = new RandomAccessFile("/tmp/data.jpg", "r");
-		b = new byte[(int)f.length()];
+		b = new byte[(int) f.length()];
 		f.read(b);
-		
-		port.sendImage(misId , b);
-		
+
+		port.sendImage(misId, b);
+
 		StudyResult complResult = port.getCompliteStudyResult(misId);
-		System.out.println("Compl Result: " + complResult );
-		
+		System.out.println("Compl Result: " + complResult);
+
 		for (String url : complResult.getImageUrls()) {
 			System.out.println("  img: " + url);
 		}
-		
+
 		for (String url : complResult.getPdfUrls()) {
 			System.out.println("  pdf: " + url);
 		}
-		
-		System.out.println("Compl Result getResult: " + complResult.getResult() );
-		
-		
-		
+
+		System.out
+				.println("Compl Result getResult: " + complResult.getResult());
+
 		List<Dcm> dcm = port.getDCM(misId);
 		for (Dcm dcmDto : dcm) {
-			System.out.println(" !!! dcm id "+dcmDto.getDcmId() + " misId " + dcmDto.getMisId() + " img:" + dcmDto.getImageId()+" pdf:"+dcmDto.getPdfId());
-			
-			if(dcmDto.getImageId()!=null) {
+			System.out.println(" !!! dcm id " + dcmDto.getDcmId() + " misId "
+					+ dcmDto.getMisId() + " img:" + dcmDto.getImageId()
+					+ " pdf:" + dcmDto.getPdfId());
+
+			if (dcmDto.getImageId() != null) {
 				byte[] content = port.getDCMContent(misId, dcmDto.getImageId());
-				System.out.println("!!! image content "+content.length);
+				System.out.println("   !!! image content " + content.length);
+			}
+
+			if (dcmDto.getPdfId() != null) {
+				byte[] content = port.getDCMContent(misId, dcmDto.getPdfId());
+				System.out.println("   !!! pdf content " + content.length);
+			}
+
+			List<DcmTag> tags = port.getDCMTags(dcmDto.getDcmId());
+			for (DcmTag dcmTag : tags) {
+				System.out.println("    tag: " + dcmTag.getName()+" = " + dcmTag.getValue());
 			}
 			
-			if(dcmDto.getPdfId()!=null) {
-				byte[] content = port.getDCMContent(misId, dcmDto.getPdfId());
-				System.out.println("!!! pdf content "+content.length);
+
+		}
+		
+
+		
+
+		dcm = port.getDCMbyDate("20131001");
+		
+		System.out.println("FIND !!!!! " + dcm.size());
+		
+		for (Dcm dcmDto : dcm) {
+			System.out.println(" !!! dcm id " + dcmDto.getDcmId() + " misId "
+					+ dcmDto.getMisId() + " img:" + dcmDto.getImageId()
+					+ " pdf:" + dcmDto.getPdfId());
+
+			if (dcmDto.getImageId() != null) {
+				byte[] content = port.getDCMContent(dcmDto.getMisId(), dcmDto.getImageId());
+				System.out.println("   !!! image content " + content.length);
 			}
+
+			if (dcmDto.getPdfId() != null) {
+				byte[] content = port.getDCMContent(dcmDto.getMisId(), dcmDto.getPdfId());
+				System.out.println("   !!! pdf content " + content.length);
+			}
+
+			List<DcmTag> tags = port.getDCMTags(dcmDto.getDcmId());
+			for (DcmTag dcmTag : tags) {
+				System.out.println("    tag: " + dcmTag.getName()+" = " + dcmTag.getValue());
+			}
+			
+
 		}
 
-//		port.sendPdf("rrrr" , b);
-		
-//		port.removeDirection(barCode);
-		
-//		List<RisCode> codes = port.getRISCodes();
-//		for (RisCode risCode : codes) {
-//			System.out.println("RisCode: " + risCode);
-//		}
+		// port.sendPdf("rrrr" , b);
+
+		// port.removeDirection(barCode);
+
+		// List<RisCode> codes = port.getRISCodes();
+		// for (RisCode risCode : codes) {
+		// System.out.println("RisCode: " + risCode);
+		// }
 
 	}
-	
+
 	private static void AuthBASIC() {
 		// BASIC авторизация
 		// http://www.mkyong.com/webservices/jax-ws/application-authentication-with-jax-ws/

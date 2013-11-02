@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/2002/08/xhtml/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/1999/xhtml
+                          http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    	<title>DCM4CHEE DICOM Archive</title>
+	<script type="text/javascript" src="resources/org.dcm4chee.web.common.base.BaseWicketPage/web3-utils.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/org.dcm4chee.web.common.base.BaseWicketPage/base-style.css" />
+<script type="text/javascript" src="resources/org.apache.wicket.markup.html.WicketEventReference/wicket-event.js"></script>
+<script type="text/javascript" src="resources/org.apache.wicket.ajax.WicketAjaxReference/wicket-ajax.js"></script>
+<script type="text/javascript" src="resources/org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow/res/modal.js"></script>
+<link rel="stylesheet" type="text/css" href="resources/org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow/res/modal.css" />
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "domready", function(event) { Wicket.Window.unloadConfirmation = false;});
+/*-->]]>*/</script>
+
+<script type="text/javascript" src="resources/org.apache.wicket.extensions.yui.YuiLib/yuiloader-min.js"></script>
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "domready", function(event) { 
+if (typeof wicketCalendarInits == 'undefined') {
+wicketCalendarInits = new Array();
+wicketCalendarInitFinished = false;
+}
+initid4b = function() {
+Wicket.DateTime.init( {
+widgetId: "id4b",
+componentId: "id4b", 
+calendarInit: { WEEKDAYS_MEDIUM:["\u0412\u0441","\u041F\u043D","\u0412\u0442","\u0421\u0440","\u0427\u0442","\u041F\u0442","\u0421\u0431"],MONTHS_LONG:["\u042F\u043D\u0432\u0430\u0440\u044C","\u0424\u0435\u0432\u0440\u0430\u043B\u044C","\u041C\u0430\u0440\u0442","\u0410\u043F\u0440\u0435\u043B\u044C","\u041C\u0430\u0439","\u0418\u044E\u043D\u044C","\u0418\u044E\u043B\u044C","\u0410\u0432\u0433\u0443\u0441\u0442","\u0421\u0435\u043D\u0442\u044F\u0431\u0440\u044C","\u041E\u043A\u0442\u044F\u0431\u0440\u044C","\u041D\u043E\u044F\u0431\u0440\u044C","\u0414\u0435\u043A\u0430\u0431\u0440\u044C"],navigator:true,WEEKDAYS_1CHAR:["\u0412","\u041F","\u0412","\u0421","\u0427","\u041F","\u0421"],START_WEEKDAY:1,MONTHS_SHORT:["\u044F\u043D\u0432","\u0444\u0435\u0432","\u043C\u0430\u0440","\u0430\u043F\u0440","\u043C\u0430\u0439","\u0438\u044E\u043D","\u0438\u044E\u043B","\u0430\u0432\u0433","\u0441\u0435\u043D","\u043E\u043A\u0442","\u043D\u043E\u044F","\u0434\u0435\u043A"],WEEKDAYS_SHORT:["\u0412\u0441","\u041F\u043D","\u0412\u0442","\u0421\u0440","\u0427\u0442","\u041F\u0442","\u0421\u0431"],WEEKDAYS_LONG:["\u0432\u043E\u0441\u043A\u0440\u0435\u0441\u0435\u043D\u044C\u0435","\u043F\u043E\u043D\u0435\u0434\u0435\u043B\u044C\u043D\u0438\u043A","\u0432\u0442\u043E\u0440\u043D\u0438\u043A","\u0441\u0440\u0435\u0434\u0430","\u0447\u0435\u0442\u0432\u0435\u0440\u0433","\u043F\u044F\u0442\u043D\u0438\u0446\u0430","\u0441\u0443\u0431\u0431\u043E\u0442\u0430"],close:true },
+datePattern: "dd.MM.yy",
+alignWithIcon: true,
+fireChangeEvent: true,
+hideOnSelect: true
+});
+};
+if (wicketCalendarInitFinished) {
+
+
+initid4b();
+} else {
+
+
+wicketCalendarInits.push(initid4b);
+}
+if (typeof wicketYuiLoader == 'undefined')	{
+wicketYuiLoader = new YAHOO.util.YUILoader({
+base: "resources/org.apache.wicket.extensions.yui.YuiLib/", 
+allowRollup: true,
+require: ["wicket-date"], 
+onSuccess: function() {
+wicketCalendarInitFinished = true; 
+while (wicketCalendarInits.length > 0) {
+wicketCalendarInits.pop()();
+} 
+}
+});
+wicketYuiLoader.addModule({
+name: "wicket-date",
+type: "js",
+requires: ["calendar"],
+fullpath: "resources/org.apache.wicket.extensions.yui.calendar.DatePicker/wicket-date.js" 
+});
+wicketYuiLoader.insert();
+}
+;});
+/*-->]]>*/</script>
+
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+Wicket.Event.add(window, "domready", function(event) { 
+if (typeof wicketCalendarInits == 'undefined') {
+wicketCalendarInits = new Array();
+wicketCalendarInitFinished = false;
+}
+initid4c = function() {
+Wicket.DateTime.init( {
+widgetId: "id4c",
+componentId: "id4c", 
+calendarInit: { WEEKDAYS_MEDIUM:["\u0412\u0441","\u041F\u043D","\u0412\u0442","\u0421\u0440","\u0427\u0442","\u041F\u0442","\u0421\u0431"],MONTHS_LONG:["\u042F\u043D\u0432\u0430\u0440\u044C","\u0424\u0435\u0432\u0440\u0430\u043B\u044C","\u041C\u0430\u0440\u0442","\u0410\u043F\u0440\u0435\u043B\u044C","\u041C\u0430\u0439","\u0418\u044E\u043D\u044C","\u0418\u044E\u043B\u044C","\u0410\u0432\u0433\u0443\u0441\u0442","\u0421\u0435\u043D\u0442\u044F\u0431\u0440\u044C","\u041E\u043A\u0442\u044F\u0431\u0440\u044C","\u041D\u043E\u044F\u0431\u0440\u044C","\u0414\u0435\u043A\u0430\u0431\u0440\u044C"],navigator:true,WEEKDAYS_1CHAR:["\u0412","\u041F","\u0412","\u0421","\u0427","\u041F","\u0421"],START_WEEKDAY:1,MONTHS_SHORT:["\u044F\u043D\u0432","\u0444\u0435\u0432","\u043C\u0430\u0440","\u0430\u043F\u0440","\u043C\u0430\u0439","\u0438\u044E\u043D","\u0438\u044E\u043B","\u0430\u0432\u0433","\u0441\u0435\u043D","\u043E\u043A\u0442","\u043D\u043E\u044F","\u0434\u0435\u043A"],WEEKDAYS_SHORT:["\u0412\u0441","\u041F\u043D","\u0412\u0442","\u0421\u0440","\u0427\u0442","\u041F\u0442","\u0421\u0431"],WEEKDAYS_LONG:["\u0432\u043E\u0441\u043A\u0440\u0435\u0441\u0435\u043D\u044C\u0435","\u043F\u043E\u043D\u0435\u0434\u0435\u043B\u044C\u043D\u0438\u043A","\u0432\u0442\u043E\u0440\u043D\u0438\u043A","\u0441\u0440\u0435\u0434\u0430","\u0447\u0435\u0442\u0432\u0435\u0440\u0433","\u043F\u044F\u0442\u043D\u0438\u0446\u0430","\u0441\u0443\u0431\u0431\u043E\u0442\u0430"],close:true },
+datePattern: "dd.MM.yy",
+alignWithIcon: true,
+fireChangeEvent: true,
+hideOnSelect: true
+});
+};
+if (wicketCalendarInitFinished) {
+
+
+initid4c();
+} else {
+
+
+wicketCalendarInits.push(initid4c);
+}
+if (typeof wicketYuiLoader == 'undefined')	{
+wicketYuiLoader = new YAHOO.util.YUILoader({
+base: "resources/org.apache.wicket.extensions.yui.YuiLib/", 
+allowRollup: true,
+require: ["wicket-date"], 
+onSuccess: function() {
+wicketCalendarInitFinished = true; 
+while (wicketCalendarInits.length > 0) {
+wicketCalendarInits.pop()();
+} 
+}
+});
+wicketYuiLoader.addModule({
+name: "wicket-date",
+type: "js",
+requires: ["calendar"],
+fullpath: "resources/org.apache.wicket.extensions.yui.calendar.DatePicker/wicket-date.js" 
+});
+wicketYuiLoader.insert();
+}
+;});
+/*-->]]>*/</script>
+
+</head>
+	<body>
+		<div class="tabpanel" id="id3">
+		<div class="module-selector" style="margin-top: 12px;">
+			<table class="tabpanel">
+				<tr class="tab-row">
+	                <td class="tab0">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:0:link::ILinkListener::" id="id1dc" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:0:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1dc') != null;}.bind(this));return !wcall;">
+						   <span>Folder</span>
+	                    </a>
+	                </td><td class="tab1">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:1:link::ILinkListener::" id="id1dd" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:1:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1dd') != null;}.bind(this));return !wcall;">
+						   <span>Trash</span>
+	                    </a>
+	                </td><td class="tab2">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:2:link::ILinkListener::" id="id1de" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:2:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1de') != null;}.bind(this));return !wcall;">
+						   <span>Application Entities</span>
+	                    </a>
+	                </td><td class="tab3 selected">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:3:link::ILinkListener::" id="id1df" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:3:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1df') != null;}.bind(this));return !wcall;">
+						   <span>Modality Worklist</span>
+	                    </a>
+	                </td><td class="tab4">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:4:link::ILinkListener::" id="id1e0" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:4:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1e0') != null;}.bind(this));return !wcall;">
+						   <span>Teaching-Files</span>
+	                    </a>
+	                </td><td class="tab5">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:5:link::ILinkListener::" id="id1e1" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:5:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1e1') != null;}.bind(this));return !wcall;">
+						   <span>Dashboard</span>
+	                    </a>
+	                </td><td class="tab6">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:6:link::ILinkListener::" id="id1e2" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:6:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1e2') != null;}.bind(this));return !wcall;">
+						   <span>Roles</span>
+	                    </a>
+	                </td><td class="tab7">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:7:link::ILinkListener::" id="id1e3" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:7:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1e3') != null;}.bind(this));return !wcall;">
+						   <span>Users</span>
+	                    </a>
+	                </td><td class="tab8 last">
+					    <a href="?wicket:interface=:0:modules:tabs-container:tabs:8:link::ILinkListener::" id="id1e4" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:tabs-container:tabs:8:link::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id1e4') != null;}.bind(this));return !wcall;">
+						   <span>Password</span>
+	                    </a>
+	                </td>
+				</tr>
+	        </table>
+	        <table class="tabpanel menu-right">
+	            <tr>
+		            <td>
+		                <div class="menu-item">
+		                    <a style="margin-right: 10px" class="logout" href="?wicket:interface=:0:modules:logout::ILinkListener::" id="idd" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:logout::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('idd') != null;}.bind(this));return !wcall;">
+		                        <span>Logout (admin)</span>
+		                    </a>
+		                </div>
+		                <div id="ide" style="display:none">
+	<div id="idf" style="display:none"></div>
+</div>
+		            </td>
+		            <td>
+		                <div class="menu-item">
+		                    <select name="modules:language" id="id10" onchange="var wcall=wicketAjaxPost('?wicket:interface=:0:modules:language::IBehaviorListener:0:', wicketSerialize(Wicket.$('id10')),function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id10') != null;}.bind(this));">
+<option selected="selected" value="">Выберите значение</option>
+<option value="0">English</option>
+<option value="1">Deutsch</option>
+<option value="2">日本語</option>
+</select>
+		               </div>
+		            </td>
+		            <td>
+		                <div class="menu-item">
+		                    <img alt="dcm4che.org" src="resources/org.dcm4chee.web.common.base.ModuleSelectorPanel/images/logo.gif" title="DCM4CHEE-WEB : 3.0.2 (16829)"/>
+		                </div>
+		            </td>
+	            </tr>
+	        </table>
+		</div>
+		<div class="module-panel" id="idd2">
+			<div id="id57" style="display:none">
+	
+</div>
+			<div id="id58" style="display:none">
+	<div id="id59" style="display:none"></div>
+</div>
+            <div id="id5a" style="display:none">
+	<div id="id5b" style="display:none"></div>
+</div>
+			<form style="clear: both" id="id5c" method="post" action="?wicket:interface=:0:modules:panel:form::IFormSubmitListener::"><div style="display:none"><input type="hidden" name="id5c_hf_0" id="id5c_hf_0" /></div><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden"><input type="text" autocomplete="false"/><input type="submit" name="searchFooter:searchBtn" onclick=" var b=document.getElementById('id4d'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') {  var r = b.onclick.bind(b)(); if (r != false) b.click(); } else { b.click(); };  return false;"  /></div>
+				<table rules="groups" class="search-table" style="margin-top: 20px;">
+					<thead>
+						<tr>
+							<th class="search-table"></th>
+							<th class="search-table">
+								Search
+							</th>
+							<th colspan="6" class="search-table"/>
+							<th class="search-table" style="text-align: right;">
+								<a id="id5d" href="?wicket:interface=:0:modules:panel:form:searchToggle::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:panel:form:searchToggle::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id5d') != null;}.bind(this));return !wcall;" title="">
+									<img src="resources/org.dcm4chee.icons.ImageManager/common/GREEN_collapse.png" title="" style="width: 16px; height: 16px;"/>
+								</a>
+							</th>
+							<th class="search-table"></th>
+						</tr>
+					</thead>
+					<tr class="search-table" id="id5e" title="">
+						<td></td>
+						<td>
+							<div class="search-header" title="">Patient name</div>
+						</td>
+						<td colspan="2">
+							<div class="search-header" title="">Patient ID</div>
+						</td>
+						<td colspan="2">
+							<div class="search-header" title="">Start Date</div>
+						</td>
+						<td>
+							<div class="search-header" title="">Accession No</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr class="search-table" id="id5f" title="">
+						<td></td>
+						<td>
+							<div id="id60" class="patientField" title="">
+  <div style="white-space: nowrap;" class="patientTF">
+    <div style="float:left; ">
+        <span style="display:block" title="">Patient Name</span>
+        <input type="text" maxlength="60" class="patient_full" value="" name="searchFields:patientName:pnField" id="id61" title="Patient Name search field"/>
+    </div>
+    <div style="float:left; ">
+    	
+    	
+    </div>
+    <div class="patient_gn">
+    	
+	    
+	</div>
+  </div>
+</div>
+							<input type="checkbox" id="id62" name="searchFields:fuzzyPN" title="Enable phonetic (fuzzy) search"/>
+							<label for="fuzzyPN" style="padding-right: 5px;" title="">Phonetic</label>
+						</td>
+						<td>
+			                <div title="">ID</div>
+							<input id="id63" type="text" title="ID " value="" name="searchFields:patientID"/>
+						</td>
+						<td>                   
+							<div title="">Issuer</div>
+							<input id="id64" type="text" title="Issuer " value="" name="searchFields:issuerOfPatientID"/>
+						</td>
+						<td>
+							<div title="">from</div>
+							<div id="id65" class="dateTimeField" title="">
+  <span style="white-space: nowrap;">
+    <input type="text" size="12" value="" name="searchFields:startDateMin:dateField" id="id4b" title="Start date begin search field. (Format: dd.MM.yyyy) " onchange="var wcall=wicketSubmitFormById('id5c', '?wicket:interface=:0:modules:panel:form:searchFields:startDateMin:dateField::IActivePageBehaviorListener:2:&amp;wicket:ignoreIfNotActive=true', null,function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$$(this)&amp;&amp;Wicket.$$('id5c')}.bind(this));return !wcall;;"/>
+<span class="yui-skin-sam">&nbsp;<span style="display:none;position:absolute;z-index: 99999;" id="id4bDp"></span><img style="cursor: pointer; border: none;" id="id4bIcon" src="resources/org.apache.wicket.extensions.yui.calendar.DatePicker/icon1.gif" alt="" title=""/></span>
+    <input type="text" size="2" value="" name="searchFields:startDateMin:timeField" id="id66" class="timeField" title="Start time begin search field. (Format: hh:mm) "/>
+  </span>
+</div>
+						</td>
+						<td>           
+							<div title="">to</div>
+							<div id="id67" class="dateTimeField" title="">
+  <span style="white-space: nowrap;">
+    <input type="text" size="12" value="" name="searchFields:startDateMax:dateField" id="id4c" title="Start date end search field. (Format: dd.MM.yyyy) "/>
+<span class="yui-skin-sam">&nbsp;<span style="display:none;position:absolute;z-index: 99999;" id="id4cDp"></span><img style="cursor: pointer; border: none;" id="id4cIcon" src="resources/org.apache.wicket.extensions.yui.calendar.DatePicker/icon1.gif" alt="" title=""/></span>
+    <input type="text" size="2" value="" name="searchFields:startDateMax:timeField" id="id68" class="timeField" title="Start time end search field. (Format: hh:mm) "/>
+  </span>
+</div>
+						</td>
+						<td>
+			                   <input id="id69" type="text" value="" name="searchFields:accessionNumber" title="Accession number search field"/>
+						</td>
+						<td></td>
+					</tr>
+					<tr class="search-table" id="id6a" title="">
+						<td></td>
+						<td>
+							<div class="search-header" title="">Modality</div>
+					      	<select name="searchDropdowns:modality" id="id6b" title="Modality search field">
+<option selected="selected" value="0">*</option>
+<option value="1">MR</option>
+<option value="2">PR</option>
+</select>			
+						</td>
+						<td>
+							<div class="search-header" title="">Station AET</div>
+							<select name="searchDropdowns:scheduledStationAET" disabled="disabled" id="id6c" title="Station AET (AET of station from which objects were received)">
+<option value=""></option>
+</select>
+						</td>
+						<td>
+							<div class="search-header" title="">Station Name</div>
+							<select name="searchDropdowns:scheduledStationName" id="id6d" title="Station name (Name of station from which objects were received)">
+<option selected="selected" value="0">*</option>
+<option value="1">UNKOWN</option>
+</select>
+						</td>
+						<td>
+							<div class="search-header" title="">Status</div>
+							<select name="searchDropdowns:SPSStatus" id="id6e" title="Status of Scheduled Procedure Step">
+<option selected="selected" value="0">*</option>
+<option value="1">SCHEDULED</option>
+<option value="2">ARRIVED</option>
+<option value="3">READY</option>
+<option value="4">STARTED</option>
+<option value="5">COMPLETED</option>
+<option value="6">DISCONTINUED</option>
+</select>
+						</td>
+						<td colspan="2"></td>
+						<td></td>
+					</tr>
+		             <tr id="id6f" style="display:none"></tr>
+				    <tr class="search-table-footer" id="id70" title="">
+						<td></td>
+						<td>
+				            <a id="id71" href="?wicket:interface=:0:modules:panel:form:searchFooter:showExtendedFilter::ILinkListener::" onclick="var wcall=wicketAjaxGet('?wicket:interface=:0:modules:panel:form:searchFooter:showExtendedFilter::IBehaviorListener:0:',function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$('id71') != null;}.bind(this));return !wcall;" title="">
+				            	<img alt="(+)" src="resources/org.dcm4chee.icons.ImageManager/common/GREEN_expand.png" title="Show extended search" style="width: 16px; height: 16px;"/>
+							</a>
+						</td>
+						<td>
+							<input type="checkbox" id="id72" name="searchFooter:latestItemsFirst" title="Latest items first"/>
+							<label for="latestItemsFirst" title="">Latest items first</label>
+						</td>
+						<td/>
+						<td class="buttonPanel" colspan="3">
+							<input class="IE_DEFAULT_SUBMIT" name="searchFooter:defaultSubmit" id="id73" onclick="var wcall=wicketSubmitFormById('id5c', '?wicket:interface=:0:modules:panel:form:searchFooter:defaultSubmit::IActivePageBehaviorListener:0:&amp;wicket:ignoreIfNotActive=true', 'searchFooter:defaultSubmit' ,function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$$(this)&amp;&amp;Wicket.$$('id5c')}.bind(this));;; return false;" title=""/>
+							
+							
+							<button name="searchFooter:resetBtn" id="id74" onclick="var wcall=wicketSubmitFormById('id5c', '?wicket:interface=:0:modules:panel:form:searchFooter:resetBtn::IActivePageBehaviorListener:0:&amp;wicket:ignoreIfNotActive=true', 'searchFooter:resetBtn' ,function() { }.bind(this),function() { }.bind(this), function() {return Wicket.$$(this)&amp;&amp;Wicket.$$('id5c')}.bind(this));;; return false;" title="Reset">
+								<img alt="Search" src="resources/org.dcm4chee.icons.ImageManager/common/reset.png" style="width: 16px; height: 16px; vertical-align: middle;" title=""/>
+								<span style="vertical-align: middle" title="">Reset</span>
+							</button>
+							<button name="searchFooter:searchBtn" id="id4d" onclick="if(typeof showMask == 'function') { showMask(); };wicketShow('id4d--ajax-indicator');var wcall=wicketSubmitFormById('id5c', '?wicket:interface=:0:modules:panel:form:searchFooter:searchBtn::IActivePageBehaviorListener:0:&amp;wicket:ignoreIfNotActive=true', 'searchFooter:searchBtn' ,function() { hideMask();;wicketHide('id4d--ajax-indicator');}.bind(this),function() { hideMask();;wicketHide('id4d--ajax-indicator');}.bind(this), function() {return Wicket.$$(this)&amp;&amp;Wicket.$$('id5c')}.bind(this));;; return false;" title="Search">
+								<img alt="Search" src="resources/org.dcm4chee.icons.ImageManager/common/search.png" style="width: 16px; height: 16px; vertical-align: middle;" title=""/>
+								<span style="vertical-align: middle;" title="">Search</span>
+							</button><span style="display:none;" class="wicket-ajax-indicator" id="id4d--ajax-indicator"><img src="resources/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/indicator.gif" alt=""/></span>
+						</td>
+						<td></td>
+				    </tr>
+				</table>
+				<div class="viewport-and-actions" id="id75" title="">
+					<div class="viewport">
+						<div style="float: left" title="">Pagesize</div>
+				      	<select style="margin-left: 5px;" name="navPanel:pagesize" id="id76" onchange="wicketShow('id4d--ajax-indicator');var wcall=wicketSubmitFormById('id5c', '?wicket:interface=:0:modules:panel:form:navPanel:pagesize::IActivePageBehaviorListener:0:&amp;wicket:ignoreIfNotActive=true', null,function() { ;wicketHide('id4d--ajax-indicator');}.bind(this),function() { ;wicketHide('id4d--ajax-indicator');}.bind(this), function() {return Wicket.$$(this)&amp;&amp;Wicket.$$('id5c')}.bind(this));;" title="">
+<option selected="selected" value="0">10</option>
+<option value="1">25</option>
+<option value="2">50</option>
+<option value="3">100</option>
+</select>
+						<span id="ajaxIndicator"></span>
+					</div>
+					<div class="viewport">
+						
+						<span title="">No matching entries found</span>
+						
+					</div>
+				</div>
+			</form>
+			<br />
+			<div style="clear: both;" id="id77">
+				<table class="content-table">
+					<thead>
+						<tr>
+							<th></th>
+				      		<th>Patient Name</th>
+					      		<th>Birthdate</th>
+							<th>SPS Description</th>
+				      		<th>Modality</th>
+					      		<th>SPS Status</th>
+							<th>Start date</th>
+								<th>Station AET</th>
+								<th>Station Name</th>
+				      		<th>Accession number</th>
+				      		<th colspan="3"></th>
+				    	</tr>
+					</thead>
+					<tbody align="left" valign="top" >
+						
+					</tbody>
+				  </table>
+			  </div>
+		</div>
+	</div>
+		 
+	</body>
+</html>
