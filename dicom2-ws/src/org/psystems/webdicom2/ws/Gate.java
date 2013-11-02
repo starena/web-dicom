@@ -22,7 +22,9 @@ import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.soap.MTOM;
 import javax.jws.soap.SOAPBinding.Style;
 
@@ -57,9 +59,10 @@ public class Gate {
 	@Resource
 	private WebServiceContext context;
 
-	String testDrnDataDir = "/tmp/webdicom";
-	String testDrnDatafile = "direction.xml";
-	String testDCMDatafile = "dcm.xml";
+	public static String testDrnDataDir = "/tmp/webdicom";
+	public static String testDrnDatafile = "direction.xml";
+	public static String testDCMDatafile = "dcm.xml";
+	public static String attachmentUrl = "/dicom2-ws/attach/";
 
 	public SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
@@ -214,15 +217,30 @@ public class Gate {
 	private DCM getDCMDto(File drnDir, File dcmDir) {
 		DCM dcmDto = new DCM();
 
+		MessageContext msgCtxt = context.getMessageContext();
+		HttpServletRequest request = (HttpServletRequest) msgCtxt
+				.get(MessageContext.SERVLET_REQUEST);
+
+		String hostName = request.getServerName();
+		int port = request.getServerPort();
+		
+		String serverUrl = "http://"+hostName+":"+port;
+
 		File[] dataFiles = dcmDir.listFiles();
 		for (File datafile : dataFiles) {
 			if (datafile.getName().endsWith(".pdf")
 					|| datafile.getName().endsWith(".jpg")) {
 
-				if (datafile.getName().endsWith(".pdf"))
+				if (datafile.getName().endsWith(".pdf")) {
 					dcmDto.pdfId = dcmDir.getName();
-				if (datafile.getName().endsWith(".jpg"))
+					dcmDto.contentUrl = serverUrl + attachmentUrl + dcmDir.getName()
+							+ ".pdf";
+				}
+				if (datafile.getName().endsWith(".jpg")) {
 					dcmDto.imageId = dcmDir.getName();
+					dcmDto.contentUrl = serverUrl + attachmentUrl + dcmDir.getName()
+							+ ".jpg";
+				}
 
 				dcmDto.dcmId = dcmDir.getName();
 				dcmDto.misId = drnDir.getName();

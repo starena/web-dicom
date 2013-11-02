@@ -17,6 +17,7 @@ public class DCM {
 	public String physicianName;
 	public String imageId;
 	public String pdfId;
+	public String contentUrl;
 
 	@Override
 	public String toString() {
