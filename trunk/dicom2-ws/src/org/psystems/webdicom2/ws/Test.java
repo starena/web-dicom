@@ -113,6 +113,8 @@ public class Test {
 				byte[] content = port.getDCMContent(misId, dcmDto.getPdfId());
 				System.out.println("   !!! pdf content " + content.length);
 			}
+			
+			System.out.println("content URL:"+dcmDto.getContentUrl());
 
 			List<DcmTag> tags = port.getDCMTags(dcmDto.getDcmId());
 			for (DcmTag dcmTag : tags) {

@@ -75,6 +75,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AttachementServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 6818437843452375781L;
 	private static Logger logger = Logger.getLogger(AttachementServlet.class
 			.getName());
 
@@ -86,49 +87,57 @@ public class AttachementServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		// String teamColor = getServletConfig().getInitParameter("teamColor");
-		// System.out.println("!!! teamColor "+teamColor);
-
-		// System.out.println("!!! prop "+System.getProperty("myapp.notify-url"));
-		// System.out.println("!!! end "+System.getenv("DEFAULT_ENCODING_DDV"));
-
 		String path = req.getPathInfo().replaceFirst("/", "");
 		String fileName = null;
 		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("image/jpeg");// По умолчанию
+		
+//		System.out.println("!!! path="+path);
 
-		String imagesRootDir = "/tmp/webdicom";
+		String id = null;
+		String type = null;
+		
+		if(path.endsWith(".pdf")) {
+			id = path.replaceAll(".pdf", "");
+			type = "pdf";
+		} else if(path.endsWith(".jpg")) {
+			id = path.replaceAll(".jpg", "");
+			type="jpg";
+		}
+		
+		String filePath = null;
+		
+//		System.out.println("!!!! id="+id+" type="+type);
 
-		
-//		int imageId = 0;
-//		String type = "fullsize";
-//		
-//		Matcher matcher = Pattern.compile("^(.*)\\.(.*)$").matcher(path);
-//		if (matcher.matches()) {
-//			String id = matcher.group(1);
-//			type = matcher.group(2);
-//			try {
-//				imageId = Integer.valueOf(id);
-//			} catch (NumberFormatException ex) {
-//				throw new IOException("Image not found! id="+id);
-//			}
-//		}
+		File rootDir = new File(Gate.testDrnDataDir);
 
+		File[] drnDirs = rootDir.listFiles();
+		for (File drnDir : drnDirs) {
+			if(drnDir.isDirectory()) {
+				File[] studyDirs = drnDir.listFiles();
+				
+				for(File studyDir : studyDirs) {
+					if(studyDir.isDirectory() && studyDir.getName().equals(id)) {
+						filePath = Gate.testDrnDataDir + File.separator + drnDir.getName() + File.separator + id + File.separator;
+						if(type.equals("pdf")) {
+							resp.setContentType("application/pdf");
+							filePath+="data.pdf";
+						}
+						else if(type.equals("jpg")) {
+							filePath+="data.jpg";
+							resp.setContentType("image/jpeg");
+						}
+						break;
+					}
+				}
+			}
+		}
+		
+//		System.out.println("!!! filePath="+filePath);
 		
 		
-		// Смотрим, если передан Integer, зачит ищем по ID
-		
-//		try {
-//			imageId = Integer.valueOf(path);
-//		} catch (NumberFormatException ex) {
-//			fileName = imagesRootDir + File.separator + path;
-//		}
-		
-		System.out.println("!!! path="+path);
-
 		FileInputStream in = null;
 		try {
-			in = new FileInputStream(imagesRootDir+"/"+path);
+			in = new FileInputStream(filePath);
 		} catch (FileNotFoundException ex) {
 			resp.setCharacterEncoding("utf-8");// FIXME Не работает!!!
 			resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found! "

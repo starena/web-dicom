@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="physicianName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="imageId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="pdfId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="contentUrl" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -41,7 +42,8 @@ import javax.xml.bind.annotation.XmlType;
     "patientName",
     "physicianName",
     "imageId",
-    "pdfId"
+    "pdfId",
+    "contentUrl"
 })
 public class Dcm {
 
@@ -53,6 +55,7 @@ public class Dcm {
     protected String physicianName;
     protected String imageId;
     protected String pdfId;
+    protected String contentUrl;
 
     /**
      * Gets the value of the misId property.
@@ -244,6 +247,30 @@ public class Dcm {
      */
     public void setPdfId(String value) {
         this.pdfId = value;
+    }
+
+    /**
+     * Gets the value of the contentUrl property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getContentUrl() {
+        return contentUrl;
+    }
+
+    /**
+     * Sets the value of the contentUrl property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setContentUrl(String value) {
+        this.contentUrl = value;
     }
 
 }
