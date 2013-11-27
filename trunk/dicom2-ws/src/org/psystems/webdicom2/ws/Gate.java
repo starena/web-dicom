@@ -35,16 +35,36 @@ import org.psystems.webdicom2.ws.dto.StudyResult;
 @SOAPBinding(style = Style.DOCUMENT)
 public class Gate {
 
-	public static Logger logger = Logger.getLogger(Gate.class.getName());
+	//public static Logger logger = Logger.getLogger(Gate.class.getName());
+	public static final String loggerName = "WebDicom-Ws";
+	public static Logger logger = Logger.getLogger(loggerName);
+	protected String archiveHost;
 
 	@Resource
 	private WebServiceContext context;
 
 	// Драйвер
 	IGate delegate = null;
+	
 
 	public Gate() {
-		delegate = new GateDrvDev(this);
+		if(System.getProperty("webdicom.archive.host")!=null) {
+			archiveHost=System.getProperty("webdicom.archive.host");
+			logger.warning(getLogMessage("Starting in _PRODUCTION_ mode. Archive host="+archiveHost));
+			delegate = new GateDrvProd(this);
+		} else {
+			logger.warning(getLogMessage("Starting in _DEV_ mode"));
+			delegate = new GateDrvDev(this);
+		}
+	}
+	
+	/**
+	 * @param msg
+	 * @return
+	 */
+	String getLogMessage(String msg) {
+		StringBuffer sb = new StringBuffer();
+		return sb.append("[").append(loggerName).append("] ").append(msg).toString();
 	}
 
 	/**

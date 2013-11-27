@@ -17,15 +17,15 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="barCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="dateBirsday" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="dateStudy" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="misId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="modality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientId" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="patientNameTranslit" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="sex" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="dateBirsday" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="modality" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="dateStudy" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="serviceName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="sex" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,28 +37,28 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "direction", propOrder = {
     "barCode",
+    "dateBirsday",
+    "dateStudy",
     "misId",
+    "modality",
     "patientId",
     "patientName",
     "patientNameTranslit",
-    "sex",
-    "dateBirsday",
-    "modality",
-    "dateStudy",
-    "serviceName"
+    "serviceName",
+    "sex"
 })
 public class Direction {
 
     protected String barCode;
+    protected String dateBirsday;
+    protected String dateStudy;
     protected String misId;
+    protected String modality;
     protected String patientId;
     protected String patientName;
     protected String patientNameTranslit;
-    protected String sex;
-    protected String dateBirsday;
-    protected String modality;
-    protected String dateStudy;
     protected String serviceName;
+    protected String sex;
 
     /**
      * Gets the value of the barCode property.
@@ -85,6 +85,54 @@ public class Direction {
     }
 
     /**
+     * Gets the value of the dateBirsday property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDateBirsday() {
+        return dateBirsday;
+    }
+
+    /**
+     * Sets the value of the dateBirsday property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDateBirsday(String value) {
+        this.dateBirsday = value;
+    }
+
+    /**
+     * Gets the value of the dateStudy property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDateStudy() {
+        return dateStudy;
+    }
+
+    /**
+     * Sets the value of the dateStudy property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDateStudy(String value) {
+        this.dateStudy = value;
+    }
+
+    /**
      * Gets the value of the misId property.
      * 
      * @return
@@ -106,6 +154,30 @@ public class Direction {
      */
     public void setMisId(String value) {
         this.misId = value;
+    }
+
+    /**
+     * Gets the value of the modality property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getModality() {
+        return modality;
+    }
+
+    /**
+     * Sets the value of the modality property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setModality(String value) {
+        this.modality = value;
     }
 
     /**
@@ -181,102 +253,6 @@ public class Direction {
     }
 
     /**
-     * Gets the value of the sex property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSex() {
-        return sex;
-    }
-
-    /**
-     * Sets the value of the sex property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSex(String value) {
-        this.sex = value;
-    }
-
-    /**
-     * Gets the value of the dateBirsday property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDateBirsday() {
-        return dateBirsday;
-    }
-
-    /**
-     * Sets the value of the dateBirsday property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDateBirsday(String value) {
-        this.dateBirsday = value;
-    }
-
-    /**
-     * Gets the value of the modality property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getModality() {
-        return modality;
-    }
-
-    /**
-     * Sets the value of the modality property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setModality(String value) {
-        this.modality = value;
-    }
-
-    /**
-     * Gets the value of the dateStudy property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDateStudy() {
-        return dateStudy;
-    }
-
-    /**
-     * Sets the value of the dateStudy property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDateStudy(String value) {
-        this.dateStudy = value;
-    }
-
-    /**
      * Gets the value of the serviceName property.
      * 
      * @return
@@ -298,6 +274,30 @@ public class Direction {
      */
     public void setServiceName(String value) {
         this.serviceName = value;
+    }
+
+    /**
+     * Gets the value of the sex property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSex() {
+        return sex;
+    }
+
+    /**
+     * Sets the value of the sex property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSex(String value) {
+        this.sex = value;
     }
 
 }

@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.1
  * 
  */
-@WebServiceClient(name = "GateService", targetNamespace = "http://ws.webdicom2.psystems.org/", wsdlLocation = "http://localhost:8080/dicom2-ws/ws?wsdl")
+@WebServiceClient(name = "GateService", targetNamespace = "http://ws.webdicom2.psystems.org/", wsdlLocation = "http://localhost:8081/dicom2-ws/ws?wsdl")
 public class GateService
     extends Service
 {
@@ -30,9 +30,9 @@ public class GateService
         try {
             URL baseUrl;
             baseUrl = org.psystems.webdicom2.ws.client.stub.GateService.class.getResource(".");
-            url = new URL(baseUrl, "http://localhost:8080/dicom2-ws/ws?wsdl");
+            url = new URL(baseUrl, "http://localhost:8081/dicom2-ws/ws?wsdl");
         } catch (MalformedURLException e) {
-            logger.warning("Failed to create URL for the wsdl Location: 'http://localhost:8080/dicom2-ws/ws?wsdl', retrying as a local file");
+            logger.warning("Failed to create URL for the wsdl Location: 'http://localhost:8081/dicom2-ws/ws?wsdl', retrying as a local file");
             logger.warning(e.getMessage());
         }
         GATESERVICE_WSDL_LOCATION = url;
