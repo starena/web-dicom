@@ -134,17 +134,17 @@ public class GateDrvDev implements IGate {
 
 		try {
 
-			Properties drnProp = loadDrnFromPropFile(drn.barCode);
+			Properties drnProp = loadDrnFromPropFile(drn.getBarCode());
 
-			drnProp.put("barCode", drn.barCode);
-			drnProp.put("misId", drn.misId);
-			drnProp.put("dateBirsday", drn.dateBirsday);
-			drnProp.put("dateStudy", drn.dateStudy);
-			drnProp.put("modality", drn.modality);
-			drnProp.put("patientId", drn.patientId);
-			drnProp.put("patientName", drn.patientName);
-			drnProp.put("serviceName", drn.serviceName);
-			drnProp.put("sex", drn.sex);
+			drnProp.put("barCode", drn.getBarCode());
+			drnProp.put("misId", drn.getMisId());
+			drnProp.put("dateBirsday", drn.getDateBirsday());
+			drnProp.put("dateStudy", drn.getDateStudy());
+			drnProp.put("modality", drn.getModality());
+			drnProp.put("patientId", drn.getPatientId());
+			drnProp.put("patientName", drn.getPatientName());
+			drnProp.put("serviceName", drn.getServiceName());
+			drnProp.put("sex", drn.getSex());
 
 			saveDrnToPropFile(drnProp);
 
