@@ -478,6 +478,7 @@ public class StudyManagePanel extends Composite implements
 		dicDoctors.put("Кобзева М.Н.", "US");
 		dicDoctors.put("Агапидис В.С.", "US");
 		
+		dicDoctors.put("Головачёва Е.А.", "US"); 
 		
 		studyDoctror = new ListBox();
 		studyDoctror.setName("00080090");
